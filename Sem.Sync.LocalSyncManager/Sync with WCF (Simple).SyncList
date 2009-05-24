@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<SyncDescription Name="Delete previous export/work files">
+		<Command>DeletePattern</Command>
+		<TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Export from Outlook to file system">
+		<Command>CopyAll</Command>
+		<SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Export from OnlineStore to file system">
+		<Command>CopyAll</Command>
+		<SourceConnector>Sem.Sync.OnlineStorageConnector.ContactClient</SourceConnector>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Match Outlook to OnlineStore by name">
+		<Command>MatchByName</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Add missing from Outlook(fs) to OnlineStore(fs)">
+		<Command>MergeMissing</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Normalize OnlineStore(fs)">
+		<Command>NormalizeContent</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Normalize Outlook(fs)">
+		<Command>NormalizeContent</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Merge high evidence from Outlook(fs) to Xing(fs)">
+		<Command>MergeHighEvidence</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Merge high evidence from OnlineStore(fs) to Outlook(fs)">
+		<Command>MergeHighEvidence</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Merge OnlineStore to Outlook via BeyondCompare">
+		<Command>MergeExternal</Command>
+		<SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
+		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+	</SyncDescription>
+
+	<SyncDescription Name="Import all from file system to Outlook">
+		<Command>AskForContinue</Command>
+		<CommandParameter>Do you want to import the merged contact list into your Outlook account?</CommandParameter>
+		<TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
+	</SyncDescription>
+
+	<SyncDescription Name="Import all from file system to Outlook">
+		<Command>CopyAll</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
+	</SyncDescription>
+
+	<SyncDescription Name="Import all from file system to OnlineStore">
+		<Command>CopyAll</Command>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+		<TargetConnector>Sem.Sync.OnlineStorageConnector.ContactClient</TargetConnector>
+	</SyncDescription>
+
+	<!--<SyncDescription Name="Remove duplicate calendar entries">
+		<Command>RemoveDuplicatesOnTarget</Command>
+		<TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
+	</SyncDescription>-->
+
+</ArrayOfSyncDescription>

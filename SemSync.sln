@@ -1,0 +1,196 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookConnector", "Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj", "{809277C4-F27E-47B6-AC9F-E5EE54AE1399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LocalSyncManager", "Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj", "{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SyncBase", "SyncBase", "{6F297CC9-DA64-4469-9105-9CA63DEFB2DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{36822C45-2766-42EF-A4A7-543D24FAAD37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{1820AB38-479F-49F7-9CF6-1920BFA94C41}"
+	ProjectSection(SolutionItems) = preProject
+		SemSync-Mapping.xlsx = SemSync-Mapping.xlsx
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.FilesystemConnector", "Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj", "{F0A26B2B-02CA-4095-AD20-013D0110ABB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.XingConnector", "Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj", "{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OnlineStorage", "Sem.Sync.OnlineStorage\Sem.Sync.OnlineStorage.csproj", "{D5963ECC-B62A-49AA-8627-87F95867D8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OnlineStorageConnector", "Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj", "{DA88047A-8BA7-492B-BB71-EB87472817A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {D5963ECC-B62A-49AA-8627-87F95867D8A8}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookConnector2003", "Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj", "{15DD2E27-2606-4211-BDCA-863BB9E26142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemSyncOutlookWithXing", "SemSyncOutlookWithXing\SemSyncOutlookWithXing.csproj", "{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactViewer", "ContactViewer\ContactViewer.csproj", "{AF01B376-4A94-4A1E-A469-E4DCC30811F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SharedUI.WinForms", "Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj", "{CB0D9362-8813-4A6E-825F-9BF48DC527AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{6B789A6A-7566-4229-87C8-66C01D988C31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{467B0823-AB21-4F23-B85C-00C31D5BC2C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.FacebookConnector", "Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj", "{C1B81350-1893-49FF-9582-470C46C2729A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientApis", "ClientApis", "{024EBF54-994C-4E06-87F6-17D444178E99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facebook", "Facebook", "{23E33D41-535B-4FCA-AC56-EDEF6DFB14F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook", "ClientApis\Facebook\Facebook\Facebook.csproj", "{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Controls", "ClientApis\Facebook\Facebook.Controls\Facebook.Controls.csproj", "{8F4B9954-1BA5-4664-BBCE-B79519FEE120}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 15
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs01.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ClientApis\\Facebook\\Facebook.Controls\\Facebook.Controls.csproj
+		SccProjectTopLevelParentUniqueName1 = SemSync.sln
+		SccProjectName1 = ClientApis/Facebook/Facebook.Controls
+		SccLocalPath1 = ClientApis\\Facebook\\Facebook.Controls
+		SccProjectUniqueName2 = ClientApis\\Facebook\\Facebook\\Facebook.csproj
+		SccProjectTopLevelParentUniqueName2 = SemSync.sln
+		SccProjectName2 = ClientApis/Facebook/Facebook
+		SccLocalPath2 = ClientApis\\Facebook\\Facebook
+		SccProjectUniqueName3 = ContactViewer\\ContactViewer.csproj
+		SccProjectTopLevelParentUniqueName3 = SemSync.sln
+		SccProjectName3 = ContactViewer
+		SccLocalPath3 = ContactViewer
+		SccProjectUniqueName4 = Sem.Sync.Facebook\\Sem.Sync.FacebookConnector.csproj
+		SccProjectTopLevelParentUniqueName4 = SemSync.sln
+		SccProjectName4 = Sem.Sync.Facebook
+		SccLocalPath4 = Sem.Sync.Facebook
+		SccProjectUniqueName5 = Sem.Sync.FilesystemConnector\\Sem.Sync.FilesystemConnector.csproj
+		SccProjectTopLevelParentUniqueName5 = SemSync.sln
+		SccProjectName5 = Sem.Sync.FilesystemConnector
+		SccLocalPath5 = Sem.Sync.FilesystemConnector
+		SccProjectUniqueName6 = Sem.Sync.LocalSyncManager\\Sem.Sync.LocalSyncManager.csproj
+		SccProjectTopLevelParentUniqueName6 = SemSync.sln
+		SccProjectName6 = Sem.Sync.LocalSyncManager
+		SccLocalPath6 = Sem.Sync.LocalSyncManager
+		SccProjectUniqueName7 = Sem.Sync.OnlineStorage\\Sem.Sync.OnlineStorage.csproj
+		SccProjectTopLevelParentUniqueName7 = SemSync.sln
+		SccProjectName7 = Sem.Sync.OnlineStorage
+		SccLocalPath7 = Sem.Sync.OnlineStorage
+		SccProjectUniqueName8 = Sem.Sync.OnlineStorageConnector\\Sem.Sync.OnlineStorageConnector.csproj
+		SccProjectTopLevelParentUniqueName8 = SemSync.sln
+		SccProjectName8 = Sem.Sync.OnlineStorageConnector
+		SccLocalPath8 = Sem.Sync.OnlineStorageConnector
+		SccProjectUniqueName9 = Sem.Sync.OutlookConnector2003\\Sem.Sync.OutlookConnector2003.csproj
+		SccProjectTopLevelParentUniqueName9 = SemSync.sln
+		SccProjectName9 = Sem.Sync.OutlookConnector2003
+		SccLocalPath9 = Sem.Sync.OutlookConnector2003
+		SccProjectUniqueName10 = Sem.Sync.OutlookConnector\\Sem.Sync.OutlookConnector.csproj
+		SccProjectTopLevelParentUniqueName10 = SemSync.sln
+		SccProjectName10 = Sem.Sync.OutlookConnector
+		SccLocalPath10 = Sem.Sync.OutlookConnector
+		SccProjectUniqueName11 = Sem.Sync.SharedUI.WinForms\\Sem.Sync.SharedUI.WinForms.csproj
+		SccProjectTopLevelParentUniqueName11 = SemSync.sln
+		SccProjectName11 = Sem.Sync.SharedUI.WinForms
+		SccLocalPath11 = Sem.Sync.SharedUI.WinForms
+		SccProjectUniqueName12 = Sem.Sync.SyncBase\\Sem.Sync.SyncBase.csproj
+		SccProjectTopLevelParentUniqueName12 = SemSync.sln
+		SccProjectName12 = Sem.Sync.SyncBase
+		SccLocalPath12 = Sem.Sync.SyncBase
+		SccProjectUniqueName13 = Sem.Sync.XingConnector\\Sem.Sync.XingConnector.csproj
+		SccProjectTopLevelParentUniqueName13 = SemSync.sln
+		SccProjectName13 = Sem.Sync.XingConnector
+		SccLocalPath13 = Sem.Sync.XingConnector
+		SccProjectUniqueName14 = SemSyncOutlookWithXing\\SemSyncOutlookWithXing.csproj
+		SccProjectTopLevelParentUniqueName14 = SemSync.sln
+		SccProjectName14 = SemSyncOutlookWithXing
+		SccLocalPath14 = SemSyncOutlookWithXing
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{809277C4-F27E-47B6-AC9F-E5EE54AE1399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809277C4-F27E-47B6-AC9F-E5EE54AE1399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809277C4-F27E-47B6-AC9F-E5EE54AE1399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809277C4-F27E-47B6-AC9F-E5EE54AE1399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4725C93E-55A0-42A5-9C61-61DC498A4308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4725C93E-55A0-42A5-9C61-61DC498A4308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4725C93E-55A0-42A5-9C61-61DC498A4308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4725C93E-55A0-42A5-9C61-61DC498A4308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A26B2B-02CA-4095-AD20-013D0110ABB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A26B2B-02CA-4095-AD20-013D0110ABB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A26B2B-02CA-4095-AD20-013D0110ABB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A26B2B-02CA-4095-AD20-013D0110ABB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA88047A-8BA7-492B-BB71-EB87472817A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA88047A-8BA7-492B-BB71-EB87472817A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA88047A-8BA7-492B-BB71-EB87472817A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA88047A-8BA7-492B-BB71-EB87472817A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15DD2E27-2606-4211-BDCA-863BB9E26142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15DD2E27-2606-4211-BDCA-863BB9E26142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15DD2E27-2606-4211-BDCA-863BB9E26142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB0D9362-8813-4A6E-825F-9BF48DC527AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB0D9362-8813-4A6E-825F-9BF48DC527AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB0D9362-8813-4A6E-825F-9BF48DC527AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB0D9362-8813-4A6E-825F-9BF48DC527AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1B81350-1893-49FF-9582-470C46C2729A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B81350-1893-49FF-9582-470C46C2729A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B81350-1893-49FF-9582-470C46C2729A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1B81350-1893-49FF-9582-470C46C2729A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{809277C4-F27E-47B6-AC9F-E5EE54AE1399} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{F0A26B2B-02CA-4095-AD20-013D0110ABB3} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{DA88047A-8BA7-492B-BB71-EB87472817A5} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{15DD2E27-2606-4211-BDCA-863BB9E26142} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{C1B81350-1893-49FF-9582-470C46C2729A} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
+		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
+		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
+		{23E33D41-535B-4FCA-AC56-EDEF6DFB14F1} = {024EBF54-994C-4E06-87F6-17D444178E99}
+		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA} = {23E33D41-535B-4FCA-AC56-EDEF6DFB14F1}
+		{8F4B9954-1BA5-4664-BBCE-B79519FEE120} = {23E33D41-535B-4FCA-AC56-EDEF6DFB14F1}
+	EndGlobalSection
+EndGlobal

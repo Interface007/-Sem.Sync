@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sem.Sync.SharedUI.WinForms</RootNamespace>
+    <AssemblyName>Sem.Sync.SharedUI.WinForms</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="Tools\MergeView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Disclaimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Disclaimer.Designer.cs">
+      <DependentUpon>Disclaimer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LogInGui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LogInGui.Designer.cs">
+      <DependentUpon>LogInGui.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MergeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MergeWindow.Designer.cs">
+      <DependentUpon>MergeWindow.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Disclaimer.de-DE.resx">
+      <DependentUpon>Disclaimer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Disclaimer.resx">
+      <DependentUpon>Disclaimer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LogInGui.de-DE.resx">
+      <DependentUpon>LogInGui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LogInGui.resx">
+      <DependentUpon>LogInGui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MergeWindow.de-DE.resx">
+      <DependentUpon>MergeWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MergeWindow.resx">
+      <DependentUpon>MergeWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
