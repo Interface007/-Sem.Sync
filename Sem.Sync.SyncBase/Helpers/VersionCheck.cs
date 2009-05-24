@@ -22,8 +22,8 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
             var doCheck = true;
-            bool.TryParse(value, out doCheck);
-            if (!doCheck) return true;
+            if (bool.TryParse(value, out doCheck))
+                if (!doCheck) return true;
             
             var myVersion = new VersionCheck();
 

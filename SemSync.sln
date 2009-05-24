@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{1820AB38-479F-49F7-9CF6-1920BFA94C41}"
 	ProjectSection(SolutionItems) = preProject
 		SemSync-Mapping.xlsx = SemSync-Mapping.xlsx
+		SemSync.docx = SemSync.docx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.FilesystemConnector", "Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj", "{F0A26B2B-02CA-4095-AD20-013D0110ABB3}"

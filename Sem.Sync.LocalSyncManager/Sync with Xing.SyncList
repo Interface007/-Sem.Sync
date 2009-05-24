@@ -80,9 +80,9 @@
     <Command>DetectConflicts</Command>
     <CommandParameter>{FS:WorkingFolder}\MergeConflicts.xml</CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Merge Xing to Outlook via BeyondCompare">

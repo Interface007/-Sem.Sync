@@ -90,7 +90,7 @@
                 {
                     // optimistically we try to read the content without explicit login
                     // this will succeed if we have a valid cookie
-                    contactListContent = xingRequester.GetContent(string.Format(ListContentUrl , offsetIndex), offsetIndex + "urllist.txt");
+                    contactListContent = xingRequester.GetContent(string.Format(ListContentUrl, offsetIndex), "[NOCACHE]");
 
                     // if we don't find the login form any more, we did succeed
                     if (!contactListContent.Contains(DetectLoginNeeded))

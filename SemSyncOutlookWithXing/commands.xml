@@ -20,6 +20,22 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
+  <SyncDescription Name="Normalize Xing(fs)">
+    <Command>NormalizeContent</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Normalize Outlook(fs)">
+    <Command>NormalizeContent</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
   <SyncDescription Name="Match Outlook to Xing by name">
     <Command>MatchByName</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
@@ -36,18 +52,10 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Normalize Xing(fs)">
-    <Command>NormalizeContent</Command>
+  <SyncDescription Name="Add missing from Xing(fs) to Outlook(fs)">
+    <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Normalize Outlook(fs)">
-    <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
@@ -68,13 +76,13 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="DetectConflicts">
+  <SyncDescription Name="Detect Conflicts">
     <Command>DetectConflicts</Command>
     <CommandParameter>{FS:WorkingFolder}\MergeConflicts.xml</CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Ask if we want to overwrite Outlook">
