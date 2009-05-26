@@ -1,4 +1,6 @@
-﻿namespace Sem.Sync.SyncBase
+﻿using Sem.Sync.SyncBase.Helpers;
+
+namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Configuration;

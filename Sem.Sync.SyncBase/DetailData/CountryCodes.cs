@@ -264,6 +264,8 @@ namespace Sem.Sync.SyncBase.DetailData
         GlobalstarMobileSatelliteService = 17637,
         EMSATMobileSatelliteservice = 88213,
         ThurayaMobileSatelliteservice = 88216,
-
+        
+        unknown175 = 175,
+        
     }
 }

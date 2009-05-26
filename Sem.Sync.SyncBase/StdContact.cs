@@ -30,6 +30,7 @@ namespace Sem.Sync.SyncBase
         public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
         public string BusinessCompanyName { get; set; }
+        public string BusinessDepartment { get; set; }
         public AddressDetail BusinessAddressPrimary { get; set; }
         public AddressDetail BusinessAddressSecondary { get; set; }
         public PhoneNumber BusinessPhoneMobile { get; set; }
@@ -73,11 +74,13 @@ namespace Sem.Sync.SyncBase
         public override string ToSortSimple()
         {
             var name = new StringBuilder();
-            name.Append(this.Name.LastName);
-            name.Append(this.Name.FirstName);
-            name.Append(this.Name.MiddleName);
-            name.Append(this.Name.AcademicTitle);
-
+            if (this.Name != null)
+            {
+                name.Append(this.Name.LastName);
+                name.Append(this.Name.FirstName);
+                name.Append(this.Name.MiddleName);
+                name.Append(this.Name.AcademicTitle);
+            }
             return name.ToString();
         }
 
@@ -130,6 +133,9 @@ namespace Sem.Sync.SyncBase
                     }
 
             }
+
+            if (!string.IsNullOrEmpty(this.BusinessCompanyName))
+                this.BusinessCompanyName = this.BusinessCompanyName.Trim();
 
             if (this.DateOfBirth.Year < 1900 || this.DateOfBirth.Year > 2200)
                 this.DateOfBirth = new DateTime(1900, 1, 1);

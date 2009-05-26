@@ -49,6 +49,19 @@
             var file = new FileStream(clientFolderName, FileMode.Create);
             try
             {
+                var itemsToRemove = new List<StdElement>();
+                foreach (var element in elements)
+                {
+                    SyncTools.ClearNulls(element, typeof(StdContact));
+                    if (((StdContact)element).Name == null)
+                        itemsToRemove.Add(element);
+                }
+                
+                foreach (var element in itemsToRemove)
+                {
+                    elements.Remove(element);
+                }
+
                 contactListFormatter.Serialize(file, elements.ToContacts());
             }
             finally

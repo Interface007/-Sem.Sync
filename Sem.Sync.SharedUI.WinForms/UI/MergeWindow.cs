@@ -71,12 +71,24 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
 
             var memberToSet = propType.GetProperty(pathToProperty);
-            if (memberToSet.PropertyType == typeof(System.DateTime))
+
+            // we have to deal with special type data (int, datetime) that need to be
+            // converted back from string - there is no automated cast in SetValue.
+            var destinationType = memberToSet.Name;
+            switch (destinationType)
             {
-                memberToSet.SetValue(propObject, System.DateTime.Parse(newValue), null);
-                return;
+                case "DateTime":
+                    memberToSet.SetValue(propObject, System.DateTime.Parse(newValue), null);
+                    break;
+
+                case "Int32":
+                    memberToSet.SetValue(propObject, System.Int32.Parse(newValue), null);
+                    break;
+
+                default:
+                    memberToSet.SetValue(propObject, newValue, null);
+                    break;
             }
-            memberToSet.SetValue(propObject, newValue, null);
         }
 
         private void conflictGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)

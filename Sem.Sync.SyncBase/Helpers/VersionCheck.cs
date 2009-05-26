@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
@@ -20,23 +21,30 @@ namespace Sem.Sync.SyncBase.Helpers
 
         public static bool Check()
         {
-            var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
-            var doCheck = true;
-            if (bool.TryParse(value, out doCheck))
-                if (!doCheck) return true;
-            
-            var myVersion = new VersionCheck();
+            try
+            {
+                var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
+                var doCheck = true;
+                if (bool.TryParse(value, out doCheck))
+                    if (!doCheck) return true;
 
-            var formatter = new XmlSerializer(typeof(VersionCheck));
-            var reader = new StringReader((new HttpHelper(VersionBaseUrl, false)).GetContent(VersionXmlUrl, "[NOCACHE]"));
-            var serverVersion = (VersionCheck)formatter.Deserialize(reader);
+                var myVersion = new VersionCheck();
 
-            return 
-                serverVersion.Major == myVersion.Major &&
-                serverVersion.Minor == myVersion.Minor &&
-                serverVersion.MajorRevision == myVersion.MajorRevision &&
-                serverVersion.MinorRevision == myVersion.MinorRevision &&
-                serverVersion.Build == myVersion.Build;
+                var formatter = new XmlSerializer(typeof(VersionCheck));
+                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false)).GetContent(VersionXmlUrl, "[NOCACHE]"));
+                var serverVersion = (VersionCheck)formatter.Deserialize(reader);
+
+                return
+                    serverVersion.Major == myVersion.Major &&
+                    serverVersion.Minor == myVersion.Minor &&
+                    serverVersion.MajorRevision == myVersion.MajorRevision &&
+                    serverVersion.MinorRevision == myVersion.MinorRevision &&
+                    serverVersion.Build == myVersion.Build;
+            }
+            catch // catch simply all - if there's a problem, we will check next time
+            {
+                return true;
+            }
         }
 
         public VersionCheck()

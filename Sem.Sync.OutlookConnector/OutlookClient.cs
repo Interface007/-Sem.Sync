@@ -414,11 +414,7 @@
                         ? Gender.Male
                         : (outlookContact.Gender == OlGender.olFemale)
                                 ? Gender.Female
-                                : (outlookContact.Title.IsOneOf("Herr", "Mr."))
-                                        ? Gender.Male
-                                        : (outlookContact.Title.IsOneOf("Frau", "Mrs."))
-                                                ? Gender.Female
-                                                : Gender.Unspecified,
+                                : SyncTools.GenderByText(outlookContact.Title),
 
                 DateOfBirth = outlookContact.Birthday,
 

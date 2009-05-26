@@ -1,106 +1,18 @@
 <?xml version="1.0"?>
 <ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <SyncDescription Name="Delete previous export/work files">
-    <Command>DeletePattern</Command>
-    <TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
-  </SyncDescription>
+	<SyncDescription Name="Delete previous export/work files">
+		<Command>DeletePattern</Command>
+		<TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
+	</SyncDescription>
 
-  <SyncDescription Name="Export from Outlook to file system">
-    <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Export from Facebook to file system">
-    <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FacebookConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Export from Facebook to vCards">
-    <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FacebookConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClientVCards</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook-vCards</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Match Outlook to Facebook by name">
-    <Command>MatchByName</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Add missing from Outlook(fs) to Facebook(fs)">
-    <Command>MergeMissing</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Normalize Facebook(fs)">
-    <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Normalize Outlook(fs)">
-    <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Merge high evidence from Facebook(fs) to Outlook(fs)">
-    <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Merge high evidence from Outlook(fs) to Facebook(fs)">
-    <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="DetectConflicts">
-    <Command>DetectConflicts</Command>
-    <CommandParameter>{FS:WorkingFolder}\MergeConflicts.xml</CommandParameter>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Merge Facebook to Outlook via BeyondCompare">
-    <Command>MergeExternal</Command>
-    <SourceStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</SourceStorePath>
-    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-  </SyncDescription>
-
-  <SyncDescription Name="Ask if we want to overwrite Outlook">
-    <Command>AskForContinue</Command>
-    <CommandParameter>Do you want to import the merged contact list into your Outlook account?</CommandParameter>
-    <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
-  </SyncDescription>
-
-  <SyncDescription Name="Import all from file system to Outlook">
-    <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
-  </SyncDescription>
+	<SyncDescription Name="Export from ActiveDirectory to file system">
+		<Command>CopyAll</Command>
+		<CommandParameter></CommandParameter>
+		<SourceConnector>Sem.Sync.ActiveDirectoryConnector.ContactClient</SourceConnector>
+		<SourceStorePath>((memberOf=CN=SDX eXperts,OU=Security-Gruppen,DC=frankfurt,DC=sdx-ag,DC=de))</SourceStorePath>
+		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+		<TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
+	</SyncDescription>
 
 </ArrayOfSyncDescription>

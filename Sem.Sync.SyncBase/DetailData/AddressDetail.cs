@@ -4,11 +4,12 @@ namespace Sem.Sync.SyncBase.DetailData
     {
         public string CountryName { get; set; }
         public string StateName { get; set; }
+        public string PostalCode { get; set; }
         public string CityName { get; set; }
         public string StreetName { get; set; }
         public int StreetNumber { get; set; }
+        public string Room { get; set; }
         public string StreetNumberExtension { get; set; }
-        public string PostalCode { get; set; }
         public PhoneNumber Phone { get; set; }
 
         public override string ToString()

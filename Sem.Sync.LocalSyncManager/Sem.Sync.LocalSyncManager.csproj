@@ -97,6 +97,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj">
+      <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
+      <Name>Sem.Sync.ActiveDirectoryConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj">
       <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
       <Name>Sem.Sync.FacebookConnector</Name>

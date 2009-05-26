@@ -6,6 +6,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LocalSyncManager", "Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj", "{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {ABF6A30F-5063-460C-9277-AF0F59C89290}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SyncBase", "SyncBase", "{6F297CC9-DA64-4469-9105-9CA63DEFB2DB}"
 EndProject
@@ -50,9 +53,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook", "ClientApis\Face
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Controls", "ClientApis\Facebook\Facebook.Controls\Facebook.Controls.csproj", "{8F4B9954-1BA5-4664-BBCE-B79519FEE120}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ActiveDirectoryConnector", "Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj", "{ABF6A30F-5063-460C-9277-AF0F59C89290}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -112,6 +117,10 @@ Global
 		SccProjectTopLevelParentUniqueName14 = SemSync.sln
 		SccProjectName14 = SemSyncOutlookWithXing
 		SccLocalPath14 = SemSyncOutlookWithXing
+		SccProjectUniqueName15 = Sem.Sync.ActiveDirectoryConnector\\Sem.Sync.ActiveDirectoryConnector.csproj
+		SccProjectTopLevelParentUniqueName15 = SemSync.sln
+		SccProjectName15 = Sem.Sync.ActiveDirectoryConnector
+		SccLocalPath15 = Sem.Sync.ActiveDirectoryConnector
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +182,10 @@ Global
 		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F4B9954-1BA5-4664-BBCE-B79519FEE120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF6A30F-5063-460C-9277-AF0F59C89290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF6A30F-5063-460C-9277-AF0F59C89290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF6A30F-5063-460C-9277-AF0F59C89290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF6A30F-5063-460C-9277-AF0F59C89290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +197,7 @@ Global
 		{DA88047A-8BA7-492B-BB71-EB87472817A5} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{15DD2E27-2606-4211-BDCA-863BB9E26142} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{C1B81350-1893-49FF-9582-470C46C2729A} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}

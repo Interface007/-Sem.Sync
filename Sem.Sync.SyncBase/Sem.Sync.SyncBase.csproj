@@ -67,6 +67,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Factory.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
+    <Compile Include="Helpers\SyncTools2cs.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Helpers\VersionCheck.cs" />
     <Compile Include="Interfaces\IMergeConflictResolver.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Merging\ConflictTestContainer.cs" />
     <Compile Include="StdClient.cs" />
     <Compile Include="StdElement.cs" />
-    <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="DetailData\CountryCodes.cs" />
     <Compile Include="DetailData\Genders.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
