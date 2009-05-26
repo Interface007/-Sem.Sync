@@ -272,6 +272,9 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = (Guid)item != new Guid();
                     break;
 
+                case "Byte[]":
+                    break;
+
                 default:
 
                     var members = testType.GetProperties();
