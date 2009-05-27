@@ -1,13 +1,12 @@
-﻿using Sem.Sync.SyncBase.Attributes;
-
-namespace Sem.Sync.SyncBase
+﻿namespace Sem.Sync.SyncBase
 {
     using System;
     using System.IO;
+    using System.Text;
 
     using DetailData;
     using Helpers;
-    using System.Text;
+    using Attributes;
 
     public class StdContact : StdElement
     {

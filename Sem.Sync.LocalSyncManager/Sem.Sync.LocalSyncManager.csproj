@@ -113,10 +113,6 @@
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
       <Name>Sem.Sync.OnlineStorageConnector</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj">
-      <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
-      <Name>Sem.Sync.OutlookConnector2003</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj">
       <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
       <Name>Sem.Sync.OutlookConnector</Name>
@@ -143,10 +139,10 @@
     <None Include="Sync TESTS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Sync with WCF %28Simple%29.SyncList">
+    <None Include="A Sync with WCF %28Simple%29.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Sync with Xing.SyncList">
+    <None Include="A Sync with Xing.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

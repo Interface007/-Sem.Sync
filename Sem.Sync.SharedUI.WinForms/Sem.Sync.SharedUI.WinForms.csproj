@@ -68,6 +68,12 @@
     <Compile Include="UI\LogInGui.Designer.cs">
       <DependentUpon>LogInGui.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\MatchEntries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MatchEntries.Designer.cs">
+      <DependentUpon>MatchEntries.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MergeWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LogInGui.resx">
       <DependentUpon>LogInGui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MatchEntries.resx">
+      <DependentUpon>MatchEntries.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MergeWindow.de-DE.resx">
       <DependentUpon>MergeWindow.cs</DependentUpon>

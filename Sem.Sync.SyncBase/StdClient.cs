@@ -65,6 +65,7 @@ namespace Sem.Sync.SyncBase
         {
         }
 
+        public string LoginDomain { get; set; }
         public string LoginUserId { get; set; }
         public string LoginPassword { get; set; }
 
