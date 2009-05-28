@@ -9,7 +9,7 @@ using Sem.Sync.SyncBase.Merging;
 
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
-    public partial class MergeWindow : Form, IMergeConflictResolver
+    public partial class MergeWindow : Form
     {
         public MergeWindow()
         {

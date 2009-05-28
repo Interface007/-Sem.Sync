@@ -19,8 +19,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             if (this.ShowDialog() == DialogResult.OK)
             {
-                client.LoginUserId = textBoxUserId.Text;
-                client.LoginPassword = textBoxPassword.Text;
+                client.LogOnUserId = textBoxUserId.Text;
+                client.LogOnPassword = textBoxPassword.Text;
             }
         }
 

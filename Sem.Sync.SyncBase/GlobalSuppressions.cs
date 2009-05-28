@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="GlobalSuppressions.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+
 // This file is used by Code Analysis to maintain SuppressMessage 
 // attributes that are applied to this project. 
 // Project-level suppressions either have no target or are given 
@@ -31,3 +38,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.SyncBase.DetailData.ReplacementLists.#BusinessCompanyName")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.SyncBase.DetailData.ReplacementLists.#BusinessHomepage")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "Sem.Sync.SyncBase.Helpers.VersionCheck.#Check()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member", Target = "Sem.Sync.SyncBase.SyncEngine.#MergeFiles(System.String,System.String,System.String)")]

@@ -1,28 +1,33 @@
-﻿using System.Globalization;
-using Sem.Sync.SyncBase.Properties;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SyncDescription.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-
+    
     using Microsoft.Win32;
 
     using EventArgs;
     using Binding;
     using Helpers;
     using Interfaces;
+    using Properties;
 
     public class SyncEngine : SyncComponent
     {
-        private bool versionOutdated;
+        private readonly bool versionOutdated;
 
         public SyncEngine()
         {
-            versionOutdated = VersionCheck.Check();
+            versionOutdated = !VersionCheck.Check();
         }
 
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
@@ -112,9 +117,9 @@ namespace Sem.Sync.SyncBase
                 LogProcessingEvent("Version of sync engine is outdated - please update!");
 
             // process paths to replace token
-            item.SourceStorePath = ReplacePathToken(item.SourceStorePath);
-            item.TargetStorePath = ReplacePathToken(item.TargetStorePath);
-            item.BaselineStorePath = ReplacePathToken(item.BaselineStorePath);
+            item.SourceStorePath = this.ReplacePathToken(item.SourceStorePath);
+            item.TargetStorePath = this.ReplacePathToken(item.TargetStorePath);
+            item.BaselineStorePath = this.ReplacePathToken(item.BaselineStorePath);
 
             // select the specified command
             switch (item.Command)
@@ -149,16 +154,16 @@ namespace Sem.Sync.SyncBase
                     if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
                     targetClient.WriteRange(
                         targetClient.GetAll(item.TargetStorePath)
-                            .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath))
-                        , item.TargetStorePath);
+                            .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath)), 
+                            item.TargetStorePath);
                     break;
 
                 case SyncCommand.NormalizeContent:
                     if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
                     if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
                     targetClient.WriteRange(
-                        targetClient.Normalize(targetClient.GetAll(item.TargetStorePath))
-                        , item.SourceStorePath);
+                        targetClient.Normalize(targetClient.GetAll(item.TargetStorePath)), 
+                        item.SourceStorePath);
 
                     break;
 
@@ -174,9 +179,34 @@ namespace Sem.Sync.SyncBase
                         item.TargetStorePath);
                     break;
 
+                case SyncCommand.MatchManually:
+                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                    if (baseliClient == null) throw new InvalidOperationException("item.baseliClient is null");
+                    if (item.BaselineStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+
+                    var targetMatchList = targetClient.GetAll(item.TargetStorePath);
+                    var matchResultList =
+                    this.ConflictSolver.PerformEntityMerge(
+                                sourceClient.GetAll(item.SourceStorePath),
+                                targetMatchList,
+                                baseliClient.GetAll(item.BaselineStorePath));
+                    
+                    //// only write to target if we did get a merge result
+                    // if (targetMatchList != null)
+                    //    targetClient.WriteRange(targetMatchList, item.TargetStorePath);
+
+                    // only write to target if we did get a merge result
+                    if (matchResultList != null)
+                        baseliClient.WriteRange(matchResultList, item.BaselineStorePath);
+
+                    break;
+
                 case SyncCommand.DeletePattern:
                     if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
-                    DeleteFiles(item.TargetStorePath);
+                    this.DeleteFiles(item.TargetStorePath);
                     break;
 
                 case SyncCommand.DetectConflicts:
@@ -188,7 +218,7 @@ namespace Sem.Sync.SyncBase
 
                     var targetList = targetClient.GetAll(item.TargetStorePath);
                     var mergeResultList =
-                    ConflictSolver.PerformMerge(
+                    this.ConflictSolver.PerformAttributeMerge(
                         SyncTools.DetectConflicts(
                             SyncTools.BuildConflictTestContainerList(
                                 sourceClient.GetAll(item.SourceStorePath),
@@ -196,14 +226,14 @@ namespace Sem.Sync.SyncBase
                                 (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
                                 typeof(StdContact)
                             ),
-                            true
-                        )
-                        , targetList
-                    );
+                            true), 
+                        targetList);
 
                     // only write to target if we did get a merge result
                     if (mergeResultList != null)
+                    {
                         targetClient.WriteRange(mergeResultList, item.TargetStorePath);
+                    }
 
                     break;
 

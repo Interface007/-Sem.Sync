@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="Tools\MergeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\UiDispatcher.cs" />
     <Compile Include="UI\Disclaimer.cs">
       <SubType>Form</SubType>
     </Compile>

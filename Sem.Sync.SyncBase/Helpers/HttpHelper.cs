@@ -1,4 +1,10 @@
-﻿namespace Sem.Sync.SyncBase.Helpers
+﻿//-----------------------------------------------------------------------
+// <copyright file="HttpHelper.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.IO;
@@ -59,9 +65,9 @@
             this.BaseUrl = baseUrl;
             this.IgnoreCertificateError = ignoreCertificateErrors;
             this.sessionCookies = new CookieContainer();
-            ServicePointManager.Expect100Continue = false; 
+            ServicePointManager.Expect100Continue = false;
 
-            if (IgnoreCertificateError)
+            if (this.IgnoreCertificateError)
             {
                 // Hack for debugging purposes to accept Fiddler certificate
                 ServicePointManager.ServerCertificateValidationCallback +=
@@ -85,9 +91,9 @@
             }
 
             byte[] result = null;
-            if (!SkipNotCached)
+            if (!this.SkipNotCached)
             {
-                var receiveStream = GetResponseStream(url);
+                var receiveStream = this.GetResponseStream(url);
                 result = ReadStreamToByteArray(receiveStream, 32768);
                 if (!string.IsNullOrEmpty(fileName))
                 {
@@ -115,9 +121,9 @@
             }
 
             byte[] result = null;
-            if (!SkipNotCached && !string.IsNullOrEmpty(fileName))
+            if (!this.SkipNotCached && !string.IsNullOrEmpty(fileName))
             {
-                var receiveStream = PostResponseStream(url, postData);
+                var receiveStream = this.PostResponseStream(url, postData);
                 result = ReadStreamToByteArray(receiveStream, 32768);
 
                 File.WriteAllBytes(fileName, result);
@@ -140,9 +146,9 @@
             }
             
             var result = string.Empty;
-            if (!SkipNotCached)
+            if (!this.SkipNotCached)
             {
-                var receiveStream = GetResponseStream(BaseUrl + url);
+                var receiveStream = this.GetResponseStream(BaseUrl + url);
                 result = ReadStreamToString(receiveStream);
 
                 WriteToCache(name, result);
@@ -166,9 +172,9 @@
             }
 
             var result = string.Empty;
-            if (!SkipNotCached)
+            if (!this.SkipNotCached)
             {
-                var receiveStream = PostResponseStream(BaseUrl + url, postData);
+                var receiveStream = this.PostResponseStream(this.BaseUrl + url, postData);
                 result = ReadStreamToString(receiveStream);
 
                 WriteToCache(name, result);
@@ -184,7 +190,7 @@
         /// <returns>a stream that represents the binary data</returns>
         private Stream PostResponseStream(string url, string postData)
         {
-            var request = CreateRequest(url, "POST");
+            var request = this.CreateRequest(url, "POST");
             request.ContentType = "application/x-www-form-urlencoded";
             
             var encoding = new ASCIIEncoding();
@@ -207,7 +213,7 @@
         /// <returns>a stream corresponding to the content at the uri</returns>
         private Stream GetResponseStream(string url)
         {
-            var request = CreateRequest(url, "GET");
+            var request = this.CreateRequest(url, "GET");
             var objResponse = (HttpWebResponse)request.GetResponse();
             return objResponse.GetResponseStream(); 
         }
@@ -221,7 +227,7 @@
         private HttpWebRequest CreateRequest(string url, string method)
         {
             // add base url, if there is no protocol identifier
-            var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : BaseUrl + url;
+            var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : this.BaseUrl + url;
 
             // build up request and response
             var request = (HttpWebRequest)WebRequest.Create(requestUrl);
@@ -235,7 +241,7 @@
             }
             else
             {
-                request.CookieContainer = sessionCookies;
+                request.CookieContainer = this.sessionCookies;
             }
 
             request.Headers.Add("Accept-Language", "de");

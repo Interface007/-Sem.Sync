@@ -1,6 +1,4 @@
-﻿using Sem.Sync.SharedUI.WinForms.UI;
-
-namespace Sem.Sync.LocalSyncManager
+﻿namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Collections.Generic;
@@ -9,28 +7,28 @@ namespace Sem.Sync.LocalSyncManager
     
     using SyncBase;
     using SyncBase.Binding;
-    using SyncBase.Interfaces;
     using SyncBase.EventArgs;
+    
+    using SharedUI.WinForms.Tools;
 
     using Tools;
     
     /// <summary>
     /// Implements the functionality of the main program for syncing
     /// </summary>
-    public class ClientViewModel : IMergeConflictResolver
+    public class ClientViewModel
     {
         public event EventHandler<ProcessingEventArgs> ProcessingEvent;
         public event EventHandler<ProgressEventArgs> ProgressEvent;
-        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentials;
+        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentials;
 
         public List<String> SyncCommandLists { get; set; }
         internal SyncCollection SyncCommands { get; set; }
-        internal string Status { get; set; }
 
-        public readonly SyncEngine Engine = new SyncEngine
+        private readonly SyncEngine engine = new SyncEngine
                                              {
                                                  WorkingFolder = Config.WorkingFolder,
-                                                 ConflictSolver = new MergeWindow()
+                                                 ConflictSolver = new UiDispatcher()
                                              };
 
         internal ClientViewModel()
@@ -39,28 +37,28 @@ namespace Sem.Sync.LocalSyncManager
             this.SyncCommands = new SyncCollection();
         }
 
-        internal bool Execute()
+        internal void Execute()
         {
-            Engine.ProcessingEvent += this.ProcessingEvent;
-            Engine.QueryForLogOnCredentialsEvent += this.QueryForLoginCredentials;
-            Engine.ProgressEvent += ProgressEvent;
-            var result = this.Engine.Execute(this.SyncCommands);
-            Engine.ProgressEvent -= ProgressEvent;
-            Engine.QueryForLogOnCredentialsEvent -= this.QueryForLoginCredentials;
-            Engine.ProcessingEvent -= this.ProcessingEvent;
-            return result;
+            engine.ProcessingEvent += this.ProcessingEvent;
+            engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
+            engine.ProgressEvent += ProgressEvent;
+            this.engine.Execute(this.SyncCommands);
+            engine.ProgressEvent -= ProgressEvent;
+            engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
+            engine.ProcessingEvent -= this.ProcessingEvent;
+            return;
         }
 
-        internal bool Execute(SyncDescription item)
+        internal void Execute(SyncDescription item)
         {
-            Engine.ProcessingEvent += this.ProcessingEvent;
-            Engine.QueryForLogOnCredentialsEvent += this.QueryForLoginCredentials;
-            Engine.ProgressEvent += ProgressEvent;
-            var result = this.Engine.Execute(item);
-            Engine.ProgressEvent -= ProgressEvent;
-            Engine.QueryForLogOnCredentialsEvent -= this.QueryForLoginCredentials;
-            Engine.ProcessingEvent -= this.ProcessingEvent;
-            return result;
+            engine.ProcessingEvent += this.ProcessingEvent;
+            engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
+            engine.ProgressEvent += ProgressEvent;
+            this.engine.Execute(item);
+            engine.ProgressEvent -= ProgressEvent;
+            engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
+            engine.ProcessingEvent -= this.ProcessingEvent;
+            return;
         }
 
         internal void LoadSyncList(string p)
@@ -69,14 +67,6 @@ namespace Sem.Sync.LocalSyncManager
             var file = new FileStream(p, FileMode.Open);
             this.SyncCommands = (SyncCollection)formatter.Deserialize(file);
             file.Close();
-        }
-
-        public List<StdElement> PerformMerge(List<SyncBase.Merging.MergeConflict> toMerge, List<StdElement> targetList)
-        {
-            var ui = new MergeWindow();
-            ui.PerformMerge(toMerge, targetList);
-
-            return null;
         }
     }
 }

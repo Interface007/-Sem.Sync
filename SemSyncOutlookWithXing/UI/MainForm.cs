@@ -1,4 +1,5 @@
-﻿using Sem.Sync.SharedUI.WinForms.UI;
+﻿using Sem.Sync.SharedUI.WinForms.Tools;
+using Sem.Sync.SharedUI.WinForms.UI;
 
 namespace SemSyncOutlookWithXing.UI
 {
@@ -33,7 +34,7 @@ namespace SemSyncOutlookWithXing.UI
             engine.QueryForLogOnCredentialsEvent += AskForLogin;
 
             var list = LoadSyncList("commands.xml");
-            this.engine.ConflictSolver = new MergeWindow();
+            this.engine.ConflictSolver = new UiDispatcher();
             this.engine.Execute(list);
 
             engine.ProcessingEvent -= this.LogThis;

@@ -1,9 +1,16 @@
-﻿using System;
-using System.Globalization;
-using Sem.Sync.SyncBase.EventArgs;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SyncComponent.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
+    using System;
+    using System.Globalization;
+
+    using EventArgs;
+
     public class SyncComponent
     {
         public event EventHandler<ProcessingEventArgs> ProcessingEvent;
@@ -14,11 +21,11 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         /// <param name="contactStdItem">the std-element this event corresponds to</param>
         /// <param name="message">the message for this even (should describe what's happening in this step of execution)</param>
-        protected virtual void LogProcessingEvent(StdElement contactStdItem, string message)
+        protected void LogProcessingEvent(StdElement contactStdItem, string message)
         {
-            if (ProcessingEvent != null)
+            if (this.ProcessingEvent != null)
             {
-                ProcessingEvent(this, new ProcessingEventArgs { Item = contactStdItem, Message = message });
+                this.ProcessingEvent(this, new ProcessingEventArgs { Item = contactStdItem, Message = message });
             }
         }
         
@@ -26,9 +33,9 @@ namespace Sem.Sync.SyncBase
         /// log the events 
         /// </summary>
         /// <param name="message">the message for this even (should describe what's happening in this step of execution)</param>
-        protected virtual void LogProcessingEvent(string message)
+        protected void LogProcessingEvent(string message)
         {
-            LogProcessingEvent(null, message);
+            this.LogProcessingEvent(null, message);
         }
 
         /// <summary>
@@ -36,9 +43,9 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         /// <param name="message">the message for this even (should describe what's happening in this step of execution)</param>
         /// <param name="parameters">parameters that will be inserted into the log-message</param>
-        protected virtual void LogProcessingEvent(string message, params object[] parameters)
+        protected void LogProcessingEvent(string message, params object[] parameters)
         {
-            LogProcessingEvent(null, string.Format(CultureInfo.CurrentCulture, message, parameters));
+            this.LogProcessingEvent(null, string.Format(CultureInfo.CurrentCulture, message, parameters));
         }
 
         /// <summary>
@@ -49,7 +56,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="parameters">parameters that will be inserted into the log-message</param>
         protected void LogProcessingEvent(StdElement contactStdItem, string message, params object[] parameters)
         {
-            LogProcessingEvent(contactStdItem, string.Format(CultureInfo.CurrentCulture, message, parameters));
+            this.LogProcessingEvent(contactStdItem, string.Format(CultureInfo.CurrentCulture, message, parameters));
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         protected void LogProcessingEvent(object sender, ProcessingEventArgs args)
         {
-            LogProcessingEvent((StdElement)args.Item, args.Message);
+            this.LogProcessingEvent((StdElement)args.Item, args.Message);
         }
 
         protected void UpdateProgress(int percentage)
@@ -67,9 +74,9 @@ namespace Sem.Sync.SyncBase
 
         private void UpdateProgress(object sender, ProgressEventArgs args)
         {
-            if (ProgressEvent != null)
+            if (this.ProgressEvent != null)
             {
-                ProgressEvent(this, args);
+                this.ProgressEvent(sender, args);
             }
         }
     }

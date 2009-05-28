@@ -1,10 +1,15 @@
-﻿using Sem.Sync.SyncBase.Attributes;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="StdElement.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Xml.Serialization;
 
+    using Attributes;
     using DetailData;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification = "overriding IComparable is just for sorting!"),

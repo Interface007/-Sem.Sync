@@ -1,4 +1,10 @@
-﻿namespace Sem.Sync.SyncBase.Interfaces
+﻿//-----------------------------------------------------------------------
+// <copyright file="IClientBase.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.Sync.SyncBase.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -11,8 +17,9 @@
         event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
 
         string FriendlyClientName { get; }
-        string LoginUserId { get; set; }
-        string LoginPassword { get; set; }
+        string LogOnDomain { get; set; }
+        string LogOnUserId { get; set; }
+        string LogOnPassword { get; set; }
 
         void RemoveDuplicates(string clientFolderName);
 

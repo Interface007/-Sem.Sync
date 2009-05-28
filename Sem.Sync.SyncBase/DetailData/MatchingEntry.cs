@@ -1,13 +1,20 @@
-﻿namespace Sem.Sync.SyncBase.DetailData
+﻿//-----------------------------------------------------------------------
+// <copyright file="MatchingEntry.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
-    using System.Xml.Serialization;
 
-    public class MatchingEntry
+    public class MatchingEntry : StdElement
     {
-        [XmlAttribute]
-        public Guid Id { get; set; }
-        
+        public override void NormalizeContent()
+        {
+            throw new NotImplementedException();
+        }
+
         public ProfileIdentifiers ProfileId { get; set; }
     }
 }

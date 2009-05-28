@@ -6,13 +6,15 @@
 		<TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
 	</SyncDescription>
 
-	<SyncDescription Name="Export from ActiveDirectory to file system">
-		<Command>CopyAll</Command>
+	<SyncDescription Name="Match entries manually">
+		<Command>MatchManually</Command>
 		<CommandParameter></CommandParameter>
-		<SourceConnector>Sem.Sync.ActiveDirectoryConnector.ContactClient</SourceConnector>
-		<SourceStorePath>((memberOf=CN=SDX eXperts,OU=Security-Gruppen,DC=frankfurt,DC=sdx-ag,DC=de))</SourceStorePath>
+		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</SourceStorePath>
 		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-		<TargetStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</TargetStorePath>
+		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+		<BaselineConnector>Sem.Sync.FilesystemConnector.ContactClient</BaselineConnector>
+		<BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlcontact</BaselineStorePath>
 	</SyncDescription>
 
 </ArrayOfSyncDescription>

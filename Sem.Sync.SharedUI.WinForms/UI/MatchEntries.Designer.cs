@@ -30,21 +30,23 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntries));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.dataGridSourceCandidates = new System.Windows.Forms.DataGridView();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.btnFinished = new System.Windows.Forms.Button();
             this.btnMatch = new System.Windows.Forms.Button();
             this.chkMatchedOnly = new System.Windows.Forms.CheckBox();
             this.btnUnMatch = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.dataGridMatches = new System.Windows.Forms.DataGridView();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceCandidates)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetCandidates)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridMatches)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -55,12 +57,36 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView4);
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceCandidates);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView3);
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView2);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
+            // 
+            // dataGridView4
+            // 
+            resources.ApplyResources(this.dataGridView4, "dataGridView4");
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Name = "dataGridView4";
+            // 
+            // dataGridSourceCandidates
+            // 
+            resources.ApplyResources(this.dataGridSourceCandidates, "dataGridSourceCandidates");
+            this.dataGridSourceCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridSourceCandidates.Name = "dataGridSourceCandidates";
+            // 
+            // dataGridView3
+            // 
+            resources.ApplyResources(this.dataGridView3, "dataGridView3");
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Name = "dataGridView3";
+            // 
+            // dataGridTargetCandidates
+            // 
+            resources.ApplyResources(this.dataGridTargetCandidates, "dataGridTargetCandidates");
+            this.dataGridTargetCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridTargetCandidates.Name = "dataGridTargetCandidates";
             // 
             // btnFinished
             // 
@@ -86,34 +112,17 @@
             this.btnUnMatch.Name = "btnUnMatch";
             this.btnUnMatch.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridMatches
             // 
-            resources.ApplyResources(this.dataGridView1, "dataGridView1");
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Name = "dataGridView1";
-            // 
-            // dataGridView2
-            // 
-            resources.ApplyResources(this.dataGridView2, "dataGridView2");
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Name = "dataGridView2";
-            // 
-            // dataGridView3
-            // 
-            resources.ApplyResources(this.dataGridView3, "dataGridView3");
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Name = "dataGridView3";
-            // 
-            // dataGridView4
-            // 
-            resources.ApplyResources(this.dataGridView4, "dataGridView4");
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Name = "dataGridView4";
+            resources.ApplyResources(this.dataGridMatches, "dataGridMatches");
+            this.dataGridMatches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridMatches.Name = "dataGridMatches";
             // 
             // MatchEntries
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.dataGridMatches);
             this.Controls.Add(this.chkMatchedOnly);
             this.Controls.Add(this.btnUnMatch);
             this.Controls.Add(this.btnMatch);
@@ -123,10 +132,11 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceCandidates)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetCandidates)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridMatches)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,8 +150,9 @@
         private System.Windows.Forms.CheckBox chkMatchedOnly;
         private System.Windows.Forms.Button btnUnMatch;
         private System.Windows.Forms.DataGridView dataGridView4;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridSourceCandidates;
         private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridTargetCandidates;
+        private System.Windows.Forms.DataGridView dataGridMatches;
     }
 }

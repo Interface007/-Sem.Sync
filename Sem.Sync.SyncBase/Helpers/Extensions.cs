@@ -1,4 +1,10 @@
-﻿namespace Sem.Sync.SyncBase.Helpers
+﻿//-----------------------------------------------------------------------
+// <copyright file="Extensions.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -62,7 +68,7 @@
             foreach (var item in members)
             {
                 var setValue = false;
-                if (source == null || item.GetValue(source, null) == null)
+                if (Equals(source, default(T)) || item.GetValue(source, null) == null)
                 {
                     continue;
                 }
@@ -162,7 +168,7 @@
                 }
 
             }
-            catch (Exception)
+            catch
             {
             }
 
@@ -194,7 +200,7 @@
                         elementList = (List<T>)formatter.Deserialize(file);
                     }
                 }
-                catch (Exception)
+                catch
                 {
                 }
                 finally

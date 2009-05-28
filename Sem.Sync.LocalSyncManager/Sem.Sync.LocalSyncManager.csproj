@@ -59,6 +59,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="UI\Commands.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +132,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Sem.Sync.SyncBase\Properties\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
     <Content Include="dictionary.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

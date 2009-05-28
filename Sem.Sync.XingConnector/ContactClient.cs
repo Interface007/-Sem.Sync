@@ -81,7 +81,7 @@
             var result = new List<string>();
             var offsetIndex = 0;
 
-            LogProcessingEvent(Resources.uiReadingContactList, this.LoginUserId);
+            LogProcessingEvent(Resources.uiReadingContactList, this.LogOnUserId);
             
             string contactListContent;
             while (true)
@@ -96,31 +96,31 @@
                     if (!contactListContent.Contains(DetectLoginNeeded))
                         break;
 
-                    if (string.IsNullOrEmpty(this.LoginPassword))
+                    if (string.IsNullOrEmpty(this.LogOnPassword))
                     {
                         QueryForLogOnCredentials(Resources.uiXingNeedsCredentials);
                     }
 
                     // tell the user that we need to log in
-                    LogProcessingEvent(Resources.uiLogInForUser, this.LoginUserId);
+                    LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
 
                     // prepare the post data for log in
                     var postData = string.Format(
                         "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}", 
-                        HttpHelper.EncodeForPost(this.LoginUserId), 
-                        HttpHelper.EncodeForPost(this.LoginPassword));
+                        HttpHelper.EncodeForPost(this.LogOnUserId), 
+                        HttpHelper.EncodeForPost(this.LogOnPassword));
 
                     // post to get the cookies
                     var logInResponse = xingRequester.GetContentPost("/app/user", "[NOCACHE]", postData);
 
                     if (logInResponse.Contains("/app/user?op=lostpassword"))
                     {
-                        LogProcessingEvent(Resources.uiLogInFailed, this.LoginUserId);
+                        LogProcessingEvent(Resources.uiLogInFailed, this.LogOnUserId);
                         return result;
                     }
                     
                     // we did succeed to log in - tell the user and try reading the data again.
-                    LogProcessingEvent(Resources.uiLogInSucceeded, this.LoginUserId);
+                    LogProcessingEvent(Resources.uiLogInSucceeded, this.LogOnUserId);
                 }
 
                 // we use regular expressions to extract the urls to the vCards

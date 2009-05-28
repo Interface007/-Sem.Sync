@@ -20,7 +20,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Normalize Xing(fs)">
+  <SyncDescription Name="Normalize Xing (file system)">
     <Command>NormalizeContent</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -28,7 +28,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Normalize Outlook(fs)">
+  <SyncDescription Name="Normalize Outlook (file system)">
     <Command>NormalizeContent</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
@@ -44,7 +44,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Add missing from Outlook(fs) to Xing(fs)">
+  <SyncDescription Name="Add missing from Outlook to Xing (file system)">
     <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
@@ -52,7 +52,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Add missing from Xing(fs) to Outlook(fs)">
+  <SyncDescription Name="Add missing from Xing to Outlook (file system)">
     <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -60,7 +60,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Merge high evidence from Xing(fs) to Outlook(fs)">
+  <SyncDescription Name="Merge high evidence from Xing to Outlook (file system)">
     <Command>MergeHighEvidence</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -68,7 +68,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Merge high evidence from Outlook(fs) to Xing(fs)">
+  <SyncDescription Name="Merge high evidence from Outlook to Xing (file system)">
     <Command>MergeHighEvidence</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>

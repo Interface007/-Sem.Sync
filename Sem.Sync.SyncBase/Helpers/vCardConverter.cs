@@ -1,8 +1,13 @@
-﻿using System.Globalization;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="VCardConverter.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
+    using System.Globalization;
     using System.Text;
 
     using DetailData;
@@ -160,7 +165,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
                     case "PHOTO":
                         var url = parts[1].Replace("VALUE=URI:", "");
-                        contact.PictureData = HttpRequester.GetContentBinary(url, url);
+                        contact.PictureData = this.HttpRequester.GetContentBinary(url, url);
                         break;
 
                     case "PRODID:-//XING//www.xing.com//epublica//www.epublica.de//Version 1.3":

@@ -27,7 +27,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // route the events
             this.DataContext.ProcessingEvent += LogMessage;
             this.DataContext.ProgressEvent += OnProgressEvent;
-            this.DataContext.QueryForLoginCredentials += (s, eargs) => new SharedUI.WinForms.UI.LogInGui().SetLoginCredentials((IClientBase)s, eargs);
+            this.DataContext.QueryForLogOnCredentials += (s, eargs) => new SharedUI.WinForms.UI.LogInGui().SetLoginCredentials((IClientBase)s, eargs);
 
             // get the data for the combo box from the file system paths
             this.SyncListSelection.DataSource =
@@ -66,9 +66,10 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             var logEntry = new StringBuilder();
 
-            if (sender is IClientBase)
+            var client = sender as IClientBase;
+            if (client != null)
             {
-                logEntry.Append(((IClientBase)sender).FriendlyClientName);
+                logEntry.Append(client.FriendlyClientName);
                 logEntry.Append(": ");
             }
 

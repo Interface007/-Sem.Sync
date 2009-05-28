@@ -1,5 +1,9 @@
-﻿using Sem.Sync.SyncBase.Helpers;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="StdClient.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -20,32 +24,32 @@ namespace Sem.Sync.SyncBase
     {
         #region internal implementation
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
-        
+
         protected void QueryForLogOnCredentials(string message)
         {
-            if (QueryForLoginCredentialsEvent == null) return;
+            if (this.QueryForLoginCredentialsEvent == null) return;
 
             var args = new QueryForLogOnCredentialsEventArgs
                            {
                                MessageForUser = message,
-                               LoginUserId = this.LoginUserId,
-                               LoginPassword = this.LoginPassword,
+                               LoginUserId = this.LogOnUserId,
+                               LoginPassword = this.LogOnPassword,
                            };
 
-            QueryForLoginCredentialsEvent(this, args);
+            this.QueryForLoginCredentialsEvent(this, args);
         }
 
         protected string GetConfigValue(string configName)
         {
-            var value = ConfigurationManager.AppSettings[FriendlyClientName + "-" + configName];
+            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
             return value ?? string.Empty;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification="The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
         protected StdClient()
         {
-            this.LoginUserId = GetConfigValue("LoginUserId");
-            this.LoginPassword = GetConfigValue("LoginPassword");
+            this.LogOnUserId = this.GetConfigValue("LoginUserId");
+            this.LogOnPassword = this.GetConfigValue("LoginPassword");
         }
 
         #endregion
@@ -65,32 +69,32 @@ namespace Sem.Sync.SyncBase
         {
         }
 
-        public string LoginDomain { get; set; }
-        public string LoginUserId { get; set; }
-        public string LoginPassword { get; set; }
+        public string LogOnDomain { get; set; }
+        public string LogOnUserId { get; set; }
+        public string LogOnPassword { get; set; }
 
         public virtual List<StdElement> GetAll(string clientFolderName)
         {
             var result = new List<StdElement>();
 
             LogProcessingEvent(Resources.uiReadingElements);
-            BeforeStorageAccess(clientFolderName);
-            result = ReadFullList(clientFolderName, result);
+            this.BeforeStorageAccess(clientFolderName);
+            result = this.ReadFullList(clientFolderName, result);
 
-            LogProcessingEvent(Resources.uiSorting);
+            this.LogProcessingEvent(Resources.uiSorting);
             result.Sort();
-            LogProcessingEvent(Resources.uiSorted);
+            this.LogProcessingEvent(Resources.uiSorted);
 
             return result;
         }
 
         public virtual void AddItem(StdElement element, string clientFolderName)
         {
-            LogProcessingEvent(element, Resources.uiAddingElement);
+            this.LogProcessingEvent(element, Resources.uiAddingElement);
             var data = this.GetAll(clientFolderName);
             WriteElement(data, element);
             this.WriteRange(data, clientFolderName);
-            LogProcessingEvent(element, Resources.uiElementAdded);
+            this.LogProcessingEvent(element, Resources.uiElementAdded);
         }
 
         public virtual void AddRange(List<StdElement> elements, string clientFolderName)
@@ -124,7 +128,7 @@ namespace Sem.Sync.SyncBase
         public virtual void WriteRange(List<StdElement> elements, string clientFolderName)
         {
             LogProcessingEvent(Resources.uiWritingElements);
-            BeforeStorageAccess(clientFolderName);
+            this.BeforeStorageAccess(clientFolderName);
             WriteFullList(elements, clientFolderName, false);
             LogProcessingEvent(Resources.uiWritingElementsDone);
         }

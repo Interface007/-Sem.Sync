@@ -38,16 +38,16 @@
                 // if domainController does not contain a "." we assume this to be a domain name 
                 // rather than a domain controller, so we lookup the first controller we can get
                 this.LogProcessingEvent("detecting domain controller");
-                var domainController = this.LoginDomain;
+                var domainController = this.LogOnDomain;
                 if (!string.IsNullOrEmpty(domainController) && !domainController.Contains("."))
                     domainController = GetDCs(domainController)[0];
 
                 // open the directory using explicit or implicit credentials
                 this.LogProcessingEvent("opening ldap connection");
                 var entry =
-                    (string.IsNullOrEmpty(this.LoginPassword))
+                    (string.IsNullOrEmpty(this.LogOnPassword))
                     ? new DirectoryEntry("LDAP://" + domainController)
-                    : new DirectoryEntry("LDAP://" + domainController, this.LoginUserId, this.LoginPassword);
+                    : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
                 var search = new DirectorySearcher(entry)
                                                {
@@ -85,33 +85,33 @@
         /// </summary>
         private void PrepareCredentials()
         {
-            this.LoginDomain = SyncTools.GetRegValue(RegBasePath, "domainName", "");
-            this.LoginUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
-            this.LoginPassword = SyncTools.GetRegValue(RegBasePath, "password", "");
+            this.LogOnDomain = SyncTools.GetRegValue(RegBasePath, "domainName", "");
+            this.LogOnUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
+            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", "");
 
             // check if the user an empty string, in this case ask the user for credentials
-            if (string.IsNullOrEmpty(this.LoginUserId) || this.LoginPassword == "{ask}")
+            if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")
             {
-                this.LoginPassword = "";
+                this.LogOnPassword = "";
                 this.QueryForLogOnCredentials("Please provide login credentials for LDAP query.\nPress cancle to use current user.");
             }
 
             // if we have a user name and it does contain a backslash, we need to split the domain from the user name
-            if (!string.IsNullOrEmpty(this.LoginUserId) && this.LoginUserId.Contains("\\"))
+            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId.Contains("\\"))
             {
-                this.LoginDomain = this.LoginUserId.Split('\\')[0];
-                this.LoginUserId = this.LoginUserId.Split('\\')[1];
+                this.LogOnDomain = this.LogOnUserId.Split('\\')[0];
+                this.LogOnUserId = this.LogOnUserId.Split('\\')[1];
             }
 
             // if the user id is {default} we need to get the domain from the currently logged in user
-            if (!string.IsNullOrEmpty(this.LoginUserId) && this.LoginUserId != "{default}") return;
+            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId != "{default}") return;
 
             var currentIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
             if (currentIdentity != null)
-                this.LoginDomain = currentIdentity.Name;
+                this.LogOnDomain = currentIdentity.Name;
 
-            if (!string.IsNullOrEmpty(this.LoginDomain) && this.LoginDomain.Contains("\\"))
-                this.LoginDomain = this.LoginDomain.Split('\\')[0];
+            if (!string.IsNullOrEmpty(this.LogOnDomain) && this.LogOnDomain.Contains("\\"))
+                this.LogOnDomain = this.LogOnDomain.Split('\\')[0];
         }
 
         /// <summary>

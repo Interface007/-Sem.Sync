@@ -1,12 +1,16 @@
-﻿using System;
-using System.Configuration;
-using System.Reflection;
-using System.Text;
-using System.Xml.Serialization;
-using System.IO;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="VersionCheck.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.Helpers
 {
+    using System.Configuration;
+    using System.IO;
+    using System.Reflection;
+    using System.Xml.Serialization;
+    
     public class VersionCheck
     {
         private const string VersionBaseUrl = "http://svenerikmatzen.info";
@@ -24,7 +28,7 @@ namespace Sem.Sync.SyncBase.Helpers
             try
             {
                 var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
-                var doCheck = true;
+                bool doCheck;
                 if (bool.TryParse(value, out doCheck))
                     if (!doCheck) return true;
 
@@ -35,11 +39,11 @@ namespace Sem.Sync.SyncBase.Helpers
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
                 return
-                    serverVersion.Major == myVersion.Major &&
-                    serverVersion.Minor == myVersion.Minor &&
-                    serverVersion.MajorRevision == myVersion.MajorRevision &&
-                    serverVersion.MinorRevision == myVersion.MinorRevision &&
-                    serverVersion.Build == myVersion.Build;
+                    serverVersion.Major <= myVersion.Major &&
+                    serverVersion.Minor <= myVersion.Minor &&
+                    serverVersion.MajorRevision <= myVersion.MajorRevision &&
+                    serverVersion.MinorRevision <= myVersion.MinorRevision &&
+                    serverVersion.Build <= myVersion.Build;
             }
             catch // catch simply all - if there's a problem, we will check next time
             {

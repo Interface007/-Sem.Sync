@@ -1,5 +1,9 @@
-﻿using Microsoft.Win32;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SyncTools.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
@@ -9,6 +13,8 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Text.RegularExpressions;
     using System.Linq;
     using System.Xml.Serialization;
+
+    using Microsoft.Win32;
 
     using Attributes;
     using DetailData;
@@ -203,12 +209,20 @@ namespace Sem.Sync.SyncBase.Helpers
                                         BaselineObject = container.BaselineObject,
                                         PropertyName = container.PropertyName + "." + item.Name,
                                         PropertyType = item.PropertyType,
-                                        SourceProperty = (container.SourceProperty == null) ? null : item.GetValue(container.SourceProperty, null),
-                                        TargetProperty = (container.TargetProperty == null) ? null : item.GetValue(container.TargetProperty, null),
-                                        BaselineProperty = (container.BaselineProperty == null) ? null : item.GetValue(container.BaselineProperty, null)
+                                        SourceProperty =
+                                            (container.SourceProperty == null)
+                                                ? null
+                                                : item.GetValue(container.SourceProperty, null),
+                                        TargetProperty =
+                                            (container.TargetProperty == null)
+                                                ? null
+                                                : item.GetValue(container.TargetProperty, null),
+                                        BaselineProperty =
+                                            (container.BaselineProperty == null)
+                                                ? null
+                                                : item.GetValue(container.BaselineProperty, null)
                                     },
-                                    skipIdenticalChanges)
-                            );
+                                skipIdenticalChanges));
 
                         // we did already add the results for this property, so skip it now
                         conflict = MergePropertyConflict.None;
@@ -231,8 +245,7 @@ namespace Sem.Sync.SyncBase.Helpers
                                        BaselinePropertyValue = baselineString,
                                        SourcePropertyValue = sourceString,
                                        TargetPropertyValue = targetString
-                                   }
-                        );
+                                   });
                 }
             }
 
