@@ -121,31 +121,6 @@
   <data name="conflictGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="contactNameDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Contact Name</value>
-  </data>
-  <data name="propertyNameDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="propertyNameDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>150</value>
-  </data>
-  <data name="sourceValueDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Source</value>
-  </data>
-  <data name="targetValueDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Target</value>
-  </data>
-  <data name="conflictDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Conflict</value>
-  </data>
-  <data name="conflictDataGridViewTextBoxColumn.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <metadata name="mergeViewBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="conflictGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 67</value>
@@ -153,6 +128,7 @@
   <data name="conflictGrid.Size" type="System.Drawing.Size, System.Drawing">
     <value>729, 397</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="conflictGrid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -278,42 +254,6 @@
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;contactNameDataGridViewTextBoxColumn.Name" xml:space="preserve">
-    <value>contactNameDataGridViewTextBoxColumn</value>
-  </data>
-  <data name="&gt;&gt;contactNameDataGridViewTextBoxColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;propertyNameDataGridViewTextBoxColumn.Name" xml:space="preserve">
-    <value>propertyNameDataGridViewTextBoxColumn</value>
-  </data>
-  <data name="&gt;&gt;propertyNameDataGridViewTextBoxColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;sourceValueDataGridViewTextBoxColumn.Name" xml:space="preserve">
-    <value>sourceValueDataGridViewTextBoxColumn</value>
-  </data>
-  <data name="&gt;&gt;sourceValueDataGridViewTextBoxColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;targetValueDataGridViewTextBoxColumn.Name" xml:space="preserve">
-    <value>targetValueDataGridViewTextBoxColumn</value>
-  </data>
-  <data name="&gt;&gt;targetValueDataGridViewTextBoxColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;conflictDataGridViewTextBoxColumn.Name" xml:space="preserve">
-    <value>conflictDataGridViewTextBoxColumn</value>
-  </data>
-  <data name="&gt;&gt;conflictDataGridViewTextBoxColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;mergeViewBindingSource.Name" xml:space="preserve">
-    <value>mergeViewBindingSource</value>
-  </data>
-  <data name="&gt;&gt;mergeViewBindingSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MergeWindow</value>

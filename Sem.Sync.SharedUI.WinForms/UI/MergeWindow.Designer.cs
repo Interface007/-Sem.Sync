@@ -1,13 +1,11 @@
-﻿using Sem.Sync.SharedUI.WinForms.Tools;
-
-namespace Sem.Sync.SharedUI.WinForms.UI
+﻿namespace Sem.Sync.SharedUI.WinForms.UI
 {
     partial class MergeWindow
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,7 +28,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MergeWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.conflictGrid = new System.Windows.Forms.DataGridView();
@@ -38,14 +35,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.contactNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.propertyNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sourceValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.targetValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conflictDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mergeViewBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.conflictGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mergeViewBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // conflictGrid
@@ -53,15 +43,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.conflictGrid.AllowUserToAddRows = false;
             this.conflictGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.conflictGrid, "conflictGrid");
-            this.conflictGrid.AutoGenerateColumns = false;
             this.conflictGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.conflictGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.contactNameDataGridViewTextBoxColumn,
-            this.propertyNameDataGridViewTextBoxColumn,
-            this.sourceValueDataGridViewTextBoxColumn,
-            this.targetValueDataGridViewTextBoxColumn,
-            this.conflictDataGridViewTextBoxColumn});
-            this.conflictGrid.DataSource = this.mergeViewBindingSource;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -73,7 +55,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.conflictGrid.MultiSelect = false;
             this.conflictGrid.Name = "conflictGrid";
             this.conflictGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.conflictGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.conflictGrid_CellContentClick);
+            this.conflictGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.conflictGrid_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -101,42 +83,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // contactNameDataGridViewTextBoxColumn
-            // 
-            this.contactNameDataGridViewTextBoxColumn.DataPropertyName = "ContactName";
-            this.contactNameDataGridViewTextBoxColumn.Frozen = true;
-            resources.ApplyResources(this.contactNameDataGridViewTextBoxColumn, "contactNameDataGridViewTextBoxColumn");
-            this.contactNameDataGridViewTextBoxColumn.Name = "contactNameDataGridViewTextBoxColumn";
-            // 
-            // propertyNameDataGridViewTextBoxColumn
-            // 
-            this.propertyNameDataGridViewTextBoxColumn.DataPropertyName = "PropertyName";
-            this.propertyNameDataGridViewTextBoxColumn.Frozen = true;
-            resources.ApplyResources(this.propertyNameDataGridViewTextBoxColumn, "propertyNameDataGridViewTextBoxColumn");
-            this.propertyNameDataGridViewTextBoxColumn.Name = "propertyNameDataGridViewTextBoxColumn";
-            // 
-            // sourceValueDataGridViewTextBoxColumn
-            // 
-            this.sourceValueDataGridViewTextBoxColumn.DataPropertyName = "SourceValue";
-            resources.ApplyResources(this.sourceValueDataGridViewTextBoxColumn, "sourceValueDataGridViewTextBoxColumn");
-            this.sourceValueDataGridViewTextBoxColumn.Name = "sourceValueDataGridViewTextBoxColumn";
-            // 
-            // targetValueDataGridViewTextBoxColumn
-            // 
-            this.targetValueDataGridViewTextBoxColumn.DataPropertyName = "TargetValue";
-            resources.ApplyResources(this.targetValueDataGridViewTextBoxColumn, "targetValueDataGridViewTextBoxColumn");
-            this.targetValueDataGridViewTextBoxColumn.Name = "targetValueDataGridViewTextBoxColumn";
-            // 
-            // conflictDataGridViewTextBoxColumn
-            // 
-            this.conflictDataGridViewTextBoxColumn.DataPropertyName = "Conflict";
-            resources.ApplyResources(this.conflictDataGridViewTextBoxColumn, "conflictDataGridViewTextBoxColumn");
-            this.conflictDataGridViewTextBoxColumn.Name = "conflictDataGridViewTextBoxColumn";
-            // 
-            // mergeViewBindingSource
-            // 
-            this.mergeViewBindingSource.DataSource = typeof(Sem.Sync.SharedUI.WinForms.Tools.MergeView);
-            // 
             // MergeWindow
             // 
             this.AcceptButton = this.btnOk;
@@ -149,7 +95,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.Controls.Add(this.conflictGrid);
             this.Name = "MergeWindow";
             ((System.ComponentModel.ISupportInitialize)(this.conflictGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mergeViewBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -157,12 +102,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         #endregion
 
         private System.Windows.Forms.DataGridView conflictGrid;
-        private System.Windows.Forms.BindingSource mergeViewBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contactNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn propertyNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sourceValueDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn targetValueDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn conflictDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;

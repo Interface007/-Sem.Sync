@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Sem.Sync.SharedUI.WinForms.Tools;
 using Sem.Sync.SyncBase;
-using Sem.Sync.SyncBase.Interfaces;
 using Sem.Sync.SyncBase.Merging;
 
 namespace Sem.Sync.SharedUI.WinForms.UI
@@ -29,6 +28,12 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                                 TargetValue = x.TargetPropertyValue,
                                 Conflict = x,
                             }).ToList();
+
+            var col = this.conflictGrid.Columns["Conflict"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
 
             SelectCompleteColumn(2);
 

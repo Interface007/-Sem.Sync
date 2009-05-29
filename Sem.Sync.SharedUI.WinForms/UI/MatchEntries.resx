@@ -125,39 +125,39 @@
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="dataGridView4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="dataGridSourceDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="dataGridView4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="dataGridSourceDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 169</value>
   </data>
-  <data name="dataGridView4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 148</value>
+  <data name="dataGridSourceDetail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 186</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="dataGridView4.TabIndex" type="System.Int32, mscorlib">
+  <data name="dataGridSourceDetail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;dataGridView4.Name" xml:space="preserve">
-    <value>dataGridView4</value>
+  <data name="&gt;&gt;dataGridSourceDetail.Name" xml:space="preserve">
+    <value>dataGridSourceDetail</value>
   </data>
-  <data name="&gt;&gt;dataGridView4.Type" xml:space="preserve">
+  <data name="&gt;&gt;dataGridSourceDetail.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridView4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dataGridSourceDetail.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
   </data>
-  <data name="&gt;&gt;dataGridView4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dataGridSourceDetail.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="dataGridSourceCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="dataGridSourceCandidates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>13, 12</value>
   </data>
   <data name="dataGridSourceCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 150</value>
+    <value>356, 150</value>
   </data>
   <data name="dataGridSourceCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -186,38 +186,38 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="dataGridView3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="dataGridTargetDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="dataGridView3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 168</value>
+  <data name="dataGridTargetDetail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 168</value>
   </data>
-  <data name="dataGridView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 149</value>
+  <data name="dataGridTargetDetail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>348, 187</value>
   </data>
-  <data name="dataGridView3.TabIndex" type="System.Int32, mscorlib">
+  <data name="dataGridTargetDetail.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;dataGridView3.Name" xml:space="preserve">
-    <value>dataGridView3</value>
+  <data name="&gt;&gt;dataGridTargetDetail.Name" xml:space="preserve">
+    <value>dataGridTargetDetail</value>
   </data>
-  <data name="&gt;&gt;dataGridView3.Type" xml:space="preserve">
+  <data name="&gt;&gt;dataGridTargetDetail.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridView3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dataGridTargetDetail.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;dataGridView3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dataGridTargetDetail.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="dataGridTargetCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="dataGridTargetCandidates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 13</value>
+    <value>2, 13</value>
   </data>
   <data name="dataGridTargetCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 149</value>
+    <value>350, 149</value>
   </data>
   <data name="dataGridTargetCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -247,10 +247,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>569, 315</value>
+    <value>735, 353</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>287</value>
+    <value>369</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -270,8 +270,11 @@
   <data name="btnFinished.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="btnFinished.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="btnFinished.Location" type="System.Drawing.Point, System.Drawing">
-    <value>482, 437</value>
+    <value>648, 475</value>
   </data>
   <data name="btnFinished.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -301,7 +304,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 437</value>
+    <value>567, 475</value>
   </data>
   <data name="btnMatch.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -330,8 +333,11 @@
   <data name="chkMatchedOnly.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="chkMatchedOnly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="chkMatchedOnly.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 442</value>
+    <value>13, 480</value>
   </data>
   <data name="chkMatchedOnly.Size" type="System.Drawing.Size, System.Drawing">
     <value>129, 17</value>
@@ -361,7 +367,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnUnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 437</value>
+    <value>486, 475</value>
   </data>
   <data name="btnUnMatch.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -388,10 +394,10 @@
     <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridMatches.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 323</value>
+    <value>13, 361</value>
   </data>
   <data name="dataGridMatches.Size" type="System.Drawing.Size, System.Drawing">
-    <value>544, 108</value>
+    <value>710, 108</value>
   </data>
   <data name="dataGridMatches.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -415,7 +421,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>569, 472</value>
+    <value>735, 510</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>MatchEntries</value>

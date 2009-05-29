@@ -10,7 +10,7 @@
 		<Command>MatchManually</Command>
 		<CommandParameter></CommandParameter>
 		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-		<SourceStorePath>{FS:WorkingFolder}\Facebook.xmlcontact</SourceStorePath>
+		<SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
 		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
 		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
 		<BaselineConnector>Sem.Sync.FilesystemConnector.ContactClient</BaselineConnector>

@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntries));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.dataGridSourceDetail = new System.Windows.Forms.DataGridView();
             this.dataGridSourceCandidates = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGridTargetDetail = new System.Windows.Forms.DataGridView();
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.btnFinished = new System.Windows.Forms.Button();
             this.btnMatch = new System.Windows.Forms.Button();
@@ -42,9 +42,9 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceCandidates)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetCandidates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridMatches)).BeginInit();
             this.SuspendLayout();
@@ -56,37 +56,51 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView4);
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceDetail);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceCandidates);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView3);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetDetail);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
             // 
-            // dataGridView4
+            // dataGridSourceDetail
             // 
-            resources.ApplyResources(this.dataGridView4, "dataGridView4");
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridSourceDetail.AllowUserToAddRows = false;
+            this.dataGridSourceDetail.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.dataGridSourceDetail, "dataGridSourceDetail");
+            this.dataGridSourceDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridSourceDetail.Name = "dataGridSourceDetail";
+            this.dataGridSourceDetail.ReadOnly = true;
             // 
             // dataGridSourceCandidates
             // 
+            this.dataGridSourceCandidates.AllowUserToAddRows = false;
+            this.dataGridSourceCandidates.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.dataGridSourceCandidates, "dataGridSourceCandidates");
             this.dataGridSourceCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridSourceCandidates.Name = "dataGridSourceCandidates";
+            this.dataGridSourceCandidates.ReadOnly = true;
+            this.dataGridSourceCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridSourceCandidatesCellEnter);
             // 
-            // dataGridView3
+            // dataGridTargetDetail
             // 
-            resources.ApplyResources(this.dataGridView3, "dataGridView3");
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridTargetDetail.AllowUserToAddRows = false;
+            this.dataGridTargetDetail.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.dataGridTargetDetail, "dataGridTargetDetail");
+            this.dataGridTargetDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridTargetDetail.Name = "dataGridTargetDetail";
+            this.dataGridTargetDetail.ReadOnly = true;
             // 
             // dataGridTargetCandidates
             // 
+            this.dataGridTargetCandidates.AllowUserToAddRows = false;
+            this.dataGridTargetCandidates.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.dataGridTargetCandidates, "dataGridTargetCandidates");
             this.dataGridTargetCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridTargetCandidates.Name = "dataGridTargetCandidates";
+            this.dataGridTargetCandidates.ReadOnly = true;
+            this.dataGridTargetCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridTargetCandidatesCellEnter);
             // 
             // btnFinished
             // 
@@ -114,9 +128,12 @@
             // 
             // dataGridMatches
             // 
+            this.dataGridMatches.AllowUserToAddRows = false;
+            this.dataGridMatches.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.dataGridMatches, "dataGridMatches");
             this.dataGridMatches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridMatches.Name = "dataGridMatches";
+            this.dataGridMatches.ReadOnly = true;
             // 
             // MatchEntries
             // 
@@ -132,9 +149,9 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSourceCandidates)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetCandidates)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridMatches)).EndInit();
             this.ResumeLayout(false);
@@ -149,9 +166,9 @@
         private System.Windows.Forms.Button btnMatch;
         private System.Windows.Forms.CheckBox chkMatchedOnly;
         private System.Windows.Forms.Button btnUnMatch;
-        private System.Windows.Forms.DataGridView dataGridView4;
+        private System.Windows.Forms.DataGridView dataGridSourceDetail;
         private System.Windows.Forms.DataGridView dataGridSourceCandidates;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView dataGridTargetDetail;
         private System.Windows.Forms.DataGridView dataGridTargetCandidates;
         private System.Windows.Forms.DataGridView dataGridMatches;
     }
