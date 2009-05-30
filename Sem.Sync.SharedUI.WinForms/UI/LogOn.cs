@@ -4,9 +4,9 @@ using Sem.Sync.SyncBase.Interfaces;
 
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
-    public partial class LogInGui : Form
+    public partial class LogOn : Form
     {
-        public LogInGui()
+        public LogOn()
         {
             InitializeComponent();
         }

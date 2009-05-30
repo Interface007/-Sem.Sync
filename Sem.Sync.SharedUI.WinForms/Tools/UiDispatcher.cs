@@ -10,13 +10,13 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
     {
         public List<StdElement> PerformAttributeMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
-            var ui = new MergeWindow();
+            var ui = new MergeEntities();
             return ui.PerformMerge(toMerge, targetList);
         }
 
         public List<StdElement> PerformEntityMerge(List<StdElement> toMerge, List<StdElement> targetList, List<StdElement> baselineList)
         {
-            var ui = new MatchEntries();
+            var ui = new MatchEntities();
             return ui.PerformMerge(toMerge, targetList, baselineList);
         }
     }

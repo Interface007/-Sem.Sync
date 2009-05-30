@@ -9,9 +9,9 @@
 
     using Tools;
 
-    public partial class MatchEntries : Form
+    public partial class MatchEntities : Form
     {
-        public MatchEntries()
+        public MatchEntities()
         {
             InitializeComponent();
         }

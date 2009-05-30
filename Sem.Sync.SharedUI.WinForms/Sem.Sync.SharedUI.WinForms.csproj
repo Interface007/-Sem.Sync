@@ -65,23 +65,23 @@
     <Compile Include="UI\Disclaimer.Designer.cs">
       <DependentUpon>Disclaimer.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LogInGui.cs">
+    <Compile Include="UI\LogOn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\LogInGui.Designer.cs">
-      <DependentUpon>LogInGui.cs</DependentUpon>
+    <Compile Include="UI\LogOn.Designer.cs">
+      <DependentUpon>LogOn.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MatchEntries.cs">
+    <Compile Include="UI\MatchEntities.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MatchEntries.Designer.cs">
-      <DependentUpon>MatchEntries.cs</DependentUpon>
+    <Compile Include="UI\MatchEntities.Designer.cs">
+      <DependentUpon>MatchEntities.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MergeWindow.cs">
+    <Compile Include="UI\MergeEntities.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MergeWindow.Designer.cs">
-      <DependentUpon>MergeWindow.cs</DependentUpon>
+    <Compile Include="UI\MergeEntities.Designer.cs">
+      <DependentUpon>MergeEntities.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -91,20 +91,20 @@
     <EmbeddedResource Include="UI\Disclaimer.resx">
       <DependentUpon>Disclaimer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LogInGui.de-DE.resx">
-      <DependentUpon>LogInGui.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LogOn.de-DE.resx">
+      <DependentUpon>LogOn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LogInGui.resx">
-      <DependentUpon>LogInGui.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LogOn.resx">
+      <DependentUpon>LogOn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MatchEntries.resx">
-      <DependentUpon>MatchEntries.cs</DependentUpon>
+    <EmbeddedResource Include="UI\MatchEntities.resx">
+      <DependentUpon>MatchEntities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MergeWindow.de-DE.resx">
-      <DependentUpon>MergeWindow.cs</DependentUpon>
+    <EmbeddedResource Include="UI\MergeEntities.de-DE.resx">
+      <DependentUpon>MergeEntities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MergeWindow.resx">
-      <DependentUpon>MergeWindow.cs</DependentUpon>
+    <EmbeddedResource Include="UI\MergeEntities.resx">
+      <DependentUpon>MergeEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

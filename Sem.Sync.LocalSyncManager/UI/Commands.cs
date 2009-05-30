@@ -27,7 +27,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // route the events
             this.DataContext.ProcessingEvent += LogMessage;
             this.DataContext.ProgressEvent += OnProgressEvent;
-            this.DataContext.QueryForLogOnCredentials += (s, eargs) => new SharedUI.WinForms.UI.LogInGui().SetLoginCredentials((IClientBase)s, eargs);
+            this.DataContext.QueryForLogOnCredentials += (s, eargs) => new SharedUI.WinForms.UI.LogOn().SetLoginCredentials((IClientBase)s, eargs);
 
             // get the data for the combo box from the file system paths
             this.SyncListSelection.DataSource =

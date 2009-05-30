@@ -8,9 +8,9 @@ using Sem.Sync.SyncBase.Merging;
 
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
-    public partial class MergeWindow : Form
+    public partial class MergeEntities : Form
     {
-        public MergeWindow()
+        public MergeEntities()
         {
             InitializeComponent();
         }

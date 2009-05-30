@@ -1,6 +1,6 @@
 ﻿namespace Sem.Sync.SharedUI.WinForms.UI
 {
-    partial class MatchEntries
+    partial class MatchEntities
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntries));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntities));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridSourceDetail = new System.Windows.Forms.DataGridView();
             this.dataGridSourceCandidates = new System.Windows.Forms.DataGridView();

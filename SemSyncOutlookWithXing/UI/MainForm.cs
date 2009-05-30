@@ -56,7 +56,7 @@ namespace SemSyncOutlookWithXing.UI
 
         private static void AskForLogin(object s, QueryForLogOnCredentialsEventArgs eargs)
         {
-            new LogInGui().SetLoginCredentials((IClientBase)s, eargs);
+            new LogOn().SetLoginCredentials((IClientBase)s, eargs);
         }
 
         internal SyncCollection LoadSyncList(string p)
