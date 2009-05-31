@@ -6,11 +6,14 @@
 
     using SyncBase;
     using SyncBase.DetailData;
+    using SyncBase.Helpers;
 
-    using Tools;
+    using ViewModel;
 
     public partial class MatchEntities : Form
     {
+        private readonly Matching matching = new Matching();
+
         public MatchEntities()
         {
             InitializeComponent();
@@ -18,51 +21,127 @@
 
         public List<StdElement> PerformMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
         {
-            SetupCandidateGrid(dataGridSourceCandidates, sourceList);
-            SetupCandidateGrid(dataGridTargetCandidates, targetList);
+            // todo: this should be configurable
+            this.matching.Profile = ProfileIdentifierType.XingProfileId;
 
-            this.dataGridMatches.AutoGenerateColumns = true;
-            this.dataGridMatches.DataSource =
-                (from x in
-                     baselineList
-                 select new MatchView { ContactName = x.ToString(), Element = x }).ToList();
+            this.matching.Source = sourceList.ToContacts();
+            this.matching.Target = targetList.ToContacts();
+            this.matching.BaseLine = baselineList.ToMatchingEntries();
+
+            SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
+            SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
+            SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
             if (this.ShowDialog() != DialogResult.OK)
                 return null;
 
-            // get the list of solved merge conflicts
-            var matchedEntrities = from y in (List<MatchingEntry>)this.dataGridMatches.DataSource
-                                   select y;
-
-            // perform the user selected action
-            foreach (var match in matchedEntrities)
-            {
-
-            }
-
-            return baselineList;
+            return matching.BaseLine.ToStdElement();
         }
 
-        /// <summary>
-        /// Setup the grid for a candidate list
-        /// </summary>
-        /// <param name="theGrid"></param>
-        /// <param name="sourceList"></param>
-        private static void SetupCandidateGrid(DataGridView theGrid, IEnumerable<StdElement> sourceList)
+        private void dataGridTargetCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+                SelectTargetRow(((DataGridView)sender).Rows[e.RowIndex]);
+        }
+
+        private void dataGridSourceCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+                SelectSourceRow(((DataGridView)sender).Rows[e.RowIndex]);
+        }
+
+        private bool SelectSourceRow(DataGridViewRow row)
+        {
+            if (row.Index == -1) return false;
+
+            var element = ((MatchCandidateView)row.DataBoundItem).Element;
+            matching.CurrentSourceElement = element;
+
+            this.dataGridSourceDetail.DataSource = this.matching.CurrentSourceProperties();
+            this.dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridSourceDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            this.dataGridTargetCandidates.ClearSelection();
+
+            var autoMatch = (from x in this.dataGridTargetCandidates.Rows.Cast<DataGridViewRow>()
+                             where ((MatchCandidateView)x.DataBoundItem).Element.ToStringSimple() == element.ToStringSimple()
+                             select x).FirstOrDefault();
+
+            if (autoMatch == null)
+                return false;
+
+            autoMatch.Selected = true;
+            this.dataGridTargetCandidates.FirstDisplayedScrollingRowIndex = autoMatch.Index;
+            this.SelectTargetRow(autoMatch);
+
+            return true;
+        }
+
+        private void SelectTargetRow(DataGridViewRow row)
+        {
+            if (row.Index == -1) return;
+
+            var element = ((MatchCandidateView)row.DataBoundItem).Element;
+            matching.CurrentTargetElement = element;
+
+            dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
+            dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        }
+
+        private void btnMatch_Click(object sender, System.EventArgs e)
+        {
+            // perform the matching
+            matching.Match();
+
+            // setup grids for next match
+            SetupGui();
+        }
+
+        private void SetupGui()
+        {
+            // clear all selections
+            this.dataGridSourceCandidates.ClearSelection();
+            this.dataGridTargetCandidates.ClearSelection();
+
+            // clear detail grids
+            this.dataGridSourceDetail.DataSource = null;
+            this.dataGridTargetDetail.DataSource = null;
+
+            // rebind grids
+            SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
+            SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
+            SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
+
+            // enumerate the source grid to find one entry that does
+            // have a matching entry in the target grid
+            for (var r = 0; r < this.dataGridSourceCandidates.Rows.Count; r++)
+            {
+                if (SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                    break;
+            }
+        }
+
+        private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
         {
             theGrid.AutoGenerateColumns = true;
-            theGrid.DataSource =
-                (from x in sourceList
-                 select
-                     new MatchCandidateView
-                         {
-                             ContactName = x.ToString(),
-                             Element = x
-                         }).ToList();
+            theGrid.DataSource = elementList;
 
             var col = theGrid.Columns["Element"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
+
+            col = theGrid.Columns["ElementMatch"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
+
+            col = theGrid.Columns["BaselineId"];
             if (col != null)
             {
                 col.Visible = false;
@@ -74,89 +153,33 @@
                 col.HeaderText = "Contact Name";
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
-        }
 
-        private void dataGridTargetCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1)
-                SelectTargetRow(dataGridTargetCandidates.Rows[e.RowIndex]);
-        }
-
-        private void dataGridSourceCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1) 
-                SelectSourceRow(dataGridSourceCandidates.Rows[e.RowIndex]);
-        }
-
-        private void SelectSourceRow(DataGridViewRow row)
-        {
-            var element = ((MatchCandidateView)row.DataBoundItem).Element;
-            dataGridSourceDetail.DataSource = GetPropertyList((StdContact) element);
-            dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridSourceDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
-            dataGridTargetCandidates.ClearSelection();
-
-            var autoMatch = (from x in dataGridTargetCandidates.Rows.Cast<DataGridViewRow>()
-                            where ((MatchCandidateView)x.DataBoundItem).Element.ToStringSimple() == element.ToStringSimple()
-                            select x).FirstOrDefault();
-
-            if (autoMatch != null)
+            col = theGrid.Columns["ContactNameMatch"];
+            if (col != null)
             {
-                autoMatch.Selected = true;
-                dataGridTargetCandidates.FirstDisplayedScrollingRowIndex = autoMatch.Index;
-                SelectTargetRow(autoMatch);
-            }
-        }
-
-        private void SelectTargetRow(DataGridViewRow row)
-        {
-            if (row.Index == -1) return;
-
-            var element = ((MatchCandidateView)row.DataBoundItem).Element;
-            dataGridTargetDetail.DataSource = GetPropertyList((StdContact)element);
-            dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-        }
-
-        private static List<KeyValuePair> GetPropertyList<T>(T objectToInspect)
-        {
-            var resultList = new List<KeyValuePair>();
-
-            var members = typeof(T).GetProperties();
-
-            foreach (var item in members)
-            {
-                var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType.FullName == "System.Enum")
-                    typeName = "Enum";
-
-                switch (typeName)
-                {
-                    case "Enum":
-                    case "Guid":
-                    case "String":
-                    case "DateTime":
-                    case "Int32":
-                        if (item.GetValue(objectToInspect, null) != null)
-                            resultList.Add(
-                                new KeyValuePair
-                                    {
-                                        Key = item.Name,
-                                        Value = item.GetValue(objectToInspect, null).ToString()
-                                    });
-                        break;
-
-                    case "Byte[]":
-                        break;
-
-                    default:
-                        resultList.AddRange(GetPropertyList(item.GetValue(objectToInspect, null)));
-                        break;
-                }
+                col.HeaderText = "matched to";
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
 
-            return resultList;
+            col = theGrid.Columns[theGrid.Columns.Count - 1];
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void btnUnMatch_Click(object sender, System.EventArgs e)
+        {
+            if (this.dataGridMatches.SelectedRows.Count <= 0) return;
+
+            // perform the un-match
+            this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);
+
+            // rebind the gui
+            this.SetupGui();
+        }
+
+        private void btnFinished_Click(object sender, System.EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

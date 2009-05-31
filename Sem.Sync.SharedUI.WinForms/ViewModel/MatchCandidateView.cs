@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.SharedUI.WinForms.Tools
+﻿namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using SyncBase;
 
@@ -6,6 +6,6 @@
     {
         public string ContactName { get; set; }
 
-        public StdElement Element { get; set; }
+        public StdContact Element { get; set; }
     }
 }

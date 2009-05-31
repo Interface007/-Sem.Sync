@@ -66,7 +66,7 @@
                 return null;
             }
 
-            var contact = vCardConverter.VCardToStdContact(vCard, ProfileIdentifierType.Default);
+            var contact = vCardConverter.VCardToStdContact(vCard, ProfileIdentifierType.XingProfileId);
             LogProcessingEvent(contact, Resources.uiDownloaded);
             return contact;
         }

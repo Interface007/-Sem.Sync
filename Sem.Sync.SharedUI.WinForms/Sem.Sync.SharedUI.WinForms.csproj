@@ -54,9 +54,10 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="Tools\MatchCandidateView.cs" />
-    <Compile Include="Tools\MatchView.cs" />
-    <Compile Include="Tools\MergeView.cs" />
+    <Compile Include="ViewModel\MatchCandidateView.cs" />
+    <Compile Include="ViewModel\Matching.cs" />
+    <Compile Include="ViewModel\MatchView.cs" />
+    <Compile Include="ViewModel\MergeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\UiDispatcher.cs" />
     <Compile Include="UI\Disclaimer.cs">

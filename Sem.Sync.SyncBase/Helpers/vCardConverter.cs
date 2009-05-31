@@ -189,6 +189,9 @@ namespace Sem.Sync.SyncBase.Helpers
                         }
                         if (parts[0].StartsWith("UID:", StringComparison.Ordinal))
                         {
+                            if (contact.PersonalProfileIdentifiers == null)
+                                contact.PersonalProfileIdentifiers = new ProfileIdentifiers();
+
                             switch (useIndetifierAs)
                             {
                                 case ProfileIdentifierType.XingProfileId:

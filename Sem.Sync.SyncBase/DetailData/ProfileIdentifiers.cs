@@ -19,5 +19,59 @@ namespace Sem.Sync.SyncBase.DetailData
         public string XingProfileId { get; set; }
         public string FacebookProfileId { get; set; }
         public string ActiveDirectoryId { get; set; }
+
+        public ProfileIdentifiers(){}
+
+        public ProfileIdentifiers(ProfileIdentifierType type, string profileId)
+        {
+            switch (type)
+            {
+                case ProfileIdentifierType.ActiveDirectoryId:
+                    this.ActiveDirectoryId = profileId;
+                    break;
+                case ProfileIdentifierType.FacebookProfileId:
+                    this.FacebookProfileId = profileId;
+                    break;
+                case ProfileIdentifierType.XingProfileId:
+                    this.XingProfileId = profileId;
+                    break;
+            }
+        }
+
+        public string GetProfileId(ProfileIdentifierType type)
+        {
+            switch (type)
+            {
+                case ProfileIdentifierType.ActiveDirectoryId:
+                    return this.ActiveDirectoryId;
+                    
+                case ProfileIdentifierType.FacebookProfileId:
+                    return this.FacebookProfileId;
+                    
+                case ProfileIdentifierType.XingProfileId:
+                    return this.XingProfileId ;
+                    
+            }
+            return string.Empty;
+        }
+
+        public void SetProfileId(ProfileIdentifierType type, string newValue)
+        {
+            switch (type)
+            {
+                case ProfileIdentifierType.ActiveDirectoryId:
+                    this.ActiveDirectoryId = newValue;
+                    break;
+
+                case ProfileIdentifierType.FacebookProfileId:
+                    this.FacebookProfileId = newValue;
+                    break;
+
+                case ProfileIdentifierType.XingProfileId:
+                    this.XingProfileId = newValue;
+                    break;
+
+            }
+        }
     }
 }

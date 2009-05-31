@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-	<SyncDescription Name="Delete previous export/work files">
-		<Command>DeletePattern</Command>
-		<TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
-	</SyncDescription>
-
 	<SyncDescription Name="Match entries manually">
 		<Command>MatchManually</Command>
 		<CommandParameter></CommandParameter>
@@ -13,7 +8,7 @@
 		<SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
 		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
 		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-		<BaselineConnector>Sem.Sync.FilesystemConnector.ContactClient</BaselineConnector>
+		<BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
 		<BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlcontact</BaselineStorePath>
 	</SyncDescription>
 

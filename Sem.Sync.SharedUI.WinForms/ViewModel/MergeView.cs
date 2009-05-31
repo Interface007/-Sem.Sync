@@ -1,7 +1,7 @@
-﻿using Sem.Sync.SyncBase.Merging;
-
-namespace Sem.Sync.SharedUI.WinForms.Tools
+﻿namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
+    using SyncBase.Merging;
+
     public class MergeView
     {
         public string ContactName { get; set; }

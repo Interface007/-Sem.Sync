@@ -193,10 +193,10 @@ namespace Sem.Sync.SyncBase
                                 sourceClient.GetAll(item.SourceStorePath),
                                 targetMatchList,
                                 baseliClient.GetAll(item.BaselineStorePath));
-                    
-                    //// only write to target if we did get a merge result
-                    // if (targetMatchList != null)
-                    //    targetClient.WriteRange(targetMatchList, item.TargetStorePath);
+
+                    // only write to target if we did get a merge result
+                    if (targetMatchList != null)
+                        targetClient.WriteRange(targetMatchList, item.TargetStorePath);
 
                     // only write to target if we did get a merge result
                     if (matchResultList != null)

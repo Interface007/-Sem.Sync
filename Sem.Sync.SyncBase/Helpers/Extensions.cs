@@ -226,7 +226,17 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
-        public static List<StdElement> ToStdElement(this List<StdContact> list)
+        public static List<MatchingEntry> ToMatchingEntries(this List<StdElement> list)
+        {
+            var result = new List<MatchingEntry>();
+            foreach (var element in list)
+            {
+                result.Add((MatchingEntry)element);
+            }
+            return result;
+        }
+
+        public static List<StdElement> ToStdElement<T>(this List<T> list) where T : StdElement
         {
             var result = new List<StdElement>();
             foreach (var element in list)
@@ -245,17 +255,5 @@ namespace Sem.Sync.SyncBase.Helpers
             }
             return result;
         }
-
-        public static List<StdElement> ToStdElement(this List<StdCalendarItem> list)
-        {
-            var result = new List<StdElement>();
-            foreach (var element in list)
-            {
-                result.Add(element);
-            }
-            return result;
-        }
-
-
     }
 }
