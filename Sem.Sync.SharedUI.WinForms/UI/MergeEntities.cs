@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Sem.Sync.SharedUI.WinForms.Tools;
-using Sem.Sync.SyncBase;
-using Sem.Sync.SyncBase.Merging;
-
-namespace Sem.Sync.SharedUI.WinForms.UI
+﻿namespace Sem.Sync.SharedUI.WinForms.UI
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
+
+    using SyncBase;
+    using SyncBase.Merging;
+
+    using ViewModel;
+
     public partial class MergeEntities : Form
     {
         public MergeEntities()
