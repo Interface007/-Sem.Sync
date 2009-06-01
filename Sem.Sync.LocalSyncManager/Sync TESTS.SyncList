@@ -7,7 +7,7 @@
 		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
 		<SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
 		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-		<TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+		<TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
 		<BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
 		<BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlcontact</BaselineStorePath>
 	</SyncDescription>

@@ -20,7 +20,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Normalize Xing(fs)">
+  <SyncDescription Name="Normalize Xing (file system)">
     <Command>NormalizeContent</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -28,7 +28,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Normalize Outlook(fs)">
+  <SyncDescription Name="Normalize Outlook (file system)">
     <Command>NormalizeContent</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
@@ -36,15 +36,28 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Match Outlook to Xing by name">
-    <Command>MatchByName</Command>
+  <SyncDescription Name="Match entries manually">
+    <Command>MatchManually</Command>
+    <CommandParameter></CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
+    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Match Xing by Profile Id to Baseline">
+    <Command>MatchByProfileId</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Add missing from Outlook(fs) to Xing(fs)">
+  <SyncDescription Name="Add missing from Outlook to Xing (file system)">
     <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
@@ -52,7 +65,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Add missing from Xing(fs) to Outlook(fs)">
+  <SyncDescription Name="Add missing from Xing to Outlook (file system)">
     <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -60,7 +73,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Merge high evidence from Xing(fs) to Outlook(fs)">
+  <SyncDescription Name="Merge high evidence from Xing to Outlook (file system)">
     <Command>MergeHighEvidence</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
@@ -68,7 +81,7 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Merge high evidence from Outlook(fs) to Xing(fs)">
+  <SyncDescription Name="Merge high evidence from Outlook to Xing (file system)">
     <Command>MergeHighEvidence</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
@@ -99,8 +112,8 @@
   </SyncDescription>
 
   <!--<SyncDescription Name="Remove duplicate calendar entries">
-		<Command>RemoveDuplicatesOnTarget</Command>
-		<TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
-	</SyncDescription>-->
+  <Command>RemoveDuplicatesOnTarget</Command>
+    <TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
+  </SyncDescription>-->
 
 </ArrayOfSyncDescription>

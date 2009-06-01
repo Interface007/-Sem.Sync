@@ -33,6 +33,7 @@ namespace Sem.Sync.SyncBase
         RemoveDuplicatesOnTarget,
         MergeExternal,
         MatchByName,
+        MatchByProfileId,
         MatchManually,
         NormalizeContent,
         DeletePattern,

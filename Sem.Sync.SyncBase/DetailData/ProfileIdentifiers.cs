@@ -13,14 +13,14 @@ namespace Sem.Sync.SyncBase.DetailData
         FacebookProfileId,
         ActiveDirectoryId,
     }
-        
+
     public class ProfileIdentifiers
     {
         public string XingProfileId { get; set; }
         public string FacebookProfileId { get; set; }
         public string ActiveDirectoryId { get; set; }
 
-        public ProfileIdentifiers(){}
+        public ProfileIdentifiers() { }
 
         public ProfileIdentifiers(ProfileIdentifierType type, string profileId)
         {
@@ -44,13 +44,13 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     return this.ActiveDirectoryId;
-                    
+
                 case ProfileIdentifierType.FacebookProfileId:
                     return this.FacebookProfileId;
-                    
+
                 case ProfileIdentifierType.XingProfileId:
-                    return this.XingProfileId ;
-                    
+                    return this.XingProfileId;
+
             }
             return string.Empty;
         }
@@ -72,6 +72,15 @@ namespace Sem.Sync.SyncBase.DetailData
                     break;
 
             }
+        }
+
+        public bool MatchesAny(ProfileIdentifiers other)
+        {
+            return (other == null)
+                ? false
+                : (!string.IsNullOrEmpty(this.XingProfileId) && this.XingProfileId == other.XingProfileId) ||
+                  (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
+                  (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId);
         }
     }
 }

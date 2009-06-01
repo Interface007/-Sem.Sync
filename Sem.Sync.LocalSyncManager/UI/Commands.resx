@@ -125,8 +125,8 @@
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 40</value>
   </data>
-  <data name="LogList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="LogList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LogList.IntegralHeight" type="System.Boolean, mscorlib">
@@ -136,7 +136,7 @@
     <value>0, 0</value>
   </data>
   <data name="LogList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 314</value>
+    <value>255, 314</value>
   </data>
   <data name="LogList.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -164,9 +164,6 @@
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="dataGridView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="nameDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
@@ -228,11 +225,14 @@
   <metadata name="syncListBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>264, 17</value>
   </metadata>
+  <data name="dataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="dataGridView1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>507, 311</value>
+    <value>510, 314</value>
   </data>
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>

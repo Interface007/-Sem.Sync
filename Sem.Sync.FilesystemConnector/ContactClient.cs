@@ -63,6 +63,11 @@
                 }
 
                 contactListFormatter.Serialize(file, elements.ToContacts());
+            
+            }
+            catch(System.Exception ex)
+            {
+                this.LogProcessingEvent(ex.Message);
             }
             finally
             {

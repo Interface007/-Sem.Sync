@@ -15,12 +15,13 @@ namespace Sem.Sync.SyncBase
     
     using Microsoft.Win32;
 
-    using EventArgs;
     using Binding;
+    using DetailData;
+    using EventArgs;
     using Helpers;
     using Interfaces;
     using Properties;
-
+    
     public class SyncEngine : SyncComponent
     {
         private readonly bool versionOutdated;
@@ -179,6 +180,18 @@ namespace Sem.Sync.SyncBase
                         item.TargetStorePath);
                     break;
 
+                case SyncCommand.MatchByProfileId:
+                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                    targetClient.WriteRange(
+                        MatchByProfileId(
+                            sourceClient.GetAll(item.SourceStorePath),
+                            baseliClient.GetAll(item.BaselineStorePath)),
+                        item.TargetStorePath);
+                    break;
+
                 case SyncCommand.MatchManually:
                     if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
                     if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
@@ -318,6 +331,23 @@ namespace Sem.Sync.SyncBase
             }
 
             return target;
+        }
+
+        private static List<StdElement> MatchByProfileId(List<StdElement> source, IEnumerable<StdElement> baseline)
+        {
+            foreach (var item in source)
+            {
+                var corresponding = (from element in baseline
+                                     where ((MatchingEntry)element).ProfileId.MatchesAny(((StdContact)item).PersonalProfileIdentifiers)
+                                     select element).FirstOrDefault();
+
+                // if there is one with a matching profile id, 
+                // we overwrite the id
+                if (corresponding != null) 
+                    item.Id = corresponding.Id;
+            }
+
+            return source;
         }
 
         private static void MergeFiles(string source, string target, string baseline)
