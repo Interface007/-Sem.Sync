@@ -81,7 +81,7 @@
 
             // we have to deal with special type data (int, datetime) that need to be
             // converted back from string - there is no automated cast in SetValue.
-            var destinationType = memberToSet.Name;
+            var destinationType = memberToSet.PropertyType.Name;
             switch (destinationType)
             {
                 case "DateTime":
