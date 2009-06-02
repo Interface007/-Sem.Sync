@@ -16,7 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{1820AB38-479F-49F7-9CF6-1920BFA94C41}"
 	ProjectSection(SolutionItems) = preProject
-		SemSync-Mapping.xlsx = SemSync-Mapping.xlsx
 		SemSync.docx = SemSync.docx
 	EndProjectSection
 EndProject

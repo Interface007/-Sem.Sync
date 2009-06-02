@@ -115,7 +115,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                         x.Id equals y.Id
                     into g
                     from y in g.DefaultIfEmpty()
-                    where y == null
+                    where y == null || string.IsNullOrEmpty(y.ProfileId.GetProfileId(this.Profile))
                     select
                         new MatchCandidateView
                         {

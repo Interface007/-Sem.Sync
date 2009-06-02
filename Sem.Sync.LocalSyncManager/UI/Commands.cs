@@ -1,5 +1,4 @@
-﻿using Sem.Sync.SyncBase.EventArgs;
-
+﻿
 namespace Sem.Sync.LocalSyncManager.UI
 {
     using System;
@@ -8,10 +7,13 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.Windows.Forms;
     using System.Text;
 
-    using SyncBase.Interfaces;
     using SyncBase;
+    using SyncBase.EventArgs;
+    using SyncBase.Interfaces;
 
-    public partial class LocalSync : Form
+    using SharedUI.WinForms.UI;
+
+    public partial class LocalSync : Form, IUiInteraction
     {
         internal ClientViewModel DataContext { get; set; }
 
@@ -27,7 +29,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // route the events
             this.DataContext.ProcessingEvent += LogMessage;
             this.DataContext.ProgressEvent += OnProgressEvent;
-            this.DataContext.QueryForLogOnCredentials += (s, eargs) => new SharedUI.WinForms.UI.LogOn().SetLoginCredentials((IClientBase)s, eargs);
+            this.DataContext.QueryForLogOnCredentials += (s, eargs) => new LogOn().SetLoginCredentials((IClientBase)s, eargs);
 
             // get the data for the combo box from the file system paths
             this.SyncListSelection.DataSource =
@@ -108,5 +110,15 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.DataContext.Execute((SyncDescription)dataGridView1.Rows[gridRowIndex].DataBoundItem);
         }
         #endregion
+
+        public bool AskForLogOnCredentials(IClientBase client, string messageForUser, string logOnUserId, string logOnPassword)
+        {
+            return new LogOn().SetLoginCredentials(client, messageForUser, logOnUserId, logOnPassword);
+        }
+
+        public bool AskForConfirm(string messageForUser, string title)
+        {
+            return MessageBox.Show(messageForUser, title, MessageBoxButtons.OKCancel) == DialogResult.OK;
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace Sem.Sync.SyncBase
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
         public IMergeConflictResolver ConflictSolver { get; set; }
+        public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Gets or sets a value that represents the file system working folder. Use 
@@ -251,13 +252,10 @@ namespace Sem.Sync.SyncBase
                     break;
 
                 case SyncCommand.AskForContinue:
-                    // todo: delegate this message box to the ui elements (this assembly should not directly contain ui interaction)
-                    continueExecution =
-                        MessageBox.Show(
+                    if (this.UiProvider != null)
+                        continueExecution = UiProvider.AskForConfirm(
                             item.CommandParameter,
-                            targetClient.FriendlyClientName,
-                            MessageBoxButtons.OKCancel)
-                        == DialogResult.OK;
+                            targetClient.FriendlyClientName);
                     break;
 
                 default:

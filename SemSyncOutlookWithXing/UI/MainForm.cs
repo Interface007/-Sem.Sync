@@ -1,20 +1,23 @@
-﻿using Sem.Sync.SharedUI.WinForms.Tools;
-using Sem.Sync.SharedUI.WinForms.UI;
-
-namespace SemSyncOutlookWithXing.UI
+﻿namespace SemSyncOutlookWithXing.UI
 {
     using System;
     using System.IO;
     using System.Windows.Forms;
     using System.Xml.Serialization;
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Binding;
     using Sem.Sync.SyncBase.EventArgs;
     using Sem.Sync.SyncBase.Interfaces;
+    
+    using Sem.Sync.SharedUI.WinForms.Tools;
+    using Sem.Sync.SharedUI.WinForms.UI;
 
-    public partial class MainForm : Form
+    using Properties;
+
+    public partial class MainForm : Form, IUiInteraction
     {
-        private readonly SyncEngine engine = new SyncEngine
+        private readonly SyncEngine _engine = new SyncEngine
                                                  {
                                                      WorkingFolder = Path.Combine(
                                                          Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -29,17 +32,20 @@ namespace SemSyncOutlookWithXing.UI
 
         private void buttonSyncWithXing_Click(object sender, EventArgs e)
         {
-            engine.ProcessingEvent += this.LogThis;
-            engine.ProgressEvent += this.UpdateProgress;
-            engine.QueryForLogOnCredentialsEvent += AskForLogin;
+            _engine.ProcessingEvent += this.LogThis;
+            _engine.ProgressEvent += this.UpdateProgress;
+            _engine.QueryForLogOnCredentialsEvent += AskForLogin;
 
             var list = LoadSyncList("commands.xml");
-            this.engine.ConflictSolver = new UiDispatcher();
-            this.engine.Execute(list);
+            this._engine.ConflictSolver = new UiDispatcher();
+            this._engine.UiProvider = this;
+            this._engine.Execute(list);
 
-            engine.ProcessingEvent -= this.LogThis;
-            engine.ProgressEvent -= this.UpdateProgress;
-            engine.QueryForLogOnCredentialsEvent -= AskForLogin;
+            _engine.ProcessingEvent -= this.LogThis;
+            _engine.ProgressEvent -= this.UpdateProgress;
+            _engine.QueryForLogOnCredentialsEvent -= AskForLogin;
+
+            MessageBox.Show(Resources.messageFinished);
         }
 
         private void UpdateProgress(object sender, ProgressEventArgs e)
@@ -66,6 +72,16 @@ namespace SemSyncOutlookWithXing.UI
             {
                 return (SyncCollection)formatter.Deserialize(file);
             }
+        }
+
+        public bool AskForLogOnCredentials(IClientBase client, string messageForUser, string logOnUserId, string logOnPassword)
+        {
+            return new LogOn().SetLoginCredentials(client, messageForUser, logOnUserId, logOnPassword);
+        }
+
+        public bool AskForConfirm(string messageForUser, string title)
+        {
+            return MessageBox.Show(messageForUser, title, MessageBoxButtons.OKCancel) == DialogResult.OK;
         }
     }
 }

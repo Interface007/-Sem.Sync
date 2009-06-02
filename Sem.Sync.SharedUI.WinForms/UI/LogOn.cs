@@ -13,15 +13,23 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         public void SetLoginCredentials(IClientBase client, QueryForLogOnCredentialsEventArgs arguments)
         {
-            this.UserMessage.Text = arguments.MessageForUser;
-            this.textBoxUserId.Text = arguments.LoginUserId;
-            this.textBoxPassword.Text = arguments.LoginPassword;
+            SetLoginCredentials(client, arguments.MessageForUser,arguments.LoginUserId,arguments.LoginPassword);
+        }
+
+        public bool SetLoginCredentials(IClientBase client, string messageForUser, string logOnUserId, string logOnPassword)
+        {
+            this.UserMessage.Text = messageForUser;
+            this.textBoxUserId.Text = logOnUserId;
+            this.textBoxPassword.Text = logOnPassword;
 
             if (this.ShowDialog() == DialogResult.OK)
             {
                 client.LogOnUserId = textBoxUserId.Text;
                 client.LogOnPassword = textBoxPassword.Text;
+                return true;
             }
+
+            return false;
         }
 
         private void okButton_Click(object sender, System.EventArgs e)
