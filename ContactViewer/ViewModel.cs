@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Windows.Data;
-
-namespace ContactViewer
+﻿namespace ContactViewer
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Windows.Controls;
+    
+    //using ContactService;
+    
     public class ViewModel : INotifyPropertyChanged
     {
         public ViewContact CurrentContact { get; set; }
@@ -31,11 +23,11 @@ namespace ContactViewer
         //private void ServiceGetAllCompleted(object sender, GetAllCompletedEventArgs e)
         //{
         //    this.ResultList =
-        //        (List<ViewContact>) (from x in e.Result
-        //                             select new ViewContact
-        //                                        {
-        //                                            FullName = x.FullName
-        //                                        });
+        //        (List<ViewContact>)(from x in e.Result
+        //                            select new ViewContact
+        //                                       {
+        //                                           FullName = x.FullName
+        //                                       });
 
         //    if (PropertyChanged != null)
         //        PropertyChanged(this, new PropertyChangedEventArgs("ResultList"));
