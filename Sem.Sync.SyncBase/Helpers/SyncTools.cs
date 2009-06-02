@@ -286,6 +286,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "Byte[]":
+                    isDefined = true;
                     break;
 
                 default:

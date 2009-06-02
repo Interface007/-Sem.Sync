@@ -1,4 +1,6 @@
-﻿namespace Sem.Sync.OnlineStorage
+﻿using Sem.Sync.SyncBase.DetailData;
+
+namespace Sem.Sync.OnlineStorage
 {
 
     using System.Linq;
@@ -16,7 +18,13 @@
 
             stdContacts = 
                 (from x in new ContactClient().GetAll(StoragePath).ToContacts()
-                 select new ViewContact{ FullName = x.GetFullName()}
+                 select new ViewContact
+                            {
+                                FullName = x.GetFullName(),
+                                City = (x.PersonalAddressPrimary ?? x.BusinessAddressPrimary ?? new AddressDetail{CityName = ""}).CityName,
+                                Street = (x.PersonalAddressPrimary ?? x.BusinessAddressPrimary ?? new AddressDetail { StreetName = "" }).StreetName,
+                                Picture = x.PictureData
+                            }
                 ).ToArray();
             
             return stdContacts;
