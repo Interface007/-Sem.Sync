@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.FilesystemConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContactClientIndividualFiles.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   This class is the client class for handling contacts
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.FilesystemConnector
 {
     #region usings
 

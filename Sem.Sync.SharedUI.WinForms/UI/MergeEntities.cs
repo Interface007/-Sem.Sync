@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.SharedUI.WinForms.UI
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MergeEntities.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the MergeEntities type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.SharedUI.WinForms.UI
 {
     using System.Collections.Generic;
     using System.Drawing;
@@ -42,7 +52,9 @@
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
             if (this.ShowDialog() != DialogResult.OK)
+            {
                 return null;
+            }
 
             // get the list of solved merge conflicts
             var merge = from y in (List<MergeView>)this.conflictGrid.DataSource
@@ -52,11 +64,13 @@
             foreach (var conflict in merge)
             {
                 if (conflict.ActionToDo == MergePropertyAction.CopySourceToTarget)
+                {
                     SetPropertyValue(
                         (StdContact)
                         (from x in targetList where x.Id == conflict.TargetElement.Id select x).FirstOrDefault(),
                         conflict.PathToProperty,
                         conflict.SourcePropertyValue);
+                }
             }
 
             return targetList;
@@ -70,7 +84,10 @@
             {
                 var propName = pathToProperty.Substring(0, pathToProperty.IndexOf("."));
                 pathToProperty = pathToProperty.Substring(pathToProperty.IndexOf(".") + 1);
-                if (string.IsNullOrEmpty(propName)) continue;
+                if (string.IsNullOrEmpty(propName))
+                {
+                    continue;
+                }
 
                 var member = propType.GetProperty(propName);
                 propType = member.PropertyType;
@@ -101,16 +118,19 @@
         private void conflictGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var columnIndex = e.ColumnIndex;
-            if (columnIndex <= 1) return;
+            if (columnIndex <= 1)
+            {
+                return;
+            }
 
             var rowIndex = e.RowIndex;
             if (rowIndex == -1)
             {
-                SelectCompleteColumn(columnIndex);
+                this.SelectCompleteColumn(columnIndex);
             }
             else
             {
-                SelectRowAndColum(columnIndex, rowIndex);
+                this.SelectRowAndColum(columnIndex, rowIndex);
             }
         }
 
@@ -124,10 +144,8 @@
 
             ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo =
                 columnIndex == 2
-                    ?
-                        MergePropertyAction.CopySourceToTarget
-                    :
-                        MergePropertyAction.KeepCurrentTarget;
+                    ? MergePropertyAction.CopySourceToTarget
+                    : MergePropertyAction.KeepCurrentTarget;
 
             this.Text = rowIndex + " " + columnIndex;
 
@@ -143,13 +161,12 @@
                 {
                     ((DataGridViewTextBoxCell)cell).Style.BackColor = Color.White;
                 }
-                (((DataGridViewRow)row).Cells[columnIndex]).Style.BackColor = Color.PaleGreen;
+
+                ((DataGridViewRow)row).Cells[columnIndex].Style.BackColor = Color.PaleGreen;
                 ((MergeView)((DataGridViewRow)row).DataBoundItem).Conflict.ActionToDo =
                     columnIndex == 2
-                        ?
-                            MergePropertyAction.CopySourceToTarget
-                        :
-                            MergePropertyAction.KeepCurrentTarget;
+                        ? MergePropertyAction.CopySourceToTarget
+                        : MergePropertyAction.KeepCurrentTarget;
             }
         }
 

@@ -1,8 +1,17 @@
-﻿using System;
-using System.Windows.Forms;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Disclaimer.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the Disclaimer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
+    using System;
+    using System.Windows.Forms;
+
     public partial class Disclaimer : Form
     {
         public Disclaimer()

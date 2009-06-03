@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.OutlookConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CalendarClient.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   This class is the client class for handling outlook calendar items
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.OutlookConnector
 {
     #region usings
 

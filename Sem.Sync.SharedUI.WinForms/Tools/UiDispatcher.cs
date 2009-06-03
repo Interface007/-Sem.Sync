@@ -1,19 +1,62 @@
-﻿using System.Collections.Generic;
-using Sem.Sync.SharedUI.WinForms.UI;
-using Sem.Sync.SyncBase;
-using Sem.Sync.SyncBase.Interfaces;
-using Sem.Sync.SyncBase.Merging;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UiDispatcher.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the UiDispatcher type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
+    using System.Collections.Generic;
+
+    using SyncBase;
+    using SyncBase.Interfaces;
+    using SyncBase.Merging;
+
+    using UI;
+
+    /// <summary>
+    /// The UiDispatcher is a central class to be called from "worker"-classes that need UI interaction
+    /// like a login screen or want to present any kind of UI element. This class then instanciates the
+    /// concrete UI element and serves as a kind of "call-router".
+    /// </summary>
     public class UiDispatcher : IMergeConflictResolver
     {
+        /// <summary>
+        /// Displays a modal dialog to let the user decide what attribute values should be saved.
+        /// </summary>
+        /// <param name="toMerge">
+        /// The list of element that should be merged prepared in a specialized list.
+        /// </param>
+        /// <param name="targetList">
+        /// The target element list that should later be saved.
+        /// </param>
+        /// <returns>
+        /// The target element list that should be saved with the updated information.
+        /// </returns>
         public List<StdElement> PerformAttributeMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
             var ui = new MergeEntities();
             return ui.PerformMerge(toMerge, targetList);
         }
 
+        /// <summary>
+        /// Displays a modal dialog to let the user match entities.
+        /// </summary>
+        /// <param name="toMerge">
+        /// The list of "unknown" elements to merge that will provide the profile id.
+        /// </param>
+        /// <param name="targetList">
+        /// The list of "target" elements that should contribute the synchronization id.
+        /// </param>
+        /// <param name="baselineList">
+        /// The baseline list that will be updated to connect a synchronization id to profile ids.
+        /// </param>
+        /// <returns>
+        /// The baseline list that has been updated to connect a synchronization id to profile ids.
+        /// </returns>
         public List<StdElement> PerformEntityMerge(List<StdElement> toMerge, List<StdElement> targetList, List<StdElement> baselineList)
         {
             var ui = new MatchEntities();

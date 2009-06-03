@@ -1,17 +1,25 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Commands.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the LocalSync type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.LocalSyncManager.UI
 {
     using System;
     using System.IO;
     using System.Linq;
-    using System.Windows.Forms;
     using System.Text;
+    using System.Windows.Forms;
+
+    using SharedUI.WinForms.UI;
 
     using SyncBase;
     using SyncBase.EventArgs;
     using SyncBase.Interfaces;
-
-    using SharedUI.WinForms.UI;
 
     public partial class LocalSync : Form, IUiInteraction
     {
@@ -27,8 +35,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             // todo: this should be handled by the viewmodel instead mof the code behind
 
             // route the events
-            this.DataContext.ProcessingEvent += LogMessage;
-            this.DataContext.ProgressEvent += OnProgressEvent;
+            this.DataContext.ProcessingEvent += this.LogMessage;
+            this.DataContext.ProgressEvent += this.OnProgressEvent;
             this.DataContext.QueryForLogOnCredentials += (s, eargs) => new LogOn().SetLoginCredentials((IClientBase)s, eargs);
 
             // get the data for the combo box from the file system paths
@@ -50,14 +58,20 @@ namespace Sem.Sync.LocalSyncManager.UI
                 (cbs, cbe) =>
                 {
                     var item = ((ComboBox)cbs).SelectedValue;
-                    if (item != null) this.DataContext.LoadSyncList(item.ToString());
+                    if (item != null)
+                    {
+                        this.DataContext.LoadSyncList(item.ToString());
+                    }
+
                     this.syncListBindingSource.DataSource = this.DataContext.SyncCommands;
                 };
 
             // unselect first entry, then select one, if there is one ;-) - this will fire the SelectedValueChanged 
             this.SyncListSelection.SelectedIndex = -1;
             if (this.SyncListSelection.Items.Count > 0)
+            {
                 this.SyncListSelection.SelectedIndex = 0;
+            }
         }
 
         private void OnProgressEvent(object sender, ProgressEventArgs e)
@@ -91,13 +105,15 @@ namespace Sem.Sync.LocalSyncManager.UI
         #region eventhandler
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            RunSelectedCommand(e.RowIndex);
+            this.RunSelectedCommand(e.RowIndex);
         }
 
         private void runSelected_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-                RunSelectedCommand(dataGridView1.SelectedRows[0].Index);
+            {
+                this.RunSelectedCommand(this.dataGridView1.SelectedRows[0].Index);
+            }
         }
 
         private void runAll_Click(object sender, EventArgs e)

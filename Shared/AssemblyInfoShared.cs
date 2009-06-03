@@ -1,4 +1,14 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfoShared.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   AssemblyInfoShared.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;

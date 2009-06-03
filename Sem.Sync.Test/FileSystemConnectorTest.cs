@@ -1,15 +1,22 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using Sem.Sync.SyncBase.Helpers;
-using Sem.Sync.SyncBase.DetailData;
-using Sem.Sync.SyncBase;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FileSystemConnectorTest.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Summary description for UnitTest1
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.Test
 {
+    using System.IO;
+    using System.Text;
+    
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    
+    using SyncBase.DetailData;
+    using SyncBase.Helpers;
+
     /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
@@ -67,17 +74,17 @@ namespace Sem.Sync.Test
         public void BasicTests()
         {
             var connector = new FilesystemConnector.ContactClient();
-            Assert.AreEqual(connector.FriendlyClientName, "FileSystem-Contact-Connector");
+            Assert.AreEqual("FileSystem Contact Connector - one file for all contacts", connector.FriendlyClientName);
 
             var tempFolder = PrepareFolder();
             var listWithTwoContacts = connector.GetAll(Path.Combine(tempFolder, "file1")).ToContacts();
 
-            Assert.AreEqual(2,listWithTwoContacts.Count);
-            Assert.AreEqual(0,listWithTwoContacts[0].PictureData.Length);
+            Assert.AreEqual(2, listWithTwoContacts.Count);
+            Assert.AreEqual(0, listWithTwoContacts[0].PictureData.Length);
             Assert.AreEqual(2090, listWithTwoContacts[1].PictureData.Length);
             Assert.AreEqual("Sven", listWithTwoContacts[1].Name.FirstName);
             Assert.AreEqual(Gender.Male, listWithTwoContacts[1].PersonGender);
-            Assert.AreEqual(Gender.Unspecified, listWithTwoContacts[0].PersonGender); 
+            Assert.AreEqual(Gender.Unspecified, listWithTwoContacts[0].PersonGender);
         }
 
         [TestMethod]
@@ -90,14 +97,23 @@ namespace Sem.Sync.Test
 
             connector.WriteRange(connector.GetAll(file1), file2);
 
-            Assert.AreEqual(File.ReadAllText(file1).Replace(" ", ""), File.ReadAllText(file2).Replace(" ", ""));
+            File.WriteAllText(file1, File.ReadAllText(file1).Replace(" ", string.Empty));
+            File.WriteAllText(file2, File.ReadAllText(file2).Replace(" ", string.Empty));
 
+            var content1 = File.ReadAllText(file1);
+            var content2 = File.ReadAllText(file2);
+
+            Assert.AreEqual(content1, content2);
         }
 
         private static string PrepareFolder()
         {
             var folder = Path.Combine(Path.GetTempPath(), "BasicTests");
-            if (Directory.Exists(folder)) Directory.Delete(folder, true);
+            if (Directory.Exists(folder))
+            {
+                Directory.Delete(folder, true);
+            }
+
             Directory.CreateDirectory(folder);
 
             var file1 = new StringBuilder();
@@ -107,7 +123,7 @@ namespace Sem.Sync.Test
             AddContactWithoutPricture(file1);
             AddContactWithPricture(file1);
 
-            file1.AppendLine("</ArrayOfStdContact>");
+            file1.Append("</ArrayOfStdContact>");
 
             File.WriteAllText(Path.Combine(folder, "file1"), file1.ToString());
             return folder;

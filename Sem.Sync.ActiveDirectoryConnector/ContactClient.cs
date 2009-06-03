@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.ActiveDirectoryConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContactClient.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the ContactClient type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.ActiveDirectoryConnector
 {
     using System;
     using System.Collections.Generic;

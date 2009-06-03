@@ -7,8 +7,8 @@
 namespace Sem.Sync.SyncBase
 {
     using System;
-    using System.Configuration;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Globalization;
     using System.Linq;
 

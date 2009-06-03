@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.SharedUI.WinForms.ViewModel
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MatchView.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the MatchView type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using System;
 
@@ -10,7 +20,7 @@
 
         public override string ToString()
         {
-            return ContactName + " is matched to " + ContactNameMatch;
+            return this.ContactName + " is matched to " + this.ContactNameMatch;
         }
 
         #region IComparable<MatchView> Members

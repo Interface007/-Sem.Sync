@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.SharedUI.WinForms.UI
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MatchEntities.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the MatchEntities type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.SharedUI.WinForms.UI
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -34,30 +44,36 @@
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
-            if (this.ShowDialog() != DialogResult.OK)
-                return null;
-
-            return matching.BaseLine.ToStdElement();
+            return this.ShowDialog() != DialogResult.OK 
+                ? null 
+                : this.matching.BaseLine.ToStdElement();
         }
 
         private void dataGridTargetCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
-                SelectTargetRow(((DataGridView)sender).Rows[e.RowIndex]);
+            {
+                this.SelectTargetRow(((DataGridView)sender).Rows[e.RowIndex]);
+            }
         }
 
         private void dataGridSourceCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
-                SelectSourceRow(((DataGridView)sender).Rows[e.RowIndex]);
+            {
+                this.SelectSourceRow(((DataGridView)sender).Rows[e.RowIndex]);
+            }
         }
 
         private bool SelectSourceRow(DataGridViewRow row)
         {
-            if (row.Index == -1) return false;
+            if (row.Index == -1)
+            {
+                return false;
+            }
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
-            matching.CurrentSourceElement = element;
+            this.matching.CurrentSourceElement = element;
 
             this.dataGridSourceDetail.DataSource = this.matching.CurrentSourceProperties();
             this.dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -70,7 +86,9 @@
                              select x).FirstOrDefault();
 
             if (autoMatch == null)
+            {
                 return false;
+            }
 
             autoMatch.Selected = true;
             this.dataGridTargetCandidates.FirstDisplayedScrollingRowIndex = autoMatch.Index;
@@ -81,10 +99,13 @@
 
         private void SelectTargetRow(DataGridViewRow row)
         {
-            if (row.Index == -1) return;
+            if (row.Index == -1)
+            {
+                return;
+            }
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
-            matching.CurrentTargetElement = element;
+            this.matching.CurrentTargetElement = element;
 
             dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
             dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -94,10 +115,10 @@
         private void btnMatch_Click(object sender, System.EventArgs e)
         {
             // perform the matching
-            matching.Match();
+            this.matching.Match();
 
             // setup grids for next match
-            SetupGui();
+            this.SetupGui();
         }
 
         private void SetupGui()
@@ -119,8 +140,10 @@
             // have a matching entry in the target grid
             for (var r = 0; r < this.dataGridSourceCandidates.Rows.Count; r++)
             {
-                if (SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                if (this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                {
                     break;
+                }
             }
         }
 
@@ -167,7 +190,10 @@
 
         private void btnUnMatch_Click(object sender, System.EventArgs e)
         {
-            if (this.dataGridMatches.SelectedRows.Count <= 0) return;
+            if (this.dataGridMatches.SelectedRows.Count <= 0)
+            {
+                return;
+            }
 
             // perform the un-match
             this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);

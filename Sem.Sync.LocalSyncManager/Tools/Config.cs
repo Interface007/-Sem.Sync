@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.LocalSyncManager.Tools
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Config.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Configuration class to read configuration data from the app.config and the registry
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Sem.Sync.LocalSyncManager.Tools
 {
     using System;
     using System.IO;
@@ -6,12 +15,13 @@
     /// <summary>
     /// Configuration class to read configuration data from the app.config and the registry
     /// </summary>
-    static class Config
+    internal static class Config
     {
         /// <summary>
         /// Determine the default data folder (base of all file sytem paths)
         /// </summary>
-        private static readonly string defaultBaseFolder = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager");
+        private static readonly string defaultBaseFolder =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager");
 
         /// <summary>
         /// Gets or sets the folder to store data in file system
@@ -32,6 +42,7 @@
 
                 return folder; 
             }
+
             set
             {
                 // set the folder and save to app.config

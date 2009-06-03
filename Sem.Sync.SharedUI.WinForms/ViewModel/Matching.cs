@@ -1,14 +1,22 @@
-﻿using System;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Matching.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the Matching type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using SyncBase;
     using SyncBase.DetailData;
 
-    internal class Matching
+    public class Matching
     {
         public List<StdContact> Source { get; set; }
         public List<StdContact> Target { get; set; }
@@ -23,10 +31,17 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             set
             {
-                currentSourceElement = value;
-                this.currentTargetElement = (from x in this.Target
-                                             where currentSourceElement.ToStringSimple() == x.ToStringSimple()
-                                             select x).FirstOrDefault();
+                this.currentSourceElement = value;
+                if (value != null)
+                {
+                    this.currentTargetElement = (from x in this.Target
+                                                 where this.currentSourceElement.ToStringSimple() == x.ToStringSimple()
+                                                 select x).FirstOrDefault();
+                }
+                else
+                {
+                    this.currentTargetElement = null;
+                }
             }
         }
 
@@ -34,14 +49,14 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             set
             {
-                currentTargetElement = value;
+                this.currentTargetElement = value;
             }
         }
 
         public void UnMatch(Guid baseLineId)
         {
             // search for the element to unmatch
-            var element = GetBaselineElementById(baseLineId);
+            var element = this.GetBaselineElementById(baseLineId);
 
             // simply set the profile id for the current type to null
             element.ProfileId.SetProfileId(this.Profile, null);
@@ -49,7 +64,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         private MatchingEntry GetBaselineElementById(Guid baseLineId)
         {
-            return (from x in BaseLine
+            return (from x in this.BaseLine
                     where
                         x.Id == baseLineId
                     select x).FirstOrDefault();
@@ -58,14 +73,16 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         public void Match()
         {
             // todo : handling profile identifiers should be more flexible (if there are multiple, we need to match all of them)
-
-            if (this.currentSourceElement == null || this.currentTargetElement == null) return;
+            if (this.currentSourceElement == null || this.currentTargetElement == null)
+            {
+                return;
+            }
 
             var targetId = this.currentTargetElement.Id;
             var sourceProfileId = this.currentSourceElement.PersonalProfileIdentifiers.GetProfileId(this.Profile);
 
             // search for the element to match and set the profile id
-            var element = GetBaselineElementById(targetId);
+            var element = this.GetBaselineElementById(targetId);
             if (element == null)
             {
                 element = new MatchingEntry { Id = targetId, ProfileId = new ProfileIdentifiers(this.Profile, sourceProfileId) };
@@ -76,7 +93,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
             // check if there is a profile class for the target element
             if (this.currentTargetElement.PersonalProfileIdentifiers == null)
+            {
                 this.currentTargetElement.PersonalProfileIdentifiers = new ProfileIdentifiers();
+            }
 
             // set the profile id for the target element, too
             this.currentTargetElement.PersonalProfileIdentifiers.SetProfileId(this.Profile, sourceProfileId);
@@ -149,7 +168,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             {
                 var typeName = item.PropertyType.Name;
                 if (item.PropertyType.BaseType.FullName == "System.Enum")
+                {
                     typeName = "Enum";
+                }
 
                 switch (typeName)
                 {
@@ -159,12 +180,15 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     case "DateTime":
                     case "Int32":
                         if (item.GetValue(objectToInspect, null) != null)
+                        {
                             resultList.Add(
                                 new KeyValuePair
-                                {
+                                    {
                                     Key = item.Name,
                                     Value = item.GetValue(objectToInspect, null).ToString()
                                 });
+                        }
+
                         break;
 
                     case "Byte[]":

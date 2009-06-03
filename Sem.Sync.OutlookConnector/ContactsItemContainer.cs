@@ -1,4 +1,16 @@
-﻿namespace Sem.Sync.OutlookConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContactsItemContainer.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   to cache the items of the outlook contacts folder and to be able
+//   to cache some of the properties of that object that will be needed
+//   in linq-queries.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.OutlookConnector
 {
     using Microsoft.Office.Interop.Outlook;
 

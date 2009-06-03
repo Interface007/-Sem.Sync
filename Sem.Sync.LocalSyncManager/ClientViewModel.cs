@@ -1,16 +1,26 @@
-﻿namespace Sem.Sync.LocalSyncManager
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ClientViewModel.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Implements the functionality of the main program for syncing
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Serialization;
-    
+
+    using SharedUI.WinForms.Tools;
+
     using SyncBase;
     using SyncBase.Binding;
     using SyncBase.EventArgs;
     
-    using SharedUI.WinForms.Tools;
-
     using Tools;
     
     /// <summary>
@@ -39,25 +49,25 @@
 
         internal void Execute()
         {
-            engine.ProcessingEvent += this.ProcessingEvent;
-            engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
-            engine.ProgressEvent += ProgressEvent;
+            this.engine.ProcessingEvent += this.ProcessingEvent;
+            this.engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
+            this.engine.ProgressEvent += this.ProgressEvent;
             this.engine.Execute(this.SyncCommands);
-            engine.ProgressEvent -= ProgressEvent;
-            engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
-            engine.ProcessingEvent -= this.ProcessingEvent;
+            this.engine.ProgressEvent -= this.ProgressEvent;
+            this.engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
+            this.engine.ProcessingEvent -= this.ProcessingEvent;
             return;
         }
 
         internal void Execute(SyncDescription item)
         {
-            engine.ProcessingEvent += this.ProcessingEvent;
-            engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
-            engine.ProgressEvent += ProgressEvent;
+            this.engine.ProcessingEvent += this.ProcessingEvent;
+            this.engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
+            this.engine.ProgressEvent += this.ProgressEvent;
             this.engine.Execute(item);
-            engine.ProgressEvent -= ProgressEvent;
-            engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
-            engine.ProcessingEvent -= this.ProcessingEvent;
+            this.engine.ProgressEvent -= this.ProgressEvent;
+            this.engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
+            this.engine.ProcessingEvent -= this.ProcessingEvent;
             return;
         }
 

@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.OutlookConnector2003
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OutlookClient.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the OutlookClient type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.OutlookConnector2003
 {
     using System;
     using System.Collections.Generic;

@@ -1,9 +1,13 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MergePropertyConflict.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Conflict.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase.Merging
 {
     using System;

@@ -1,21 +1,31 @@
-﻿namespace Sem.Sync.LocalSyncManager
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the Program type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Windows.Forms;
 
     using UI;
 
-    static class Program
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LocalSync{DataContext = new ClientViewModel()});
+            Application.Run(new LocalSync { DataContext = new ClientViewModel() });
         }
     }
 }
