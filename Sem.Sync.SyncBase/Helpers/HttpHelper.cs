@@ -49,12 +49,12 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// determine the path to cache the content
         /// </summary>
-        private static readonly string cachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager\\Cache");
+        private static readonly string CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager\\Cache");
 
         /// <summary>
         /// Private cookie store when not using IE cookies
         /// </summary>
-        private readonly CookieContainer sessionCookies = new CookieContainer();
+        private readonly CookieContainer _sessionCookies = new CookieContainer();
         #endregion
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             this.BaseUrl = baseUrl;
             this.IgnoreCertificateError = ignoreCertificateErrors;
-            this.sessionCookies = new CookieContainer();
+            this._sessionCookies = new CookieContainer();
             ServicePointManager.Expect100Continue = false;
 
             if (this.IgnoreCertificateError)
@@ -241,7 +241,7 @@ namespace Sem.Sync.SyncBase.Helpers
             }
             else
             {
-                request.CookieContainer = this.sessionCookies;
+                request.CookieContainer = this._sessionCookies;
             }
 
             request.Headers.Add("Accept-Language", "de");
@@ -384,7 +384,7 @@ namespace Sem.Sync.SyncBase.Helpers
         private static string CachePathName(string name)
         {
             if (name != "[NOCACHE]")
-                return Path.Combine(cachePath, name.Replace("/", "_").Replace(":", "_"));
+                return Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"));
 
             return "";
         }
@@ -401,7 +401,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 var fileName = CachePathName(name);
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    SyncTools.EnsurePathExist(cachePath);
+                    SyncTools.EnsurePathExist(CachePath);
                     File.WriteAllText(fileName, result);
                 }
             }

@@ -19,7 +19,7 @@
     /// </summary>
     public class GenericClient<T> : StdClient where T : StdElement
     {
-        private static readonly XmlSerializer contactListFormatter = new XmlSerializer(typeof(List<T>));
+        private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<T>));
 
         protected override void BeforeStorageAccess(string clientFolderName)
         {
@@ -33,7 +33,7 @@
                 try
                 {
                     if (file.Length > 0)
-                        result = ((List<T>)contactListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<T>)ContactListFormatter.Deserialize(file)).ToStdElement();
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
                 }
@@ -55,7 +55,7 @@
                     result.Add((T)element);
                 }
 
-                contactListFormatter.Serialize(file, result);
+                ContactListFormatter.Serialize(file, result);
             }
             finally
             {
@@ -67,7 +67,7 @@
         {
             get
             {
-                return "FileSystem-Contact-Connector";
+                return "FileSystem Generic Connector - does not provide type specific features";
             }
         }
     }

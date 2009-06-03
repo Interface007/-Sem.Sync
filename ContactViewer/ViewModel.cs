@@ -1,12 +1,10 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-
-namespace ContactViewer
+﻿namespace ContactViewer
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
-    using System.Windows.Controls;
+    using System.Windows.Media.Imaging;
 
     using ContactService;
 

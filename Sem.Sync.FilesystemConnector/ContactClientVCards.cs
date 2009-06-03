@@ -19,12 +19,12 @@
     /// </summary>
     public class ContactClientVCards : StdClient
     {
-        private readonly VCardConverter converter = new VCardConverter();
-        private readonly bool savePictureExternal;
+        private readonly VCardConverter _converter = new VCardConverter();
+        private readonly bool _savePictureExternal;
 
         public ContactClientVCards()
         {
-            bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out savePictureExternal);
+            bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out _savePictureExternal);
         }
 
         protected override void BeforeStorageAccess(string clientFolderName)
@@ -37,7 +37,7 @@
             {
                 foreach (var filePathName in Directory.GetFiles(clientFolderName, "*.xmlcontact"))
                 {
-                    result.Add(converter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
+                    result.Add(_converter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
                 }
             }
@@ -50,7 +50,7 @@
             {
                 var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
                 File.WriteAllBytes(fileName + ".vCard", VCardConverter.StdContactToVCard(element));
-                if (savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
+                if (_savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
                 {
                     File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
                 }
@@ -61,7 +61,7 @@
         {
             get
             {
-                return "FileSystem-Contact-Connector-vCard";
+                return "FileSystem Contact Connector - individual vCards with external pictures";
             }
         }
     }

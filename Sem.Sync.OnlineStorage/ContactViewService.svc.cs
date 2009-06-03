@@ -1,13 +1,11 @@
-﻿using Sem.Sync.SyncBase.DetailData;
-
-namespace Sem.Sync.OnlineStorage
+﻿namespace Sem.Sync.OnlineStorage
 {
-
     using System.Linq;
+    
+    using SyncBase.DetailData;
     using SyncBase.Helpers;
+    
     using FilesystemConnector;
-    using System.ServiceModel;
-    using Sem.Sync.SyncBase;
 
     public class ContactViewService : IContactViewService
     {

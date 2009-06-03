@@ -19,7 +19,7 @@
     /// </summary>
     public class ContactClientIndividualFiles : StdClient
     {
-        private static readonly XmlSerializer contactListFormatter = new XmlSerializer(typeof(List<StdContact>));
+        private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<StdContact>));
 
         protected override void BeforeStorageAccess(string clientFolderName)
         {
@@ -35,7 +35,7 @@
                     try
                     {
                         if (file.Length > 0)
-                            result.Add((StdElement)contactListFormatter.Deserialize(file));
+                            result.Add((StdElement)ContactListFormatter.Deserialize(file));
 
                         LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
                     }
@@ -55,7 +55,7 @@
                 var file = new FileStream(Path.Combine(clientFolderName, element.ToStringSimple() + ".xmlcontact"), FileMode.Create);
                 try
                 {
-                    contactListFormatter.Serialize(file, elements.ToContacts());
+                    ContactListFormatter.Serialize(file, elements.ToContacts());
                 }
                 finally
                 {
@@ -68,7 +68,7 @@
         {
             get
             {
-                return "FileSystem-Contact-Connector";
+                return "FileSystem Contact Connector for individual files";
             }
         }
     }

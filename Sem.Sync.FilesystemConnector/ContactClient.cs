@@ -19,7 +19,7 @@
     /// </summary>
     public class ContactClient : StdClient
     {
-        private static readonly XmlSerializer contactListFormatter = new XmlSerializer(typeof(List<StdContact>));
+        private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<StdContact>));
 
         protected override void BeforeStorageAccess(string clientFolderName)
         {
@@ -33,7 +33,7 @@
                 try
                 {
                     if (file.Length > 0)
-                        result = ((List<StdContact>)contactListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
                 }
@@ -62,7 +62,7 @@
                     elements.Remove(element);
                 }
 
-                contactListFormatter.Serialize(file, elements.ToContacts());
+                ContactListFormatter.Serialize(file, elements.ToContacts());
             
             }
             catch(System.Exception ex)
@@ -79,7 +79,7 @@
         {
             get
             {
-                return "FileSystem-Contact-Connector";
+                return "FileSystem Contact Connector - one file for all contacts";
             }
         }
     }
