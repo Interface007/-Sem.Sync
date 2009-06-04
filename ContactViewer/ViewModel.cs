@@ -1,4 +1,15 @@
-﻿namespace ContactViewer
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ViewModel.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Implements data processing on the client side like retrieving the contact data and serves as a binding source
+//   for the xaml.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ContactViewer
 {
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -10,7 +21,28 @@
 
     public class ViewModel : INotifyPropertyChanged
     {
-        public ViewContact CurrentContact { get; set; }
+        private ViewContact _CurrentContact;
+
+        public ViewContact CurrentContact
+        {
+            get
+            {
+                return this._CurrentContact;
+            }
+            set
+            {
+                this._CurrentContact = value;
+                this.RaisePropertyChanged("CurrentContact");
+            }
+        }
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public List<ViewContact> ResultList { get; set; }
 
@@ -33,19 +65,19 @@
                                 Picture = GetBitmapFromBytes(x.Picture),
                             }).ToList();
 
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("ResultList"));
+            this.RaisePropertyChanged("ResultList");
         }
 
         private static BitmapImage GetBitmapFromBytes(byte[] bytes)
         {
-            BitmapImage image = null;
+            var image = new BitmapImage();
+            
             if (bytes != null && bytes.Length > 10)
             {
                 var pictureStream = new MemoryStream(bytes) {Position = 0};
-                image = new BitmapImage();
                 image.SetSource(pictureStream);
             }
+         
             return image;
         }
 

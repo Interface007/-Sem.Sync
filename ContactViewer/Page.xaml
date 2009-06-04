@@ -4,7 +4,9 @@
     Width="400" Height="600">
     <StackPanel x:Name="LayoutRoot" Background="White">
         <Button Height="30" Content="reload" Click="Button_Click" VerticalAlignment="Top" />
-        <ListBox ItemsSource="{Binding Path=ResultList}" Height="408">
+        <ListBox ItemsSource="{Binding Path=ResultList}" 
+                 SelectionChanged="ListSelectionChanged"
+                 Height="408">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -27,11 +29,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Orientation="Horizontal">
-            <Image Height="160" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120"/>
+        <StackPanel Orientation="Horizontal" DataContext="{Binding Path=CurrentContact}">
+            <Image Height="160" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120" Source="{Binding Path=Picture}" />
             <StackPanel Orientation="Vertical">
-                <TextBlock Height="14" Margin="10,10,10,10" VerticalAlignment="Bottom" Text="full name" TextWrapping="Wrap" />
-                <TextBlock Height="17" Margin="10,10,10,10" VerticalAlignment="Bottom" Text="street"    TextWrapping="Wrap"/>
+                <TextBlock Height="14" Margin="10,10,10,10" VerticalAlignment="Bottom" Text="{Binding Path=FullName}"   TextWrapping="Wrap" />
+                <TextBlock Height="17" Margin="10,10,10,10" VerticalAlignment="Bottom" Text="{Binding Path=Street}"     TextWrapping="Wrap"/>
+                <TextBlock Height="17" Margin="10,10,10,10" VerticalAlignment="Bottom" Text="{Binding Path=City}"       TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>
