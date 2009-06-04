@@ -138,6 +138,9 @@
     <Content Include="dictionary.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Test FileSystem to vCard.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\DataSources\Sem.Sync.LocalSyncManager.Tools.MergeView.datasource" />
     <None Include="Properties\DataSources\Sem.Sync.SyncBase.Merging.MergeConflict.datasource" />
     <None Include="Sync TESTS.SyncList">

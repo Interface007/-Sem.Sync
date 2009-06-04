@@ -29,8 +29,11 @@ namespace Sem.Sync.FilesystemConnector
     /// </summary>
     public class ContactClientVCards : StdClient
     {
+        private const string VCardFilenameExtension = ".vCard";
+
         private readonly VCardConverter _converter = new VCardConverter();
         private readonly bool _savePictureExternal;
+
 
         public ContactClientVCards()
         {
@@ -45,7 +48,7 @@ namespace Sem.Sync.FilesystemConnector
         {
             if (Directory.Exists(clientFolderName))
             {
-                foreach (var filePathName in Directory.GetFiles(clientFolderName, "*.xmlcontact"))
+                foreach (var filePathName in Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension))
                 {
                     result.Add(_converter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
@@ -59,7 +62,7 @@ namespace Sem.Sync.FilesystemConnector
             foreach (var element in elements.ToContacts())
             {
                 var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
-                File.WriteAllBytes(fileName + ".vCard", VCardConverter.StdContactToVCard(element));
+                File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
                 if (_savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
                 {
                     File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);

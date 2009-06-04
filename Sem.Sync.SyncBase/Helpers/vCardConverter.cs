@@ -141,13 +141,13 @@ namespace Sem.Sync.SyncBase.Helpers
 
                         var address = new AddressDetail
                         {
-                            CityName = string.IsNullOrEmpty(parts[5]) ? null : parts[5],
-                            CountryName = string.IsNullOrEmpty(parts[8]) ? null : parts[8],
-                            StateName = string.IsNullOrEmpty(parts[6]) ? null : parts[6],
-                            PostalCode = string.IsNullOrEmpty(parts[7]) ? null : parts[7],
-                            StreetName = string.IsNullOrEmpty(parts[4]) ? null : parts[4],
-                            StreetNumber = SyncTools.ExtractStreetNumber(parts[4]),
-                            StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(parts[4]),
+                            CityName = (parts.Length<6 || string.IsNullOrEmpty(parts[5])) ? null : parts[5],
+                            CountryName = (parts.Length<9 || string.IsNullOrEmpty(parts[8])) ? null : parts[8],
+                            StateName = (parts.Length<7 || string.IsNullOrEmpty(parts[6])) ? null : parts[6],
+                            PostalCode = (parts.Length<8 || string.IsNullOrEmpty(parts[7])) ? null : parts[7],
+                            StreetName =(parts.Length<5 ||  string.IsNullOrEmpty(parts[4])) ? null : parts[4],
+                            StreetNumber = parts.Length<5 ? 0 : SyncTools.ExtractStreetNumber(parts[4]),
+                            StreetNumberExtension = parts.Length < 5 ? null : SyncTools.ExtractStreetNumberExtension(parts[4]),
                         };
                         if (parts[1] == "TYPE=work")
                         {
@@ -164,8 +164,15 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "PHOTO":
-                        var url = parts[1].Replace("VALUE=URI:", "");
-                        contact.PictureData = this.HttpRequester.GetContentBinary(url, url);
+                        if (parts[1] == "ENCODING=b")
+                        {
+                            contact.PictureData = Convert.FromBase64String(parts[2].Substring(parts[2].IndexOf(":")+1));
+                        }
+                        else
+                        {
+                            var url = parts[1].Replace("VALUE=URI:", "");
+                            contact.PictureData = this.HttpRequester.GetContentBinary(url, url);
+                        }
                         break;
 
                     case "PRODID:-//XING//www.xing.com//epublica//www.epublica.de//Version 1.3":
@@ -184,7 +191,10 @@ namespace Sem.Sync.SyncBase.Helpers
                     default:
                         if (parts[0].StartsWith("BDAY:", StringComparison.Ordinal))
                         {
-                            contact.DateOfBirth = DateTime.Parse(parts[0].Substring(5), CultureInfo.CurrentCulture);
+                            var dateString = parts[0].Substring(5);
+                            dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
+                                         dateString.Substring(6, 2);
+                            contact.DateOfBirth = DateTime.Parse(dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                             break;
                         }
                         if (parts[0].StartsWith("UID:", StringComparison.Ordinal))
@@ -195,6 +205,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             switch (useIndetifierAs)
                             {
                                 case ProfileIdentifierType.XingProfileId:
+                                    uid = parts[0].Substring(13);
                                     contact.PersonalProfileIdentifiers.XingProfileId = parts[0].Substring(4);
                                     break;
 
@@ -203,10 +214,10 @@ namespace Sem.Sync.SyncBase.Helpers
                                     break;
 
                                 default:
+                                    uid = parts[0].Substring(4);
                                     break;
                             }
 
-                            uid = parts[0].Substring(13);
                             break;
                         }
                         if (parts[0].StartsWith("SORT-STRING:", StringComparison.Ordinal))
@@ -218,9 +229,22 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
             }
 
-            contact.Id = uid.Length > 0
-                ? new Guid(int.Parse(uid, CultureInfo.InvariantCulture), 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
-                : Guid.NewGuid();
+            if (uid.Length == 32)
+            {
+                contact.Id = new Guid(
+                    uid.Substring(0,8) + "-" +
+                    uid.Substring(8,4) + "-" +
+                    uid.Substring(12,4) + "-" +
+                    uid.Substring(16,4) + "-" +
+                    uid.Substring(20,12) 
+                    );
+            }
+            else
+            {
+                contact.Id = uid.Length > 0
+                    ? new Guid(int.Parse(uid, CultureInfo.InvariantCulture), 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
+                    : Guid.NewGuid();
+            }
             return contact;
         }
 
