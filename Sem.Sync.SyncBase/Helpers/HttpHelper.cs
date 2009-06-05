@@ -132,12 +132,14 @@ namespace Sem.Sync.SyncBase.Helpers
             byte[] result = null;
             if (!this.SkipNotCached)
             {
-                var receiveStream = this.GetResponseStream(url);
-                result = ReadStreamToByteArray(receiveStream, 32768);
-                if (!string.IsNullOrEmpty(fileName))
+                using (var receiveStream = this.GetResponseStream(url))
                 {
-                    SyncTools.EnsurePathExist(Path.GetDirectoryName(fileName));
-                    File.WriteAllBytes(fileName, result);
+                    result = ReadStreamToByteArray(receiveStream, 32768);
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        SyncTools.EnsurePathExist(Path.GetDirectoryName(fileName));
+                        File.WriteAllBytes(fileName, result);
+                    }
                 }
             }
 
@@ -163,8 +165,10 @@ namespace Sem.Sync.SyncBase.Helpers
             byte[] result = null;
             if (!this.SkipNotCached && !string.IsNullOrEmpty(fileName))
             {
-                var receiveStream = this.PostResponseStream(url, postData);
-                result = ReadStreamToByteArray(receiveStream, 32768);
+                using (var receiveStream = this.PostResponseStream(url, postData))
+                {
+                    result = ReadStreamToByteArray(receiveStream, 32768);
+                }
 
                 File.WriteAllBytes(fileName, result);
             }
@@ -189,8 +193,10 @@ namespace Sem.Sync.SyncBase.Helpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                var receiveStream = this.GetResponseStream(this.BaseUrl + url);
-                result = ReadStreamToString(receiveStream);
+                using (var receiveStream = this.GetResponseStream(this.BaseUrl + url))
+                {
+                    result = ReadStreamToString(receiveStream);
+                }
 
                 this.WriteToCache(name, result);
             }
@@ -216,8 +222,10 @@ namespace Sem.Sync.SyncBase.Helpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                var receiveStream = this.PostResponseStream(this.BaseUrl + url, postData);
-                result = ReadStreamToString(receiveStream);
+                using (var receiveStream = this.PostResponseStream(this.BaseUrl + url, postData))
+                {
+                    result = ReadStreamToString(receiveStream);
+                }
 
                 this.WriteToCache(name, result);
             }
@@ -236,20 +244,21 @@ namespace Sem.Sync.SyncBase.Helpers
             var encode = Encoding.GetEncoding("utf-8");
 
             // Pipe the stream to a higher level stream reader with the required encoding format
-            var readStream = new StreamReader(receiveStream, encode);
-
-            // Read 256 charcters at a time
-            var read = new char[256];
-            var count = readStream.Read(read, 0, 256);
-            while (count > 0)
+            using (var readStream = new StreamReader(receiveStream, encode))
             {
-                var str = new string(read, 0, count);
-                resultBuilder.Append(str);
-                count = readStream.Read(read, 0, 256);
-            }
+                // Read 256 charcters at a time
+                var read = new char[256];
+                var count = readStream.Read(read, 0, 256);
+                while (count > 0)
+                {
+                    var str = new string(read, 0, count);
+                    resultBuilder.Append(str);
+                    count = readStream.Read(read, 0, 256);
+                }
 
-            receiveStream.Close();
-            readStream.Close();
+                receiveStream.Close();
+                readStream.Close();
+            }
 
             return resultBuilder.ToString();
         }
@@ -333,10 +342,13 @@ namespace Sem.Sync.SyncBase.Helpers
                     continue;
                 }
 
-                var fs = new FileStream(cookie, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                var data = new byte[fs.Length - 1];
-                fs.Read(data, 0, data.Length);
-                fs.Close();
+                byte[] data;
+                using (var fs = new FileStream(cookie, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    data = new byte[fs.Length - 1];
+                    fs.Read(data, 0, data.Length);
+                    fs.Close();
+                }
 
                 var cookieData = Encoding.ASCII.GetString(data);
                 var entries = cookieData.Split('*');
@@ -365,9 +377,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>the path if successfull, empty string if no cache should be used</returns>
         private static string CachePathName(string name)
         {
-            return 
-                name != "[NOCACHE]" 
-                ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_")) 
+            return
+                name != "[NOCACHE]"
+                ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
                 : string.Empty;
         }
 
@@ -386,10 +398,11 @@ namespace Sem.Sync.SyncBase.Helpers
             var loginDataBytes = encoding.GetBytes(postData);
             request.ContentLength = loginDataBytes.Length;
 
-            var stream = request.GetRequestStream();
-
-            stream.Write(loginDataBytes, 0, loginDataBytes.Length);
-            stream.Close();
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(loginDataBytes, 0, loginDataBytes.Length);
+                stream.Close();
+            }
 
             var objResponse = (HttpWebResponse)request.GetResponse();
             return objResponse.GetResponseStream();
@@ -415,8 +428,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 catch (WebException ex)
                 {
                     if ((this.UiDispatcher != null) &&
-                        ((System.Net.HttpWebResponse)ex.Response).StatusCode ==
-                        HttpStatusCode.ProxyAuthenticationRequired)
+                        ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
                         if (this.UiDispatcher.AskForLogOnCredentials(
                             this.proxyCredentials,

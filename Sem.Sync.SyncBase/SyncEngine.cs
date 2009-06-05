@@ -11,7 +11,6 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Windows.Forms;
     
     using Microsoft.Win32;
 
@@ -24,12 +23,31 @@ namespace Sem.Sync.SyncBase
     
     public class SyncEngine : SyncComponent
     {
+        /// <summary>
+        /// Determines the registry path to the value that holds the path to BeyondCompare
+        /// </summary>
+        private const string BeyondComparePath = "Software\\Scooter Software\\Beyond Compare 3";
+
+        /// <summary>
+        /// will be set when the first command is executed
+        /// </summary>
         private bool versionOutdated;
+
+        /// <summary>
+        /// flag for already executed version check
+        /// </summary>
         private bool versionChecked;
 
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
+        /// <summary>
+        /// Gets or sets the object that will be responsible for solving merge conflicts
+        /// </summary>
         public IMergeConflictResolver ConflictSolver { get; set; }
+
+        /// <summary>
+        /// Gets or sets the object that will be responsible for routing UI interaction requests from connectors
+        /// </summary>
         public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
@@ -37,11 +55,6 @@ namespace Sem.Sync.SyncBase
         /// {FS:WorkingFolder} inside the source or target path to access this directory.
         /// </summary>
         public string WorkingFolder { get; set; }
-
-        /// <summary>
-        /// Determines the registry path to the value that holds the path to BeyondCompare
-        /// </summary>
-        private const string BeyondComparePath = "Software\\Scooter Software\\Beyond Compare 3";
 
         /// <summary>
         /// Gets the file system path to the external program BeyondCompare
@@ -57,7 +70,9 @@ namespace Sem.Sync.SyncBase
                     if (pathValue != null)
                     {
                         if (File.Exists(pathValue.ToString()))
+                        {
                             return pathValue.ToString();
+                        }
                     }
                 }
 
@@ -68,7 +83,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// execute the commands stored inside the list
         /// </summary>
-        /// <param name="syncList">the list to execute</param>
+        /// <param name="syncList"> the list to execute </param>
+        /// <returns> a value specifying if the execution should continue </returns>
         public bool Execute(SyncCollection syncList)
         {
             var itemsDone = 0;
@@ -85,6 +101,7 @@ namespace Sem.Sync.SyncBase
                     UpdateProgress(0);
                     return false;
                 }
+
                 itemsDone++;
             }
 
@@ -118,12 +135,14 @@ namespace Sem.Sync.SyncBase
             var baseliClient = Factory.GetNewObject<IClientBase>(item.BaselineConnector);
 
             // wire up events
-            WireUpEvents(sourceClient, true);
-            WireUpEvents(targetClient, true);
-            WireUpEvents(baseliClient, true);
+            this.WireUpEvents(sourceClient, true);
+            this.WireUpEvents(targetClient, true);
+            this.WireUpEvents(baseliClient, true);
 
-            if (versionOutdated)
+            if (this.versionOutdated)
+            {
                 LogProcessingEvent("Version of sync engine is outdated - please update!");
+            }
 
             // process paths to replace token
             item.SourceStorePath = this.ReplacePathToken(item.SourceStorePath);
@@ -155,7 +174,7 @@ namespace Sem.Sync.SyncBase
                     break;
 
                 case SyncCommand.MergeExternal:
-                    MergeFiles(item.SourceStorePath, item.TargetStorePath, item.BaselineStorePath);
+                    MergeFilesBeyondCompare(item.SourceStorePath, item.TargetStorePath, item.BaselineStorePath);
                     break;
 
                 case SyncCommand.MergeHighEvidence:
@@ -245,9 +264,8 @@ namespace Sem.Sync.SyncBase
                                 sourceClient.GetAll(item.SourceStorePath),
                                 targetList,
                                 (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
-                                typeof(StdContact)
-                            ),
-                            true), 
+                                typeof(StdContact)),
+                            true),
                         targetList);
 
                     // only write to target if we did get a merge result
@@ -260,25 +278,30 @@ namespace Sem.Sync.SyncBase
 
                 case SyncCommand.AskForContinue:
                     if (this.UiProvider != null)
-                        continueExecution = UiProvider.AskForConfirm(
-                            item.CommandParameter,
-                            targetClient.FriendlyClientName);
+                    {
+                        continueExecution = this.UiProvider.AskForConfirm(
+                            item.CommandParameter, targetClient.FriendlyClientName);
+                    }
+
                     break;
 
                 default:
                     break;
             }
 
-            WireUpEvents(sourceClient, false);
-            WireUpEvents(targetClient, false);
-            WireUpEvents(baseliClient, false);
+            this.WireUpEvents(sourceClient, false);
+            this.WireUpEvents(targetClient, false);
+            this.WireUpEvents(baseliClient, false);
 
             return continueExecution;
         }
 
         private void WireUpEvents(IClientBase client, bool addEvent)
         {
-            if (client == null) return;
+            if (client == null)
+            {
+                return;
+            }
 
             if (addEvent)
             {
@@ -294,7 +317,7 @@ namespace Sem.Sync.SyncBase
 
         private string ReplacePathToken(string path)
         {
-            return (path ?? "").Replace("{FS:WorkingFolder}", this.WorkingFolder);
+            return (path ?? string.Empty).Replace("{FS:WorkingFolder}", this.WorkingFolder);
         }
 
         private void DeleteFiles(string path)
@@ -316,7 +339,10 @@ namespace Sem.Sync.SyncBase
                                      select element).FirstOrDefault();
 
                 // if there is someone with the same id, we do not need to match
-                if (corresponding != null) continue;
+                if (corresponding != null)
+                {
+                    continue;
+                }
 
                 // try it by full name
                 // or try it by full name without academic title
@@ -348,27 +374,31 @@ namespace Sem.Sync.SyncBase
 
                 // if there is one with a matching profile id, 
                 // we overwrite the id
-                if (corresponding != null) 
+                if (corresponding != null)
+                {
                     item.Id = corresponding.Id;
+                }
             }
 
             return source;
         }
 
-        private static void MergeFiles(string source, string target, string baseline)
+        private static void MergeFilesBeyondCompare(string source, string target, string baseline)
         {
             var pathValue = PathToBeyondCompare;
-            if (string.IsNullOrEmpty(pathValue)) return;
+            if (string.IsNullOrEmpty(pathValue))
+            {
+                return;
+            }
 
             var process = System.Diagnostics.Process.Start(
                 pathValue,
-                " \"" + source + "\"" +
-                " \"" + target + "\"" +
-                (string.IsNullOrEmpty(baseline) ? "" : " \"" + baseline + "\"")
-                );
+                " \"" + source + "\"" + " \"" + target + "\"" + (string.IsNullOrEmpty(baseline) ? "" : " \"" + baseline + "\""));
 
             if (process != null)
+            {
                 process.WaitForExit();
+            }
         }
     }
 }

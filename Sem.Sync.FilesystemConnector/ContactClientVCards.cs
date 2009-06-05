@@ -15,13 +15,13 @@ namespace Sem.Sync.FilesystemConnector
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    
+    using Properties;
 
     using SyncBase;
-    using SyncBase.Helpers;
-
-    using Properties;
     using SyncBase.DetailData;
-
+    using SyncBase.Helpers;
+    
     #endregion usings
 
     /// <summary>
@@ -29,32 +29,77 @@ namespace Sem.Sync.FilesystemConnector
     /// </summary>
     public class ContactClientVCards : StdClient
     {
+        /// <summary>
+        /// This is the file name suffix to be used when reading/writing vCards
+        /// </summary>
         private const string VCardFilenameExtension = ".vCard";
 
-        private readonly VCardConverter _converter = new VCardConverter();
-        private readonly bool _savePictureExternal;
-        
+        /// <summary>
+        /// This is the objects instance of the vCard-converter class from the base library
+        /// </summary>
+        private readonly VCardConverter vCardConverter = new VCardConverter();
+
+        /// <summary>
+        /// defines whether to save the picture additionally to the file system or only inside the vCard
+        /// </summary>
+        private readonly bool savePictureExternal;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClientVCards"/> class and checks the
+        /// config file for configuration entries for this class.
+        /// </summary>
         public ContactClientVCards()
         {
-            bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out _savePictureExternal);
+            bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out this.savePictureExternal);
         }
 
+        /// <summary>
+        /// Gets the user friendly name of the connector
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "FileSystem Contact Connector - individual vCards with external pictures";
+            }
+        }
+
+        /// <summary>
+        /// This overrides the event of just before accessing the storage location to 
+        /// ensure the path for saving/loading data does exist.
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name for the destination/source of the vCards. </param>
         protected override void BeforeStorageAccess(string clientFolderName)
         {
             SyncTools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
         }
+
+        /// <summary>
+        /// Overrides the method to read the full list of data.
+        /// </summary>
+        /// <param name="clientFolderName">the name of the folder that does contain the vCard files.</param>
+        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
+        /// <returns>The list with the added vCard-contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             if (Directory.Exists(clientFolderName))
             {
                 foreach (var filePathName in Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension))
                 {
-                    result.Add(_converter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
+                    result.Add(this.vCardConverter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
                 }
             }
+
             return result;
         }
+
+        /// <summary>
+        /// Overrides the method to write the full list of data.
+        /// </summary>
+        /// <param name="elements"> The elements to be exported. </param>
+        /// <param name="clientFolderName"> the name of the folder that will get the vCard files while exporting data. </param>
+        /// <param name="skipIfExisting"> a value indicating whether existing entries should be added overwritten or skipped. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             SyncTools.EnsurePathExist(clientFolderName);
@@ -62,18 +107,10 @@ namespace Sem.Sync.FilesystemConnector
             {
                 var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
                 File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
-                if (_savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
+                if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
                 {
                     File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
                 }
-            }
-        }
-
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "FileSystem Contact Connector - individual vCards with external pictures";
             }
         }
     }

@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   This class is the client class for handling contacts
+//   This class is the client class for handling elements
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,24 +17,54 @@ namespace Sem.Sync.FilesystemConnector
     using System.IO;
     using System.Xml.Serialization;
 
+    using Properties;
+
     using SyncBase;
     using SyncBase.Helpers;
-
-    using Properties;
 
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling contacts
+    /// This class is the client class for handling elements. This class leaks some of the contact 
+    /// related features of "ContactClient", but provides the ability to handle other types that do 
+    /// inherit from StdElement
     /// </summary>
+    /// <typeparam name="T">A class that does inherit from StdElement. Elements of this type can be 
+    /// loaded/saved with an instance of this class</typeparam>
     public class GenericClient<T> : StdClient where T : StdElement
     {
+        /// <summary>
+        /// This is the formatter instance for serializing the list of contacts.
+        /// </summary>
         private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<T>));
 
+        /// <summary>
+        /// Gets the user friendly name of the connector
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "FileSystem Generic Connector - does not provide type specific features";
+            }
+        }
+
+        /// <summary>
+        /// This overrides the event of just before accessing the storage location to 
+        /// ensure the path for saving/loading data does exist.
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name for the destination/source of the contact file. </param>
         protected override void BeforeStorageAccess(string clientFolderName)
         {
             SyncTools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
         }
+
+        /// <summary>
+        /// Overrides the method to read the full list of data.
+        /// </summary>
+        /// <param name="clientFolderName">the full name including path of the file that does contain the contacts.</param>
+        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
+        /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             if (File.Exists(clientFolderName))
@@ -43,7 +73,9 @@ namespace Sem.Sync.FilesystemConnector
                 try
                 {
                     if (file.Length > 0)
+                    {
                         result = ((List<T>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                    }
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
                 }
@@ -52,8 +84,16 @@ namespace Sem.Sync.FilesystemConnector
                     file.Close();
                 }
             }
+
             return result;
         }
+
+        /// <summary>
+        /// Overrides the method to write the full list of data.
+        /// </summary>
+        /// <param name="elements"> The elements to be exported. </param>
+        /// <param name="clientFolderName">the full name including path of the file that will get the contacts while exporting data.</param>
+        /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var file = new FileStream(clientFolderName, FileMode.Create);
@@ -72,13 +112,5 @@ namespace Sem.Sync.FilesystemConnector
                 file.Close();
             }
         }
-        
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "FileSystem Generic Connector - does not provide type specific features";
-            }
-        }
-    }
+     }
 }

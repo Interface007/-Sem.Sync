@@ -235,6 +235,13 @@ namespace Sem.Sync.OutlookConnector
 
         #region conversion
 
+        /// <summary>
+        /// Writes the information from a standard contact to a native outlook contact
+        /// </summary>
+        /// <param name="stdNewContact"> The standard contact to be converted. </param>
+        /// <param name="outlookContact"> The outlook contact should be the target of writing. </param>
+        /// <returns>true if the outlook contact needs to be saved, false if there was no information altered</returns>
+        /// <exception cref="ArgumentNullException"> if one of the parameters is null </exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "this is only multiple if-statements - that's not really complex")]
         private static bool ConvertToNativeContact(StdContact stdNewContact, _ContactItem outlookContact)
         {
@@ -497,6 +504,12 @@ namespace Sem.Sync.OutlookConnector
             return dirty;
         }
 
+        /// <summary>
+        /// Converts an outlook contact to a standard contact.
+        /// </summary>
+        /// <param name="outlookContact"> The outlook contact to be converted. </param>
+        /// <returns> a new standard contact </returns>
+        /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
         public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
         {
             if (outlookContact == null)
