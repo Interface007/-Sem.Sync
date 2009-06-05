@@ -33,8 +33,7 @@ namespace Sem.Sync.FilesystemConnector
 
         private readonly VCardConverter _converter = new VCardConverter();
         private readonly bool _savePictureExternal;
-
-
+        
         public ContactClientVCards()
         {
             bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out _savePictureExternal);

@@ -29,7 +29,7 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public static bool Check(Sem.Sync.SyncBase.Interfaces.IUiInteraction UiProvider)
+        public static bool Check(Interfaces.IUiInteraction UiProvider)
         {
             try
             {
