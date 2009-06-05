@@ -24,12 +24,8 @@ namespace Sem.Sync.SyncBase
     
     public class SyncEngine : SyncComponent
     {
-        private readonly bool versionOutdated;
-
-        public SyncEngine()
-        {
-            versionOutdated = !VersionCheck.Check();
-        }
+        private bool versionOutdated;
+        private bool versionChecked;
 
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
@@ -100,9 +96,20 @@ namespace Sem.Sync.SyncBase
         /// Executes a command that (mostly) have a source and a target - see the documentations 
         /// of SyncCommand enumeration
         /// </summary>
-        /// <param name="item">a synchronisation command that includes the source, destination, parameters and a command</param>
+        /// <param name="item">
+        /// a synchronisation command that includes the source, destination, parameters and a command
+        /// </param>
+        /// <returns>
+        /// a value whether the execution should continue (true) or should abort (false)
+        /// </returns>
         public bool Execute(SyncDescription item)
         {
+            if (!this.versionChecked)
+            {
+                this.versionOutdated = !VersionCheck.Check(this.UiProvider);
+                this.versionChecked = true;
+            }
+
             var continueExecution = true;
 
             // create classes according to the description

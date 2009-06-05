@@ -62,6 +62,7 @@
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
     <Compile Include="Binding\SyncList.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />
+    <Compile Include="DetailData\Credentials.cs" />
     <Compile Include="DetailData\KeyValuePair.cs" />
     <Compile Include="DetailData\MatchingEntry.cs" />
     <Compile Include="DetailData\ReplacementLists.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Helpers\VersionCheck.cs" />
+    <Compile Include="Interfaces\ICredentialAware.cs" />
     <Compile Include="Interfaces\IMergeConflictResolver.cs" />
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />

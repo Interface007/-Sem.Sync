@@ -8,19 +8,70 @@ namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Text;
-    using System.Linq;
 
+    using DetailData;
+    using Interfaces;
+
+    /// <summary>
+    /// This class provides funktionality to get information from the web.
+    /// </summary>
     public class HttpHelper
     {
+        #region private members
+        /// <summary>
+        /// Gets or sets a value to determine the path to cache the content
+        /// </summary>
+        private static readonly string CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager\\Cache");
+
+        /// <summary>
+        /// Private cookie store when not using IE cookies
+        /// </summary>
+        private readonly CookieContainer sessionCookies = new CookieContainer();
+
+        /// <summary>
+        /// credentials for the proxy server
+        /// </summary>
+        private readonly ICredentialAware proxyCredentials = new Credentials();
+
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpHelper"/> class. 
+        /// the constructor will switch off certificate validation if IgnoreCertificateError is true
+        /// </summary>
+        /// <param name="baseUrl">
+        /// The base Url that is added if there is no http?:// prifix inside the url.
+        /// </param>
+        /// <param name="ignoreCertificateErrors">
+        /// The ignore Certificate Errors.
+        /// </param>
+        public HttpHelper(string baseUrl, bool ignoreCertificateErrors)
+        {
+            this.BaseUrl = baseUrl;
+            this.IgnoreCertificateError = ignoreCertificateErrors;
+            this.sessionCookies = new CookieContainer();
+            ServicePointManager.Expect100Continue = false;
+
+            if (this.IgnoreCertificateError)
+            {
+                // Hack for debugging purposes to accept Fiddler certificate
+                ServicePointManager.ServerCertificateValidationCallback +=
+                    (sender, cert, chain, errors) => true;
+            }
+        }
+
         #region public propertries
         /// <summary>
-        /// Base address for requests
+        /// Gets or sets the base address for requests
         /// </summary>
         public string BaseUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether a certificate error in an
+        /// https connection whould be ignored.
         /// debugging using Fiddler needs to bypass certificate approval
         /// set this const to "true" if you want to enable fiddler-debugging
         /// this will prevent checking for man in the middle attack
@@ -28,51 +79,39 @@ namespace Sem.Sync.SyncBase.Helpers
         public bool IgnoreCertificateError { get; set; }
 
         /// <summary>
-        /// activate caching of content - this will present refreshing the data
-        /// use this for debugging purpose to not stress the xing server
+        /// Gets or sets a value indicating whether to activate caching of content 
+        /// - this will present refreshing the data use this for debugging purpose 
+        /// to not stress the http server
         /// </summary>
         public bool UseCache { get; set; }
 
         /// <summary>
-        /// prevent loading missing entries - this is only usefull for debugging purpose
-        /// if this property is true, we will not download missing content
+        /// Gets or sets a value indicating whether to prevent loading missing entries 
+        /// - this is only usefull for debugging purpose if this property is true, we 
+        /// will not download missing content
         /// </summary>
         public bool SkipNotCached { get; set; }
 
         /// <summary>
-        /// use stored ie cookies instead of private session cookies
+        /// Gets or sets a value indicating whether to use stored ie cookies instead of 
+        /// private session cookies
         /// </summary>
         public bool UseIeCookies { get; set; }
-        #endregion
-
-        #region private members
-        /// <summary>
-        /// determine the path to cache the content
-        /// </summary>
-        private static readonly string CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager\\Cache");
 
         /// <summary>
-        /// Private cookie store when not using IE cookies
+        /// Gets or sets the object that is responsible to interact with the user
         /// </summary>
-        private readonly CookieContainer _sessionCookies = new CookieContainer();
+        public IUiInteraction UiDispatcher { get; set; }
         #endregion
 
         /// <summary>
-        /// the constructor will switch off certificate validation if IgnoreCertificateError is true
+        /// encodes the input parameter to form-url-encoded
         /// </summary>
-        public HttpHelper(string baseUrl, bool ignoreCertificateErrors)
+        /// <param name="parameter">the content to be encoded</param>
+        /// <returns>the encoded string</returns>
+        public static string EncodeForPost(string parameter)
         {
-            this.BaseUrl = baseUrl;
-            this.IgnoreCertificateError = ignoreCertificateErrors;
-            this._sessionCookies = new CookieContainer();
-            ServicePointManager.Expect100Continue = false;
-
-            if (this.IgnoreCertificateError)
-            {
-                // Hack for debugging purposes to accept Fiddler certificate
-                ServicePointManager.ServerCertificateValidationCallback +=
-                    ((sender, cert, chain, errors) => true);
-            }
+            return System.Web.HttpUtility.UrlEncode(parameter);
         }
 
         /// <summary>
@@ -85,7 +124,7 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             var fileName = CachePathName(name);
 
-            if (UseCache && File.Exists(fileName))
+            if (this.UseCache && File.Exists(fileName))
             {
                 return File.ReadAllBytes(fileName);
             }
@@ -101,6 +140,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     File.WriteAllBytes(fileName, result);
                 }
             }
+
             return result;
         }
 
@@ -109,13 +149,13 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <param name="url">the url to access the content</param>
         /// <param name="name">a name for caching - this should correspond to the url</param>
-        /// <param name="postData"></param>
+        /// <param name="postData">the data that should be posted to the server</param>
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
             var fileName = CachePathName(name);
 
-            if (UseCache && fileName != "[NOCACHE]" && File.Exists(fileName))
+            if (this.UseCache && fileName != "[NOCACHE]" && File.Exists(fileName))
             {
                 return File.ReadAllBytes(fileName);
             }
@@ -128,6 +168,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 File.WriteAllBytes(fileName, result);
             }
+
             return result;
         }
 
@@ -140,19 +181,20 @@ namespace Sem.Sync.SyncBase.Helpers
         public string GetContent(string url, string name)
         {
             var fileName = CachePathName(name);
-            if (UseCache && File.Exists(fileName))
+            if (this.UseCache && File.Exists(fileName))
             {
                 return File.ReadAllText(fileName);
             }
-            
+
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                var receiveStream = this.GetResponseStream(BaseUrl + url);
+                var receiveStream = this.GetResponseStream(this.BaseUrl + url);
                 result = ReadStreamToString(receiveStream);
 
-                WriteToCache(name, result);
+                this.WriteToCache(name, result);
             }
+
             return result;
         }
 
@@ -166,7 +208,7 @@ namespace Sem.Sync.SyncBase.Helpers
         public string GetContentPost(string url, string name, string postData)
         {
             var fileName = CachePathName(name);
-            if (UseCache && File.Exists(fileName))
+            if (this.UseCache && File.Exists(fileName))
             {
                 return File.ReadAllText(fileName);
             }
@@ -177,79 +219,10 @@ namespace Sem.Sync.SyncBase.Helpers
                 var receiveStream = this.PostResponseStream(this.BaseUrl + url, postData);
                 result = ReadStreamToString(receiveStream);
 
-                WriteToCache(name, result);
+                this.WriteToCache(name, result);
             }
+
             return result;
-        }
-
-        /// <summary>
-        /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
-        /// </summary>
-        /// <param name="url">the uri to the resource to get</param>
-        /// <param name="postData">the data to be posted (must already be encoded using application/x-www-form-urlencoded)</param>
-        /// <returns>a stream that represents the binary data</returns>
-        private Stream PostResponseStream(string url, string postData)
-        {
-            var request = this.CreateRequest(url, "POST");
-            request.ContentType = "application/x-www-form-urlencoded";
-            
-            var encoding = new ASCIIEncoding();
-            var loginDataBytes = encoding.GetBytes(postData);
-            request.ContentLength = loginDataBytes.Length;
-            
-            var stream = request.GetRequestStream();
-            
-            stream.Write(loginDataBytes, 0, loginDataBytes.Length);
-            stream.Close();
-
-            var objResponse = (HttpWebResponse)request.GetResponse();
-            return objResponse.GetResponseStream(); 
-        }
-
-        /// <summary>
-        /// Create a request and get the response stream for the GET method
-        /// </summary>
-        /// <param name="url">url to the page to get</param>
-        /// <returns>a stream corresponding to the content at the uri</returns>
-        private Stream GetResponseStream(string url)
-        {
-            var request = this.CreateRequest(url, "GET");
-            var objResponse = (HttpWebResponse)request.GetResponse();
-            return objResponse.GetResponseStream(); 
-        }
-
-        /// <summary>
-        /// create the request object
-        /// </summary>
-        /// <param name="url">url to the resource we want to read</param>
-        /// <param name="method">POST / GET or whatever</param>
-        /// <returns>a web request object that can be used to read the url content</returns>
-        private HttpWebRequest CreateRequest(string url, string method)
-        {
-            // add base url, if there is no protocol identifier
-            var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : this.BaseUrl + url;
-
-            // build up request and response
-            var request = (HttpWebRequest)WebRequest.Create(requestUrl);
-            request.Method = method;
-
-            // we have some common headers that we might use (including cookies)
-            if (this.UseIeCookies)
-            {
-                request.CookieContainer = new CookieContainer();
-                request.CookieContainer.Add(GetCookiesFromIE(request.RequestUri));
-            }
-            else
-            {
-                request.CookieContainer = this._sessionCookies;
-            }
-
-            request.Headers.Add("Accept-Language", "de");
-            request.Headers.Add("Accept-Charset", "utf-8");
-
-            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; InfoPath.2)";
-
-            return request;
         }
 
         /// <summary>
@@ -266,11 +239,11 @@ namespace Sem.Sync.SyncBase.Helpers
             var readStream = new StreamReader(receiveStream, encode);
 
             // Read 256 charcters at a time
-            var read = new Char[256];
+            var read = new char[256];
             var count = readStream.Read(read, 0, 256);
             while (count > 0)
             {
-                var str = new String(read, 0, count);
+                var str = new string(read, 0, count);
                 resultBuilder.Append(str);
                 count = readStream.Read(read, 0, 256);
             }
@@ -288,6 +261,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <param name="stream">The stream to read data from</param>
         /// <param name="initialLength">The initial buffer length</param>
+        /// <returns>The read stream converted into a byte array.</returns>
         private static byte[] ReadStreamToByteArray(Stream stream, int initialLength)
         {
             var buffer = new byte[initialLength];
@@ -300,7 +274,11 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 // If we've reached the end of our buffer, check to see if there's
                 // any more information
-                if (read != buffer.Length) continue;
+                if (read != buffer.Length)
+                {
+                    continue;
+                }
+
                 var nextByte = stream.ReadByte();
 
                 // End of stream? If so, we're done
@@ -364,15 +342,19 @@ namespace Sem.Sync.SyncBase.Helpers
                 var entries = cookieData.Split('*');
                 foreach (var entry in entries)
                 {
-                    if (entry.Length < 2) continue;
-                    var sCookie = ((entry.StartsWith("\n", StringComparison.Ordinal)) ? entry.Remove(0, 1) : entry).Split('\n');
-                    if (sCookie.Length > 2)
+                    if (entry.Length < 2)
                     {
-                        Console.WriteLine(sCookie[0] + "   " + sCookie[1] + "   " + sCookie[2]);
-                        cookies.Add(new Cookie(sCookie[0], sCookie[1], null, sCookie[2]));
+                        continue;
+                    }
+
+                    var cookieObject = (entry.StartsWith("\n", StringComparison.Ordinal) ? entry.Remove(0, 1) : entry).Split('\n');
+                    if (cookieObject.Length > 2)
+                    {
+                        cookies.Add(new Cookie(cookieObject[0], cookieObject[1], null, cookieObject[2]));
                     }
                 }
             }
+
             return cookies;
         }
 
@@ -383,10 +365,128 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>the path if successfull, empty string if no cache should be used</returns>
         private static string CachePathName(string name)
         {
-            if (name != "[NOCACHE]")
-                return Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"));
+            return 
+                name != "[NOCACHE]" 
+                ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_")) 
+                : string.Empty;
+        }
 
-            return "";
+        /// <summary>
+        /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
+        /// </summary>
+        /// <param name="url">the uri to the resource to get</param>
+        /// <param name="postData">the data to be posted (must already be encoded using application/x-www-form-urlencoded)</param>
+        /// <returns>a stream that represents the binary data</returns>
+        private Stream PostResponseStream(string url, string postData)
+        {
+            var request = this.CreateRequest(url, "POST");
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            var encoding = new ASCIIEncoding();
+            var loginDataBytes = encoding.GetBytes(postData);
+            request.ContentLength = loginDataBytes.Length;
+
+            var stream = request.GetRequestStream();
+
+            stream.Write(loginDataBytes, 0, loginDataBytes.Length);
+            stream.Close();
+
+            var objResponse = (HttpWebResponse)request.GetResponse();
+            return objResponse.GetResponseStream();
+        }
+
+        /// <summary>
+        /// Create a request and get the response stream for the GET method
+        /// </summary>
+        /// <param name="url">url to the page to get</param>
+        /// <returns>a stream corresponding to the content at the uri</returns>
+        private Stream GetResponseStream(string url)
+        {
+            HttpWebResponse objResponse;
+            var request = this.CreateRequest(url, "GET");
+
+            while (true)
+            {
+                try
+                {
+                    objResponse = (HttpWebResponse)request.GetResponse();
+                    break;
+                }
+                catch (WebException ex)
+                {
+                    if ((this.UiDispatcher != null) &&
+                        ((System.Net.HttpWebResponse)ex.Response).StatusCode ==
+                        HttpStatusCode.ProxyAuthenticationRequired)
+                    {
+                        if (this.UiDispatcher.AskForLogOnCredentials(
+                            this.proxyCredentials,
+                            "The proxy server needs credentials.",
+                            this.proxyCredentials.LogOnUserId,
+                            this.proxyCredentials.LogOnPassword))
+                        {
+                            if (string.IsNullOrEmpty(this.proxyCredentials.LogOnDomain))
+                            {
+                                request.Proxy.Credentials = new NetworkCredential(
+                                    this.proxyCredentials.LogOnUserId,
+                                    this.proxyCredentials.LogOnPassword);
+                            }
+                            else
+                            {
+                                request.Proxy.Credentials = new NetworkCredential(
+                                this.proxyCredentials.LogOnUserId,
+                                this.proxyCredentials.LogOnPassword,
+                                this.proxyCredentials.LogOnDomain);
+                            }
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            return objResponse.GetResponseStream();
+        }
+
+        /// <summary>
+        /// create the request object
+        /// </summary>
+        /// <param name="url">url to the resource we want to read</param>
+        /// <param name="method">POST / GET or whatever</param>
+        /// <returns>a web request object that can be used to read the url content</returns>
+        private HttpWebRequest CreateRequest(string url, string method)
+        {
+            // add base url, if there is no protocol identifier
+            var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : this.BaseUrl + url;
+
+            // build up request and response
+            var request = (HttpWebRequest)WebRequest.Create(requestUrl);
+            request.Method = method;
+            request.AllowAutoRedirect = true;
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            // we have some common headers that we might use (including cookies)
+            if (this.UseIeCookies)
+            {
+                request.CookieContainer = new CookieContainer();
+                request.CookieContainer.Add(GetCookiesFromIE(request.RequestUri));
+            }
+            else
+            {
+                request.CookieContainer = this.sessionCookies;
+            }
+
+            request.Headers.Add("Accept-Language", "de");
+            request.Headers.Add("Accept-Charset", "utf-8");
+
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; InfoPath.2)";
+
+            return request;
         }
 
         /// <summary>
@@ -396,7 +496,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="result">the content of the cache item</param>
         private void WriteToCache(string name, string result)
         {
-            if (UseCache)
+            if (this.UseCache)
             {
                 var fileName = CachePathName(name);
                 if (!string.IsNullOrEmpty(fileName))
@@ -405,16 +505,6 @@ namespace Sem.Sync.SyncBase.Helpers
                     File.WriteAllText(fileName, result);
                 }
             }
-        }
-
-        /// <summary>
-        /// encodes the input parameter to form-url-encoded
-        /// </summary>
-        /// <param name="parameter">the content to be encoded</param>
-        /// <returns>the encoded string</returns>
-        public static string EncodeForPost(string parameter)
-        {
-            return System.Web.HttpUtility.UrlEncode(parameter);
         }
     }
 }

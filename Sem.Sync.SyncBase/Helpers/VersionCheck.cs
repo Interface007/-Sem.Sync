@@ -25,17 +25,28 @@ namespace Sem.Sync.SyncBase.Helpers
 
         public static bool Check()
         {
+            return Check();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        public static bool Check(Sem.Sync.SyncBase.Interfaces.IUiInteraction UiProvider)
+        {
             try
             {
                 var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
                 bool doCheck;
                 if (bool.TryParse(value, out doCheck))
-                    if (!doCheck) return true;
+                {
+                    if (!doCheck)
+                    {
+                        return true;
+                    }
+                }
 
                 var myVersion = new VersionCheck();
 
                 var formatter = new XmlSerializer(typeof(VersionCheck));
-                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false)).GetContent(VersionXmlUrl, "[NOCACHE]"));
+                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false) { UiDispatcher = UiProvider }).GetContent(VersionXmlUrl, "[NOCACHE]"));
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
                 return

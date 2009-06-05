@@ -11,16 +11,13 @@ namespace Sem.Sync.SyncBase.Interfaces
 
     using EventArgs;
 
-    public interface IClientBase
+    public interface IClientBase : ICredentialAware
     {
         event EventHandler<ProcessingEventArgs> ProcessingEvent;
         event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
 
         string FriendlyClientName { get; }
-        string LogOnDomain { get; set; }
-        string LogOnUserId { get; set; }
-        string LogOnPassword { get; set; }
-
+        
         void RemoveDuplicates(string clientFolderName);
 
         List<StdElement> GetAll(string clientFolderName);

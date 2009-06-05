@@ -18,17 +18,20 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <typeparam name="T">the name of the type to cast to</typeparam>
         /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"</param>
-        /// <returns></returns>
+        /// <returns>a new instance of the class specified with the class name</returns>
         public static T GetNewObject<T>(string className)
         {
             if (string.IsNullOrEmpty(className))
+            {
                 return default(T);
+            }
 
             if (className.Contains(" of "))
             {
-                var types = className.Split(new []{" of "}, StringSplitOptions.None);
+                var types = className.Split(new[] { " of " }, StringSplitOptions.None);
                 return (T)GetNewObject(EnrichClassName(types[0]), EnrichClassName(types[1]));
             }
+
             return (T)GetNewObject(EnrichClassName(className));
         }
 
@@ -36,7 +39,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// Create an object by using the class name.
         /// </summary>
         /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"</param>
-        /// <returns></returns>
+        /// <returns>a new instance of the class specified with the class name</returns>
         public static object GetNewObject(string className)
         {
             return Activator.CreateInstance(Type.GetType(EnrichClassName(className), true, true));
@@ -45,25 +48,31 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Creates an instance of an generic type
         /// </summary>
-        /// <param name="className">full class name of the generic type: "namespace.classname, FilenameOfTheAssembly"</param>
-        /// <param name="ofClassName">full class name of the type parameter for the generic type: "namespace.classname, FilenameOfTheAssembly"</param>
-        /// <returns></returns>
-        public static object GetNewObject(string className, string ofClassName)
+        /// <param name="genericClassName">full class name of the generic type: "namespace.classname, FilenameOfTheAssembly"</param>
+        /// <param name="className">full class name of the type parameter for the generic type: "namespace.classname, FilenameOfTheAssembly"</param>
+        /// <returns>a new instance of the class specified with the class name</returns>
+        public static object GetNewObject(string genericClassName, string className)
         {
+            var genericClassType = Type.GetType(EnrichClassName(genericClassName));
             var classType = Type.GetType(EnrichClassName(className));
-            var ofType = Type.GetType(EnrichClassName(ofClassName));
-            var typeParams = new [] { ofType };
-            var constructedType = classType.MakeGenericType(typeParams);
+            var typeParams = new[] { classType };
+            var constructedType = genericClassType.MakeGenericType(typeParams);
 
             return Activator.CreateInstance(constructedType);
         }
 
+        /// <summary>
+        /// processes a class name to make it full qualifies include in the assembly name
+        /// </summary>
+        /// <param name="className">The class name that may need processing.</param>
+        /// <returns>the processed full qualified class name</returns>
         private static string EnrichClassName(string className)
         {
             if (!className.Contains(","))
             { 
                 className = className + ", " + className.Substring(0, className.LastIndexOf(".", StringComparison.Ordinal));
             }
+
             return className;
         }
     }

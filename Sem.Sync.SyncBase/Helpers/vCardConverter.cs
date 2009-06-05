@@ -166,7 +166,9 @@ namespace Sem.Sync.SyncBase.Helpers
                     case "PHOTO":
                         if (parts[1] == "ENCODING=b")
                         {
-                            contact.PictureData = Convert.FromBase64String(parts[2].Substring(parts[2].IndexOf(":")+1));
+                            contact.PictureData =
+                                Convert.FromBase64String(
+                                    parts[2].Substring(parts[2].IndexOf(":", 0, StringComparison.Ordinal) + 1));
                         }
                         else
                         {
@@ -192,8 +194,12 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (parts[0].StartsWith("BDAY:", StringComparison.Ordinal))
                         {
                             var dateString = parts[0].Substring(5);
-                            dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
+                            if (dateString.IndexOf("-", 0, StringComparison.Ordinal) == -1)
+                            {
+                                dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
                                          dateString.Substring(6, 2);
+                            }
+
                             contact.DateOfBirth = DateTime.Parse(dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                             break;
                         }

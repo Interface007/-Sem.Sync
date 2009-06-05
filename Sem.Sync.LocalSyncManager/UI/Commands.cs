@@ -127,7 +127,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
         #endregion
 
-        public bool AskForLogOnCredentials(IClientBase client, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
         {
             return new LogOn().SetLoginCredentials(client, messageForUser, logOnUserId, logOnPassword);
         }
