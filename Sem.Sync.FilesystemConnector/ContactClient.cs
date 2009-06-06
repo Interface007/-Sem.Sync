@@ -65,19 +65,22 @@ namespace Sem.Sync.FilesystemConnector
         {
             if (File.Exists(clientFolderName))
             {
-                var file = new FileStream(clientFolderName, FileMode.Open);
-                try
+                using (var file = new FileStream(clientFolderName, FileMode.Open))
                 {
-                    if (file.Length > 0)
+                    try
                     {
-                        result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
-                    }
+                        if (file.Length > 0)
+                        {
+                            result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                        }
 
-                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
-                }
-                finally
-                {
-                    file.Close();
+                        LogProcessingEvent(
+                            string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
+                    }
+                    finally
+                    {
+                        file.Close();
+                    }
                 }
             }
 
@@ -92,33 +95,35 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var file = new FileStream(clientFolderName, FileMode.Create);
-            try
+            using (var file = new FileStream(clientFolderName, FileMode.Create))
             {
-                var itemsToRemove = new List<StdElement>();
-                foreach (var element in elements)
+                try
                 {
-                    SyncTools.ClearNulls(element, typeof(StdContact));
-                    if (((StdContact)element).Name == null)
+                    var itemsToRemove = new List<StdElement>();
+                    foreach (var element in elements)
                     {
-                        itemsToRemove.Add(element);
+                        SyncTools.ClearNulls(element, typeof(StdContact));
+                        if (((StdContact)element).Name == null)
+                        {
+                            itemsToRemove.Add(element);
+                        }
                     }
-                }
 
-                foreach (var element in itemsToRemove)
+                    foreach (var element in itemsToRemove)
+                    {
+                        elements.Remove(element);
+                    }
+
+                    ContactListFormatter.Serialize(file, elements.ToContacts());
+                }
+                catch (System.Exception ex)
                 {
-                    elements.Remove(element);
+                    this.LogProcessingEvent(ex.Message);
                 }
-
-                ContactListFormatter.Serialize(file, elements.ToContacts());
-            }
-            catch (System.Exception ex)
-            {
-                this.LogProcessingEvent(ex.Message);
-            }
-            finally
-            {
-                file.Close();
+                finally
+                {
+                    file.Close();
+                }
             }
         }
     }

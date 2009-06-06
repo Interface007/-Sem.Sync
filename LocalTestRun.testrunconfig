@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestRunConfiguration name="Local Test Run" id="fcd262f2-6a88-42a2-be7b-f23f057326ae" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
   <Description>This is a default test run configuration for a local test run.</Description>
+  <CodeCoverage enabled="true">
+    <Regular>
+      <CodeCoverageItem binaryFile="\Sem.Sync.FilesystemConnector\bin\Debug\Sem.Sync.FilesystemConnector.dll" 
+                        pdbFile="\Sem.Sync.FilesystemConnector\bin\Debug\Sem.Sync.FilesystemConnector.pdb" instrumentInPlace="true" />
+    </Regular>
+  </CodeCoverage>
   <TestTypeSpecific />
 </TestRunConfiguration>

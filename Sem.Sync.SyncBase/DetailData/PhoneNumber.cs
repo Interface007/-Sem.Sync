@@ -64,7 +64,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 return this.denormalizedPhoneNumber;
             }
 
-            // +49 (6403) 9798143
+            // +49 (1234) 456789
             var result = "";
             result += (this.CountryCode == CountryCode.unspecified) ? "" : "+" + (int)this.CountryCode + " ";
             result += (this.AreaCode == 0) ? "" : "(" + this.AreaCode + ")";
