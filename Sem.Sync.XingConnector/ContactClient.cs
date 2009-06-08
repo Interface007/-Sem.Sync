@@ -118,10 +118,10 @@ namespace Sem.Sync.XingConnector
                     LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
 
                     // prepare the post data for log in
-                    var postData = string.Format(
+                    var postData = HttpHelper.PreparePostData(
                         "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}", 
-                        HttpHelper.EncodeForPost(this.LogOnUserId), 
-                        HttpHelper.EncodeForPost(this.LogOnPassword));
+                        this.LogOnUserId, 
+                        this.LogOnPassword);
 
                     // post to get the cookies
                     var logInResponse = xingRequester.GetContentPost("/app/user", "[NOCACHE]", postData);

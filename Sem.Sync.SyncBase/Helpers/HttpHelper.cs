@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -231,6 +232,25 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// replaces string.format parameters in a string using the encoded values of the supplied strings
+        /// This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
+        /// </summary>
+        /// <param name="url">the string that should get the parameters</param>
+        /// <param name="values">the parameter strings that should be encoded and inserted into the string</param>
+        /// <returns></returns>
+        public static string PreparePostData(string url, params string[] values)
+        {
+            var encodedValues = new string[values.Length];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                encodedValues[i] = EncodeForPost(values[i]);
+            }
+
+            return string.Format(CultureInfo.CurrentCulture, url, encodedValues);
         }
 
         /// <summary>

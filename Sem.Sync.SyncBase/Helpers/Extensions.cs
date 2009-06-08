@@ -16,8 +16,18 @@ namespace Sem.Sync.SyncBase.Helpers
 
     public static class Extensions
     {
+        /// <summary>
+        /// Determines if a string is equal to one of the parameter strings.
+        /// </summary>
+        /// <param name="theString">the string to test</param>
+        /// <param name="candidates">the candidate string this string is compared to</param>
+        /// <returns>true if the string is equal to one of the candidates</returns>
         public static bool IsOneOf(this string theString, params string[] candidates)
         {
+            // <pex>
+            if (candidates == (string[])null)
+                throw new ArgumentNullException("candidates");
+            // </pex>
             return candidates.Contains(theString);
         }
 

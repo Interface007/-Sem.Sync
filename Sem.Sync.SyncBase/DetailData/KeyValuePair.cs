@@ -6,9 +6,23 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
+    /// <summary>
+    /// A key value pair with string type for both members.
+    /// List of KeyValuePair is needed for serialization and for generating
+    /// Binding sources for UI.
+    /// </summary>
     public class KeyValuePair
     {
+        /// <summary>
+        /// the "key" of the entry - there's no funcational difference to the value
+        /// member of this type
+        /// </summary>
         public string Key { get; set; }
+
+        /// <summary>
+        /// The "Value" of the entry - there's no funcational difference to the key
+        /// member of this type
+        /// </summary>
         public string Value { get; set; }
     }
 }
