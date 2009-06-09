@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
 
@@ -37,39 +38,93 @@ namespace Sem.Sync.SyncBase.Helpers
             var vCard = new StringBuilder();
             vCard.AppendLine("BEGIN:VCARD");
             vCard.AppendLine("VERSION:2.1");
-            vCard.AppendLine(string.Format(CultureInfo.CurrentCulture, "N;CHARSET=UTF-8:{0};{1};{2};{3}", contact.Name.LastName, contact.Name.FirstName, contact.Name.MiddleName, contact.Name.AcademicTitle));
-            vCard.AppendLine("FN;CHARSET=UTF-8:" + contact.GetFullName());
-            vCard.AppendLine("SORT-STRING:" + contact.Name.LastName);
-            vCard.AppendLine("CLASS:PRIVATE");
+            AddAttributeToStringBuilder(vCard, "N", contact.Name.LastName, contact.Name.FirstName, contact.Name.MiddleName, contact.Name.AcademicTitle);
+            AddAttributeToStringBuilder(vCard, "FN", contact.GetFullName());
+            AddAttributeToStringBuilder(vCard, "SORT-STRING", contact.Name.LastName);
+            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=internet;type=WORK;type=pref", contact.BusinessEmailPrimary);
+            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=internet;type=HOME", contact.PersonalEmailPrimary);
+            AddAttributeToStringBuilder(vCard, "URL;TYPE=HOME", contact.PersonalHomepage);
 
-            if (!string.IsNullOrEmpty(contact.BusinessEmailPrimary)) vCard.AppendLine("EMAIL;TYPE=internet;type=WORK;type=pref:" + contact.BusinessEmailPrimary);
-            if (!string.IsNullOrEmpty(contact.PersonalEmailPrimary)) vCard.AppendLine("EMAIL;TYPE=internet;type=HOME:" + contact.PersonalEmailPrimary);
-            if (contact.DateOfBirth.Year > 1900 && contact.DateOfBirth.Year < 2200) vCard.AppendLine("BDAY:" + contact.DateOfBirth.ToString("yyyyMMdd", CultureInfo.CurrentCulture));
-            if (!string.IsNullOrEmpty(contact.PersonalHomepage)) vCard.AppendLine("URL;TYPE=home:" + contact.PersonalHomepage);
+            if (contact.DateOfBirth.Year > 1900 && contact.DateOfBirth.Year < 2200)
+            {
+                AddAttributeToStringBuilder(vCard, "BDAY", contact.DateOfBirth.ToString("yyyyMMdd", CultureInfo.CurrentCulture));
+            }
+
             if (contact.BusinessAddressPrimary != null)
             {
-                if (!string.IsNullOrEmpty(contact.BusinessAddressPrimary.StreetName + contact.BusinessAddressPrimary.CityName + contact.BusinessAddressPrimary.StateName + contact.BusinessAddressPrimary.PostalCode + contact.BusinessAddressPrimary.CountryName)) vCard.AppendLine(string.Format(CultureInfo.CurrentCulture, "ADR;TYPE=work;CHARSET=UTF-8:;;{0};{1};{2};{3};{4}", contact.BusinessAddressPrimary.StreetName, contact.BusinessAddressPrimary.CityName, contact.BusinessAddressPrimary.StateName, contact.BusinessAddressPrimary.PostalCode, contact.BusinessAddressPrimary.CountryName));
-                if (contact.BusinessAddressPrimary.Phone != null && !string.IsNullOrEmpty(contact.BusinessAddressPrimary.Phone.ToString())) vCard.AppendLine("TEL;TYPE=work:" + contact.BusinessAddressPrimary.Phone);
+                AddAttributeToStringBuilder(vCard, "ADR;TYPE=WORK", null, null, contact.BusinessAddressPrimary.StreetName, contact.BusinessAddressPrimary.CityName, contact.BusinessAddressPrimary.StateName, contact.BusinessAddressPrimary.PostalCode, contact.BusinessAddressPrimary.CountryName);
+                AddAttributeToStringBuilder(vCard, "TEL;TYPE=WORK", contact.BusinessAddressPrimary.Phone);
             }
+
             if (contact.PersonalAddressPrimary != null)
             {
-                if (!string.IsNullOrEmpty(contact.PersonalAddressPrimary.StreetName + contact.PersonalAddressPrimary.CityName + contact.PersonalAddressPrimary.StateName + contact.PersonalAddressPrimary.PostalCode + contact.PersonalAddressPrimary.CountryName)) vCard.AppendLine(string.Format(CultureInfo.CurrentCulture, "ADR;TYPE=home;CHARSET=UTF-8:;;{0};{1};{2};{3};{4}", contact.PersonalAddressPrimary.StreetName, contact.PersonalAddressPrimary.CityName, contact.PersonalAddressPrimary.StateName, contact.PersonalAddressPrimary.PostalCode, contact.PersonalAddressPrimary.CountryName));
-                if (contact.PersonalAddressPrimary.Phone != null && !string.IsNullOrEmpty(contact.PersonalAddressPrimary.Phone.ToString())) vCard.AppendLine("TEL;TYPE=home:" + contact.PersonalAddressPrimary.Phone);
+                AddAttributeToStringBuilder(vCard, "ADR;TYPE=HOME", contact.PersonalAddressPrimary.StreetName, contact.PersonalAddressPrimary.CityName, contact.PersonalAddressPrimary.StateName, contact.PersonalAddressPrimary.PostalCode, contact.PersonalAddressPrimary.CountryName);
+                AddAttributeToStringBuilder(vCard, "TEL;TYPE=HOME", contact.PersonalAddressPrimary.Phone);
             }
-            if (contact.PersonalPhoneMobile != null && !string.IsNullOrEmpty(contact.PersonalPhoneMobile.ToString())) vCard.AppendLine("TEL;TYPE=cell,home:" + contact.PersonalPhoneMobile);
-            if (contact.BusinessPhoneMobile != null && !string.IsNullOrEmpty(contact.BusinessPhoneMobile.ToString())) vCard.AppendLine("TEL;TYPE=cell,work:" + contact.BusinessPhoneMobile);
-            if (!string.IsNullOrEmpty(contact.BusinessCompanyName)) vCard.AppendLine("ORG;CHARSET=ISO-8859-1:" + contact.BusinessCompanyName);
-            if (!string.IsNullOrEmpty(contact.BusinessHomepage)) vCard.AppendLine("URL;TYPE=work:" + contact.BusinessHomepage);
-            if (!string.IsNullOrEmpty(contact.PersonalHomepage)) vCard.AppendLine("URL;TYPE=home:" + contact.PersonalHomepage);
-            if (!string.IsNullOrEmpty(contact.BusinessPosition)) vCard.AppendLine("TITLE;CHARSET=UTF-8:" + contact.BusinessPosition);
-            if (!string.IsNullOrEmpty(contact.AdditionalTextData)) vCard.AppendLine("NOTE;CHARSET=UTF-8:" + contact.AdditionalTextData);
-            vCard.AppendLine("X-MATZEN-GENERATOR;CHARSET=UTF-8:generated by Sem.Sync - www.svenerikmatzen.info");
-            vCard.AppendLine("PRODID:-//MATZEN//www.svenerikmatzen.info//Sem.Sync//Version 1.0");
-            if (!string.IsNullOrEmpty(contact.PictureName)) vCard.AppendLine("PHOTO;ENCODING=b;TYPE=JPEG:" + Convert.ToBase64String(contact.PictureData));
-            vCard.AppendLine("UID:" + contact.Id.ToString("N"));
+
+            AddAttributeToStringBuilder(vCard, "TEL;TYPE=CELL,HOME", contact.PersonalPhoneMobile);
+            AddAttributeToStringBuilder(vCard, "TEL;TYPE=CELL,WORK", contact.BusinessPhoneMobile);
+
+            AddAttributeToStringBuilder(vCard, "ORG", contact.BusinessCompanyName);
+            AddAttributeToStringBuilder(vCard, "URL;TYPE=WORK", contact.BusinessHomepage);
+            AddAttributeToStringBuilder(vCard, "URL;TYPE=HOME", contact.PersonalHomepage);
+            AddAttributeToStringBuilder(vCard, "TITLE", contact.BusinessPosition);
+            AddAttributeToStringBuilder(vCard, "NOTE", contact.AdditionalTextData);
+
+            AddAttributeToStringBuilder(vCard, "X-MATZEN-GENERATOR", "generated by Sem.Sync - www.svenerikmatzen.info");
+            AddAttributeToStringBuilder(vCard, "PRODID", "-//MATZEN//www.svenerikmatzen.info//Sem.Sync//Version 1.0");
+            AddAttributeToStringBuilder(vCard, "PHOTO;TYPE=JPEG", contact.PictureData);
+            AddAttributeToStringBuilder(vCard, "UID", contact.Id.ToString("N"));
+
             vCard.AppendLine("END:VCARD");
 
             return Encoding.UTF8.GetBytes(vCard.ToString());
+        }
+
+        /// <summary>
+        /// adds a contact attribute to the vCard. This overload will simply use the ToString method to serialize the object
+        /// </summary>
+        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param>
+        /// <param name="attributeSpecification">the textual attribute specification</param>
+        /// <param name="values">the value to write to the attribute</param>
+        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, object values)
+        {
+            if (values != null)
+            {
+                AddAttributeToStringBuilder(vCard, attributeSpecification, values.ToString());
+            }
+        }
+
+        /// <summary>
+        /// adds a contact attribute to the vCard. This overload will use base64 encoding
+        /// </summary>
+        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param
+        /// <param name="attributeSpecification">the textual attribute specification</param>
+        /// <param name="values">the value to write to the attribute</param>
+        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, byte[] values)
+        {
+            if (values != null && values.Length > 0)
+            {
+                AddAttributeToStringBuilder(vCard, attributeSpecification + ";ENCODING=B", Convert.ToBase64String(values));
+            }
+        }
+
+        /// <summary>
+        /// adds a contact attribute to the vCard. 
+        /// </summary>
+        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param>
+        /// <param name="attributeSpecification">the textual attribute specification</param>
+        /// <param name="values">the value to write to the attribute</param>
+        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, params string[] values)
+        {
+            foreach (var s in values)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    vCard.AppendLine(attributeSpecification + ";CHARSET=UTF-8:" + string.Join(";", values));
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -88,6 +143,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="vCard"> The vCard. </param>
         /// <param name="useIndetifierAs"> This value determines the meaning of the identifier. </param>
         /// <returns>a StdContact representation of the vCard</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
         public StdContact VCardToStdContact(byte[] vCard, ProfileIdentifierType useIndetifierAs)
         {
             if (vCard == null)
@@ -117,91 +173,86 @@ namespace Sem.Sync.SyncBase.Helpers
             {
                 var line = linesIso8859[i];
 
-                if (line.Contains("CHARSET=UTF-8:"))
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                if (line.ToUpperInvariant().Contains("CHARSET=UTF-8:"))
                 {
                     line = linesUtf8[i];
                 }
 
-                var parts = line
-                    .Replace("CHARSET=UTF-8:", string.Empty)
-                    .Replace("CHARSET=ISO-8859-1:", string.Empty)
-                    .Replace("\r", string.Empty)
-                    .Split(';');
+                var propertyDescription = line.Substring(0, line.IndexOf(':')).ToUpperInvariant();
+                var value = line.Substring(line.IndexOf(':') + 1).Replace("\r", string.Empty);
+                var valueParts = value.Split(';');
+                var type = PropertyAttribute(propertyDescription, "TYPE", "");
 
-                switch (parts[0])
+                var propertyName = propertyDescription;
+                if (propertyDescription.Contains(";"))
+                {
+                    propertyName = propertyDescription.Substring(0, propertyDescription.IndexOf(';'));
+                }
+
+                switch (propertyName)
                 {
                     case "TEL":
-                        if (parts[1].StartsWith("TYPE=cell,home:", StringComparison.Ordinal))
+
+                        if (type.Contains("CELL"))
                         {
-                            contact.PersonalPhoneMobile = new PhoneNumber(parts[1].Substring(15));
-                            break;
+                            if (type.Contains("HOME"))
+                            {
+                                contact.PersonalPhoneMobile = new PhoneNumber(value);
+                                break;
+                            }
+
+                            if (type.Contains("WORK"))
+                            {
+                                contact.BusinessPhoneMobile = new PhoneNumber(value);
+                                break;
+                            }
                         }
 
-                        if (parts[1].StartsWith("TYPE=cell,work:", StringComparison.Ordinal))
-                        {
-                            contact.BusinessPhoneMobile = new PhoneNumber(parts[1].Substring(15));
-                            break;
-                        }
-
-                        if (parts[1].StartsWith("TYPE=home:", StringComparison.Ordinal))
+                        if (type.Contains("HOME"))
                         {
                             if (contact.PersonalAddressPrimary == null)
                             {
                                 contact.PersonalAddressPrimary = new AddressDetail();
                             }
 
-                            contact.PersonalAddressPrimary.Phone = new PhoneNumber(parts[1].Substring(10));
+                            contact.PersonalAddressPrimary.Phone = new PhoneNumber(value);
                             break;
                         }
 
-                        if (parts[1].StartsWith("TYPE=work:", StringComparison.Ordinal))
+                        if (type.Contains("WORK"))
                         {
                             if (contact.BusinessAddressPrimary == null)
                             {
                                 contact.BusinessAddressPrimary = new AddressDetail();
                             }
 
-                            contact.BusinessAddressPrimary.Phone = new PhoneNumber(parts[1].Substring(10));
-                            break;
+                            contact.BusinessAddressPrimary.Phone = new PhoneNumber(value);
                         }
 
-                        if (parts[1].StartsWith("TYPE=fax", StringComparison.Ordinal))
-                        {
-                            break;
-                        }
-
-                        Console.WriteLine("!! UNHANDLED TEL !! : " + line.Replace("\r", string.Empty));
                         break;
 
                     case "N":
-                        contact.Name.LastName = parts[1];
-                        contact.Name.FirstName = (parts.Length > 2) ? parts[2] : null;
-                        contact.Name.MiddleName = (parts.Length > 3) ? parts[3] : null;
-                        contact.Name.AcademicTitle = (parts.Length > 4) ? parts[4] : null;
+                        contact.Name.LastName = GetNthElement(valueParts, 1, null);
+                        contact.Name.FirstName = GetNthElement(valueParts, 2, null);
+                        contact.Name.MiddleName = GetNthElement(valueParts, 3, null);
+                        contact.Name.AcademicTitle = GetNthElement(valueParts, 4, null);
                         break;
 
                     case "EMAIL":
-                        if (parts[2] == "type=WORK")
+                        if (type.Contains("WORK"))
                         {
-                            contact.BusinessEmailPrimary = parts[3].StartsWith("type=pref:", StringComparison.Ordinal) ? parts[3].Substring(10) : parts[3];
+                            contact.BusinessEmailPrimary = value;
                             break;
                         }
 
-                        if (parts[2].StartsWith("type=WORK:", StringComparison.Ordinal))
+                        if (type.Contains("HOME"))
                         {
-                            contact.BusinessEmailPrimary = parts[2].Substring(10);
-                            break;
-                        }
-
-                        if (parts[2] == "type=HOME")
-                        {
-                            contact.PersonalEmailPrimary = parts[3];
-                            break;
-                        }
-
-                        if (parts[2].StartsWith("type=HOME:", StringComparison.Ordinal))
-                        {
-                            contact.PersonalEmailPrimary = parts[2].Substring(10);
+                            contact.PersonalEmailPrimary = value;
                             break;
                         }
 
@@ -209,44 +260,49 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "URL":
-                        if (parts[1].Contains("=home:"))
+                        if (type.Contains("HOME"))
                         {
-                            contact.PersonalHomepage = parts[1].Replace("TYPE=", string.Empty)
-                                                               .Replace("home:", string.Empty);
+                            contact.PersonalHomepage = value;
                         }
                         else
                         {
-                            contact.BusinessHomepage = parts[1].Replace("TYPE=", string.Empty)
-                                                               .Replace("work:", string.Empty);
+                            contact.BusinessHomepage = value;
                         }
 
                         break;
 
                     case "ORG":
-                        contact.BusinessCompanyName = parts[1];
+                        contact.BusinessCompanyName = value;
                         break;
 
                     case "NOTE":
-                        contact.AdditionalTextData = parts[1];
+                        contact.AdditionalTextData = value;
                         break;
 
                     case "ADR":
                         if (line.EndsWith(";;;;;;\r", StringComparison.Ordinal))
                         {
+                            // in this case we do not have an address - it's all empty
                             break;
                         }
 
                         var address = new AddressDetail
                             {
-                                CityName = (parts.Length < 6 || string.IsNullOrEmpty(parts[5])) ? null : parts[5],
-                                CountryName = (parts.Length < 9 || string.IsNullOrEmpty(parts[8])) ? null : parts[8],
-                                StateName = (parts.Length < 7 || string.IsNullOrEmpty(parts[6])) ? null : parts[6],
-                                PostalCode = (parts.Length < 8 || string.IsNullOrEmpty(parts[7])) ? null : parts[7],
-                                StreetName = (parts.Length < 5 || string.IsNullOrEmpty(parts[4])) ? null : parts[4],
-                                StreetNumber = parts.Length < 5 ? 0 : SyncTools.ExtractStreetNumber(parts[4]),
-                                StreetNumberExtension = parts.Length < 5 ? null : SyncTools.ExtractStreetNumberExtension(parts[4]),
+                                CityName = GetNthElement(valueParts, 4, null),
+
+                                StreetName = GetNthElement(valueParts, 3, null),
+                                StreetNumber = SyncTools.ExtractStreetNumber(GetNthElement(valueParts, 3, null)),
+                                StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(GetNthElement(valueParts, 3, null)),
+
+                                StateName = GetNthElement(valueParts, 5, null),
+
+                                PostalCode = GetNthElement(valueParts, 6, null),
+
+                                CountryName = GetNthElement(valueParts, 7, null),
+
                             };
-                        if (parts[1] == "TYPE=work")
+
+                        if (type.Contains("WORK"))
                         {
                             contact.BusinessAddressPrimary = address;
                         }
@@ -258,30 +314,62 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "TITLE":
-                        contact.BusinessPosition = parts[1].Replace("CHARSET=ISO-8859-1:", string.Empty);
+                        contact.BusinessPosition = value;
                         break;
 
                     case "PHOTO":
-                        if (parts[1] == "ENCODING=b")
+                        if (PropertyAttribute(propertyDescription, "ENCODING", "").Contains("B"))
                         {
-                            contact.PictureData =
-                                Convert.FromBase64String(
-                                    parts[2].Substring(parts[2].IndexOf(":", 0, StringComparison.Ordinal) + 1));
+                            contact.PictureData = Convert.FromBase64String(value);
                         }
                         else
                         {
-                            var url = parts[1].Replace("VALUE=URI:", string.Empty);
+                            var url = value.Replace("URI:", string.Empty);
                             contact.PictureData = this.HttpRequester.GetContentBinary(url, url);
                         }
 
                         break;
 
-                    case "PRODID:-//XING//www.xing.com//epublica//www.epublica.de//Version 1.3":
-                    case "BEGIN:VCARD":
-                    case "END:VCARD":
+                    case "BDAY":
+                        var dateString = value;
+                        if (dateString.IndexOf("-", 0, StringComparison.Ordinal) == -1)
+                        {
+                            dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
+                                     dateString.Substring(6, 2);
+                        }
+
+                        contact.DateOfBirth = DateTime.Parse(dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
+                        break;
+
+                    case "UID":
+                        if (contact.PersonalProfileIdentifiers == null)
+                        {
+                            contact.PersonalProfileIdentifiers = new ProfileIdentifiers();
+                        }
+
+                        switch (useIndetifierAs)
+                        {
+                            case ProfileIdentifierType.XingProfileId:
+                                uid = value.Substring(13);
+                                contact.PersonalProfileIdentifiers.XingProfileId = value;
+                                break;
+
+                            case ProfileIdentifierType.FacebookProfileId:
+                                contact.PersonalProfileIdentifiers.FacebookProfileId = value;
+                                break;
+
+                            default:
+                                uid = value;
+                                break;
+                        }
+
+                        break;
+
+                    case "PRODID":
+                    case "BEGIN":
+                    case "END":
                     case "SORT-STRING":
-                    case "CLASS:PRIVATE":
-                    case "CLASS:PUBLIC":
+                    case "CLASS":
                     case "FN":
                     case "":
                     case "CATEGORIES":
@@ -289,50 +377,6 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     default:
-                        if (parts[0].StartsWith("BDAY:", StringComparison.Ordinal))
-                        {
-                            var dateString = parts[0].Substring(5);
-                            if (dateString.IndexOf("-", 0, StringComparison.Ordinal) == -1)
-                            {
-                                dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
-                                         dateString.Substring(6, 2);
-                            }
-
-                            contact.DateOfBirth = DateTime.Parse(dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
-                            break;
-                        }
-
-                        if (parts[0].StartsWith("UID:", StringComparison.Ordinal))
-                        {
-                            if (contact.PersonalProfileIdentifiers == null)
-                            {
-                                contact.PersonalProfileIdentifiers = new ProfileIdentifiers();
-                            }
-
-                            switch (useIndetifierAs)
-                            {
-                                case ProfileIdentifierType.XingProfileId:
-                                    uid = parts[0].Substring(13);
-                                    contact.PersonalProfileIdentifiers.XingProfileId = parts[0].Substring(4);
-                                    break;
-
-                                case ProfileIdentifierType.FacebookProfileId:
-                                    contact.PersonalProfileIdentifiers.FacebookProfileId = parts[0].Substring(4);
-                                    break;
-
-                                default:
-                                    uid = parts[0].Substring(4);
-                                    break;
-                            }
-
-                            break;
-                        }
-
-                        if (parts[0].StartsWith("SORT-STRING:", StringComparison.Ordinal))
-                        {
-                            break;
-                        }
-
                         Console.WriteLine("unhandled: " + line.Replace("\r", string.Empty));
                         break;
                 }
@@ -355,6 +399,42 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return contact;
+        }
+
+        private static List<string> PropertyAttribute(string property, string propertyName, string defaultAttributeValue)
+        {
+            var values = new List<string>();
+            foreach (var propertyItem in property.Split(';'))
+            {
+                if (propertyItem.StartsWith(propertyName + "=", StringComparison.OrdinalIgnoreCase))
+                {
+                    foreach (var s in propertyItem.Substring(propertyItem.IndexOf('=') + 1).Split(','))
+                    {
+                        values.Add(s);
+                    }
+                }
+            }
+
+            if (values.Count == 0)
+            {
+                foreach (var s in defaultAttributeValue.Split(','))
+                {
+                    values.Add(s);
+                }
+            }
+
+            return values;
+        }
+
+        private static string GetNthElement(string[] inputArray, int index, string defaultValue)
+        {
+            if (inputArray.Length < index || index < 1)
+            {
+                return defaultValue;
+            }
+
+            var returnValue = inputArray[index - 1];
+            return string.IsNullOrEmpty(returnValue) ? defaultValue : returnValue;
         }
     }
 }

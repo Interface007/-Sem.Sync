@@ -29,10 +29,10 @@ namespace Sem.Sync.SyncBase.Helpers
             if (className.Contains(" of "))
             {
                 var types = className.Split(new[] { " of " }, StringSplitOptions.None);
-                return (T)GetNewObject(EnrichClassName(types[0]), EnrichClassName(types[1]));
+                return (T)GetNewObject(types[0], types[1]);
             }
 
-            return (T)GetNewObject(EnrichClassName(className));
+            return (T)GetNewObject(className);
         }
 
         /// <summary>
