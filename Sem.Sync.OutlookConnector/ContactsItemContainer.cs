@@ -21,6 +21,9 @@ namespace Sem.Sync.OutlookConnector
     /// </summary>
     public class ContactsItemContainer
     {
+        /// <summary>
+        /// name of the custom outlook property that does hold the Sem.Sync entity id
+        /// </summary>
         private const string ContactIdOutlookPropertyName = "SemSyncId";
 
         /// <summary>
@@ -39,57 +42,57 @@ namespace Sem.Sync.OutlookConnector
         private string id;
 
         /// <summary>
-        /// gets or sets the cached original contact item
+        /// Gets or sets the cached original contact item
         /// </summary>
         public ContactItem Item { get; set; }
 
         /// <summary>
-        /// gets the last name of the cached contact item
+        /// Gets the last name of the cached contact item
         /// </summary>
         public string LastName
         {
             get
             {
                 // check cache and read from item, if empty
-                if (lastName == null)
+                if (this.lastName == null)
                 {
-                    lastName = this.Item.LastName ?? "";
+                    this.lastName = this.Item.LastName ?? string.Empty;
                 }
 
-                return lastName;
+                return this.lastName;
             }
         }
 
         /// <summary>
-        /// gets the first name of the cached contact item
+        /// Gets the first name of the cached contact item
         /// </summary>
         public string FirstName
         {
             get
             {
-                if (firstName == null)
+                if (this.firstName == null)
                 {
-                    firstName = this.Item.FirstName ?? "";
+                    this.firstName = this.Item.FirstName ?? string.Empty;
                 }
 
-                return firstName;
+                return this.firstName;
             }
         }
 
         /// <summary>
-        /// gets the unique identifier of the cached contact item
+        /// Gets the unique identifier of the cached contact item
         /// </summary>
         public string Id
         {
             get
             {
-                if (id == null)
+                if (this.id == null)
                 {
                     var prop = this.Item.UserProperties[ContactIdOutlookPropertyName];
-                    id = (prop == null) ? "" : prop.Value.ToString();
+                    this.id = (prop == null) ? string.Empty : prop.Value.ToString();
                 }
 
-                return id;
+                return this.id;
             }
         }
     }

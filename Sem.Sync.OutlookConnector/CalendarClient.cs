@@ -16,7 +16,7 @@ namespace Sem.Sync.OutlookConnector
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-	
+
     using Microsoft.Office.Interop.Outlook;
 
     using SyncBase;
@@ -29,9 +29,109 @@ namespace Sem.Sync.OutlookConnector
     public class CalendarClient : StdClient
     {
         #region interface IClientBase
+
+        /// <summary>
+        /// Gets the ui friendly name of this connector
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get { return "Outlook-Canlendar-Connector"; }
+        }
+
+        /// <summary>
+        /// detects duplicates and removes them from the calendar
+        /// </summary>
+        /// <param name="pathToStore">the path to the outlook folder to process</param>
+        public override void RemoveDuplicates(string pathToStore)
+        {
+            var currentElementName = string.Empty;
+
+            // get a connection to outlook 
+            LogProcessingEvent("logging on ...");
+            var outlookNamespace = OutlookClient.GetNameSpace();
+
+            // we need to log off from outlook in order to clean up the session
+            try
+            {
+                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
+
+                LogProcessingEvent("preparing list ...");
+                var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
+                                      orderby a.Subject, a.Start
+                                      select a;
+
+                _AppointmentItem lastItem = null;
+                foreach (var item in outlookItemList)
+                {
+                    currentElementName = item.Subject;
+
+                    if (lastItem != null)
+                    {
+                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item);
+                        LogProcessingEvent(stdItem, "comparing ...");
+
+                        if (lastItem.Subject == item.Subject
+                            && lastItem.Start == item.Start
+                            && lastItem.Body == item.Body
+                            && item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase))
+                        {
+                            LogProcessingEvent(stdItem, "removing ...");
+
+                            item.Delete();
+                            continue;
+                        }
+                    }
+
+                    lastItem = item;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, ex.Message));
+            }
+            finally
+            {
+                outlookNamespace.Logoff();
+            }
+
+            LogProcessingEvent("Remove duplicates finished");
+        }
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="element">the element to add</param>
+        /// <param name="clientFolderName">the outlook folder to use</param>
+        public override void AddItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="elements">list of all the elements to add</param>
+        /// <param name="clientFolderName">the outlook folder to use</param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        public override void MergeMissingItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
+        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var currentElementName = "";
+            var currentElementName = string.Empty;
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
@@ -84,9 +184,9 @@ namespace Sem.Sync.OutlookConnector
                     }
                 }
             }
-            catch (System.Exception pObjException)
+            catch (System.Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, pObjException.Message));
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, ex.Message));
             }
             finally
             {
@@ -113,109 +213,13 @@ namespace Sem.Sync.OutlookConnector
                 // find outlook contact with matching id, create new if needed
                 LogProcessingEvent(element, "searching ...");
                 if (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, skipIfExisting, appointmentList))
+                {
                     added++;
+                }
             }
 
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "{0} elements added", added));
-        }
-
-        /// <summary>
-        /// detects duplicates and removes them from the calendar
-        /// </summary>
-        /// <param name="pathToStore"></param>
-        public override void RemoveDuplicates(string pathToStore)
-        {
-            var currentElementName = "";
-
-            // get a connection to outlook 
-            LogProcessingEvent("logging on ...");
-            var outlookNamespace = OutlookClient.GetNameSpace();
-
-            // we need to log off from outlook in order to clean up the session
-            try
-            {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
-
-                LogProcessingEvent("preparing list ...");
-                var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
-                                      orderby a.Subject, a.Start
-                                      select a;
-
-                _AppointmentItem lastItem = null;
-                foreach (var item in outlookItemList)
-                {
-                    currentElementName = item.Subject;
-
-                    if (lastItem != null)
-                    {
-                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item);
-                        LogProcessingEvent(stdItem, "comparing ...");
-
-                        if (lastItem.Subject == item.Subject
-                            && lastItem.Start == item.Start
-                            && lastItem.Body == item.Body
-                            && item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase))
-                        {
-                            LogProcessingEvent(stdItem, "removing ...");
-
-                            item.Delete();
-                            continue;
-                        }
-                    }
-                    lastItem = item;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, ex.Message));
-            }
-            finally
-            {
-                outlookNamespace.Logoff();
-            }
-
-            LogProcessingEvent("Remove duplicates finished");
-        }
-
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="element">the element to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            WriteFullList(elements, clientFolderName, false);
-        }
-
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="elements">list of all the elements to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddRange(List<StdElement> elements, string clientFolderName)
-        {
-            WriteFullList(elements, clientFolderName, false);
-        }
-
-        public override void MergeMissingItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            WriteFullList(elements, clientFolderName, true);
-        }
-
-        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
-        {
-            WriteFullList(elements, clientFolderName, true);
-        }
-
-        /// <summary>
-        /// Gets the ui friendly name of this connector
-        /// </summary>
-        public override string FriendlyClientName
-        {
-            get { return "Outlook-Canlendar-Connector"; }
         }
         #endregion
     }

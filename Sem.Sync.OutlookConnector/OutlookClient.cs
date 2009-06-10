@@ -33,6 +33,203 @@ namespace Sem.Sync.OutlookConnector
         private const string ContactIdOutlookPropertyName = "SemSyncId";
 
         /// <summary>
+        /// creates a list of ContactsItemContainer from a contacts enumeration
+        /// </summary>
+        /// <param name="contactsEnum"> The contacts enum. </param>
+        /// <returns> a list of ContactsItemContainer </returns>
+        /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
+        public static List<ContactsItemContainer> GetContactsList(Items contactsEnum)
+        {
+            if (contactsEnum == null)
+            {
+                throw new ArgumentNullException("contactsEnum");
+            }
+
+            var contactsList = new List<ContactsItemContainer>();
+            foreach (var item in contactsEnum)
+            {
+                if (item is ContactItem)
+                {
+                    contactsList.Add(new ContactsItemContainer { Item = (ContactItem)item });
+                }
+            }
+
+            return contactsList;
+        }
+
+        /// <summary>
+        /// writes a contact to outlook
+        /// </summary>
+        /// <param name="contactsEnum"> The contacts enum. </param>
+        /// <param name="element"> The element. </param>
+        /// <param name="skipIfExisting"> The skip if existing. </param>
+        /// <param name="contactsList"> The contacts list. </param>
+        /// <returns> a value indicating if the contact has been saved </returns>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, List<ContactsItemContainer> contactsList)
+        {
+            if (contactsEnum == null)
+            {
+                throw new ArgumentNullException("contactsEnum");
+            }
+
+            if (element == null)
+            {
+                throw new ArgumentNullException("element");
+            }
+
+            var outlookContact = (from x in contactsList
+                                  where x.Id == element.Id.ToString()
+                                  select x.Item).FirstOrDefault();
+
+            if (skipIfExisting && outlookContact != null)
+            {
+                return false;
+            }
+
+            if (outlookContact == null)
+            {
+                outlookContact = (ContactItem)contactsEnum.Add(OlItemType.olContactItem);
+            }
+
+            // convert StdContact to Outlook contact
+            if (ConvertToNativeContact(element, outlookContact))
+            {
+                outlookContact.Save();
+                return true;
+            }
+
+            return false;
+        }
+
+        #region conversion
+
+        /// <summary>
+        /// Converts an outlook contact to a standard contact.
+        /// </summary>
+        /// <param name="outlookContact"> The outlook contact to be converted. </param>
+        /// <returns> a new standard contact </returns>
+        /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
+        public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
+        {
+            if (outlookContact == null)
+            {
+                throw new ArgumentNullException("outlookContact");
+            }
+
+            // generate the new id this contact will get in case there is no contact id in outlook
+            var newId = GetStandardId(outlookContact);
+
+            // read the picture data and name of this contact
+            string pictureName;
+            var pictureData = SaveOutlookContactPicture(outlookContact, out pictureName);
+
+            // create a new contact and assign the corresponding values from the outlook contact
+            var returnValue = new StdContact
+            {
+                Id = newId,
+                InternalSyncData = new SyncData
+                {
+                    DateOfLastChange = outlookContact.LastModificationTime,
+                    DateOfCreation = outlookContact.CreationTime
+                },
+                PersonGender =
+                    (outlookContact.Gender == OlGender.olMale)
+                        ? Gender.Male
+                        : (outlookContact.Gender == OlGender.olFemale)
+                                ? Gender.Female
+                                : SyncTools.GenderByText(outlookContact.Title),
+
+                DateOfBirth = outlookContact.Birthday,
+
+                Name = new PersonName
+                {
+                    FirstName = outlookContact.FirstName,
+                    LastName = outlookContact.LastName,
+                    MiddleName = outlookContact.MiddleName,
+                    AcademicTitle =
+                       outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
+                       outlookContact.Title,
+                },
+
+                PersonalAddressPrimary = new AddressDetail
+                {
+                    Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
+                    CountryName = outlookContact.HomeAddressCountry,
+                    PostalCode = outlookContact.HomeAddressPostalCode,
+                    CityName = outlookContact.HomeAddressCity,
+                    StateName = outlookContact.HomeAddressState,
+                    StreetName = outlookContact.HomeAddressStreet,
+                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
+                    StreetNumberExtension =
+                        SyncTools.ExtractStreetNumberExtension(outlookContact.HomeAddressStreet),
+                },
+
+                PersonalHomepage = outlookContact.PersonalHomePage,
+                PersonalEmailPrimary = outlookContact.Email1Address,
+                PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
+                PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
+
+                BusinessCompanyName = outlookContact.CompanyName,
+                BusinessPosition = outlookContact.JobTitle,
+
+                BusinessAddressPrimary = new AddressDetail
+                {
+                    Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
+                    CountryName = outlookContact.BusinessAddressCountry,
+                    PostalCode = outlookContact.BusinessAddressPostalCode,
+                    CityName = outlookContact.BusinessAddressCity,
+                    StateName = outlookContact.BusinessAddressState,
+                    StreetName = outlookContact.BusinessAddressStreet,
+                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
+                    StreetNumberExtension =
+                        SyncTools.ExtractStreetNumberExtension(outlookContact.BusinessAddressStreet),
+                },
+
+                BusinessHomepage = outlookContact.BusinessHomePage,
+                BusinessEmailPrimary = outlookContact.Email2Address,
+                BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
+
+                AdditionalTextData = outlookContact.Body,
+                PictureName = pictureName,
+                PictureData = pictureData
+            };
+
+            if (string.IsNullOrEmpty(returnValue.PersonalAddressPrimary.ToString()))
+            {
+                returnValue.PersonalAddressPrimary = null;
+            }
+
+            if (string.IsNullOrEmpty(returnValue.BusinessAddressPrimary.ToString()))
+            {
+                returnValue.PersonalAddressPrimary = null;
+            }
+
+            // return the newly generated standard contact
+            return returnValue;
+        }
+
+        /// <summary>
+        /// converts an outlook appointment element to a StdCalendarItem
+        /// </summary>
+        /// <param name="outlookItem"> The outlook item. </param>
+        /// <returns> the newly created StdCalendarItem </returns>
+        /// <exception cref="ArgumentNullException"> in case of outlookItem being null </exception>
+        public static StdCalendarItem ConvertToStandardCalendarItem(_AppointmentItem outlookItem)
+        {
+            if (outlookItem == null)
+            {
+                throw new ArgumentNullException("outlookItem");
+            }
+
+            var result = new StdCalendarItem { Subject = outlookItem.Subject };
+
+            // TODO: this is a very "incomplete" version of the method
+            return result;
+        }
+
+        /// <summary>
         /// Opens a MAPI folder from outlook.
         /// </summary>
         /// <param name="outlookNamespace">
@@ -98,142 +295,32 @@ namespace Sem.Sync.OutlookConnector
             return outlookNamespace;
         }
 
-        /// <summary>
-        /// helper funtion to parse a path.
-        /// </summary>
-        /// <param name="path">
-        /// The path to be parsed.
-        /// </param>
-        /// <param name="returnPath">
-        /// The remaining part of the path.
-        /// </param>
-        /// <returns>
-        /// the next part of the path
-        /// </returns>
-        private static string GetNextPathPart(string path, out string returnPath)
-        {
-            var result = string.Empty;
-            if (path != null)
-            {
-                while (path.StartsWith(@"\"))
-                {
-                    path = path.Substring(1);
-                }
-
-                var idx = path.IndexOf('\\');
-                idx = (idx == -1) ? path.Length : idx;
-
-                result = path.Substring(0, idx);
-                returnPath = (idx < path.Length) ? path.Substring(idx + 1) : string.Empty;
-            }
-            else
-            {
-                returnPath = string.Empty;
-            }
-
-            return result;
-        }
+        #endregion
 
         /// <summary>
-        /// Returns a syncronization id for a given contact. If there is no syncronization id, a new one will be 
-        /// created and saved to outlook. If saving the contact does fail because of authorization, NO exception 
-        /// will be thrown.
+        /// this method is still not implemented
         /// </summary>
-        /// <param name="outlookContact">the outlook contact to handle</param>
-        /// <returns>the corresponding Guid</returns>
-        private static Guid GetStandardId(_ContactItem outlookContact)
-        {
-            if (outlookContact == null)
-            {
-                throw new ArgumentNullException("outlookContact");
-            }
-
-            var newId = Guid.NewGuid();
-            try
-            {
-                // try to read the contact id property - generate one if it's not there
-                var contactIdObject = outlookContact.UserProperties[ContactIdOutlookPropertyName] ??
-                                      outlookContact.UserProperties.Add(
-                                          ContactIdOutlookPropertyName,
-                                          OlUserPropertyType.olText,
-                                          true,
-                                          OlFormatText.olFormatTextText);
-
-                // test if the value is a valid id
-                if (contactIdObject.Value.ToString().Length != 36)
-                {
-                    // use the formerly generated id if it's not valid
-                    contactIdObject.Value = newId.ToString();
-                    outlookContact.Save();
-                }
-
-                // finally read the id from the property
-                newId = new Guid(contactIdObject.Value.ToString());
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // if we are not authorized to write back the id, we will assume a new id
-            }
-
-            return newId;
-        }
-
-        public static List<ContactsItemContainer> GetContactsList(Items contactsEnum)
+        /// <param name="contactsEnum"> The contacts enum. </param>
+        /// <param name="stdCalendarItem"> The std calendar item. </param>
+        /// <param name="skipIfExisting"> The skip if existing. </param>
+        /// <param name="contactsList"> The contacts list. </param>
+        /// <returns> a value indicating whether the element has been written to outlook </returns>
+        /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
+        /// <exception cref="NotImplementedException"> always, because the method is not implemented </exception>
+        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, bool skipIfExisting, List<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
             {
                 throw new ArgumentNullException("contactsEnum");
             }
 
-            var contactsList = new List<ContactsItemContainer>();
-            foreach (var item in contactsEnum)
+            if (stdCalendarItem == null)
             {
-                if (item is ContactItem)
-                {
-                    contactsList.Add(new ContactsItemContainer { Item = (ContactItem)item });
-                }
+                throw new ArgumentNullException("stdCalendarItem");
             }
 
-            return contactsList;
+            throw new NotImplementedException();
         }
-
-        public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, List<ContactsItemContainer> contactsList)
-        {
-            if (contactsEnum == null)
-            {
-                throw new ArgumentNullException("contactsEnum");
-            }
-
-            if (element == null)
-            {
-                throw new ArgumentNullException("element");
-            }
-
-            var outlookContact = (from x in contactsList
-                                  where x.Id == element.Id.ToString()
-                                  select x.Item).FirstOrDefault();
-
-            if (skipIfExisting && outlookContact != null)
-            {
-                return false;
-            }
-
-            if (outlookContact == null)
-            {
-                outlookContact = (ContactItem)contactsEnum.Add(OlItemType.olContactItem);
-            }
-
-            // convert StdContact to Outlook contact
-            if (ConvertToNativeContact(element, outlookContact))
-            {
-                outlookContact.Save();
-                return true;
-            }
-
-            return false;
-        }
-
-        #region conversion
 
         /// <summary>
         /// Writes the information from a standard contact to a native outlook contact
@@ -400,7 +487,7 @@ namespace Sem.Sync.OutlookConnector
             {
                 if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
                 {
-                    if (stdOldContact.PersonalAddressPrimary.CityName != 
+                    if (stdOldContact.PersonalAddressPrimary.CityName !=
                         stdNewContact.PersonalAddressPrimary.CityName)
                     {
                         outlookContact.HomeAddressCity = stdNewContact.PersonalAddressPrimary.CityName;
@@ -421,7 +508,7 @@ namespace Sem.Sync.OutlookConnector
                         dirty = true;
                     }
 
-                    if (stdOldContact.PersonalAddressPrimary.StateName != 
+                    if (stdOldContact.PersonalAddressPrimary.StateName !=
                         stdNewContact.PersonalAddressPrimary.StateName)
                     {
                         outlookContact.HomeAddressState = stdNewContact.PersonalAddressPrimary.StateName;
@@ -435,8 +522,8 @@ namespace Sem.Sync.OutlookConnector
                         dirty = true;
                     }
 
-                    if (stdNewContact.PersonalAddressPrimary.Phone != null && 
-                        (stdOldContact.PersonalAddressPrimary.Phone == null || 
+                    if (stdNewContact.PersonalAddressPrimary.Phone != null &&
+                        (stdOldContact.PersonalAddressPrimary.Phone == null ||
                         stdOldContact.PersonalAddressPrimary.Phone.ToString() != stdNewContact.PersonalAddressPrimary.Phone.ToString()))
                     {
                         outlookContact.HomeTelephoneNumber = stdNewContact.PersonalAddressPrimary.Phone.ToString();
@@ -502,141 +589,6 @@ namespace Sem.Sync.OutlookConnector
             }
 
             return dirty;
-        }
-
-        /// <summary>
-        /// Converts an outlook contact to a standard contact.
-        /// </summary>
-        /// <param name="outlookContact"> The outlook contact to be converted. </param>
-        /// <returns> a new standard contact </returns>
-        /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
-        public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
-        {
-            if (outlookContact == null)
-            {
-                throw new ArgumentNullException("outlookContact");
-            }
-
-            // generate the new id this contact will get in case there is no contact id in outlook
-            var newId = GetStandardId(outlookContact);
-
-            // read the picture data and name of this contact
-            string pictureName;
-            var pictureData = SaveOutlookContactPicture(outlookContact, out pictureName);
-
-            // create a new contact and assign the corresponding values from the outlook contact
-            var returnValue = new StdContact
-            {
-                Id = newId,
-                InternalSyncData = new SyncData
-                {
-                    DateOfLastChange = outlookContact.LastModificationTime,
-                    DateOfCreation = outlookContact.CreationTime
-                },
-                PersonGender =
-                    (outlookContact.Gender == OlGender.olMale)
-                        ? Gender.Male
-                        : (outlookContact.Gender == OlGender.olFemale)
-                                ? Gender.Female
-                                : SyncTools.GenderByText(outlookContact.Title),
-
-                DateOfBirth = outlookContact.Birthday,
-
-                Name = new PersonName
-                {
-                    FirstName = outlookContact.FirstName,
-                    LastName = outlookContact.LastName,
-                    MiddleName = outlookContact.MiddleName,
-                    AcademicTitle =
-                       outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
-                       outlookContact.Title,
-                },
-
-                PersonalAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
-                    CountryName = outlookContact.HomeAddressCountry,
-                    PostalCode = outlookContact.HomeAddressPostalCode,
-                    CityName = outlookContact.HomeAddressCity,
-                    StateName = outlookContact.HomeAddressState,
-                    StreetName = outlookContact.HomeAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.HomeAddressStreet),
-                },
-
-                PersonalHomepage = outlookContact.PersonalHomePage,
-                PersonalEmailPrimary = outlookContact.Email1Address,
-                PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
-                PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
-
-                BusinessCompanyName = outlookContact.CompanyName,
-                BusinessPosition = outlookContact.JobTitle,
-
-                BusinessAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
-                    CountryName = outlookContact.BusinessAddressCountry,
-                    PostalCode = outlookContact.BusinessAddressPostalCode,
-                    CityName = outlookContact.BusinessAddressCity,
-                    StateName = outlookContact.BusinessAddressState,
-                    StreetName = outlookContact.BusinessAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.BusinessAddressStreet),
-                },
-
-                BusinessHomepage = outlookContact.BusinessHomePage,
-                BusinessEmailPrimary = outlookContact.Email2Address,
-                BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
-
-                AdditionalTextData = outlookContact.Body,
-                PictureName = pictureName,
-                PictureData = pictureData
-            };
-
-            if (string.IsNullOrEmpty(returnValue.PersonalAddressPrimary.ToString()))
-            {
-                returnValue.PersonalAddressPrimary = null;
-            }
-
-            if (string.IsNullOrEmpty(returnValue.BusinessAddressPrimary.ToString()))
-            {
-                returnValue.PersonalAddressPrimary = null;
-            }
-
-            // return the newly generated standard contact
-            return returnValue;
-        }
-
-        public static StdCalendarItem ConvertToStandardCalendarItem(_AppointmentItem outlookItem)
-        {
-            if (outlookItem == null)
-            {
-                throw new ArgumentNullException("outlookItem");
-            }
-
-            var result = new StdCalendarItem { Subject = outlookItem.Subject };
-
-            // TODO: this is a very "incomplete" version of the method
-            return result;
-        }
-
-        #endregion
-
-        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, bool skipIfExisting, List<ContactsItemContainer> contactsList)
-        {
-            if (contactsEnum == null)
-            {
-                throw new ArgumentNullException("contactsEnum");
-            }
-
-            if (stdCalendarItem == null)
-            {
-                throw new ArgumentNullException("stdCalendarItem");
-            }
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -755,6 +707,86 @@ namespace Sem.Sync.OutlookConnector
             }
 
             return contacts;
+        }
+
+        /// <summary>
+        /// helper funtion to parse a path.
+        /// </summary>
+        /// <param name="path">
+        /// The path to be parsed.
+        /// </param>
+        /// <param name="returnPath">
+        /// The remaining part of the path.
+        /// </param>
+        /// <returns>
+        /// the next part of the path
+        /// </returns>
+        private static string GetNextPathPart(string path, out string returnPath)
+        {
+            var result = string.Empty;
+            if (path != null)
+            {
+                while (path.StartsWith(@"\"))
+                {
+                    path = path.Substring(1);
+                }
+
+                var idx = path.IndexOf('\\');
+                idx = (idx == -1) ? path.Length : idx;
+
+                result = path.Substring(0, idx);
+                returnPath = (idx < path.Length) ? path.Substring(idx + 1) : string.Empty;
+            }
+            else
+            {
+                returnPath = string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns a syncronization id for a given contact. If there is no syncronization id, a new one will be 
+        /// created and saved to outlook. If saving the contact does fail because of authorization, NO exception 
+        /// will be thrown.
+        /// </summary>
+        /// <param name="outlookContact">the outlook contact to handle</param>
+        /// <returns>the corresponding Guid</returns>
+        private static Guid GetStandardId(_ContactItem outlookContact)
+        {
+            if (outlookContact == null)
+            {
+                throw new ArgumentNullException("outlookContact");
+            }
+
+            var newId = Guid.NewGuid();
+            try
+            {
+                // try to read the contact id property - generate one if it's not there
+                var contactIdObject = outlookContact.UserProperties[ContactIdOutlookPropertyName] ??
+                                      outlookContact.UserProperties.Add(
+                                          ContactIdOutlookPropertyName,
+                                          OlUserPropertyType.olText,
+                                          true,
+                                          OlFormatText.olFormatTextText);
+
+                // test if the value is a valid id
+                if (contactIdObject.Value.ToString().Length != 36)
+                {
+                    // use the formerly generated id if it's not valid
+                    contactIdObject.Value = newId.ToString();
+                    outlookContact.Save();
+                }
+
+                // finally read the id from the property
+                newId = new Guid(contactIdObject.Value.ToString());
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // if we are not authorized to write back the id, we will assume a new id
+            }
+
+            return newId;
         }
     }
 }
