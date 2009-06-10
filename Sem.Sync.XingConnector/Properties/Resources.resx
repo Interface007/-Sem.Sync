@@ -124,7 +124,7 @@
     <value>downloaded: </value>
   </data>
   <data name="uiDownloadingVCards" xml:space="preserve">
-    <value>{0} elements found - downloading vcards ...</value>
+    <value>{0} elements found - downloading vCards ...</value>
   </data>
   <data name="uiLogInFailed" xml:space="preserve">
     <value>log in FAILED in for user {0}.</value>

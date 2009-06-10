@@ -15,13 +15,13 @@ namespace Sem.Sync.FilesystemConnector
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    
+
     using Properties;
 
     using SyncBase;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
-    
+
     #endregion usings
 
     /// <summary>
@@ -51,6 +51,16 @@ namespace Sem.Sync.FilesystemConnector
         public ContactClientVCards()
         {
             bool.TryParse(this.GetConfigValue("Save-Pictures-External"), out this.savePictureExternal);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClientVCards"/> class and checks the
+        /// config file for configuration entries for this class.
+        /// </summary>
+        /// <param name="savePicExternal"> determines if the picture should be saved externally, too </param>
+        public ContactClientVCards(bool savePicExternal)
+        {
+            this.savePictureExternal = savePicExternal;
         }
 
         /// <summary>
@@ -105,11 +115,14 @@ namespace Sem.Sync.FilesystemConnector
             SyncTools.EnsurePathExist(clientFolderName);
             foreach (var element in elements.ToContacts())
             {
-                var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
-                File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
-                if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
+                if (element.Name != null)
                 {
-                    File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
+                    var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
+                    File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
+                    if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
+                    {
+                        File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
+                    }
                 }
             }
         }

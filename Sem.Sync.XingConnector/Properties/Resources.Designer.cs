@@ -79,7 +79,7 @@ namespace Sem.Sync.XingConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} elements found - downloading vcards ....
+        ///   Looks up a localized string similar to {0} elements found - downloading vCards ....
         /// </summary>
         internal static string uiDownloadingVCards {
             get {

@@ -11,7 +11,9 @@ namespace Sem.Sync.Test
 {
     using System.IO;
     using System.Text;
-    
+
+    using FilesystemConnector;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SyncBase;
@@ -61,7 +63,7 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void BasicTests()
         {
-            var connector = new FilesystemConnector.ContactClient();
+            var connector = new ContactClient();
             Assert.AreEqual("FileSystem Contact Connector - one file for all contacts", connector.FriendlyClientName);
 
             var tempFolder = PrepareFolder();
@@ -82,8 +84,47 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void CopyTestsvCard()
         {
-            var connector = new FilesystemConnector.ContactClient();
-            var vcardConnector = new FilesystemConnector.ContactClientVCards();
+            var connector = new ContactClient();
+            var vcardConnector = new ContactClientVCards();
+            var tempFolder = PrepareFolder();
+            var file1 = Path.Combine(tempFolder, "file1");
+            var file2 = Path.Combine(tempFolder, "file2");
+            var path1 = Path.Combine(tempFolder, "vCards");
+
+            var originalList = connector.GetAll(file1);
+            originalList.Add(new StdContact()); 
+            vcardConnector.WriteRange(originalList, path1);
+            var copyList = vcardConnector.GetAll(path1);
+            copyList.Add(new StdContact());
+            connector.WriteRange(copyList, file2);
+
+            Assert.AreEqual(((StdContact)originalList[0]).AdditionalTextData, ((StdContact)copyList[0]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.FirstName, ((StdContact)copyList[0]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.LastName, ((StdContact)copyList[0]).Name.LastName);
+
+            Assert.AreEqual(((StdContact)originalList[1]).AdditionalTextData, ((StdContact)copyList[1]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.AcademicTitle, ((StdContact)copyList[1]).Name.AcademicTitle);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.FirstName, ((StdContact)copyList[1]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.LastName, ((StdContact)copyList[1]).Name.LastName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.MiddleName, ((StdContact)copyList[1]).Name.MiddleName);
+            Assert.AreEqual(((StdContact)originalList[1]).PictureData.Length, ((StdContact)copyList[1]).PictureData.Length);
+            Assert.AreEqual(((StdContact)originalList[1]).PersonalPhoneMobile.Number, ((StdContact)copyList[1]).PersonalPhoneMobile.Number);
+
+            vcardConnector = new ContactClientVCards(true);
+            vcardConnector.WriteRange(originalList, path1);
+
+            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList[1].ToStringSimple())) + "-ContactPicture.jpg"));
+        }
+
+        /// <summary>
+        /// Performs a copy from one file system store to another. This executes read and write.
+        /// Then both files will be compared to validate that all data has been copied.
+        /// </summary>
+        [TestMethod]
+        public void CopyTestsvCardExternal()
+        {
+            var connector = new ContactClient();
+            var vcardConnector = new ContactClientVCards(true);
             var tempFolder = PrepareFolder();
             var file1 = Path.Combine(tempFolder, "file1");
             var file2 = Path.Combine(tempFolder, "file2");
@@ -105,8 +146,13 @@ namespace Sem.Sync.Test
             Assert.AreEqual(((StdContact)originalList[1]).Name.MiddleName, ((StdContact)copyList[1]).Name.MiddleName);
             Assert.AreEqual(((StdContact)originalList[1]).PictureData.Length, ((StdContact)copyList[1]).PictureData.Length);
             Assert.AreEqual(((StdContact)originalList[1]).PersonalPhoneMobile.Number, ((StdContact)copyList[1]).PersonalPhoneMobile.Number);
+
+            vcardConnector = new ContactClientVCards(true);
+            vcardConnector.WriteRange(originalList, path1);
+
+            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList[1].ToStringSimple())) + "-ContactPicture.jpg"));
         }
-        
+
         /// <summary>
         /// Performs a copy from one file system to a vCard and back. This executes read and write.
         /// Then both files will be compared to validate that all data has been copied.
@@ -114,7 +160,7 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void CopyTests()
         {
-            var connector = new FilesystemConnector.ContactClient();
+            var connector = new ContactClient();
             var tempFolder = PrepareFolder();
             var file1 = Path.Combine(tempFolder, "file1");
             var file2 = Path.Combine(tempFolder, "file2");
@@ -130,6 +176,74 @@ namespace Sem.Sync.Test
             Assert.AreEqual(content1, content2);
         }
 
+        /// <summary>
+        /// Performs a copy from one file system store to another. This executes read and write.
+        /// Then both files will be compared to validate that all data has been copied.
+        /// </summary>
+        [TestMethod]
+        public void CopyTestsIndividualFiles()
+        {
+            var connector = new ContactClient();
+            var individualFilesConnector = new ContactClientIndividualFiles();
+            var tempFolder = PrepareFolder();
+            var file1 = Path.Combine(tempFolder, "file1");
+            var file2 = Path.Combine(tempFolder, "file2");
+            var path1 = Path.Combine(tempFolder, "vCards");
+
+            var originalList = connector.GetAll(file1);
+            originalList.Add(new StdContact());
+            individualFilesConnector.WriteRange(originalList, path1);
+            var copyList = individualFilesConnector.GetAll(path1);
+            copyList.Add(new StdContact());
+            connector.WriteRange(copyList, file2);
+
+            Assert.AreEqual(((StdContact)originalList[0]).AdditionalTextData, ((StdContact)copyList[0]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.FirstName, ((StdContact)copyList[0]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.LastName, ((StdContact)copyList[0]).Name.LastName);
+
+            Assert.AreEqual(((StdContact)originalList[1]).AdditionalTextData, ((StdContact)copyList[1]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.AcademicTitle, ((StdContact)copyList[1]).Name.AcademicTitle);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.FirstName, ((StdContact)copyList[1]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.LastName, ((StdContact)copyList[1]).Name.LastName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.MiddleName, ((StdContact)copyList[1]).Name.MiddleName);
+            Assert.AreEqual(((StdContact)originalList[1]).PictureData.Length, ((StdContact)copyList[1]).PictureData.Length);
+            Assert.AreEqual(((StdContact)originalList[1]).PersonalPhoneMobile.Number, ((StdContact)copyList[1]).PersonalPhoneMobile.Number);
+        }
+
+        /// <summary>
+        /// Performs a copy from one file system store to another. This executes read and write.
+        /// Then both files will be compared to validate that all data has been copied.
+        /// </summary>
+        [TestMethod]
+        public void CopyTestsGenericConnector()
+        {
+            var connector = new ContactClient();
+            var genericConnector = new GenericClient<StdContact>();
+            var tempFolder = PrepareFolder();
+            var file1 = Path.Combine(tempFolder, "file1");
+            var file2 = Path.Combine(tempFolder, "file2");
+            var path1 = Path.Combine(tempFolder, "vCards");
+
+            var originalList = connector.GetAll(file1);
+            originalList.Add(new StdContact());
+            genericConnector.WriteRange(originalList, path1);
+            var copyList = genericConnector.GetAll(path1);
+            copyList.Add(new StdContact());
+            connector.WriteRange(copyList, file2);
+
+            Assert.AreEqual(((StdContact)originalList[0]).AdditionalTextData, ((StdContact)copyList[0]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.FirstName, ((StdContact)copyList[0]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[0]).Name.LastName, ((StdContact)copyList[0]).Name.LastName);
+
+            Assert.AreEqual(((StdContact)originalList[1]).AdditionalTextData, ((StdContact)copyList[1]).AdditionalTextData);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.AcademicTitle, ((StdContact)copyList[1]).Name.AcademicTitle);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.FirstName, ((StdContact)copyList[1]).Name.FirstName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.LastName, ((StdContact)copyList[1]).Name.LastName);
+            Assert.AreEqual(((StdContact)originalList[1]).Name.MiddleName, ((StdContact)copyList[1]).Name.MiddleName);
+            Assert.AreEqual(((StdContact)originalList[1]).PictureData.Length, ((StdContact)copyList[1]).PictureData.Length);
+            Assert.AreEqual(((StdContact)originalList[1]).PersonalPhoneMobile.Number, ((StdContact)copyList[1]).PersonalPhoneMobile.Number);
+        }
+        
         /// <summary>
         /// Prepares a folder with files for the tests.
         /// </summary>

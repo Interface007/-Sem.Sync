@@ -36,7 +36,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns> a binary vCard representation </returns>
         public static byte[] StdContactToVCard(StdContact contact)
         {
-            if (contact == null)
+            if (contact == null || contact.Name == null)
             {
                 throw new ArgumentNullException("contact");
             }
