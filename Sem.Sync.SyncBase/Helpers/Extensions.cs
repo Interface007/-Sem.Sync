@@ -24,10 +24,11 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>true if the string is equal to one of the candidates</returns>
         public static bool IsOneOf(this string theString, params string[] candidates)
         {
-            // <pex>
-            if (candidates == (string[])null)
+            if (candidates == null)
+            {
                 throw new ArgumentNullException("candidates");
-            // </pex>
+            }
+
             return candidates.Contains(theString);
         }
 

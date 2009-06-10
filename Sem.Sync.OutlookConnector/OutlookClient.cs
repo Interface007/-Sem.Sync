@@ -264,7 +264,7 @@ namespace Sem.Sync.OutlookConnector
                                             OlGender.olMale :
                                             OlGender.olFemale);
 
-            if (stdOldContact.DateOfBirth != stdNewContact.DateOfBirth)
+            if (stdOldContact.DateOfBirth != stdNewContact.DateOfBirth && stdNewContact.DateOfBirth > new DateTime(1900, 1, 2))
             {
                 outlookContact.Birthday = stdNewContact.DateOfBirth;
                 dirty = true;

@@ -15,6 +15,12 @@ namespace Sem.Sync.SyncBase.Helpers
 
     /// <summary>
     /// Class to convert StdContacts to/from vCards
+    /// This class does NOT fully implement the vCard 2.1 specification, because it does NOT support:
+    /// - Property parameters without explicit name
+    /// - folding of property values
+    /// - grouping of properties
+    /// - ONLY Base64-encoding is supported, quoted-printable and 8bit are NOT supported
+    /// - value locations - ONLY inline and URL are supported
     /// </summary>
     public class VCardConverter
     {
@@ -41,8 +47,8 @@ namespace Sem.Sync.SyncBase.Helpers
             AddAttributeToStringBuilder(vCard, "N", contact.Name.LastName, contact.Name.FirstName, contact.Name.MiddleName, contact.Name.AcademicTitle);
             AddAttributeToStringBuilder(vCard, "FN", contact.GetFullName());
             AddAttributeToStringBuilder(vCard, "SORT-STRING", contact.Name.LastName);
-            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=internet;type=WORK;type=pref", contact.BusinessEmailPrimary);
-            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=internet;type=HOME", contact.PersonalEmailPrimary);
+            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=INTERNET;TYPE=WORK;TYPE=PREF", contact.BusinessEmailPrimary);
+            AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=INTERNET;TYPE=HOME", contact.PersonalEmailPrimary);
             AddAttributeToStringBuilder(vCard, "URL;TYPE=HOME", contact.PersonalHomepage);
 
             if (contact.DateOfBirth.Year > 1900 && contact.DateOfBirth.Year < 2200)

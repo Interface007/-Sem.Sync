@@ -36,9 +36,37 @@ namespace Sem.Sync.XingConnector
     public class ContactClient : StdClient
     {
         #region string resources for processing xing pages
-        private const string DetectLoginNeeded = "name=\"loginform\"";
-        private const string XingBaseAddress = "https://www.xing.com";
-        private const string ListContentUrl = "/app/contact?notags_filter=0;search_filter=;tags_filter=;offset={0}";
+        
+        /// <summary>
+        /// Detection string to parse the content of a request if we need to login
+        /// </summary>
+        private const string HttpDetectionStringLoginNeeded = "name=\"loginform\"";
+
+        /// <summary>
+        /// detection string to detect if we did fail to log in
+        /// </summary>
+        private const string HttpDetectionStringLoginFailed = "/app/user?op=lostpassword";
+
+        /// <summary>
+        /// Base address to communicate with Xing
+        /// </summary>
+        private const string HttpUrlBaseAddress = "https://www.xing.com";
+
+        /// <summary>
+        /// relative url to log in
+        /// </summary>
+        private const string HttpUrlLoginRequest = "/app/user";
+
+        /// <summary>
+        /// relative URL to query contact links to vCards
+        /// </summary>
+        private const string HttpUrlListContent = "/app/contact?notags_filter=0;search_filter=;tags_filter=;offset={0}";
+        
+        /// <summary>
+        /// data string to be posted to login into Xing
+        /// </summary>
+        private const string HttpDataLoginRequest = "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}";
+
         #endregion
 
         #region private implementation
@@ -53,15 +81,32 @@ namespace Sem.Sync.XingConnector
         /// </summary>
         private readonly VCardConverter vCardConverter;
 
+        /// <summary>
+        /// Creates a new instance of the ContactClient class. The default constructore will create and
+        /// configure a new http-requester by reading the config file. Use the parametrized constructor
+        /// to provide a ready to use http-requester
+        /// </summary>
         public ContactClient()
         {
-            xingRequester = new HttpHelper(XingBaseAddress, true)
+            xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
                                 {
                                     UseCache = Convert.ToBoolean(this.GetConfigValue("UseCache")),
                                     SkipNotCached = Convert.ToBoolean(this.GetConfigValue("SkipNotCached")),
                                     UseIeCookies = Convert.ToBoolean(this.GetConfigValue("UseIeCookies")),
                                 };
 
+            vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
+        }
+
+        /// <summary>
+        /// Creates a new instance of the ContactClient class. This parametrized constructore does
+        /// accept a "ready to use" http-requester. This way you can specify a requester with
+        /// properties that differ from default/config-file properties.
+        /// </summary>
+        /// <param name="preconfiguredHttpHelper"></param>
+        public ContactClient(HttpHelper preconfiguredHttpHelper)
+        {
+            this.xingRequester = preconfiguredHttpHelper;
             vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
         }
 
@@ -84,7 +129,10 @@ namespace Sem.Sync.XingConnector
             return contact;
         }
 
-
+        /// <summary>
+        /// Ready a list of vCard locations - this will also establish the login
+        /// </summary>
+        /// <returns></returns>
         private List<string> GetUrlList()
         {
             // regular request    : https://www.xing.com/app/contact
@@ -103,10 +151,10 @@ namespace Sem.Sync.XingConnector
                 {
                     // optimistically we try to read the content without explicit login
                     // this will succeed if we have a valid cookie
-                    contactListContent = xingRequester.GetContent(string.Format(ListContentUrl, offsetIndex), "[NOCACHE]");
+                    contactListContent = xingRequester.GetContent(string.Format(HttpUrlListContent, offsetIndex), "[NOCACHE]");
 
                     // if we don't find the login form any more, we did succeed
-                    if (!contactListContent.Contains(DetectLoginNeeded))
+                    if (!contactListContent.Contains(HttpDetectionStringLoginNeeded))
                         break;
 
                     if (string.IsNullOrEmpty(this.LogOnPassword))
@@ -119,14 +167,14 @@ namespace Sem.Sync.XingConnector
 
                     // prepare the post data for log in
                     var postData = HttpHelper.PreparePostData(
-                        "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}", 
+                        HttpDataLoginRequest, 
                         this.LogOnUserId, 
                         this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = xingRequester.GetContentPost("/app/user", "[NOCACHE]", postData);
+                    var logInResponse = xingRequester.GetContentPost(HttpUrlLoginRequest, "[NOCACHE]", postData);
 
-                    if (logInResponse.Contains("/app/user?op=lostpassword"))
+                    if (logInResponse.Contains(HttpDetectionStringLoginFailed))
                     {
                         LogProcessingEvent(Resources.uiLogInFailed, this.LogOnUserId);
                         return result;
@@ -163,11 +211,22 @@ namespace Sem.Sync.XingConnector
 
         #endregion
 
+        /// <summary>
+        /// Because Xing is a read only source, removing duplicates is not implemented.
+        /// This method will throw a NotImplementedException
+        /// </summary>
+        /// <param name="clientFolderName">the method is not implemented - this parameter is not used.</param>
         public override void RemoveDuplicates(string clientFolderName)
         {
             throw new NotImplementedException(Resources.uiNoAlteringImplemented);
         }
 
+        /// <summary>
+        /// Reads the full list of contacts from Xing
+        /// </summary>
+        /// <param name="clientFolderName">this parameter is not used in this client implementation</param>
+        /// <param name="result">the list that will be filled with the contacts</param>
+        /// <returns>the list of contacts that has been read from Xing</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var xing = GetUrlList();
@@ -187,11 +246,21 @@ namespace Sem.Sync.XingConnector
             return result;
         }
 
+        /// <summary>
+        /// Because Xing is a read only source, writing the list is not implemented.
+        /// This method will throw a NotImplementedException
+        /// </summary>
+        /// <param name="elements">the method is not implemented - this parameter is not used.</param>
+        /// <param name="clientFolderName">the method is not implemented - this parameter is not used.</param>
+        /// <param name="skipIfExisting">the method is not implemented - this parameter is not used.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             throw new NotImplementedException(Resources.uiNoAlteringImplemented);
         }
 
+        /// <summary>
+        /// Returns a human readable name of this class.
+        /// </summary>
         public override string FriendlyClientName
         {
             get

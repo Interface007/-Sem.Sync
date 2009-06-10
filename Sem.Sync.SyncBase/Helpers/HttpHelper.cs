@@ -500,6 +500,7 @@ namespace Sem.Sync.SyncBase.Helpers
             var request = (HttpWebRequest)WebRequest.Create(requestUrl);
             request.Method = method;
             request.AllowAutoRedirect = true;
+            request.UseDefaultCredentials = true;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
             // we have some common headers that we might use (including cookies)
