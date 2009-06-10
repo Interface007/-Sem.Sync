@@ -21,14 +21,46 @@ namespace Sem.Sync.ActiveDirectoryConnector
     using SyncBase.DetailData;
     using SyncBase.Helpers;
 
+    /// <summary>
+    /// connector to Active Directory via LDAP
+    /// </summary>
     public class ContactClient : StdClient
     {
+        /// <summary>
+        /// registry path to store credentials
+        /// </summary>
         private const string RegBasePath = "software\\Sem.Sync.ActiveDirectoryConnector";
-        private string DumpPath { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        /// </summary>
         public ContactClient()
         {
             this.DumpPath = this.GetConfigValue("DumpPath");
+        }
+
+        /// <summary>
+        /// Gets the user friendly name of this connector
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get { return "Active-Directory-Connector"; }
+        }
+
+        /// <summary>
+        /// Gets or sets path to be used to save the data (might be null or empty).
+        /// </summary>
+        private string DumpPath { get; set; }
+
+        /// <summary>
+        /// writes a list of contacts to the active directory
+        /// </summary>
+        /// <param name="elements">the list of stdcontact elements</param>
+        /// <param name="clientFolderName">not used in this implementation</param>
+        /// <param name="skipIfExisting">determines whether existing entries should be overwritten or only new entries will be cretated</param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -43,26 +75,28 @@ namespace Sem.Sync.ActiveDirectoryConnector
             {
                 // we should have a look for "good" credentials
                 this.LogProcessingEvent("preparing log in");
-                PrepareCredentials();
+                this.PrepareCredentials();
 
                 // if domainController does not contain a "." we assume this to be a domain name 
                 // rather than a domain controller, so we lookup the first controller we can get
                 this.LogProcessingEvent("detecting domain controller");
                 var domainController = this.LogOnDomain;
                 if (!string.IsNullOrEmpty(domainController) && !domainController.Contains("."))
+                {
                     domainController = GetDCs(domainController)[0];
+                }
 
                 // open the directory using explicit or implicit credentials
                 this.LogProcessingEvent("opening ldap connection");
                 var entry =
-                    (string.IsNullOrEmpty(this.LogOnPassword))
+                    string.IsNullOrEmpty(this.LogOnPassword)
                     ? new DirectoryEntry("LDAP://" + domainController)
                     : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
                 var search = new DirectorySearcher(entry)
-                                               {
-                                                   Filter = clientFolderName
-                                               };
+                {
+                    Filter = clientFolderName
+                };
 
                 this.LogProcessingEvent("receiving data ...");
                 var resultList = search.FindAll();
@@ -70,14 +104,18 @@ namespace Sem.Sync.ActiveDirectoryConnector
                 foreach (SearchResult searchItem in resultList)
                 {
                     var newContact = ConvertToContact(searchItem);
-                    if (string.IsNullOrEmpty(newContact.ToStringSimple())) continue;
+                    if (string.IsNullOrEmpty(newContact.ToStringSimple()))
+                    {
+                        continue;
+                    }
 
                     if (!string.IsNullOrEmpty(this.DumpPath))
                     {
-                        DumpUserInformation(searchItem,
-                                            Path.Combine(this.DumpPath,
-                                                         SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
+                        DumpUserInformation(
+                            searchItem,
+                            Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
                     }
+
                     this.LogProcessingEvent(newContact, "adding new element");
                     result.Add(newContact);
                 }
@@ -86,44 +124,33 @@ namespace Sem.Sync.ActiveDirectoryConnector
             {
                 this.LogProcessingEvent(ex.Message);
             }
+
             return result;
         }
-
+        
         /// <summary>
-        /// retrieves credentials from the registry if there is something configured,
-        /// otherwise we will ask the user or use the currently loged in user account
+        /// lookup the list of domain controllers for the specified domain
         /// </summary>
-        private void PrepareCredentials()
+        /// <param name="domainName">
+        /// The domain Name to get the DC for.
+        /// </param>
+        /// <returns>
+        /// The list of DCs in this domain.
+        /// </returns>
+        private static List<string> GetDCs(string domainName)
         {
-            this.LogOnDomain = SyncTools.GetRegValue(RegBasePath, "domainName", "");
-            this.LogOnUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
-            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", "");
+            var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
+            var domain = Domain.GetDomain(context);
+            var domainControllerList = new List<string>();
 
-            // check if the user an empty string, in this case ask the user for credentials
-            if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")
+            foreach (DomainController server in domain.DomainControllers)
             {
-                this.LogOnPassword = "";
-                this.QueryForLogOnCredentials("Please provide login credentials for LDAP query.\nPress cancle to use current user.");
+                domainControllerList.Add(server.Name);
             }
 
-            // if we have a user name and it does contain a backslash, we need to split the domain from the user name
-            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId.Contains("\\"))
-            {
-                this.LogOnDomain = this.LogOnUserId.Split('\\')[0];
-                this.LogOnUserId = this.LogOnUserId.Split('\\')[1];
-            }
-
-            // if the user id is {default} we need to get the domain from the currently logged in user
-            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId != "{default}") return;
-
-            var currentIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
-            if (currentIdentity != null)
-                this.LogOnDomain = currentIdentity.Name;
-
-            if (!string.IsNullOrEmpty(this.LogOnDomain) && this.LogOnDomain.Contains("\\"))
-                this.LogOnDomain = this.LogOnDomain.Split('\\')[0];
+            return domainControllerList;
         }
-
+        
         /// <summary>
         /// Extract contact information from an Active Directory entry
         /// </summary>
@@ -132,45 +159,43 @@ namespace Sem.Sync.ActiveDirectoryConnector
         private static StdContact ConvertToContact(SearchResult searchItem)
         {
             return new StdContact
-                       {
-                           Id = Guid.NewGuid(),
-                           InternalSyncData = new SyncData
-                                                  {
-                                                      DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"),
-                                                      DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"),
-                                                  },
-                           BusinessAddressPrimary = new AddressDetail
-                                                        {
-                                                            CountryName = GetPropString(searchItem.Properties, "co"),
-                                                            StateName = GetPropString(searchItem.Properties, "st"),
-                                                            PostalCode = GetPropString(searchItem.Properties, "postalcode"),
-                                                            CityName = GetPropString(searchItem.Properties, "l"),
-                                                            StreetName = GetPropString(searchItem.Properties, "streetaddress"),
-                                                            Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")),
-                                                            Room = GetPropString(searchItem.Properties, "roomnumber"),
-                                                        },
-                           BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")),
-                           BusinessPosition = GetPropString(searchItem.Properties, "title"),
-                           BusinessCompanyName = GetPropString(searchItem.Properties, "company"),
-                           BusinessDepartment = GetPropString(searchItem.Properties, "department"),
-                           BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"),
+            {
+                Id = Guid.NewGuid(),
+                InternalSyncData = new SyncData
+                {
+                    DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"),
+                    DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"),
+                },
+                BusinessAddressPrimary = new AddressDetail
+                {
+                    CountryName = GetPropString(searchItem.Properties, "co"),
+                    StateName = GetPropString(searchItem.Properties, "st"),
+                    PostalCode = GetPropString(searchItem.Properties, "postalcode"),
+                    CityName = GetPropString(searchItem.Properties, "l"),
+                    StreetName = GetPropString(searchItem.Properties, "streetaddress"),
+                    Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")),
+                    Room = GetPropString(searchItem.Properties, "roomnumber"),
+                },
+                BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")),
+                BusinessPosition = GetPropString(searchItem.Properties, "title"),
+                BusinessCompanyName = GetPropString(searchItem.Properties, "company"),
+                BusinessDepartment = GetPropString(searchItem.Properties, "department"),
+                BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"),
 
-                           PersonalAddressPrimary = new AddressDetail
-                                                        {
-                                                            Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")),
-                                                        },
-                           Name = new PersonName
-                                      {
-                                          FirstName = GetPropString(searchItem.Properties, "givenname"),
-                                          LastName = GetPropString(searchItem.Properties, "sn"),
+                PersonalAddressPrimary = new AddressDetail
+                {
+                    Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")),
+                },
+                Name = new PersonName
+                {
+                    FirstName = GetPropString(searchItem.Properties, "givenname"),
+                    LastName = GetPropString(searchItem.Properties, "sn"),
+                },
+                PersonGender =
+                    SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
 
-                                      },
-
-                           PersonGender =
-                               SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
-
-                           AdditionalTextData = GetPropString(searchItem.Properties, "info"),
-                       };
+                AdditionalTextData = GetPropString(searchItem.Properties, "info"),
+            };
         }
 
         /// <summary>
@@ -181,8 +206,11 @@ namespace Sem.Sync.ActiveDirectoryConnector
         /// <returns>the string that has been extracted</returns>
         private static string GetPropString(ResultPropertyCollection thePropertyCollection, string propName)
         {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0 && thePropertyCollection[propName].Count > 0)
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
+                thePropertyCollection[propName].Count > 0)
+            {
                 return thePropertyCollection[propName][0].ToString();
+            }
 
             return null;
         }
@@ -195,8 +223,11 @@ namespace Sem.Sync.ActiveDirectoryConnector
         /// <returns>the date that has been extracted</returns>
         private static DateTime GetPropDate(ResultPropertyCollection thePropertyCollection, string propName)
         {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0 && thePropertyCollection[propName].Count > 0)
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
+                thePropertyCollection[propName].Count > 0)
+            {
                 return (DateTime)thePropertyCollection[propName][0];
+            }
 
             return new DateTime();
         }
@@ -223,39 +254,45 @@ namespace Sem.Sync.ActiveDirectoryConnector
         }
 
         /// <summary>
-        /// writes a list of contacts to the active directory
+        /// retrieves credentials from the registry if there is something configured,
+        /// otherwise we will ask the user or use the currently loged in user account
         /// </summary>
-        /// <param name="elements">the list of stdcontact elements</param>
-        /// <param name="clientFolderName">not used</param>
-        /// <param name="skipIfExisting">determines whether existing entries should be overwritten or only new entries will be cretated</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        private void PrepareCredentials()
         {
-            throw new NotImplementedException();
-        }
+            this.LogOnDomain = SyncTools.GetRegValue(RegBasePath, "domainName", string.Empty);
+            this.LogOnUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
+            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", string.Empty);
 
-        /// <summary>
-        /// Gets the user friendly name of this connector
-        /// </summary>
-        public override string FriendlyClientName
-        {
-            get { return "Active-Directory-Connector"; }
-        }
-        
-        /// <summary>
-        /// lookup the list of domain controllers for the specified domain
-        /// </summary>
-        private static List<string> GetDCs(string domainName)
-        {
-            var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
-            var domain = Domain.GetDomain(context);
-            var dcList = new List<string>();
-            
-            foreach (DomainController server in domain.DomainControllers)
+            // check if the user an empty string, in this case ask the user for credentials
+            if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")
             {
-                dcList.Add(server.Name);
+                this.LogOnPassword = string.Empty;
+                this.QueryForLogOnCredentials("Please provide login credentials for LDAP query.\nPress cancle to use current user.");
             }
 
-            return dcList;
+            // if we have a user name and it does contain a backslash, we need to split the domain from the user name
+            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId.Contains("\\"))
+            {
+                this.LogOnDomain = this.LogOnUserId.Split('\\')[0];
+                this.LogOnUserId = this.LogOnUserId.Split('\\')[1];
+            }
+
+            // if the user id is {default} we need to get the domain from the currently logged in user
+            if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId != "{default}")
+            {
+                return;
+            }
+
+            var currentIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            if (currentIdentity != null)
+            {
+                this.LogOnDomain = currentIdentity.Name;
+            }
+
+            if (!string.IsNullOrEmpty(this.LogOnDomain) && this.LogOnDomain.Contains("\\"))
+            {
+                this.LogOnDomain = this.LogOnDomain.Split('\\')[0];
+            }
         }
     }
 }
