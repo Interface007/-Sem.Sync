@@ -53,7 +53,10 @@ namespace Sem.Sync.SyncBase
         [ComparisonModifier(CaseInsensitive = true)]
         public string PictureName { get; set; }
 
-        // we currently do not have a gui to compare pictures
+        /// <summary>
+        /// Gets or sets the binary data of the associated picture.
+        /// TODO: we currently do not have a gui to compare pictures
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "this is truely a property, not a collection of bytes and not a method."),
         ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public byte[] PictureData { get; set; }

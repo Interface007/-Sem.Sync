@@ -257,14 +257,16 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
-        public static List<StdCalendarItem> ToCalendatItems(this List<StdElement> list)
+        public static StdContact GetContactById(this List<StdContact> list, string uid)
         {
-            var result = new List<StdCalendarItem>();
-            foreach (var element in list)
-            {
-                result.Add((StdCalendarItem)element);
-            }
+            var result = (from x in list where x.Id == new Guid(uid) select x).FirstOrDefault();
             return result;
+        }
+
+        public static StdContact GetContactById(this List<StdElement> list, string uid)
+        {
+            var result = (from x in list where x.Id == new Guid(uid) select x).FirstOrDefault();
+            return (StdContact)result;
         }
     }
 }

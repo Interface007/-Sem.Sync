@@ -40,6 +40,16 @@ namespace Sem.Sync.ActiveDirectoryConnector
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class and initializes the
+        /// path to save the data to.
+        /// </summary>
+        /// <param name="dumpDataToFolder"> The folder that should get the data. </param>
+        public ContactClient(string dumpDataToFolder)
+        {
+            this.DumpPath = dumpDataToFolder;
+        }
+
+        /// <summary>
         /// Gets the user friendly name of this connector
         /// </summary>
         public override string FriendlyClientName
