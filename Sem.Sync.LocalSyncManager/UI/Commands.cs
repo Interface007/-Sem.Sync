@@ -72,6 +72,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 this.SyncListSelection.SelectedIndex = 0;
             }
+
+            this.dataGridView1.KeyDown += (kps, kpe) => { if (kpe.KeyCode == Keys.Enter) this.RunSelectedRow(); };
+            this.dataGridView1.CellDoubleClick += (gvs, gve) => this.RunSelectedCommand(gve.RowIndex);
         }
 
         private void OnProgressEvent(object sender, ProgressEventArgs e)
@@ -103,14 +106,14 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         #region eventhandler
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            this.RunSelectedCommand(e.RowIndex);
-        }
-
         private void runSelected_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            this.RunSelectedRow();
+        }
+
+        private void RunSelectedRow()
+        {
+            if (this.dataGridView1.SelectedRows.Count > 0)
             {
                 this.RunSelectedCommand(this.dataGridView1.SelectedRows[0].Index);
             }

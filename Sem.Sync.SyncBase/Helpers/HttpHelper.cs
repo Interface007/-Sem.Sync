@@ -116,6 +116,25 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
+        /// replaces string.format parameters in a string using the encoded values of the supplied strings
+        /// This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
+        /// </summary>
+        /// <param name="url">the string that should get the parameters</param>
+        /// <param name="values">the parameter strings that should be encoded and inserted into the string</param>
+        /// <returns>a string with the values inserted that have been encoded</returns>
+        public static string PreparePostData(string url, params string[] values)
+        {
+            var encodedValues = new string[values.Length];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                encodedValues[i] = EncodeForPost(values[i]);
+            }
+
+            return string.Format(CultureInfo.CurrentCulture, url, encodedValues);
+        }
+
+        /// <summary>
         /// Download content binary
         /// </summary>
         /// <param name="url">the url to access the content</param>
@@ -157,8 +176,7 @@ namespace Sem.Sync.SyncBase.Helpers
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
             var fileName = CachePathName(name);
-
-            if (this.UseCache && fileName != "[NOCACHE]" && File.Exists(fileName))
+            if (this.CacheReadAllowed(name, fileName))
             {
                 return File.ReadAllBytes(fileName);
             }
@@ -186,7 +204,7 @@ namespace Sem.Sync.SyncBase.Helpers
         public string GetContent(string url, string name)
         {
             var fileName = CachePathName(name);
-            if (this.UseCache && File.Exists(fileName))
+            if (this.CacheReadAllowed(name, fileName))
             {
                 return File.ReadAllText(fileName);
             }
@@ -235,31 +253,17 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// replaces string.format parameters in a string using the encoded values of the supplied strings
-        /// This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
-        /// </summary>
-        /// <param name="url">the string that should get the parameters</param>
-        /// <param name="values">the parameter strings that should be encoded and inserted into the string</param>
-        /// <returns></returns>
-        public static string PreparePostData(string url, params string[] values)
-        {
-            var encodedValues = new string[values.Length];
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                encodedValues[i] = EncodeForPost(values[i]);
-            }
-
-            return string.Format(CultureInfo.CurrentCulture, url, encodedValues);
-        }
-
-        /// <summary>
         /// reads stream data to string
         /// </summary>
         /// <param name="receiveStream">the stream to read from</param>
         /// <returns>a string representing the resource</returns>
         private static string ReadStreamToString(Stream receiveStream)
         {
+            if (receiveStream == null)
+            {
+                return string.Empty;
+            }
+
             var resultBuilder = new StringBuilder();
             var encode = Encoding.GetEncoding("utf-8");
 
@@ -397,10 +401,31 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>the path if successfull, empty string if no cache should be used</returns>
         private static string CachePathName(string name)
         {
-            return
-                name != "[NOCACHE]"
+            var result =
+                !name.Contains("[NOCACHE]")
                 ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
                 : string.Empty;
+
+            result = result.Replace("[REFRESH=DAILY]", string.Empty);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if the request can be read from cache
+        /// </summary>
+        /// <param name="name"> The name of the content (does contain the cache flags). </param>
+        /// <param name="fileName"> The file name to have a look if the file does exist </param>
+        /// <returns>
+        /// a value that specifies whether file can be read from the cache
+        /// </returns>
+        private bool CacheReadAllowed(string name, string fileName)
+        {
+            return
+                this.UseCache
+                && File.Exists(fileName)
+                && !name.Contains("[NOCACHE]") &&
+                (!name.Contains("[REFRESH=DAILY]") || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
         }
 
         /// <summary>

@@ -89,6 +89,10 @@ namespace Sem.Sync.XingConnector
         
         #endregion
 
+        private const string CacheHintRefresh = "[REFRESH=DAILY]";
+
+        private const string CacheHintNoCache = "[NOCACHE]";
+
         #region ctors
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class. 
@@ -223,7 +227,9 @@ namespace Sem.Sync.XingConnector
                 {
                     // optimistically we try to read the content without explicit login
                     // this will succeed if we have a valid cookie
-                    contactListContent = this.xingRequester.GetContent(string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex), "[NOCACHE]");
+                    contactListContent = this.xingRequester.GetContent(
+                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
+                        "UrlList" + offsetIndex + CacheHintRefresh);
 
                     // if we don't find the login form any more, we did succeed
                     if (!contactListContent.Contains(HttpDetectionStringLoginNeeded))
@@ -246,7 +252,7 @@ namespace Sem.Sync.XingConnector
                         this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLoginRequest, "[NOCACHE]", postData);
+                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLoginRequest, CacheHintNoCache, postData);
 
                     if (logInResponse.Contains(HttpDetectionStringLoginFailed))
                     {
