@@ -38,7 +38,7 @@ namespace Sem.Sync.LocalSyncManager
         private readonly SyncEngine engine = new SyncEngine
                                              {
                                                  WorkingFolder = Config.WorkingFolder,
-                                                 ConflictSolver = new UiDispatcher()
+                                                 UiProvider = new UiDispatcher()
                                              };
 
         internal ClientViewModel()

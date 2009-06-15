@@ -15,13 +15,14 @@
 
     using Properties;
 
-    public partial class MainForm : Form, IUiInteraction
+    public partial class MainForm : Form
     {
         private readonly SyncEngine _engine = new SyncEngine
                                                  {
-                                                     WorkingFolder = Path.Combine(
+                                                    WorkingFolder = Path.Combine(
                                                          Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                                                         "SemSyncXing2Outlook")
+                                                         "SemSyncXing2Outlook"),
+                                                    UiProvider = new UiDispatcher()
                                                  };
 
         public MainForm()
@@ -37,8 +38,6 @@
             _engine.QueryForLogOnCredentialsEvent += AskForLogin;
 
             var list = LoadSyncList("commands.xml");
-            this._engine.ConflictSolver = new UiDispatcher();
-            this._engine.UiProvider = this;
             this._engine.Execute(list);
 
             _engine.ProcessingEvent -= this.LogThis;
@@ -72,16 +71,6 @@
             {
                 return (SyncCollection)formatter.Deserialize(file);
             }
-        }
-
-        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
-        {
-            return new LogOn().SetLoginCredentials(client, messageForUser, logOnUserId, logOnPassword);
-        }
-
-        public bool AskForConfirm(string messageForUser, string title)
-        {
-            return MessageBox.Show(messageForUser, title, MessageBoxButtons.OKCancel) == DialogResult.OK;
         }
     }
 }

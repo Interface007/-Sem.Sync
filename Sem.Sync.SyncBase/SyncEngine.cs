@@ -41,11 +41,6 @@ namespace Sem.Sync.SyncBase
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
         /// <summary>
-        /// Gets or sets the object that will be responsible for solving merge conflicts
-        /// </summary>
-        public IMergeConflictResolver ConflictSolver { get; set; }
-
-        /// <summary>
         /// Gets or sets the object that will be responsible for routing UI interaction requests from connectors
         /// </summary>
         public IUiInteraction UiProvider { get; set; }
@@ -229,7 +224,7 @@ namespace Sem.Sync.SyncBase
 
                     var targetMatchList = targetClient.GetAll(item.TargetStorePath);
                     var matchResultList =
-                    this.ConflictSolver.PerformEntityMerge(
+                    this.UiProvider.PerformEntityMerge(
                                 sourceClient.GetAll(item.SourceStorePath),
                                 targetMatchList,
                                 baseliClient.GetAll(item.BaselineStorePath));
@@ -258,7 +253,7 @@ namespace Sem.Sync.SyncBase
 
                     var targetList = targetClient.GetAll(item.TargetStorePath);
                     var mergeResultList =
-                    this.ConflictSolver.PerformAttributeMerge(
+                    this.UiProvider.PerformAttributeMerge(
                         SyncTools.DetectConflicts(
                             SyncTools.BuildConflictTestContainerList(
                                 sourceClient.GetAll(item.SourceStorePath),

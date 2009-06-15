@@ -21,7 +21,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using SyncBase.EventArgs;
     using SyncBase.Interfaces;
 
-    public partial class LocalSync : Form, IUiInteraction
+    public partial class LocalSync : Form
     {
         internal ClientViewModel DataContext { get; set; }
 
