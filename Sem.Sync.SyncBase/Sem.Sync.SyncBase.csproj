@@ -69,6 +69,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Factory.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
+    <Compile Include="Interfaces\IHttpHelper.cs" />
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Helpers\VersionCheck.cs" />

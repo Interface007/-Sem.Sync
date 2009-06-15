@@ -19,7 +19,7 @@ namespace Sem.Sync.SyncBase.Helpers
     /// <summary>
     /// This class provides funktionality to get information from the web.
     /// </summary>
-    public class HttpHelper
+    public class HttpHelper : IHttpHelper
     {
         #region private members
         /// <summary>

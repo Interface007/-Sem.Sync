@@ -1,9 +1,13 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="SyncDescription.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SyncEngine.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -11,7 +15,7 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    
+
     using Microsoft.Win32;
 
     using Binding;
@@ -20,7 +24,10 @@ namespace Sem.Sync.SyncBase
     using Helpers;
     using Interfaces;
     using Properties;
-    
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class SyncEngine : SyncComponent
     {
         /// <summary>
