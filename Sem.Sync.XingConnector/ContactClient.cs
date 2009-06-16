@@ -202,6 +202,7 @@ namespace Sem.Sync.XingConnector
             }
 
             var contact = this.vCardConverter.VCardToStdContact(vCard, ProfileIdentifierType.XingProfileId);
+            contact.AdditionalTextData = null;
             LogProcessingEvent(contact, Resources.uiDownloaded);
             return contact;
         }

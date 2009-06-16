@@ -106,22 +106,12 @@ namespace Sem.Sync.SyncBase.Helpers
         #endregion
 
         /// <summary>
-        /// encodes the input parameter to form-url-encoded
-        /// </summary>
-        /// <param name="parameter">the content to be encoded</param>
-        /// <returns>the encoded string</returns>
-        public static string EncodeForPost(string parameter)
-        {
-            return System.Web.HttpUtility.UrlEncode(parameter);
-        }
-
-        /// <summary>
         /// replaces string.format parameters in a string using the encoded values of the supplied strings
         /// This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
         /// </summary>
         /// <param name="url">the string that should get the parameters</param>
         /// <param name="values">the parameter strings that should be encoded and inserted into the string</param>
-        /// <returns>a string with the values inserted that have been encoded</returns>
+        /// <returns>the processed data string</returns>
         public static string PreparePostData(string url, params string[] values)
         {
             var encodedValues = new string[values.Length];
@@ -132,6 +122,16 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return string.Format(CultureInfo.CurrentCulture, url, encodedValues);
+        }
+
+        /// <summary>
+        /// encodes the input parameter to form-url-encoded
+        /// </summary>
+        /// <param name="parameter">the content to be encoded</param>
+        /// <returns>the encoded string</returns>
+        public static string EncodeForPost(string parameter)
+        {
+            return System.Web.HttpUtility.UrlEncode(parameter);
         }
 
         /// <summary>
@@ -412,13 +412,11 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Determines if the request can be read from cache
+        /// Determines if reading from cache is allowed
         /// </summary>
-        /// <param name="name"> The name of the content (does contain the cache flags). </param>
-        /// <param name="fileName"> The file name to have a look if the file does exist </param>
-        /// <returns>
-        /// a value that specifies whether file can be read from the cache
-        /// </returns>
+        /// <param name="name">the name of the information (dows contain caching hints)</param>
+        /// <param name="fileName">the name of the cache-file</param>
+        /// <returns>true if reading the cache is allowed</returns>
         private bool CacheReadAllowed(string name, string fileName)
         {
             return
@@ -427,7 +425,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 && !name.Contains("[NOCACHE]") &&
                 (!name.Contains("[REFRESH=DAILY]") || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
         }
-
+        
         /// <summary>
         /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
         /// </summary>

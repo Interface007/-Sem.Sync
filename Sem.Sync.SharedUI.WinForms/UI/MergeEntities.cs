@@ -47,7 +47,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 col.Visible = false;
             }
 
-            SelectCompleteColumn(2);
+            this.SelectCompleteColumn(2);
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target

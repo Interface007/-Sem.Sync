@@ -7,7 +7,10 @@
 namespace Sem.Sync.SyncBase
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+
+    using DetailData;
 
     public enum BusyStatus
     {
@@ -42,12 +45,15 @@ namespace Sem.Sync.SyncBase
 
         public string EntryId { get; set; }
         public string GlobalAppointmentId { get; set; }
-        public DateTime CreationTime { get; set; }
         public DateTime LastModificationTime { get; set; }
         
-        public bool IsAllDayEvent { get; set; }
-        public bool IsRecurring { get; set; }
         public RecurrenceState RecurrenceState { get; set; }
+        public BusyStatus BusyStatus { get; set; }
+
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string TimeZone { get; set; }
+        
         public bool ResponseRequested { get; set; }
         public ResponseStatus ResponseStatus { get; set; }
 
@@ -57,17 +63,8 @@ namespace Sem.Sync.SyncBase
         
         public string Categories { get; set; }
         
-        public int Duration { get; set; }
-        public DateTime EndUtc { get; set; }
-        public DateTime StartUtc { get; set; }
-        public string StartTimeZone { get; set; }
-
-        public BusyStatus BusyStatus { get; set; }
-
         public string Links { get; set; }
         
-        public bool NoAging { get; set; }
-
         public string RequiredAttendees { get; set; }
         public string OptionalAttendees { get; set; }
         public string Resources { get; set; }
@@ -76,16 +73,22 @@ namespace Sem.Sync.SyncBase
         public string Recipients { get; set; }
         
         public int ReminderMinutesBeforeStart { get; set; }
-        public bool ReminderOverrideDefault { get; set; }
-        public bool ReminderPlaySound { get; set; }
-        public bool ReminderSet { get; set; }
-        public string ReminderSoundFile { get; set; }
-        
         #endregion
+
+        /// <summary>
+        /// Gets or sets the list of ExternalIdentifier.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
+        public List<CalendarIdentifier> ExternalIdentifier { get; set; }
+
+        public StdCalendarItem()
+        {
+            this.ExternalIdentifier = new List<CalendarIdentifier>();
+        }
 
         public override string ToString()
         {
-            return this.StartUtc.ToString("yyyy-MM-dd hh:mm:ss - ", CultureInfo.InvariantCulture) + this.Subject;
+            return this.Start.ToString("yyyy-MM-dd hh:mm:ss - ", CultureInfo.InvariantCulture) + this.Subject;
         }
 
         public override void NormalizeContent()
@@ -93,6 +96,4 @@ namespace Sem.Sync.SyncBase
             throw new NotImplementedException();
         }
     }
-
 }
-

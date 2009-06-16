@@ -67,20 +67,12 @@ namespace Sem.Sync.FilesystemConnector
             {
                 using (var file = new FileStream(clientFolderName, FileMode.Open))
                 {
-                    try
+                    if (file.Length > 0)
                     {
-                        if (file.Length > 0)
-                        {
-                            result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
-                        }
+                        result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                    }
 
-                        LogProcessingEvent(
-                            string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
-                    }
-                    finally
-                    {
-                        file.Close();
-                    }
+                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
                 }
             }
 
@@ -119,10 +111,6 @@ namespace Sem.Sync.FilesystemConnector
                 catch (System.Exception ex)
                 {
                     this.LogProcessingEvent(ex.Message);
-                }
-                finally
-                {
-                    file.Close();
                 }
             }
         }

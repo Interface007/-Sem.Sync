@@ -21,18 +21,32 @@ namespace Sem.Sync.LocalSyncManager.UI
     using SyncBase.EventArgs;
     using SyncBase.Interfaces;
 
-    public partial class LocalSync : Form
+    /// <summary>
+    /// the main for of the application
+    /// </summary>
+    public partial class Commands : Form
     {
-        internal ClientViewModel DataContext { get; set; }
-
-        public LocalSync()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Commands"/> class.
+        /// </summary>
+        public Commands()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets or sets the DataContext for binding and working with the commands.
+        /// </summary>
+        internal ClientViewModel DataContext { get; set; }
+
+        /// <summary>
+        /// performs the setup of the form after loading the controls
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The empty event arguments. </param>
         private void LocalSync_Load(object sender, EventArgs e)
         {
-            // todo: this should be handled by the viewmodel instead mof the code behind
+            // todo: this should be handled by the viewmodel instead of the code behind
 
             // route the events
             this.DataContext.ProcessingEvent += this.LogMessage;
@@ -73,14 +87,32 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.SyncListSelection.SelectedIndex = 0;
             }
 
-            this.dataGridView1.KeyDown += (kps, kpe) => { if (kpe.KeyCode == Keys.Enter) this.RunSelectedRow(); };
-            this.dataGridView1.CellDoubleClick += (gvs, gve) => this.RunSelectedCommand(gve.RowIndex);
+            this.dataGridView1.KeyDown += (kps, kpe) =>
+                {
+                    if (kpe.KeyCode == Keys.Enter)
+                    {
+                        this.RunSelectedRow();
+                    }
+                };
+
+            this.dataGridView1.CellDoubleClick += (gvs, gve) => this.RunRowCommand(gve.RowIndex);
         }
 
+        /// <summary>
+        /// Event handler for the progress event
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The event arguments with the information about the progress. </param>
         private void OnProgressEvent(object sender, ProgressEventArgs e)
         {
             this.toolStripProgressBar1.Value = e.PercentageDone;
         }
+
+        /// <summary>
+        /// Event handler for the log event
+        /// </summary>
+        /// <param name="sender">the instance that requests a logging action</param>
+        /// <param name="args">the event arguments containing the information to be logged</param>
         private void LogMessage(object sender, ProcessingEventArgs args)
         {
             var logEntry = new StringBuilder();
@@ -106,38 +138,46 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         #region eventhandler
-        private void runSelected_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// Handels the click event of the "run selected" button
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The empty event arguments. </param>
+        private void RunSelected_Click(object sender, EventArgs e)
         {
             this.RunSelectedRow();
         }
 
-        private void RunSelectedRow()
-        {
-            if (this.dataGridView1.SelectedRows.Count > 0)
-            {
-                this.RunSelectedCommand(this.dataGridView1.SelectedRows[0].Index);
-            }
-        }
-
-        private void runAll_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handels the click event of the "run all" button
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The empty event arguments. </param>
+        private void RunAll_Click(object sender, EventArgs e)
         {
             this.DataContext.Execute();
         }
 
-        private void RunSelectedCommand(int gridRowIndex)
+        /// <summary>
+        /// runs the currently selected command
+        /// </summary>
+        private void RunSelectedRow()
+        {
+            if (this.dataGridView1.SelectedRows.Count > 0)
+            {
+                this.RunRowCommand(this.dataGridView1.SelectedRows[0].Index);
+            }
+        }
+
+        /// <summary>
+        /// Runs the command by specifying the row index
+        /// </summary>
+        /// <param name="gridRowIndex">the number of the row</param>
+        private void RunRowCommand(int gridRowIndex)
         {
             this.DataContext.Execute((SyncDescription)dataGridView1.Rows[gridRowIndex].DataBoundItem);
         }
         #endregion
-
-        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
-        {
-            return new LogOn().SetLoginCredentials(client, messageForUser, logOnUserId, logOnPassword);
-        }
-
-        public bool AskForConfirm(string messageForUser, string title)
-        {
-            return MessageBox.Show(messageForUser, title, MessageBoxButtons.OKCancel) == DialogResult.OK;
-        }
     }
 }

@@ -52,11 +52,15 @@ namespace Sem.Sync.LocalSyncManager
             this.engine.ProcessingEvent += this.ProcessingEvent;
             this.engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
             this.engine.ProgressEvent += this.ProgressEvent;
-            this.engine.Execute(this.SyncCommands);
+            var success = this.engine.Execute(this.SyncCommands);
             this.engine.ProgressEvent -= this.ProgressEvent;
             this.engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
             this.engine.ProcessingEvent -= this.ProcessingEvent;
-            return;
+
+            if (!success)
+            {
+                this.ProcessingEvent(null, new ProcessingEventArgs { Message = "processing canceled" });
+            }
         }
 
         internal void Execute(SyncDescription item)
@@ -64,11 +68,15 @@ namespace Sem.Sync.LocalSyncManager
             this.engine.ProcessingEvent += this.ProcessingEvent;
             this.engine.QueryForLogOnCredentialsEvent += this.QueryForLogOnCredentials;
             this.engine.ProgressEvent += this.ProgressEvent;
-            this.engine.Execute(item);
+            var success = this.engine.Execute(item);
             this.engine.ProgressEvent -= this.ProgressEvent;
             this.engine.QueryForLogOnCredentialsEvent -= this.QueryForLogOnCredentials;
             this.engine.ProcessingEvent -= this.ProcessingEvent;
-            return;
+
+            if (!success)
+            {
+                this.ProcessingEvent(null, new ProcessingEventArgs { Message = "processing canceled" });
+            }
         }
 
         internal void LoadSyncList(string p)

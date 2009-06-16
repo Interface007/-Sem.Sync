@@ -167,17 +167,10 @@ namespace Sem.Sync.SyncBase.Helpers
             {
                 var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
                 SyncTools.EnsurePathExist(Path.GetDirectoryName(destinationFile));
-                var file = new FileStream(destinationFile, FileMode.Create);
-
-                try
+                using (var file = new FileStream(destinationFile, FileMode.Create))
                 {
                     formatter.Serialize(file, elementList);
                 }
-                finally
-                {
-                    file.Close();
-                }
-
             }
             catch
             {
@@ -203,20 +196,12 @@ namespace Sem.Sync.SyncBase.Helpers
             SyncTools.EnsurePathExist(Path.GetDirectoryName(sourceFile));
             if (File.Exists(sourceFile))
             {
-                var file = new FileStream(sourceFile, FileMode.Create);
-                try
+                using (var file = new FileStream(sourceFile, FileMode.Create))
                 {
                     if (file.Length > 0)
                     {
                         elementList = (List<T>)formatter.Deserialize(file);
                     }
-                }
-                catch
-                {
-                }
-                finally
-                {
-                    file.Close();
                 }
             }
             return elementList;

@@ -36,7 +36,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <summary>
         /// This is the formatter instance for serializing the list of contacts.
         /// </summary>
-        private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<T>));
+        private static readonly XmlSerializer ListFormatter = new XmlSerializer(typeof(List<T>));
 
         /// <summary>
         /// Gets the user friendly name of the connector
@@ -69,19 +69,14 @@ namespace Sem.Sync.FilesystemConnector
         {
             if (File.Exists(clientFolderName))
             {
-                var file = new FileStream(clientFolderName, FileMode.Open);
-                try
+                using(var file = new FileStream(clientFolderName, FileMode.Open))
                 {
                     if (file.Length > 0)
                     {
-                        result = ((List<T>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElement();
                     }
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
-                }
-                finally
-                {
-                    file.Close();
                 }
             }
 
@@ -96,8 +91,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var file = new FileStream(clientFolderName, FileMode.Create);
-            try
+            using (var file = new FileStream(clientFolderName, FileMode.Create))
             {
                 var result = new List<T>();
                 foreach (var element in elements)
@@ -105,11 +99,7 @@ namespace Sem.Sync.FilesystemConnector
                     result.Add((T)element);
                 }
 
-                ContactListFormatter.Serialize(file, result);
-            }
-            finally
-            {
-                file.Close();
+                ListFormatter.Serialize(file, result);
             }
         }
      }

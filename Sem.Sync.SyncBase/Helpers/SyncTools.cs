@@ -257,7 +257,7 @@ namespace Sem.Sync.SyncBase.Helpers
             if (item == null) return false;
 
             var isDefined = false;
-            
+
             var typeName = testType.Name;
             if (testType.BaseType == typeof(Enum))
                 typeName = "Enum";
@@ -274,7 +274,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "DateTime":
-                    isDefined = (DateTime) item != new DateTime();
+                    isDefined = (DateTime)item != new DateTime();
                     break;
 
                 case "Date":
@@ -334,15 +334,9 @@ namespace Sem.Sync.SyncBase.Helpers
             var formatter = new XmlSerializer(typeof(T));
 
             EnsurePathExist(Path.GetDirectoryName(fileName));
-            var file = new FileStream(fileName, FileMode.Create);
-
-            try
+            using (var file = new FileStream(fileName, FileMode.Create))
             {
                 formatter.Serialize(file, source);
-            }
-            finally
-            {
-                file.Close();
             }
         }
 
@@ -352,22 +346,22 @@ namespace Sem.Sync.SyncBase.Helpers
             var result = default(T);
             if (File.Exists(fileName))
             {
-                var fileStream = new FileStream(fileName, FileMode.Open);
-                try
+                using (var fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    result = (T)formatter.Deserialize(fileStream);
-                }
-                catch (InvalidOperationException)
-                { }
-                catch (IOException)
-                { }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                finally
-                {
-                    fileStream.Close();
+                    try
+                    {
+                        result = (T)formatter.Deserialize(fileStream);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+                    catch (IOException)
+                    {
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
             return result;

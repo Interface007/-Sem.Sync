@@ -29,6 +29,7 @@ namespace ContactViewer
             {
                 return this._CurrentContact;
             }
+
             set
             {
                 this._CurrentContact = value;
@@ -49,8 +50,8 @@ namespace ContactViewer
         public void SearchForContact()
         {
             var service = new ContactViewServiceClient();
-            service.GetAllCompleted += ServiceGetAllCompleted;
-            service.GetAllAsync("");
+            service.GetAllCompleted += this.ServiceGetAllCompleted;
+            service.GetAllAsync(string.Empty);
         }
 
         private void ServiceGetAllCompleted(object sender, GetAllCompletedEventArgs e)
@@ -74,8 +75,10 @@ namespace ContactViewer
             
             if (bytes != null && bytes.Length > 10)
             {
-                var pictureStream = new MemoryStream(bytes) {Position = 0};
-                image.SetSource(pictureStream);
+                using (var pictureStream = new MemoryStream(bytes) { Position = 0 })
+                {
+                    image.SetSource(pictureStream);
+                }
             }
          
             return image;
@@ -86,13 +89,5 @@ namespace ContactViewer
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-    }
-
-    public class ViewContact
-    {
-        public string FullName { get; set; }
-        public BitmapImage Picture { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
     }
 }

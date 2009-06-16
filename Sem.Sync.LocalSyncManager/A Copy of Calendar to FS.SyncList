@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\*.xmlcalendar</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export Cal from Outlook to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.StdCalendarItem</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcalendar</TargetStorePath>
+  </SyncDescription>
+  
+</ArrayOfSyncDescription>

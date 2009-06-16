@@ -223,7 +223,14 @@ namespace Sem.Sync.OutlookConnector
                 throw new ArgumentNullException("outlookItem");
             }
 
-            var result = new StdCalendarItem { Subject = outlookItem.Subject };
+            var result = new StdCalendarItem
+                {
+                    Id = Guid.NewGuid(),
+                    Subject = outlookItem.Subject,
+                    Body = outlookItem.Body,
+                    Start = outlookItem.StartUTC,
+                    End = outlookItem.EndUTC,
+                };
 
             // TODO: this is a very "incomplete" version of the method
             return result;

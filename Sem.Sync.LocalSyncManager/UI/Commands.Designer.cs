@@ -2,7 +2,7 @@
 {
     using Sem.Sync.SyncBase.Binding;
 
-    partial class LocalSync
+    partial class Commands
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocalSync));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Commands));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.LogList = new System.Windows.Forms.ListBox();
@@ -183,14 +183,14 @@
             resources.ApplyResources(this.runSelected, "runSelected");
             this.runSelected.Name = "runSelected";
             this.runSelected.UseVisualStyleBackColor = true;
-            this.runSelected.Click += new System.EventHandler(this.runSelected_Click);
+            this.runSelected.Click += new System.EventHandler(this.RunSelected_Click);
             // 
             // runAll
             // 
             resources.ApplyResources(this.runAll, "runAll");
             this.runAll.Name = "runAll";
             this.runAll.UseVisualStyleBackColor = true;
-            this.runAll.Click += new System.EventHandler(this.runAll_Click);
+            this.runAll.Click += new System.EventHandler(this.RunAll_Click);
             // 
             // SyncListSelection
             // 

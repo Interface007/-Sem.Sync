@@ -26,7 +26,8 @@ namespace Sem.Sync.SyncBase
     using Properties;
 
     /// <summary>
-    /// 
+    /// The sync engine is the heart of the library. This engine does coordinate the workin
+    /// processes between the connectors.
     /// </summary>
     public class SyncEngine : SyncComponent
     {

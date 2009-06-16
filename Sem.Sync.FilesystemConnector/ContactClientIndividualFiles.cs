@@ -67,8 +67,7 @@ namespace Sem.Sync.FilesystemConnector
             {
                 foreach (var filePathName in Directory.GetFiles(clientFolderName, "*.xmlcontact"))
                 {
-                    var file = new FileStream(filePathName, FileMode.Open);
-                    try
+                    using(var file = new FileStream(filePathName, FileMode.Open))
                     {
                         if (file.Length > 0)
                         {
@@ -76,10 +75,6 @@ namespace Sem.Sync.FilesystemConnector
                         }
 
                         LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
-                    }
-                    finally
-                    {
-                        file.Close();
                     }
                 }
             }
@@ -98,14 +93,9 @@ namespace Sem.Sync.FilesystemConnector
             SyncTools.EnsurePathExist(clientFolderName);
             foreach (var element in elements)
             {
-                var file = new FileStream(Path.Combine(clientFolderName, element.ToStringSimple() + ".xmlcontact"), FileMode.Create);
-                try
+                using(var file = new FileStream(Path.Combine(clientFolderName, element.ToStringSimple() + ".xmlcontact"), FileMode.Create))
                 {
                     ContactListFormatter.Serialize(file, element);
-                }
-                finally
-                {
-                    file.Close();
                 }
             }
         }

@@ -157,6 +157,11 @@ namespace Sem.Sync.SyncBase.Helpers
                 {
                     case "TEL":
 
+                        if (type.Contains("FAX"))
+                        {
+                            break;
+                        }
+
                         if (type.Contains("CELL"))
                         {
                             if (type.Contains("HOME"))

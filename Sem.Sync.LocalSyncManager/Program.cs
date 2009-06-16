@@ -15,6 +15,9 @@ namespace Sem.Sync.LocalSyncManager
 
     using UI;
 
+    /// <summary>
+    /// main program execution class
+    /// </summary>
     public static class Program
     {
         /// <summary>
@@ -25,7 +28,7 @@ namespace Sem.Sync.LocalSyncManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LocalSync { DataContext = new ClientViewModel() });
+            Application.Run(new Commands { DataContext = new ClientViewModel() });
         }
     }
 }
