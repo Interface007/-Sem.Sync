@@ -141,6 +141,7 @@
     <None Include="A Copy of Calendar to FS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="A Sync with AD %28Simple%29.SyncList" />
     <None Include="Test FileSystem to vCard.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

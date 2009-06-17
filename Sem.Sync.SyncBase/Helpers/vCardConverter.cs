@@ -157,7 +157,8 @@ namespace Sem.Sync.SyncBase.Helpers
                 {
                     case "TEL":
 
-                        if (type.Contains("FAX"))
+                        // skip this if it's fax without voice support
+                        if (type.Contains("FAX") && !type.Contains("VOICE"))
                         {
                             break;
                         }

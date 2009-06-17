@@ -162,7 +162,7 @@ namespace Sem.Sync.OutlookConnector
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
                             if (calendarStdItem != null)
                             {
-                                currentElementName = calendarStdItem.Subject + " - " + calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss");
+                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss") + " - " + calendarStdItem.Subject;
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
@@ -212,7 +212,7 @@ namespace Sem.Sync.OutlookConnector
             {
                 // find outlook contact with matching id, create new if needed
                 LogProcessingEvent(element, "searching ...");
-                if (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, skipIfExisting, appointmentList))
+                if (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, appointmentList))
                 {
                     added++;
                 }

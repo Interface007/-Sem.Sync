@@ -114,6 +114,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
                 foreach (SearchResult searchItem in resultList)
                 {
                     var newContact = ConvertToContact(searchItem);
+
                     if (string.IsNullOrEmpty(newContact.ToStringSimple()))
                     {
                         continue;
@@ -205,6 +206,8 @@ namespace Sem.Sync.ActiveDirectoryConnector
                     SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
 
                 AdditionalTextData = GetPropString(searchItem.Properties, "info"),
+
+                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"))
             };
         }
 
@@ -271,7 +274,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
         {
             this.LogOnDomain = SyncTools.GetRegValue(RegBasePath, "domainName", string.Empty);
             this.LogOnUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
-            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", string.Empty);
+            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", "{ask}");
 
             // check if the user an empty string, in this case ask the user for credentials
             if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")

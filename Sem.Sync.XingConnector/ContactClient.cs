@@ -89,8 +89,14 @@ namespace Sem.Sync.XingConnector
         
         #endregion
 
+        /// <summary>
+        /// cache hint string constant to specify a daily refresh for the cached files
+        /// </summary>
         private const string CacheHintRefresh = "[REFRESH=DAILY]";
 
+        /// <summary>
+        /// cache hint string constant to specify that this item should not be cached at all
+        /// </summary>
         private const string CacheHintNoCache = "[NOCACHE]";
 
         #region ctors

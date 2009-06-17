@@ -19,13 +19,13 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// log the events 
         /// </summary>
-        /// <param name="contactStdItem">the std-element this event corresponds to</param>
+        /// <param name="stdItem">the std-element this event corresponds to</param>
         /// <param name="message">the message for this even (should describe what's happening in this step of execution)</param>
-        protected void LogProcessingEvent(StdElement contactStdItem, string message)
+        protected void LogProcessingEvent(StdElement stdItem, string message)
         {
             if (this.ProcessingEvent != null)
             {
-                this.ProcessingEvent(this, new ProcessingEventArgs { Item = contactStdItem, Message = message });
+                this.ProcessingEvent(this, new ProcessingEventArgs { Item = stdItem, Message = message });
             }
         }
         

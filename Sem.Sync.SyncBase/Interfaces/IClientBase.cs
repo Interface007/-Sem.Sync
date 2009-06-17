@@ -16,20 +16,80 @@ namespace Sem.Sync.SyncBase.Interfaces
         event EventHandler<ProcessingEventArgs> ProcessingEvent;
         event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
 
+        /// <summary>
+        /// Gets or sets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
         string FriendlyClientName { get; }
-        
+
+        /// <summary>
+        /// Method to remove duplicate entities - this is an optional implementation requirement. A client 
+        /// can implment this simply with an empty method.
+        /// </summary>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void RemoveDuplicates(string clientFolderName);
 
+        /// <summary>
+        /// Implementation of the process of retrieving the full list of elements.
+        /// </summary>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <returns>The list with the newly added elements</returns>
         List<StdElement> GetAll(string clientFolderName);
 
+        /// <summary>
+        /// Implementation of the process of writing a single element. If the element is already in place, it will be overridden.
+        /// </summary>
+        /// <param name="element">the element to be added</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void AddItem(StdElement element, string clientFolderName);
+        
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements. 
+        /// If the elements are already in place, they will be overridden.
+        /// </summary>
+        /// <param name="elements">the elements to be added in a list of elements</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void AddRange(List<StdElement> elements, string clientFolderName);
 
+        /// <summary>
+        /// Implementation of the process of writing a single element and skipping this process if this 
+        /// element is already present. If the element does not exist, it will be added. If it does exist
+        /// the element will not be added and not be overridden.
+        /// </summary>
+        /// <param name="element">the element to be added</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void MergeMissingItem(StdElement element, string clientFolderName);
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        /// skipping this process if an element is already present. Missing elements will be added, existing 
+        /// elements will not be altered.
+        /// </summary>
+        /// <param name="elements">the elements to be added in a list of elements</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void MergeMissingRange(List<StdElement> elements, string clientFolderName);
 
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        /// overwriting the elements if they do already exist. Missing elements will be added, existing 
+        /// elements will overwritten with the new elements.
+        /// </summary>
+        /// <param name="elements">the elements to be added in a list of elements</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void WriteRange(List<StdElement> elements, string clientFolderName);
 
+        /// <summary>
+        /// Normalizes the information inside the list. This includes removing leading and tailing white space etc.
+        /// </summary>
+        /// <param name="elements">the list of elements to be normalized</param>
+        /// <returns>a list of processed elements</returns>
         List<StdElement> Normalize(List<StdElement> elements);
     }
 }

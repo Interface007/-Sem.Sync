@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export from AD to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.ActiveDirectoryConnector.ContactClient</SourceConnector>
+    <SourceStorePath>memberof=CN=EVA/TOM_All,OU=MailGroups,OU=UserProvisioning,OU=Production,DC=ztb,DC=icb,DC=commerzbank,DC=com</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClientCsv</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\AD.csv</TargetStorePath>
+  </SyncDescription>
+  
+</ArrayOfSyncDescription>

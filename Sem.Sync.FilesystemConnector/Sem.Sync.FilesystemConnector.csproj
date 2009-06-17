@@ -53,6 +53,9 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="ContactClient.cs" />
+    <Compile Include="ContactClientCsv.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ContactClientIndividualFiles.cs" />
     <Compile Include="ContactClientVCards.cs" />
     <Compile Include="GenericClient.cs" />

@@ -309,12 +309,11 @@ namespace Sem.Sync.OutlookConnector
         /// </summary>
         /// <param name="contactsEnum"> The contacts enum. </param>
         /// <param name="stdCalendarItem"> The std calendar item. </param>
-        /// <param name="skipIfExisting"> The skip if existing. </param>
         /// <param name="contactsList"> The contacts list. </param>
         /// <returns> a value indicating whether the element has been written to outlook </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
         /// <exception cref="NotImplementedException"> always, because the method is not implemented </exception>
-        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, bool skipIfExisting, List<ContactsItemContainer> contactsList)
+        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, List<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
             {
