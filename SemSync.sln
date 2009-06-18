@@ -65,9 +65,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SemSync2.vsmdi = SemSync2.vsmdi
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Documentation", "Sem.Sync.Documentation\Sem.Sync.Documentation.csproj", "{C59830A8-5F30-4AC1-A862-473D9911B08A}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
+		SccNumberOfProjects = 18
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -135,6 +137,10 @@ Global
 		SccProjectTopLevelParentUniqueName16 = SemSync.sln
 		SccProjectName16 = Sem.Sync.Test
 		SccLocalPath16 = Sem.Sync.Test
+		SccProjectUniqueName17 = Sem.Sync.Documentation\\Sem.Sync.Documentation.csproj
+		SccProjectTopLevelParentUniqueName17 = SemSync.sln
+		SccProjectName17 = Sem.Sync.Documentation
+		SccLocalPath17 = Sem.Sync.Documentation
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -207,6 +213,10 @@ Global
 		{478077C0-A411-44A9-8053-E8E90BA2847B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478077C0-A411-44A9-8053-E8E90BA2847B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478077C0-A411-44A9-8053-E8E90BA2847B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -223,6 +233,7 @@ Global
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{C59830A8-5F30-4AC1-A862-473D9911B08A} = {1820AB38-479F-49F7-9CF6-1920BFA94C41}
 		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{23E33D41-535B-4FCA-AC56-EDEF6DFB14F1} = {024EBF54-994C-4E06-87F6-17D444178E99}

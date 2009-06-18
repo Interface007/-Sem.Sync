@@ -9,7 +9,7 @@
   <SyncDescription Name="Export Cal from Outlook to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.StdCalendarItem</TargetConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient of Sem.Sync.SyncBase.StdCalendarItem</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcalendar</TargetStorePath>
   </SyncDescription>
   
