@@ -26,9 +26,16 @@ namespace Sem.Sync.SyncBase
     using Properties;
 
     /// <summary>
-    /// The sync engine is the heart of the library. This engine does coordinate the workin
-    /// processes between the connectors.
+    /// The sync engine is the heart of the library. This engine does coordinate the work in
+    /// processes between the connectors. 
     /// </summary>
+    /// <remarks>
+    /// <para>Using the <see cref="Execute(Sem.Sync.SyncBase.SyncDescription)"/> method
+    /// the calling process can execute a single <see cref="SyncDescription"/> which represents a single
+    /// part of work. The command that can be executed are described inside the enumeration <see cref="SyncCommand"/>.</para>
+    /// <para>The overload <see cref="Execute(Sem.Sync.SyncBase.Binding.SyncCollection)"/> does provide
+    /// a way to execute a collection of <see cref="SyncDescription"/> in a sequence.</para>
+    /// </remarks>
     public class SyncEngine : SyncComponent
     {
         /// <summary>
@@ -46,6 +53,9 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         private bool versionChecked;
 
+        /// <summary>
+        /// Will be raised in the event of needed log on credentials
+        /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
         /// <summary>
@@ -56,6 +66,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets a value that represents the file system working folder. Use 
         /// {FS:WorkingFolder} inside the source or target path to access this directory.
+        /// The user of this class is responsible to use specify a usefull working folder.
         /// </summary>
         public string WorkingFolder { get; set; }
 
@@ -298,7 +309,12 @@ namespace Sem.Sync.SyncBase
 
             return continueExecution;
         }
-
+        
+        /// <summary>
+        /// attached or detaches event handlers between sync engine and client implementation
+        /// </summary>
+        /// <param name="client">the client that provides events this engine should subscribe to</param>
+        /// <param name="addEvent">a value to specify if the events should be attached (true) or detached (false)</param>
         private void WireUpEvents(IClientBase client, bool addEvent)
         {
             if (client == null)
@@ -318,11 +334,23 @@ namespace Sem.Sync.SyncBase
             }
         }
 
+        /// <summary>
+        /// Replaces known string token like the token {FS:WorkingFolder} that represents the
+        /// current working folder for the file system
+        /// </summary>
+        /// <param name="path">the string that might contain token</param>
+        /// <returns>the processed string containing the token values instead of the token</returns>
         private string ReplacePathToken(string path)
         {
+
             return (path ?? string.Empty).Replace("{FS:WorkingFolder}", this.WorkingFolder);
         }
 
+        /// <summary>
+        /// Deletes files from a folder using a search pattern. Use "*" as a place holder for any 
+        /// number of any chars; use "?" as a placeholder for a single char.
+        /// </summary>
+        /// <param name="path">the path including the search pattern</param>
         private void DeleteFiles(string path)
         {
             SyncTools.EnsurePathExist(Path.GetDirectoryName(path));
@@ -333,6 +361,15 @@ namespace Sem.Sync.SyncBase
             this.LogProcessingEvent(Resources.uiFilesDeleted);
         }
 
+        /// <summary>
+        /// Automatically matches without user interaction entities by <see cref="object.ToString"/> and (with lower 
+        /// priority) by <see cref="StdElement.ToStringSimple"/>
+        /// </summary>
+        /// <param name="source">the list of <see cref="StdElement"/> that contains the source 
+        /// (this will not be changed)</param>
+        /// <param name="target">the list of <see cref="StdElement"/> that contains the target 
+        /// (here the <see cref="StdElement.Id"/> will be changed if a match is found in the source)</param>
+        /// <returns>the modified list of elements from the <paramref name="target"/></returns>
         private static List<StdElement> MatchByName(IEnumerable<StdElement> source, List<StdElement> target)
         {
             foreach (var item in target)
@@ -367,9 +404,17 @@ namespace Sem.Sync.SyncBase
             return target;
         }
 
-        private static List<StdElement> MatchByProfileId(List<StdElement> source, IEnumerable<StdElement> baseline)
+        /// <summary>
+        /// Automatically matches without user interaction entities by <see cref="StdContact.PersonalProfileIdentifiers"/>.
+        /// </summary>
+        /// <param name="baseline">the list of <see cref="StdElement"/> that contains the source of the baseline
+        /// (this will not be changed, but need to contain entries of type <see cref="MatchingEntry"/>)</param>
+        /// <param name="target">the list of <see cref="StdContact"/> that contains the target 
+        /// (here the <see cref="StdElement.Id"/> will be changed if a match is found in the baseline)</param>
+        /// <returns>the modified list of elements from the <paramref name="target"/></returns>
+        private static List<StdElement> MatchByProfileId(List<StdElement> target, IEnumerable<StdElement> baseline)
         {
-            foreach (var item in source)
+            foreach (var item in target)
             {
                 var corresponding = (from element in baseline
                                      where ((MatchingEntry)element).ProfileId.MatchesAny(((StdContact)item).PersonalProfileIdentifiers)
@@ -383,9 +428,16 @@ namespace Sem.Sync.SyncBase
                 }
             }
 
-            return source;
+            return target;
         }
 
+        /// <summary>
+        /// Performs a Merge operation between two files or three files. This operation does not 
+        /// use client implementations but file system paths only.
+        /// </summary>
+        /// <param name="source">the path of the source list to merge</param>
+        /// <param name="target">the path of the target list to merge</param>
+        /// <param name="baseline">the path of the baseline list to merge</param>
         private static void MergeFilesBeyondCompare(string source, string target, string baseline)
         {
             var pathValue = PathToBeyondCompare;

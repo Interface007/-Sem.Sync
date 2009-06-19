@@ -252,6 +252,14 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Detects standard values in sub entities and replaces them with a NULL reference.
+        /// </summary>
+        /// <param name="item">the item to check (checks will be done including sub entities)</param>
+        /// <param name="testType">the type of the item to test</param>
+        /// <returns>a processed item that contains NULL references instead of defaults</returns>
+        /// <remarks>
+        /// </remarks>
         public static bool ClearNulls(object item, Type testType)
         {
             if (item == null) return false;
@@ -290,6 +298,19 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 default:
+                    // check if we have a new type for that we need to identify the default value
+                    switch (typeName)
+                    {
+                        case "SyncData":
+                        case "PhoneNumber":
+                        case "AddressDetail":
+                        case "PersonName":
+                        case "StdContact":
+                            break;
+                        default:
+                            Console.WriteLine("type name not explicitly supported in ClearNulls: " + typeName);
+                            break;
+                    }
 
                     var members = testType.GetProperties();
 
@@ -310,6 +331,10 @@ namespace Sem.Sync.SyncBase.Helpers
             return isDefined;
         }
 
+        /// <summary>
+        /// Tests for the existence of the specified path and tries to create the path if it's missing
+        /// </summary>
+        /// <param name="filePath">The path to check</param>
         public static void EnsurePathExist(string filePath)
         {
             if (!filePath.EndsWith("\\", StringComparison.Ordinal))
@@ -328,6 +353,12 @@ namespace Sem.Sync.SyncBase.Helpers
             }
         }
 
+        /// <summary>
+        /// Saves the entity to the file system
+        /// </summary>
+        /// <typeparam name="T">the type that should be serialized</typeparam>
+        /// <param name="source">the source object that should be serialized</param>
+        /// <param name="fileName">the destination file name that should get the serialized entity</param>
         public static void SaveToFile<T>(T source, string fileName)
         {
 
@@ -340,6 +371,12 @@ namespace Sem.Sync.SyncBase.Helpers
             }
         }
 
+        /// <summary>
+        /// Loads an entity from the file system.
+        /// </summary>
+        /// <typeparam name="T">the type of the entity that should be loaded</typeparam>
+        /// <param name="fileName">the source file that should be deserialized</param>
+        /// <returns>the deserialized entity - null if there was nothing valid to deserialize</returns>
         public static T LoadFromFile<T>(string fileName)
         {
             var formatter = new XmlSerializer(typeof(T));
@@ -367,6 +404,13 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Reads a value from the registry
+        /// </summary>
+        /// <param name="pathToValue"></param>
+        /// <param name="keyName"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true)
