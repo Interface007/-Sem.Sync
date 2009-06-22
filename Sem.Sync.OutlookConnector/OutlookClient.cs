@@ -162,8 +162,7 @@ namespace Sem.Sync.OutlookConnector
                     StateName = outlookContact.HomeAddressState,
                     StreetName = outlookContact.HomeAddressStreet,
                     StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.HomeAddressStreet),
+                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
                 },
 
                 PersonalHomepage = outlookContact.PersonalHomePage,
@@ -183,8 +182,7 @@ namespace Sem.Sync.OutlookConnector
                     StateName = outlookContact.BusinessAddressState,
                     StreetName = outlookContact.BusinessAddressStreet,
                     StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.BusinessAddressStreet),
+                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
                 },
 
                 BusinessHomepage = outlookContact.BusinessHomePage,

@@ -257,7 +257,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
                                 StreetName = GetNthElement(valueParts, 3),
                                 StreetNumber = SyncTools.ExtractStreetNumber(GetNthElement(valueParts, 3)),
-                                StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(GetNthElement(valueParts, 3)),
+                                StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(), //// (GetNthElement(valueParts, 3)),
 
                                 StateName = GetNthElement(valueParts, 5),
 

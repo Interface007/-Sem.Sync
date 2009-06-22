@@ -25,10 +25,10 @@
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
                         Type='string' Value='true' />
               
-              <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'         >
+              <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'          >
                 <Shortcut 
                     Id="SemSyncOutlookWithXingIcon" Directory="ProgramMenuDir" Name="Sem.Sync Xing to Outlook"
-                    WorkingDirectory='INSTALLLOCATION' Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
+                    WorkingDirectory='INSTALLLOCATION' Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0"  />
               </File>
               <File Id='commands.xml'                         Name='commands.xml'                         />
               <File Id='Sem.Sync.OutlookWithXing.exe.config'  Name='Sem.Sync.OutlookWithXing.exe.config'  />
@@ -58,7 +58,7 @@
 
     <Feature Id="ProductFeature" Title="Sem.Sync.OutlookWithXing.Setup" Level="1">
       <ComponentRef Id="MainExecutable" />
-      <ComponentRef Id="HelperLibrary" />
+      <ComponentRef Id="HelperLibrary"  />
     </Feature>
 
     <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\SemSyncOutlookWithXing\bin\Debug\Sem.Sync.OutlookWithXing.exe" />

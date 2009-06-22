@@ -25,8 +25,6 @@ namespace Sem.Sync.SyncBase.Helpers
     /// </summary>
     public static class SyncTools
     {
-        public static ReplacementLists Replacements { get; private set; }
-
         /// <summary>
         /// Initializes static members of the <see cref="SyncTools"/> class.
         /// </summary>
@@ -34,6 +32,13 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             Replacements = LoadFromFile<ReplacementLists>("dictionary.xml");
         }
+
+        /// <summary>
+        /// Gets the list of replacement lists. Using these lists you can specify 
+        /// a collection of key value pairs that will replace the key with the value
+        /// in specific areas of the entities while normalizing
+        /// </summary>
+        public static ReplacementLists Replacements { get; private set; }
 
         /// <summary>
         /// Replaces forbidden file name characters with an underscore.
@@ -50,9 +55,15 @@ namespace Sem.Sync.SyncBase.Helpers
                     result = result.Replace(character, '_');
                 }
             }
+
             return result;
         }
 
+        /// <summary>
+        /// Extracts the street number from a complete street specification.
+        /// </summary>
+        /// <param name="streetDescription">A text representation of the street specification.</param>
+        /// <returns>The street number</returns>
         public static int ExtractStreetNumber(string streetDescription)
         {
             var result = 0;
@@ -69,10 +80,18 @@ namespace Sem.Sync.SyncBase.Helpers
                     }
                 }
             }
+
             return result;
         }
 
-        public static string ExtractStreetNumberExtension(string street)
+        /// <summary>
+        /// Extracts the street number extension from a complete street specification. E.g. in germany the 
+        /// street number can be extended by a character like "Sesamstreet 21a". In this case "a" is the 
+        /// extension and describes the fact that after numbering all houses in a stree there has been
+        /// built another one.
+        /// </summary>
+        /// <returns>The street number extension</returns>
+        public static string ExtractStreetNumberExtension()
         {
             // TODO: implement a way to extract the street number extension
             return null;
@@ -87,7 +106,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="target">a list of standard elements that should get the changes from the source list</param>
         /// <param name="baseline">a baseline both other lists will be compared to</param>
         /// <param name="type">the type that should serve as a pattern for detecting the properties to compare</param>
-        /// <returns></returns>
+        /// <returns>A list of conflicts that have been detected</returns>
         public static List<ConflictTestContainer> BuildConflictTestContainerList(List<StdElement> source, List<StdElement> target, List<StdElement> baseline, Type type)
         {
             var resultList = new List<ConflictTestContainer>();
@@ -103,7 +122,10 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 // if we have no target element, we (by definition) do not have a conflict - 
                 // in this case the source element can simply be copied to the target list
-                if (targetItem == null) continue;
+                if (targetItem == null)
+                {
+                    continue;
+                }
 
                 // lookup the base element if we have one
                 var baselineItem = (baseline == null) ? null :
@@ -122,7 +144,7 @@ namespace Sem.Sync.SyncBase.Helpers
                                        BaselineProperty = baselineItem,
                                        TargetProperty = targetItem,
 
-                                       PropertyName = "",
+                                       PropertyName = string.Empty,
                                        PropertyType = type
                                    });
             }
@@ -158,19 +180,24 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </remarks>
         public static bool ClearNulls(object item, Type testType)
         {
-            if (item == null) return false;
+            if (item == null)
+            {
+                return false;
+            }
 
             var isDefined = false;
 
             var typeName = testType.Name;
             if (testType.BaseType == typeof(Enum))
+            {
                 typeName = "Enum";
+            }
 
             switch (typeName)
             {
                 case "Enum":
                 case "Int32":
-                    isDefined = (Int32)item != 0;
+                    isDefined = (int)item != 0;
                     break;
 
                 case "String":
@@ -221,6 +248,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             member.SetValue(item, null, null);
                         }
                     }
+
                     break;
             }
 
@@ -245,6 +273,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 {
                     Directory.CreateDirectory(filePath.Substring(0, n));
                 }
+
                 n = filePath.IndexOf("\\", n + 1, StringComparison.Ordinal);
             }
         }
@@ -257,7 +286,6 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="fileName">the destination file name that should get the serialized entity</param>
         public static void SaveToFile<T>(T source, string fileName)
         {
-
             var formatter = new XmlSerializer(typeof(T));
 
             EnsurePathExist(Path.GetDirectoryName(fileName));
@@ -297,6 +325,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     }
                 }
             }
+
             return result;
         }
 
@@ -328,15 +357,26 @@ namespace Sem.Sync.SyncBase.Helpers
             }
         }
 
+        /// <summary>
+        /// Interprets the gender from a text representation (e.g. "Mr." or "Frau")
+        /// </summary>
+        /// <param name="text"> The text to be interpreted. </param>
+        /// <returns>The interpreted gender.</returns>
         public static Gender GenderByText(string text)
         {
-            return (text.IsOneOf("Herr", "Mr."))
+            return text.IsOneOf("Herr", "Mr.")
                        ? Gender.Male
-                       : (text.IsOneOf("Frau", "Mrs."))
+                       : text.IsOneOf("Frau", "Mrs.")
                              ? Gender.Female
                              : Gender.Unspecified;
         }
 
+        /// <summary>
+        /// Detects merge conflicts and stored the information about them in a <see cref="MergeConflict"/>.
+        /// </summary>
+        /// <param name="container"> The container of the attribute description. </param>
+        /// <param name="skipIdenticalChanges">Skips identical changes on both sides.</param>
+        /// <returns>A list of <see cref="MergeConflict"/> that have been detected.</returns>
         private static List<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
         {
             var result = new List<MergeConflict>();
@@ -354,9 +394,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
 
                 var conflict = MergePropertyConflict.None;
-                var sourceString = "";
-                var targetString = "";
-                var baselineString = "";
+                var sourceString = string.Empty;
+                var targetString = string.Empty;
+                var baselineString = string.Empty;
 
                 if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty == null) continue;
                 if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty != null) conflict = MergePropertyConflict.BothChangedIdentically;
@@ -368,7 +408,9 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 var typeName = item.PropertyType.Name;
                 if (item.PropertyType.BaseType.FullName == "System.Enum")
+                {
                     typeName = "Enum";
+                }
 
                 switch (typeName)
                 {
@@ -381,9 +423,9 @@ namespace Sem.Sync.SyncBase.Helpers
                         var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
                         var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);
 
-                        sourceString = sourceValue == null ? "" : sourceValue.ToString();
-                        targetString = targetValue == null ? "" : targetValue.ToString();
-                        baselineString = baselineValue == null ? "" : baselineValue.ToString();
+                        sourceString = sourceValue == null ? string.Empty : sourceValue.ToString();
+                        targetString = targetValue == null ? string.Empty : targetValue.ToString();
+                        baselineString = baselineValue == null ? string.Empty : baselineValue.ToString();
 
 
                         if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&

@@ -22,8 +22,15 @@ namespace Sem.Sync.OutlookConnector2003
     using SyncBase.DetailData;
     using SyncBase.Helpers;
 
+    /// <summary>
+    /// The <see cref="OutlookClient"/> does implement sync access and procedures for outlook as a 
+    /// contact store. It does work with <see cref="StdContact"/>.
+    /// </summary>
     public static class OutlookClient
     {
+        /// <summary>
+        /// The name of the custom property that will store the sync id in outlook.
+        /// </summary>
         private const string ContactIdOutlookPropertyName = "SemSyncId";
 
         /// <summary>
@@ -41,9 +48,10 @@ namespace Sem.Sync.OutlookConnector2003
                 foreach (Attachment attachement in contact.Attachments)
                 {
                     // the picture attachement has a defined name, skip if not that name
-                    if (attachement.DisplayName != "ContactPicture.jpg" &&
-                        attachement.DisplayName != "ContactPhoto")
+                    if (attachement.DisplayName != "ContactPicture.jpg" && attachement.DisplayName != "ContactPhoto")
+                    {
                         continue;
+                    }
 
                     // extract the file name
                     pictureName = attachement.FileName;
@@ -76,7 +84,7 @@ namespace Sem.Sync.OutlookConnector2003
             }
 
             // sorry, but we don't have such a picture ;-)
-            pictureName = "";
+            pictureName = string.Empty;
             return new byte[0];
         }
 
@@ -87,10 +95,16 @@ namespace Sem.Sync.OutlookConnector2003
         private static void CleanupTempFolder()
         {
             var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\11.0\\Outlook\\Security");
-            if (reg == null) return;
+            if (reg == null)
+            {
+                return;
+            }
 
             var folderReg = reg.GetValue("OutlookSecureTempFolder");
-            if (folderReg == null) return;
+            if (folderReg == null)
+            {
+                return;
+            }
 
             foreach (var picturePath in Directory.GetFiles(folderReg.ToString(), "Contact*.jpg"))
             {
@@ -112,7 +126,7 @@ namespace Sem.Sync.OutlookConnector2003
 
             var contacts =
                 (pathPart == "ask") ? outlookNamespace.PickFolder() :
-                (string.IsNullOrEmpty(pathPart)) ? outlookNamespace.GetDefaultFolder(defaultFolder) :
+                string.IsNullOrEmpty(pathPart) ? outlookNamespace.GetDefaultFolder(defaultFolder) :
                 (from x in outlookNamespace.Folders.OfType<MAPIFolder>()
                  where x.Name == pathPart
                  select x).FirstOrDefault();
@@ -154,14 +168,14 @@ namespace Sem.Sync.OutlookConnector2003
             // Logon. If an outlook app is already open, then it will reuse that session. Else
             // it will perform a fresh logon. If you have profiles and passwords for the same, 
             // you need to enter the passwords in the dialogbox when they are shown
-            outlookNamespace.Logon("SR", "", true, true);
+            outlookNamespace.Logon("SR", string.Empty, true, true);
 
             return outlookNamespace;
         }
 
         private static string GetNextPathPart(string path, out string returnPath)
         {
-            var result = "";
+            var result = string.Empty;
             if (path != null)
             {
                 while (path.StartsWith(@"\"))
@@ -173,11 +187,11 @@ namespace Sem.Sync.OutlookConnector2003
                 idx = (idx == -1) ? path.Length : idx;
 
                 result = path.Substring(0, idx);
-                returnPath = (idx < path.Length) ? path.Substring(idx + 1) : "";
+                returnPath = (idx < path.Length) ? path.Substring(idx + 1) : string.Empty;
             }
             else
             {
-                returnPath = "";
+                returnPath = string.Empty;
             }
 
             return result;
@@ -190,7 +204,10 @@ namespace Sem.Sync.OutlookConnector2003
         /// <returns></returns>
         private static Guid GetStandardId(_ContactItem outlookContact)
         {
-            if (outlookContact == null) throw new ArgumentNullException("outlookContact");
+            if (outlookContact == null)
+            {
+                throw new ArgumentNullException("outlookContact");
+            }
 
             var newId = Guid.NewGuid();
             try
@@ -222,7 +239,10 @@ namespace Sem.Sync.OutlookConnector2003
 
         public static List<ContactsItemContainer> GetContactsList(Items contactsEnum)
         {
-            if (contactsEnum == null) throw new ArgumentNullException("contactsEnum");
+            if (contactsEnum == null)
+            {
+                throw new ArgumentNullException("contactsEnum");
+            }
 
             var contactsList = new List<ContactsItemContainer>();
             foreach (var item in contactsEnum)
@@ -237,18 +257,29 @@ namespace Sem.Sync.OutlookConnector2003
 
         public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, List<ContactsItemContainer> contactsList)
         {
-            if (contactsEnum == null) throw new ArgumentNullException("contactsEnum");
-            if (element == null) throw new ArgumentNullException("element");
+            if (contactsEnum == null)
+            {
+                throw new ArgumentNullException("contactsEnum");
+            }
+
+            if (element == null)
+            {
+                throw new ArgumentNullException("element");
+            }
 
             var outlookContact = (from x in contactsList
                                   where x.Id == element.Id.ToString()
                                   select x.Item).FirstOrDefault();
 
             if (skipIfExisting && outlookContact != null)
+            {
                 return false;
+            }
 
             if (outlookContact == null)
+            {
                 outlookContact = (ContactItem)contactsEnum.Add(OlItemType.olContactItem);
+            }
 
             // convert StdContact to Outlook contact
             if (ConvertToNativeContact(element, outlookContact))
@@ -265,8 +296,15 @@ namespace Sem.Sync.OutlookConnector2003
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "this is only multiple if-statements - that's not really complex")]
         private static bool ConvertToNativeContact(StdContact stdNewContact, _ContactItem outlookContact)
         {
-            if (stdNewContact == null) throw new ArgumentNullException("stdNewContact");
-            if (outlookContact == null) throw new ArgumentNullException("outlookContact");
+            if (stdNewContact == null)
+            {
+                throw new ArgumentNullException("stdNewContact");
+            }
+
+            if (outlookContact == null)
+            {
+                throw new ArgumentNullException("outlookContact");
+            }
 
             var dirty = false;
             var stdOldContact = ConvertToStandardContact(outlookContact);
@@ -308,8 +346,8 @@ namespace Sem.Sync.OutlookConnector2003
                     if (stdNewContact.BusinessAddressPrimary.Phone != null && (stdOldContact.BusinessAddressPrimary.Phone == null
                         || stdOldContact.BusinessAddressPrimary.Phone.ToString() != stdNewContact.BusinessAddressPrimary.Phone.ToString())) { outlookContact.BusinessTelephoneNumber = stdNewContact.BusinessAddressPrimary.Phone.ToString(); dirty = true; }
 
-                    if ((stdOldContact.BusinessAddressPrimary.StreetName ?? "").Replace("\r", "").Replace("\n", "")
-                        != (stdNewContact.BusinessAddressPrimary.StreetName ?? "").Replace("\r", "").Replace("\n", ""))
+                    if ((stdOldContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                        != (stdNewContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
                     {
                         outlookContact.BusinessAddressStreet = stdNewContact.BusinessAddressPrimary.StreetName;
                         dirty = true;
@@ -339,8 +377,8 @@ namespace Sem.Sync.OutlookConnector2003
                         dirty = true;
                     }
 
-                    if ((stdOldContact.PersonalAddressPrimary.StreetName ?? "").Replace("\r", "").Replace("\n", "")
-                        != (stdNewContact.PersonalAddressPrimary.StreetName ?? "").Replace("\r", "").Replace("\n", ""))
+                    if ((stdOldContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                        != (stdNewContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
                     {
                         outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
                         dirty = true;
@@ -364,14 +402,16 @@ namespace Sem.Sync.OutlookConnector2003
             
             if ((stdOldContact.PersonalInstantMessengerAddresses == null && stdNewContact.PersonalInstantMessengerAddresses != null)
                 || (stdNewContact.PersonalInstantMessengerAddresses != null
-                    && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger)) 
-            { 
-                outlookContact.IMAddress = (stdNewContact.PersonalInstantMessengerAddresses == null)? null : stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger; 
-                dirty = true; 
+                    && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger))
+            {
+                outlookContact.IMAddress = (stdNewContact.PersonalInstantMessengerAddresses == null)
+                                               ? null
+                                               : stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger;
+                dirty = true;
             }
 
-            if ((stdOldContact.AdditionalTextData ?? "").Replace("\r", "").Replace("\n", "")
-                != (stdNewContact.AdditionalTextData ?? "").Replace("\r", "").Replace("\n", ""))
+            if ((stdOldContact.AdditionalTextData ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                != (stdNewContact.AdditionalTextData ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
             {
                 outlookContact.Body = stdNewContact.AdditionalTextData;
                 dirty = true;
@@ -379,10 +419,11 @@ namespace Sem.Sync.OutlookConnector2003
 
             if (stdOldContact.Id != stdNewContact.Id)
             {
-                outlookContact.UserProperties.Add(ContactIdOutlookPropertyName,
-                                                  OlUserPropertyType.olText,
-                                                  true,
-                                                  OlFormatText.olFormatTextText).Value = stdNewContact.Id.ToString();
+                outlookContact.UserProperties.Add(
+                    ContactIdOutlookPropertyName,
+                    OlUserPropertyType.olText,
+                    true,
+                    OlFormatText.olFormatTextText).Value = stdNewContact.Id.ToString();
                 dirty = true;
             }
 
@@ -401,7 +442,10 @@ namespace Sem.Sync.OutlookConnector2003
 
         public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
         {
-            if (outlookContact == null) throw new ArgumentNullException("outlookContact");
+            if (outlookContact == null)
+            {
+                throw new ArgumentNullException("outlookContact");
+            }
 
             // generate the new id this contact will get in case there is no contact id in outlook
             var newId = GetStandardId(outlookContact);
@@ -447,15 +491,19 @@ namespace Sem.Sync.OutlookConnector2003
                     StateName = outlookContact.HomeAddressState,
                     StreetName = outlookContact.HomeAddressStreet,
                     StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.HomeAddressStreet),
+                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(), ////(outlookContact.HomeAddressStreet),
                 },
 
                 PersonalHomepage = outlookContact.PersonalHomePage,
                 PersonalEmailPrimary = outlookContact.Email1Address,
-                PersonalInstantMessengerAddresses = (string.IsNullOrEmpty(outlookContact.IMAddress))? null : new InstantMessengerAddresses(outlookContact.IMAddress),
-                PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
-
+                PersonalInstantMessengerAddresses =
+                    string.IsNullOrEmpty(outlookContact.IMAddress)
+                        ? null
+                        : new InstantMessengerAddresses(outlookContact.IMAddress),
+                PersonalPhoneMobile =
+                    (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber))
+                        ? new PhoneNumber(outlookContact.MobileTelephoneNumber)
+                        : null,
                 BusinessCompanyName = outlookContact.CompanyName,
                 BusinessPosition = outlookContact.JobTitle,
 
@@ -468,8 +516,7 @@ namespace Sem.Sync.OutlookConnector2003
                     StateName = outlookContact.BusinessAddressState,
                     StreetName = outlookContact.BusinessAddressStreet,
                     StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                    StreetNumberExtension =
-                        SyncTools.ExtractStreetNumberExtension(outlookContact.BusinessAddressStreet),
+                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(), ////(outlookContact.BusinessAddressStreet),
                 },
 
                 BusinessHomepage = outlookContact.BusinessHomePage,
@@ -497,9 +544,13 @@ namespace Sem.Sync.OutlookConnector2003
         
         public static StdCalendarItem ConvertToStandardCalendarItem(_AppointmentItem outlookItem)
         {
-            if (outlookItem == null) throw new ArgumentNullException("outlookItem");
+            if (outlookItem == null)
+            {
+                throw new ArgumentNullException("outlookItem");
+            }
 
             var result = new StdCalendarItem { Subject = outlookItem.Subject };
+
             // TODO: this is a very "incomplete" version of the method
             return result;
         }
@@ -508,8 +559,15 @@ namespace Sem.Sync.OutlookConnector2003
 
         internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, bool skipIfExisting, List<ContactsItemContainer> contactsList)
         {
-            if (contactsEnum == null) throw new ArgumentNullException("contactsEnum");
-            if (stdCalendarItem == null) throw new ArgumentNullException("stdCalendarItem");
+            if (contactsEnum == null)
+            {
+                throw new ArgumentNullException("contactsEnum");
+            }
+
+            if (stdCalendarItem == null)
+            {
+                throw new ArgumentNullException("stdCalendarItem");
+            }
 
             throw new NotImplementedException();
         }
