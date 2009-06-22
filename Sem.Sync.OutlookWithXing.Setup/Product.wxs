@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Name="Sem.Sync.OutlookWithXing.Setup"
+           Manufacturer="Sven Erik Matzen"
+           Id="6BBB76BF-7D19-41B1-A4AB-316AFD454C02"
+           UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
+           Language="1033" Version="1.0.0.0" >
+
+    <Package InstallerVersion="200" Compressed="yes"
+             Description="Synchronization client for synchronizing Contacts Xing to Outlook"
+             Comments="This client is a sample application to show the capabilities of the syncronization library Sem.Sync"
+             Manufacturer="Sven Erik Matzen"/>
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="SemFolder" Name="Sven Erik Matzen">
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing.Setup" FileSource="..\SemSyncOutlookWithXing\bin\Release">
+
+            <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
+              <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+              <RegistryValue
+                        Id='MainExecutableSettings' KeyPath='yes' Action='write'
+                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
+                        Type='string' Value='true' />
+              
+              <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'         >
+                <Shortcut 
+                    Id="SemSyncOutlookWithXingIcon" Directory="ProgramMenuDir" Name="Sem.Sync Xing to Outlook"
+                    WorkingDirectory='INSTALLLOCATION' Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
+              </File>
+              <File Id='commands.xml'                         Name='commands.xml'                         />
+              <File Id='Sem.Sync.OutlookWithXing.exe.config'  Name='Sem.Sync.OutlookWithXing.exe.config'  />
+            </Component>
+
+            <Component Id="HelperLibrary"                     Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
+              <RegistryValue
+                        Id='HelperLibrarySettings' KeyPath='yes' Action='write'
+                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
+                        Type='string' Value='true' />
+              <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
+              <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
+              <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
+              <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
+              <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
+            </Component>
+
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="PMenu">
+        <Directory Id="ProgramMenuDir" Name="Sven Erik Matzen"/>
+      </Directory>
+
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="Sem.Sync.OutlookWithXing.Setup" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="HelperLibrary" />
+    </Feature>
+
+    <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\SemSyncOutlookWithXing\bin\Debug\Sem.Sync.OutlookWithXing.exe" />
+
+  </Product>
+</Wix>

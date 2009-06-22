@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using SemSyncOutlookWithXing.UI;
+using Sem.Sync.OutlookWithXing.UI;
 
-namespace SemSyncOutlookWithXing
+namespace Sem.Sync.OutlookWithXing
 {
     static class Program
     {

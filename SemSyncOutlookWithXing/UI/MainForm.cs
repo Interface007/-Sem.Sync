@@ -1,4 +1,4 @@
-﻿namespace SemSyncOutlookWithXing.UI
+﻿namespace Sem.Sync.OutlookWithXing.UI
 {
     using System;
     using System.IO;

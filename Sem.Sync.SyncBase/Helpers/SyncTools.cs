@@ -10,28 +10,39 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Text.RegularExpressions;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Xml.Serialization;
-
-    using Microsoft.Win32;
 
     using Attributes;
     using DetailData;
     using Merging;
 
+    using Microsoft.Win32;
+
+    /// <summary>
+    /// The <see cref="SyncTools"/> class does contain helper methods for working with the library functions.
+    /// </summary>
     public static class SyncTools
     {
         public static ReplacementLists Replacements { get; private set; }
 
+        /// <summary>
+        /// Initializes static members of the <see cref="SyncTools"/> class.
+        /// </summary>
         static SyncTools()
         {
             Replacements = LoadFromFile<ReplacementLists>("dictionary.xml");
         }
 
-        public static string NormalizeFileName(string currentContactName)
+        /// <summary>
+        /// Replaces forbidden file name characters with an underscore.
+        /// </summary>
+        /// <param name="fileName">file name to normalize</param>
+        /// <returns>the noramlized file name</returns>
+        public static string NormalizeFileName(string fileName)
         {
-            var result = currentContactName;
+            var result = fileName;
             foreach (var character in Path.GetInvalidFileNameChars())
             {
                 if (result.IndexOf(character) > -1)
@@ -135,121 +146,6 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return resultList;
-        }
-
-        private static List<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
-        {
-            var result = new List<MergeConflict>();
-            var members = container.PropertyType.GetProperties();
-
-            foreach (var item in members)
-            {
-                var comparison = (from x in Attribute.GetCustomAttributes(item)
-                                  where x.GetType() == typeof(ComparisonModifierAttribute)
-                                  select x).FirstOrDefault() as ComparisonModifierAttribute ?? new ComparisonModifierAttribute();
-
-                if (comparison.SkipMerge)
-                {
-                    break;
-                }
-
-                var conflict = MergePropertyConflict.None;
-                var sourceString = "";
-                var targetString = "";
-                var baselineString = "";
-
-                if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty == null) continue;
-                if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty != null) conflict = MergePropertyConflict.BothChangedIdentically;
-                if (container.SourceProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.SourceChanged;
-                if (container.SourceProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.SourceChanged;
-                if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.TargetChanged;
-                if (container.TargetProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.TargetChanged;
-
-
-                var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType.FullName == "System.Enum")
-                    typeName = "Enum";
-
-                switch (typeName)
-                {
-                    case "Enum":
-                    case "Guid":
-                    case "String":
-                    case "DateTime":
-                    case "Int32":
-                        var sourceValue = container.SourceProperty == null ? null : item.GetValue(container.SourceProperty, null);
-                        var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
-                        var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);
-
-                        sourceString = sourceValue == null ? "" : sourceValue.ToString();
-                        targetString = targetValue == null ? "" : targetValue.ToString();
-                        baselineString = baselineValue == null ? "" : baselineValue.ToString();
-
-
-                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
-                            sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
-
-                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
-                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflict.BothChangedIdentically;
-
-                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.SourceChanged;
-                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
-                        break;
-
-                    case "Byte[]":
-                        break;
-
-                    default:
-                        result.AddRange(
-                            DetectConflicts(
-                                new ConflictTestContainer
-                                    {
-                                        SourceObject = container.SourceObject,
-                                        TargetObject = container.TargetObject,
-                                        BaselineObject = container.BaselineObject,
-                                        PropertyName = container.PropertyName + "." + item.Name,
-                                        PropertyType = item.PropertyType,
-                                        SourceProperty =
-                                            (container.SourceProperty == null)
-                                                ? null
-                                                : item.GetValue(container.SourceProperty, null),
-                                        TargetProperty =
-                                            (container.TargetProperty == null)
-                                                ? null
-                                                : item.GetValue(container.TargetProperty, null),
-                                        BaselineProperty =
-                                            (container.BaselineProperty == null)
-                                                ? null
-                                                : item.GetValue(container.BaselineProperty, null)
-                                    },
-                                skipIdenticalChanges));
-
-                        // we did already add the results for this property, so skip it now
-                        conflict = MergePropertyConflict.None;
-                        break;
-                }
-
-                // add to result, if it's not "Default" and not an ignorable indentical change
-                if (conflict != MergePropertyConflict.None
-                    && (!skipIdenticalChanges || conflict != MergePropertyConflict.BothChangedIdentically))
-                {
-                    result.Add(new MergeConflict
-                                   {
-                                       PropertyConflict = conflict,
-
-                                       BaselineElement = container.BaselineObject,
-                                       SourceElement = container.SourceObject,
-                                       TargetElement = container.TargetObject,
-
-                                       PathToProperty = container.PropertyName + "." + item.Name,
-                                       BaselinePropertyValue = baselineString,
-                                       SourcePropertyValue = sourceString,
-                                       TargetPropertyValue = targetString
-                                   });
-                }
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -405,12 +301,12 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Reads a value from the registry
+        /// Reads a value from the registry and also ensures that the registry key does exist
         /// </summary>
-        /// <param name="pathToValue"></param>
-        /// <param name="keyName"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
+        /// <param name="pathToValue">the path inside the registry to the value</param>
+        /// <param name="keyName">the name of the value</param>
+        /// <param name="defaultValue">thsi value will be used (and set) if the value is missing - the value is not missing if it's empty</param>
+        /// <returns>the string value of the registry key</returns>
         public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true)
@@ -439,6 +335,121 @@ namespace Sem.Sync.SyncBase.Helpers
                        : (text.IsOneOf("Frau", "Mrs."))
                              ? Gender.Female
                              : Gender.Unspecified;
+        }
+
+        private static List<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
+        {
+            var result = new List<MergeConflict>();
+            var members = container.PropertyType.GetProperties();
+
+            foreach (var item in members)
+            {
+                var comparison = (from x in Attribute.GetCustomAttributes(item)
+                                  where x.GetType() == typeof(ComparisonModifierAttribute)
+                                  select x).FirstOrDefault() as ComparisonModifierAttribute ?? new ComparisonModifierAttribute();
+
+                if (comparison.SkipMerge)
+                {
+                    break;
+                }
+
+                var conflict = MergePropertyConflict.None;
+                var sourceString = "";
+                var targetString = "";
+                var baselineString = "";
+
+                if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty == null) continue;
+                if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty != null) conflict = MergePropertyConflict.BothChangedIdentically;
+                if (container.SourceProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.SourceChanged;
+                if (container.SourceProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.SourceChanged;
+                if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.TargetChanged;
+                if (container.TargetProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.TargetChanged;
+
+
+                var typeName = item.PropertyType.Name;
+                if (item.PropertyType.BaseType.FullName == "System.Enum")
+                    typeName = "Enum";
+
+                switch (typeName)
+                {
+                    case "Enum":
+                    case "Guid":
+                    case "String":
+                    case "DateTime":
+                    case "Int32":
+                        var sourceValue = container.SourceProperty == null ? null : item.GetValue(container.SourceProperty, null);
+                        var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
+                        var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);
+
+                        sourceString = sourceValue == null ? "" : sourceValue.ToString();
+                        targetString = targetValue == null ? "" : targetValue.ToString();
+                        baselineString = baselineValue == null ? "" : baselineValue.ToString();
+
+
+                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
+                            sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
+
+                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
+                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflict.BothChangedIdentically;
+
+                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.SourceChanged;
+                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
+                        break;
+
+                    case "Byte[]":
+                        break;
+
+                    default:
+                        result.AddRange(
+                            DetectConflicts(
+                                new ConflictTestContainer
+                                {
+                                    SourceObject = container.SourceObject,
+                                    TargetObject = container.TargetObject,
+                                    BaselineObject = container.BaselineObject,
+                                    PropertyName = container.PropertyName + "." + item.Name,
+                                    PropertyType = item.PropertyType,
+                                    SourceProperty =
+                                        (container.SourceProperty == null)
+                                            ? null
+                                            : item.GetValue(container.SourceProperty, null),
+                                    TargetProperty =
+                                        (container.TargetProperty == null)
+                                            ? null
+                                            : item.GetValue(container.TargetProperty, null),
+                                    BaselineProperty =
+                                        (container.BaselineProperty == null)
+                                            ? null
+                                            : item.GetValue(container.BaselineProperty, null)
+                                },
+                                skipIdenticalChanges));
+
+                        // we did already add the results for this property, so skip it now
+                        conflict = MergePropertyConflict.None;
+                        break;
+                }
+
+                // add to result, if it's not "Default" and not an ignorable indentical change
+                if (conflict != MergePropertyConflict.None
+                    && (!skipIdenticalChanges || conflict != MergePropertyConflict.BothChangedIdentically))
+                {
+                    result.Add(new MergeConflict
+                    {
+                        PropertyConflict = conflict,
+
+                        BaselineElement = container.BaselineObject,
+                        SourceElement = container.SourceObject,
+                        TargetElement = container.TargetObject,
+
+                        PathToProperty = container.PropertyName + "." + item.Name,
+                        BaselinePropertyValue = baselineString,
+                        SourcePropertyValue = sourceString,
+                        TargetPropertyValue = targetString
+                    });
+                }
+            }
+
+            return result;
         }
     }
 }

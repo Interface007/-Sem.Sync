@@ -29,7 +29,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
         /// <summary>
         /// registry path to store credentials
         /// </summary>
-        private const string RegBasePath = "software\\Sem.Sync.ActiveDirectoryConnector";
+        private const string RegBasePath = "software\\Sem.Sync\\ActiveDirectoryConnector";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class.
