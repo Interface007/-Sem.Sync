@@ -21,12 +21,12 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             InitializeComponent();
         }
 
-        public void SetLoginCredentials(ICredentialAware client, QueryForLogOnCredentialsEventArgs arguments)
+        public void SetLogonCredentials(ICredentialAware client, QueryForLogOnCredentialsEventArgs arguments)
         {
-            this.SetLoginCredentials(client, arguments.MessageForUser, arguments.LoginUserId, arguments.LoginPassword);
+            this.SetLogonCredentials(client, arguments.MessageForUser, arguments.LogonUserId, arguments.LogonPassword);
         }
 
-        public bool SetLoginCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool SetLogonCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
         {
             this.UserMessage.Text = messageForUser;
             this.textBoxUserId.Text = logOnUserId;

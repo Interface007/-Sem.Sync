@@ -35,14 +35,14 @@
         {
             _engine.ProcessingEvent += this.LogThis;
             _engine.ProgressEvent += this.UpdateProgress;
-            _engine.QueryForLogOnCredentialsEvent += AskForLogin;
+            _engine.QueryForLogOnCredentialsEvent += AskForLogon;
 
             var list = LoadSyncList("commands.xml");
             this._engine.Execute(list);
 
             _engine.ProcessingEvent -= this.LogThis;
             _engine.ProgressEvent -= this.UpdateProgress;
-            _engine.QueryForLogOnCredentialsEvent -= AskForLogin;
+            _engine.QueryForLogOnCredentialsEvent -= AskForLogon;
 
             MessageBox.Show(Resources.messageFinished);
         }
@@ -59,9 +59,9 @@
             this.listLog.TopIndex = this.listLog.Items.Count - 1;
         }
 
-        private static void AskForLogin(object s, QueryForLogOnCredentialsEventArgs eargs)
+        private static void AskForLogon(object s, QueryForLogOnCredentialsEventArgs eargs)
         {
-            new LogOn().SetLoginCredentials((IClientBase)s, eargs);
+            new LogOn().SetLogonCredentials((IClientBase)s, eargs);
         }
 
         internal SyncCollection LoadSyncList(string p)

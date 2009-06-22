@@ -81,7 +81,7 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // LogInGui
+            // LogOnGui
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
@@ -94,7 +94,7 @@
             this.Controls.Add(this.textBoxUserId);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "LogInGui";
+            this.Name = "LogOnGui";
             this.ResumeLayout(false);
             this.PerformLayout();
 

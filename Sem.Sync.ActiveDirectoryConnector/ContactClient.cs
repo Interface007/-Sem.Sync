@@ -84,7 +84,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
             try
             {
                 // we should have a look for "good" credentials
-                this.LogProcessingEvent("preparing log in");
+                this.LogProcessingEvent("preparing log on");
                 this.PrepareCredentials();
 
                 // if domainController does not contain a "." we assume this to be a domain name 
@@ -280,7 +280,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
             if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")
             {
                 this.LogOnPassword = string.Empty;
-                this.QueryForLogOnCredentials("Please provide login credentials for LDAP query.\nPress cancle to use current user.");
+                this.QueryForLogOnCredentials("Please provide logon credentials for LDAP query.\nPress cancle to use current user.");
             }
 
             // if we have a user name and it does contain a backslash, we need to split the domain from the user name

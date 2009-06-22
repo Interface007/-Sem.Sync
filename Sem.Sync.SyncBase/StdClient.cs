@@ -22,25 +22,25 @@ namespace Sem.Sync.SyncBase
     /// </summary>
     public abstract class StdClient : SyncComponent, IClientBase
     {
-        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
+        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
 
         /// <summary>
-        /// Uses the event handler QueryForLoginCredentialsEvent to query the calling instance for 
+        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
         /// Credentials.
         /// </summary>
         /// <param name="message">the message to be displayed to the user</param>
         protected void QueryForLogOnCredentials(string message)
         {
-            if (this.QueryForLoginCredentialsEvent == null) return;
+            if (this.QueryForLogonCredentialsEvent == null) return;
 
             var args = new QueryForLogOnCredentialsEventArgs
                            {
                                MessageForUser = message,
-                               LoginUserId = this.LogOnUserId,
-                               LoginPassword = this.LogOnPassword,
+                               LogonUserId = this.LogOnUserId,
+                               LogonPassword = this.LogOnPassword,
                            };
 
-            this.QueryForLoginCredentialsEvent(this, args);
+            this.QueryForLogonCredentialsEvent(this, args);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Sem.Sync.SyncBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
         protected StdClient()
         {
-            this.LogOnUserId = this.GetConfigValue("LoginUserId");
-            this.LogOnPassword = this.GetConfigValue("LoginPassword");
+            this.LogOnUserId = this.GetConfigValue("LogonUserId");
+            this.LogOnPassword = this.GetConfigValue("LogonPassword");
         }
 
         /// <summary>

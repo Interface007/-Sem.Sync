@@ -325,12 +325,12 @@ namespace Sem.Sync.SyncBase
             if (addEvent)
             {
                 client.ProcessingEvent += this.LogProcessingEvent;
-                client.QueryForLoginCredentialsEvent += this.QueryForLogOnCredentialsEvent;
+                client.QueryForLogonCredentialsEvent += this.QueryForLogOnCredentialsEvent;
             }
             else
             {
                 client.ProcessingEvent -= this.LogProcessingEvent;
-                client.QueryForLoginCredentialsEvent -= this.QueryForLogOnCredentialsEvent;
+                client.QueryForLogonCredentialsEvent -= this.QueryForLogOnCredentialsEvent;
             }
         }
 

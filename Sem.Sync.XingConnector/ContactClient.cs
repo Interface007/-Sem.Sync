@@ -39,14 +39,14 @@ namespace Sem.Sync.XingConnector
         #region string resources for processing xing pages
         
         /// <summary>
-        /// Detection string to parse the content of a request if we need to login
+        /// Detection string to parse the content of a request if we need to logon
         /// </summary>
-        private const string HttpDetectionStringLoginNeeded = "name=\"loginform\"";
+        private const string HttpDetectionStringLogonNeeded = "name=\"loginform\"";
 
         /// <summary>
-        /// detection string to detect if we did fail to log in
+        /// detection string to detect if we did fail to logon
         /// </summary>
-        private const string HttpDetectionStringLoginFailed = "/app/user?op=lostpassword";
+        private const string HttpDetectionStringLogonFailed = "/app/user?op=lostpassword";
 
         /// <summary>
         /// Base address to communicate with Xing
@@ -54,9 +54,9 @@ namespace Sem.Sync.XingConnector
         private const string HttpUrlBaseAddress = "https://www.xing.com";
 
         /// <summary>
-        /// relative url to log in
+        /// relative url to log on
         /// </summary>
-        private const string HttpUrlLoginRequest = "/app/user";
+        private const string HttpUrlLogonRequest = "/app/user";
 
         /// <summary>
         /// relative URL to query contact links to vCards
@@ -64,9 +64,9 @@ namespace Sem.Sync.XingConnector
         private const string HttpUrlListContent = "/app/contact?notags_filter=0;search_filter=;tags_filter=;offset={0}";
         
         /// <summary>
-        /// data string to be posted to login into Xing
+        /// data string to be posted to logon into Xing
         /// </summary>
-        private const string HttpDataLoginRequest = "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}";
+        private const string HttpDataLogonRequest = "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}";
 
         /// <summary>
         /// regular expression to extract the URLs for the vCards
@@ -214,7 +214,7 @@ namespace Sem.Sync.XingConnector
         }
 
         /// <summary>
-        /// Ready a list of vCard locations - this will also establish the login
+        /// Ready a list of vCard locations - this will also establish the logon
         /// </summary>
         /// <returns>a list of urls for the vCards to be downloaded</returns>
         private List<string> GetUrlList()
@@ -232,14 +232,14 @@ namespace Sem.Sync.XingConnector
             {
                 while (true)
                 {
-                    // optimistically we try to read the content without explicit login
+                    // optimistically we try to read the content without explicit logon
                     // this will succeed if we have a valid cookie
                     contactListContent = this.xingRequester.GetContent(
                         string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
                         "UrlList" + offsetIndex + CacheHintRefresh);
 
-                    // if we don't find the login form any more, we did succeed
-                    if (!contactListContent.Contains(HttpDetectionStringLoginNeeded))
+                    // if we don't find the logon form any more, we did succeed
+                    if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
                     {
                         break;
                     }
@@ -249,25 +249,25 @@ namespace Sem.Sync.XingConnector
                         QueryForLogOnCredentials(Resources.uiXingNeedsCredentials);
                     }
 
-                    // tell the user that we need to log in
+                    // tell the user that we need to log on
                     LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
 
-                    // prepare the post data for log in
+                    // prepare the post data for log on
                     var postData = HttpHelper.PreparePostData(
-                        HttpDataLoginRequest,
+                        HttpDataLogonRequest,
                         this.LogOnUserId,
                         this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLoginRequest, CacheHintNoCache, postData);
+                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, CacheHintNoCache, postData);
 
-                    if (logInResponse.Contains(HttpDetectionStringLoginFailed))
+                    if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
                         LogProcessingEvent(Resources.uiLogInFailed, this.LogOnUserId);
                         return result;
                     }
 
-                    // we did succeed to log in - tell the user and try reading the data again.
+                    // we did succeed to log on - tell the user and try reading the data again.
                     LogProcessingEvent(Resources.uiLogInSucceeded, this.LogOnUserId);
                 }
 

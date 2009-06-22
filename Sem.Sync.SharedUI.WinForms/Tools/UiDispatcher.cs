@@ -20,7 +20,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
 
     /// <summary>
     /// The UiDispatcher is a central class to be called from "worker"-classes that need UI interaction
-    /// like a login screen or want to present any kind of UI element. This class then instanciates the
+    /// like a logon screen or want to present any kind of UI element. This class then instanciates the
     /// concrete UI element and serves as a kind of "call-router".
     /// </summary>
     public class UiDispatcher : IUiInteraction
@@ -60,7 +60,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <returns>true if the user did click the ok button</returns>
         public bool AskForLogOnCredentials(ICredentialAware source, string messageForUser, string logOnUserId, string logOnPassword)
         {
-            return new LogOn().SetLoginCredentials(source, messageForUser, logOnUserId, logOnPassword);
+            return new LogOn().SetLogonCredentials(source, messageForUser, logOnUserId, logOnPassword);
         }
 
         /// <summary>

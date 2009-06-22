@@ -127,13 +127,13 @@
     <value>{0} elements found - downloading vCards ...</value>
   </data>
   <data name="uiLogInFailed" xml:space="preserve">
-    <value>log in FAILED in for user {0}.</value>
+    <value>log on FAILED in for user {0}.</value>
   </data>
   <data name="uiLogInForUser" xml:space="preserve">
-    <value>log in for user {0}...</value>
+    <value>log on for user {0}...</value>
   </data>
   <data name="uiLogInSucceeded" xml:space="preserve">
-    <value>log in succeeded in for user {0}.</value>
+    <value>log on succeeded in for user {0}.</value>
   </data>
   <data name="uiNoAlteringImplemented" xml:space="preserve">
     <value>This implementation does not support altering contacts - you can only query contacts.</value>

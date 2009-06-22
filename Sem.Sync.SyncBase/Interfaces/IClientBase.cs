@@ -11,10 +11,23 @@ namespace Sem.Sync.SyncBase.Interfaces
 
     using EventArgs;
 
+    ///<summary>
+    /// Base interface for a synchronization client. This interface does provide access to
+    /// generic synchronization functionality as well as support for event handling.
+    ///</summary>
     public interface IClientBase : ICredentialAware
     {
+        /// <summary>
+        /// Handels processing events and informs subscribers about the internal
+        /// events of the processing.
+        /// </summary>
         event EventHandler<ProcessingEventArgs> ProcessingEvent;
-        event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLoginCredentialsEvent;
+
+        /// <summary>
+        /// Handels logon requests. Some storage needs log on credentials, so the client does
+        /// query the subscribers of this event to provide the needed information.
+        /// </summary>
+        event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
 
         /// <summary>
         /// Gets or sets the user readable name of the client implementation. This name should

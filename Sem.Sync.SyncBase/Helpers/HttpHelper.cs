@@ -124,12 +124,12 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="values">the parameter strings that should be encoded and inserted into the string</param>
         /// <returns>the processed data string</returns>
         /// <example>
-        /// The following code will show you the preparation of login-parameters:
+        /// The following code will show you the preparation of logon-parameters:
         /// <code>
-        /// // prepare the post data for log in
-        /// var HttpDataLoginRequest = "op=login&amp;dest=%2Fapp%2Fuser%3Fop%3Dhome&amp;login_user_name={0}&amp;login_password={1}";
+        /// // prepare the post data for log on
+        /// var HttpDataLogonRequest = "op=logon&amp;dest=%2Fapp%2Fuser%3Fop%3Dhome&amp;logon_user_name={0}&amp;logon_password={1}";
         /// var postData = HttpHelper.PreparePostData(
-        ///         HttpDataLoginRequest,
+        ///         HttpDataLogonRequest,
         ///         this.LogOnUserId,
         ///         this.LogOnPassword);
         /// </code>
@@ -461,12 +461,12 @@ namespace Sem.Sync.SyncBase.Helpers
             request.ContentType = "application/x-www-form-urlencoded";
 
             var encoding = new ASCIIEncoding();
-            var loginDataBytes = encoding.GetBytes(postData);
-            request.ContentLength = loginDataBytes.Length;
+            var logonDataBytes = encoding.GetBytes(postData);
+            request.ContentLength = logonDataBytes.Length;
 
             using (var stream = request.GetRequestStream())
             {
-                stream.Write(loginDataBytes, 0, loginDataBytes.Length);
+                stream.Write(logonDataBytes, 0, logonDataBytes.Length);
                 stream.Close();
             }
 
