@@ -4,7 +4,8 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ContactClientCsv type.
+// This client implementation does write to a CSV file. This implementation is actually very simple with 
+// fixed fields. In the future there may be an implementation with configurable fields and column headers.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -23,6 +24,10 @@ namespace Sem.Sync.FilesystemConnector
 
     #endregion usings
 
+    ///<summary>
+    /// This client implementation does write to a CSV file. This implementation is actually very simple with 
+    /// fixed fields. In the future there may be an implementation with configurable fields and column headers.
+    ///</summary>
     public class ContactClientCsv : StdClient
     {
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
@@ -54,7 +59,9 @@ namespace Sem.Sync.FilesystemConnector
                 headerLine.Append("BusinessDepartmentRoom;");
                 headerLine.Append("BusinessDepartmentPhone;");
 
+                headerLine.Append("BusinessCompanyName;");
                 headerLine.Append("BusinessEmailPrimary;");
+                headerLine.Append("BusinessPhoneMobile");
 
                 headerLine.Append("AdditionalTextData;");
 
@@ -94,8 +101,10 @@ namespace Sem.Sync.FilesystemConnector
                             line.Append(";;;;;;");                            
                         }
 
+                        line.Append(element.BusinessCompanyName + ";");
                         line.Append(element.BusinessEmailPrimary + ";");
-
+                        line.Append(element.BusinessPhoneMobile + ";");
+    
                         line.Append(element.AdditionalTextData + ";");
 
                         line.Append(element.InternalSyncData.DateOfCreation.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + ";");

@@ -20,11 +20,20 @@ namespace Sem.Sync.FacebookConnector
     using SyncBase;
     using SyncBase.DetailData;
 
+    /// <summary>
+    /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
+    /// publishing too much data about friends.
+    /// </summary>
     public class ContactClient : StdClient
     {
         private readonly string apiKey;
         private readonly string apiSecret;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ContactClient"/> class and initializes the apiKey 
+        /// and the apiSecret from the registry. Unfortunately this also means that we need every user
+        /// to request such a key and secret in order to work with the client.
+        /// </summary>
         public ContactClient()
         {
             // Read the application key and secret from the registry. This way it cannot leak by
