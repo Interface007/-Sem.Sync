@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Name="Sem.Sync.OutlookWithXing.Setup"
+  <Product Name="Sem.Sync Sample Client for Xing to Outlook syncronization"
            Manufacturer="Sven Erik Matzen"
            Id="6BBB76BF-7D19-41B1-A4AB-316AFD454C02"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
@@ -13,27 +13,40 @@
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
+    <!-- We will install all assemblies into the programs folder, because we don't have a 
+     strong name for the assemblies to sign and install them into the gac. This also 
+     will enable easier versioning, because we will not have to deal with incompatible
+     versions inside the gac. -->
+
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="SemFolder" Name="Sven Erik Matzen">
-          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing.Setup" FileSource="..\SemSyncOutlookWithXing\bin\Release">
+          <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\SemSyncOutlookWithXing\bin\Release">
 
             <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+              <!-- Because we have a user dependent shortcut, we need to use a user dependent key item - in
+                   this case a registry key. -->
               <RegistryValue
                         Id='MainExecutableSettings' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
                         Type='string' Value='true' />
-              
+
+              <!-- the main executable -->
               <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'          >
-                <Shortcut 
+                <Shortcut
                     Id="SemSyncOutlookWithXingIcon" Directory="ProgramMenuDir" Name="Sem.Sync Xing to Outlook"
-                    WorkingDirectory='INSTALLLOCATION' Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0"  />
+                    WorkingDirectory="INSTALLLOCATION"
+                    Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0"  />
               </File>
+
+              <!-- some configuration files -->
               <File Id='commands.xml'                         Name='commands.xml'                         />
               <File Id='Sem.Sync.OutlookWithXing.exe.config'  Name='Sem.Sync.OutlookWithXing.exe.config'  />
             </Component>
 
+            <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary"                     Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
               <RegistryValue
                         Id='HelperLibrarySettings' KeyPath='yes' Action='write'
@@ -46,6 +59,17 @@
               <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
             </Component>
 
+            <!-- the help files are optional -->
+            <Component Id="Documentation"                     Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
+              <RegistryValue
+                        Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
+                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
+                        Type='string' Value='true' />
+              <File Id='Sem.Sync.HelpFile'                    Name='Sem_Sync_Documentation.chm' Source='..\Sem.Sync.Documentation\bin\Release\Sem_Sync_Documentation.chm' />
+              <File Id='Sem.Sync.MappingXls'                  Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
+              <File Id='Sem.Sync.Description'                 Name='SemSync.docx'               Source='..\SemSync.docx' />
+            </Component>
+
           </Directory>
         </Directory>
       </Directory>
@@ -56,10 +80,20 @@
 
     </Directory>
 
-    <Feature Id="ProductFeature" Title="Sem.Sync.OutlookWithXing.Setup" Level="1">
+    <Feature Id="ProductFeature" Title="Client application" Level="1" 
+             Description="This is the executable (the application) together with the needed libraries. It will only install the libraries needed to sync from Xing to Outlook.">
       <ComponentRef Id="MainExecutable" />
       <ComponentRef Id="HelperLibrary"  />
     </Feature>
+
+    <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
+      <ComponentRef Id="Documentation"  />
+    </Feature>
+
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="UI-Elements\License.rtf" />
 
     <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\SemSyncOutlookWithXing\bin\Debug\Sem.Sync.OutlookWithXing.exe" />
 

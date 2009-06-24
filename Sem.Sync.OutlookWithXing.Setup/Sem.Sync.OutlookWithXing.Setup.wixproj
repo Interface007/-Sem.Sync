@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Sem.Sync.OutlookWithXing.Setup</OutputName>
     <OutputType>Package</OutputType>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
@@ -33,6 +33,11 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.Documentation\Sem.Sync.Documentation.csproj">
+      <Name>Sem.Sync.Documentation</Name>
+      <Project>{c59830a8-5f30-4ac1-a862-473d9911b08a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj">
       <Name>Sem.Sync.FilesystemConnector</Name>
       <Project>{f0a26b2b-02ca-4095-ad20-013d0110abb3}</Project>
@@ -63,6 +68,14 @@
       <Project>{ab6d712c-8e4b-46f9-8ac8-bf65f3da1b79}</Project>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI-Elements" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

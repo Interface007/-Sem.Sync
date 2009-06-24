@@ -20,13 +20,26 @@ namespace Sem.Sync.SyncBase.Helpers
     /// This class provides funktionality to get information from the web.
     /// </summary>
     /// <remarks>
-    /// The class has been developed to work with the implementation of the currently included connectors.
+    /// <para>The class has been developed to work with the implementation of the currently included connectors.
     /// If you have special needs (like better cookie-management), you need to write your own class. 
     /// ASP.Net sites as well as other sites using hidden input fields for storing session information are
-    /// currently not supported. This is a feature that is currently under investigation.
+    /// currently not supported. This is a feature that is currently under investigation.</para>
+    /// <para>The functionality includes:
+    /// <list type="bullets">
+    /// <item>GET and POST requests</item>
+    /// <item>support for encoding post parameters using url encoding - see <see cref="EncodeForPost"/></item>
+    /// <item>getting data as text or binary - see <see cref="GetContent"/> and <see cref="GetContentBinary"/></item>
+    /// <item>optionally accepting untrusted certificates with http (to support fiddler debugging) - see <see cref="IgnoreCertificateError"/></item>
+    /// <item>using the IE cookie cache or a "private" cookie cache - see <see cref="UseIeCookies"/></item>
+    /// </list></para>
     /// </remarks>
     /// <example>
-    /// 
+    /// reading the content of an http resource can be written in one line of code:
+    /// <code>
+    ///     var response = new HttpHelper(baseUrl, false).GetContent(HttpUrlLogonRequest, "[NOCACHE]");
+    /// </code>
+    /// In this example the second parameter "[NOCACHE]" does specify that this content should not be cached by the library. For more 
+    /// information on using the caching see <see cref="UseCache"/>.
     /// </example>
     public class HttpHelper : IHttpHelper
     {

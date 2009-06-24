@@ -67,7 +67,9 @@
         internal SyncCollection LoadSyncList(string p)
         {
             var formatter = new XmlSerializer(typeof(SyncCollection));
-            using (var file = new FileStream(p, FileMode.Open))
+            
+            // opening readonly will enable using a config file in the programs folder
+            using (var file = new FileStream(p, FileMode.Open, FileAccess.Read))
             {
                 return (SyncCollection)formatter.Deserialize(file);
             }
