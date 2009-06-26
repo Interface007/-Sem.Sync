@@ -14,16 +14,45 @@ namespace Sem.Sync.SyncBase
     using DetailData;
     using Helpers;
 
+    /// <summary>
+    /// This class provides an entity to store standardized contact information. It should be capable to 
+    /// store any information that's needed for describing contact relevant information of a person.
+    /// </summary>
     public class StdContact : StdElement
     {
+        /// <summary>
+        /// Gets or sets the gender/sex of a person.
+        /// </summary>
         public Gender PersonGender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date of birth of a person. This property cannot be set to unusual dates. If the real 
+        /// date of birth is not clear, it should be set to the date with the highest propability.
+        /// </summary>
         public DateTime DateOfBirth { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name description of the person.
+        /// </summary>
         public PersonName Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the primary personal address used by the person (this address is normally 
+        /// shared with some parts of the family).
+        /// </summary>
         public AddressDetail PersonalAddressPrimary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secondary personal address used by the person (this address might be 
+        /// used in case of second address for the time while working).
+        /// </summary>
         public AddressDetail PersonalAddressSecondary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the telephone number of the private mobile phone used by the person.
+        /// </summary>
         public PhoneNumber PersonalPhoneMobile { get; set; }
+
         [ComparisonModifier(CaseInsensitive = true)]
         public string PersonalEmailPrimary { get; set; }
         [ComparisonModifier(CaseInsensitive = true)]

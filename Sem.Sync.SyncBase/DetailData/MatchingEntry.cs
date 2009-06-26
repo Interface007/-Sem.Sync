@@ -8,13 +8,25 @@ namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
 
+    /// <summary>
+    /// To save matching information only few information is needed. Each matching entry
+    /// does contain the StdElements ID and a set of profile identifiers. So you can use 
+    /// this as a lookup entry inside a list to lookup the std ID of a specific profile ID.
+    /// </summary>
     public class MatchingEntry : StdElement
     {
+        /// <summary>
+        /// This method is not implemented and will trow a <see cref="NotImplementedException"/>.
+        /// In a <see cref="MatchingEntry"/> there is nothing to normalize.
+        /// </summary>
         public override void NormalizeContent()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets or sets a set of profile identifiers.
+        /// </summary>
         public ProfileIdentifiers ProfileId { get; set; }
     }
 }
