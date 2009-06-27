@@ -34,6 +34,53 @@ namespace Sem.Sync.OutlookConnector2003
         private const string ContactIdOutlookPropertyName = "SemSyncId";
 
         /// <summary>
+        /// Opens an Outlook folder from the folder path inside the Outlook folder hierarchy. The folder "ask" (when used for
+        /// the patameter <paramref name="folderName"/>) will cause this method to query the folder from the user.
+        /// </summary>
+        /// <param name="outlookNamespace">the Outlook namespace object to use</param>
+        /// <param name="folderName">the folder path to open</param>
+        /// <param name="defaultFolder">the default folder to use if the parameter <paramref name="folderName"/> is null or empty</param>
+        /// <returns>a folder object or null</returns>
+        public static MAPIFolder GetOutlookMAPIFolder(_NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
+        {
+            // Get all the Contacts Folder
+            var pathPart = GetNextPathPart(folderName, out folderName);
+
+            var contacts =
+                (pathPart == "ask") ? outlookNamespace.PickFolder() :
+                string.IsNullOrEmpty(pathPart) ? outlookNamespace.GetDefaultFolder(defaultFolder) :
+                (from x in outlookNamespace.Folders.OfType<MAPIFolder>()
+                 where x.Name == pathPart
+                 select x).FirstOrDefault();
+
+            if (folderName.Length > 0 && contacts != null)
+            {
+                contacts = GetOutlookContactsFolder(contacts, folderName);
+            }
+
+            return contacts;
+        }
+
+        /// <summary>
+        /// Opens the outlook namespace to provide access to the outlook folders
+        /// </summary>
+        /// <returns>the outlook namespace</returns>
+        public static NameSpace GetNameSpace()
+        {
+            var outlookApplication = new Application();
+
+            // Get NameSpace.
+            var outlookNamespace = outlookApplication.GetNamespace("mapi");
+
+            // Logon. If an outlook app is already open, then it will reuse that session. Else
+            // it will perform a fresh logon. If you have profiles and passwords for the same, 
+            // you need to enter the passwords in the dialogbox when they are shown
+            outlookNamespace.Logon("SR", string.Empty, true, true);
+
+            return outlookNamespace;
+        }
+
+        /// <summary>
         /// Reads the contact picture and its name
         /// </summary>
         /// <param name="contact">the contact to process</param>
@@ -119,26 +166,14 @@ namespace Sem.Sync.OutlookConnector2003
             }
         }
 
-        public static MAPIFolder GetOutlookMAPIFolder(_NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
-        {
-            // Get all the Contacts Folder
-            var pathPart = GetNextPathPart(folderName, out folderName);
-
-            var contacts =
-                (pathPart == "ask") ? outlookNamespace.PickFolder() :
-                string.IsNullOrEmpty(pathPart) ? outlookNamespace.GetDefaultFolder(defaultFolder) :
-                (from x in outlookNamespace.Folders.OfType<MAPIFolder>()
-                 where x.Name == pathPart
-                 select x).FirstOrDefault();
-
-            if (folderName.Length > 0 && contacts != null)
-            {
-                contacts = GetOutlookContactsFolder(contacts, folderName);
-            }
-
-            return contacts;
-        }
-
+        /// <summary>
+        /// Opens the contacts folder specified in the parameter <paramref name="folderName"/> that is the 
+        /// sub folder of the folder object <paramref name="outlookFolder"/>. This method is used to open
+        /// recursive folder paths.
+        /// </summary>
+        /// <param name="outlookFolder"> The outlook folder to open. </param>
+        /// <param name="folderName"> The folder name. </param>
+        /// <returns>The outlook folder object.</returns>
         private static MAPIFolder GetOutlookContactsFolder(MAPIFolder outlookFolder, string folderName)
         {
             // Get all the Contacts Folder
@@ -158,21 +193,14 @@ namespace Sem.Sync.OutlookConnector2003
             return contacts;
         }
 
-        public static NameSpace GetNameSpace()
-        {
-            var outlookApplication = new Application();
-
-            // Get NameSpace.
-            var outlookNamespace = outlookApplication.GetNamespace("mapi");
-
-            // Logon. If an outlook app is already open, then it will reuse that session. Else
-            // it will perform a fresh logon. If you have profiles and passwords for the same, 
-            // you need to enter the passwords in the dialogbox when they are shown
-            outlookNamespace.Logon("SR", string.Empty, true, true);
-
-            return outlookNamespace;
-        }
-
+        /// <summary>
+        /// Extracts the next part of the path up to the next "\" character, cuts this part 
+        /// from the parameter <paramref name="path"/> and returns this shorter path by the 
+        /// out parameter <paramref name="returnPath"/>
+        /// </summary>
+        /// <param name="path">the path to interpret</param>
+        /// <param name="returnPath">the shortened path</param>
+        /// <returns>the first part of the specified path</returns>
         private static string GetNextPathPart(string path, out string returnPath)
         {
             var result = string.Empty;
@@ -198,10 +226,11 @@ namespace Sem.Sync.OutlookConnector2003
         }
 
         /// <summary>
-        /// Generate a new
+        /// Gets the standard id from the outlook id (this is stored inside a custom property).
+        /// If this custom property is not existing, this method will try to create it.
         /// </summary>
-        /// <param name="outlookContact"></param>
-        /// <returns></returns>
+        /// <param name="outlookContact">the outlook contact to get the standard id from</param>
+        /// <returns>the standard id</returns>
         private static Guid GetStandardId(_ContactItem outlookContact)
         {
             if (outlookContact == null)
@@ -214,10 +243,11 @@ namespace Sem.Sync.OutlookConnector2003
             {
                 // try to read the contact id property - generate one if it's not there
                 var contactIdObject = outlookContact.UserProperties[ContactIdOutlookPropertyName] ??
-                                      outlookContact.UserProperties.Add(ContactIdOutlookPropertyName,
-                                                                        OlUserPropertyType.olText,
-                                                                        true,
-                                                                        OlFormatText.olFormatTextText);
+                                      outlookContact.UserProperties.Add(
+                                          ContactIdOutlookPropertyName,
+                                          OlUserPropertyType.olText,
+                                          true,
+                                          OlFormatText.olFormatTextText);
 
                 // test if the value is a valid id
                 if (contactIdObject.Value.ToString().Length != 36)
@@ -234,6 +264,7 @@ namespace Sem.Sync.OutlookConnector2003
             {
                 // if we are not authorized to write back the id, we will assume a new id
             }
+
             return newId;
         }
 

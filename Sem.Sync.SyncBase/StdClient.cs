@@ -22,42 +22,8 @@ namespace Sem.Sync.SyncBase
     /// </summary>
     public abstract class StdClient : SyncComponent, IClientBase
     {
-        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
-
         /// <summary>
-        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
-        /// Credentials.
-        /// </summary>
-        /// <param name="message">the message to be displayed to the user</param>
-        protected void QueryForLogOnCredentials(string message)
-        {
-            if (this.QueryForLogonCredentialsEvent == null) return;
-
-            var args = new QueryForLogOnCredentialsEventArgs
-                           {
-                               MessageForUser = message,
-                               LogonUserId = this.LogOnUserId,
-                               LogonPassword = this.LogOnPassword,
-                           };
-
-            this.QueryForLogonCredentialsEvent(this, args);
-        }
-
-        /// <summary>
-        /// Reads a value from the app config file, returns string.Empty if the value is not set.
-        /// This does concatenates the specified value name with the FriendlyClientName to make the 
-        /// name unique for this client type.
-        /// </summary>
-        /// <param name="configName">the name of the value</param>
-        /// <returns>the value read from the config file - string.Empty, if there is no such value.</returns>
-        protected string GetConfigValue(string configName)
-        {
-            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
-            return value ?? string.Empty;
-        }
-
-        /// <summary>
-        /// Creates a new instance of the StdClient class. This will also read the saved credentials 
+        /// Initializes a new instance of the <see cref="StdClient"/> class. This will also read the saved credentials 
         /// for this Client type from the app.config file.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
@@ -68,42 +34,9 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Informs the subscriber of this event that we need some credentials.
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
-        protected abstract List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result);
-
-        /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
-        /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected abstract void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting);
-
-        /// <summary>
-        /// virtual method that will be called just before accessing the target/source systems storage path. This
-        /// enables concrete client implementations to do checks and preparations needed to access the target system
-        /// </summary>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        protected virtual void BeforeStorageAccess(string clientFolderName)
-        {
-        }
-
-        /// <summary>
-        /// virtual method that should be (optionally) implemented by the client to remove duplicate entities
-        /// </summary>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void RemoveDuplicates(string clientFolderName)
-        {
-        }
+        public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
 
         /// <summary>
         /// Gets or sets the domain part of the user credentials to access the target system
@@ -119,6 +52,24 @@ namespace Sem.Sync.SyncBase
         /// Gets or sets the password part of the user credentials to access the target system
         /// </summary>
         public string LogOnPassword { get; set; }
+
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public abstract string FriendlyClientName
+        {
+            get;
+        }
+        
+        /// <summary>
+        /// virtual method that should be (optionally) implemented by the client to remove duplicate entities
+        /// </summary>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        public virtual void RemoveDuplicates(string clientFolderName)
+        {
+        }
 
         /// <summary>
         /// Overridable implementation of the process of retrieving the full list of elements. In the
@@ -224,7 +175,7 @@ namespace Sem.Sync.SyncBase
         {
             LogProcessingEvent(Resources.uiWritingElements);
             this.BeforeStorageAccess(clientFolderName);
-            WriteFullList(elements, clientFolderName, false);
+            this.WriteFullList(elements, clientFolderName, false);
             LogProcessingEvent(Resources.uiWritingElementsDone);
         }
 
@@ -246,14 +197,69 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Gets or sets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
+        /// Credentials.
         /// </summary>
-        public abstract string FriendlyClientName
+        /// <param name="message">the message to be displayed to the user</param>
+        protected void QueryForLogOnCredentials(string message)
         {
-            get;
+            if (this.QueryForLogonCredentialsEvent == null)
+            {
+                return;
+            }
+
+            var args = new QueryForLogOnCredentialsEventArgs
+            {
+                MessageForUser = message,
+                LogonUserId = this.LogOnUserId,
+                LogonPassword = this.LogOnPassword,
+            };
+
+            this.QueryForLogonCredentialsEvent(this, args);
         }
 
+        /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        /// This does concatenates the specified value name with the FriendlyClientName to make the 
+        /// name unique for this client type.
+        /// </summary>
+        /// <param name="configName">the name of the value</param>
+        /// <returns>the value read from the config file - string.Empty, if there is no such value.</returns>
+        protected string GetConfigValue(string configName)
+        {
+            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
+            return value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="result">The list of elements that should get the elements. The elements should be added to
+        /// the list instead of replacing it.</param>
+        /// <returns>The list with the newly added elements</returns>
+        protected abstract List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result);
+
+        /// <summary>
+        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        protected abstract void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting);
+
+        /// <summary>
+        /// virtual method that will be called just before accessing the target/source systems storage path. This
+        /// enables concrete client implementations to do checks and preparations needed to access the target system
+        /// </summary>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        protected virtual void BeforeStorageAccess(string clientFolderName)
+        {
+        }
+        
         /// <summary>
         /// Writes a single element to the list of elements; overwrites an existing element with the same id
         /// </summary>
@@ -277,7 +283,11 @@ namespace Sem.Sync.SyncBase
 
             if (listEntry != null)
             {
-                if (skipIfExisting) return false;
+                if (skipIfExisting)
+                {
+                    return false;
+                }
+
                 list.Remove(listEntry);
             }
 

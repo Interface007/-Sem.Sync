@@ -35,6 +35,11 @@ namespace Sem.Sync.SyncBase
         [ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public SyncData InternalSyncData { get; set; }
 
+        /// <summary>
+        /// compares two entities
+        /// </summary>
+        /// <param name="other"> The other instance to compare to. </param>
+        /// <returns> a value indicating whether the other is "greater", "euqal" or "less" than this entity </returns>
         public virtual int CompareTo(StdElement other)
         {
             return string.Compare(this.ToSortSimple(), other.ToSortSimple(), StringComparison.OrdinalIgnoreCase);
