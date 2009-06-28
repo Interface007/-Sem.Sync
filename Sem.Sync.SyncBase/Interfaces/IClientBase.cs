@@ -11,10 +11,10 @@ namespace Sem.Sync.SyncBase.Interfaces
 
     using EventArgs;
 
-    ///<summary>
+    /// <summary>
     /// Base interface for a synchronization client. This interface does provide access to
     /// generic synchronization functionality as well as support for event handling.
-    ///</summary>
+    /// </summary>
     public interface IClientBase : ICredentialAware
     {
         /// <summary>
@@ -30,7 +30,7 @@ namespace Sem.Sync.SyncBase.Interfaces
         event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
 
         /// <summary>
-        /// Gets or sets the user readable name of the client implementation. This name should
+        /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
         string FriendlyClientName { get; }

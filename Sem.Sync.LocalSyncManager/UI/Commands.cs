@@ -176,7 +176,10 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="gridRowIndex">the number of the row</param>
         private void RunRowCommand(int gridRowIndex)
         {
-            this.DataContext.Execute((SyncDescription)dataGridView1.Rows[gridRowIndex].DataBoundItem);
+            if (gridRowIndex > -1)
+            {
+                this.DataContext.Execute((SyncDescription)dataGridView1.Rows[gridRowIndex].DataBoundItem);
+            }
         }
         #endregion
     }
