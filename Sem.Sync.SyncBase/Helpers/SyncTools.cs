@@ -286,7 +286,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="fileName">the destination file name that should get the serialized entity</param>
         public static void SaveToFile<T>(T source, string fileName)
         {
-            var formatter = new XmlSerializer(typeof(T));
+            var formatter = new XmlSerializer(typeof(T), new Type[]{typeof(KeyValuePair)});
 
             EnsurePathExist(Path.GetDirectoryName(fileName));
             using (var file = new FileStream(fileName, FileMode.Create))

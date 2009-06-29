@@ -72,9 +72,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{F3AF3F0D
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sem.Sync.OutlookWithXing.Setup", "Sem.Sync.OutlookWithXing.Setup\Sem.Sync.OutlookWithXing.Setup.wixproj", "{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.StatisticConnector", "Sem.Sync.StatisticConnector\Sem.Sync.StatisticConnector.csproj", "{1068FBA6-60F2-4A39-9941-CCD6447313E8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 19
+		SccNumberOfProjects = 20
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -150,6 +152,10 @@ Global
 		SccProjectTopLevelParentUniqueName18 = SemSync.sln
 		SccProjectName18 = SemSyncOutlookWithXing
 		SccLocalPath18 = SemSyncOutlookWithXing
+		SccProjectUniqueName19 = Sem.Sync.StatisticConnector\\Sem.Sync.StatisticConnector.csproj
+		SccProjectTopLevelParentUniqueName19 = SemSync.sln
+		SccProjectName19 = Sem.Sync.StatisticConnector
+		SccLocalPath19 = Sem.Sync.StatisticConnector
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -341,6 +347,16 @@ Global
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}.Release|x86.ActiveCfg = Release|x86
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}.Release|x86.Build.0 = Release|x86
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -353,6 +369,7 @@ Global
 		{15DD2E27-2606-4211-BDCA-863BB9E26142} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{C1B81350-1893-49FF-9582-470C46C2729A} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{1068FBA6-60F2-4A39-9941-CCD6447313E8} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}

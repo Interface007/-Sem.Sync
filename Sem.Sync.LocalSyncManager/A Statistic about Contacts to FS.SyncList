@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\Simple Statistic.xml</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export Report of contacts from FS to FS">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.StatisticConnector.SimpleReport</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}</TargetStorePath>
+  </SyncDescription>
+  
+</ArrayOfSyncDescription>
