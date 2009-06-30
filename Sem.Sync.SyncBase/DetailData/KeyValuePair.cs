@@ -24,5 +24,19 @@ namespace Sem.Sync.SyncBase.DetailData
         /// member of this type
         /// </summary>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// </summary>
+        public KeyValuePair(){}
+        
+        /// <summary>
+        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// </summary>
+        public KeyValuePair(string key, string value)
+        {
+            this.Key = key;
+            this.Value = value;
+        }
     }
 }

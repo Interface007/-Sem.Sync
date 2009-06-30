@@ -217,7 +217,11 @@ namespace Sem.Sync.SyncBase.Helpers
             var result = new List<StdContact>();
             foreach (var element in list)
             {
-                result.Add((StdContact)element);
+                var e = element as StdContact;
+                if (e != null)
+                {
+                    result.Add(e);
+                }
             }
             return result;
         }

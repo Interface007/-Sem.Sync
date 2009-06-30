@@ -7,6 +7,7 @@
     public class SimpleStatisticResult
     {
         public int NumberOfElements { get; set; }
-        public List<object> PropertyUsage { get; set; }
+        public List<KeyValuePair> PropertyUsage { get; set; }
+        public List<KeyValuePair> ValueAnalysis { get; set; }
     }
 }

@@ -2,11 +2,10 @@
 {
     #region usings
 
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Reflection;
+    using System.Linq;
 
     using SyncBase;
     using SyncBase.DetailData;
@@ -53,60 +52,34 @@
             var statistic = new SimpleStatisticResult
                 {
                     NumberOfElements = elements.Count,
-                    PropertyUsage = GetPropertyUsage(elements)
+                    PropertyUsage = PropertyUsageCounter.GetPropertyUsage(elements),
+                    ValueAnalysis = new ValueAnalysisCounter(elements).GetInfo(),
                 };
 
             SyncTools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"));
         }
 
-        private static List<object> GetPropertyUsage(ICollection<StdElement> elements)
+    }
+
+    public class ValueAnalysisCounter
+    {
+        public decimal PercentageGenderFemale { get; set; }
+        public decimal PercentageGenderMale { get; set; }
+
+        public ValueAnalysisCounter(List<StdElement> elements)
         {
-            var result = new List<object>();
-            var propList = new Dictionary<string, int>();
-            if (elements.Count > 0)
-            {
-                foreach (var element in elements)
-                {
-                    AddPropertyCounts(element, "\\", propList);
-                }
-
-                foreach (var i in propList)
-                {
-                    if (i.Value > 0)
-                    {
-                        result.Add(new KeyValuePair { Key = i.Key, Value = i.Value.ToString(CultureInfo.CurrentCulture) });
-                    }
-                }
-            }
-
-            return result;
+            var contacts = elements.ToContacts();
+            this.PercentageGenderMale = (decimal)((from x in contacts where x.PersonGender == Gender.Male select x).Count() * 100) / contacts.Count ;
+            this.PercentageGenderFemale = (decimal)((from x in contacts where x.PersonGender == Gender.Female select x).Count() * 100) / contacts.Count ;
         }
 
-        private static void AddPropertyCounts(object element, string root, IDictionary<string, int> propList)
+        public List<KeyValuePair> GetInfo()
         {
-            var myType = element.GetType();
-            foreach (var info in myType.GetProperties())
-            {
-                var infoName = root + info.Name;
-                if (info.GetValue(element, null) == null)
-                {
-                    continue;
-                }
+            var result = new List<KeyValuePair>();
+            result.Add(new KeyValuePair("Male", string.Format(CultureInfo.CurrentCulture, "male: {0:0.00} %", this.PercentageGenderMale)));
+            result.Add(new KeyValuePair("Male", string.Format(CultureInfo.CurrentCulture, "female: {0:0.00} %", this.PercentageGenderFemale)));
 
-                if (!propList.ContainsKey(infoName))
-                {
-                    propList.Add(infoName, 0);
-                }
-                propList[infoName]++;
-
-                if (info.PropertyType.IsClass 
-                    && !info.PropertyType.IsPrimitive
-                    && !info.PropertyType.IsArray
-                    && !info.PropertyType.Name.IsOneOf("String", "DateTime"))
-                {
-                    AddPropertyCounts(info.GetValue(element, null), root + "\\" + info.Name, propList);
-                }
-            }
+            return result;
         }
     }
 }
