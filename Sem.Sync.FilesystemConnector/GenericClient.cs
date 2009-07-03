@@ -69,7 +69,7 @@ namespace Sem.Sync.FilesystemConnector
         {
             if (File.Exists(clientFolderName))
             {
-                using(var file = new FileStream(clientFolderName, FileMode.Open))
+                using (var file = new FileStream(clientFolderName, FileMode.Open))
                 {
                     if (file.Length > 0)
                     {

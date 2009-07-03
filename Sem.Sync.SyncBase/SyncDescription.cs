@@ -9,21 +9,6 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Xml.Serialization;
 
-    [Serializable]
-    public class SyncDescription
-    {
-        [XmlAttribute]
-        public string Name { get; set; }
-        public SyncCommand Command { get; set; }
-        public string CommandParameter { get; set; }
-        public string SourceConnector { get; set; }
-        public string SourceStorePath { get; set; }
-        public string TargetConnector { get; set; }
-        public string TargetStorePath { get; set; }
-        public string BaselineConnector { get; set; }
-        public string BaselineStorePath { get; set; }
-    }
-
     /// <summary>
     /// Describes what to do (the action) for a synchronization command
     /// </summary>
@@ -42,7 +27,7 @@ namespace Sem.Sync.SyncBase
         CopyAll,
 
         /// <summary>
-        /// 
+        /// Adds all missing entries from the source to the target, but does not overwrite any existing data.
         /// </summary>
         MergeMissing,
 
@@ -109,5 +94,20 @@ namespace Sem.Sync.SyncBase
         /// Performs a shell execute to open the document specified as the command parameter
         /// </summary>
         OpenDocument,
+    }
+
+    [Serializable]
+    public class SyncDescription
+    {
+        [XmlAttribute]
+        public string Name { get; set; }
+        public SyncCommand Command { get; set; }
+        public string CommandParameter { get; set; }
+        public string SourceConnector { get; set; }
+        public string SourceStorePath { get; set; }
+        public string TargetConnector { get; set; }
+        public string TargetStorePath { get; set; }
+        public string BaselineConnector { get; set; }
+        public string BaselineStorePath { get; set; }
     }
 }

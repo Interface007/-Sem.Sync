@@ -63,7 +63,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
+      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -254,6 +254,14 @@
     <None Include="Help\Settings\Projects\help1x.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
+      <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>
+      <Name>Sem.Sync.SharedUI.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj">
       <Project>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</Project>
       <Name>Sem.Sync.XingConnector</Name>

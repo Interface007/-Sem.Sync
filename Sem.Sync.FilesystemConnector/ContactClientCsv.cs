@@ -24,17 +24,41 @@ namespace Sem.Sync.FilesystemConnector
 
     #endregion usings
 
-    ///<summary>
+    /// <summary>
     /// This client implementation does write to a CSV file. This implementation is actually very simple with 
     /// fixed fields. In the future there may be an implementation with configurable fields and column headers.
-    ///</summary>
+    /// </summary>
     public class ContactClientCsv : StdClient
     {
+        /// <summary>
+        /// Gets the user readable name of the client implementation called "Comma Seperated Values connector".
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "Comma Seperated Values connector";
+            }
+        }
+
+        /// <summary>
+        /// This is a write only client, so this method will simply return the <paramref name="result"/>.
+        /// </summary>
+        /// <param name="clientFolderName">this parameter is not used</param>
+        /// <param name="result">this list will be returned by the method</param>
+        /// <returns>the list from parameter <paramref name="result"/></returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             return result;
         }
 
+        /// <summary>
+        /// Write method for full list of elements. This will write the properties of the <see cref="StdElement"/>
+        /// to the file specified by the parameter <paramref name="clientFolderName"/>.
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">The path and file name to where the elements should be written.</param>
+        /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             using (var file = new StreamWriter(clientFolderName))
@@ -113,14 +137,6 @@ namespace Sem.Sync.FilesystemConnector
                         file.WriteLine(line.ToString().Replace("\n", " ").Replace("\r", " "));
                     }
                 }
-            }
-        }
-
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "Comma Seperated Values connector";
             }
         }
     }

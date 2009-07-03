@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!--
+  This setup project is not very complex, but it's containing a GUI, writes registry 
+  entries and files, creates folders and shortcuts. As you can see, it's not complex 
+  to write sophisticating setup programs with this toolkit.
+  If we get more files we will split the file into sub files for the features for the
+  setup.
+  -->
   <Product Name="Sem.Sync Sample Client for Xing to Outlook syncronization"
            Manufacturer="Sven Erik Matzen"
            Id="6BBB76BF-7D19-41B1-A4AB-316AFD454C02"

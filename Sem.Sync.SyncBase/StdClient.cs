@@ -242,7 +242,7 @@ namespace Sem.Sync.SyncBase
         protected abstract List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result);
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="elements">the list of elements that should be written to the target system.</param>
         /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
