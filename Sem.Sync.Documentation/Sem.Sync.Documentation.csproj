@@ -63,7 +63,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
+      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -254,38 +254,6 @@
     <None Include="Help\Settings\Projects\help1x.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj">
-      <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
-      <Name>Sem.Sync.ActiveDirectoryConnector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj">
-      <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
-      <Name>Sem.Sync.FacebookConnector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj">
-      <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
-      <Name>Sem.Sync.FilesystemConnector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj">
-      <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
-      <Name>Sem.Sync.OnlineStorageConnector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj">
-      <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
-      <Name>Sem.Sync.OutlookConnector2003</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj">
-      <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
-      <Name>Sem.Sync.OutlookConnector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
-      <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>
-      <Name>Sem.Sync.SharedUI.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
-      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
-      <Name>Sem.Sync.SyncBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj">
       <Project>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</Project>
       <Name>Sem.Sync.XingConnector</Name>

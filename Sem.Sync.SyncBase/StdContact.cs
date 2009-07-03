@@ -53,32 +53,102 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public PhoneNumber PersonalPhoneMobile { get; set; }
 
+        /// <summary>
+        /// Gets or sets the primary (high priority) personal (non-business) email address of this contact.
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string PersonalEmailPrimary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secondary (low priority) personal (non-business) email address of this contact.
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string PersonalEmailSecondary { get; set; }
+
+        /// <summary>
+        /// Gets or sets a personal (non-business) internet homepage address
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string PersonalHomepage { get; set; }
+
+        /// <summary>
+        /// Gets or sets a personal (non-business) instant messenger address list (with addresses for googke-talk, msn-messenger or similar)
+        /// </summary>
+        [ComparisonModifier(CaseInsensitive = true)]
         public InstantMessengerAddresses PersonalInstantMessengerAddresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of identifiers for different information stored like active directory, social networking sited or similar
+        /// </summary>
         public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the company this contact is associated with
+        /// </summary>
         public string BusinessCompanyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the department inside the company this contact is associated with
+        /// </summary>
         public string BusinessDepartment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary (first to use) business address. This is the address where the contact is "mostly"
+        /// available.
+        /// </summary>
         public AddressDetail BusinessAddressPrimary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secondary business address. This is the address where the contact is "maybe sometimes"
+        /// available.
+        /// </summary>
         public AddressDetail BusinessAddressSecondary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the business mobile phone number. This (in most cases) is not available at non-business time
+        /// </summary>
         public PhoneNumber BusinessPhoneMobile { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the primary business email address. This (in most cases) is not available at non-business time
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string BusinessEmailPrimary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secondary (not checked so often - used when at BusinessAddressSecondary - or similar) 
+        /// business email address. This (in most cases) is not available at non-business time
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string BusinessEmailSecondary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the position in the company. Something like "developer", "CIO" or "Human Resource Manager".
+        /// Typically this is something that's printed on the business card and describes the role inside the company.
+        /// </summary>
         public string BusinessPosition { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the internet address of the companies homepage.
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string BusinessHomepage { get; set; }
+
+        /// <summary>
+        /// Gets or sets a collection of business instance messenger addresses where this contact is available.
+        /// </summary>
+        [ComparisonModifier(CaseInsensitive = true)]
         public InstantMessengerAddresses BusinessInstantMessengerAddresses { get; set; }
 
+        /// <summary>
+        /// Gets or sets unstructured text data
+        /// </summary>
         public string AdditionalTextData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the image file that is stored inside this contact.
+        /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public string PictureName { get; set; }
 
@@ -137,6 +207,10 @@ namespace Sem.Sync.SyncBase
             return this.GetFullName();
         }
 
+        /// <summary>
+        /// Implements an overridable SIMPLE string representation in the format "lastname, firstname middlename"
+        /// </summary>
+        /// <returns>a dense and simple string representation of the entity</returns>
         public override string ToStringSimple()
         {
             var name = string.Empty;
@@ -144,17 +218,26 @@ namespace Sem.Sync.SyncBase
             {
                 name += this.Name.LastName ?? string.Empty;
                 name += ((name.Length > 0) ? ", " : string.Empty) + this.Name.FirstName + " ";
-                name += this.Name.MiddleName + " ";
+                name += this.Name.MiddleName;
             }
 
-            return name.Replace("()", string.Empty).Replace("  ", " ").Trim();
+            return name.Replace("  ", " ").Trim();
         }
 
+        /// <summary>
+        /// Loads a standard contact from the file system.
+        /// </summary>
+        /// <param name="fileName">the name of the file that does contain the serialized contact</param>
+        /// <returns>the deserialized contact</returns>
         public static StdContact LoadFromFile(string fileName)
         {
             return SyncTools.LoadFromFile<StdContact>(fileName);
         }
 
+        /// <summary>
+        /// Saves this standard contact to the file system
+        /// </summary>
+        /// <param name="fileName">the file name to store the information</param>
         public void SaveToFile(string fileName)
         {
             SyncTools.SaveToFile(this, fileName);
@@ -165,6 +248,10 @@ namespace Sem.Sync.SyncBase
             }
         }
 
+        /// <summary>
+        /// Normalizes the information inside the contact by performing data clean up. This includes processing of replacement lists and
+        /// setting dates out of "normal" range to 1900.01.01.
+        /// </summary>
         public override void NormalizeContent()
         {
             var dictionary = SyncTools.Replacements;
@@ -204,7 +291,5 @@ namespace Sem.Sync.SyncBase
                 this.DateOfBirth = new DateTime(1900, 1, 1);
             }
         }
-
-
     }
 }

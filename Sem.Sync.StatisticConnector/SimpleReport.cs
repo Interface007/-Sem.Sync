@@ -53,10 +53,10 @@
                 {
                     NumberOfElements = elements.Count,
                     PropertyUsage = PropertyUsageCounter.GetPropertyUsage(elements),
-                    ValueAnalysis = new ValueAnalysisCounter(elements).GetInfo(),
+                    ValueAnalysis = new ValueAnalysisCounter(elements),
                 };
 
-            SyncTools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"));
+            SyncTools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"), typeof(KeyValuePair), typeof(ValueAnalysisCounter));
         }
 
     }
@@ -65,20 +65,57 @@
     {
         public decimal PercentageGenderFemale { get; set; }
         public decimal PercentageGenderMale { get; set; }
+        public List<KeyValuePair> Top10CitiesPersonal { get; set; }
+        public List<KeyValuePair> Top10CitiesBusiness { get; set; }
+
+        public ValueAnalysisCounter()
+        {}
 
         public ValueAnalysisCounter(List<StdElement> elements)
         {
             var contacts = elements.ToContacts();
-            this.PercentageGenderMale = (decimal)((from x in contacts where x.PersonGender == Gender.Male select x).Count() * 100) / contacts.Count ;
-            this.PercentageGenderFemale = (decimal)((from x in contacts where x.PersonGender == Gender.Female select x).Count() * 100) / contacts.Count ;
+
+            if (contacts.Count > 0)
+            {
+                this.PercentageGenderMale =
+                    (decimal)((from x in contacts where x.PersonGender == Gender.Male select x).Count() * 100) /
+                    contacts.Count;
+                this.PercentageGenderFemale =
+                    (decimal)((from x in contacts where x.PersonGender == Gender.Female select x).Count() * 100) /
+                    contacts.Count;
+
+                this.Top10CitiesPersonal = (from x in contacts
+                                            where x.PersonalAddressPrimary != null
+                                            group x by x.PersonalAddressPrimary.CityName
+                                            into g orderby g.Count() descending 
+                                            
+                                                select
+                                                new KeyValuePair
+                                                    {
+                                                        Key = g.Key,
+                                                        Value = g.Count().ToString(CultureInfo.CurrentCulture)
+                                                    }).Take(10).ToList();
+
+                this.Top10CitiesBusiness = (from x in contacts
+                                            where x.BusinessAddressPrimary != null
+                                            group x by x.BusinessAddressPrimary.CityName
+                                            into g orderby g.Count() descending 
+                                                select
+                                                new KeyValuePair
+                                                    {
+                                                        Key = g.Key,
+                                                        Value = g.Count().ToString(CultureInfo.CurrentCulture)
+                                                    }).Take(10).ToList();
+            }
         }
 
         public List<KeyValuePair> GetInfo()
         {
             var result = new List<KeyValuePair>();
-            result.Add(new KeyValuePair("Male", string.Format(CultureInfo.CurrentCulture, "male: {0:0.00} %", this.PercentageGenderMale)));
-            result.Add(new KeyValuePair("Male", string.Format(CultureInfo.CurrentCulture, "female: {0:0.00} %", this.PercentageGenderFemale)));
-
+            result.Add(new KeyValuePair("Male", string.Format(CultureInfo.CurrentCulture, "{0:0.00} %", this.PercentageGenderMale)));
+            result.Add(new KeyValuePair("Female", string.Format(CultureInfo.CurrentCulture, "{0:0.00} %", this.PercentageGenderFemale)));
+            result.AddRange(this.Top10CitiesPersonal);
+            result.AddRange(this.Top10CitiesBusiness);
             return result;
         }
     }

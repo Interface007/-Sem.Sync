@@ -117,7 +117,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 // find the corresponding target element
                 var targetItem =
                     (from x in target
+// ReSharper disable AccessToModifiedClosure
                      where sourceItem.Id == x.Id
+// ReSharper restore AccessToModifiedClosure
                      select x).FirstOrDefault();
 
                 // if we have no target element, we (by definition) do not have a conflict - 
@@ -130,7 +132,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 // lookup the base element if we have one
                 var baselineItem = (baseline == null) ? null :
                                                                  (from x in baseline
+// ReSharper disable AccessToModifiedClosure
                                                                   where sourceItem.Id == x.Id
+// ReSharper restore AccessToModifiedClosure
                                                                   select x).FirstOrDefault();
 
                 // add the matched entries to the list of potential conflicts
@@ -286,7 +290,19 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="fileName">the destination file name that should get the serialized entity</param>
         public static void SaveToFile<T>(T source, string fileName)
         {
-            var formatter = new XmlSerializer(typeof(T), new Type[]{typeof(KeyValuePair)});
+            SaveToFile(source, fileName, typeof(KeyValuePair));
+        }
+
+        /// <summary>
+        /// Saves the entity to the file system
+        /// </summary>
+        /// <typeparam name="T">the type that should be serialized</typeparam>
+        /// <param name="source">the source object that should be serialized</param>
+        /// <param name="fileName">the destination file name that should get the serialized entity</param>
+        /// <param name="additionalTypes">specifies additional types for serialization</param>
+        public static void SaveToFile<T>(T source, string fileName,params Type[] additionalTypes)
+        {
+            var formatter = new XmlSerializer(typeof(T), additionalTypes);
 
             EnsurePathExist(Path.GetDirectoryName(fileName));
             using (var file = new FileStream(fileName, FileMode.Create))

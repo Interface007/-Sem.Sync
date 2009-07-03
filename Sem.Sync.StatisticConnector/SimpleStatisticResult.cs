@@ -8,6 +8,6 @@
     {
         public int NumberOfElements { get; set; }
         public List<KeyValuePair> PropertyUsage { get; set; }
-        public List<KeyValuePair> ValueAnalysis { get; set; }
+        public ValueAnalysisCounter ValueAnalysis { get; set; }
     }
 }

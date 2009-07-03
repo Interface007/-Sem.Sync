@@ -14,6 +14,10 @@ namespace Sem.Sync.SyncBase.Helpers
 
     using DetailData;
 
+    /// <summary>
+    /// This static class defines extension methods for variuos types. The extension methods
+    /// are helper methods that do ease the reading (and writing) of the main code.
+    /// </summary>
     public static class Extensions
     {
         /// <summary>
@@ -45,8 +49,15 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             foreach (var targetItem in target)
             {
+                if (targetItem == null)
+                {
+                    continue;
+                }
+
                 var sourceItem = (from item in source
+// ReSharper disable AccessToModifiedClosure
                                   where item.Id == targetItem.Id
+// ReSharper restore AccessToModifiedClosure
                                   select item).FirstOrDefault();
 
                 if (targetItem is StdContact)
@@ -226,16 +237,32 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Converts a list of <see cref="StdElement"/> to a list of <see cref="MatchingEntry"/> by omitting all
+        /// entries that cannot be casted to a <see cref="MatchingEntry"/> .
+        /// </summary>
+        /// <param name="list">The list of <see cref="StdElement"/> to be converted</param>
+        /// <returns>The resulting list of <see cref="MatchingEntry"/></returns>
         public static List<MatchingEntry> ToMatchingEntries(this List<StdElement> list)
         {
             var result = new List<MatchingEntry>();
             foreach (var element in list)
             {
-                result.Add((MatchingEntry)element);
+                var e = element as MatchingEntry;
+                if (e != null)
+                {
+                    result.Add(e);
+                }
             }
             return result;
         }
 
+        /// <summary>
+        /// Converts a list of some type to a list of <see cref="StdElement"/> by omitting all
+        /// entries that cannot be casted to a <see cref="StdElement"/>.
+        /// </summary>
+        /// <param name="list">The list of something to be converted</param>
+        /// <returns>The resulting list of <see cref="StdElement"/></returns>
         public static List<StdElement> ToStdElement<T>(this List<T> list) where T : StdElement
         {
             var result = new List<StdElement>();
@@ -246,16 +273,30 @@ namespace Sem.Sync.SyncBase.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Performs a lookup of a <see cref="StdContact"/> by the <see cref="StdElement.Id"/>.
+        /// </summary>
+        /// <param name="list">the list to be searched</param>
+        /// <param name="uid">the id of the contect to be returned</param>
+        /// <returns>the contact with that id or null if there is no such contact inside the list</returns>
         public static StdContact GetContactById(this List<StdContact> list, string uid)
         {
-            var result = (from x in list where x.Id == new Guid(uid) select x).FirstOrDefault();
+            var idToSearch = new Guid(uid);
+            var result = (from x in list where x.Id == idToSearch select x).FirstOrDefault();
             return result;
         }
 
+        /// <summary>
+        /// Performs a lookup of a <see cref="StdElement"/> by the <see cref="StdElement.Id"/>.
+        /// </summary>
+        /// <param name="list">the list to be searched</param>
+        /// <param name="uid">the id of the contect to be returned</param>
+        /// <returns>the contact with that id or null if there is no such contact inside the list</returns>
         public static StdContact GetContactById(this List<StdElement> list, string uid)
         {
-            var result = (from x in list where x.Id == new Guid(uid) select x).FirstOrDefault();
-            return (StdContact)result;
+            var idToSearch = new Guid(uid);
+            var result = (from x in list where x.Id == idToSearch select x).FirstOrDefault();
+            return result as StdContact;
         }
     }
 }

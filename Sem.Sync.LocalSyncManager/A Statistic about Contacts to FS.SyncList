@@ -9,9 +9,14 @@
   <SyncDescription Name="Export Report of contacts from FS to FS">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.StatisticConnector.SimpleReport</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="open statistic xml file">
+    <Command>OpenDocument</Command>
+    <CommandParameter>{FS:WorkingFolder}\Simple Statistic.xml</CommandParameter>
   </SyncDescription>
   
 </ArrayOfSyncDescription>

@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -196,7 +197,7 @@ namespace Sem.Sync.SyncBase
                     if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
                     targetClient.WriteRange(
                         targetClient.GetAll(item.TargetStorePath)
-                            .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath)), 
+                            .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath)),
                             item.TargetStorePath);
                     break;
 
@@ -204,7 +205,7 @@ namespace Sem.Sync.SyncBase
                     if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
                     if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
                     targetClient.WriteRange(
-                        targetClient.Normalize(targetClient.GetAll(item.TargetStorePath)), 
+                        targetClient.Normalize(targetClient.GetAll(item.TargetStorePath)),
                         item.SourceStorePath);
 
                     break;
@@ -244,9 +245,9 @@ namespace Sem.Sync.SyncBase
                     var targetMatchList = targetClient.GetAll(item.TargetStorePath);
                     var matchResultList =
                     this.UiProvider.PerformEntityMerge(
-                                sourceClient.GetAll(item.SourceStorePath),
-                                targetMatchList,
-                                baseliClient.GetAll(item.BaselineStorePath));
+                        sourceClient.GetAll(item.SourceStorePath),
+                        targetMatchList,
+                        baseliClient.GetAll(item.BaselineStorePath));
 
                     // only write to target if we did get a merge result
                     if (targetMatchList != null)
@@ -272,15 +273,15 @@ namespace Sem.Sync.SyncBase
 
                     var targetList = targetClient.GetAll(item.TargetStorePath);
                     var mergeResultList =
-                    this.UiProvider.PerformAttributeMerge(
-                        SyncTools.DetectConflicts(
-                            SyncTools.BuildConflictTestContainerList(
-                                sourceClient.GetAll(item.SourceStorePath),
-                                targetList,
-                                (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
-                                typeof(StdContact)),
-                            true),
-                        targetList);
+                        this.UiProvider.PerformAttributeMerge(
+                            SyncTools.DetectConflicts(
+                                SyncTools.BuildConflictTestContainerList(
+                                    sourceClient.GetAll(item.SourceStorePath),
+                                    targetList,
+                                    (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
+                                    typeof(StdContact)),
+                                true),
+                            targetList);
 
                     // only write to target if we did get a merge result
                     if (mergeResultList != null)
@@ -299,6 +300,13 @@ namespace Sem.Sync.SyncBase
 
                     break;
 
+                case SyncCommand.OpenDocument:
+                    if (!string.IsNullOrEmpty(item.CommandParameter))
+                    {
+                            Process.Start(new ProcessStartInfo(this.ReplacePathToken(item.CommandParameter)));
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -309,7 +317,7 @@ namespace Sem.Sync.SyncBase
 
             return continueExecution;
         }
-        
+
         /// <summary>
         /// attached or detaches event handlers between sync engine and client implementation
         /// </summary>
@@ -372,6 +380,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>the modified list of elements from the <paramref name="target"/></returns>
         private static List<StdElement> MatchByName(IEnumerable<StdElement> source, List<StdElement> target)
         {
+            // ReSharper disable AccessToModifiedClosure
             foreach (var item in target)
             {
                 var corresponding = (from element in source
@@ -400,6 +409,7 @@ namespace Sem.Sync.SyncBase
                     item.Id = corresponding.Id;
                 }
             }
+            // ReSharper restore AccessToModifiedClosure
 
             return target;
         }
@@ -414,6 +424,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>the modified list of elements from the <paramref name="target"/></returns>
         private static List<StdElement> MatchByProfileId(List<StdElement> target, IEnumerable<StdElement> baseline)
         {
+            // ReSharper disable AccessToModifiedClosure
             foreach (var item in target)
             {
                 var corresponding = (from element in baseline
@@ -427,6 +438,7 @@ namespace Sem.Sync.SyncBase
                     item.Id = corresponding.Id;
                 }
             }
+            // ReSharper restore AccessToModifiedClosure
 
             return target;
         }
@@ -438,7 +450,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="source">the path of the source list to merge</param>
         /// <param name="target">the path of the target list to merge</param>
         /// <param name="baseline">the path of the baseline list to merge</param>
-        private static void MergeFilesBeyondCompare(string source, string target, string baseline)
+        private void MergeFilesBeyondCompare(string source, string target, string baseline)
         {
             var pathValue = PathToBeyondCompare;
             if (string.IsNullOrEmpty(pathValue))
@@ -446,7 +458,7 @@ namespace Sem.Sync.SyncBase
                 return;
             }
 
-            var process = System.Diagnostics.Process.Start(
+            var process = Process.Start(
                 pathValue,
                 " \"" + source + "\"" + " \"" + target + "\"" + (string.IsNullOrEmpty(baseline) ? "" : " \"" + baseline + "\""));
 
@@ -454,6 +466,8 @@ namespace Sem.Sync.SyncBase
             {
                 process.WaitForExit();
             }
+
+            this.LogProcessingEvent("Process started: " + pathValue);
         }
     }
 }

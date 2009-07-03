@@ -24,6 +24,9 @@ namespace Sem.Sync.SyncBase
         public string BaselineStorePath { get; set; }
     }
 
+    /// <summary>
+    /// Describes what to do (the action) for a synchronization command
+    /// </summary>
     public enum SyncCommand
     {
         /// <summary>
@@ -101,5 +104,10 @@ namespace Sem.Sync.SyncBase
         /// Asks the user if the processing should continue - the command parameter is the text to be displayed
         /// </summary>
         AskForContinue,
+
+        /// <summary>
+        /// Performs a shell execute to open the document specified as the command parameter
+        /// </summary>
+        OpenDocument,
     }
 }

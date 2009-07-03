@@ -11,23 +11,61 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Reflection;
     using System.Xml.Serialization;
     
+    /// <summary>
+    /// Checks the version of a library.
+    /// </summary>
     public class VersionCheck
     {
         private const string VersionBaseUrl = "http://svenerikmatzen.info";
         private const string VersionXmlUrl = "/Content/Portals/0/sem.sync.version.xml";
 
+        /// <summary>
+        /// Gets or sets the build number of the version
+        /// </summary>
         public int Build { get; set; }
+
+        /// <summary>
+        /// Gets or sets the major version number of the version
+        /// </summary>
         public int Major { get; set; }
+
+        /// <summary>
+        /// Gets or sets the major revision number of the version
+        /// </summary>
         public short MajorRevision { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minor version number of the version
+        /// </summary>
         public int Minor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minor revision number of the version
+        /// </summary>
         public short MinorRevision { get; set; }
+
+        /// <summary>
+        /// Gets or sets the revision number of the version
+        /// </summary>
         public int Revision { get; set; }
 
+        /// <summary>
+        /// Performs the version check by comparing the own version information with the
+        /// version stored at the URL described by <see cref="VersionBaseUrl"/> and <see cref="VersionXmlUrl"/>.
+        /// </summary>
+        /// <returns>true if the version of this assembly is higher or euqal</returns>
         public static bool Check()
         {
-            return Check();
+            return Check(null);
         }
 
+        /// <summary>
+        /// Performs the version check by comparing the own version information with the
+        /// version stored at the URL described by <see cref="VersionBaseUrl"/> and <see cref="VersionXmlUrl"/>.
+        /// </summary>
+        /// <param name="UiProvider">object that implements the <see cref="Interfaces.IUiInteraction"/> interface to
+        /// query information from the user</param>
+        /// <returns>true if the version of this assembly is higher or euqal</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static bool Check(Interfaces.IUiInteraction UiProvider)
         {
@@ -62,6 +100,9 @@ namespace Sem.Sync.SyncBase.Helpers
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="VersionCheck"/> class and initializes the version information.
+        /// </summary>
         public VersionCheck()
         {
             var myVersion = Assembly.GetExecutingAssembly().GetName().Version;
