@@ -6,6 +6,9 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
+// The complete class is currently undecomuented, because the structure of the internal calendar
+// item format is not clear at the memoment and will definitely change in the near future.
+#pragma warning disable 1591
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -96,4 +99,5 @@ namespace Sem.Sync.SyncBase
             throw new NotImplementedException();
         }
     }
+#pragma warning restore 1591
 }

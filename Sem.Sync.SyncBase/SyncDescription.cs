@@ -19,7 +19,7 @@ namespace Sem.Sync.SyncBase
         /// Skip entries that do already exist.
         /// </summary>
         CopyNew,
-        
+
         /// <summary>
         /// Copy all entries from the source client to the destination client;
         /// Overwrite existing entries
@@ -27,7 +27,7 @@ namespace Sem.Sync.SyncBase
         CopyAll,
 
         /// <summary>
-        /// Adds all missing entries from the source to the target, but does not overwrite any existing data.
+        /// 
         /// </summary>
         MergeMissing,
 
@@ -96,18 +96,67 @@ namespace Sem.Sync.SyncBase
         OpenDocument,
     }
 
+    /// <summary>
+    /// This class represents a job description for the sync engine. It provides the class names of the three 
+    /// connectors (source, target and baseline) as well as Parameter information for each connector and
+    /// for the command.
+    /// </summary>
     [Serializable]
     public class SyncDescription
     {
+        /// <summary>
+        /// Gets or sets the human readable name of this command.
+        /// </summary>
         [XmlAttribute]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command to execute.
+        /// </summary>
         public SyncCommand Command { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parameter for the command to be executed.
+        /// </summary>
         public string CommandParameter { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the source connector. This name can be incomplete (without the 
+        /// assembly name), if the assembly name is equal to the name space for the connector class.
+        /// This can also be a generic class specified as <c>classname of detailclass</c>
+        /// </summary>
         public string SourceConnector { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parameter for the source connector. This is normally a specification for 
+        /// the location/filter inside the storage this connector connects to.
+        /// </summary>
         public string SourceStorePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the target connector. This name can be incomplete (without the 
+        /// assembly name), if the assembly name is equal to the name space for the connector class.
+        /// This can also be a generic class specified as <c>classname of detailclass</c>
+        /// </summary>
         public string TargetConnector { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parameter for the target connector. This is normally a specification for 
+        /// the location/filter inside the storage this connector connects to.
+        /// </summary>
         public string TargetStorePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the base line connector. This name can be incomplete (without the 
+        /// assembly name), if the assembly name is equal to the name space for the connector class.
+        /// This can also be a generic class specified as <c>classname of detailclass</c>
+        /// </summary>
         public string BaselineConnector { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parameter for the base line connector. This is normally a specification for 
+        /// the location/filter inside the storage this connector connects to.
+        /// </summary>
         public string BaselineStorePath { get; set; }
     }
 }
