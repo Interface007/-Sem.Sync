@@ -4,8 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-// This client implementation does write to a CSV file. This implementation is actually very simple with 
-// fixed fields. In the future there may be an implementation with configurable fields and column headers.
+// This client implementation does write to a CSV file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,21 +12,35 @@ namespace Sem.Sync.FilesystemConnector
 {
     #region usings
 
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     using SyncBase;
-    using SyncBase.DetailData;
     using SyncBase.Helpers;
 
     #endregion usings
 
-    /// <summary>
-    /// This client implementation does write to a CSV file. This implementation is actually very simple with 
-    /// fixed fields. In the future there may be an implementation with configurable fields and column headers.
-    /// </summary>
+    ///<summary>
+    /// This client implementation does write to a CSV file. 
+    ///</summary>
+    /// <remarks>
+    /// The implementation does try to read the
+    /// configuration for the columns and headers from a second file specified inside the TargetStorePath
+    /// separated to the destination file by a \n character. The following example shows a possible way
+    /// to specify a column definition file. By adding the file extension ".{write}" the file will not
+    /// be read, but written with the standard values. After writing such a file, you can modify this file
+    /// and remove the file extensionm ".{write}".
+    /// <code>
+    /// &lt;TargetStorePath>
+    ///     {FS:WorkingFolder}\test.csv
+    ///     {FS:WorkingFolder}\test.csv.config.{write}
+    /// &lt;/TargetStorePath>
+    /// </code>
+    /// </remarks>
     public class ContactClientCsv : StdClient
     {
         /// <summary>
@@ -61,38 +74,26 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            using (var file = new StreamWriter(clientFolderName))
+            var fileName = clientFolderName;
+            if (fileName.Contains("\n"))
             {
-                var headerLine = new StringBuilder();
-                headerLine.Append("GetFullName;");
+                fileName = fileName.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
+            }
 
-                headerLine.Append("ActiveDirectoryId;");
+            using (var file = new StreamWriter(fileName, false, new UnicodeEncoding(false, true)))
+            {
+                var columnDefinitionFile = clientFolderName.Contains("\n")
+                                               ? clientFolderName.Split(
+                                                     new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[1]
+                                               : string.Empty;
 
-                headerLine.Append("Gender;");
+                var columnDefinition = GetColumnDefinition(columnDefinitionFile);
 
-                headerLine.Append("FirstName;");
-                headerLine.Append("MiddleName;");
-                headerLine.Append("LastName;");
-
-                headerLine.Append("BusinessDepartment;");
-
-                headerLine.Append("BusinessDepartmentCountryName;");
-                headerLine.Append("BusinessDepartmentCityName;");
-                headerLine.Append("BusinessDepartmentPostalCode;");
-                headerLine.Append("BusinessDepartmentStreetName;");
-                headerLine.Append("BusinessDepartmentRoom;");
-                headerLine.Append("BusinessDepartmentPhone;");
-
-                headerLine.Append("BusinessCompanyName;");
-                headerLine.Append("BusinessEmailPrimary;");
-                headerLine.Append("BusinessPhoneMobile");
-
-                headerLine.Append("AdditionalTextData;");
-
-                headerLine.Append("DateOfCreation;");
-                headerLine.Append("DateOfLastChange");
-
-                file.WriteLine(headerLine);
+                foreach (var column in columnDefinition)
+                {
+                    file.Write(column.Title + "\t");
+                }
+                file.WriteLine();
 
                 foreach (StdContact element in elements)
                 {
@@ -100,44 +101,142 @@ namespace Sem.Sync.FilesystemConnector
                     if (element.Name != null)
                     {
                         var line = new StringBuilder();
-                        line.Append(element.GetFullName() + ";");
-                        
-                        line.Append(element.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) + ";");
-
-                        line.Append(element.PersonGender + ";");
-                        line.Append(element.Name.FirstName + ";");
-                        line.Append(element.Name.MiddleName + ";");
-                        line.Append(element.Name.LastName + ";");
-
-                        line.Append(element.BusinessDepartment + ";");
-
-                        if (element.BusinessAddressPrimary != null)
+                        foreach (var column in columnDefinition)
                         {
-                            line.Append(element.BusinessAddressPrimary.CountryName + ";");
-                            line.Append(element.BusinessAddressPrimary.CityName + ";");
-                            line.Append(element.BusinessAddressPrimary.PostalCode + ";");
-                            line.Append(element.BusinessAddressPrimary.StreetName + ";");
-                            line.Append(element.BusinessAddressPrimary.Room + ";");
-                            line.Append(element.BusinessAddressPrimary.Phone + ";");
+                            // skipping "empty" dates
+                            if (GetPropertyValue(element, column.Selector) != "01.01.0001 00:00:00")
+                            {
+                                line.Append(
+                                    GetPropertyValue(element, column.Selector)
+                                        .ToString(CultureInfo.CurrentCulture)
+                                        .Replace("\t", " "));
+
+                            }
+                            line.Append("\t");
                         }
-                        else
-                        {
-                            line.Append(";;;;;;");                            
-                        }
-
-                        line.Append(element.BusinessCompanyName + ";");
-                        line.Append(element.BusinessEmailPrimary + ";");
-                        line.Append(element.BusinessPhoneMobile + ";");
-    
-                        line.Append(element.AdditionalTextData + ";");
-
-                        line.Append(element.InternalSyncData.DateOfCreation.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + ";");
-                        line.Append(element.InternalSyncData.DateOfLastChange.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-
                         file.WriteLine(line.ToString().Replace("\n", " ").Replace("\r", " "));
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
+        /// </summary>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a string</returns>
+        private static string GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
+        {
+            if (!Equals(objectToReadFrom, default(T)))
+            {
+                if (pathToProperty.StartsWith("."))
+                {
+                    pathToProperty = pathToProperty.Substring(1);
+                }
+
+                var type = objectToReadFrom.GetType();
+                var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
+
+                if (type.GetProperty(propName) != null)
+                {
+                    if (pathToProperty.Contains('.'))
+                    {
+                        return
+                            GetPropertyValue(
+                                type
+                                    .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
+                                    .GetValue(objectToReadFrom, null),
+                                pathToProperty.Substring(pathToProperty.IndexOf('.') + 1));
+                    }
+
+                    return
+                        ((type
+                            .GetProperty(pathToProperty)
+                            .GetValue(objectToReadFrom, null)) ?? "")
+                            .ToString();
+                }
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Read the column definition from the column definition file specified with the
+        /// poarameter <paramref name="columnDefinitionFile"/>. If there is no such file 
+        /// specified, a list of such entries will be created by searching the object 
+        /// recursively for properties.
+        /// </summary>
+        /// <param name="columnDefinitionFile">the file that does contain a list of <see cref="ColumnDefinition"/></param>
+        /// <returns>a list of <see cref="ColumnDefinition"/> to describe the columns</returns>
+        private static List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile)
+        {
+            var result = new List<ColumnDefinition>();
+
+            if (string.IsNullOrEmpty(columnDefinitionFile) || Path.GetExtension(columnDefinitionFile) == ".{write}")
+            {
+                result = (from x in GetPropertyList("", typeof(StdContact))
+                   select new ColumnDefinition(x)).ToList();
+
+                if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
+                {
+                    result.SaveTo(
+                        columnDefinitionFile.Remove(columnDefinitionFile.Length - 8), new[] { typeof(ColumnDefinition) });
+                }
+            }
+            else
+            {
+                result = result.LoadFrom(columnDefinitionFile, new[] { typeof(ColumnDefinition) });
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets a list of paths to public properties of the object and its sub objects.
+        /// </summary>
+        /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
+        /// <param name="type">the type to be inspected</param>
+        /// <returns>a list of strings with the paths of properties detected</returns>
+        private static List<string> GetPropertyList(string parentName, Type type)
+        {
+            if (parentName.Length > 0)
+            {
+                parentName += ".";
+            }
+
+            var resultList = new List<string>();
+            var members = type.GetProperties();
+            
+            foreach (var item in members)
+            {
+                var typeName = item.PropertyType.Name;
+                if (item.PropertyType.BaseType.FullName == "System.Enum")
+                {
+                    typeName = "Enum";
+                }
+
+                switch (typeName)
+                {
+                    case "Enum":
+                    case "Guid":
+                    case "String":
+                    case "DateTime":
+                    case "Int32":
+                    case "Byte[]":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
+                    default:
+                        resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
+                        break;
+                }
+            }
+
+            return resultList;
         }
     }
 }

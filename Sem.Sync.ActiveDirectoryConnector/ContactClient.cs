@@ -185,7 +185,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
                     CityName = GetPropString(searchItem.Properties, "l"),
                     StreetName = GetPropString(searchItem.Properties, "streetaddress"),
                     Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")),
-                    Room = GetPropString(searchItem.Properties, "roomnumber"),
+                    Room = GetPropString(searchItem.Properties, "physicaldeliveryofficename", "roomnumber"),
                 },
                 BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")),
                 BusinessPosition = GetPropString(searchItem.Properties, "title"),
@@ -223,6 +223,28 @@ namespace Sem.Sync.ActiveDirectoryConnector
                 thePropertyCollection[propName].Count > 0)
             {
                 return thePropertyCollection[propName][0].ToString();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// extracts the first element of a property collection as string
+        /// </summary>
+        /// <param name="thePropertyCollection">the result property collection to search</param>
+        /// <param name="propNamesByPriotity">the name of the property to extract</param>
+        /// <returns>the string that has been extracted</returns>
+        private static string GetPropString(ResultPropertyCollection thePropertyCollection, params string[] propNamesByPriotity)
+        {
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0)
+            {
+                foreach (var name in propNamesByPriotity)
+                {
+                    if (thePropertyCollection[name].Count > 0)
+                    {
+                        return thePropertyCollection[name][0].ToString();
+                    }
+                }                
             }
 
             return null;

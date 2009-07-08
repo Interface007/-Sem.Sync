@@ -13,14 +13,14 @@ namespace Sem.Sync.OutlookConnector2003
     #region usings
 
     using System.Collections.Generic;
-    using System.Linq;
     using System.Globalization;
-
+    using System.Linq;
+    
     using Microsoft.Office.Interop.Outlook;
 
-    using SyncBase;
     using Properties;
-
+    using SyncBase;
+    
     #endregion usings
 
     /// <summary>
@@ -29,9 +29,126 @@ namespace Sem.Sync.OutlookConnector2003
     public class ContactClient : StdClient
     {
         #region interface IClientBase
+
+        /// <summary>
+        /// Gets the ui friendly name of this connector
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get { return "Outlook-Contact-Connector"; }
+        }
+
+        /// <summary>
+        /// detects duplicates and removes them from the contacts
+        /// </summary>
+        /// <param name="pathToStore">the outlook path that should be searched for duplicates</param>
+        public override void RemoveDuplicates(string pathToStore)
+        {
+            var currentElementName = string.Empty;
+
+            // get a connection to outlook 
+            LogProcessingEvent(Resources.uiLogginIn);
+            var outlookNamespace = OutlookClient.GetNameSpace();
+
+            // we need to log off from outlook in order to clean up the session
+            try
+            {
+                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
+
+                LogProcessingEvent(Resources.uiPreparingList);
+                var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
+                                       orderby a.LastName, a.FirstName
+                                       select a;
+
+                _ContactItem lastItem = null;
+                foreach (var item in outlookItemList)
+                {
+                    currentElementName = item.LastName + ", " + item.FirstName;
+
+                    if (lastItem != null)
+                    {
+                        var stdItem = OutlookClient.ConvertToStandardContact(item);
+                        LogProcessingEvent(stdItem, Resources.uiComparing);
+
+                        if (lastItem.LastName == item.LastName
+                            && lastItem.FirstName == item.FirstName 
+                            && lastItem.MiddleName == item.MiddleName)
+                        {
+                            LogProcessingEvent(stdItem, Resources.uiRemoving);
+
+                            item.Delete();
+                            continue;
+                        }
+                    }
+
+                    lastItem = item;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                LogProcessingEvent(Resources.uiErrorAtName, currentElementName, ex.Message);
+            }
+            finally
+            {
+                outlookNamespace.Logoff();
+            }
+
+            LogProcessingEvent(Resources.uiRemoveDuplicates);
+        }
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="element">the element to add</param>
+        /// <param name="clientFolderName">the outlook folder to use</param>
+        public override void AddItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="elements">list of all the elements to add</param>
+        /// <param name="clientFolderName">the outlook folder to use</param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// overrides the standard MergeMissingItem method to not read all outlook contacts, because
+        /// that is not needed to add a new contact
+        /// </summary>
+        /// <param name="element">element that should be merged into the outlook folder</param>
+        /// <param name="clientFolderName">outlook folder that should get the new contact</param>
+        public override void MergeMissingItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
+        /// <summary>
+        /// overrides the standard MergeMissingItem method to not read all outlook contacts, because
+        /// that is not needed to add a new contact
+        /// </summary>
+        /// <param name="elements">list of elements that should be merged into the outlook folder</param>
+        /// <param name="clientFolderName">outlook folder that should get the new contacts</param>
+        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
+        /// <summary>
+        /// Overrides the method to read the full list of data.
+        /// </summary>
+        /// <param name="clientFolderName">the name of the outlook folder that does contain the contacts that will be read.</param>
+        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
+        /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var currentElementName = "";
+            var currentElementName = string.Empty;
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
@@ -84,9 +201,9 @@ namespace Sem.Sync.OutlookConnector2003
                     }
                 }
             }
-            catch (System.Exception pObjException)
+            catch (System.Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, pObjException.Message));
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
             }
             finally
             {
@@ -96,6 +213,12 @@ namespace Sem.Sync.OutlookConnector2003
             return result;
         }
 
+        /// <summary>
+        /// Overrides the method to write the full list of data.
+        /// </summary>
+        /// <param name="elements">The elements to be written to outlook.</param>
+        /// <param name="clientFolderName">the name of the outlook folder that will get the contacts while writing data.</param>
+        /// <param name="skipIfExisting">a value indicating whether existing entries should be added overwritten or skipped.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
@@ -122,105 +245,6 @@ namespace Sem.Sync.OutlookConnector2003
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
         }
-        
-        /// <summary>
-        /// detects duplicates and removes them from the contacts
-        /// </summary>
-        /// <param name="pathToStore"></param>
-        public override void RemoveDuplicates(string pathToStore)
-        {
-            var currentElementName = "";
-
-            // get a connection to outlook 
-            LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNameSpace();
-
-            // we need to log off from outlook in order to clean up the session
-            try
-            {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
-
-                LogProcessingEvent(Resources.uiPreparingList);
-                var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
-                                       orderby a.LastName, a.FirstName
-                                       select a;
-
-                _ContactItem lastItem = null;
-                foreach (var item in outlookItemList)
-                {
-                    currentElementName = item.LastName + ", " + item.FirstName;
-
-                    if (lastItem != null)
-                    {
-                        var stdItem = OutlookClient.ConvertToStandardContact(item);
-                        LogProcessingEvent(stdItem, Resources.uiComparing);
-
-                        if (lastItem.LastName == item.LastName
-                            && lastItem.FirstName == item.FirstName
-                            && lastItem.MiddleName == item.MiddleName)
-                        {
-
-                            LogProcessingEvent(stdItem, Resources.uiRemoving);
-
-                            item.Delete();
-                            continue;
-                        }
-                    }
-                    lastItem = item;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
-            }
-            finally
-            {
-                outlookNamespace.Logoff();
-            }
-
-            LogProcessingEvent(Resources.uiRemoveDuplicates);
-        }
-
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="element">the element to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            WriteFullList(elements, clientFolderName, false);
-        }
-
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="elements">list of all the elements to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddRange(List<StdElement> elements, string clientFolderName)
-        {
-            WriteFullList(elements, clientFolderName, false);
-        }
-
-        public override void MergeMissingItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            WriteFullList(elements, clientFolderName, true);
-        }
-
-        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
-        {
-            WriteFullList(elements, clientFolderName, true);
-        }
-
-        /// <summary>
-        /// Gets the ui friendly name of this connector
-        /// </summary>
-        public override string FriendlyClientName
-        {
-            get { return "Outlook-Contact-Connector"; }
-        }
-
         #endregion
     }
 }

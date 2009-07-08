@@ -27,7 +27,7 @@ namespace Sem.Sync.SyncBase
         CopyAll,
 
         /// <summary>
-        /// 
+        /// Inserts only missing elements, existing elements will not be altered
         /// </summary>
         MergeMissing,
 
@@ -105,7 +105,8 @@ namespace Sem.Sync.SyncBase
     public class SyncDescription
     {
         /// <summary>
-        /// Gets or sets the human readable name of this command.
+        /// Gets or sets the human readable name of this command. The name is persisted as an XmlAttribute instead 
+        /// of an element.
         /// </summary>
         [XmlAttribute]
         public string Name { get; set; }

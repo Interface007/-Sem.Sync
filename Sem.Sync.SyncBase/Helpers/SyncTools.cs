@@ -209,7 +209,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "DateTime":
-                    isDefined = (DateTime)item != new DateTime();
+                    isDefined = (DateTime)item != new DateTime() && (DateTime)item != new DateTime(1900, 1, 1);
                     break;
 
                 case "Date":

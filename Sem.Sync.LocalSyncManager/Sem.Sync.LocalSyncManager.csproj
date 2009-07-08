@@ -149,6 +149,9 @@
     <None Include="A Statistic about Contacts to FS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="A Copy to CSV.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Test FileSystem to vCard.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
