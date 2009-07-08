@@ -17,9 +17,21 @@
     </TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="open statistic xml file">
-    <Command>OpenDocument</Command>
-    <CommandParameter>{FS:WorkingFolder}\test.csv</CommandParameter>
+  <SyncDescription Name="Import contacts from FS-CSV to FS-XML">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClientCsv</SourceConnector>
+    <SourceStorePath>
+      {FS:WorkingFolder}\test.csv
+      {FS:WorkingFolder}\test.csv.config
+    </SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook write.xmlcontact</TargetStorePath>
+
+    <SyncDescription Name="open export csv file">
+      <Command>OpenDocument</Command>
+      <CommandParameter>{FS:WorkingFolder}\test.csv</CommandParameter>
+    </SyncDescription>
+
   </SyncDescription>
 
 </ArrayOfSyncDescription>

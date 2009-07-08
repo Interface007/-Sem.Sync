@@ -14,10 +14,8 @@ namespace Sem.Sync.FilesystemConnector
 
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
 
     using SyncBase;
@@ -64,6 +62,40 @@ namespace Sem.Sync.FilesystemConnector
         /// <returns>the list from parameter <paramref name="result"/></returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            var filename = GetFileName(clientFolderName);
+            if (File.Exists(filename))
+            {
+                result = new List<StdElement>();
+                using (var file = new StreamReader(filename, new UnicodeEncoding(false, true)))
+                {
+                    var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
+                    if (!file.EndOfStream)
+                    {
+                        file.ReadLine();
+
+                        while (!file.EndOfStream)
+                        {
+                            var lineColumns = file.ReadLine().Split(new[] { "\t" }, StringSplitOptions.None);
+                            var element = new StdContact();
+                            var columnIndex = 0;
+                            foreach (var valueString in lineColumns)
+                            {
+                                if (columnIndex < columnDefinition.Count)
+                                {
+                                    if (!columnDefinition[columnIndex].Selector.EndsWith("()", StringComparison.Ordinal))
+                                    {
+                                        SyncTools.SetPropertyValue(
+                                            element, columnDefinition[columnIndex].Selector, valueString);
+                                    }
+                                }
+                                columnIndex++;
+                            }
+
+                            result.Add(element);
+                        }
+                    }
+                }
+            }
             return result;
         }
 
@@ -76,99 +108,59 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var fileName = clientFolderName;
-            if (fileName.Contains("\n"))
+            using (var file = new StreamWriter(GetFileName(clientFolderName), false, new UnicodeEncoding(false, true)))
             {
-                fileName = fileName.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
-            }
-
-            using (var file = new StreamWriter(fileName, false, new UnicodeEncoding(false, true)))
-            {
-                var columnDefinitionFile = clientFolderName.Contains("\n")
-                                               ? clientFolderName.Split(
-                                                     new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[1]
-                                               : string.Empty;
-
-                var columnDefinition = GetColumnDefinition(columnDefinitionFile);
+                var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
 
                 foreach (var column in columnDefinition)
                 {
                     file.Write(column.Title + "\t");
                 }
+
                 file.WriteLine();
 
                 foreach (StdContact element in elements)
                 {
                     SyncTools.ClearNulls(element, typeof(StdContact));
-                    if (element.Name != null)
+                    if (element.Name == null)
                     {
-                        var line = new StringBuilder();
-                        foreach (var column in columnDefinition)
-                        {
-                            // skipping "empty" dates
-                            if (GetPropertyValue(element, column.Selector) != "01.01.0001 00:00:00")
-                            {
-                                line.Append(
-                                    GetPropertyValue(element, column.Selector)
-                                        .ToString(CultureInfo.CurrentCulture)
-                                        .Replace("\t", " "));
-
-                            }
-                            line.Append("\t");
-                        }
-                        file.WriteLine(line.ToString().Replace("\n", " ").Replace("\r", " "));
+                        continue;
                     }
+
+                    var line = new StringBuilder();
+                    foreach (var column in columnDefinition)
+                    {
+                        var valueString = SyncTools.GetPropertyValue(element, column.Selector);
+                        // skipping "empty" dates
+                        if (valueString != "01.01.0001 00:00:00")
+                        {
+                            line.Append(valueString.Replace("\t", " "));
+                        }
+
+                        line.Append("\t");
+                    }
+
+                    file.WriteLine(line.ToString().Replace("\n", " ").Replace("\r", " "));
                 }
             }
         }
 
-        /// <summary>
-        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
-        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
-        /// the entity
-        /// </summary>
-        /// <typeparam name="T">the type of the object to read from</typeparam>
-        /// <param name="objectToReadFrom">the object to read from</param>
-        /// <param name="pathToProperty">the path to the property</param>
-        /// <returns>the value of the property rendered as a string</returns>
-        private static string GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
+        private static string GetColumnDefinitionFileName(string clientFolderName)
         {
-            if (!Equals(objectToReadFrom, default(T)))
+            return clientFolderName.Contains("\n")
+                       ? clientFolderName.Split(
+                             new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[1]
+                       : string.Empty;
+        }
+
+        private static string GetFileName(string clientFolderName)
+        {
+            var fileName = clientFolderName;
+            if (fileName.Contains("\n"))
             {
-                if (pathToProperty.StartsWith("."))
-                {
-                    pathToProperty = pathToProperty.Substring(1);
-                }
-
-                var type = objectToReadFrom.GetType();
-                var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
-
-                if (propName == "ToString()")
-                {
-                    return type.GetMethod("ToString").Invoke(objectToReadFrom, null).ToString();
-                }
-
-                if (type.GetProperty(propName) != null)
-                {
-                    if (pathToProperty.Contains('.'))
-                    {
-                        return
-                            GetPropertyValue(
-                                type
-                                    .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
-                                    .GetValue(objectToReadFrom, null),
-                                pathToProperty.Substring(pathToProperty.IndexOf('.') + 1));
-                    }
-
-                    return
-                        ((type
-                            .GetProperty(pathToProperty)
-                            .GetValue(objectToReadFrom, null)) ?? "")
-                            .ToString();
-                }
+                fileName = fileName.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
             }
-
-            return string.Empty;
+            return fileName;
         }
 
         /// <summary>
@@ -184,17 +176,17 @@ namespace Sem.Sync.FilesystemConnector
             var result = new List<ColumnDefinition>();
 
             if (
-                !string.IsNullOrEmpty(columnDefinitionFile) 
+                !string.IsNullOrEmpty(columnDefinitionFile)
                 && Path.GetExtension(columnDefinitionFile) != ".{write}"
                 && File.Exists(columnDefinitionFile))
             {
                 result = result.LoadFrom(columnDefinitionFile, new[] { typeof(ColumnDefinition) });
-                if (result.LongCount()>0)
+                if (result.LongCount() > 0)
                 {
                     return result;
                 }
             }
-            
+
             result = (from x in GetPropertyList("", typeof(StdContact)) select new ColumnDefinition(x)).ToList();
 
             if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
@@ -207,7 +199,8 @@ namespace Sem.Sync.FilesystemConnector
         }
 
         /// <summary>
-        /// Gets a list of paths to public properties of the object and its sub objects.
+        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
+        /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
         /// </summary>
         /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
         /// <param name="type">the type to be inspected</param>
@@ -220,8 +213,18 @@ namespace Sem.Sync.FilesystemConnector
             }
 
             var resultList = new List<string>();
+
+            var methodsToAdd =
+                from x in type.GetMethods()
+                where
+                x.GetParameters().Length == 0
+                && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
+                select parentName + x.Name + "()";
+
+            resultList.AddRange(methodsToAdd.ToList());
+
             var members = type.GetProperties();
-            
+
             foreach (var item in members)
             {
                 var typeName = item.PropertyType.Name;
@@ -237,23 +240,15 @@ namespace Sem.Sync.FilesystemConnector
                     case "String":
                     case "DateTime":
                     case "Int32":
-                    case "Byte[]":
                         resultList.Add(parentName + item.Name);
+                        break;
+
+                    case "Byte[]":
+                        // we don't want to save byte arrays to the CSV file (may be some time)
                         break;
 
                     default:
                         resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
-                        var tostring =
-                            (from x in item.PropertyType.GetMethods()
-                             where 
-                             x.Name == "ToString" 
-                             && x.GetParameters().Length == 0
-                             && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
-                             select x).FirstOrDefault();
-                        if (tostring != null)
-                        {
-                            resultList.Add(parentName + item.Name + ".ToString()");
-                        }
                         break;
                 }
             }

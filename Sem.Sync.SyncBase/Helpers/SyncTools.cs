@@ -11,6 +11,7 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Xml.Serialization;
 
@@ -117,9 +118,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 // find the corresponding target element
                 var targetItem =
                     (from x in target
-// ReSharper disable AccessToModifiedClosure
+                     // ReSharper disable AccessToModifiedClosure
                      where sourceItem.Id == x.Id
-// ReSharper restore AccessToModifiedClosure
+                     // ReSharper restore AccessToModifiedClosure
                      select x).FirstOrDefault();
 
                 // if we have no target element, we (by definition) do not have a conflict - 
@@ -132,9 +133,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 // lookup the base element if we have one
                 var baselineItem = (baseline == null) ? null :
                                                                  (from x in baseline
-// ReSharper disable AccessToModifiedClosure
+                                                                  // ReSharper disable AccessToModifiedClosure
                                                                   where sourceItem.Id == x.Id
-// ReSharper restore AccessToModifiedClosure
+                                                                  // ReSharper restore AccessToModifiedClosure
                                                                   select x).FirstOrDefault();
 
                 // add the matched entries to the list of potential conflicts
@@ -300,7 +301,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="source">the source object that should be serialized</param>
         /// <param name="fileName">the destination file name that should get the serialized entity</param>
         /// <param name="additionalTypes">specifies additional types for serialization</param>
-        public static void SaveToFile<T>(T source, string fileName,params Type[] additionalTypes)
+        public static void SaveToFile<T>(T source, string fileName, params Type[] additionalTypes)
         {
             var formatter = new XmlSerializer(typeof(T), additionalTypes);
 
@@ -508,6 +509,132 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
+        /// </summary>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a string</returns>
+        public static string GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
+        {
+            if (!Equals(objectToReadFrom, default(T)))
+            {
+                if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
+                {
+                    pathToProperty = pathToProperty.Substring(1);
+                }
+
+                var type = objectToReadFrom.GetType();
+                var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
+
+                if (propName.EndsWith("()", StringComparison.Ordinal))
+                {
+                    return type.GetMethod(propName.Substring(0, propName.Length - 2)).Invoke(objectToReadFrom, null).ToString();
+                }
+
+                if (type.GetProperty(propName) != null)
+                {
+                    if (pathToProperty.Contains('.'))
+                    {
+                        return
+                            GetPropertyValue(
+                                type
+                                    .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
+                                    .GetValue(objectToReadFrom, null),
+                                pathToProperty.Substring(pathToProperty.IndexOf('.') + 1));
+                    }
+
+                    return
+                        ((type
+                            .GetProperty(pathToProperty)
+                            .GetValue(objectToReadFrom, null)) ?? "")
+                            .ToString();
+                }
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Sets a property by the complete path specified as a string (like "PersonalAddressPrimary.Phone.AreaCode").
+        /// If one of the objects inside the path is null, it will be initialized with a default instance. If the type
+        /// of that object does not contain a default constructor, an exception will be thrown.
+        /// </summary>
+        /// <param name="objectToWriteTo">the object that is the root of the path</param>
+        /// <param name="pathToProperty">the path to the property to be set</param>
+        /// <param name="valueString">the value as a string</param>
+        public static void SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString)
+        {
+            if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
+            {
+                pathToProperty = pathToProperty.Substring(1);
+            }
+
+            var type = objectToWriteTo.GetType();
+            var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
+
+            if (propName.EndsWith("()", StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            var propInfo = type.GetProperty(propName);
+            if (propInfo != null)
+            {
+                if (pathToProperty.Contains('.'))
+                {
+                    if (propInfo.GetValue(objectToWriteTo, null) == null)
+                    {
+                        propInfo.SetValue(objectToWriteTo, propInfo.PropertyType.GetConstructor(new Type[] { }).Invoke(null), null);
+                    }
+
+                    SetPropertyValue(
+                        propInfo.GetValue(objectToWriteTo, null),
+                        pathToProperty.Substring(pathToProperty.IndexOf('.') + 1),
+                        valueString);
+                    return;
+                }
+
+                // we have to deal with special type data (int, datetime) that need to be
+                // converted back from string - there is no automated cast in SetValue.
+                if (!string.IsNullOrEmpty(valueString))
+                {
+                    var destinationType = propInfo.PropertyType.Name;
+                    switch (destinationType)
+                    {
+                        case "DateTime":
+                            propInfo.SetValue(
+                                objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
+                            break;
+
+                        case "Int32":
+                            propInfo.SetValue(
+                                objectToWriteTo, Int32.Parse(valueString, CultureInfo.CurrentCulture), null);
+                            break;
+
+                        case "Gender":
+                            propInfo.SetValue(objectToWriteTo, Enum.Parse(typeof(Gender), valueString), null);
+                            break;
+
+                        case "CountryCode":
+                            propInfo.SetValue(objectToWriteTo, Enum.Parse(typeof(CountryCode), valueString), null);
+                            break;
+
+                        case "Guid":
+                            propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
+                            break;
+
+                        default:
+                            propInfo.SetValue(objectToWriteTo, valueString, null);
+                            break;
+                    }
+                }
+            }
         }
     }
 }
