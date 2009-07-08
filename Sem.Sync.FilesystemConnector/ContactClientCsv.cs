@@ -17,9 +17,11 @@ namespace Sem.Sync.FilesystemConnector
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
     #endregion usings
@@ -141,6 +143,11 @@ namespace Sem.Sync.FilesystemConnector
                 var type = objectToReadFrom.GetType();
                 var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
 
+                if (propName == "ToString()")
+                {
+                    return type.GetMethod("ToString").Invoke(objectToReadFrom, null).ToString();
+                }
+
                 if (type.GetProperty(propName) != null)
                 {
                     if (pathToProperty.Contains('.'))
@@ -176,20 +183,24 @@ namespace Sem.Sync.FilesystemConnector
         {
             var result = new List<ColumnDefinition>();
 
-            if (string.IsNullOrEmpty(columnDefinitionFile) || Path.GetExtension(columnDefinitionFile) == ".{write}")
-            {
-                result = (from x in GetPropertyList("", typeof(StdContact))
-                   select new ColumnDefinition(x)).ToList();
-
-                if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
-                {
-                    result.SaveTo(
-                        columnDefinitionFile.Remove(columnDefinitionFile.Length - 8), new[] { typeof(ColumnDefinition) });
-                }
-            }
-            else
+            if (
+                !string.IsNullOrEmpty(columnDefinitionFile) 
+                && Path.GetExtension(columnDefinitionFile) != ".{write}"
+                && File.Exists(columnDefinitionFile))
             {
                 result = result.LoadFrom(columnDefinitionFile, new[] { typeof(ColumnDefinition) });
+                if (result.LongCount()>0)
+                {
+                    return result;
+                }
+            }
+            
+            result = (from x in GetPropertyList("", typeof(StdContact)) select new ColumnDefinition(x)).ToList();
+
+            if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
+            {
+                result.SaveTo(
+                    columnDefinitionFile.Remove(columnDefinitionFile.Length - 8), new[] { typeof(ColumnDefinition) });
             }
 
             return result;
@@ -232,6 +243,17 @@ namespace Sem.Sync.FilesystemConnector
 
                     default:
                         resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
+                        var tostring =
+                            (from x in item.PropertyType.GetMethods()
+                             where 
+                             x.Name == "ToString" 
+                             && x.GetParameters().Length == 0
+                             && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
+                             select x).FirstOrDefault();
+                        if (tostring != null)
+                        {
+                            resultList.Add(parentName + item.Name + ".ToString()");
+                        }
                         break;
                 }
             }

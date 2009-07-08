@@ -9,6 +9,8 @@ namespace Sem.Sync.SyncBase.DetailData
     using System.Text.RegularExpressions;
     using System.Globalization;
 
+    using Attributes;
+
     /// <summary>
     /// This class represents the information needed  to establish a phone connection
     /// to the parent entity. No information should be omitted.
@@ -94,6 +96,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         /// <returns>The formatted number.</returns>
         /// <example>+49 (1234) 456789</example>
+        [AddAsProperty]
         public override string ToString()
         {
             if (!string.IsNullOrEmpty(this.denormalizedPhoneNumber))

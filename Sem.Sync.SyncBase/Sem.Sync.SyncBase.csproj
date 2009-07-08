@@ -61,6 +61,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />

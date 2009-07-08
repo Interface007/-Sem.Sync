@@ -10,7 +10,7 @@ namespace Sem.Sync.SyncBase.Attributes
 
     /// <summary>
     /// This attribute determines the way a property is compared to the same property of 
-    /// another object while merging and compareing
+    /// another object while merging and comparing
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class ComparisonModifierAttribute : Attribute

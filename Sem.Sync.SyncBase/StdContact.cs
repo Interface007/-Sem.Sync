@@ -166,6 +166,7 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         /// <returns>the full name of the contact</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "this does contain logic, so it's not a property")]
+        [AddAsProperty]
         public string GetFullName()
         {
             var name = string.Empty;
@@ -184,6 +185,7 @@ namespace Sem.Sync.SyncBase
         /// Determines a string that can be used to sort a list of StdContac elements.
         /// </summary>
         /// <returns>the sorting string</returns>
+        [AddAsProperty]
         public override string ToSortSimple()
         {
             var name = new StringBuilder();
@@ -211,6 +213,7 @@ namespace Sem.Sync.SyncBase
         /// Implements an overridable SIMPLE string representation in the format "lastname, firstname middlename"
         /// </summary>
         /// <returns>a dense and simple string representation of the entity</returns>
+        [AddAsProperty]
         public override string ToStringSimple()
         {
             var name = string.Empty;
