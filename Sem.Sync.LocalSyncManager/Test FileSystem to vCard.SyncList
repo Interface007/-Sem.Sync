@@ -15,7 +15,7 @@
     <CommandParameter></CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClientVCards</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\vCards</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient of StdElement</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\vCards.xmlcontact</TargetStorePath>
   </SyncDescription>
 

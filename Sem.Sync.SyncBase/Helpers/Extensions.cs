@@ -207,7 +207,7 @@ namespace Sem.Sync.SyncBase.Helpers
             SyncTools.EnsurePathExist(Path.GetDirectoryName(sourceFile));
             if (File.Exists(sourceFile))
             {
-                using (var file = new FileStream(sourceFile, FileMode.Create))
+                using (var file = new FileStream(sourceFile, FileMode.OpenOrCreate))
                 {
                     if (file.Length > 0)
                     {

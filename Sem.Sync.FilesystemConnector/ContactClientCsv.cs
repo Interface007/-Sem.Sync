@@ -108,10 +108,10 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
+
             using (var file = new StreamWriter(GetFileName(clientFolderName), false, new UnicodeEncoding(false, true)))
             {
-                var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
-
                 foreach (var column in columnDefinition)
                 {
                     file.Write(column.Title + "\t");
@@ -177,10 +177,9 @@ namespace Sem.Sync.FilesystemConnector
 
             if (
                 !string.IsNullOrEmpty(columnDefinitionFile)
-                && Path.GetExtension(columnDefinitionFile) != ".{write}"
-                && File.Exists(columnDefinitionFile))
+                && File.Exists(columnDefinitionFile.Replace(".{write}", "")))
             {
-                result = result.LoadFrom(columnDefinitionFile, new[] { typeof(ColumnDefinition) });
+                result = result.LoadFrom(columnDefinitionFile.Replace(".{write}", ""), new[] { typeof(ColumnDefinition) });
                 if (result.LongCount() > 0)
                 {
                     return result;
