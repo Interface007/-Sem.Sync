@@ -10,7 +10,7 @@
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClientCsv of StdContact</TargetConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact</TargetConnector>
     <TargetStorePath>
       {FS:WorkingFolder}\test.csv
       {FS:WorkingFolder}\test.csv.config.{write}

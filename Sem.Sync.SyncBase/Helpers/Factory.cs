@@ -94,7 +94,10 @@ namespace Sem.Sync.SyncBase.Helpers
                 if (!className.Contains("."))
                 {
                     // ReSharper disable PossibleNullReferenceException
-                    className = Assembly.GetAssembly(typeof(Factory)).FullName.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
+                    className =
+                        Assembly.GetAssembly(typeof(Factory)).FullName.Split(
+                            new[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
+
                     // ReSharper restore PossibleNullReferenceException
                 }
 

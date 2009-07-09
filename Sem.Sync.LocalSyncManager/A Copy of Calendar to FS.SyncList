@@ -3,14 +3,31 @@
 
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
-    <TargetStorePath>{FS:WorkingFolder}\*.xmlcalendar</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcalendar</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\calendar.csv</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Export Cal from Outlook to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient of Sem.Sync.SyncBase.StdCalendarItem</TargetConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcalendar</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export Cal from Outlook to file system as CSV file">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClientCsv of StdCalendarItem</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\calendar.csv</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="open export csv file">
+    <Command>OpenDocument</Command>
+    <CommandParameter>{FS:WorkingFolder}\calendar.csv</CommandParameter>
   </SyncDescription>
   
 </ArrayOfSyncDescription>

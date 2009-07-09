@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ContactClientCsv.cs" company="Sven Erik Matzen">
+// <copyright file="GenericClientCsv.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
@@ -24,9 +24,10 @@ namespace Sem.Sync.FilesystemConnector
 
     #endregion usings
 
-    ///<summary>
+    /// <summary>
     /// This client implementation does write to a CSV file. 
-    ///</summary>
+    /// </summary>
+    /// <typeparam name="T">The type of elements to be handled by this client</typeparam>
     /// <remarks>
     /// The implementation does try to read the
     /// configuration for the columns and headers from a second file specified inside the TargetStorePath
@@ -35,14 +36,15 @@ namespace Sem.Sync.FilesystemConnector
     /// be read, but written with the standard values. After writing such a file, you can modify this file
     /// and remove the file extensionm ".{write}".
     /// <code>
-    /// &lt;TargetStorePath>
+    /// &lt;TargetStorePath&gt;
     ///     {FS:WorkingFolder}\test.csv
     ///     {FS:WorkingFolder}\test.csv.config.{write}
-    /// &lt;/TargetStorePath>
+    /// &lt;/TargetStorePath&gt;
     /// </code>
     /// The class is a generic class, so you cen export StdContacts as well as StdCalendarItems
     /// </remarks>
-    public class ContactClientCsv<T>: StdClient where T:StdElement, new()
+    public class GenericClientCsv<T> : StdClient
+        where T : StdElement, new()
     {
         /// <summary>
         /// Gets the user readable name of the client implementation called "Comma Seperated Values connector".
@@ -69,7 +71,7 @@ namespace Sem.Sync.FilesystemConnector
                 result = new List<StdElement>();
                 using (var file = new StreamReader(filename, new UnicodeEncoding(false, true)))
                 {
-                    var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
+                    var columnDefinition = this.GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
                     if (!file.EndOfStream)
                     {
                         // skip the headers
@@ -82,6 +84,7 @@ namespace Sem.Sync.FilesystemConnector
 
                             // create a new element
                             var element = new T();
+
                             // to get the column definition for each element read from the line, we need a counter
                             var columnIndex = 0;
                             foreach (var valueString in lineColumns)
@@ -95,6 +98,7 @@ namespace Sem.Sync.FilesystemConnector
                                             element, columnDefinition[columnIndex].Selector, valueString);
                                     }
                                 }
+
                                 columnIndex++;
                             }
 
@@ -104,6 +108,7 @@ namespace Sem.Sync.FilesystemConnector
                     }
                 }
             }
+
             return result;
         }
 
@@ -116,7 +121,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var columnDefinition = GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
+            var columnDefinition = this.GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName));
 
             using (var file = new StreamWriter(GetFileName(clientFolderName), false, new UnicodeEncoding(false, true)))
             {
@@ -141,6 +146,7 @@ namespace Sem.Sync.FilesystemConnector
                     foreach (var column in columnDefinition)
                     {
                         var valueString = SyncTools.GetPropertyValue(element, column.Selector);
+
                         // skipping "empty" dates
                         if (valueString != "01.01.0001 00:00:00")
                         {
@@ -155,6 +161,11 @@ namespace Sem.Sync.FilesystemConnector
             }
         }
 
+        /// <summary>
+        /// Extracts the column definition file name of a multi line parameter
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the file name of the column definition file</returns>
         private static string GetColumnDefinitionFileName(string clientFolderName)
         {
             return clientFolderName.Contains("\n")
@@ -163,6 +174,11 @@ namespace Sem.Sync.FilesystemConnector
                        : string.Empty;
         }
 
+        /// <summary>
+        /// Extracts the source/target file name of a multi line parameter
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the source/target file name </returns>
         private static string GetFileName(string clientFolderName)
         {
             var fileName = clientFolderName;
@@ -170,45 +186,8 @@ namespace Sem.Sync.FilesystemConnector
             {
                 fileName = fileName.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
             }
+
             return fileName;
-        }
-
-        /// <summary>
-        /// Read the column definition from the column definition file specified with the
-        /// poarameter <paramref name="columnDefinitionFile"/>. If there is no such file 
-        /// specified, a list of such entries will be created by searching the object 
-        /// recursively for properties.
-        /// </summary>
-        /// <param name="columnDefinitionFile">the file that does contain a list of <see cref="ColumnDefinition"/></param>
-        /// <returns>a list of <see cref="ColumnDefinition"/> to describe the columns</returns>
-        private List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile)
-        {
-            var result = new List<ColumnDefinition>();
-            var definitionFileName = columnDefinitionFile.Replace(".{write}", "");
-            this.LogProcessingEvent("reading/building column definition");
-
-            if (
-                !string.IsNullOrEmpty(columnDefinitionFile)
-                && File.Exists(definitionFileName))
-            {
-                result = result.LoadFrom(definitionFileName, new[] { typeof(ColumnDefinition) });
-                if (result.LongCount() > 0)
-                {
-                    this.LogProcessingEvent("definition file with {0} columns used ({1}).", result.LongCount(), definitionFileName);
-                    return result;
-                }
-            }
-
-            this.LogProcessingEvent("building column definition from type {0}...", typeof(T).Name);
-            result = (from x in GetPropertyList("", typeof(T)) select new ColumnDefinition(x)).ToList();
-
-            if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
-            {
-                this.LogProcessingEvent("saving column definition to file {0}...", definitionFileName);
-                result.SaveTo(definitionFileName, new[] { typeof(ColumnDefinition) });
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -220,6 +199,11 @@ namespace Sem.Sync.FilesystemConnector
         /// <returns>a list of strings with the paths of properties detected</returns>
         private static List<string> GetPropertyList(string parentName, Type type)
         {
+            if (parentName == null)
+            {
+                throw new ArgumentNullException("parentName");
+            }
+
             if (parentName.Length > 0)
             {
                 parentName += ".";
@@ -267,6 +251,44 @@ namespace Sem.Sync.FilesystemConnector
             }
 
             return resultList;
+        }
+
+        /// <summary>
+        /// Read the column definition from the column definition file specified with the
+        /// poarameter <paramref name="columnDefinitionFile"/>. If there is no such file 
+        /// specified, a list of such entries will be created by searching the object 
+        /// recursively for properties.
+        /// </summary>
+        /// <param name="columnDefinitionFile">the file that does contain a list of <see cref="ColumnDefinition"/></param>
+        /// <returns>a list of <see cref="ColumnDefinition"/> to describe the columns</returns>
+        private List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile)
+        {
+            var result = new List<ColumnDefinition>();
+            var definitionFileName = columnDefinitionFile.Replace(".{write}", string.Empty);
+            this.LogProcessingEvent("reading/building column definition");
+
+            if (
+                !string.IsNullOrEmpty(columnDefinitionFile)
+                && File.Exists(definitionFileName))
+            {
+                result = result.LoadFrom(definitionFileName, new[] { typeof(ColumnDefinition) });
+                if (result.LongCount() > 0)
+                {
+                    this.LogProcessingEvent("definition file with {0} columns used ({1}).", result.LongCount(), definitionFileName);
+                    return result;
+                }
+            }
+
+            this.LogProcessingEvent("building column definition from type {0}...", typeof(T).Name);
+            result = (from x in GetPropertyList(string.Empty, typeof(T)) select new ColumnDefinition(x)).ToList();
+
+            if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
+            {
+                this.LogProcessingEvent("saving column definition to file {0}...", definitionFileName);
+                result.SaveTo(definitionFileName, new[] { typeof(ColumnDefinition) });
+            }
+
+            return result;
         }
     }
 }
