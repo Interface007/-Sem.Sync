@@ -134,6 +134,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>
         /// a value whether the execution should continue (true) or should abort (false)
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public bool Execute(SyncDescription item)
         {
             if (!this.versionChecked)
@@ -164,151 +165,158 @@ namespace Sem.Sync.SyncBase
             item.TargetStorePath = this.ReplacePathToken(item.TargetStorePath);
             item.BaselineStorePath = this.ReplacePathToken(item.BaselineStorePath);
 
-            // select the specified command
-            switch (item.Command)
+            try
             {
-                case SyncCommand.CopyAll:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    targetClient.AddRange(
-                        sourceClient.GetAll(item.SourceStorePath),
-                        item.TargetStorePath);
-                    break;
-
-                case SyncCommand.MergeMissing:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    targetClient.MergeMissingRange(
-                        sourceClient.GetAll(item.SourceStorePath),
-                        item.TargetStorePath);
-                    break;
-
-                case SyncCommand.RemoveDuplicatesOnTarget:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    targetClient.RemoveDuplicates(item.TargetStorePath);
-                    break;
-
-                case SyncCommand.MergeExternal:
-                    MergeFilesBeyondCompare(item.SourceStorePath, item.TargetStorePath, item.BaselineStorePath);
-                    break;
-
-                case SyncCommand.MergeHighEvidence:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    targetClient.WriteRange(
-                        targetClient.GetAll(item.TargetStorePath)
-                            .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath)),
+                // select the specified command
+                switch (item.Command)
+                {
+                    case SyncCommand.CopyAll:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        targetClient.AddRange(
+                            sourceClient.GetAll(item.SourceStorePath),
                             item.TargetStorePath);
-                    break;
+                        break;
 
-                case SyncCommand.NormalizeContent:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    targetClient.WriteRange(
-                        targetClient.Normalize(targetClient.GetAll(item.TargetStorePath)),
-                        item.SourceStorePath);
-
-                    break;
-
-                case SyncCommand.MatchByName:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
-                    targetClient.WriteRange(
-                        MatchByName(
+                    case SyncCommand.MergeMissing:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        targetClient.MergeMissingRange(
                             sourceClient.GetAll(item.SourceStorePath),
-                            targetClient.GetAll(item.TargetStorePath)),
-                        item.TargetStorePath);
-                    break;
+                            item.TargetStorePath);
+                        break;
 
-                case SyncCommand.MatchByProfileId:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
-                    targetClient.WriteRange(
-                        MatchByProfileId(
+                    case SyncCommand.RemoveDuplicatesOnTarget:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        targetClient.RemoveDuplicates(item.TargetStorePath);
+                        break;
+
+                    case SyncCommand.MergeExternal:
+                        MergeFilesBeyondCompare(item.SourceStorePath, item.TargetStorePath, item.BaselineStorePath);
+                        break;
+
+                    case SyncCommand.MergeHighEvidence:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        targetClient.WriteRange(
+                            targetClient.GetAll(item.TargetStorePath)
+                                .MergeHighEvidence(sourceClient.GetAll(item.SourceStorePath)),
+                                item.TargetStorePath);
+                        break;
+
+                    case SyncCommand.NormalizeContent:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        targetClient.WriteRange(
+                            targetClient.Normalize(targetClient.GetAll(item.TargetStorePath)),
+                            item.SourceStorePath);
+
+                        break;
+
+                    case SyncCommand.MatchByName:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                        if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                        targetClient.WriteRange(
+                            MatchByName(
+                                sourceClient.GetAll(item.SourceStorePath),
+                                targetClient.GetAll(item.TargetStorePath)),
+                            item.TargetStorePath);
+                        break;
+
+                    case SyncCommand.MatchByProfileId:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                        if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                        targetClient.WriteRange(
+                            MatchByProfileId(
+                                sourceClient.GetAll(item.SourceStorePath),
+                                baseliClient.GetAll(item.BaselineStorePath)),
+                            item.TargetStorePath);
+                        break;
+
+                    case SyncCommand.MatchManually:
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        if (baseliClient == null) throw new InvalidOperationException("item.baseliClient is null");
+                        if (item.BaselineStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                        if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                        if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+
+                        var targetMatchList = targetClient.GetAll(item.TargetStorePath);
+                        var matchResultList =
+                        this.UiProvider.PerformEntityMerge(
                             sourceClient.GetAll(item.SourceStorePath),
-                            baseliClient.GetAll(item.BaselineStorePath)),
-                        item.TargetStorePath);
-                    break;
+                            targetMatchList,
+                            baseliClient.GetAll(item.BaselineStorePath));
 
-                case SyncCommand.MatchManually:
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    if (baseliClient == null) throw new InvalidOperationException("item.baseliClient is null");
-                    if (item.BaselineStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                        // only write to target if we did get a merge result
+                        if (targetMatchList != null)
+                            targetClient.WriteRange(targetMatchList, item.TargetStorePath);
 
-                    var targetMatchList = targetClient.GetAll(item.TargetStorePath);
-                    var matchResultList =
-                    this.UiProvider.PerformEntityMerge(
-                        sourceClient.GetAll(item.SourceStorePath),
-                        targetMatchList,
-                        baseliClient.GetAll(item.BaselineStorePath));
+                        // only write to target if we did get a merge result
+                        if (matchResultList != null)
+                            baseliClient.WriteRange(matchResultList, item.BaselineStorePath);
 
-                    // only write to target if we did get a merge result
-                    if (targetMatchList != null)
-                        targetClient.WriteRange(targetMatchList, item.TargetStorePath);
+                        break;
 
-                    // only write to target if we did get a merge result
-                    if (matchResultList != null)
-                        baseliClient.WriteRange(matchResultList, item.BaselineStorePath);
+                    case SyncCommand.DeletePattern:
+                        if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                        this.DeleteFiles(item.TargetStorePath);
+                        break;
 
-                    break;
+                    case SyncCommand.DetectConflicts:
+                        // todo: this is currently specific to StdContact-elements, so we need to generalize it.
+                        if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
+                        if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
+                        if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
+                        if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
 
-                case SyncCommand.DeletePattern:
-                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
-                    this.DeleteFiles(item.TargetStorePath);
-                    break;
+                        var targetList = targetClient.GetAll(item.TargetStorePath);
+                        var mergeResultList =
+                            this.UiProvider.PerformAttributeMerge(
+                                SyncTools.DetectConflicts(
+                                    SyncTools.BuildConflictTestContainerList(
+                                        sourceClient.GetAll(item.SourceStorePath),
+                                        targetList,
+                                        (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
+                                        typeof(StdContact)),
+                                    true),
+                                targetList);
 
-                case SyncCommand.DetectConflicts:
-                    // todo: this is currently specific to StdContact-elements, so we need to generalize it.
-                    if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-                    if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-                    if (item.SourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-                    if (item.TargetStorePath == null) throw new InvalidOperationException("item.TargetStorePath is null");
+                        // only write to target if we did get a merge result
+                        if (mergeResultList != null)
+                        {
+                            targetClient.WriteRange(mergeResultList, item.TargetStorePath);
+                        }
 
-                    var targetList = targetClient.GetAll(item.TargetStorePath);
-                    var mergeResultList =
-                        this.UiProvider.PerformAttributeMerge(
-                            SyncTools.DetectConflicts(
-                                SyncTools.BuildConflictTestContainerList(
-                                    sourceClient.GetAll(item.SourceStorePath),
-                                    targetList,
-                                    (baseliClient == null) ? null : baseliClient.GetAll(item.BaselineStorePath),
-                                    typeof(StdContact)),
-                                true),
-                            targetList);
+                        break;
 
-                    // only write to target if we did get a merge result
-                    if (mergeResultList != null)
-                    {
-                        targetClient.WriteRange(mergeResultList, item.TargetStorePath);
-                    }
+                    case SyncCommand.AskForContinue:
+                        if (this.UiProvider != null)
+                        {
+                            continueExecution = this.UiProvider.AskForConfirm(
+                                item.CommandParameter, targetClient.FriendlyClientName);
+                        }
 
-                    break;
+                        break;
 
-                case SyncCommand.AskForContinue:
-                    if (this.UiProvider != null)
-                    {
-                        continueExecution = this.UiProvider.AskForConfirm(
-                            item.CommandParameter, targetClient.FriendlyClientName);
-                    }
-
-                    break;
-
-                case SyncCommand.OpenDocument:
-                    if (!string.IsNullOrEmpty(item.CommandParameter))
-                    {
+                    case SyncCommand.OpenDocument:
+                        if (!string.IsNullOrEmpty(item.CommandParameter))
+                        {
                             Process.Start(new ProcessStartInfo(this.ReplacePathToken(item.CommandParameter)));
-                    }
-                    break;
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
             }
 
             this.WireUpEvents(sourceClient, false);

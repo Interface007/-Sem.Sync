@@ -55,7 +55,7 @@
     </Compile>
     <Compile Include="ColumnDefinition.cs" />
     <Compile Include="ContactClient.cs" />
-    <Compile Include="ContactClientCsv.cs">
+    <Compile Include="GenericClientCsv.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ContactClientIndividualFiles.cs" />

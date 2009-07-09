@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
+    using System.Reflection;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -21,7 +22,8 @@ namespace Sem.Sync.SyncBase.Helpers
     /// creating a new source object using the simple type specification:
     /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.ContactClientCsv");</code>
     /// creating a new source object using the generic type specification by using the " of "-substring:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClient of Sem.Sync.SyncBase.StdCalendarItem");</code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem");</code>
+    /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
     public static class Factory
     {
@@ -88,7 +90,14 @@ namespace Sem.Sync.SyncBase.Helpers
         private static string EnrichClassName(string className)
         {
             if (!className.Contains(","))
-            { 
+            {
+                if (!className.Contains("."))
+                {
+                    // ReSharper disable PossibleNullReferenceException
+                    className = Assembly.GetAssembly(typeof(Factory)).FullName.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
+                    // ReSharper restore PossibleNullReferenceException
+                }
+
                 className = className + ", " + className.Substring(0, className.LastIndexOf(".", StringComparison.Ordinal));
             }
 
