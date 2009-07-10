@@ -13,6 +13,9 @@ namespace Sem.Sync.SyncBase
     using System.Linq;
 
     using EventArgs;
+
+    using Helpers;
+
     using Interfaces;
     using Properties;
 
@@ -197,6 +200,32 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Performs a cleanup of the elements of the list
+        /// </summary>
+        /// <param name="elements">
+        /// The elements.
+        /// </param>
+        protected static void CleanUpEntities(List<StdElement> elements)
+        {
+            var itemsToRemove = new List<StdElement>();
+            foreach (var element in elements)
+            {
+                SyncTools.ClearNulls(element, element.GetType());
+
+                var contact = element as StdContact;
+                if (contact != null && contact.Name == null)
+                {
+                    itemsToRemove.Add(element);
+                }
+            }
+
+            foreach (var element in itemsToRemove)
+            {
+                elements.Remove(element);
+            }
+        }
+
+        /// <summary>
         /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
         /// Credentials.
         /// </summary>
@@ -259,7 +288,7 @@ namespace Sem.Sync.SyncBase
         protected virtual void BeforeStorageAccess(string clientFolderName)
         {
         }
-        
+
         /// <summary>
         /// Writes a single element to the list of elements; overwrites an existing element with the same id
         /// </summary>

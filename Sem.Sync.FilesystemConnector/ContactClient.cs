@@ -70,6 +70,7 @@ namespace Sem.Sync.FilesystemConnector
                     if (file.Length > 0)
                     {
                         result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                        CleanUpEntities(result);
                     }
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
@@ -91,21 +92,7 @@ namespace Sem.Sync.FilesystemConnector
             {
                 try
                 {
-                    var itemsToRemove = new List<StdElement>();
-                    foreach (var element in elements)
-                    {
-                        SyncTools.ClearNulls(element, typeof(StdContact));
-                        if (((StdContact)element).Name == null)
-                        {
-                            itemsToRemove.Add(element);
-                        }
-                    }
-
-                    foreach (var element in itemsToRemove)
-                    {
-                        elements.Remove(element);
-                    }
-
+                    CleanUpEntities(elements);
                     ContactListFormatter.Serialize(file, elements.ToContacts());
                 }
                 catch (System.Exception ex)

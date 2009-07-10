@@ -37,10 +37,10 @@ namespace Sem.Sync.Test
         /// </summary>
         private const string ContactWithoutPicture = "9c8a9b29-2fda-44f3-8324-62b983468a7e";
 
-        /// <summary>
-        /// contact element id with null values
-        /// </summary>
-        private const string ContactWithNulls = "21C3586A-BB96-4a3a-9B05-D40F1125BFB9";
+        /////// <summary>
+        /////// contact element id with null values
+        /////// </summary>
+        ////private const string ContactWithNulls = "21C3586A-BB96-4a3a-9B05-D40F1125BFB9";
 
         // public FileSystemConnectorTest()
         // {
@@ -85,7 +85,7 @@ namespace Sem.Sync.Test
             var tempFolder = PrepareFolder(false);
             var listWithTwoContacts = connector.GetAll(Path.Combine(tempFolder, "file1")).ToContacts();
 
-            Assert.AreEqual(3, listWithTwoContacts.Count);
+            Assert.AreEqual(2, listWithTwoContacts.Count);
             Assert.AreEqual(0, listWithTwoContacts.GetContactById(ContactWithoutPicture).PictureData.Length);
             Assert.AreEqual(2090, listWithTwoContacts.GetContactById(ContactWithPicture).PictureData.Length);
             Assert.AreEqual("Sven", listWithTwoContacts.GetContactById(ContactWithPicture).Name.FirstName);
@@ -264,7 +264,7 @@ namespace Sem.Sync.Test
             content.AppendLine("      <DateOfCreation>2009-04-23T21:37:44.281</DateOfCreation>");
             content.AppendLine("    </InternalSyncData>");
             content.AppendLine("    <PersonGender>Unspecified</PersonGender>");
-            content.AppendLine("    <DateOfBirth>1900-01-01T00:00:00</DateOfBirth>");
+            content.AppendLine("    <DateOfBirth>0001-01-01T00:00:00</DateOfBirth>");
             content.AppendLine("    <Name>");
             content.AppendLine("      <FirstName>Auskunft</FirstName>");
             content.AppendLine("      <LastName>11880</LastName>");
