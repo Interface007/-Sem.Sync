@@ -1,22 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MatchByName.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Match internally without user interaction by comparing the names
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.SyncBase.Commands
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Interfaces;
 
+    /// <summary>
+    /// Match internally without user interaction by comparing the names
+    /// </summary>
     public class MatchByName : ISyncCommand
     {
+        /// <summary>
+        /// Gets or sets UiProvider.
+        /// </summary>
         public IUiInteraction UiProvider { get; set; }
-
+        
+        /// <summary>
+        /// Match internally without user interaction by comparing the names
+        /// </summary>
+        /// <param name="sourceClient">The source client.</param>
+        /// <param name="targetClient">The target client.</param>
+        /// <param name="baseliClient">The baseline client.</param>
+        /// <param name="sourceStorePath">The source storage path.</param>
+        /// <param name="targetStorePath">The target storage path.</param>
+        /// <param name="baselineStorePath">The baseline storage path.</param>
+        /// <param name="commandParameter">The command parameter.</param>
+        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
-            if (targetClient == null) throw new InvalidOperationException("item.targetClient is null");
-            if (sourceClient == null) throw new InvalidOperationException("item.sourceClient is null");
-            if (sourceStorePath == null) throw new InvalidOperationException("item.SourceStorePath is null");
-            if (targetStorePath == null) throw new InvalidOperationException("targetStorePath is null");
+            if (targetClient == null)
+            {
+                throw new InvalidOperationException("targetClient is null");
+            }
+            
+            if (sourceClient == null)
+            {
+                throw new InvalidOperationException("sourceClient is null");
+            }
+
+            if (sourceStorePath == null)
+            {
+                throw new InvalidOperationException("sourceStorePath is null");
+            }
+
+            if (targetStorePath == null)
+            {
+                throw new InvalidOperationException("targetStorePath is null");
+            }
+            
             targetClient.WriteRange(
                 MatchThisByName(
                     sourceClient.GetAll(sourceStorePath),
@@ -59,15 +100,14 @@ namespace Sem.Sync.SyncBase.Commands
                                      where element.ToStringSimple() == item.ToStringSimple()
                                      select element).FirstOrDefault();
 
-
                 // if we did find the name, we match using the Id
                 if (corresponding != null)
                 {
                     item.Id = corresponding.Id;
                 }
             }
-            // ReSharper restore AccessToModifiedClosure
 
+            // ReSharper restore AccessToModifiedClosure
             return target;
         }
     }
