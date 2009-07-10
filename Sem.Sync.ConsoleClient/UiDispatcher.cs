@@ -9,6 +9,10 @@ namespace Sem.Sync.ConsoleClient
 
     internal class UiDispatcher : IUiInteraction
     {
+        public string UserName { get; set; }
+        public string UserPassword { get; set; }
+        public string UserDomain { get; set; }
+
         /// <summary>
         /// Requests log on credentials from the user and insert them into an object implementing 
         /// the ICredentialAware interface.
@@ -20,7 +24,23 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>a value indicating whether the user did click the cancel button</returns>
         public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
         {
-            throw new NotImplementedException("handling for log on credentials is not implemented yet!");
+            Console.WriteLine(messageForUser);
+            
+            client.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain");
+            client.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name");
+            client.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password");
+            
+            return client.LogOnPassword.Length > 0;
+        }
+
+        private static string GetInfoWithDefault(string p, string message)
+        {
+            if (string.IsNullOrEmpty(p))
+            {
+                Console.WriteLine(message);
+                p = Console.ReadLine();
+            }
+            return p;
         }
 
         /// <summary>
@@ -31,6 +51,8 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>a value indicating whether the user did click the "ok" button</returns>
         public bool AskForConfirm(string messageForUser, string title)
         {
+            Console.WriteLine(messageForUser);
+            Console.WriteLine("-=> YES");
             return true;
         }
 

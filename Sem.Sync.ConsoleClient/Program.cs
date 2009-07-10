@@ -34,6 +34,9 @@
                     Console.WriteLine("working folder: {0}", defaultBaseFolder);
 
                     var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
+                    ((UiDispatcher)engine.UiProvider).UserDomain = args.Length > 1 ? args[1] : "";
+                    ((UiDispatcher)engine.UiProvider).UserName = args.Length > 2 ? args[2] : "";
+                    ((UiDispatcher)engine.UiProvider).UserPassword = args.Length > 3 ? args[3] : "";
                     engine.ProcessingEvent += ProcessingEvent;
                     engine.ProgressEvent += ProgressEvent;
             

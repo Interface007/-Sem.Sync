@@ -10,6 +10,7 @@ namespace Sem.Sync.SyncBase.DetailData
     using System.Globalization;
 
     using Attributes;
+    using System;
 
     /// <summary>
     /// This class represents the information needed  to establish a phone connection
@@ -56,7 +57,7 @@ namespace Sem.Sync.SyncBase.DetailData
                     var phoneNumberExtract = new Regex("[0-9]+");
 
                     var matches = phoneNumberExtract.Matches(value);
-                    if ((matches.Count > 2))
+                    if ((matches.Count > 2) && (Enum.IsDefined(typeof(CountryCode), int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture))))
                     {
                         this.CountryCode = (CountryCode)int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture);
                         this.AreaCode = int.Parse(matches[1].Captures[0].ToString(), CultureInfo.InvariantCulture);
