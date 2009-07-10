@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>
+      {FS:WorkingFolder}\test.csv
+      {FS:WorkingFolder}\Outlook.xmlcontact
+    </TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export from Outlook to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export contacts from FS-XML to FS-CSV">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact</TargetConnector>
+    <TargetStorePath>
+      {FS:WorkingFolder}\test.csv
+      {FS:WorkingFolder}\test.csv.config.{write}
+    </TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="open export csv file">
+    <Command>OpenDocument</Command>
+    <CommandParameter>{FS:WorkingFolder}\test.csv</CommandParameter>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

@@ -82,9 +82,10 @@ namespace Sem.Sync.LocalSyncManager
         internal void LoadSyncList(string p)
         {
             var formatter = new XmlSerializer(typeof(SyncCollection));
-            var file = new FileStream(p, FileMode.Open);
-            this.SyncCommands = (SyncCollection)formatter.Deserialize(file);
-            file.Close();
+            using (var file = new FileStream(p, FileMode.Open))
+            {
+                this.SyncCommands = (SyncCollection)formatter.Deserialize(file);
+            }
         }
     }
 }

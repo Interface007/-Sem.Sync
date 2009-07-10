@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9165EBDB-D528-4D2A-BD36-A0D986E609FA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sem.Sync.ConsoleClient</RootNamespace>
+    <AssemblyName>Sem.Sync.ConsoleClient</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UiDispatcher.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj">
+      <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
+      <Name>Sem.Sync.ActiveDirectoryConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj">
+      <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
+      <Name>Sem.Sync.FacebookConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj">
+      <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
+      <Name>Sem.Sync.FilesystemConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj">
+      <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
+      <Name>Sem.Sync.OnlineStorageConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj">
+      <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
+      <Name>Sem.Sync.OutlookConnector2003</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj">
+      <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
+      <Name>Sem.Sync.OutlookConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.StatisticConnector\Sem.Sync.StatisticConnector.csproj">
+      <Project>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</Project>
+      <Name>Sem.Sync.StatisticConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj">
+      <Project>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</Project>
+      <Name>Sem.Sync.XingConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SemSyncOutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
+      <Project>{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}</Project>
+      <Name>Sem.Sync.OutlookWithXing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="A Copy to CSV.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

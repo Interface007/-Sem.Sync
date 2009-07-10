@@ -200,7 +200,7 @@
             this.SyncListSelection.FormattingEnabled = true;
             this.SyncListSelection.Name = "SyncListSelection";
             // 
-            // LocalSync
+            // Commands
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -209,7 +209,7 @@
             this.Controls.Add(this.runSelected);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
-            this.Name = "LocalSync";
+            this.Name = "Commands";
             this.Load += new System.EventHandler(this.LocalSync_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

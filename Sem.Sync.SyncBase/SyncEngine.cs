@@ -369,12 +369,17 @@ namespace Sem.Sync.SyncBase
         /// <param name="path">the path including the search pattern</param>
         private void DeleteFiles(string path)
         {
-            SyncTools.EnsurePathExist(Path.GetDirectoryName(path));
-            foreach (var file in Directory.GetFiles(Path.GetDirectoryName(path), Path.GetFileName(path)))
+            var paths = path.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var singlePath in paths)
             {
-                File.Delete(file);
+                var singlePathWithoutSpaces = singlePath.Trim();
+                SyncTools.EnsurePathExist(Path.GetDirectoryName(singlePathWithoutSpaces));
+                foreach (var file in Directory.GetFiles(Path.GetDirectoryName(singlePathWithoutSpaces), Path.GetFileName(singlePathWithoutSpaces)))
+                {
+                    File.Delete(file);
+                    this.LogProcessingEvent(Resources.uiFilesDeleted + ": " + file);    
+                }
             }
-            this.LogProcessingEvent(Resources.uiFilesDeleted);
         }
 
         /// <summary>
