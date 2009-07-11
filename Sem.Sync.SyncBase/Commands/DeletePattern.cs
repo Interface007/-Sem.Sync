@@ -12,6 +12,8 @@ namespace Sem.Sync.SyncBase.Commands
     using System;
     using System.IO;
 
+    using GenericHelpers;
+
     using Helpers;
     using Interfaces;
 
@@ -51,7 +53,7 @@ namespace Sem.Sync.SyncBase.Commands
                 var singlePathWithoutSpaces = singlePath.Trim();
                 if (!string.IsNullOrEmpty(singlePathWithoutSpaces))
                 {
-                    SyncTools.EnsurePathExist(Path.GetDirectoryName(singlePathWithoutSpaces));
+                    Tools.EnsurePathExist(Path.GetDirectoryName(singlePathWithoutSpaces));
                     foreach (var file in Directory.GetFiles(Path.GetDirectoryName(singlePathWithoutSpaces), Path.GetFileName(singlePathWithoutSpaces)))
                     {
                         File.Delete(file);

@@ -7,7 +7,7 @@ namespace Sem.Sync.ConsoleClient
     using SyncBase.Interfaces;
     using SyncBase.Merging;
 
-    internal class UiDispatcher : IUiInteraction
+    internal class UiDispatcher : IUiSyncInteraction
     {
         public string UserName { get; set; }
         public string UserPassword { get; set; }

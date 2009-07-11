@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.Helpers
+namespace Sem.GenericHelpers
 {
     using System;
     using System.Globalization;
@@ -13,8 +13,8 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Net;
     using System.Text;
 
-    using DetailData;
-    using Interfaces;
+    using Sync.SyncBase.DetailData;
+    using Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// This class provides funktionality to get information from the web.
@@ -193,7 +193,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     result = ReadStreamToByteArray(receiveStream, 32768);
                     if (!string.IsNullOrEmpty(fileName))
                     {
-                        SyncTools.EnsurePathExist(Path.GetDirectoryName(fileName));
+                        Tools.EnsurePathExist(Path.GetDirectoryName(fileName));
                         File.WriteAllBytes(fileName, result);
                     }
                 }
@@ -439,8 +439,8 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             var result =
                 !name.Contains("[NOCACHE]")
-                ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
-                : string.Empty;
+                    ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
+                    : string.Empty;
 
             result = result.Replace("[REFRESH=DAILY]", string.Empty);
 
@@ -524,9 +524,9 @@ namespace Sem.Sync.SyncBase.Helpers
                             else
                             {
                                 request.Proxy.Credentials = new NetworkCredential(
-                                this.proxyCredentials.LogOnUserId,
-                                this.proxyCredentials.LogOnPassword,
-                                this.proxyCredentials.LogOnDomain);
+                                    this.proxyCredentials.LogOnUserId,
+                                    this.proxyCredentials.LogOnPassword,
+                                    this.proxyCredentials.LogOnDomain);
                             }
                         }
                         else
@@ -593,7 +593,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 var fileName = CachePathName(name);
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    SyncTools.EnsurePathExist(CachePath);
+                    Tools.EnsurePathExist(CachePath);
                     File.WriteAllText(fileName, result);
                 }
             }

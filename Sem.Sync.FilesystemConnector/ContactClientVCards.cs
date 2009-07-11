@@ -16,6 +16,8 @@ namespace Sem.Sync.FilesystemConnector
     using System.Globalization;
     using System.IO;
 
+    using GenericHelpers;
+
     using Properties;
 
     using SyncBase;
@@ -81,7 +83,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="clientFolderName"> The client folder name for the destination/source of the vCards. </param>
         protected override void BeforeStorageAccess(string clientFolderName)
         {
-            SyncTools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
+            Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
         }
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="skipIfExisting"> a value indicating whether existing entries should be added overwritten or skipped. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            SyncTools.EnsurePathExist(clientFolderName);
+            Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements.ToContacts())
             {
                 if (element.Name != null)

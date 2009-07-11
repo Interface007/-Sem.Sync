@@ -18,6 +18,8 @@ namespace Sem.Sync.FilesystemConnector
     using System.Linq;
     using System.Text;
 
+    using GenericHelpers;
+
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.Helpers;
@@ -94,7 +96,7 @@ namespace Sem.Sync.FilesystemConnector
                                     // skip all method definitions, because we cannot set the value of a method
                                     if (!columnDefinition[columnIndex].Selector.EndsWith("()", StringComparison.Ordinal))
                                     {
-                                        SyncTools.SetPropertyValue(
+                                        Tools.SetPropertyValue(
                                             element, columnDefinition[columnIndex].Selector, valueString);
                                     }
                                 }
@@ -145,7 +147,7 @@ namespace Sem.Sync.FilesystemConnector
                     var line = new StringBuilder();
                     foreach (var column in columnDefinition)
                     {
-                        var valueString = SyncTools.GetPropertyValue(element, column.Selector);
+                        var valueString = Tools.GetPropertyValue(element, column.Selector);
 
                         // skipping "empty" dates
                         if (valueString != "01.01.0001 00:00:00")

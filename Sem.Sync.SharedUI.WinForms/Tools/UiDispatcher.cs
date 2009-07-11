@@ -23,7 +23,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
     /// like a logon screen or want to present any kind of UI element. This class then instanciates the
     /// concrete UI element and serves as a kind of "call-router".
     /// </summary>
-    public class UiDispatcher : IUiInteraction
+    public class UiDispatcher : IUiSyncInteraction
     {
         /// <summary>
         /// Displays a modal dialog to let the user decide what attribute values should be saved.

@@ -15,6 +15,8 @@ namespace Sem.Sync.StatisticConnector
     using System.Collections.Generic;
     using System.IO;
 
+    using GenericHelpers;
+
     using SyncBase;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
@@ -67,7 +69,7 @@ namespace Sem.Sync.StatisticConnector
                     ValueAnalysis = new ValueAnalysisCounter(elements),
                 };
 
-            SyncTools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"), typeof(KeyValuePair), typeof(ValueAnalysisCounter));
+            Tools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"), typeof(KeyValuePair), typeof(ValueAnalysisCounter));
         }
     }
 }

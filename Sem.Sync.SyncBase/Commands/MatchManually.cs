@@ -67,7 +67,7 @@ namespace Sem.Sync.SyncBase.Commands
 
             var targetMatchList = targetClient.GetAll(targetStorePath);
             var matchResultList =
-                this.UiProvider.PerformEntityMerge(
+                ((IUiSyncInteraction)this.UiProvider).PerformEntityMerge(
                     sourceClient.GetAll(sourceStorePath),
                     targetMatchList,
                     baseliClient.GetAll(baselineStorePath));

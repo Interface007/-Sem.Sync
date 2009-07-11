@@ -4,10 +4,9 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.Helpers
+namespace Sem.GenericHelpers
 {
     using System;
-    using System.Reflection;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -94,9 +93,11 @@ namespace Sem.Sync.SyncBase.Helpers
                 if (!className.Contains("."))
                 {
                     // ReSharper disable PossibleNullReferenceException
-                    className =
-                        Assembly.GetAssembly(typeof(Factory)).FullName.Split(
-                            new[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
+                    className = "Sem.Sync.SyncBase." + className;
+                    
+                    // ToDo: this need to be reinstalled with building the namespace name using the calling assemblies default name space
+                    // Assembly.GetAssembly(typeof(Factory)).FullName.Split(
+                    //    new[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
 
                     // ReSharper restore PossibleNullReferenceException
                 }

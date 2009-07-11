@@ -60,7 +60,7 @@ namespace Sem.Sync.SyncBase.Commands
 
             var targetList = targetClient.GetAll(targetStorePath);
             var mergeResultList =
-                this.UiProvider.PerformAttributeMerge(
+                ((IUiSyncInteraction)this.UiProvider).PerformAttributeMerge(
                     SyncTools.DetectConflicts(
                         SyncTools.BuildConflictTestContainerList(
                             sourceClient.GetAll(sourceStorePath),

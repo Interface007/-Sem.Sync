@@ -12,6 +12,9 @@ namespace Sem.Sync.SyncBase
 
     using Attributes;
     using DetailData;
+
+    using GenericHelpers;
+
     using Helpers;
 
     /// <summary>
@@ -234,7 +237,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>the deserialized contact</returns>
         public static StdContact LoadFromFile(string fileName)
         {
-            return SyncTools.LoadFromFile<StdContact>(fileName);
+            return Tools.LoadFromFile<StdContact>(fileName);
         }
 
         /// <summary>
@@ -243,7 +246,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="fileName">the file name to store the information</param>
         public void SaveToFile(string fileName)
         {
-            SyncTools.SaveToFile(this, fileName);
+            Tools.SaveToFile(this, fileName);
 
             if (!string.IsNullOrEmpty(this.PictureName))
             {

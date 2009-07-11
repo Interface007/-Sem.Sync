@@ -14,6 +14,8 @@ namespace Sem.Sync.SyncBase.Helpers
 
     using DetailData;
 
+    using GenericHelpers;
+
     /// <summary>
     /// This static class defines extension methods for variuos types. The extension methods
     /// are helper methods that do ease the reading (and writing) of the main code.
@@ -44,7 +46,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <param name="target">the list that will be returned in an "enriched" state</param>
         /// <param name="source">the list that contains the elements that might contribute content</param>
-        /// <returns></returns>
+        /// <returns>the merged list</returns>
         public static List<StdElement> MergeHighEvidence(this List<StdElement> target, List<StdElement> source)
         {
             foreach (var targetItem in target)
@@ -54,12 +56,12 @@ namespace Sem.Sync.SyncBase.Helpers
                     continue;
                 }
 
+                // ReSharper disable AccessToModifiedClosure
                 var sourceItem = (from item in source
-// ReSharper disable AccessToModifiedClosure
                                   where item.Id == targetItem.Id
-// ReSharper restore AccessToModifiedClosure
                                   select item).FirstOrDefault();
 
+                // ReSharper restore AccessToModifiedClosure
                 if (targetItem is StdContact)
                 {
                     targetItem.MergeHighEvidence(sourceItem, typeof(StdContact));
@@ -69,6 +71,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     targetItem.MergeHighEvidence(sourceItem, null);
                 }
             }
+
             return target;
         }
 
@@ -82,10 +85,14 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="target">the list that will be returned in an "enriched" state</param>
         /// <param name="source">the list that contains the elements that might contribute content</param>
         /// <param name="typeToUse">if this is not null, this type will be used instead of the type parameter</param>
-        /// <returns></returns>
+        /// <returns>the merged list</returns>
         public static T MergeHighEvidence<T>(this T target, T source, Type typeToUse)
         {
-            if (typeToUse == null) typeToUse = typeof(T);
+            if (typeToUse == null)
+            {
+                typeToUse = typeof(T);
+            }
+
             var members = typeToUse.GetProperties();
             foreach (var item in members)
             {
@@ -121,8 +128,8 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
 
                         case "Int32":
-                            setValue = (Int32)targetValue == 0
-                                && (Int32)sourceValue != 0;
+                            setValue = (int)targetValue == 0
+                                && (int)sourceValue != 0;
                             break;
 
                         case "Gender":
@@ -155,36 +162,45 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
 
                 if (setValue)
+                {
                     item.SetValue(target, item.GetValue(source, null), null);
-
+                }
             }
+
             return target;
         }
-
 
         /// <summary>
         /// Expands the methods of a List my adding a serialization to disk
         /// </summary>
-        /// <typeparam name="T">the type of elements in this list</typeparam>
-        /// <param name="elementList">the list instance that should be sezialized</param>
-        /// <param name="destinationFile">the target file for the serialization</param>
-        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <typeparam name="T">
+        /// the type of elements in this list
+        /// </typeparam>
+        /// <param name="elementList">
+        /// the list instance that should be sezialized
+        /// </param>
+        /// <param name="destinationFile">
+        /// the target file for the serialization
+        /// </param>
+        /// <param name="extraTypes">
+        /// you need to add types that are used in the list here
+        /// </param>
+        /// <returns>
+        /// The saved list.
+        /// </returns>
         public static List<T> SaveTo<T>(this List<T> elementList, string destinationFile, Type[] extraTypes)
         {
-            if (destinationFile == null) throw new ArgumentNullException("destinationFile");
+            if (destinationFile == null)
+            {
+                throw new ArgumentNullException("destinationFile");
+            }
 
             // the xml serializer needs the additional type of the element
-            try
+            var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
+            Tools.EnsurePathExist(Path.GetDirectoryName(destinationFile));
+            using (var file = new FileStream(destinationFile, FileMode.Create))
             {
-                var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
-                SyncTools.EnsurePathExist(Path.GetDirectoryName(destinationFile));
-                using (var file = new FileStream(destinationFile, FileMode.Create))
-                {
-                    formatter.Serialize(file, elementList);
-                }
-            }
-            catch
-            {
+                formatter.Serialize(file, elementList);
             }
 
             return elementList;
@@ -193,18 +209,32 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Expands the methods of a List my adding a serialization to disk
         /// </summary>
-        /// <typeparam name="T">the type of elements in this list</typeparam>
-        /// <param name="elementList">the list instance that should be sezialized</param>
-        /// <param name="sourceFile">the target file for the serialization</param>
-        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <typeparam name="T">
+        /// the type of elements in this list
+        /// </typeparam>
+        /// <param name="elementList">
+        /// the list instance that should be sezialized
+        /// </param>
+        /// <param name="sourceFile">
+        /// the target file for the serialization
+        /// </param>
+        /// <param name="extraTypes">
+        /// you need to add types that are used in the list here
+        /// </param>
+        /// <returns>
+        /// The list loaded from the file system.
+        /// </returns>
         public static List<T> LoadFrom<T>(this List<T> elementList, string sourceFile, Type[] extraTypes)
         {
-            if (sourceFile == null) throw new ArgumentNullException("sourceFile");
+            if (sourceFile == null)
+            {
+                throw new ArgumentNullException("sourceFile");
+            }
 
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
 
-            SyncTools.EnsurePathExist(Path.GetDirectoryName(sourceFile));
+            Tools.EnsurePathExist(Path.GetDirectoryName(sourceFile));
             if (File.Exists(sourceFile))
             {
                 using (var file = new FileStream(sourceFile, FileMode.OpenOrCreate))
@@ -215,6 +245,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     }
                 }
             }
+
             return elementList;
         }
 
@@ -234,6 +265,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     result.Add(e);
                 }
             }
+
             return result;
         }
 
@@ -254,6 +286,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     result.Add(e);
                 }
             }
+
             return result;
         }
 
@@ -261,8 +294,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// Converts a list of some type to a list of <see cref="StdElement"/> by omitting all
         /// entries that cannot be casted to a <see cref="StdElement"/>.
         /// </summary>
-        /// <param name="list">The list of something to be converted</param>
-        /// <returns>The resulting list of <see cref="StdElement"/></returns>
+        /// <typeparam name="T"> the type of conversion. </typeparam>
+        /// <param name="list"> The list of something to be converted </param>
+        /// <returns> The resulting list of <see cref="StdElement"/> </returns>
         public static List<StdElement> ToStdElement<T>(this List<T> list) where T : StdElement
         {
             var result = new List<StdElement>();
@@ -270,6 +304,7 @@ namespace Sem.Sync.SyncBase.Helpers
             {
                 result.Add(element);
             }
+
             return result;
         }
 

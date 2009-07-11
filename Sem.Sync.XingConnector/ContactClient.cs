@@ -20,6 +20,8 @@ namespace Sem.Sync.XingConnector
     using System.Globalization;
     using System.Text.RegularExpressions;
 
+    using GenericHelpers;
+
     using Properties;
 
     using SyncBase;

@@ -10,7 +10,9 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.IO;
     using System.Reflection;
     using System.Xml.Serialization;
-    
+
+    using GenericHelpers;
+
     /// <summary>
     /// Checks the version of a library.
     /// </summary>

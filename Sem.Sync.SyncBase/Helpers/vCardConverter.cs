@@ -13,6 +13,8 @@ namespace Sem.Sync.SyncBase.Helpers
 
     using DetailData;
 
+    using GenericHelpers;
+
     /// <summary>
     /// Class to convert StdContacts to/from vCards
     /// This class does NOT fully implement the vCard 2.1 specification, because it does NOT support:

@@ -17,6 +17,8 @@ namespace Sem.Sync.ActiveDirectoryConnector
     using System.IO;
     using System.Text;
 
+    using GenericHelpers;
+
     using SyncBase;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
@@ -276,7 +278,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
         {
             var content = new StringBuilder();
 
-            SyncTools.EnsurePathExist(Path.GetDirectoryName(path));
+            Tools.EnsurePathExist(Path.GetDirectoryName(path));
             foreach (var name in searchItem.Properties.PropertyNames)
             {
                 foreach (var propItem in searchItem.Properties[name.ToString()])
@@ -294,9 +296,9 @@ namespace Sem.Sync.ActiveDirectoryConnector
         /// </summary>
         private void PrepareCredentials()
         {
-            this.LogOnDomain = SyncTools.GetRegValue(RegBasePath, "domainName", string.Empty);
-            this.LogOnUserId = SyncTools.GetRegValue(RegBasePath, "username", "{default}");
-            this.LogOnPassword = SyncTools.GetRegValue(RegBasePath, "password", "{ask}");
+            this.LogOnDomain = Tools.GetRegValue(RegBasePath, "domainName", string.Empty);
+            this.LogOnUserId = Tools.GetRegValue(RegBasePath, "username", "{default}");
+            this.LogOnPassword = Tools.GetRegValue(RegBasePath, "password", "{ask}");
 
             // check if the user an empty string, in this case ask the user for credentials
             if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")

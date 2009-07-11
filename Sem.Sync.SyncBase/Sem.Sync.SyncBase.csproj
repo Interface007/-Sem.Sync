@@ -56,6 +56,8 @@
     <DocumentationFile>bin\Release\Sem.Sync.SyncBase.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Pex.Framework, Version=0.13.40528.2, Culture=neutral, PublicKeyToken=76a274db078248c8, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -76,8 +78,6 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
-    <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="Commands\AskForContinue.cs" />
     <Compile Include="Commands\CopyAll.cs" />
@@ -95,22 +95,16 @@
     <Compile Include="Commands\MatchManually.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />
     <Compile Include="DetailData\CalendarIdentifier.cs" />
-    <Compile Include="DetailData\Credentials.cs" />
-    <Compile Include="DetailData\KeyValuePair.cs" />
     <Compile Include="DetailData\MatchingEntry.cs" />
     <Compile Include="DetailData\ReplacementLists.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\Factory.cs" />
-    <Compile Include="Helpers\HttpHelper.cs" />
-    <Compile Include="Interfaces\IHttpHelper.cs" />
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Helpers\VersionCheck.cs" />
-    <Compile Include="Interfaces\ICredentialAware.cs" />
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
     <Compile Include="EventArgs\ProgressEventArgs.cs" />
-    <Compile Include="Interfaces\IUiInteraction.cs" />
+    <Compile Include="Interfaces\IUiSyncInteraction.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -178,6 +172,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
+      <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
+      <Name>Sem.GenericHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,37 +6,41 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
-    using System.Text.RegularExpressions;
-    using System.Globalization;
-
-    using Attributes;
     using System;
-
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+    
+    using Attributes;
+    
     /// <summary>
     /// This class represents the information needed  to establish a phone connection
     /// to the parent entity. No information should be omitted.
     /// </summary>
     public class PhoneNumber
     {
+        /// <summary>
+        /// stores the denormalized phone number
+        /// </summary>
+        private string denormalizedPhoneNumber = string.Empty;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="PhoneNumber"/> class without any pre-initialized values
+        /// Initializes a new instance of the <see cref="PhoneNumber"/> class without any pre-initialized values
         /// </summary>
         public PhoneNumber()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="PhoneNumber"/> class and initializes the content witht the
+        /// Initializes a new instance of the <see cref="PhoneNumber"/> class and initializes the content witht the
         /// value of <paramref name="phoneNumber"/>. This value will be interpreted.
         /// </summary>
-        /// <param name="phoneNumber">The phone number this instance should represent.</param>
+        /// <param name="phoneNumber">
+        /// The phone number this instance should represent.
+        /// </param>
         public PhoneNumber(string phoneNumber)
         {
             this.DenormalizedPhoneNumber = phoneNumber;
         }
-
-        private string denormalizedPhoneNumber = string.Empty;
 
         /// <summary>
         /// Gets or sets a denormalized phone number as one single string. If the
@@ -47,9 +51,14 @@ namespace Sem.Sync.SyncBase.DetailData
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.Number)) return null;
+                if (!string.IsNullOrEmpty(this.Number))
+                {
+                    return null;
+                }
+
                 return this.ToString();
             }
+
             set
             {
                 if (!string.IsNullOrEmpty(value))
@@ -57,7 +66,7 @@ namespace Sem.Sync.SyncBase.DetailData
                     var phoneNumberExtract = new Regex("[0-9]+");
 
                     var matches = phoneNumberExtract.Matches(value);
-                    if ((matches.Count > 2) && (Enum.IsDefined(typeof(CountryCode), int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture))))
+                    if ((matches.Count > 2) && Enum.IsDefined(typeof(CountryCode), int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture)))
                     {
                         this.CountryCode = (CountryCode)int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture);
                         this.AreaCode = int.Parse(matches[1].Captures[0].ToString(), CultureInfo.InvariantCulture);
@@ -106,10 +115,10 @@ namespace Sem.Sync.SyncBase.DetailData
             }
 
             // +49 (1234) 456789
-            var result = "";
-            result += (this.CountryCode == CountryCode.unspecified) ? "" : "+" + (int)this.CountryCode + " ";
-            result += (this.AreaCode == 0) ? "" : "(" + this.AreaCode + ")";
-            result += (string.IsNullOrEmpty(this.Number)) ? "" : " " + this.Number;
+            var result = string.Empty;
+            result += (this.CountryCode == CountryCode.unspecified) ? string.Empty : "+" + (int)this.CountryCode + " ";
+            result += (this.AreaCode == 0) ? string.Empty : "(" + this.AreaCode + ")";
+            result += string.IsNullOrEmpty(this.Number) ? string.Empty : " " + this.Number;
 
             return result.Trim();
         }

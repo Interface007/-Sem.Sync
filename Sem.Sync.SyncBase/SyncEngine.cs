@@ -20,6 +20,9 @@ namespace Sem.Sync.SyncBase
     using Binding;
     using Commands;
     using EventArgs;
+
+    using GenericHelpers;
+
     using Helpers;
     using Interfaces;
     using Properties;
@@ -55,7 +58,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the object that will be responsible for routing UI interaction requests from connectors
         /// </summary>
-        public IUiInteraction UiProvider { get; set; }
+        public IUiSyncInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Gets or sets a value that represents the file system working folder. Use 

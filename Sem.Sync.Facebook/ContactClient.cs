@@ -30,7 +30,7 @@ namespace Sem.Sync.FacebookConnector
         private readonly string apiSecret;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ContactClient"/> class and initializes the apiKey 
+        /// Initializes a new instance of the <see cref="ContactClient"/> class and initializes the apiKey 
         /// and the apiSecret from the registry. Unfortunately this also means that we need every user
         /// to request such a key and secret in order to work with the client.
         /// </summary>
