@@ -12,10 +12,10 @@ namespace Sem.Sync.OnlineStorageConnector
 {
     using System.Collections.Generic;
 
+    using OnlineStorage;
+
     using SyncBase;
     using SyncBase.Helpers;
-
-    using OnlineStorage;
 
     public class ContactClient : StdClient
     {
@@ -33,9 +33,10 @@ namespace Sem.Sync.OnlineStorageConnector
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var client = new OnlineStorage.ContactClient();
-            client.WriteFullList(new ContactListContainer
-                                     {
-                                         ContactList = elements.ToContacts().ToArray()
+            client.WriteFullList(
+                new ContactListContainer
+                    {
+                        ContactList = elements.ToContacts().ToArray()
                                      }, 
                                      clientFolderName, 
                                      skipIfExisting);

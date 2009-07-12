@@ -14,6 +14,9 @@ namespace Sem.Sync.SyncBase.Commands
     using System.Linq;
     
     using DetailData;
+
+    using GenericHelpers.Interfaces;
+
     using Interfaces;
 
     /// <summary>

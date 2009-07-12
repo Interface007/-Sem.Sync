@@ -7,6 +7,8 @@
 
 namespace Sem.Sync.SyncBase.Interfaces
 {
+    using GenericHelpers.Interfaces;
+
     /// <summary>
     /// Interface to implementation of HTTP communication class
     /// </summary>

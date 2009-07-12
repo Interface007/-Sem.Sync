@@ -1,19 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Tools.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This class contains some "misc" tools
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.GenericHelpers
 {
+    using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Xml.Serialization;
 
     using Microsoft.Win32;
 
     using Sync.SyncBase.DetailData;
 
-    public class Tools
+    /// <summary>
+    /// This class contains some "misc" tools
+    /// </summary>
+    public static class Tools
     {
         /// <summary>
         /// Tests for the existence of the specified path and tries to create the path if it's missing
@@ -128,6 +137,7 @@ namespace Sem.GenericHelpers
                 return string.Empty;
             }
         }
+
         /// <summary>
         /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
         /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
@@ -222,7 +232,9 @@ namespace Sem.GenericHelpers
                 // converted back from string - there is no automated cast in SetValue.
                 if (!string.IsNullOrEmpty(valueString))
                 {
-                    var destinationType = propInfo.PropertyType.Name;
+                    var propType = propInfo.PropertyType;
+                    var destinationType = (propType.BaseType == typeof(Enum)) ? "Enum" : propInfo.PropertyType.Name;
+
                     switch (destinationType)
                     {
                         case "DateTime":
@@ -235,13 +247,9 @@ namespace Sem.GenericHelpers
                                 objectToWriteTo, Int32.Parse(valueString, CultureInfo.CurrentCulture), null);
                             break;
 
-                        //case "Gender":
-                        //    propInfo.SetValue(objectToWriteTo, Enum.Parse(typeof(Gender), valueString), null);
-                        //    break;
-
-                        //case "CountryCode":
-                        //    propInfo.SetValue(objectToWriteTo, Enum.Parse(typeof(CountryCode), valueString), null);
-                        //    break;
+                        case "Enum":
+                            propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                            break;
 
                         case "Guid":
                             propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);

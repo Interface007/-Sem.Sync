@@ -1,5 +1,7 @@
 namespace Sem.Sync.SyncBase.Interfaces
 {
+    using GenericHelpers.Interfaces;
+
     public interface ISyncCommand
     {
         IUiInteraction UiProvider { get; set; }

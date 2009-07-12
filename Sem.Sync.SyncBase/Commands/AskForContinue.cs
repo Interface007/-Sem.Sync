@@ -8,6 +8,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.Commands
 {
+    using GenericHelpers.Interfaces;
+
     using Interfaces;
 
     /// <summary>

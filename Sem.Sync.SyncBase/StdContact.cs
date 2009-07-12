@@ -112,7 +112,6 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public PhoneNumber BusinessPhoneMobile { get; set; }
 
-
         /// <summary>
         /// Gets or sets the primary business email address. This (in most cases) is not available at non-business time
         /// </summary>
@@ -162,6 +161,16 @@ namespace Sem.Sync.SyncBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "this is truely a property, not a collection of bytes and not a method."),
         ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public byte[] PictureData { get; set; }
+
+        /// <summary>
+        /// Loads a standard contact from the file system.
+        /// </summary>
+        /// <param name="fileName">the name of the file that does contain the serialized contact</param>
+        /// <returns>the deserialized contact</returns>
+        public static StdContact LoadFromFile(string fileName)
+        {
+            return Tools.LoadFromFile<StdContact>(fileName);
+        }
 
         /// <summary>
         /// determines the full name including academic title, first, last and middle name 
@@ -228,16 +237,6 @@ namespace Sem.Sync.SyncBase
             }
 
             return name.Replace("  ", " ").Trim();
-        }
-
-        /// <summary>
-        /// Loads a standard contact from the file system.
-        /// </summary>
-        /// <param name="fileName">the name of the file that does contain the serialized contact</param>
-        /// <returns>the deserialized contact</returns>
-        public static StdContact LoadFromFile(string fileName)
-        {
-            return Tools.LoadFromFile<StdContact>(fileName);
         }
 
         /// <summary>

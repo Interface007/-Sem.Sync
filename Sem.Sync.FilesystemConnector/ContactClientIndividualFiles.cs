@@ -22,7 +22,6 @@ namespace Sem.Sync.FilesystemConnector
     using Properties;
 
     using SyncBase;
-    using SyncBase.Helpers;
 
     #endregion usings
 

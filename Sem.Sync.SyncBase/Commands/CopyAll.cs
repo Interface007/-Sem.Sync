@@ -10,6 +10,9 @@
 namespace Sem.Sync.SyncBase.Commands
 {
     using System;
+
+    using GenericHelpers.Interfaces;
+
     using Interfaces;
 
     /// <summary>

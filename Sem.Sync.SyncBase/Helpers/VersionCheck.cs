@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Xml.Serialization;
 
     using GenericHelpers;
+    using GenericHelpers.Interfaces;
 
     /// <summary>
     /// Checks the version of a library.
@@ -20,6 +21,21 @@ namespace Sem.Sync.SyncBase.Helpers
     {
         private const string VersionBaseUrl = "http://svenerikmatzen.info";
         private const string VersionXmlUrl = "/Content/Portals/0/sem.sync.version.xml";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VersionCheck"/> class and initializes the version information.
+        /// </summary>
+        public VersionCheck()
+        {
+            var myVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            this.Build = myVersion.Build;
+            this.Major = myVersion.Major;
+            this.MajorRevision = myVersion.MajorRevision;
+            this.Minor = myVersion.Minor;
+            this.MinorRevision = myVersion.MinorRevision;
+            this.Revision = myVersion.Revision;
+        }
 
         /// <summary>
         /// Gets or sets the build number of the version
@@ -65,11 +81,11 @@ namespace Sem.Sync.SyncBase.Helpers
         /// Performs the version check by comparing the own version information with the
         /// version stored at the URL described by <see cref="VersionBaseUrl"/> and <see cref="VersionXmlUrl"/>.
         /// </summary>
-        /// <param name="UiProvider">object that implements the <see cref="Interfaces.IUiInteraction"/> interface to
+        /// <param name="uiProvider">object that implements the <see cref="IUiInteraction"/> interface to
         /// query information from the user</param>
         /// <returns>true if the version of this assembly is higher or euqal</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public static bool Check(Interfaces.IUiInteraction UiProvider)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "version check is pure optional - in case of a problem we simply skip this")]
+        public static bool Check(IUiInteraction uiProvider)
         {
             try
             {
@@ -86,7 +102,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 var myVersion = new VersionCheck();
 
                 var formatter = new XmlSerializer(typeof(VersionCheck));
-                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false) { UiDispatcher = UiProvider }).GetContent(VersionXmlUrl, "[NOCACHE]"));
+                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider }).GetContent(VersionXmlUrl, "[NOCACHE]"));
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
                 return
@@ -96,25 +112,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     serverVersion.MinorRevision <= myVersion.MinorRevision &&
                     serverVersion.Build <= myVersion.Build;
             }
-            catch // catch simply all - if there's a problem, we will check next time
+            catch 
             {
+                // catch simply all - if there's a problem, we will check next time
                 return true;
             }
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="VersionCheck"/> class and initializes the version information.
-        /// </summary>
-        public VersionCheck()
-        {
-            var myVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
-            this.Build = myVersion.Build;
-            this.Major = myVersion.Major;
-            this.MajorRevision = myVersion.MajorRevision;
-            this.Minor = myVersion.Minor;
-            this.MinorRevision = myVersion.MinorRevision;
-            this.Revision = myVersion.Revision;
         }
     }
 }

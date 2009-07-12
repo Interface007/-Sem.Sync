@@ -11,14 +11,9 @@
 namespace Sem.Sync.SyncBase
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
-    using System.Linq;
 
     using Binding;
-    using Commands;
     using EventArgs;
 
     using GenericHelpers;
@@ -106,7 +101,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>
         /// a value whether the execution should continue (true) or should abort (false)
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
         public bool Execute(SyncDescription item)
         {
             if (!this.versionChecked)
@@ -139,7 +134,7 @@ namespace Sem.Sync.SyncBase
 
             try
             {
-                ISyncCommand command =
+                var command =
                     Factory.GetNewObject<ISyncCommand>(
                         "Sem.Sync.SyncBase.Commands." +
                         Enum.GetName(typeof(SyncCommand), item.Command) +
@@ -148,9 +143,8 @@ namespace Sem.Sync.SyncBase
                 if (command != null)
                 {
                     command.UiProvider = this.UiProvider;
-                    command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
+                    continueExecution = command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
                 }
-
             }
             catch (Exception ex)
             {

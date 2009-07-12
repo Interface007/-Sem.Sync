@@ -13,12 +13,13 @@ namespace Sem.Sync.FacebookConnector
     using System;
     using System.Collections.Generic;
 
-    using Microsoft.Win32;
-
     using Facebook.Components;
+
+    using Microsoft.Win32;
 
     using SyncBase;
     using SyncBase.DetailData;
+    using System.Globalization;
 
     /// <summary>
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
@@ -40,7 +41,6 @@ namespace Sem.Sync.FacebookConnector
             // publishing the app. Todo: we need to use the "temporary secret" as suggested by Facebook
             // the problem with the temporary secret is that it does not really add security and it
             // includes another web server that is hosted by the application owner.
-
             var regKey = Registry.CurrentUser.OpenSubKey("Software\\" + this.FriendlyClientName)
                     ?? Registry.CurrentUser.CreateSubKey("Software\\" + this.FriendlyClientName);
 
@@ -71,7 +71,7 @@ namespace Sem.Sync.FacebookConnector
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var resultList = new List<StdElement>();
-            var service = new FacebookService { ApplicationKey = apiKey, Secret = apiSecret };
+            var service = new FacebookService { ApplicationKey = this.apiKey, Secret = this.apiSecret };
 
             service.ConnectToFacebook();
             var friendList = service.GetFriendIds();
@@ -122,10 +122,8 @@ namespace Sem.Sync.FacebookConnector
 
                                 PersonalAddressPrimary = new AddressDetail
                                                              {
-                                                                 CountryName =
-                                                                     userData.HometownLocation.Country.ToString(""),
-                                                                 StateName =
-                                                                     userData.HometownLocation.State.ToString(""),
+                                                                 CountryName = userData.HometownLocation.Country.ToString(),
+                                                                 StateName = userData.HometownLocation.State.ToString(),
                                                                  CityName = userData.HometownLocation.City,
                                                                  PostalCode = userData.HometownLocation.ZipCode,
                                                              },
@@ -133,8 +131,7 @@ namespace Sem.Sync.FacebookConnector
                                 PictureName = (pictureBytes == null) ? null : "Facebook.jpg",
                                 PictureData = pictureBytes,
                                 PersonalProfileIdentifiers = new ProfileIdentifiers { FacebookProfileId = userData.UserId }
-                            }
-                        );
+                            });
                 }
             }
 

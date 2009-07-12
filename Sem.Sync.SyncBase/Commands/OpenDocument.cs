@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System.Diagnostics;
 
+    using GenericHelpers.Interfaces;
+
     using Interfaces;
 
     /// <summary>

@@ -8,9 +8,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase.Interfaces
+namespace Sem.GenericHelpers.Interfaces
 {
-    using System.Collections.Generic;
+    using Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// Interface for objects that are able to route UI access to the correct objects

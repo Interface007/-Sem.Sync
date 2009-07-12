@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UiDispatcher.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Command line implementation of the UI interaction of the library with the user.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.ConsoleClient
 {
     using System;
@@ -7,10 +16,24 @@ namespace Sem.Sync.ConsoleClient
     using SyncBase.Interfaces;
     using SyncBase.Merging;
 
+    /// <summary>
+    /// Command line implementation of the UI interaction of the library with the user.
+    /// </summary>
     internal class UiDispatcher : IUiSyncInteraction
     {
+        /// <summary>
+        /// Gets or sets UserName of the logon information for the remote source.
+        /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets UserPassword of the logon information for the remote source.
+        /// </summary>
         public string UserPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets UserDomain of the logon information for the remote source.
+        /// </summary>
         public string UserDomain { get; set; }
 
         /// <summary>
@@ -33,16 +56,6 @@ namespace Sem.Sync.ConsoleClient
             return client.LogOnPassword.Length > 0;
         }
 
-        private static string GetInfoWithDefault(string p, string message)
-        {
-            if (string.IsNullOrEmpty(p))
-            {
-                Console.WriteLine(message);
-                p = Console.ReadLine();
-            }
-            return p;
-        }
-
         /// <summary>
         /// Requests a confirmation from the user
         /// </summary>
@@ -51,6 +64,11 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>a value indicating whether the user did click the "ok" button</returns>
         public bool AskForConfirm(string messageForUser, string title)
         {
+            if (messageForUser == null)
+            {
+                throw new ArgumentNullException("messageForUser");
+            }
+
             Console.WriteLine(messageForUser);
             Console.WriteLine("-=> YES");
             return true;
@@ -61,7 +79,7 @@ namespace Sem.Sync.ConsoleClient
         /// </summary>
         /// <param name="toMerge">the list of merge conflicts to reslove</param>
         /// <param name="targetList">the list of elements that should be changed</param>
-        /// <returns></returns>
+        /// <returns>the unmodified <paramref name="targetList"/></returns>
         public List<StdElement> PerformAttributeMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
             Console.WriteLine("Interactive attribute merge to solve merge conflicts not implemented - skipped");
@@ -74,11 +92,28 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="sourceList">the source entity list</param>
         /// <param name="targetList">the list that will be changed</param>
         /// <param name="baselineList">a baseline list that helps merging</param>
-        /// <returns></returns>
+        /// <returns>The unmodified <paramref name="targetList"/></returns>
         public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
         {
             Console.WriteLine("Interactive entity merge to solve merge conflicts not implemented - skipped");
             return targetList;
+        }
+
+        /// <summary>
+        /// Queries the user for information, uses the default value, if there is one (this suppresses the user interaction).
+        /// </summary>
+        /// <param name="defaultValue"> The default value of this information - the user will only be asked, if this value is an empty string. </param>
+        /// <param name="message"> The messagedisplayed to the user. </param>
+        /// <returns> The value entered by the user or the default value </returns>
+        private static string GetInfoWithDefault(string defaultValue, string message)
+        {
+            if (string.IsNullOrEmpty(defaultValue))
+            {
+                Console.WriteLine(message);
+                defaultValue = Console.ReadLine();
+            }
+
+            return defaultValue;
         }
     }
 }

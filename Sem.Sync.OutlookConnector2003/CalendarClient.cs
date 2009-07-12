@@ -28,8 +28,6 @@ namespace Sem.Sync.OutlookConnector2003
     /// </summary>
     public class CalendarClient : StdClient
     {
-        #region interface IClientBase
-
         /// <summary>
         /// Gets the ui friendly name of this connector
         /// </summary>
@@ -221,6 +219,5 @@ namespace Sem.Sync.OutlookConnector2003
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "{0} elements added", added));
         }
-        #endregion
     }
 }

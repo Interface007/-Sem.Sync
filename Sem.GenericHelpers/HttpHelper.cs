@@ -13,6 +13,8 @@ namespace Sem.GenericHelpers
     using System.Net;
     using System.Text;
 
+    using Interfaces;
+
     using Sync.SyncBase.DetailData;
     using Sync.SyncBase.Interfaces;
 
