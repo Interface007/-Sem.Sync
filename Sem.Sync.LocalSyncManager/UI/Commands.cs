@@ -15,10 +15,11 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.Text;
     using System.Windows.Forms;
 
+    using GenericHelpers.EventArgs;
+
     using SharedUI.WinForms.UI;
 
     using SyncBase;
-    using SyncBase.EventArgs;
     using SyncBase.Interfaces;
 
     /// <summary>

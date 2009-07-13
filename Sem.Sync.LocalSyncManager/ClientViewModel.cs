@@ -15,12 +15,13 @@ namespace Sem.Sync.LocalSyncManager
     using System.IO;
     using System.Xml.Serialization;
 
+    using GenericHelpers.EventArgs;
+
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
     using SyncBase.Binding;
-    using SyncBase.EventArgs;
-    
+
     using Tools;
     
     /// <summary>

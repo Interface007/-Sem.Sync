@@ -100,10 +100,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
-    <Compile Include="Helpers\VersionCheck.cs" />
-    <Compile Include="EventArgs\ProcessingEventArgs.cs" />
-    <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
-    <Compile Include="EventArgs\ProgressEventArgs.cs" />
     <Compile Include="Interfaces\IUiSyncInteraction.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

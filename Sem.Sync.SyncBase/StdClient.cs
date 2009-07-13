@@ -12,7 +12,7 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.Linq;
 
-    using EventArgs;
+    using GenericHelpers.EventArgs;
 
     using Helpers;
 

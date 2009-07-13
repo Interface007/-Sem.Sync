@@ -14,11 +14,10 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
 
     using Binding;
-    using EventArgs;
 
     using GenericHelpers;
+    using GenericHelpers.EventArgs;
 
-    using Helpers;
     using Interfaces;
     using Properties;
 
@@ -44,6 +43,11 @@ namespace Sem.Sync.SyncBase
         /// flag for already executed version check
         /// </summary>
         private bool versionChecked;
+
+        /// <summary>
+        /// the factory to create the classes
+        /// </summary>
+        private readonly Factory factory = new Factory("Sem.Sync.SyncBase");
 
         /// <summary>
         /// Will be raised in the event of needed log on credentials
@@ -106,16 +110,16 @@ namespace Sem.Sync.SyncBase
         {
             if (!this.versionChecked)
             {
-                this.versionOutdated = !VersionCheck.Check(this.UiProvider);
+                this.versionOutdated = !new VersionCheck().Check(this.UiProvider);
                 this.versionChecked = true;
             }
 
             var continueExecution = true;
 
             // create classes according to the description
-            var sourceClient = Factory.GetNewObject<IClientBase>(item.SourceConnector);
-            var targetClient = Factory.GetNewObject<IClientBase>(item.TargetConnector);
-            var baseliClient = Factory.GetNewObject<IClientBase>(item.BaselineConnector);
+            var sourceClient = factory.GetNewObject<IClientBase>(item.SourceConnector);
+            var targetClient = factory.GetNewObject<IClientBase>(item.TargetConnector);
+            var baseliClient = factory.GetNewObject<IClientBase>(item.BaselineConnector);
 
             // wire up events
             this.WireUpEvents(sourceClient, true);
@@ -135,7 +139,7 @@ namespace Sem.Sync.SyncBase
             try
             {
                 var command =
-                    Factory.GetNewObject<ISyncCommand>(
+                    factory.GetNewObject<ISyncCommand>(
                         "Sem.Sync.SyncBase.Commands." +
                         Enum.GetName(typeof(SyncCommand), item.Command) +
                         ", Sem.Sync.SyncBase");

@@ -9,7 +9,7 @@ namespace Sem.Sync.SyncBase.Interfaces
     using System;
     using System.Collections.Generic;
 
-    using EventArgs;
+    using GenericHelpers.EventArgs;
 
     /// <summary>
     /// Base interface for a synchronization client. This interface does provide access to

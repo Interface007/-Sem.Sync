@@ -14,9 +14,10 @@ namespace Sem.Sync.ConsoleClient
     using System.Reflection;
     using System.Xml.Serialization;
 
+    using GenericHelpers.EventArgs;
+
     using SyncBase;
     using SyncBase.Binding;
-    using SyncBase.EventArgs;
 
     /// <summary>
     /// Main execution class that will run the program.

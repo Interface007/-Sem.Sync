@@ -9,7 +9,7 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Globalization;
 
-    using EventArgs;
+    using GenericHelpers.EventArgs;
 
     /// <summary>
     /// Base class for Sync classes that do provide UI feedback like logging and progress.

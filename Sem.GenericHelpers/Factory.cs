@@ -7,6 +7,7 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Configuration;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -24,8 +25,29 @@ namespace Sem.GenericHelpers
     /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem");</code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
-    public static class Factory
+    public class Factory
     {
+        /// <summary>
+        /// Gets or sets the default name space for class names that do not have a name space specified.
+        /// </summary>
+        public string DefaultNamespace { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Factory"/> class.
+        /// </summary>
+        public Factory()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Factory"/> class and set the default name space.
+        /// </summary>
+        /// <param name="defaultNamespace">the default name space for class names that do not have a name space specified.</param>
+        public Factory(string defaultNamespace)
+        {
+            this.DefaultNamespace = defaultNamespace;
+        }
+
         /// <summary>
         /// Create an object by using the class name.
         /// </summary>
@@ -33,7 +55,7 @@ namespace Sem.GenericHelpers
         /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
         /// <returns>a new instance of the class specified with the class name</returns>
         /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
-        public static T GetNewObject<T>(string className)
+        public T GetNewObject<T>(string className)
         {
             if (string.IsNullOrEmpty(className))
             {
@@ -48,10 +70,10 @@ namespace Sem.GenericHelpers
                     types[0] = types[0].Substring(0, types[0].Length - 2);
                 }
 
-                return (T)GetNewObject(types[0] + "`1", types[1]);
+                return (T)this.GetNewObject(types[0] + "`1", types[1]);
             }
 
-            return (T)GetNewObject(className);
+            return (T)this.GetNewObject(className);
         }
 
         /// <summary>
@@ -60,9 +82,9 @@ namespace Sem.GenericHelpers
         /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
         /// <returns>a new instance of the class specified with the class name</returns>
         /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
-        public static object GetNewObject(string className)
+        public object GetNewObject(string className)
         {
-            return Activator.CreateInstance(Type.GetType(EnrichClassName(className), true, true));
+            return Activator.CreateInstance(Type.GetType(this.EnrichClassName(className), true, true));
         }
 
         /// <summary>
@@ -71,10 +93,10 @@ namespace Sem.GenericHelpers
         /// <param name="genericClassName">full class name of the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
         /// <param name="className">full class name of the type parameter for the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
         /// <returns>a new instance of the class specified with the class name</returns>
-        public static object GetNewObject(string genericClassName, string className)
+        public object GetNewObject(string genericClassName, string className)
         {
-            var genericClassType = Type.GetType(EnrichClassName(genericClassName));
-            var classType = Type.GetType(EnrichClassName(className));
+            var genericClassType = Type.GetType(this.EnrichClassName(genericClassName));
+            var classType = Type.GetType(this.EnrichClassName(className));
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
@@ -86,20 +108,18 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="className">The class name that may need processing.</param>
         /// <returns>the processed full qualified class name</returns>
-        private static string EnrichClassName(string className)
+        private string EnrichClassName(string className)
         {
             if (!className.Contains(","))
             {
                 if (!className.Contains("."))
                 {
-                    // ReSharper disable PossibleNullReferenceException
-                    className = "Sem.Sync.SyncBase." + className;
-                    
-                    // ToDo: this need to be reinstalled with building the namespace name using the calling assemblies default name space
-                    // Assembly.GetAssembly(typeof(Factory)).FullName.Split(
-                    //    new[] { "," }, StringSplitOptions.RemoveEmptyEntries)[0] + "." + className;
+                    if (string.IsNullOrEmpty(this.DefaultNamespace))
+                    {
+                        throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
+                    }
 
-                    // ReSharper restore PossibleNullReferenceException
+                    className = this.DefaultNamespace + "." + className;
                 }
 
                 className = className + ", " + className.Substring(0, className.LastIndexOf(".", StringComparison.Ordinal));

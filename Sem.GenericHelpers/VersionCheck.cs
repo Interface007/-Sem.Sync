@@ -4,15 +4,14 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.Helpers
+namespace Sem.GenericHelpers
 {
     using System.Configuration;
     using System.IO;
     using System.Reflection;
     using System.Xml.Serialization;
 
-    using GenericHelpers;
-    using GenericHelpers.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Checks the version of a library.
@@ -22,12 +21,16 @@ namespace Sem.Sync.SyncBase.Helpers
         private const string VersionBaseUrl = "http://svenerikmatzen.info";
         private const string VersionXmlUrl = "/Content/Portals/0/sem.sync.version.xml";
 
+        private readonly string assemblyName;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionCheck"/> class and initializes the version information.
         /// </summary>
         public VersionCheck()
         {
-            var myVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            var assembly = Assembly.GetCallingAssembly().GetName();
+            var myVersion = assembly.Version;
+            assemblyName = assembly.Name;
 
             this.Build = myVersion.Build;
             this.Major = myVersion.Major;
@@ -71,8 +74,8 @@ namespace Sem.Sync.SyncBase.Helpers
         /// Performs the version check by comparing the own version information with the
         /// version stored at the URL described by <see cref="VersionBaseUrl"/> and <see cref="VersionXmlUrl"/>.
         /// </summary>
-        /// <returns>true if the version of this assembly is higher or euqal</returns>
-        public static bool Check()
+        /// <returns>true if the version of this assembly is higher or equal</returns>
+        public bool Check()
         {
             return Check(null);
         }
@@ -85,11 +88,11 @@ namespace Sem.Sync.SyncBase.Helpers
         /// query information from the user</param>
         /// <returns>true if the version of this assembly is higher or euqal</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "version check is pure optional - in case of a problem we simply skip this")]
-        public static bool Check(IUiInteraction uiProvider)
+        public bool Check(IUiInteraction uiProvider)
         {
             try
             {
-                var value = ConfigurationManager.AppSettings["Sem.Sync.SyncBase-VersionCheck"];
+                var value = ConfigurationManager.AppSettings[assemblyName + "-VersionCheck"];
                 bool doCheck;
                 if (bool.TryParse(value, out doCheck))
                 {

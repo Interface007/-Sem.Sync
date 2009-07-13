@@ -5,9 +5,10 @@
     using System.Windows.Forms;
     using System.Xml.Serialization;
 
+    using GenericHelpers.EventArgs;
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Binding;
-    using Sem.Sync.SyncBase.EventArgs;
     using Sem.Sync.SyncBase.Interfaces;
     
     using Sem.Sync.SharedUI.WinForms.Tools;

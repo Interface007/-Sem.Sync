@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.EventArgs
+namespace Sem.GenericHelpers.EventArgs
 {
     /// <summary>
     /// Event argument while processing some work
