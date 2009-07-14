@@ -16,9 +16,9 @@ namespace Sem.Sync.StatisticConnector
     using System.IO;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
 
     using SyncBase;
-    using SyncBase.DetailData;
 
     #endregion usings
 

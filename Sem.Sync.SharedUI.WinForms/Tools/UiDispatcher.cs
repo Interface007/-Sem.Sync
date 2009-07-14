@@ -12,6 +12,8 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
     using System.Collections.Generic;
     using System.Windows.Forms;
 
+    using GenericHelpers.Interfaces;
+
     using SyncBase;
     using SyncBase.Interfaces;
     using SyncBase.Merging;

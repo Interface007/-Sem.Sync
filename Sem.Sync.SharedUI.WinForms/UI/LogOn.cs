@@ -12,8 +12,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using System.Windows.Forms;
 
     using GenericHelpers.EventArgs;
-
-    using SyncBase.Interfaces;
+    using GenericHelpers.Interfaces;
 
     public partial class LogOn : Form
     {

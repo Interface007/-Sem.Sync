@@ -114,7 +114,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the command to execute.
         /// </summary>
-        public SyncCommand Command { get; set; }
+        public string Command { get; set; }
 
         /// <summary>
         /// Gets or sets the parameter for the command to be executed.

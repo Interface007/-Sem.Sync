@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.SyncBase.DetailData
+﻿namespace Sem.GenericHelpers.Entities
 {
     using Interfaces;
 

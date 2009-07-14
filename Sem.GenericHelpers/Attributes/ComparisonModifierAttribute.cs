@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.Attributes
+namespace Sem.GenericHelpers.Attributes
 {
     using System;
 

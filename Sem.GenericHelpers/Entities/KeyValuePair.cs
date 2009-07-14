@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-namespace Sem.Sync.SyncBase.DetailData
+namespace Sem.GenericHelpers.Entities
 {
     /// <summary>
     /// A key value pair with string type for both members.

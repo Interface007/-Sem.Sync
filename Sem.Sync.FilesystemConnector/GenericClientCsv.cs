@@ -19,9 +19,9 @@ namespace Sem.Sync.FilesystemConnector
     using System.Text;
 
     using GenericHelpers;
+    using GenericHelpers.Attributes;
 
     using SyncBase;
-    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
     #endregion usings

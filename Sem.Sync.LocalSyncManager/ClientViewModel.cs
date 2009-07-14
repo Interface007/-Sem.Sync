@@ -88,5 +88,15 @@ namespace Sem.Sync.LocalSyncManager
                 this.SyncCommands = (SyncCollection)formatter.Deserialize(file);
             }
         }
+
+        public void OpenWorkingFolder()
+        {
+            this.engine.Execute(
+                new SyncDescription
+                    {
+                        Command = SyncCommand.OpenDocument.ToString(), 
+                        CommandParameter = "{FS:WorkingFolder}"
+                    });
+        }
     }
 }

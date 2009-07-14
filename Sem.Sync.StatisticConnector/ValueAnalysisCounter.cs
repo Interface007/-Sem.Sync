@@ -15,6 +15,8 @@ namespace Sem.Sync.StatisticConnector
     using System.Globalization;
     using System.Linq;
 
+    using GenericHelpers.Entities;
+
     using SyncBase;
     using SyncBase.DetailData;
     using SyncBase.Helpers;

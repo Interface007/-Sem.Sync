@@ -12,6 +12,8 @@ namespace Sem.Sync.ConsoleClient
     using System;
     using System.Collections.Generic;
 
+    using GenericHelpers.Interfaces;
+
     using SyncBase;
     using SyncBase.Interfaces;
     using SyncBase.Merging;

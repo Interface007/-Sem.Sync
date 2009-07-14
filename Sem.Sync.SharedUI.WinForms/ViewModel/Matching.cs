@@ -13,6 +13,8 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     using System.Collections.Generic;
     using System.Linq;
 
+    using GenericHelpers.Entities;
+
     using SyncBase;
     using SyncBase.DetailData;
 

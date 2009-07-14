@@ -34,6 +34,7 @@ namespace Sem.Sync.SyncBase
     /// </remarks>
     public class SyncEngine : SyncComponent
     {
+        #region fields
         /// <summary>
         /// will be set when the first command is executed
         /// </summary>
@@ -48,11 +49,14 @@ namespace Sem.Sync.SyncBase
         /// the factory to create the classes
         /// </summary>
         private readonly Factory factory = new Factory("Sem.Sync.SyncBase");
+        #endregion
 
+        #region events
         /// <summary>
         /// Will be raised in the event of needed log on credentials
         /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
+        #endregion
 
         /// <summary>
         /// Gets or sets the object that will be responsible for routing UI interaction requests from connectors
@@ -139,10 +143,7 @@ namespace Sem.Sync.SyncBase
             try
             {
                 var command =
-                    factory.GetNewObject<ISyncCommand>(
-                        "Sem.Sync.SyncBase.Commands." +
-                        Enum.GetName(typeof(SyncCommand), item.Command) +
-                        ", Sem.Sync.SyncBase");
+                    factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
 
                 if (command != null)
                 {

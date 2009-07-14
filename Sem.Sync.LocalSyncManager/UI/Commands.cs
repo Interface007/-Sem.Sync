@@ -183,5 +183,15 @@ namespace Sem.Sync.LocalSyncManager.UI
             }
         }
         #endregion
+
+        private void openWorkingFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DataContext.OpenWorkingFolder();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -5,10 +5,8 @@
 // <author>Sven Erik Matzen</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase.Interfaces
+namespace Sem.GenericHelpers.Interfaces
 {
-    using GenericHelpers.Interfaces;
-
     /// <summary>
     /// Interface to implementation of HTTP communication class
     /// </summary>

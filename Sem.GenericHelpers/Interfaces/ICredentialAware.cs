@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.SyncBase.Interfaces
+﻿namespace Sem.GenericHelpers.Interfaces
 {
     /// <summary>
     /// Defines an interface to be able to set log on credentials.

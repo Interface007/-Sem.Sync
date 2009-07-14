@@ -10,8 +10,6 @@
 
 namespace Sem.GenericHelpers.Interfaces
 {
-    using Sync.SyncBase.Interfaces;
-
     /// <summary>
     /// Interface for objects that are able to route UI access to the correct objects
     /// </summary>

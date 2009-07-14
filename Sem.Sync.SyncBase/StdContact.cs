@@ -11,10 +11,10 @@ namespace Sem.Sync.SyncBase
     using System.IO;
     using System.Text;
 
-    using Attributes;
     using DetailData;
 
     using GenericHelpers;
+    using GenericHelpers.Attributes;
 
     using Helpers;
 

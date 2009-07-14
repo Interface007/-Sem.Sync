@@ -9,9 +9,9 @@ namespace Sem.Sync.SyncBase.DetailData
     using System;
     using System.Globalization;
     using System.Text.RegularExpressions;
-    
-    using Attributes;
-    
+
+    using GenericHelpers.Attributes;
+
     /// <summary>
     /// This class represents the information needed  to establish a phone connection
     /// to the parent entity. No information should be omitted.

@@ -8,6 +8,8 @@ namespace Sem.Sync.SyncBase.DetailData
 {
     using System.Collections.Generic;
 
+    using GenericHelpers.Entities;
+
     /// <summary>
     /// A replacements list does contain different lists of key value pairs that 
     /// define replacement configuration to use a standardized string for one or

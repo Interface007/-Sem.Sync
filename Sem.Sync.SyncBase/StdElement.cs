@@ -9,8 +9,9 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Xml.Serialization;
 
-    using Attributes;
     using DetailData;
+
+    using GenericHelpers.Attributes;
 
     /// <summary>
     /// This is the base class for contacts and calendar entries. It should contain everything that 

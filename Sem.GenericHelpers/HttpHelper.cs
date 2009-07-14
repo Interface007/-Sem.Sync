@@ -13,10 +13,9 @@ namespace Sem.GenericHelpers
     using System.Net;
     using System.Text;
 
-    using Interfaces;
+    using Entities;
 
-    using Sync.SyncBase.DetailData;
-    using Sync.SyncBase.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This class provides funktionality to get information from the web.
@@ -508,7 +507,7 @@ namespace Sem.GenericHelpers
                 }
                 catch (WebException ex)
                 {
-                    if ((this.UiDispatcher != null) &&
+                    if ((this.UiDispatcher != null) && (ex.Response != null) &&
                         ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
                         if (this.UiDispatcher.AskForLogOnCredentials(

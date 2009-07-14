@@ -73,7 +73,7 @@ namespace Sem.Sync.XingConnector
         /// <summary>
         /// regular expression to extract the URLs for the vCards
         /// </summary>
-        private const string PatternGetVCardUrls = ".app.vcard.op=vcard;scr_id=.*\" ";
+        private const string PatternGetVCardUrls = "(.app.vcard.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
 
         #endregion
 
@@ -171,9 +171,11 @@ namespace Sem.Sync.XingConnector
             foreach (var item in xing)
             {
                 // https://www.xing.com/app/vcard?op=vcard;scr_id=369754.ab12f8
-                var contact = this.DownloadContact(item, item.Replace("/", "_").Replace("?", "_"));
+                var contact = this.DownloadContact(item.Url, item.Url.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
+                    contact.Categories =
+                        new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }
             }
@@ -201,7 +203,7 @@ namespace Sem.Sync.XingConnector
         /// <param name="downloadUrl">url to the xing vcard</param>
         /// <param name="name">name that will be used for the cache to store the data for later review</param>
         /// <returns>the downloaded contact as a StdContact</returns>
-        private StdElement DownloadContact(string downloadUrl, string name)
+        private StdContact DownloadContact(string downloadUrl, string name)
         {
             var vCard = this.xingRequester.GetContentBinary(downloadUrl, name + ".txt");
             if (vCard == null)
@@ -219,12 +221,12 @@ namespace Sem.Sync.XingConnector
         /// Ready a list of vCard locations - this will also establish the logon
         /// </summary>
         /// <returns>a list of urls for the vCards to be downloaded</returns>
-        private List<string> GetUrlList()
+        private List<XingContactReference> GetUrlList()
         {
             // regular request    : https://www.xing.com/app/contact
             // with offset        : https://www.xing.com/app/contact?notags_filter=0;search_filter=;tags_filter=;offset=10
             // sample of vcard-url: /app/vcard?op=vcard;scr_id=364719.e3db1e
-            var result = new List<string>();
+            var result = new List<XingContactReference>();
             var offsetIndex = 0;
 
             LogProcessingEvent(Resources.uiReadingContactList, this.LogOnUserId);
@@ -274,7 +276,7 @@ namespace Sem.Sync.XingConnector
                 }
 
                 // we use regular expressions to extract the urls to the vCards
-                var vCardExtractor = new Regex(PatternGetVCardUrls);
+                var vCardExtractor = new Regex(PatternGetVCardUrls, RegexOptions.Singleline);
                 var matches = vCardExtractor.Matches(contactListContent);
 
                 // if we don't find more matches, we have finished, or an error did occure
@@ -288,7 +290,12 @@ namespace Sem.Sync.XingConnector
                 // add the matches to the result
                 foreach (var match in matches)
                 {
-                    result.Add(match.ToString().Substring(0, match.ToString().Length - 2));
+                    result.Add(
+                        new XingContactReference
+                            {
+                                Url = ((Match)match).Groups[1].ToString(),
+                                Tags = ((Match)match).Groups[2].ToString(),
+                            });
                 }
 
                 // we read 10 urls a time

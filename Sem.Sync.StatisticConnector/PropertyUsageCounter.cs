@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Globalization;
 
-    using SyncBase.DetailData;
+    using GenericHelpers.Entities;
+
     using SyncBase.Helpers;
 
     internal static class PropertyUsageCounter

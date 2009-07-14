@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using SyncBase.DetailData;
+    using GenericHelpers.Entities;
 
     public class SimpleStatisticResult
     {

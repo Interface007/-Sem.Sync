@@ -15,9 +15,9 @@ namespace Sem.GenericHelpers
     using System.Linq;
     using System.Xml.Serialization;
 
-    using Microsoft.Win32;
+    using Entities;
 
-    using Sync.SyncBase.DetailData;
+    using Microsoft.Win32;
 
     /// <summary>
     /// This class contains some "misc" tools

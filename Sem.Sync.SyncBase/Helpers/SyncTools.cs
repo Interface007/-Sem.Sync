@@ -13,11 +13,11 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    
-    using Attributes;
+
     using DetailData;
 
     using GenericHelpers;
+    using GenericHelpers.Attributes;
 
     using Merging;
 
