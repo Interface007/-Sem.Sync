@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
@@ -161,6 +162,12 @@ namespace Sem.Sync.SyncBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "this is truely a property, not a collection of bytes and not a method."),
         ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public byte[] PictureData { get; set; }
+
+        /// <summary>
+        /// Gets or sets Categories.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "without a setter this cannot be serialized using the xml serializer")]
+        public List<string> Categories { get; set; }
 
         /// <summary>
         /// Loads a standard contact from the file system.

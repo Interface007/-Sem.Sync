@@ -63,7 +63,7 @@ namespace Sem.Sync.XingConnector
         /// <summary>
         /// relative URL to query contact links to vCards
         /// </summary>
-        private const string HttpUrlListContent = "/app/contact?notags_filter=0;search_filter=;tags_filter=;offset={0}";
+        private const string HttpUrlListContent = "/app/contact?notags_filter=0;card_mode=0;search_filter=;tags_filter=;offset={0}";
         
         /// <summary>
         /// data string to be posted to logon into Xing
@@ -292,7 +292,7 @@ namespace Sem.Sync.XingConnector
                 }
 
                 // we read 10 urls a time
-                offsetIndex += 10;
+                offsetIndex += matches.Count;
             }
 
             return result;
