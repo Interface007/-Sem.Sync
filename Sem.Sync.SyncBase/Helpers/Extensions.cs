@@ -15,6 +15,7 @@ namespace Sem.Sync.SyncBase.Helpers
     using DetailData;
 
     using GenericHelpers;
+    using System.Text;
 
     /// <summary>
     /// This static class defines extension methods for variuos types. The extension methods
@@ -146,6 +147,10 @@ namespace Sem.Sync.SyncBase.Helpers
                             setValue = ((byte[])sourceValue).Length > 0;
                             break;
 
+                        case "List`1":
+                            ((List<string>)sourceValue).MergeListOfStrings((List<string>)targetValue);
+                            break;
+
                         case "SyncData":
                         case "PersonName":
                         case "AddressDetail":
@@ -168,6 +173,44 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return target;
+        }
+
+        public static string ConcatElementsToString(this List<string> sourceValue, string seperator)
+        {
+            var result = new StringBuilder();
+            var addSeperator = false;
+            foreach (var element in sourceValue)
+            {
+                if (addSeperator)
+                {
+                    result.Append(seperator);
+                }
+                result.Append(element);
+                addSeperator = true;
+            }
+            return result.ToString();
+        }
+
+        public static List<string> MergeListOfStrings(this List<string> targetValue, List<string> sourceValue)
+        {
+            if (targetValue == null)
+            {
+                targetValue = new List<string>();
+            }
+
+            if (sourceValue != null)
+            {
+                foreach (var sourceString in sourceValue)
+            {
+                var currentString = sourceString;
+                if (!targetValue.Exists(x => x.Equals(currentString, StringComparison.OrdinalIgnoreCase)))
+                {
+                    targetValue.Add(currentString);
+                }
+            }
+            }
+
+            return targetValue;
         }
 
         /// <summary>

@@ -3,7 +3,7 @@
 
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
-    <TargetStorePath>{FS:WorkingFolder}\*.xmlcontact</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Export from Outlook to file system">
@@ -13,12 +13,12 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Export from Xing to file system">
+  <!--<SyncDescription Name="Export from Xing to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.XingConnector.ContactClient</SourceConnector>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
-  </SyncDescription>
+  </SyncDescription>-->
 
   <SyncDescription Name="Normalize Xing (file system)">
     <Command>NormalizeContent</Command>
@@ -111,9 +111,9 @@
     <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
   </SyncDescription>
 
-  <!--<SyncDescription Name="Remove duplicate calendar entries">
+  <SyncDescription Name="Remove duplicate calendar entries">
   <Command>RemoveDuplicatesOnTarget</Command>
     <TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
-  </SyncDescription>-->
+  </SyncDescription>
 
 </ArrayOfSyncDescription>

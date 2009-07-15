@@ -194,6 +194,11 @@ namespace Sem.Sync.OutlookConnector
                 PictureData = pictureData
             };
 
+            if (!string.IsNullOrEmpty(outlookContact.Categories))
+            {
+                returnValue.Categories = mergeStrings(returnValue.Categories, outlookContact.Categories);
+            }
+
             if (string.IsNullOrEmpty(returnValue.PersonalAddressPrimary.ToString()))
             {
                 returnValue.PersonalAddressPrimary = null;
@@ -206,6 +211,25 @@ namespace Sem.Sync.OutlookConnector
 
             // return the newly generated standard contact
             return returnValue;
+        }
+
+        private static List<string> mergeStrings(List<string> list, string p)
+        {
+            if (list == null)
+            {
+                list = new List<string>();
+            }
+
+            foreach (var category in p.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var currentCategory = category;
+                if (!list.Exists(x => x.Equals(currentCategory, StringComparison.OrdinalIgnoreCase)))
+                {
+                    list.Add(currentCategory);
+                }
+            }
+
+            return list;
         }
 
         /// <summary>
@@ -430,116 +454,119 @@ namespace Sem.Sync.OutlookConnector
             // if we do not have a business address in the old address, we simply copy from the new one
             if (stdOldContact.BusinessAddressPrimary == null && stdNewContact.BusinessAddressPrimary != null)
             {
-                stdOldContact.BusinessAddressPrimary = stdNewContact.BusinessAddressPrimary;
+                stdOldContact.BusinessAddressPrimary = new AddressDetail();
                 dirty = true;
             }
-            else
+
+            if (stdOldContact.BusinessAddressPrimary != null && stdNewContact.BusinessAddressPrimary != null)
             {
-                if (stdOldContact.BusinessAddressPrimary != null && stdNewContact.BusinessAddressPrimary != null)
+                if (stdOldContact.BusinessAddressPrimary.CityName != stdNewContact.BusinessAddressPrimary.CityName)
                 {
-                    if (stdOldContact.BusinessAddressPrimary.CityName != stdNewContact.BusinessAddressPrimary.CityName)
-                    {
-                        outlookContact.BusinessAddressCity = stdNewContact.BusinessAddressPrimary.CityName;
-                        dirty = true;
-                    }
+                    outlookContact.BusinessAddressCity = stdNewContact.BusinessAddressPrimary.CityName;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.BusinessAddressPrimary.CountryName !=
-                        stdNewContact.BusinessAddressPrimary.CountryName)
-                    {
-                        outlookContact.BusinessAddressCountry = stdNewContact.BusinessAddressPrimary.CountryName;
-                        dirty = true;
-                    }
+                if (stdOldContact.BusinessAddressPrimary.CountryName !=
+                    stdNewContact.BusinessAddressPrimary.CountryName)
+                {
+                    outlookContact.BusinessAddressCountry = stdNewContact.BusinessAddressPrimary.CountryName;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.BusinessAddressPrimary.PostalCode !=
-                        stdNewContact.BusinessAddressPrimary.PostalCode)
-                    {
-                        outlookContact.BusinessAddressPostalCode = stdNewContact.BusinessAddressPrimary.PostalCode;
-                        dirty = true;
-                    }
+                if (stdOldContact.BusinessAddressPrimary.PostalCode !=
+                    stdNewContact.BusinessAddressPrimary.PostalCode)
+                {
+                    outlookContact.BusinessAddressPostalCode = stdNewContact.BusinessAddressPrimary.PostalCode;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.BusinessAddressPrimary.StateName != stdNewContact.BusinessAddressPrimary.StateName)
-                    {
-                        outlookContact.BusinessAddressState = stdNewContact.BusinessAddressPrimary.StateName;
-                        dirty = true;
-                    }
+                if (stdOldContact.BusinessAddressPrimary.StateName != stdNewContact.BusinessAddressPrimary.StateName)
+                {
+                    outlookContact.BusinessAddressState = stdNewContact.BusinessAddressPrimary.StateName;
+                    dirty = true;
+                }
 
-                    if (stdNewContact.BusinessAddressPrimary.Phone != null &&
-                        (stdOldContact.BusinessAddressPrimary.Phone == null ||
-                         stdOldContact.BusinessAddressPrimary.Phone.ToString() !=
-                         stdNewContact.BusinessAddressPrimary.Phone.ToString()))
-                    {
-                        outlookContact.BusinessTelephoneNumber = stdNewContact.BusinessAddressPrimary.Phone.ToString();
-                        dirty = true;
-                    }
+                if (stdNewContact.BusinessAddressPrimary.Phone != null &&
+                    (stdOldContact.BusinessAddressPrimary.Phone == null ||
+                     stdOldContact.BusinessAddressPrimary.Phone.ToString() !=
+                     stdNewContact.BusinessAddressPrimary.Phone.ToString()))
+                {
+                    outlookContact.BusinessTelephoneNumber = stdNewContact.BusinessAddressPrimary.Phone.ToString();
+                    dirty = true;
+                }
 
-                    if ((stdOldContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
-                        != (stdNewContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
-                    {
-                        outlookContact.BusinessAddressStreet = stdNewContact.BusinessAddressPrimary.StreetName;
-                        dirty = true;
-                    }
+                if (stdNewContact.Categories != null &&
+                    (stdOldContact.Categories == null ||
+                    stdNewContact.Categories.Count != stdOldContact.Categories.Count))
+                {
+                    outlookContact.Categories = stdNewContact.Categories.MergeListOfStrings(stdOldContact.Categories).ConcatElementsToString(";");
+                    dirty = true;
+                }
+
+                if ((stdOldContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                    != (stdNewContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
+                {
+                    outlookContact.BusinessAddressStreet = stdNewContact.BusinessAddressPrimary.StreetName;
+                    dirty = true;
                 }
             }
 
             // if we do not have a business personal in the old address, we simply copy from the new one
             if (stdOldContact.PersonalAddressPrimary == null && stdNewContact.PersonalAddressPrimary != null)
             {
-                stdOldContact.PersonalAddressPrimary = stdNewContact.PersonalAddressPrimary;
+                stdOldContact.PersonalAddressPrimary = new AddressDetail();
                 dirty = true;
             }
-            else
+            if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
             {
-                if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
+                if (stdOldContact.PersonalAddressPrimary.CityName !=
+                    stdNewContact.PersonalAddressPrimary.CityName)
                 {
-                    if (stdOldContact.PersonalAddressPrimary.CityName !=
-                        stdNewContact.PersonalAddressPrimary.CityName)
-                    {
-                        outlookContact.HomeAddressCity = stdNewContact.PersonalAddressPrimary.CityName;
-                        dirty = true;
-                    }
+                    outlookContact.HomeAddressCity = stdNewContact.PersonalAddressPrimary.CityName;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.PersonalAddressPrimary.CountryName !=
-                        stdNewContact.PersonalAddressPrimary.CountryName)
-                    {
-                        outlookContact.HomeAddressCountry = stdNewContact.PersonalAddressPrimary.CountryName;
-                        dirty = true;
-                    }
+                if (stdOldContact.PersonalAddressPrimary.CountryName !=
+                    stdNewContact.PersonalAddressPrimary.CountryName)
+                {
+                    outlookContact.HomeAddressCountry = stdNewContact.PersonalAddressPrimary.CountryName;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.PersonalAddressPrimary.PostalCode !=
-                        stdNewContact.PersonalAddressPrimary.PostalCode)
-                    {
-                        outlookContact.HomeAddressPostalCode = stdNewContact.PersonalAddressPrimary.PostalCode;
-                        dirty = true;
-                    }
+                if (stdOldContact.PersonalAddressPrimary.PostalCode !=
+                    stdNewContact.PersonalAddressPrimary.PostalCode)
+                {
+                    outlookContact.HomeAddressPostalCode = stdNewContact.PersonalAddressPrimary.PostalCode;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.PersonalAddressPrimary.StateName !=
-                        stdNewContact.PersonalAddressPrimary.StateName)
-                    {
-                        outlookContact.HomeAddressState = stdNewContact.PersonalAddressPrimary.StateName;
-                        dirty = true;
-                    }
+                if (stdOldContact.PersonalAddressPrimary.StateName !=
+                    stdNewContact.PersonalAddressPrimary.StateName)
+                {
+                    outlookContact.HomeAddressState = stdNewContact.PersonalAddressPrimary.StateName;
+                    dirty = true;
+                }
 
-                    if (stdOldContact.PersonalAddressPrimary.StreetName !=
-                        stdNewContact.PersonalAddressPrimary.StreetName)
-                    {
-                        outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
-                        dirty = true;
-                    }
+                if (stdOldContact.PersonalAddressPrimary.StreetName !=
+                    stdNewContact.PersonalAddressPrimary.StreetName)
+                {
+                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
+                    dirty = true;
+                }
 
-                    if (stdNewContact.PersonalAddressPrimary.Phone != null &&
-                        (stdOldContact.PersonalAddressPrimary.Phone == null ||
-                        stdOldContact.PersonalAddressPrimary.Phone.ToString() != stdNewContact.PersonalAddressPrimary.Phone.ToString()))
-                    {
-                        outlookContact.HomeTelephoneNumber = stdNewContact.PersonalAddressPrimary.Phone.ToString();
-                        dirty = true;
-                    }
+                if (stdNewContact.PersonalAddressPrimary.Phone != null &&
+                    (stdOldContact.PersonalAddressPrimary.Phone == null ||
+                    stdOldContact.PersonalAddressPrimary.Phone.ToString() != stdNewContact.PersonalAddressPrimary.Phone.ToString()))
+                {
+                    outlookContact.HomeTelephoneNumber = stdNewContact.PersonalAddressPrimary.Phone.ToString();
+                    dirty = true;
+                }
 
-                    if ((stdOldContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
-                        != (stdNewContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
-                    {
-                        outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
-                        dirty = true;
-                    }
+                if ((stdOldContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                    != (stdNewContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
+                {
+                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
+                    dirty = true;
                 }
             }
 

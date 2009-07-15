@@ -81,7 +81,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             }
 
             var targetId = this.currentTargetElement.Id;
-            var sourceProfileId = this.currentSourceElement.PersonalProfileIdentifiers.GetProfileId(this.Profile);
+            var sourceProfileId = (this.currentSourceElement.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile);
 
             // search for the element to match and set the profile id
             var element = this.GetBaselineElementById(targetId);
@@ -117,7 +117,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             return (from x in this.Source
                     join y in this.BaseLine on
-                    x.PersonalProfileIdentifiers.GetProfileId(this.Profile) equals
+                    (x.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile) equals
                     y.ProfileId.GetProfileId(this.Profile) into g
                     from y in g.DefaultIfEmpty()
                     where y == null
@@ -148,7 +148,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         internal List<MatchView> BaselineAsList()
         {
             var result = (from b in this.BaseLine
-                          join s in this.Source on b.ProfileId.GetProfileId(this.Profile) equals s.PersonalProfileIdentifiers.GetProfileId(this.Profile)
+                          join s in this.Source on 
+                            b.ProfileId.GetProfileId(this.Profile) equals 
+                            (s.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile)
                           join t in this.Target on b.Id equals t.Id
                           select new MatchView
                                      {
