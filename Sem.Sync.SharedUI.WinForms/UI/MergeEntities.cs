@@ -19,6 +19,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using SyncBase.Merging;
 
     using ViewModel;
+    using System.Globalization;
+    using System;
 
     public partial class MergeEntities : Form
     {
@@ -65,9 +67,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             {
                 if (conflict.ActionToDo == MergePropertyAction.CopySourceToTarget)
                 {
+                    var theConflict = conflict;
                     SetPropertyValue(
                         (StdContact)
-                        (from x in targetList where x.Id == conflict.TargetElement.Id select x).FirstOrDefault(),
+                        (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(),
                         conflict.PathToProperty,
                         conflict.SourcePropertyValue);
                 }
@@ -82,8 +85,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             var propType = typeof(StdContact);
             while (pathToProperty.Contains("."))
             {
-                var propName = pathToProperty.Substring(0, pathToProperty.IndexOf("."));
-                pathToProperty = pathToProperty.Substring(pathToProperty.IndexOf(".") + 1);
+                var nextSeperator = pathToProperty.IndexOf(".", StringComparison.Ordinal);
+                var propName = pathToProperty.Substring(0, nextSeperator);
+                pathToProperty = pathToProperty.Substring(nextSeperator + 1);
                 if (string.IsNullOrEmpty(propName))
                 {
                     continue;
@@ -102,11 +106,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             switch (destinationType)
             {
                 case "DateTime":
-                    memberToSet.SetValue(propObject, System.DateTime.Parse(newValue), null);
+                    memberToSet.SetValue(propObject, DateTime.Parse(newValue, CultureInfo.CurrentCulture), null);
                     break;
 
                 case "Int32":
-                    memberToSet.SetValue(propObject, System.Int32.Parse(newValue), null);
+                    memberToSet.SetValue(propObject, Int32.Parse(newValue, CultureInfo.CurrentCulture), null);
                     break;
 
                 default:
@@ -155,27 +159,27 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         private void SelectCompleteColumn(int columnIndex)
         {
-            foreach (var row in this.conflictGrid.Rows)
+            foreach (DataGridViewRow row in this.conflictGrid.Rows)
             {
-                foreach (var cell in ((DataGridViewRow)row).Cells)
+                foreach (DataGridViewTextBoxCell cell in row.Cells)
                 {
-                    ((DataGridViewTextBoxCell)cell).Style.BackColor = Color.White;
+                    cell.Style.BackColor = Color.White;
                 }
 
-                ((DataGridViewRow)row).Cells[columnIndex].Style.BackColor = Color.PaleGreen;
-                ((MergeView)((DataGridViewRow)row).DataBoundItem).Conflict.ActionToDo =
+                row.Cells[columnIndex].Style.BackColor = Color.PaleGreen;
+                ((MergeView)row.DataBoundItem).Conflict.ActionToDo =
                     columnIndex == 2
                         ? MergePropertyAction.CopySourceToTarget
                         : MergePropertyAction.KeepCurrentTarget;
             }
         }
 
-        private void btnCancel_Click(object sender, System.EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btnOk_Click(object sender, System.EventArgs e)
+        private void btnOk_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();

@@ -1,4 +1,10 @@
-﻿namespace Sem.GenericHelpers.Interfaces
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICredentialAware.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.GenericHelpers.Interfaces
 {
     /// <summary>
     /// Defines an interface to be able to set log on credentials.

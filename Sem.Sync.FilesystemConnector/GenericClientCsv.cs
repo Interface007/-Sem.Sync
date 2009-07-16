@@ -246,6 +246,10 @@ namespace Sem.Sync.FilesystemConnector
                         // we don't want to save byte arrays to the CSV file (may be some time)
                         break;
 
+                    case "List`1":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
                     default:
                         resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
                         break;

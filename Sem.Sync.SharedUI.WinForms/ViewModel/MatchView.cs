@@ -27,7 +27,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         public int CompareTo(MatchView other)
         {
-            return this.ToString().CompareTo(other.ToString());
+            return string.CompareOrdinal(this.ToString(), other.ToString());
         }
 
         #endregion

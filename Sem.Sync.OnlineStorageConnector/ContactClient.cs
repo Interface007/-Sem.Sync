@@ -27,6 +27,7 @@ namespace Sem.Sync.OnlineStorageConnector
             {
                 result.Add(contact);
             }
+
             return result;
         }
 

@@ -42,27 +42,27 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <summary>
         /// Displays a modal dialog to let the user match entities.
         /// </summary>
-        /// <param name="toMerge"> The list of "unknown" elements to merge that will provide the profile id. </param>
+        /// <param name="sourceList"> The list of "unknown" elements to merge that will provide the profile id. </param>
         /// <param name="targetList"> The list of "target" elements that should contribute the synchronization id. </param>
         /// <param name="baselineList"> The baseline list that will be updated to connect a synchronization id to profile ids. </param>
         /// <returns> The baseline list that has been updated to connect a synchronization id to profile ids. </returns>
-        public List<StdElement> PerformEntityMerge(List<StdElement> toMerge, List<StdElement> targetList, List<StdElement> baselineList)
+        public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
         {
             var ui = new MatchEntities();
-            return ui.PerformMerge(toMerge, targetList, baselineList);
+            return ui.PerformMerge(sourceList, targetList, baselineList);
         }
 
         /// <summary>
         /// requests the logon credential request for an online resource
         /// </summary>
-        /// <param name="source">the object that asks for the credentials</param>
+        /// <param name="client">the object that asks for the credentials</param>
         /// <param name="messageForUser">the message the user will see</param>
         /// <param name="logOnUserId">the preset user id if applicable</param>
         /// <param name="logOnPassword">the preset user password if applicable</param>
         /// <returns>true if the user did click the ok button</returns>
-        public bool AskForLogOnCredentials(ICredentialAware source, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
         {
-            return new LogOn().SetLogonCredentials(source, messageForUser, logOnUserId, logOnPassword);
+            return new LogOn().SetLogonCredentials(client, messageForUser, logOnUserId, logOnPassword);
         }
 
         /// <summary>

@@ -10,12 +10,12 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Xml.Serialization;
 
     using DetailData;
 
     using GenericHelpers;
-    using System.Text;
 
     /// <summary>
     /// This static class defines extension methods for variuos types. The extension methods
@@ -89,16 +89,14 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>the merged list</returns>
         public static T MergeHighEvidence<T>(this T target, T source, Type typeToUse)
         {
-            if (typeToUse == null)
-            {
-                typeToUse = typeof(T);
-            }
+            typeToUse = typeToUse ?? typeof(T);
 
             var members = typeToUse.GetProperties();
             foreach (var item in members)
             {
                 var setValue = false;
-                if (Equals(source, default(T)) || item.GetValue(source, null) == null)
+                if (Equals(source, default(T)) 
+                    || item.GetValue(source, null) == null)
                 {
                     continue;
                 }
@@ -173,28 +171,6 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return target;
-        }
-
-        /// <summary>
-        /// Gets a list of strings and concatenates them with a seperator.
-        /// </summary>
-        /// <param name="sourceValue">the list of source values in a list of strings</param>
-        /// <param name="seperator">the seperator to insert between the string items</param>
-        /// <returns>one string containing all provided substrings seperated by the specified seperator</returns>
-        public static string ConcatElementsToString(this List<string> sourceValue, string seperator)
-        {
-            var result = new StringBuilder();
-            var addSeperator = false;
-            foreach (var element in sourceValue)
-            {
-                if (addSeperator)
-                {
-                    result.Append(seperator);
-                }
-                result.Append(element);
-                addSeperator = true;
-            }
-            return result.ToString();
         }
 
         /// <summary>

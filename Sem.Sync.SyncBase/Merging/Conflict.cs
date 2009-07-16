@@ -128,12 +128,12 @@ namespace Sem.Sync.SyncBase.Merging
         public string PathToProperty { get; set; }
 
         /// <summary>
-        /// Describes the conflict - source or target changes or both.
+        /// Gets or sets the description of the conflict - source or target changes or both.
         /// </summary>
         public MergePropertyConflict PropertyConflict { get; set; }
 
         /// <summary>
-        /// Describes the action to be done to solve the conflict.
+        /// Gets or sets the description of the action to be done to solve the conflict.
         /// </summary>
         public MergePropertyAction ActionToDo { get; set; }
     }

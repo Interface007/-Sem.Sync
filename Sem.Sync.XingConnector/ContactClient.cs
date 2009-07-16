@@ -288,13 +288,13 @@ namespace Sem.Sync.XingConnector
                 LogProcessingEvent(Resources.uiAddingContacts, matches.Count, result.Count);
 
                 // add the matches to the result
-                foreach (var match in matches)
+                foreach (Match match in matches)
                 {
                     result.Add(
                         new XingContactReference
                             {
-                                Url = ((Match)match).Groups[1].ToString(),
-                                Tags = ((Match)match).Groups[2].ToString(),
+                                Url = match.Groups[1].ToString(),
+                                Tags = match.Groups[2].ToString(),
                             });
                 }
 

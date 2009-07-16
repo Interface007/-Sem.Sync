@@ -15,6 +15,8 @@ namespace Sem.Sync.OutlookConnector
     using System.IO;
     using System.Linq;
 
+    using GenericHelpers;
+
     using Microsoft.Office.Interop.Outlook;
     using Microsoft.Win32;
 

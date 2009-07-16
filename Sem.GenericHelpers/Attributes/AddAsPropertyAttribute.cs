@@ -12,7 +12,7 @@ namespace Sem.GenericHelpers.Attributes
     /// This attribute determines whether the method should be treated as a read only property
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public sealed class AddAsPropertyAttribute: Attribute
+    public sealed class AddAsPropertyAttribute : Attribute
     {
     }
 }

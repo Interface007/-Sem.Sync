@@ -14,6 +14,23 @@ namespace Sem.GenericHelpers.Entities
     public class KeyValuePair
     {
         /// <summary>
+        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// </summary>
+        public KeyValuePair()
+        {
+            
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// </summary>
+        public KeyValuePair(string key, string value)
+        {
+            this.Key = key;
+            this.Value = value;
+        }
+
+        /// <summary>
         /// the "key" of the entry - there's no funcational difference to the value
         /// member of this type
         /// </summary>
@@ -24,19 +41,5 @@ namespace Sem.GenericHelpers.Entities
         /// member of this type
         /// </summary>
         public string Value { get; set; }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
-        /// </summary>
-        public KeyValuePair(){}
-        
-        /// <summary>
-        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
-        /// </summary>
-        public KeyValuePair(string key, string value)
-        {
-            this.Key = key;
-            this.Value = value;
-        }
     }
 }

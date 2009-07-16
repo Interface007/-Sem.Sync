@@ -59,10 +59,10 @@ namespace Sem.Sync.FilesystemConnector
         /// Initializes a new instance of the <see cref="ContactClientVCards"/> class and checks the
         /// config file for configuration entries for this class.
         /// </summary>
-        /// <param name="savePicExternal"> determines if the picture should be saved externally, too </param>
-        public ContactClientVCards(bool savePicExternal)
+        /// <param name="savePictureExternal"> determines if the picture should be saved externally, too </param>
+        public ContactClientVCards(bool savePictureExternal)
         {
-            this.savePictureExternal = savePicExternal;
+            this.savePictureExternal = savePictureExternal;
         }
 
         /// <summary>

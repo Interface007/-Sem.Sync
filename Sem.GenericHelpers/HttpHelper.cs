@@ -14,9 +14,8 @@ namespace Sem.GenericHelpers
     using System.Text;
 
     using Entities;
-
     using Interfaces;
-
+    
     /// <summary>
     /// This class provides funktionality to get information from the web.
     /// </summary>
@@ -29,7 +28,7 @@ namespace Sem.GenericHelpers
     /// <list type="bullets">
     /// <item>GET and POST requests</item>
     /// <item>support for encoding post parameters using url encoding - see <see cref="EncodeForPost"/></item>
-    /// <item>getting data as text or binary - see <see cref="GetContent"/> and <see cref="GetContentBinary"/></item>
+    /// <item>getting data as text or binary - see <see cref="GetContent(string,string)"/> and <see cref="GetContentBinary"/></item>
     /// <item>optionally accepting untrusted certificates with http (to support fiddler debugging) - see <see cref="IgnoreCertificateError"/></item>
     /// <item>using the IE cookie cache or a "private" cookie cache - see <see cref="UseIeCookies"/></item>
     /// </list></para>
@@ -162,6 +161,25 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// replaces string.format parameters in a string using the encoded values of the supplied objects.
+        /// This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
+        /// </summary>
+        /// <param name="url">the string that should get the parameters</param>
+        /// <param name="values">the parameter objects that should be casted to strings, encoded and inserted into the string</param>
+        /// <returns>the processed data string</returns>
+        public static string PreparePostData(string url, params object[] values)
+        {
+            var encodedValues = new string[values.Length];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                encodedValues[i] = EncodeForPost(values[i].ToString());
+            }
+
+            return string.Format(CultureInfo.CurrentCulture, url, encodedValues);
+        }
+
+        /// <summary>
         /// encodes the input parameter to form-url-encoded
         /// </summary>
         /// <param name="parameter">the content to be encoded</param>
@@ -240,6 +258,18 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContent(string url, string name)
         {
+            return this.GetContent(url, name, string.Empty);
+        }
+
+        /// <summary>
+        /// Download content as text
+        /// </summary>
+        /// <param name="url">the url to access the content</param>
+        /// <param name="name">a name for caching - this should correspond to the url</param>
+        /// <param name="referer">the url of the referer to add</param>
+        /// <returns>the text result of the request</returns>
+        public string GetContent(string url, string name, string referer)
+        {
             var fileName = CachePathName(name);
             if (this.CacheReadAllowed(name, fileName))
             {
@@ -249,7 +279,7 @@ namespace Sem.GenericHelpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.GetResponseStream(this.BaseUrl + url))
+                using (var receiveStream = this.GetResponseStream(this.BaseUrl + url, referer))
                 {
                     result = ReadStreamToString(receiveStream);
                 }
@@ -495,8 +525,19 @@ namespace Sem.GenericHelpers
         /// <returns>a stream corresponding to the content at the uri</returns>
         private Stream GetResponseStream(string url)
         {
+            return this.GetResponseStream(url, string.Empty);
+        }
+
+        /// <summary>
+        /// Create a request and get the response stream for the GET method
+        /// </summary>
+        /// <param name="url">url to the page to get</param>
+        /// <param name="referer">specifies the referer (url this request came from) to add to the request</param>
+        /// <returns>a stream corresponding to the content at the uri</returns>
+        private Stream GetResponseStream(string url, string referer)
+        {
             HttpWebResponse objResponse;
-            var request = this.CreateRequest(url, "GET");
+            var request = this.CreateRequest(url, "GET", referer);
 
             while (true)
             {
@@ -507,7 +548,7 @@ namespace Sem.GenericHelpers
                 }
                 catch (WebException ex)
                 {
-                    if ((this.UiDispatcher != null) && (ex.Response != null) &&
+                    if ((this.UiDispatcher != null) && ex.Response != null &&
                         ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
                         if (this.UiDispatcher.AskForLogOnCredentials(
@@ -553,6 +594,18 @@ namespace Sem.GenericHelpers
         /// <returns>a web request object that can be used to read the url content</returns>
         private HttpWebRequest CreateRequest(string url, string method)
         {
+            return this.CreateRequest(url, method, string.Empty);
+        }
+
+        /// <summary>
+        /// create the request object
+        /// </summary>
+        /// <param name="url">url to the resource we want to read</param>
+        /// <param name="method">POST / GET or whatever</param>
+        /// <param name="referer">the referer to add to the header</param>
+        /// <returns>a web request object that can be used to read the url content</returns>
+        private HttpWebRequest CreateRequest(string url, string method, string referer)
+        {
             // add base url, if there is no protocol identifier
             var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : this.BaseUrl + url;
 
@@ -562,6 +615,10 @@ namespace Sem.GenericHelpers
             request.AllowAutoRedirect = true;
             request.UseDefaultCredentials = true;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            if (!string.IsNullOrEmpty(referer))
+            {
+                request.Referer = referer;
+            }
 
             // we have some common headers that we might use (including cookies)
             if (this.UseIeCookies)

@@ -12,6 +12,7 @@ namespace Sem.Sync.FacebookConnector
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using Facebook.Components;
 
@@ -19,7 +20,6 @@ namespace Sem.Sync.FacebookConnector
 
     using SyncBase;
     using SyncBase.DetailData;
-    using System.Globalization;
 
     /// <summary>
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not

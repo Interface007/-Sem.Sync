@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -174,6 +175,11 @@ namespace Sem.GenericHelpers
                                     .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
                                     .GetValue(objectToReadFrom, null),
                                 pathToProperty.Substring(pathToProperty.IndexOf('.') + 1));
+                    }
+
+                    if (type.Name == "List`1")
+                    {
+                        ((List<string>)type.GetProperty(pathToProperty).GetValue(objectToReadFrom, null)).ConcatElementsToString(",");
                     }
 
                     return
