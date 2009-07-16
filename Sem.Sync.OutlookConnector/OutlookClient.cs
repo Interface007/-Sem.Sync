@@ -196,7 +196,7 @@ namespace Sem.Sync.OutlookConnector
 
             if (!string.IsNullOrEmpty(outlookContact.Categories))
             {
-                returnValue.Categories = mergeStrings(returnValue.Categories, outlookContact.Categories);
+                returnValue.Categories = MergeStrings(returnValue.Categories, outlookContact.Categories);
             }
 
             if (string.IsNullOrEmpty(returnValue.PersonalAddressPrimary.ToString()))
@@ -211,25 +211,6 @@ namespace Sem.Sync.OutlookConnector
 
             // return the newly generated standard contact
             return returnValue;
-        }
-
-        private static List<string> mergeStrings(List<string> list, string p)
-        {
-            if (list == null)
-            {
-                list = new List<string>();
-            }
-
-            foreach (var category in p.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                var currentCategory = category;
-                if (!list.Exists(x => x.Equals(currentCategory, StringComparison.OrdinalIgnoreCase)))
-                {
-                    list.Add(currentCategory);
-                }
-            }
-
-            return list;
         }
 
         /// <summary>
@@ -347,7 +328,42 @@ namespace Sem.Sync.OutlookConnector
                 throw new ArgumentNullException("stdCalendarItem");
             }
 
+            if (contactsList == null)
+            {
+                throw new ArgumentNullException("contactsList");
+            }
+
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Merges a semicolon seperated sequence of strings into a list of strings.
+        /// </summary>
+        /// <param name="list">The list of strings that should get the new entries.</param>
+        /// <param name="semicolonSeperatedStrings">The new strings to be added seperated by a semicolon.</param>
+        /// <returns>The list with added strings</returns>
+        private static List<string> MergeStrings(List<string> list, string semicolonSeperatedStrings)
+        {
+            if (list == null)
+            {
+                list = new List<string>();
+            }
+
+            if (string.IsNullOrEmpty(semicolonSeperatedStrings))
+            {
+                return list;
+            }
+
+            foreach (var category in semicolonSeperatedStrings.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var currentCategory = category;
+                if (!list.Exists(x => x.Equals(currentCategory, StringComparison.OrdinalIgnoreCase)))
+                {
+                    list.Add(currentCategory);
+                }
+            }
+
+            return list;
         }
 
         /// <summary>
@@ -517,6 +533,7 @@ namespace Sem.Sync.OutlookConnector
                 stdOldContact.PersonalAddressPrimary = new AddressDetail();
                 dirty = true;
             }
+
             if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
             {
                 if (stdOldContact.PersonalAddressPrimary.CityName !=
