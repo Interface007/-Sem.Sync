@@ -11,7 +11,8 @@
     <RootNamespace>Sem.Sync.OnlineStorage</RootNamespace>
     <AssemblyName>Sem.Sync.OnlineStorage</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <SilverlightApplicationList>{AF01B376-4A94-4A1E-A469-E4DCC30811F9}|..\ContactViewer\ContactViewer.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>
+    </SilverlightApplicationList>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -62,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientBin\ContactViewer.xap" />
     <Content Include="ContactService.svc" />
     <Content Include="ContactViewerTestPage.aspx" />
     <Content Include="ContactViewerTestPage.html" />
