@@ -1,8 +1,8 @@
 ﻿namespace Sem.Sync.SyncBase.DetailData
 {
-    ///<summary>
+    /// <summary>
     /// Identifies the calendar provider/type
-    ///</summary>
+    /// </summary>
     public enum CalendarIdentifierType
     {
         /// <summary>

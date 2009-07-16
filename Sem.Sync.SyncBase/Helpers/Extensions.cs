@@ -175,6 +175,12 @@ namespace Sem.Sync.SyncBase.Helpers
             return target;
         }
 
+        /// <summary>
+        /// Gets a list of strings and concatenates them with a seperator.
+        /// </summary>
+        /// <param name="sourceValue">the list of source values in a list of strings</param>
+        /// <param name="seperator">the seperator to insert between the string items</param>
+        /// <returns>one string containing all provided substrings seperated by the specified seperator</returns>
         public static string ConcatElementsToString(this List<string> sourceValue, string seperator)
         {
             var result = new StringBuilder();
@@ -191,6 +197,12 @@ namespace Sem.Sync.SyncBase.Helpers
             return result.ToString();
         }
 
+        /// <summary>
+        /// merges two lists of strings by omitting the strings that are already present in the target list
+        /// </summary>
+        /// <param name="targetValue">the list into which should be merged (will be modified!)</param>
+        /// <param name="sourceValue">the list with items to be inserted (will not be modified)</param>
+        /// <returns>the <paramref name="targetValue"/></returns>
         public static List<string> MergeListOfStrings(this List<string> targetValue, List<string> sourceValue)
         {
             if (targetValue == null)
@@ -216,21 +228,11 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Expands the methods of a List my adding a serialization to disk
         /// </summary>
-        /// <typeparam name="T">
-        /// the type of elements in this list
-        /// </typeparam>
-        /// <param name="elementList">
-        /// the list instance that should be sezialized
-        /// </param>
-        /// <param name="destinationFile">
-        /// the target file for the serialization
-        /// </param>
-        /// <param name="extraTypes">
-        /// you need to add types that are used in the list here
-        /// </param>
-        /// <returns>
-        /// The saved list.
-        /// </returns>
+        /// <typeparam name="T">the type of elements in this list</typeparam>
+        /// <param name="elementList">the list instance that should be sezialized</param>
+        /// <param name="destinationFile">the target file for the serialization</param>
+        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <returns>The saved list.</returns>
         public static List<T> SaveTo<T>(this List<T> elementList, string destinationFile, Type[] extraTypes)
         {
             if (destinationFile == null)
@@ -252,21 +254,11 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Expands the methods of a List my adding a serialization to disk
         /// </summary>
-        /// <typeparam name="T">
-        /// the type of elements in this list
-        /// </typeparam>
-        /// <param name="elementList">
-        /// the list instance that should be sezialized
-        /// </param>
-        /// <param name="sourceFile">
-        /// the target file for the serialization
-        /// </param>
-        /// <param name="extraTypes">
-        /// you need to add types that are used in the list here
-        /// </param>
-        /// <returns>
-        /// The list loaded from the file system.
-        /// </returns>
+        /// <typeparam name="T">the type of elements in this list</typeparam>
+        /// <param name="elementList">the list instance that should be sezialized</param>
+        /// <param name="sourceFile">the target file for the serialization</param>
+        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <returns>The list loaded from the file system.</returns>
         public static List<T> LoadFrom<T>(this List<T> elementList, string sourceFile, Type[] extraTypes)
         {
             if (sourceFile == null)

@@ -28,6 +28,11 @@ namespace Sem.Sync.OutlookConnector
     public static class OutlookClient
     {
         /// <summary>
+        /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
+        /// </summary>
+        private static int GCRelevantCalls;
+
+        /// <summary>
         /// This is the name of the custom outlook field for the synchronization id
         /// </summary>
         private const string ContactIdOutlookPropertyName = "SemSyncId";
@@ -51,6 +56,7 @@ namespace Sem.Sync.OutlookConnector
                 if (item is ContactItem)
                 {
                     contactsList.Add(new ContactsItemContainer { Item = (ContactItem)item });
+                    GCRelevantCall();
                 }
             }
 
@@ -65,8 +71,7 @@ namespace Sem.Sync.OutlookConnector
         /// <param name="skipIfExisting"> The skip if existing. </param>
         /// <param name="contactsList"> The contacts list. </param>
         /// <returns> a value indicating if the contact has been saved </returns>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
+        /// <exception cref="ArgumentNullException">in case of contactsEnum or element being null</exception>
         public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, List<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
@@ -97,9 +102,11 @@ namespace Sem.Sync.OutlookConnector
             if (ConvertToNativeContact(element, outlookContact))
             {
                 outlookContact.Save();
+                GCRelevantCall();
                 return true;
             }
 
+            GCRelevantCall();
             return false;
         }
 
@@ -364,6 +371,20 @@ namespace Sem.Sync.OutlookConnector
             }
 
             return list;
+        }
+
+        /// <summary>
+        /// Counts GC relevant calls and executes the garbage collection each 100 calls. This is in 
+        /// hope of preventing exceptions caused by known outlook memory leaks.
+        /// </summary>
+        private static void GCRelevantCall()
+        {
+            GCRelevantCalls++;
+            if (GCRelevantCalls > 100)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
         /// <summary>
@@ -668,6 +689,7 @@ namespace Sem.Sync.OutlookConnector
                     try
                     {
                         attachement.SaveAsFile(fullName);
+                        GCRelevantCall();
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
@@ -701,6 +723,9 @@ namespace Sem.Sync.OutlookConnector
         /// </summary>
         private static void CleanupTempFolder()
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\12.0\\Outlook\\Security");
             if (reg == null)
             {
@@ -729,15 +754,9 @@ namespace Sem.Sync.OutlookConnector
         /// <summary>
         /// Opens a contact folder by name by iterating through the path.
         /// </summary>
-        /// <param name="outlookFolder">
-        /// The outlook folder.
-        /// </param>
-        /// <param name="folderName">
-        /// The folder name.
-        /// </param>
-        /// <returns>
-        /// Returns a MAPI folder specified by the folder name.
-        /// </returns>
+        /// <param name="outlookFolder">The outlook folder.</param>
+        /// <param name="folderName">The folder name.</param>
+        /// <returns>Returns a MAPI folder specified by the folder name.</returns>
         private static MAPIFolder GetOutlookContactsFolder(MAPIFolder outlookFolder, string folderName)
         {
             // Get all the Contacts Folder
@@ -760,15 +779,9 @@ namespace Sem.Sync.OutlookConnector
         /// <summary>
         /// helper funtion to parse a path.
         /// </summary>
-        /// <param name="path">
-        /// The path to be parsed.
-        /// </param>
-        /// <param name="returnPath">
-        /// The remaining part of the path.
-        /// </param>
-        /// <returns>
-        /// the next part of the path
-        /// </returns>
+        /// <param name="path">The path to be parsed.</param>
+        /// <param name="returnPath">The remaining part of the path.</param>
+        /// <returns>the next part of the path</returns>
         private static string GetNextPathPart(string path, out string returnPath)
         {
             var result = string.Empty;

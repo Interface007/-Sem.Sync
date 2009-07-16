@@ -16,6 +16,11 @@ namespace Sem.Sync.SyncBase.DetailData
     public class MatchingEntry : StdElement
     {
         /// <summary>
+        /// Gets or sets a set of profile identifiers.
+        /// </summary>
+        public ProfileIdentifiers ProfileId { get; set; }
+
+        /// <summary>
         /// This method is not implemented and will trow a <see cref="NotImplementedException"/>.
         /// In a <see cref="MatchingEntry"/> there is nothing to normalize.
         /// </summary>
@@ -23,10 +28,5 @@ namespace Sem.Sync.SyncBase.DetailData
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Gets or sets a set of profile identifiers.
-        /// </summary>
-        public ProfileIdentifiers ProfileId { get; set; }
     }
 }

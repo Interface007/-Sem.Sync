@@ -20,7 +20,7 @@ namespace Sem.Sync.SyncBase.DetailData
     public class ReplacementLists
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="ReplacementLists"/> class.
+        /// Initializes a new instance of the <see cref="ReplacementLists"/> class.
         /// </summary>
         public ReplacementLists()
         {
@@ -29,12 +29,12 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
-        /// The list of permutations of company names with replacement strings.
+        /// Gets or sets the list of permutations of company names with replacement strings.
         /// </summary>
         public List<KeyValuePair> BusinessCompanyName { get; set; }
 
         /// <summary>
-        /// The list of permutations of business URLs with replacement strings.
+        /// Gets or sets the list of permutations of business URLs with replacement strings.
         /// </summary>
         public List<KeyValuePair> BusinessHomepage { get; set; }
     }

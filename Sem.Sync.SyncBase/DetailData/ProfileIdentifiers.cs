@@ -17,12 +17,12 @@ namespace Sem.Sync.SyncBase.DetailData
         Default = 0,
 
         /// <summary>
-        /// www.xing.com
+        /// target system: www.xing.com
         /// </summary>
         XingProfileId,
 
         /// <summary>
-        /// www.facebook.com
+        /// target system: www.facebook.com
         /// </summary>
         FacebookProfileId,
 
@@ -39,27 +39,14 @@ namespace Sem.Sync.SyncBase.DetailData
     public class ProfileIdentifiers
     {
         /// <summary>
-        /// The profile id of the persons xing membership.
+        /// Initializes an new instance of the <see cref="ProfileIdentifiers"/> class.
         /// </summary>
-        public string XingProfileId { get; set; }
+        public ProfileIdentifiers()
+        {
+        }
 
         /// <summary>
-        /// The id of the persons Facebook profile.
-        /// </summary>
-        public string FacebookProfileId { get; set; }
-
-        /// <summary>
-        /// A full qualified active directory user name (including the domain)
-        /// </summary>
-        public string ActiveDirectoryId { get; set; }
-
-        /// <summary>
-        /// Creates and initializes an empty instance of the <see cref="ProfileIdentifiers"/> class.
-        /// </summary>
-        public ProfileIdentifiers() { }
-
-        /// <summary>
-        /// Creates and initializes an instance of the <see cref="ProfileIdentifiers"/> class and
+        /// Initializes an new instance of the <see cref="ProfileIdentifiers"/> class and
         /// sets one of the identifiers.
         /// </summary>
         /// <param name="type">the identifier to set</param>
@@ -83,6 +70,21 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
+        /// Gets or sets the profile id of the persons xing membership.
+        /// </summary>
+        public string XingProfileId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the persons Facebook profile.
+        /// </summary>
+        public string FacebookProfileId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a full qualified active directory user name (including the domain)
+        /// </summary>
+        public string ActiveDirectoryId { get; set; }
+
+        /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
         /// <param name="type">the type of identifier to read</param>
@@ -99,8 +101,8 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.XingProfileId:
                     return this.XingProfileId;
-
             }
+
             return string.Empty;
         }
 

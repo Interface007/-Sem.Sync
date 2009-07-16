@@ -15,7 +15,7 @@ namespace Sem.Sync.SyncBase.DetailData
     public class InstantMessengerAddresses
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="InstantMessengerAddresses"/> class 
+        /// Initializes a new instance of the <see cref="InstantMessengerAddresses"/> class 
         /// that is "empty" (does not contain addressing information).
         /// </summary>
         public InstantMessengerAddresses()
@@ -23,7 +23,7 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="InstantMessengerAddresses"/> class that 
+        /// Initializes a new instance of the <see cref="InstantMessengerAddresses"/> class that 
         /// contains already addressing information.
         /// </summary>
         /// <param name="imAddresses">A string representation of the address. E.g. MSN-Messenger addresses 
