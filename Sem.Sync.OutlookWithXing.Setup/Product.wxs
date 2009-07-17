@@ -62,8 +62,10 @@
               <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
               <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
+              <File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />
               <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
               <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
+              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
             </Component>
 
             <!-- the help files are optional -->

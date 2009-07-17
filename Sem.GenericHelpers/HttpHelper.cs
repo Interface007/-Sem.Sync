@@ -279,7 +279,7 @@ namespace Sem.GenericHelpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.GetResponseStream(this.BaseUrl + url, referer))
+                using (var receiveStream = this.GetResponseStream(url, referer))
                 {
                     result = ReadStreamToString(receiveStream);
                 }
@@ -308,7 +308,7 @@ namespace Sem.GenericHelpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.PostResponseStream(this.BaseUrl + url, postData))
+                using (var receiveStream = this.PostResponseStream(url, postData))
                 {
                     result = ReadStreamToString(receiveStream);
                 }
@@ -551,6 +551,8 @@ namespace Sem.GenericHelpers
                     if ((this.UiDispatcher != null) && ex.Response != null &&
                         ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
+                        request = this.CreateRequest(url, "GET", referer);
+
                         if (this.UiDispatcher.AskForLogOnCredentials(
                             this.proxyCredentials,
                             "The proxy server needs credentials.",
@@ -607,7 +609,7 @@ namespace Sem.GenericHelpers
         private HttpWebRequest CreateRequest(string url, string method, string referer)
         {
             // add base url, if there is no protocol identifier
-            var requestUrl = (url.Contains("http:") || url.Contains("https:")) ? url : this.BaseUrl + url;
+            var requestUrl = url.Contains("://") ? url : this.BaseUrl + url;
 
             // build up request and response
             var request = (HttpWebRequest)WebRequest.Create(requestUrl);

@@ -85,9 +85,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             var propType = typeof(StdContact);
             while (pathToProperty.Contains("."))
             {
-                var nextSeperator = pathToProperty.IndexOf(".", StringComparison.Ordinal);
-                var propName = pathToProperty.Substring(0, nextSeperator);
-                pathToProperty = pathToProperty.Substring(nextSeperator + 1);
+                var nextSeparator = pathToProperty.IndexOf(".", StringComparison.Ordinal);
+                var propName = pathToProperty.Substring(0, nextSeparator);
+                pathToProperty = pathToProperty.Substring(nextSeparator + 1);
                 if (string.IsNullOrEmpty(propName))
                 {
                     continue;

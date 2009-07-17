@@ -28,8 +28,6 @@ namespace Sem.Sync.OutlookConnector
     /// </summary>
     public class CalendarClient : StdClient
     {
-        #region interface IClientBase
-
         /// <summary>
         /// Gets the ui friendly name of this connector
         /// </summary>
@@ -48,12 +46,12 @@ namespace Sem.Sync.OutlookConnector
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
 
                 LogProcessingEvent("preparing list ...");
                 var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
@@ -135,13 +133,13 @@ namespace Sem.Sync.OutlookConnector
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
@@ -162,7 +160,7 @@ namespace Sem.Sync.OutlookConnector
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
                             if (calendarStdItem != null)
                             {
-                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss") + " - " + calendarStdItem.Subject;
+                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
@@ -201,8 +199,8 @@ namespace Sem.Sync.OutlookConnector
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "adding {0} elements ...", elements.Count));
 
             // create outlook instance and get the folder
-            var outlookNamespace = OutlookClient.GetNameSpace();
-            var appointmentEnum = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var appointmentEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
 
             // extract the contacts that do already exist
             var appointmentList = OutlookClient.GetContactsList(appointmentEnum);
@@ -221,6 +219,5 @@ namespace Sem.Sync.OutlookConnector
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "{0} elements added", added));
         }
-        #endregion
     }
 }

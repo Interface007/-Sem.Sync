@@ -78,9 +78,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ConsoleClient", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers", "Sem.GenericHelpers\Sem.GenericHelpers.csproj", "{930EBD41-0114-4B39-A89A-EBCD7C81931F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.WerKenntWenConnector", "Sem.Sync.WerKenntWenConnector\Sem.Sync.WerKenntWenConnector.csproj", "{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 22
+		SccNumberOfProjects = 23
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -168,6 +170,10 @@ Global
 		SccProjectTopLevelParentUniqueName21 = SemSync.sln
 		SccProjectName21 = Sem.GenericHelpers
 		SccLocalPath21 = Sem.GenericHelpers
+		SccProjectUniqueName22 = Sem.Sync.WerKenntWenConnector\\Sem.Sync.WerKenntWenConnector.csproj
+		SccProjectTopLevelParentUniqueName22 = SemSync.sln
+		SccProjectName22 = Sem.Sync.WerKenntWenConnector
+		SccLocalPath22 = Sem.Sync.WerKenntWenConnector
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -345,7 +351,6 @@ Global
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C59830A8-5F30-4AC1-A862-473D9911B08A}.Release|x86.ActiveCfg = Release|Any CPU
@@ -389,6 +394,16 @@ Global
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -402,6 +417,7 @@ Global
 		{C1B81350-1893-49FF-9582-470C46C2729A} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{1068FBA6-60F2-4A39-9941-CCD6447313E8} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}

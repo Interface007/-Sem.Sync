@@ -39,19 +39,19 @@ namespace Sem.Sync.OutlookConnector2003
         /// <summary>
         /// detects duplicates and removes them from the calendar
         /// </summary>
-        /// <param name="pathToStore">the path to the outlook folder to process</param>
-        public override void RemoveDuplicates(string pathToStore)
+        /// <param name="clientFolderPath">the path to the outlook folder to process</param>
+        public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 LogProcessingEvent("preparing list ...");
                 var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
@@ -133,13 +133,13 @@ namespace Sem.Sync.OutlookConnector2003
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
@@ -160,7 +160,7 @@ namespace Sem.Sync.OutlookConnector2003
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
                             if (calendarStdItem != null)
                             {
-                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss") + " - " + calendarStdItem.Subject;
+                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
@@ -199,8 +199,8 @@ namespace Sem.Sync.OutlookConnector2003
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "adding {0} elements ...", elements.Count));
 
             // create outlook instance and get the folder
-            var outlookNamespace = OutlookClient.GetNameSpace();
-            var appointmentEnum = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var appointmentEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
 
             // extract the contacts that do already exist
             var appointmentList = OutlookClient.GetContactsList(appointmentEnum);

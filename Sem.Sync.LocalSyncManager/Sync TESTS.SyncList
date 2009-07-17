@@ -2,14 +2,12 @@
 <ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<SyncDescription Name="Match entries manually">
-		<Command>MatchManually</Command>
+		<Command>CopyAll</Command>
 		<CommandParameter></CommandParameter>
-		<SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-		<SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
+		<SourceConnector>Sem.Sync.WerKenntWenConnector.ContactClient</SourceConnector>
+		<SourceStorePath>{FS:WorkingFolder}\wkw.xmlcontact</SourceStorePath>
 		<TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-		<TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
-		<BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
-		<BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlcontact</BaselineStorePath>
+		<TargetStorePath>{FS:WorkingFolder}\wkw.xmlcontact</TargetStorePath>
 	</SyncDescription>
 
 </ArrayOfSyncDescription>

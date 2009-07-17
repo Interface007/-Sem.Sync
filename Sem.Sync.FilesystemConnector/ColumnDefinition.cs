@@ -41,6 +41,7 @@ namespace Sem.Sync.FilesystemConnector
         /// </summary>
         /// <param name="selector">The path of the property.</param>
         /// <param name="formatString">The formatting for the values</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "string", Justification = "This definitely is a string")]
         public ColumnDefinition(string selector, string formatString)
             : this(selector)
         {

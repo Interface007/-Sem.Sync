@@ -48,12 +48,12 @@ namespace Sem.Sync.OutlookConnector
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
 
                 LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
@@ -152,13 +152,13 @@ namespace Sem.Sync.OutlookConnector
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
@@ -224,8 +224,8 @@ namespace Sem.Sync.OutlookConnector
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
 
             // create outlook instance and get the folder
-            var outlookNamespace = OutlookClient.GetNameSpace();
-            var contactsEnum = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
 
             // extract the contacts that do already exist
             var contactsList = OutlookClient.GetContactsList(contactsEnum);

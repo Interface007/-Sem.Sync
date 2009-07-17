@@ -263,7 +263,7 @@ namespace Sem.Sync.OutlookConnector
         /// <returns>
         /// a reference to the MAPI folder
         /// </returns>
-        public static MAPIFolder GetOutlookMAPIFolder(_NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
+        public static MAPIFolder GetOutlookMapiFolder(_NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
         {
             if (outlookNamespace == null)
             {
@@ -299,7 +299,7 @@ namespace Sem.Sync.OutlookConnector
         /// <returns>
         /// Returns the namespace from outlook.
         /// </returns>
-        public static NameSpace GetNameSpace()
+        public static NameSpace GetNamespace()
         {
             var outlookApplication = new Application();
 
@@ -309,7 +309,7 @@ namespace Sem.Sync.OutlookConnector
             // Logon. If an outlook app is already open, then it will reuse that session. Else
             // it will perform a fresh logon. If you have profiles and passwords for the same, 
             // you need to enter the passwords in the dialogbox when they are shown
-            outlookNamespace.Logon("SR", string.Empty, true, true);
+            outlookNamespace.Logon(string.Empty, string.Empty, true, true);
 
             return outlookNamespace;
         }
@@ -789,7 +789,7 @@ namespace Sem.Sync.OutlookConnector
             var result = string.Empty;
             if (path != null)
             {
-                while (path.StartsWith(@"\"))
+                while (path.StartsWith(@"\", StringComparison.Ordinal))
                 {
                     path = path.Substring(1);
                 }

@@ -39,7 +39,7 @@ namespace Sem.Sync.OutlookConnector
         /// <summary>
         /// backing variable of the contacts unique id
         /// </summary>
-        private string id;
+        private string iD;
 
         /// <summary>
         /// Gets or sets the cached original contact item
@@ -86,13 +86,13 @@ namespace Sem.Sync.OutlookConnector
         {
             get
             {
-                if (this.id == null)
+                if (this.iD == null)
                 {
                     var prop = this.Item.UserProperties[ContactIdOutlookPropertyName];
-                    this.id = (prop == null) ? string.Empty : prop.Value.ToString();
+                    this.iD = (prop == null) ? string.Empty : prop.Value.ToString();
                 }
 
-                return this.id;
+                return this.iD;
             }
         }
     }

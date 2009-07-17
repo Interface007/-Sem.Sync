@@ -42,18 +42,18 @@ namespace Sem.Sync.OutlookConnector2003
         /// detects duplicates and removes them from the contacts
         /// </summary>
         /// <param name="pathToStore">the outlook path that should be searched for duplicates</param>
-        public override void RemoveDuplicates(string pathToStore)
+        public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
                 LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
@@ -152,13 +152,13 @@ namespace Sem.Sync.OutlookConnector2003
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNameSpace();
+            var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
@@ -224,8 +224,8 @@ namespace Sem.Sync.OutlookConnector2003
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
 
             // create outlook instance and get the folder
-            var outlookNamespace = OutlookClient.GetNameSpace();
-            var contactsEnum = OutlookClient.GetOutlookMAPIFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
 
             // extract the contacts that do already exist
             var contactsList = OutlookClient.GetContactsList(contactsEnum);
