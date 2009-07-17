@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.WerKenntWenConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContactClient.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the ContactClient type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.WerKenntWenConnector
 {
     #region usings
 
@@ -11,14 +20,17 @@
 
     using SyncBase;
     using SyncBase.DetailData;
-    using System.Text;
 
     #endregion usings
 
+    /// <summary>
+    /// Client implementation for reading information from www.wer-kennt-wen.de
+    /// </summary>
     public class ContactClient : StdClient
     {
         #region string resources for processing wkw pages
 
+        /// <summary>
         /// Detection string to parse the content of a request if we need to logon
         /// </summary>
         private const string HttpDetectionStringLogonNeeded = "id=\"loginform\"";
@@ -51,7 +63,7 @@
         /// <summary>
         /// regular expression to extract the URLs for the personal pages
         /// </summary>
-        private const string PatternGetDataUrls = ".div class=\"pl-pic\"..a href=\"([a-zA-Z0-9]+)\"";
+        private const string PatternGetDataUrls = ".div class=\"pl-pic\".*?a href=\"([a-zA-Z0-9/]+)\"";
 
         #endregion
 
@@ -74,11 +86,39 @@
         /// </summary>
         private const string CacheHintNoCache = "[NOCACHE]";
 
-        public override string FriendlyClientName
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        /// </summary>
+        public ContactClient()
         {
-            get { return "Wer-Kennt-Wen"; }
+            this.wkwRequester = new HttpHelper(HttpUrlBaseAddress, true)
+            {
+                UseCache = false,
+                SkipNotCached = false,
+                UseIeCookies = false,
+            };
         }
 
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "Wer-Kennt-Wen";
+            }
+        }
+
+        /// <summary>
+        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="result">The list of elements that should get the elements. The elements should be added to
+        /// the list instead of replacing it.</param>
+        /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var wkwContacts = this.GetUrlList();
@@ -95,14 +135,30 @@
             return result;
         }
 
+        /// <summary>
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Ready a list of html locations of the person data - this will also establish the logon
+        /// </summary>
+        /// <returns>a list of urls for the data to be downloaded</returns>
         private List<string> GetUrlList()
         {
             var result = new List<string>();
             var offsetIndex = 0;
 
             string contactListContent;
-            while (true)
-            {
+            ////while (true)
+            ////{
                 while (true)
                 {
                     // optimistically we try to read the content without explicit logon
@@ -148,11 +204,11 @@
                 var urlExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
                 var matches = urlExtractor.Matches(contactListContent);
 
-                // if we don't find more matches, we have finished, or an error did occure
-                if (matches.Count == 0)
-                {
-                    break;
-                }
+                ////// if we don't find more matches, we have finished, or an error did occure
+                ////if (matches.Count == 0)
+                ////{
+                //      break;
+                ////}
 
                 LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
 
@@ -162,9 +218,9 @@
                     result.Add(match.Groups[1].ToString());
                 }
 
-                // we read 10 urls a time
-                offsetIndex += matches.Count;
-            }
+            //// // we read 10 urls a time
+            //// offsetIndex += matches.Count;
+            //// }
 
             return result;
         }
@@ -183,33 +239,56 @@
                 return null;
             }
 
-            var extractor = new StringBuilder();
-            extractor.Append("/users/firstName/[a-zA-Z0-9 ]*/user/[a-zA-Z0-9 ]*\">(.*?)</a>");
-
             // we use regular expressions to extract the urls to the vCards
-                var dataExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
-                var matches = dataExtractor.Matches(data);
+            var dataExtractor = new Regex("/users/([a-zA-Z0-9 %\\+]*)/([a-zA-Z0-9 %]*)/user/[a-zA-Z0-9 ]*\".(.*?)./a>", RegexOptions.Singleline);
+            var matches = dataExtractor.Matches(data);
 
-            var contact = new StdContact();
-            contact.Name = new PersonName { FirstName = matches[0].Groups[1].ToString() };
+            var contact = new StdContact
+                {
+                    Id = Guid.NewGuid(),
+                    PersonalAddressPrimary = new AddressDetail(), 
+                    Name = new PersonName(),
+                };
+
+            foreach (Match match in matches)
+            {
+                var key = match.Groups[1].ToString();
+                switch (key)
+                {
+                    case "firstName":
+                        contact.Name.FirstName = match.Groups[2].ToString();
+                        break;
+                    
+                    case "lastName":
+                        contact.Name.LastName = match.Groups[2].ToString();
+                        break;
+                    
+                    case "city":
+                        contact.PersonalAddressPrimary.CityName = match.Groups[2].ToString();
+                        break;
+                    
+                    case "zipCode":
+                        contact.PersonalAddressPrimary.PostalCode = match.Groups[2].ToString();
+                        break;
+                    
+                    case "gender":
+                        contact.PersonGender = match.Groups[2].ToString() == "1" ? Gender.Female : Gender.Male;
+                        break;
+                }
+            }
+
+            dataExtractor = new Regex("div id=\"person_picture\".*?img src=\"(.*?)\"", RegexOptions.Singleline);
+            matches = dataExtractor.Matches(data);
+
+            if (matches.Count == 1)
+            {
+                var pictureName = matches[0].Groups[1].ToString();
+                contact.PictureName = pictureName.Substring(pictureName.LastIndexOf('/') + 1);
+                contact.PictureData = this.wkwRequester.GetContentBinary(pictureName, pictureName);
+            }
 
             LogProcessingEvent(contact, "downloaded");
             return contact;
-        }
-
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public ContactClient()
-        {
-            this.wkwRequester = new HttpHelper(HttpUrlBaseAddress, true)
-            {
-                UseCache = false,
-                SkipNotCached = false,
-                UseIeCookies = false,
-            };
         }
     }
 }
