@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
+    using DetailData;
+
     using GenericHelpers.Interfaces;
 
     using Interfaces;
@@ -68,12 +70,15 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("targetStorePath is null");
             }
 
+            var identifierToUse = (ProfileIdentifierType)Enum.Parse(typeof(ProfileIdentifierType), commandParameter, true);
+
             var targetMatchList = targetClient.GetAll(targetStorePath);
             var matchResultList =
                 ((IUiSyncInteraction)this.UiProvider).PerformEntityMerge(
                     sourceClient.GetAll(sourceStorePath),
                     targetMatchList,
-                    baseliClient.GetAll(baselineStorePath));
+                    baseliClient.GetAll(baselineStorePath),
+                    identifierToUse);
 
             // only write to target if we did get a merge result
             if (targetMatchList != null)

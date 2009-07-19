@@ -5,6 +5,7 @@
     <Command>DeletePattern</Command>
     <TargetStorePath>
       {FS:WorkingFolder}\Outlook.xmlcontact
+      {FS:WorkingFolder}\wkw.xmlcontact
     </TargetStorePath>
   </SyncDescription>
 
@@ -24,7 +25,7 @@
 
   <SyncDescription Name="Match entries manually">
     <Command>MatchManually</Command>
-    <CommandParameter></CommandParameter>
+    <CommandParameter>WerKenntWenUrl</CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\wkw.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>

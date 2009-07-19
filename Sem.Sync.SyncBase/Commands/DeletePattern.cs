@@ -10,6 +10,7 @@
 namespace Sem.Sync.SyncBase.Commands
 {
     using System;
+    using System.Globalization;
     using System.IO;
 
     using GenericHelpers;
@@ -49,6 +50,7 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("targetStorePath is null");
             }
 
+            var deletionCounter = 0;
             var paths = targetStorePath.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var singlePath in paths)
             {
@@ -59,14 +61,13 @@ namespace Sem.Sync.SyncBase.Commands
                     foreach (var file in Directory.GetFiles(Path.GetDirectoryName(singlePathWithoutSpaces), Path.GetFileName(singlePathWithoutSpaces)))
                     {
                         File.Delete(file);
-
+                        deletionCounter++;
                         this.LogProcessingEvent(Resources.uiFilesDeleted + ": " + file);
                     }
-
-                    this.LogProcessingEvent(Resources.uiFilesDeleted);
                 }
-            } 
-            
+            }
+
+            this.LogProcessingEvent(Resources.uiFilesDeleted + ": " + deletionCounter.ToString(CultureInfo.CurrentCulture));
             return true;
         }
     }

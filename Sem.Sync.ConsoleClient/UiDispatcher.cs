@@ -15,6 +15,7 @@ namespace Sem.Sync.ConsoleClient
     using GenericHelpers.Interfaces;
 
     using SyncBase;
+    using SyncBase.DetailData;
     using SyncBase.Interfaces;
     using SyncBase.Merging;
 
@@ -94,8 +95,11 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="sourceList">the source entity list</param>
         /// <param name="targetList">the list that will be changed</param>
         /// <param name="baselineList">a baseline list that helps merging</param>
-        /// <returns>The unmodified <paramref name="targetList"/></returns>
-        public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
+        /// <param name="identifierToUse">The identifier To Use.</param>
+        /// <returns>
+        /// The unmodified <paramref name="targetList"/>
+        /// </returns>
+        public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
             Console.WriteLine("Interactive entity merge to solve merge conflicts not implemented - skipped");
             return targetList;

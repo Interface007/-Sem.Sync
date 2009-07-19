@@ -117,7 +117,7 @@ namespace Sem.Sync.SyncBase.DetailData
                     return this.XingProfileId;
                 
                 case ProfileIdentifierType.WerKenntWenUrl:
-                    return this.XingProfileId;
+                    return this.WerKenntWenUrl;
             }
 
             return string.Empty;

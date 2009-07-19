@@ -15,6 +15,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
     using GenericHelpers.Interfaces;
 
     using SyncBase;
+    using SyncBase.DetailData;
     using SyncBase.Interfaces;
     using SyncBase.Merging;
 
@@ -46,10 +47,10 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <param name="targetList"> The list of "target" elements that should contribute the synchronization id. </param>
         /// <param name="baselineList"> The baseline list that will be updated to connect a synchronization id to profile ids. </param>
         /// <returns> The baseline list that has been updated to connect a synchronization id to profile ids. </returns>
-        public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
+        public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
             var ui = new MatchEntities();
-            return ui.PerformMerge(sourceList, targetList, baselineList);
+            return ui.PerformMerge(sourceList, targetList, baselineList, identifierToUse);
         }
 
         /// <summary>

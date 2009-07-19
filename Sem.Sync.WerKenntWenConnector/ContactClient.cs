@@ -91,7 +91,7 @@ namespace Sem.Sync.WerKenntWenConnector
         /// <summary>
         /// Extracts the data from the page
         /// </summary>
-        private const string PersonDataExtractionPattern = "/users/([a-zA-Z0-9 %\\+]*)/(.*?)/user/[a-zA-Z0-9 ]*\".(.*?)./a>";
+        private const string PersonDataExtractionPattern = "/users/([a-zA-Z0-9 %\\+]*)/([a-zA-Z0-9 %\\+-]*)";
 
         /// <summary>
         /// Extracts the url of the picture from the page
@@ -256,9 +256,26 @@ namespace Sem.Sync.WerKenntWenConnector
             foreach (Match match in matches)
             {
                 var key = match.Groups[1].ToString();
+                
+                // the encoding needs to be set to get the correct special chars
                 var value = HttpUtility.UrlDecode(match.Groups[2].ToString(), Encoding.GetEncoding("iso8859-1"));
                 switch (key)
                 {
+                    case "":
+                        break;
+
+                    // The following information is provided by Wer-kennt-wen, but not handled by sem.sync, yet.
+                    // It may be handled with one of the next versions.
+                    case "hobbies":
+                    case "music":
+                    case "movies":
+                    case "placesToVisit":
+                    case "placesVisited":
+                    case "books":
+                    case "jobclass":
+                    case "partnership":
+                        break;
+
                     case "firstName":
                         contact.Name.FirstName = value;
                         break;
@@ -286,11 +303,20 @@ namespace Sem.Sync.WerKenntWenConnector
                     case "birthday":
                         birthday = value;
                         break;
+
+                    default:
+                        Console.WriteLine("unknown attribute: " + key + " - " + value);
+                        break;
                 }
             }
 
             if (!string.IsNullOrEmpty(birthyear) && !string.IsNullOrEmpty(birthday))
             {
+                if (birthday.Length == 2)
+                {
+                    birthday = birthday + "-01";
+                }
+
                 contact.DateOfBirth = new DateTime(int.Parse(birthyear.Substring(0, 4)), int.Parse(birthday.Substring(0, 2)), int.Parse(birthday.Substring(3, 2)));
             }
 
@@ -302,8 +328,11 @@ namespace Sem.Sync.WerKenntWenConnector
             if (matches.Count == 1)
             {
                 var pictureName = matches[0].Groups[1].ToString();
-                contact.PictureName = pictureName.Substring(pictureName.LastIndexOf('/') + 1);
-                contact.PictureData = this.wkwRequester.GetContentBinary(pictureName, pictureName);
+                if (!pictureName.Contains("images/dummy"))
+                {
+                    contact.PictureName = pictureName.Substring(pictureName.LastIndexOf('/') + 1);
+                    contact.PictureData = this.wkwRequester.GetContentBinary(pictureName, pictureName);
+                }
             }
 
             LogProcessingEvent(contact, "downloaded");

@@ -12,6 +12,8 @@ namespace Sem.Sync.SyncBase.Interfaces
 {
     using System.Collections.Generic;
 
+    using DetailData;
+
     using GenericHelpers.Interfaces;
 
     using Merging;
@@ -35,7 +37,8 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <param name="sourceList">the source entity list</param>
         /// <param name="targetList">the list that will be changed</param>
         /// <param name="baselineList">a baseline list that helps merging</param>
+        /// <param name="identifierToUse">The identifier To Use.</param>
         /// <returns>the target list with additional merged elements</returns>
-        List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList);
+        List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse);
     }
 }

@@ -31,10 +31,14 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             InitializeComponent();
         }
 
-        public List<StdElement> PerformMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList)
+        public List<StdElement> PerformMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
-            // todo: this should be configurable
-            this.matching.Profile = ProfileIdentifierType.XingProfileId;
+            if (sourceList.Count == 0)
+            {
+                return baselineList;
+            }
+
+            this.matching.Profile = identifierToUse; // ProfileIdentifierType.XingProfileId;
             
             this.matching.Source = sourceList.ToContacts();
             this.matching.Target = targetList.ToContacts();

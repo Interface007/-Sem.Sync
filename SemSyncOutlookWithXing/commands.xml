@@ -38,7 +38,7 @@
 
   <SyncDescription Name="Match entries manually">
     <Command>MatchManually</Command>
-    <CommandParameter></CommandParameter>
+    <CommandParameter>XingProfileId</CommandParameter>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
