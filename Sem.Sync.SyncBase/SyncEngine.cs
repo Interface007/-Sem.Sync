@@ -36,6 +36,11 @@ namespace Sem.Sync.SyncBase
     {
         #region fields
         /// <summary>
+        /// the factory to create the classes
+        /// </summary>
+        private readonly Factory factory = new Factory("Sem.Sync.SyncBase");
+
+        /// <summary>
         /// will be set when the first command is executed
         /// </summary>
         private bool versionOutdated;
@@ -44,11 +49,6 @@ namespace Sem.Sync.SyncBase
         /// flag for already executed version check
         /// </summary>
         private bool versionChecked;
-
-        /// <summary>
-        /// the factory to create the classes
-        /// </summary>
-        private readonly Factory factory = new Factory("Sem.Sync.SyncBase");
         #endregion
 
         #region events
@@ -121,14 +121,9 @@ namespace Sem.Sync.SyncBase
             var continueExecution = true;
 
             // create classes according to the description
-            var sourceClient = factory.GetNewObject<IClientBase>(item.SourceConnector);
-            var targetClient = factory.GetNewObject<IClientBase>(item.TargetConnector);
-            var baseliClient = factory.GetNewObject<IClientBase>(item.BaselineConnector);
-
-            // wire up events
-            this.WireUpEvents(sourceClient, true);
-            this.WireUpEvents(targetClient, true);
-            this.WireUpEvents(baseliClient, true);
+            var sourceClient = this.factory.GetNewObject<StdClient>(item.SourceConnector);
+            var targetClient = this.factory.GetNewObject<StdClient>(item.TargetConnector);
+            var baseliClient = this.factory.GetNewObject<StdClient>(item.BaselineConnector);
 
             if (this.versionOutdated)
             {
@@ -143,12 +138,26 @@ namespace Sem.Sync.SyncBase
             try
             {
                 var command =
-                    factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
+                    this.factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
+
+                var commandAsComponent = command as SyncComponent;
 
                 if (command != null)
                 {
                     command.UiProvider = this.UiProvider;
+
+                    // wire up events
+                    this.WireUpEvents(sourceClient, true);
+                    this.WireUpEvents(targetClient, true);
+                    this.WireUpEvents(baseliClient, true);
+                    this.WireUpEvents(commandAsComponent, true);
+
                     continueExecution = command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
+                    
+                    this.WireUpEvents(sourceClient, false);
+                    this.WireUpEvents(targetClient, false);
+                    this.WireUpEvents(baseliClient, false);
+                    this.WireUpEvents(commandAsComponent, false);
                 }
             }
             catch (Exception ex)
@@ -156,34 +165,40 @@ namespace Sem.Sync.SyncBase
                 this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
             }
 
-            this.WireUpEvents(sourceClient, false);
-            this.WireUpEvents(targetClient, false);
-            this.WireUpEvents(baseliClient, false);
-
             return continueExecution;
         }
 
         /// <summary>
         /// attached or detaches event handlers between sync engine and client implementation
         /// </summary>
-        /// <param name="client">the client that provides events this engine should subscribe to</param>
+        /// <param name="component">the client/command that provides events this engine should subscribe to</param>
         /// <param name="addEvent">a value to specify if the events should be attached (true) or detached (false)</param>
-        private void WireUpEvents(IClientBase client, bool addEvent)
+        private void WireUpEvents(SyncComponent component, bool addEvent)
         {
-            if (client == null)
+            if (component == null)
             {
                 return;
             }
 
+            var client = component as IClientBase;
+
             if (addEvent)
             {
-                client.ProcessingEvent += this.LogProcessingEvent;
-                client.QueryForLogonCredentialsEvent += this.QueryForLogOnCredentialsEvent;
+                component.ProcessingEvent += this.LogProcessingEvent;
+
+                if (client != null)
+                {
+                    client.QueryForLogonCredentialsEvent += this.QueryForLogOnCredentialsEvent;
+                }
             }
             else
             {
-                client.ProcessingEvent -= this.LogProcessingEvent;
-                client.QueryForLogonCredentialsEvent -= this.QueryForLogOnCredentialsEvent;
+                component.ProcessingEvent -= this.LogProcessingEvent;
+                
+                if (client != null)
+                {
+                    client.QueryForLogonCredentialsEvent -= this.QueryForLogOnCredentialsEvent;
+                }
             }
         }
 

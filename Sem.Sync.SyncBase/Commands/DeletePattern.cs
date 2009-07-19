@@ -17,10 +17,12 @@ namespace Sem.Sync.SyncBase.Commands
 
     using Interfaces;
 
+    using Properties;
+
     /// <summary>
     /// This command deletes files specified by one or more path pattern separated by a line break
     /// </summary>
-    public class DeletePattern : ISyncCommand
+    public class DeletePattern : SyncComponent, ISyncCommand
     {
         /// <summary>
         /// Gets or sets UiProvider.
@@ -58,8 +60,10 @@ namespace Sem.Sync.SyncBase.Commands
                     {
                         File.Delete(file);
 
-                        // this.LogProcessingEvent(Resources.uiFilesDeleted + ": " + file);
+                        this.LogProcessingEvent(Resources.uiFilesDeleted + ": " + file);
                     }
+
+                    this.LogProcessingEvent(Resources.uiFilesDeleted);
                 }
             } 
             

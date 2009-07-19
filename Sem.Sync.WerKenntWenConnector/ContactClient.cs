@@ -14,13 +14,15 @@ namespace Sem.Sync.WerKenntWenConnector
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Text;
     using System.Text.RegularExpressions;
+    using System.Web;
 
     using GenericHelpers;
 
     using SyncBase;
     using SyncBase.DetailData;
-
+    
     #endregion usings
 
     /// <summary>
@@ -85,6 +87,16 @@ namespace Sem.Sync.WerKenntWenConnector
         /// cache hint string constant to specify that this item should not be cached at all
         /// </summary>
         private const string CacheHintNoCache = "[NOCACHE]";
+
+        /// <summary>
+        /// Extracts the data from the page
+        /// </summary>
+        private const string PersonDataExtractionPattern = "/users/([a-zA-Z0-9 %\\+]*)/(.*?)/user/[a-zA-Z0-9 ]*\".(.*?)./a>";
+
+        /// <summary>
+        /// Extracts the url of the picture from the page
+        /// </summary>
+        private const string PersonPictureUrlPattern = "div id=\"person_picture\".*?img src=\"(.*?)\"";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class.
@@ -154,18 +166,16 @@ namespace Sem.Sync.WerKenntWenConnector
         private List<string> GetUrlList()
         {
             var result = new List<string>();
-            var offsetIndex = 0;
 
             string contactListContent;
-            ////while (true)
-            ////{
-                while (true)
+            
+            while (true)
                 {
                     // optimistically we try to read the content without explicit logon
                     // this will succeed if we have a valid cookie
                     contactListContent = this.wkwRequester.GetContent(
-                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
-                        "UrlList" + offsetIndex + CacheHintRefresh);
+                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
+                        "UrlList" + CacheHintRefresh);
 
                     // if we don't find the logon form any more, we did succeed
                     if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
@@ -204,12 +214,6 @@ namespace Sem.Sync.WerKenntWenConnector
                 var urlExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
                 var matches = urlExtractor.Matches(contactListContent);
 
-                ////// if we don't find more matches, we have finished, or an error did occure
-                ////if (matches.Count == 0)
-                ////{
-                //      break;
-                ////}
-
                 LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
 
                 // add the matches to the result
@@ -218,17 +222,13 @@ namespace Sem.Sync.WerKenntWenConnector
                     result.Add(match.Groups[1].ToString());
                 }
 
-            //// // we read 10 urls a time
-            //// offsetIndex += matches.Count;
-            //// }
-
             return result;
         }
 
         /// <summary>
-        /// downloads a contact (vcard) from xing and converts the data into a standard contact
+        /// downloads a contact data from wkw and converts the data into a standard contact
         /// </summary>
-        /// <param name="downloadUrl">url to the xing vcard</param>
+        /// <param name="downloadUrl">url to the wkw page</param>
         /// <param name="name">name that will be used for the cache to store the data for later review</param>
         /// <returns>the downloaded contact as a StdContact</returns>
         private StdContact DownloadContact(string downloadUrl, string name)
@@ -240,7 +240,7 @@ namespace Sem.Sync.WerKenntWenConnector
             }
 
             // we use regular expressions to extract the urls to the vCards
-            var dataExtractor = new Regex("/users/([a-zA-Z0-9 %\\+]*)/([a-zA-Z0-9 %]*)/user/[a-zA-Z0-9 ]*\".(.*?)./a>", RegexOptions.Singleline);
+            var dataExtractor = new Regex(PersonDataExtractionPattern, RegexOptions.Singleline);
             var matches = dataExtractor.Matches(data);
 
             var contact = new StdContact
@@ -250,34 +250,53 @@ namespace Sem.Sync.WerKenntWenConnector
                     Name = new PersonName(),
                 };
 
+            var birthday = string.Empty;
+            var birthyear = string.Empty;
+
             foreach (Match match in matches)
             {
                 var key = match.Groups[1].ToString();
+                var value = HttpUtility.UrlDecode(match.Groups[2].ToString(), Encoding.GetEncoding("iso8859-1"));
                 switch (key)
                 {
                     case "firstName":
-                        contact.Name.FirstName = match.Groups[2].ToString();
+                        contact.Name.FirstName = value;
                         break;
                     
                     case "lastName":
-                        contact.Name.LastName = match.Groups[2].ToString();
+                        contact.Name.LastName = value;
                         break;
                     
                     case "city":
-                        contact.PersonalAddressPrimary.CityName = match.Groups[2].ToString();
+                        contact.PersonalAddressPrimary.CityName = value;
                         break;
                     
                     case "zipCode":
-                        contact.PersonalAddressPrimary.PostalCode = match.Groups[2].ToString();
+                        contact.PersonalAddressPrimary.PostalCode = value;
                         break;
                     
                     case "gender":
                         contact.PersonGender = match.Groups[2].ToString() == "1" ? Gender.Female : Gender.Male;
                         break;
+
+                    case "birthyear":
+                        birthyear = value;
+                        break;
+
+                    case "birthday":
+                        birthday = value;
+                        break;
                 }
             }
 
-            dataExtractor = new Regex("div id=\"person_picture\".*?img src=\"(.*?)\"", RegexOptions.Singleline);
+            if (!string.IsNullOrEmpty(birthyear) && !string.IsNullOrEmpty(birthday))
+            {
+                contact.DateOfBirth = new DateTime(int.Parse(birthyear.Substring(0, 4)), int.Parse(birthday.Substring(0, 2)), int.Parse(birthday.Substring(3, 2)));
+            }
+
+            contact.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.WerKenntWenUrl, downloadUrl);
+
+            dataExtractor = new Regex(PersonPictureUrlPattern, RegexOptions.Singleline);
             matches = dataExtractor.Matches(data);
 
             if (matches.Count == 1)

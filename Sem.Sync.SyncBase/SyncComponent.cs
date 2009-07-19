@@ -77,6 +77,8 @@ namespace Sem.Sync.SyncBase
         /// logs an event by specifying the current element that is related to the event and a message about the current event
         /// use this overload to prevent preformatting the parameters for the message.
         /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="args">The processing arguments.</param>
         protected void LogProcessingEvent(object sender, ProcessingEventArgs args)
         {
             this.LogProcessingEvent((StdElement)args.Item, args.Message);
@@ -89,7 +91,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="percentage">Specifies the percentage of work already done.</param>
         protected void UpdateProgress(int percentage)
         {
-            UpdateProgress(this, new ProgressEventArgs{PercentageDone = percentage});
+            this.UpdateProgress(this, new ProgressEventArgs { PercentageDone = percentage });
         }
 
         /// <summary>

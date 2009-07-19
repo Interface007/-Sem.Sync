@@ -30,14 +30,14 @@ namespace Sem.Sync.OutlookConnector
     public static class OutlookClient
     {
         /// <summary>
-        /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
-        /// </summary>
-        private static int GCRelevantCalls;
-
-        /// <summary>
         /// This is the name of the custom outlook field for the synchronization id
         /// </summary>
         private const string ContactIdOutlookPropertyName = "SemSyncId";
+
+        /// <summary>
+        /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
+        /// </summary>
+        private static int garbageCollectionRelevantCalls;
 
         /// <summary>
         /// creates a list of ContactsItemContainer from a contacts enumeration
@@ -381,8 +381,8 @@ namespace Sem.Sync.OutlookConnector
         /// </summary>
         private static void GCRelevantCall()
         {
-            GCRelevantCalls++;
-            if (GCRelevantCalls > 100)
+            garbageCollectionRelevantCalls++;
+            if (garbageCollectionRelevantCalls > 100)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();

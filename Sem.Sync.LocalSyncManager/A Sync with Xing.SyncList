@@ -39,26 +39,6 @@
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Match entries manually">
-    <Command>MatchManually</Command>
-    <CommandParameter></CommandParameter>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
-    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
-    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
-  </SyncDescription>
-  
-  <SyncDescription Name="Match Xing by Profile Id to Baseline">
-    <Command>MatchByProfileId</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
-    <SourceStorePath>{FS:WorkingFolder}\Xing.xmlcontact</SourceStorePath>
-    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
-    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
-  </SyncDescription>
 
   <SyncDescription Name="Add missing from Outlook to Xing (file system)">
     <Command>MergeMissing</Command>

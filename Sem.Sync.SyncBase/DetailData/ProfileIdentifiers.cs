@@ -30,6 +30,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// An active directory - this should include an official DNS name.
         /// </summary>
         ActiveDirectoryId,
+
+        /// <summary>
+        /// this is the url at the social network side Wer-Kennt-Wen.de.
+        /// </summary>
+        WerKenntWenUrl,
     }
 
     /// <summary>
@@ -39,14 +44,14 @@ namespace Sem.Sync.SyncBase.DetailData
     public class ProfileIdentifiers
     {
         /// <summary>
-        /// Initializes an new instance of the <see cref="ProfileIdentifiers"/> class.
+        /// Initializes a new instance of the <see cref="ProfileIdentifiers"/> class. 
         /// </summary>
         public ProfileIdentifiers()
         {
         }
 
         /// <summary>
-        /// Initializes an new instance of the <see cref="ProfileIdentifiers"/> class and
+        /// Initializes a new instance of the <see cref="ProfileIdentifiers"/> class and
         /// sets one of the identifiers.
         /// </summary>
         /// <param name="type">the identifier to set</param>
@@ -65,6 +70,10 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.XingProfileId:
                     this.XingProfileId = profileId;
+                    break;
+
+                case ProfileIdentifierType.WerKenntWenUrl:
+                    this.WerKenntWenUrl = profileId;
                     break;
             }
         }
@@ -85,6 +94,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public string ActiveDirectoryId { get; set; }
 
         /// <summary>
+        /// Gets or sets the url at the social network side Wer-Kennt-Wen.de
+        /// </summary>
+        public string WerKenntWenUrl { get; set; }
+
+        /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
         /// <param name="type">the type of identifier to read</param>
@@ -100,6 +114,9 @@ namespace Sem.Sync.SyncBase.DetailData
                     return this.FacebookProfileId;
 
                 case ProfileIdentifierType.XingProfileId:
+                    return this.XingProfileId;
+                
+                case ProfileIdentifierType.WerKenntWenUrl:
                     return this.XingProfileId;
             }
 
@@ -127,6 +144,9 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.XingProfileId = newValue;
                     break;
 
+                case ProfileIdentifierType.WerKenntWenUrl:
+                    this.WerKenntWenUrl = newValue;
+                    break;
             }
         }
 
@@ -142,6 +162,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 ? false
                 : (!string.IsNullOrEmpty(this.XingProfileId) && this.XingProfileId == other.XingProfileId) ||
                   (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
+                  (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId);
         }
     }
