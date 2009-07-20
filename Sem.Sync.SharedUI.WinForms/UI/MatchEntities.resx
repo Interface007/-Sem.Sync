@@ -265,7 +265,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="dataGridSourceDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+    <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridSourceDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 156</value>
@@ -289,7 +289,7 @@
     <value>0</value>
   </data>
   <data name="dataGridSourceCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="dataGridSourceCandidates.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -325,7 +325,7 @@
     <value>0</value>
   </data>
   <data name="dataGridTargetDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+    <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridTargetDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 155</value>
@@ -349,7 +349,7 @@
     <value>0</value>
   </data>
   <data name="dataGridTargetCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="dataGridTargetCandidates.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

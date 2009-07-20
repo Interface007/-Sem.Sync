@@ -21,14 +21,16 @@ namespace Sem.Sync.FilesystemConnector
     using Properties;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
-
+    
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling contacts
     /// </summary>
+    [ClientStoragePathDescriptionAttribute(Mandatory = true, Default = "{FS:WorkingFolder}\\vCards", ReferenceType = ClientPathType.FileSystemPath)]
     public class ContactClientVCards : StdClient
     {
         /// <summary>

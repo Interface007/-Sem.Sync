@@ -11,6 +11,8 @@
 namespace Sem.Sync.SyncBase.Binding
 {
     using System.ComponentModel;
+    using System.IO;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// implements a binding list for the SyncDescription class
@@ -26,6 +28,23 @@ namespace Sem.Sync.SyncBase.Binding
             var newItem = new SyncDescription();
             this.Add(newItem);
             return newItem;
+        }
+
+        /// <summary>
+        /// loads a SyncCollection from the file system.
+        /// </summary>
+        /// <param name="pathToFile">path to the file to load</param>
+        /// <returns>a SyncCollection loaded from the disk</returns>
+        public static SyncCollection LoadSyncList(string pathToFile)
+        {
+            SyncCollection returnValue;
+            var formatter = new XmlSerializer(typeof(SyncCollection));
+            using (var file = new FileStream(pathToFile, FileMode.Open))
+            {
+                returnValue = (SyncCollection)formatter.Deserialize(file);
+            }
+
+            return returnValue;
         }
     }
 }

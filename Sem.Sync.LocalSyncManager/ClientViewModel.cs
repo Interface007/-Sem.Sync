@@ -12,8 +12,6 @@ namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Xml.Serialization;
 
     using GenericHelpers.EventArgs;
 
@@ -77,15 +75,6 @@ namespace Sem.Sync.LocalSyncManager
             if (!success)
             {
                 this.ProcessingEvent(null, new ProcessingEventArgs { Message = "processing canceled" });
-            }
-        }
-
-        internal void LoadSyncList(string p)
-        {
-            var formatter = new XmlSerializer(typeof(SyncCollection));
-            using (var file = new FileStream(p, FileMode.Open))
-            {
-                this.SyncCommands = (SyncCollection)formatter.Deserialize(file);
             }
         }
 

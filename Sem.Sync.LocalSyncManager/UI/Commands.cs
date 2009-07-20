@@ -21,6 +21,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
     using SyncBase;
     using SyncBase.Interfaces;
+    using Sem.Sync.SyncBase.Binding;
 
     /// <summary>
     /// the main for of the application
@@ -75,7 +76,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                     var item = ((ComboBox)cbs).SelectedValue;
                     if (item != null)
                     {
-                        this.DataContext.LoadSyncList(item.ToString());
+                        this.DataContext.SyncCommands = SyncCollection.LoadSyncList(item.ToString());
                     }
 
                     this.syncListBindingSource.DataSource = this.DataContext.SyncCommands;
@@ -192,6 +193,11 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void simpleSyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new SyncWizard().ShowDialog();
         }
     }
 }

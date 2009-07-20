@@ -13,12 +13,13 @@ namespace Sem.Sync.SyncBase
     using System.Linq;
 
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Interfaces;
 
     using Helpers;
 
     using Interfaces;
     using Properties;
-
+    
     /// <summary>
     /// This class can (should) be used as a base class for "client" classes. It already implements some of the aspects 
     /// of such a client class, so you only need to implement the specific methods.
@@ -40,6 +41,11 @@ namespace Sem.Sync.SyncBase
         /// Informs the subscriber of this event that we need some credentials.
         /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
+
+        /// <summary>
+        /// Gets or sets the domain part of the user credentials to access the target system
+        /// </summary>
+        public IUiInteraction UiDispatcher { get; set; }
 
         /// <summary>
         /// Gets or sets the domain part of the user credentials to access the target system
@@ -197,6 +203,11 @@ namespace Sem.Sync.SyncBase
             }
 
             return elements;
+        }
+
+        public override string ToString()
+        {
+            return this.FriendlyClientName;
         }
 
         /// <summary>

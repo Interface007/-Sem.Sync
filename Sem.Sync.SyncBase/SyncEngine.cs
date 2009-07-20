@@ -181,10 +181,16 @@ namespace Sem.Sync.SyncBase
             }
 
             var client = component as IClientBase;
+            var clientBase = component as StdClient;
 
             if (addEvent)
             {
                 component.ProcessingEvent += this.LogProcessingEvent;
+
+                if (clientBase != null)
+                { 
+                    clientBase.UiDispatcher = this.UiProvider;
+                }
 
                 if (client != null)
                 {

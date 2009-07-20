@@ -164,8 +164,9 @@ namespace Sem.Sync.XingConnector
         /// <returns>the list of contacts that has been read from Xing</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            this.xingRequester.UiDispatcher = this.UiDispatcher;
             var xing = this.GetUrlList();
-
+            
             LogProcessingEvent(Resources.uiDownloadingVCards, xing.Count);
 
             foreach (var item in xing)

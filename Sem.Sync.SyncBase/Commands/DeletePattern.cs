@@ -45,13 +45,18 @@ namespace Sem.Sync.SyncBase.Commands
         /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
-            if (targetStorePath == null)
+            if (string.IsNullOrEmpty(commandParameter))
             {
-                throw new InvalidOperationException("targetStorePath is null");
+                commandParameter = targetStorePath;
+            }
+
+            if (string.IsNullOrEmpty(commandParameter))
+            {
+                throw new InvalidOperationException("commandParameter is null");
             }
 
             var deletionCounter = 0;
-            var paths = targetStorePath.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var paths = commandParameter.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var singlePath in paths)
             {
                 var singlePathWithoutSpaces = singlePath.Trim();

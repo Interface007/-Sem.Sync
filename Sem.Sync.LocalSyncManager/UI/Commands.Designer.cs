@@ -56,6 +56,8 @@
             this.openWorkingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wizardsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.simpleSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -209,7 +211,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.wizardsToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -238,6 +241,19 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // wizardsToolStripMenuItem
+            // 
+            this.wizardsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.simpleSyncToolStripMenuItem});
+            this.wizardsToolStripMenuItem.Name = "wizardsToolStripMenuItem";
+            resources.ApplyResources(this.wizardsToolStripMenuItem, "wizardsToolStripMenuItem");
+            // 
+            // simpleSyncToolStripMenuItem
+            // 
+            this.simpleSyncToolStripMenuItem.Name = "simpleSyncToolStripMenuItem";
+            resources.ApplyResources(this.simpleSyncToolStripMenuItem, "simpleSyncToolStripMenuItem");
+            this.simpleSyncToolStripMenuItem.Click += new System.EventHandler(this.simpleSyncToolStripMenuItem_Click);
             // 
             // Commands
             // 
@@ -291,5 +307,7 @@
         private System.Windows.Forms.ToolStripMenuItem openWorkingFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wizardsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem simpleSyncToolStripMenuItem;
     }
 }
