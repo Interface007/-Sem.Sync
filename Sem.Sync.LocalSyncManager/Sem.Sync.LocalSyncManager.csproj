@@ -55,13 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectorInformation.cs" />
-    <Compile Include="ClientViewModel.cs" />
+    <Compile Include="Business\ConnectorInformation.cs" />
+    <Compile Include="Business\ClientViewModel.cs" />
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="SyncWizardContext.cs" />
+    <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,31 +161,31 @@
     <Content Include="dictionary.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="A Copy of Calendar to FS.SyncList">
+    <None Include="SyncLists\A Copy of Calendar to FS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="A Sync with AD %28Simple%29.SyncList" />
-    <None Include="A Statistic about Contacts to FS.SyncList">
+    <None Include="SyncLists\A Sync with AD %28Simple%29.SyncList" />
+    <None Include="SyncLists\A Statistic about Contacts to FS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="A Copy to CSV.SyncList">
+    <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Wizard.XSyncList">
+    <None Include="SyncLists\Wizard.XSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Test FileSystem to vCard.SyncList">
+    <None Include="SyncLists\Test FileSystem to vCard.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\DataSources\Sem.Sync.LocalSyncManager.Tools.MergeView.datasource" />
     <None Include="Properties\DataSources\Sem.Sync.SyncBase.Merging.MergeConflict.datasource" />
-    <None Include="Sync TESTS.SyncList">
+    <None Include="SyncLists\Sync TESTS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="A Sync with WCF %28Simple%29.SyncList">
+    <None Include="SyncLists\A Sync with WCF %28Simple%29.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="A Sync with Xing.SyncList">
+    <None Include="SyncLists\A Sync with Xing.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
