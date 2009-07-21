@@ -33,12 +33,12 @@
 
         private void contextDataSource_CurrentChanged(object sender, EventArgs e)
         {
-            this.dataContext.Source = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
+            this.dataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
         }
 
         private void contextDataTarget_CurrentChanged(object sender, EventArgs e)
         {
-            this.dataContext.Source = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
+            this.dataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
         }
     }
 

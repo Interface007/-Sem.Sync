@@ -38,7 +38,7 @@ namespace Sem.Sync.FilesystemConnector
         /// <summary>
         /// This is the formatter instance for serializing the list of contacts.
         /// </summary>
-        private static readonly XmlSerializer ListFormatter = new XmlSerializer(typeof(List<T>));
+        private static readonly XmlSerializer ListFormatter = new XmlSerializer(typeof(List<T>), new[] { typeof(StdContact), typeof(StdCalendarItem)});
 
         /// <summary>
         /// Gets the user friendly name of the connector

@@ -8,6 +8,7 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Configuration;
+    using System.Text;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -108,24 +109,49 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="className">The class name that may need processing.</param>
         /// <returns>the processed full qualified class name</returns>
-        private string EnrichClassName(string className)
+        public string EnrichClassName(string className)
         {
-            if (!className.Contains(","))
+            var returnValue = new StringBuilder();
+            var isFirstFragement = true;
+            var names = className.Split(new[] { " of " }, StringSplitOptions.None);
+            foreach (var name in names)
             {
-                if (!className.Contains("."))
+                if (!isFirstFragement)
                 {
-                    if (string.IsNullOrEmpty(this.DefaultNamespace))
-                    {
-                        throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
-                    }
-
-                    className = this.DefaultNamespace + "." + className;
+                    returnValue.Append(" of ");
                 }
 
-                className = className + ", " + className.Substring(0, className.LastIndexOf(".", StringComparison.Ordinal));
+                if (!name.Contains(","))
+                {
+                    string assemblyName;
+                    if (!name.Contains("."))
+                    {
+                        if (string.IsNullOrEmpty(this.DefaultNamespace))
+                        {
+                            throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
+                        }
+                        assemblyName = this.DefaultNamespace;
+                        returnValue.Append(assemblyName).Append(".");
+                    }
+                    else
+                    {
+                        assemblyName = name.Substring(0, name.LastIndexOf(".", StringComparison.Ordinal));
+                    }
+
+                    returnValue
+                        .Append(name)
+                        .Append(", ")
+                        .Append(assemblyName);
+                }
+                else
+                {
+                    returnValue.Append(name);
+                }
+
+                isFirstFragement = false;
             }
 
-            return className;
+            return returnValue.ToString();
         }
     }
 }
