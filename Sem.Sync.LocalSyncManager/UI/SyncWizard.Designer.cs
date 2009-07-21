@@ -70,7 +70,6 @@
             this.btnCancel.TabIndex = 18;
             this.btnCancel.Text = "&cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnRun
             // 
@@ -80,7 +79,6 @@
             this.btnRun.TabIndex = 19;
             this.btnRun.Text = "&run";
             this.btnRun.UseVisualStyleBackColor = true;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // textBox5
             // 
@@ -128,8 +126,6 @@
             // contextDataSource
             // 
             this.contextDataSource.AllowNew = false;
-            this.contextDataSource.DataMember = "Clients";
-            this.contextDataSource.CurrentChanged += new System.EventHandler(this.contextDataSource_CurrentChanged);
             // 
             // label9
             // 
@@ -186,8 +182,6 @@
             // contextDataTarget
             // 
             this.contextDataTarget.AllowNew = false;
-            this.contextDataTarget.DataMember = "Clients";
-            this.contextDataTarget.CurrentChanged += new System.EventHandler(this.contextDataTarget_CurrentChanged);
             // 
             // label12
             // 
@@ -267,7 +261,6 @@
             this.txtPathSource.Name = "txtPathSource";
             this.txtPathSource.Size = new System.Drawing.Size(167, 20);
             this.txtPathSource.TabIndex = 3;
-            this.txtPathSource.TextChanged += new System.EventHandler(this.txtPathSource_TextChanged);
             // 
             // txtPathTarget
             // 
@@ -275,7 +268,6 @@
             this.txtPathTarget.Name = "txtPathTarget";
             this.txtPathTarget.Size = new System.Drawing.Size(167, 20);
             this.txtPathTarget.TabIndex = 12;
-            this.txtPathTarget.TextChanged += new System.EventHandler(this.txtPathTarget_TextChanged);
             // 
             // btnPathTarget
             // 
@@ -285,7 +277,6 @@
             this.btnPathTarget.TabIndex = 13;
             this.btnPathTarget.Text = "...";
             this.btnPathTarget.UseVisualStyleBackColor = true;
-            this.btnPathTarget.Click += new System.EventHandler(this.btnPathTarget_Click);
             // 
             // btnPathSource
             // 
@@ -295,7 +286,6 @@
             this.btnPathSource.TabIndex = 4;
             this.btnPathSource.Text = "...";
             this.btnPathSource.UseVisualStyleBackColor = true;
-            this.btnPathSource.Click += new System.EventHandler(this.btnPathSource_Click);
             // 
             // folderBrowser
             // 

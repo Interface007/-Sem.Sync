@@ -27,14 +27,14 @@
         internal void Run()
         {
             var engine = new SyncEngine();
-            var commands = SyncCollection.LoadSyncList("Wizard.XSyncList");
+            var commands = SyncCollection.LoadSyncList("SyncLists\\Wizard.XSyncList");
 
             foreach (var command in commands)
             {
-                command.SourceConnector = ReplaceToken(command.SourceConnector);
-                command.TargetConnector = ReplaceToken(command.TargetConnector);
-                command.SourceStorePath = ReplaceToken(command.SourceStorePath);
-                command.TargetStorePath = ReplaceToken(command.TargetStorePath);
+                command.SourceConnector = this.ReplaceToken(command.SourceConnector);
+                command.TargetConnector = this.ReplaceToken(command.TargetConnector);
+                command.SourceStorePath = this.ReplaceToken(command.SourceStorePath);
+                command.TargetStorePath = this.ReplaceToken(command.TargetStorePath);
             }
 
             engine.Execute(commands);
@@ -42,12 +42,11 @@
 
         private string ReplaceToken(string value)
         {
-            return (value ?? "")
+            return (value ?? string.Empty)
                 .Replace("{source}", this.Source.Name)
                 .Replace("{target}", this.Target.Name)
                 .Replace("{sourcepath}", this.Source.Path)
-                .Replace("{targetpath}", this.Target.Path)
-                ;
+                .Replace("{targetpath}", this.Target.Path);
         }
     }
 }
