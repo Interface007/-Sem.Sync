@@ -20,6 +20,8 @@ namespace Sem.Sync.SyncBase
 
     using Interfaces;
     using Properties;
+    using System.Reflection;
+    using System.IO;
 
     /// <summary>
     /// The sync engine is the heart of the library. This engine does coordinate the work in
@@ -216,7 +218,9 @@ namespace Sem.Sync.SyncBase
         /// <returns>the processed string containing the token values instead of the token</returns>
         private string ReplacePathToken(string path)
         {
-            return (path ?? string.Empty).Replace("{FS:WorkingFolder}", this.WorkingFolder);
+            return (path ?? string.Empty)
+                .Replace("{FS:WorkingFolder}", this.WorkingFolder)
+                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
         }
     }
 }

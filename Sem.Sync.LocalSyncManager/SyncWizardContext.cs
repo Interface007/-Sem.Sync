@@ -1,11 +1,8 @@
 ﻿namespace Sem.Sync.LocalSyncManager
 {
-    using System;
     using System.Collections.Generic;
     using SyncBase;
-    using SyncBase.Attributes;
     using SyncBase.Binding;
-using Sem.GenericHelpers;
 
     public class SyncWizardContext
     {
@@ -16,14 +13,15 @@ using Sem.GenericHelpers;
 
         public SyncWizardContext()
         {
+            // todo: replace this with automatic lookup of assemblies
             this.Clients = new Dictionary<string, string>();
             this.Clients.Add("Sem.Sync.XingConnector.ContactClient", "Xing");
             this.Clients.Add("Sem.Sync.OutlookConnector.ContactClient", "Outlook");
             this.Clients.Add("Sem.Sync.FilesystemConnector.ContactClientVCards", "vCards");
             this.Clients.Add("Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact", "xml");
 
-            this.Source = new ConnectorInformation();
-            this.Target = new ConnectorInformation();
+            this.Source = new ConnectorInformation { Name = "Sem.Sync.XingConnector.ContactClient" };
+            this.Target = new ConnectorInformation { Name = "Sem.Sync.OutlookConnector.ContactClient" };
         }
 
         internal void Run()
@@ -36,11 +34,10 @@ using Sem.GenericHelpers;
                 command.SourceConnector = ReplaceToken(command.SourceConnector);
                 command.TargetConnector = ReplaceToken(command.TargetConnector);
                 command.SourceStorePath = ReplaceToken(command.SourceStorePath);
-                command.SourceStorePath = ReplaceToken(command.SourceStorePath);
+                command.TargetStorePath = ReplaceToken(command.TargetStorePath);
             }
 
             engine.Execute(commands);
-
         }
 
         private string ReplaceToken(string value)
@@ -52,43 +49,5 @@ using Sem.GenericHelpers;
                 .Replace("{targetpath}", this.Target.Path)
                 ;
         }
-    }
-
-    public class ConnectorInformation
-    {
-        private string _name;
-        private Factory _factory = new Factory("Sem.Sync.SyncBase");
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-            set
-            {
-                this._name = value;
-
-                this.ShowSelectFileDialog = false;
-                this.ShowSelectPathDialog = false;
-
-                var sourceTypeAttributes = Type.GetType(_factory.EnrichClassName(this._name)).GetCustomAttributes(typeof(ClientStoragePathDescriptionAttribute), false);
-                if (sourceTypeAttributes != null && sourceTypeAttributes.Length > 0)
-                {
-                    var attribute = (ClientStoragePathDescriptionAttribute)sourceTypeAttributes[0];
-                    this.ShowSelectFileDialog = attribute.ReferenceType == ClientPathType.FileSystemFileNameAndPath;
-                    this.ShowSelectPathDialog = attribute.ReferenceType == ClientPathType.FileSystemPath;
-                    if (string.IsNullOrEmpty(this.Path))
-                    {
-                        this.Path = attribute.Default;
-                    }
-                }
-
-            }
-        }
-
-        public string Path { get; set; }
-        public bool ShowSelectPathDialog { get; set; }
-        public bool ShowSelectFileDialog { get; set; }
-
     }
 }

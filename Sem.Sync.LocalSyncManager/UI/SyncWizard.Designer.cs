@@ -52,8 +52,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtPathSource = new System.Windows.Forms.TextBox();
+            this.txtPathTarget = new System.Windows.Forms.TextBox();
+            this.btnPathTarget = new System.Windows.Forms.Button();
+            this.btnPathSource = new System.Windows.Forms.Button();
+            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.panel1.SuspendLayout();
@@ -64,7 +67,7 @@
             this.btnCancel.Location = new System.Drawing.Point(363, 301);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 13;
+            this.btnCancel.TabIndex = 18;
             this.btnCancel.Text = "&cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -74,7 +77,7 @@
             this.btnRun.Location = new System.Drawing.Point(453, 301);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(75, 23);
-            this.btnRun.TabIndex = 14;
+            this.btnRun.TabIndex = 19;
             this.btnRun.Text = "&run";
             this.btnRun.UseVisualStyleBackColor = true;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
@@ -85,14 +88,14 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.PasswordChar = '*';
             this.textBox5.Size = new System.Drawing.Size(165, 20);
-            this.textBox5.TabIndex = 6;
+            this.textBox5.TabIndex = 8;
             // 
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(363, 128);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(165, 20);
-            this.textBox6.TabIndex = 4;
+            this.textBox6.TabIndex = 6;
             // 
             // label7
             // 
@@ -100,7 +103,7 @@
             this.label7.Location = new System.Drawing.Point(275, 158);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 13);
-            this.label7.TabIndex = 5;
+            this.label7.TabIndex = 7;
             this.label7.Text = "&password:";
             // 
             // label8
@@ -109,7 +112,7 @@
             this.label8.Location = new System.Drawing.Point(275, 131);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 13);
-            this.label8.TabIndex = 3;
+            this.label8.TabIndex = 5;
             this.label8.Text = "&user id / name:";
             // 
             // cboSource
@@ -120,7 +123,7 @@
             this.cboSource.Location = new System.Drawing.Point(58, 128);
             this.cboSource.Name = "cboSource";
             this.cboSource.Size = new System.Drawing.Size(198, 21);
-            this.cboSource.TabIndex = 2;
+            this.cboSource.TabIndex = 1;
             // 
             // contextDataSource
             // 
@@ -134,7 +137,7 @@
             this.label9.Location = new System.Drawing.Point(12, 131);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(42, 13);
-            this.label9.TabIndex = 1;
+            this.label9.TabIndex = 0;
             this.label9.Text = "&source:";
             // 
             // textBox7
@@ -143,14 +146,14 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.PasswordChar = '*';
             this.textBox7.Size = new System.Drawing.Size(165, 20);
-            this.textBox7.TabIndex = 12;
+            this.textBox7.TabIndex = 17;
             // 
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(363, 228);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(165, 20);
-            this.textBox8.TabIndex = 10;
+            this.textBox8.TabIndex = 15;
             // 
             // label10
             // 
@@ -158,7 +161,7 @@
             this.label10.Location = new System.Drawing.Point(275, 258);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(55, 13);
-            this.label10.TabIndex = 11;
+            this.label10.TabIndex = 16;
             this.label10.Text = "p&assword:";
             // 
             // label11
@@ -167,7 +170,7 @@
             this.label11.Location = new System.Drawing.Point(275, 231);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(78, 13);
-            this.label11.TabIndex = 9;
+            this.label11.TabIndex = 14;
             this.label11.Text = "user id / &name:";
             // 
             // cboTarget
@@ -178,7 +181,7 @@
             this.cboTarget.Location = new System.Drawing.Point(58, 228);
             this.cboTarget.Name = "cboTarget";
             this.cboTarget.Size = new System.Drawing.Size(198, 21);
-            this.cboTarget.TabIndex = 8;
+            this.cboTarget.TabIndex = 10;
             // 
             // contextDataTarget
             // 
@@ -192,7 +195,7 @@
             this.label12.Location = new System.Drawing.Point(12, 231);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(37, 13);
-            this.label12.TabIndex = 7;
+            this.label12.TabIndex = 9;
             this.label12.Text = "&target:";
             // 
             // label1
@@ -200,7 +203,7 @@
             this.label1.Location = new System.Drawing.Point(117, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(326, 51);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 21;
             this.label1.Text = "Please select the source and destination of the synchronization process. You also" +
                 " may need to provide a user name and a password for the source and/or the destin" +
                 "ation.";
@@ -213,7 +216,7 @@
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(516, 100);
-            this.panel1.TabIndex = 17;
+            this.panel1.TabIndex = 20;
             this.panel1.Visible = false;
             // 
             // lblStatus
@@ -221,7 +224,7 @@
             this.lblStatus.Location = new System.Drawing.Point(18, 13);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(477, 46);
-            this.lblStatus.TabIndex = 1;
+            this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "please wait ...";
             // 
             // SyncProgress
@@ -229,7 +232,7 @@
             this.SyncProgress.Location = new System.Drawing.Point(100, 62);
             this.SyncProgress.Name = "SyncProgress";
             this.SyncProgress.Size = new System.Drawing.Size(303, 23);
-            this.SyncProgress.TabIndex = 0;
+            this.SyncProgress.TabIndex = 1;
             // 
             // label3
             // 
@@ -237,7 +240,7 @@
             this.label3.Location = new System.Drawing.Point(-2, 121);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 13);
-            this.label3.TabIndex = 7;
+            this.label3.TabIndex = 2;
             this.label3.Text = "&target:";
             // 
             // label2
@@ -246,7 +249,7 @@
             this.label2.Location = new System.Drawing.Point(12, 158);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 2;
             this.label2.Text = "pat&h:";
             // 
             // label4
@@ -255,30 +258,58 @@
             this.label4.Location = new System.Drawing.Point(12, 258);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 13);
-            this.label4.TabIndex = 7;
+            this.label4.TabIndex = 11;
             this.label4.Text = "pat&h:";
             // 
-            // textBox1
+            // txtPathSource
             // 
-            this.textBox1.Location = new System.Drawing.Point(58, 155);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(198, 20);
-            this.textBox1.TabIndex = 18;
+            this.txtPathSource.Location = new System.Drawing.Point(58, 155);
+            this.txtPathSource.Name = "txtPathSource";
+            this.txtPathSource.Size = new System.Drawing.Size(167, 20);
+            this.txtPathSource.TabIndex = 3;
+            this.txtPathSource.TextChanged += new System.EventHandler(this.txtPathSource_TextChanged);
             // 
-            // textBox2
+            // txtPathTarget
             // 
-            this.textBox2.Location = new System.Drawing.Point(58, 255);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(198, 20);
-            this.textBox2.TabIndex = 18;
+            this.txtPathTarget.Location = new System.Drawing.Point(58, 255);
+            this.txtPathTarget.Name = "txtPathTarget";
+            this.txtPathTarget.Size = new System.Drawing.Size(167, 20);
+            this.txtPathTarget.TabIndex = 12;
+            this.txtPathTarget.TextChanged += new System.EventHandler(this.txtPathTarget_TextChanged);
+            // 
+            // btnPathTarget
+            // 
+            this.btnPathTarget.Location = new System.Drawing.Point(229, 253);
+            this.btnPathTarget.Name = "btnPathTarget";
+            this.btnPathTarget.Size = new System.Drawing.Size(27, 23);
+            this.btnPathTarget.TabIndex = 13;
+            this.btnPathTarget.Text = "...";
+            this.btnPathTarget.UseVisualStyleBackColor = true;
+            this.btnPathTarget.Click += new System.EventHandler(this.btnPathTarget_Click);
+            // 
+            // btnPathSource
+            // 
+            this.btnPathSource.Location = new System.Drawing.Point(229, 153);
+            this.btnPathSource.Name = "btnPathSource";
+            this.btnPathSource.Size = new System.Drawing.Size(27, 23);
+            this.btnPathSource.TabIndex = 4;
+            this.btnPathSource.Text = "...";
+            this.btnPathSource.UseVisualStyleBackColor = true;
+            this.btnPathSource.Click += new System.EventHandler(this.btnPathSource_Click);
+            // 
+            // folderBrowser
+            // 
+            this.folderBrowser.ShowNewFolderButton = false;
             // 
             // SyncWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(540, 336);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnPathSource);
+            this.Controls.Add(this.btnPathTarget);
+            this.Controls.Add(this.txtPathTarget);
+            this.Controls.Add(this.txtPathSource);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.textBox8);
             this.Controls.Add(this.label10);
@@ -332,9 +363,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtPathSource;
+        private System.Windows.Forms.TextBox txtPathTarget;
         private System.Windows.Forms.BindingSource contextDataSource;
         private System.Windows.Forms.BindingSource contextDataTarget;
+        private System.Windows.Forms.Button btnPathTarget;
+        private System.Windows.Forms.Button btnPathSource;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowser;
     }
 }

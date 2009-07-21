@@ -21,7 +21,7 @@ namespace Sem.GenericHelpers
     /// </remarks>
     /// <example>
     /// creating a new source object using the simple type specification:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.ContactClientCsv");</code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact");</code>
     /// creating a new source object using the generic type specification by using the " of "-substring:
     /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem");</code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
@@ -96,8 +96,8 @@ namespace Sem.GenericHelpers
         /// <returns>a new instance of the class specified with the class name</returns>
         public object GetNewObject(string genericClassName, string className)
         {
-            var genericClassType = Type.GetType(this.EnrichClassName(genericClassName));
-            var classType = Type.GetType(this.EnrichClassName(className));
+            var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
+            var classType = Type.GetType(this.EnrichClassName(className.Trim()));
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
@@ -130,22 +130,22 @@ namespace Sem.GenericHelpers
                         {
                             throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
                         }
-                        assemblyName = this.DefaultNamespace;
+                        assemblyName = this.DefaultNamespace.Trim();
                         returnValue.Append(assemblyName).Append(".");
                     }
                     else
                     {
-                        assemblyName = name.Substring(0, name.LastIndexOf(".", StringComparison.Ordinal));
+                        assemblyName = name.Substring(0, name.LastIndexOf(".", StringComparison.Ordinal)).Trim();
                     }
 
                     returnValue
-                        .Append(name)
+                        .Append(name.Trim())
                         .Append(", ")
                         .Append(assemblyName);
                 }
                 else
                 {
-                    returnValue.Append(name);
+                    returnValue.Append(name.Trim());
                 }
 
                 isFirstFragement = false;

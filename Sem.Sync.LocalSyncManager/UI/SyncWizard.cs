@@ -18,7 +18,9 @@
             this.dataContext = new SyncWizardContext();
 
             this.contextDataSource.DataSource = this.dataContext;
+            cboSource.ValueMember = "";
             this.contextDataTarget.DataSource = this.dataContext;
+            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -38,9 +40,33 @@
 
         private void contextDataTarget_CurrentChanged(object sender, EventArgs e)
         {
-            this.dataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
+            this.dataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)sender).Current).Key;
+        }
+
+        private void btnPathSource_Click(object sender, EventArgs e)
+        {
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                txtPathSource.Text = folderBrowser.SelectedPath;
+            } 
+        }
+
+        private void btnPathTarget_Click(object sender, EventArgs e)
+        {
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                txtPathTarget.Text = folderBrowser.SelectedPath;
+            } 
+        }
+
+        private void txtPathSource_TextChanged(object sender, EventArgs e)
+        {
+            this.dataContext.Source.Path = txtPathSource.Text;
+        }
+
+        private void txtPathTarget_TextChanged(object sender, EventArgs e)
+        {
+            this.dataContext.Target.Path = txtPathTarget.Text;
         }
     }
-
-    
 }
