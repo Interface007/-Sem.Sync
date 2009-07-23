@@ -90,23 +90,23 @@
             // 
             // txtPasswordSource
             // 
-            this.txtPasswordSource.Location = new System.Drawing.Point(363, 155);
+            this.txtPasswordSource.Location = new System.Drawing.Point(395, 155);
             this.txtPasswordSource.Name = "txtPasswordSource";
             this.txtPasswordSource.PasswordChar = '*';
-            this.txtPasswordSource.Size = new System.Drawing.Size(165, 20);
+            this.txtPasswordSource.Size = new System.Drawing.Size(132, 20);
             this.txtPasswordSource.TabIndex = 10;
             // 
             // txtUidSource
             // 
-            this.txtUidSource.Location = new System.Drawing.Point(363, 128);
+            this.txtUidSource.Location = new System.Drawing.Point(395, 128);
             this.txtUidSource.Name = "txtUidSource";
-            this.txtUidSource.Size = new System.Drawing.Size(165, 20);
+            this.txtUidSource.Size = new System.Drawing.Size(132, 20);
             this.txtUidSource.TabIndex = 8;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(275, 158);
+            this.label7.Location = new System.Drawing.Point(316, 158);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 13);
             this.label7.TabIndex = 9;
@@ -115,7 +115,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(275, 131);
+            this.label8.Location = new System.Drawing.Point(316, 131);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 13);
             this.label8.TabIndex = 7;
@@ -128,7 +128,7 @@
             this.cboSource.FormattingEnabled = true;
             this.cboSource.Location = new System.Drawing.Point(58, 143);
             this.cboSource.Name = "cboSource";
-            this.cboSource.Size = new System.Drawing.Size(198, 21);
+            this.cboSource.Size = new System.Drawing.Size(249, 21);
             this.cboSource.TabIndex = 3;
             // 
             // contextDataSource
@@ -146,23 +146,23 @@
             // 
             // txtPasswordTarget
             // 
-            this.txtPasswordTarget.Location = new System.Drawing.Point(363, 255);
+            this.txtPasswordTarget.Location = new System.Drawing.Point(395, 255);
             this.txtPasswordTarget.Name = "txtPasswordTarget";
             this.txtPasswordTarget.PasswordChar = '*';
-            this.txtPasswordTarget.Size = new System.Drawing.Size(165, 20);
+            this.txtPasswordTarget.Size = new System.Drawing.Size(132, 20);
             this.txtPasswordTarget.TabIndex = 21;
             // 
             // txtUidTarget
             // 
-            this.txtUidTarget.Location = new System.Drawing.Point(363, 228);
+            this.txtUidTarget.Location = new System.Drawing.Point(395, 228);
             this.txtUidTarget.Name = "txtUidTarget";
-            this.txtUidTarget.Size = new System.Drawing.Size(165, 20);
+            this.txtUidTarget.Size = new System.Drawing.Size(132, 20);
             this.txtUidTarget.TabIndex = 19;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(275, 258);
+            this.label10.Location = new System.Drawing.Point(316, 258);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(55, 13);
             this.label10.TabIndex = 20;
@@ -171,7 +171,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(275, 231);
+            this.label11.Location = new System.Drawing.Point(316, 231);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(78, 13);
             this.label11.TabIndex = 18;
@@ -184,7 +184,7 @@
             this.cboTarget.FormattingEnabled = true;
             this.cboTarget.Location = new System.Drawing.Point(58, 243);
             this.cboTarget.Name = "cboTarget";
-            this.cboTarget.Size = new System.Drawing.Size(198, 21);
+            this.cboTarget.Size = new System.Drawing.Size(249, 21);
             this.cboTarget.TabIndex = 14;
             // 
             // contextDataTarget
@@ -267,19 +267,19 @@
             // 
             this.txtPathSource.Location = new System.Drawing.Point(58, 170);
             this.txtPathSource.Name = "txtPathSource";
-            this.txtPathSource.Size = new System.Drawing.Size(167, 20);
+            this.txtPathSource.Size = new System.Drawing.Size(218, 20);
             this.txtPathSource.TabIndex = 5;
             // 
             // txtPathTarget
             // 
             this.txtPathTarget.Location = new System.Drawing.Point(58, 270);
             this.txtPathTarget.Name = "txtPathTarget";
-            this.txtPathTarget.Size = new System.Drawing.Size(167, 20);
+            this.txtPathTarget.Size = new System.Drawing.Size(218, 20);
             this.txtPathTarget.TabIndex = 16;
             // 
             // btnPathTarget
             // 
-            this.btnPathTarget.Location = new System.Drawing.Point(229, 268);
+            this.btnPathTarget.Location = new System.Drawing.Point(279, 268);
             this.btnPathTarget.Name = "btnPathTarget";
             this.btnPathTarget.Size = new System.Drawing.Size(27, 23);
             this.btnPathTarget.TabIndex = 17;
@@ -288,7 +288,7 @@
             // 
             // btnPathSource
             // 
-            this.btnPathSource.Location = new System.Drawing.Point(229, 168);
+            this.btnPathSource.Location = new System.Drawing.Point(279, 168);
             this.btnPathSource.Name = "btnPathSource";
             this.btnPathSource.Size = new System.Drawing.Size(27, 23);
             this.btnPathSource.TabIndex = 6;
@@ -320,7 +320,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(275, 184);
+            this.label5.Location = new System.Drawing.Point(316, 184);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 13);
             this.label5.TabIndex = 11;
@@ -328,15 +328,15 @@
             // 
             // txtDomainSource
             // 
-            this.txtDomainSource.Location = new System.Drawing.Point(363, 181);
+            this.txtDomainSource.Location = new System.Drawing.Point(395, 181);
             this.txtDomainSource.Name = "txtDomainSource";
-            this.txtDomainSource.Size = new System.Drawing.Size(165, 20);
+            this.txtDomainSource.Size = new System.Drawing.Size(132, 20);
             this.txtDomainSource.TabIndex = 12;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(275, 284);
+            this.label6.Location = new System.Drawing.Point(316, 284);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 13);
             this.label6.TabIndex = 22;
@@ -344,9 +344,9 @@
             // 
             // txtDomainTarget
             // 
-            this.txtDomainTarget.Location = new System.Drawing.Point(363, 281);
+            this.txtDomainTarget.Location = new System.Drawing.Point(395, 281);
             this.txtDomainTarget.Name = "txtDomainTarget";
-            this.txtDomainTarget.Size = new System.Drawing.Size(165, 20);
+            this.txtDomainTarget.Size = new System.Drawing.Size(132, 20);
             this.txtDomainTarget.TabIndex = 23;
             // 
             // openFileDialog1

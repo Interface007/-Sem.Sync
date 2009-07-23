@@ -15,6 +15,8 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.Text;
     using System.Windows.Forms;
 
+    using Business;
+
     using GenericHelpers.EventArgs;
 
     using SharedUI.WinForms.UI;

@@ -1,6 +1,8 @@
 ﻿namespace Sem.Sync.LocalSyncManager.Business
 {
     using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
 
     using GenericHelpers;
     using GenericHelpers.EventArgs;
@@ -8,6 +10,7 @@
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Binding;
 
     using Tools;
@@ -15,7 +18,8 @@
 
     public class SyncWizardContext
     {
-        public Dictionary<string, string> Clients { get; set; }
+        public Dictionary<string, string> ClientsSource { get; set; }
+        public Dictionary<string, string> ClientsTarget { get; set; }
 
         public ConnectorInformation Source { get; set; }
         public ConnectorInformation Target { get; set; }
@@ -24,15 +28,40 @@
 
         public SyncWizardContext()
         {
-            // todo: replace this with automatic lookup of assemblies
-            this.Clients = new Dictionary<string, string>();
-            this.Clients.Add("Sem.Sync.XingConnector.ContactClient", "Xing");
-            this.Clients.Add("Sem.Sync.OutlookConnector.ContactClient", "Outlook");
-            this.Clients.Add("Sem.Sync.FilesystemConnector.ContactClientVCards", "vCards");
-            this.Clients.Add("Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact", "xml");
+            this.ClientsSource = new Dictionary<string, string>();
+            this.ClientsTarget = new Dictionary<string, string>();
+            this.Source= new ConnectorInformation();
+            this.Target= new ConnectorInformation();
 
-            this.Source = new ConnectorInformation { Name = "Sem.Sync.XingConnector.ContactClient" };
-            this.Target = new ConnectorInformation { Name = "Sem.Sync.OutlookConnector.ContactClient" };
+            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
+            {
+                // todo: check if the dll is a loadable assembly
+                var assembly = Assembly.LoadFile(file);
+                foreach (var exportedType in assembly.GetExportedTypes())
+                {
+                    if (exportedType.GetInterface("IClientBase") == null ||
+                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
+                    {
+                        continue;
+                    }
+
+                    var sourceTypeAttributes = exportedType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
+                    var attribute = 
+                        sourceTypeAttributes.Length == 0 
+                        ? new ConnectorDescriptionAttribute()
+                        : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
+                        
+                    if (attribute.CanRead)
+                    {
+                        this.ClientsSource.Add(exportedType.FullName, exportedType.Name);
+                    }
+                        
+                    if (attribute.CanWrite)
+                    {
+                        this.ClientsTarget.Add(exportedType.FullName, exportedType.Name);
+                    }
+                }
+            }
         }
 
         public void LoadFrom(string path)

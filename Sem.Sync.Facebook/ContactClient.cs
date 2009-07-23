@@ -12,19 +12,20 @@ namespace Sem.Sync.FacebookConnector
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
 
     using Facebook.Components;
 
     using Microsoft.Win32;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.DetailData;
 
     /// <summary>
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
     /// publishing too much data about friends.
     /// </summary>
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
         private readonly string apiKey;

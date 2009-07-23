@@ -19,12 +19,14 @@ namespace Sem.Sync.StatisticConnector
     using GenericHelpers.Entities;
 
     using SyncBase;
+    using SyncBase.Attributes;
 
     #endregion usings
 
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
     /// </summary>
+    [ConnectorDescription(CanRead = false, CanWrite = true, NeedsCredentials = false)]
     public class SimpleReport : StdClient
     {
         /// <summary>

@@ -20,12 +20,14 @@ namespace Sem.Sync.ActiveDirectoryConnector
     using GenericHelpers;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
 
     /// <summary>
     /// connector to Active Directory via LDAP
     /// </summary>
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
         /// <summary>

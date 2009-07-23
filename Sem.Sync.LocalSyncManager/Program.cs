@@ -13,6 +13,8 @@ namespace Sem.Sync.LocalSyncManager
     using System;
     using System.Windows.Forms;
 
+    using Business;
+
     using UI;
 
     /// <summary>

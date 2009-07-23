@@ -45,7 +45,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.DataContext = new SyncWizardContext();
 
             this.contextDataSource.DataSource = this.DataContext;
-            this.contextDataTarget.DataMember = "Clients";
+            this.contextDataSource.DataMember = "ClientsSource";
             this.contextDataSource.CurrentChanged += (s, ev) =>
                 {
                     this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
@@ -53,7 +53,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                 };
 
             this.contextDataTarget.DataSource = this.DataContext;
-            this.contextDataSource.DataMember = "Clients";
+            this.contextDataTarget.DataMember = "ClientsTarget";
             this.contextDataTarget.CurrentChanged += (s, ev) =>
                 {
                     this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
@@ -77,6 +77,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtPasswordTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnPassword = ((TextBox)s).Text; };
             this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((TextBox)s).Text; };
             this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((TextBox)s).Text; };
+
+            this.cboSource.SelectedIndex = 0;
+            this.cboTarget.SelectedIndex = 0;
         }
 
         private void RunCommands()
@@ -96,10 +99,11 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtPathTarget.Text = this.DataContext.Target.Path;
 
             this.txtUidSource.Text = this.DataContext.Source.LogonCredentials.LogOnUserId;
-            this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtPasswordSource.Text = this.DataContext.Source.LogonCredentials.LogOnPassword;
-            this.txtPasswordTarget.Text = this.DataContext.Target.LogonCredentials.LogOnPassword;
             this.txtDomainSource.Text = this.DataContext.Source.LogonCredentials.LogOnDomain;
+
+            this.txtPasswordTarget.Text = this.DataContext.Target.LogonCredentials.LogOnPassword;
+            this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
 
             this.cboSource.Text = this.DataContext.Source.Name;
@@ -107,6 +111,14 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.btnPathSource.Visible = this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog;
             this.btnPathTarget.Visible = this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog;
+
+            this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+            this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+            this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+            
+            this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+            this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+            this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
         }
 
         /// <summary>

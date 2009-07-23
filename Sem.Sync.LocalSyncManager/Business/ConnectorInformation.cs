@@ -1,6 +1,7 @@
-﻿namespace Sem.Sync.LocalSyncManager
+﻿namespace Sem.Sync.LocalSyncManager.Business
 {
     using System;
+    using System.Xml.Serialization;
 
     using GenericHelpers;
     using GenericHelpers.Entities;
@@ -36,11 +37,10 @@
                     typeName = value.Split(new[] { " of " }, StringSplitOptions.RemoveEmptyEntries)[0] + "`1";
                 }
 
-                var type = Type.GetType(_factory.EnrichClassName(typeName));
+                var type = Type.GetType(this._factory.EnrichClassName(typeName));
                 var sourceTypeAttributes = type.GetCustomAttributes(typeof(ClientStoragePathDescriptionAttribute), false);
-                if (sourceTypeAttributes != null && sourceTypeAttributes.Length > 0)
+                foreach (ClientStoragePathDescriptionAttribute attribute in sourceTypeAttributes)
                 {
-                    var attribute = (ClientStoragePathDescriptionAttribute)sourceTypeAttributes[0];
                     this.ShowSelectFileDialog = attribute.ReferenceType == ClientPathType.FileSystemFileNameAndPath;
                     this.ShowSelectPathDialog = attribute.ReferenceType == ClientPathType.FileSystemPath;
                     if (string.IsNullOrEmpty(this.Path))
@@ -49,6 +49,16 @@
                     }
                 }
 
+                sourceTypeAttributes = type.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
+                if (sourceTypeAttributes.Length > 0)
+                {
+                    var attribute = (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
+                    this.ConnectorDescription = attribute;
+                }
+                else
+                {
+                    this.ConnectorDescription = new ConnectorDescriptionAttribute();
+                }
             }
         }
 
@@ -58,5 +68,7 @@
 
         public Credentials LogonCredentials { get; set; }
 
+        [XmlIgnore]
+        public ConnectorDescriptionAttribute ConnectorDescription { get; set; }
     }
 }

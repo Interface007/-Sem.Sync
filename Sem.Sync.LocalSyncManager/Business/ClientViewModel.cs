@@ -7,8 +7,7 @@
 //   Implements the functionality of the main program for syncing
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace Sem.Sync.LocalSyncManager
+namespace Sem.Sync.LocalSyncManager.Business
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +20,7 @@ namespace Sem.Sync.LocalSyncManager
     using SyncBase.Binding;
 
     using Tools;
-    
+
     /// <summary>
     /// Implements the functionality of the main program for syncing
     /// </summary>
@@ -35,10 +34,10 @@ namespace Sem.Sync.LocalSyncManager
         internal SyncCollection SyncCommands { get; set; }
 
         private readonly SyncEngine engine = new SyncEngine
-                                             {
-                                                 WorkingFolder = Config.WorkingFolder,
-                                                 UiProvider = new UiDispatcher()
-                                             };
+            {
+                WorkingFolder = Config.WorkingFolder,
+                UiProvider = new UiDispatcher()
+            };
 
         internal ClientViewModel()
         {

@@ -21,6 +21,7 @@ namespace Sem.Sync.WerKenntWenConnector
     using GenericHelpers;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.DetailData;
     
     #endregion usings
@@ -28,6 +29,7 @@ namespace Sem.Sync.WerKenntWenConnector
     /// <summary>
     /// Client implementation for reading information from www.wer-kennt-wen.de
     /// </summary>
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
         #region string resources for processing wkw pages
