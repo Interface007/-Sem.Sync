@@ -3,12 +3,20 @@
     using System;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
+
     using SyncBase.Attributes;
 
     public class ConnectorInformation
     {
         private string _name;
         private readonly Factory _factory = new Factory("Sem.Sync.SyncBase");
+
+        public ConnectorInformation()
+        {
+            this.LogonCredentials = new Credentials();
+        }
+
         public string Name
         {
             get
@@ -47,6 +55,8 @@
         public string Path { get; set; }
         public bool ShowSelectPathDialog { get; set; }
         public bool ShowSelectFileDialog { get; set; }
+
+        public Credentials LogonCredentials { get; set; }
 
     }
 }

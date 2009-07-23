@@ -1,6 +1,10 @@
 ﻿namespace Sem.GenericHelpers.Entities
 {
+    using System.Security.Cryptography;
+    using System.Text;
+
     using Interfaces;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// Minimal implementation of the <see cref="ICredentialAware"/> interface to represent 
@@ -8,6 +12,7 @@
     /// </summary>
     public class Credentials : ICredentialAware
     {
+        private readonly byte[] entropy = Encoding.UTF8.GetBytes("Sem.Sync");
 
         #region ICredentialAware Members
 
@@ -27,8 +32,26 @@
         /// Gets or sets the "shared secret" to authenticate the user. The user log on password is
         /// used in windows environment.
         /// </summary>
+        [XmlIgnore]
         public string LogOnPassword { get; set; }
 
         #endregion
+
+        public byte[] LogOnPasswordProtected
+        {
+            get
+            {
+                var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
+                var protectedString = ProtectedData.Protect(bytes, entropy, DataProtectionScope.CurrentUser);
+                return protectedString;
+            }
+            
+            set
+            {
+                var unprotectedString = ProtectedData.Unprotect(value, entropy, DataProtectionScope.CurrentUser);
+                var dataString = Encoding.UTF8.GetString(unprotectedString);
+                this.LogOnPassword = dataString;
+            }
+        }
     }
 }

@@ -3,10 +3,10 @@
 
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
-    <TargetStorePath>
+    <CommandParameter>
       {FS:WorkingFolder}\Outlook.xmlcontact
       {FS:WorkingFolder}\Xing.xmlcontact
-    </TargetStorePath>
+    </CommandParameter>
   </SyncDescription>
 
   <SyncDescription Name="Export from Source to file system">
@@ -20,6 +20,7 @@
   <SyncDescription Name="Export from target to file system">
     <Command>CopyAll</Command>
     <SourceConnector>{target}</SourceConnector>
+    <SourceStorePath>{targetpath}</SourceStorePath>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>

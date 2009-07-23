@@ -1,8 +1,17 @@
-﻿namespace Sem.Sync.LocalSyncManager
+﻿namespace Sem.Sync.LocalSyncManager.Business
 {
     using System.Collections.Generic;
+
+    using GenericHelpers;
+    using GenericHelpers.EventArgs;
+
+    using SharedUI.WinForms.Tools;
+
     using SyncBase;
     using SyncBase.Binding;
+
+    using Tools;
+    using GenericHelpers.Entities;
 
     public class SyncWizardContext
     {
@@ -10,6 +19,8 @@
 
         public ConnectorInformation Source { get; set; }
         public ConnectorInformation Target { get; set; }
+
+        public delegate void ProcessEventDelegate(object entity, ProcessingEventArgs eventArgs);
 
         public SyncWizardContext()
         {
@@ -24,10 +35,32 @@
             this.Target = new ConnectorInformation { Name = "Sem.Sync.OutlookConnector.ContactClient" };
         }
 
-        internal void Run()
+        public void LoadFrom(string path)
         {
-            var engine = new SyncEngine();
-            var commands = SyncCollection.LoadSyncList("SyncLists\\Wizard.XSyncList");
+            var connectors = Tools.LoadFromFile<List<ConnectorInformation>>(path);
+            this.Source = connectors[0];
+            this.Target = connectors[1];
+        }
+
+        public void SaveTo(string path)
+        {
+            var connectors = new List<ConnectorInformation>();
+            connectors.Add(this.Source);
+            connectors.Add(this.Target);
+            Tools.SaveToFile(connectors, path, typeof(Credentials));
+        }
+
+        public void Run(string templateScript, ProcessEventDelegate processingEvent)
+        {
+            var engine = new SyncEngine
+            {
+                WorkingFolder = Config.WorkingFolder,
+                UiProvider = new UiDispatcher()
+            };
+
+            engine.ProcessingEvent += (s, e) => processingEvent(s, e);
+
+            var commands = SyncCollection.LoadSyncList(templateScript);
 
             foreach (var command in commands)
             {

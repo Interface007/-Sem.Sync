@@ -14,6 +14,7 @@ namespace Sem.GenericHelpers
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Xml.Serialization;
 
     using Entities;

@@ -22,6 +22,7 @@ namespace Sem.Sync.FilesystemConnector
     using Properties;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
     #endregion usings
@@ -29,6 +30,10 @@ namespace Sem.Sync.FilesystemConnector
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
+    [ClientStoragePathDescriptionAttribute(
+        Mandatory = true,
+        Default = "{FS:WorkingFolder}\\Contacts.xml",
+        ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class ContactClient : StdClient
     {
         /// <summary>

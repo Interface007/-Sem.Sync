@@ -22,6 +22,7 @@ namespace Sem.Sync.FilesystemConnector
     using Properties;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
     #endregion usings
@@ -33,6 +34,10 @@ namespace Sem.Sync.FilesystemConnector
     /// </summary>
     /// <typeparam name="T">A class that does inherit from StdElement. Elements of this type can be 
     /// loaded/saved with an instance of this class</typeparam>
+    [ClientStoragePathDescriptionAttribute(
+        Mandatory = true,
+        Default = "{FS:WorkingFolder}\\Elements.xml",
+        ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class GenericClient<T> : StdClient where T : StdElement
     {
         /// <summary>

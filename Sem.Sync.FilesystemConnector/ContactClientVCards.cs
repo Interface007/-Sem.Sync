@@ -88,7 +88,10 @@ namespace Sem.Sync.FilesystemConnector
         /// <param name="clientFolderName"> The client folder name for the destination/source of the vCards. </param>
         protected override void BeforeStorageAccess(string clientFolderName)
         {
-            Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
+            if (!string.IsNullOrEmpty(clientFolderName))
+            {
+                Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
+            }
         }
 
         /// <summary>

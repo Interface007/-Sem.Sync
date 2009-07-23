@@ -233,17 +233,9 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 default:
                     // check if we have a new type for that we need to identify the default value
-                    switch (typeName)
+                    if (!typeName.IsOneOf("SyncData", "PhoneNumber", "AddressDetail", "PersonName", "StdContact", "ProfileIdentifiers"))
                     {
-                        case "SyncData":
-                        case "PhoneNumber":
-                        case "AddressDetail":
-                        case "PersonName":
-                        case "StdContact":
-                            break;
-                        default:
-                            Console.WriteLine("type name not explicitly supported in ClearNulls: " + typeName);
-                            break;
+                        Console.WriteLine("type name not explicitly supported in ClearNulls: " + typeName);
                     }
 
                     var members = testType.GetProperties();

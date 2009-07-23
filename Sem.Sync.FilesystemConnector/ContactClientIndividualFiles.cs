@@ -22,12 +22,17 @@ namespace Sem.Sync.FilesystemConnector
     using Properties;
 
     using SyncBase;
+    using SyncBase.Attributes;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling contacts
     /// </summary>
+    [ClientStoragePathDescriptionAttribute(
+        Mandatory = true,
+        Default = "{FS:WorkingFolder}\\Contacts",
+        ReferenceType = ClientPathType.FileSystemPath)]
     public class ContactClientIndividualFiles : StdClient
     {
         /// <summary>

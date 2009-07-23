@@ -243,6 +243,12 @@ namespace Sem.Sync.SyncBase
         /// <param name="message">the message to be displayed to the user</param>
         protected void QueryForLogOnCredentials(string message)
         {
+            if (this.UiDispatcher != null)
+            {
+                this.UiDispatcher.AskForLogOnCredentials(this, message, this.LogOnUserId, this.LogOnPassword);
+                return;
+            }
+
             if (this.QueryForLogonCredentialsEvent == null)
             {
                 return;

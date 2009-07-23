@@ -57,7 +57,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             // get the data for the combo box from the file system paths
             this.SyncListSelection.DataSource =
-               (from x in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.SyncList")
+               (from x in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.SyncList")
                 select new
                            {
                                Name = Path.GetFileName(x),

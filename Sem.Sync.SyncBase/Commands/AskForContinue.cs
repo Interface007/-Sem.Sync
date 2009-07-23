@@ -35,8 +35,8 @@ namespace Sem.Sync.SyncBase.Commands
         /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
-            return this.UiProvider == null 
-                || this.UiProvider.AskForConfirm(commandParameter, targetClient.FriendlyClientName);
+            return this.UiProvider == null
+                || this.UiProvider.AskForConfirm(commandParameter, (targetClient == null) ? "Sem.Sync" : targetClient.FriendlyClientName);
         }
     }
 }
