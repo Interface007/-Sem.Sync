@@ -82,17 +82,24 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.cboTarget.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Runs the currently command sequence stored inside "SyncLists\\Wizard.XSyncList" with the context
+        /// (the context does contain source and target of the data with additional information like credentials)
+        /// </summary>
         private void RunCommands()
         {
             this.pnlProgress.Visible = true;
             this.DataContext.Run(
                 "SyncLists\\Wizard.XSyncList",
-                delegate(object entity, ProcessingEventArgs eventArgs)
-                { this.lblProgressStatus.Text = eventArgs.Message; });
+                delegate(object entity, ProcessingEventArgs eventArgs) { this.lblProgressStatus.Text = eventArgs.Message; });
             this.pnlProgress.Visible = false;
             this.lblDialogStatus.Text = "process finished";
         }
 
+        /// <summary>
+        /// In this method all properties are read from the context and pumped into the GUI 
+        /// elements attributes.
+        /// </summary>
         private void ReadFromContext()
         {
             this.txtPathSource.Text = this.DataContext.Source.Path;
@@ -135,6 +142,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                 {
                     textBox.Text = folderBrowser.SelectedPath;
                 }
+
                 return;
             }
 
@@ -144,6 +152,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                 {
                     textBox.Text = saveFileDialog1.FileName;
                 }
+
                 return;
             }
 

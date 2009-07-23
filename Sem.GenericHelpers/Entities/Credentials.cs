@@ -1,5 +1,6 @@
 ﻿namespace Sem.GenericHelpers.Entities
 {
+    using System.Security;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -17,10 +18,10 @@
         #region ICredentialAware Members
 
         /// <summary>
-        /// Gets of sets an identifier that groups user names in one authentication system. In windows
+        /// Gets or sets an identifier that groups user names in one authentication system. In windows
         /// environments this may be an NT-Domain, a Computer name or an Active Directory name.
         /// </summary>
-        public string LogOnDomain { get; set;}
+        public string LogOnDomain { get; set; }
 
         /// <summary>
         /// Gets or sets the user name of the principal that wants to establish the log on. In windows
@@ -37,18 +38,22 @@
 
         #endregion
 
+        /// <summary>
+        /// Gets or sets the protected password. The password is protected by the user scope encryption key
+        /// of the DPAPI (Data Protection API).
+        /// </summary>
         public byte[] LogOnPasswordProtected
         {
             get
             {
                 var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
-                var protectedString = ProtectedData.Protect(bytes, entropy, DataProtectionScope.CurrentUser);
+                var protectedString = ProtectedData.Protect(bytes, this.entropy, DataProtectionScope.CurrentUser);
                 return protectedString;
             }
             
             set
             {
-                var unprotectedString = ProtectedData.Unprotect(value, entropy, DataProtectionScope.CurrentUser);
+                var unprotectedString = ProtectedData.Unprotect(value, this.entropy, DataProtectionScope.CurrentUser);
                 var dataString = Encoding.UTF8.GetString(unprotectedString);
                 this.LogOnPassword = dataString;
             }

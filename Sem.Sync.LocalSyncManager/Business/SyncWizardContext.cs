@@ -1,12 +1,24 @@
-﻿namespace Sem.Sync.LocalSyncManager.Business
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SyncWizardContext.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   The context does contain information needed to access the source and the
+//   target of the sequence to be executed. This includes the types of source
+//   and target as well as  the paths inside the storage and  the credentials
+//   to authenticate.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Sem.Sync.LocalSyncManager.Business
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
-
+    
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
@@ -14,8 +26,13 @@
     using SyncBase.Binding;
 
     using Tools;
-    using GenericHelpers.Entities;
-
+    
+    /// <summary>
+    /// The context does contain information needed to access the source and the 
+    /// target of the sequence to be executed. This includes the types of source 
+    /// and target as well as  the paths inside the storage and  the credentials
+    /// to authenticate.
+    /// </summary>
     public class SyncWizardContext
     {
         public Dictionary<string, string> ClientsSource { get; set; }
@@ -30,8 +47,8 @@
         {
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
-            this.Source= new ConnectorInformation();
-            this.Target= new ConnectorInformation();
+            this.Source = new ConnectorInformation();
+            this.Target = new ConnectorInformation();
 
             foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
             {

@@ -8,6 +8,12 @@
 
     using SyncBase.Attributes;
 
+    /// <summary>
+    /// The ConnectorInformation class does provide information about a single connector.
+    /// This includes the name of the type as well as the path inside the storage and
+    /// the credentials. The credentials are serialized in a save manner by encrypting
+    /// them with the current users .net encryption key.
+    /// </summary>
     public class ConnectorInformation
     {
         private string _name;
@@ -31,7 +37,7 @@
                 this.ShowSelectFileDialog = false;
                 this.ShowSelectPathDialog = false;
 
-                string typeName = value;
+                var typeName = value;
                 if (value.ToLowerInvariant().Contains(" of "))
                 {
                     typeName = value.Split(new[] { " of " }, StringSplitOptions.RemoveEmptyEntries)[0] + "`1";
@@ -66,9 +72,18 @@
         public bool ShowSelectPathDialog { get; set; }
         public bool ShowSelectFileDialog { get; set; }
 
-        public Credentials LogonCredentials { get; set; }
+        /// <summary>
+        /// Gets the <see cref="Credentials"/> to access the storage behind the
+        /// connector. The password will be stored encrpyted when serialized using the <see cref="XmlSerializer"/>.
+        /// </summary>
+        public Credentials LogonCredentials { get; private set; }
 
+        /// <summary>
+        /// Gets the ConnectorDescription - this property will not be 
+        /// serialized, because it depends only on the type of the connector
+        /// and does not represent any kind of state.
+        /// </summary>
         [XmlIgnore]
-        public ConnectorDescriptionAttribute ConnectorDescription { get; set; }
+        public ConnectorDescriptionAttribute ConnectorDescription { get; private set; }
     }
 }
