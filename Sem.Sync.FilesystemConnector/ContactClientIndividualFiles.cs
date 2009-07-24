@@ -23,6 +23,7 @@ namespace Sem.Sync.FilesystemConnector
 
     using SyncBase;
     using SyncBase.Attributes;
+    using SyncBase.Helpers;
 
     #endregion usings
 
@@ -100,7 +101,7 @@ namespace Sem.Sync.FilesystemConnector
             Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements)
             {
-                using (var file = new FileStream(Path.Combine(clientFolderName, element.ToStringSimple() + ".xmlcontact"), FileMode.Create))
+                using (var file = new FileStream(Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()) + ".xmlcontact"), FileMode.Create))
                 {
                     ContactListFormatter.Serialize(file, element);
                 }

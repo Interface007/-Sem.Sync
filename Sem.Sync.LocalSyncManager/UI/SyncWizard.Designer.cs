@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncWizard));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.txtPasswordSource = new System.Windows.Forms.TextBox();
@@ -65,71 +66,63 @@
             this.txtDomainTarget = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savedProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(363, 325);
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 25;
-            this.btnCancel.Text = "&cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(453, 325);
+            resources.ApplyResources(this.btnRun, "btnRun");
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 23);
-            this.btnRun.TabIndex = 24;
-            this.btnRun.Text = "&run";
             this.btnRun.UseVisualStyleBackColor = true;
             // 
             // txtPasswordSource
             // 
-            this.txtPasswordSource.Location = new System.Drawing.Point(395, 155);
+            resources.ApplyResources(this.txtPasswordSource, "txtPasswordSource");
             this.txtPasswordSource.Name = "txtPasswordSource";
-            this.txtPasswordSource.PasswordChar = '*';
-            this.txtPasswordSource.Size = new System.Drawing.Size(132, 20);
-            this.txtPasswordSource.TabIndex = 10;
             // 
             // txtUidSource
             // 
-            this.txtUidSource.Location = new System.Drawing.Point(395, 128);
+            resources.ApplyResources(this.txtUidSource, "txtUidSource");
             this.txtUidSource.Name = "txtUidSource";
-            this.txtUidSource.Size = new System.Drawing.Size(132, 20);
-            this.txtUidSource.TabIndex = 8;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(316, 158);
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "&password:";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(316, 131);
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 13);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "&user id / name:";
             // 
             // cboSource
             // 
             this.cboSource.DataSource = this.contextDataSource;
             this.cboSource.DisplayMember = "Source";
             this.cboSource.FormattingEnabled = true;
-            this.cboSource.Location = new System.Drawing.Point(58, 143);
+            resources.ApplyResources(this.cboSource, "cboSource");
             this.cboSource.Name = "cboSource";
-            this.cboSource.Size = new System.Drawing.Size(249, 21);
-            this.cboSource.TabIndex = 3;
             // 
             // contextDataSource
             // 
@@ -137,55 +130,39 @@
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 146);
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(42, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "s&ource:";
             // 
             // txtPasswordTarget
             // 
-            this.txtPasswordTarget.Location = new System.Drawing.Point(395, 255);
+            resources.ApplyResources(this.txtPasswordTarget, "txtPasswordTarget");
             this.txtPasswordTarget.Name = "txtPasswordTarget";
-            this.txtPasswordTarget.PasswordChar = '*';
-            this.txtPasswordTarget.Size = new System.Drawing.Size(132, 20);
-            this.txtPasswordTarget.TabIndex = 21;
             // 
             // txtUidTarget
             // 
-            this.txtUidTarget.Location = new System.Drawing.Point(395, 228);
+            resources.ApplyResources(this.txtUidTarget, "txtUidTarget");
             this.txtUidTarget.Name = "txtUidTarget";
-            this.txtUidTarget.Size = new System.Drawing.Size(132, 20);
-            this.txtUidTarget.TabIndex = 19;
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(316, 258);
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 13);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "p&assword:";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(316, 231);
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(78, 13);
-            this.label11.TabIndex = 18;
-            this.label11.Text = "user id / &name:";
             // 
             // cboTarget
             // 
             this.cboTarget.DataSource = this.contextDataTarget;
             this.cboTarget.DisplayMember = "Target";
             this.cboTarget.FormattingEnabled = true;
-            this.cboTarget.Location = new System.Drawing.Point(58, 243);
+            resources.ApplyResources(this.cboTarget, "cboTarget");
             this.cboTarget.Name = "cboTarget";
-            this.cboTarget.Size = new System.Drawing.Size(249, 21);
-            this.cboTarget.TabIndex = 14;
             // 
             // contextDataTarget
             // 
@@ -193,106 +170,70 @@
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 246);
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 13);
-            this.label12.TabIndex = 13;
-            this.label12.Text = "&target:";
             // 
             // lblDialogStatus
             // 
-            this.lblDialogStatus.Location = new System.Drawing.Point(117, 20);
+            resources.ApplyResources(this.lblDialogStatus, "lblDialogStatus");
             this.lblDialogStatus.Name = "lblDialogStatus";
-            this.lblDialogStatus.Size = new System.Drawing.Size(326, 51);
-            this.lblDialogStatus.TabIndex = 1;
-            this.lblDialogStatus.Text = "Please select the source and destination of the synchronization process. You also" +
-                " may need to provide a user name and a password for the source and/or the destin" +
-                "ation.";
             // 
             // pnlProgress
             // 
             this.pnlProgress.Controls.Add(this.lblProgressStatus);
             this.pnlProgress.Controls.Add(this.SyncProgress);
             this.pnlProgress.Controls.Add(this.label3);
-            this.pnlProgress.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.pnlProgress, "pnlProgress");
             this.pnlProgress.Name = "pnlProgress";
-            this.pnlProgress.Size = new System.Drawing.Size(516, 100);
-            this.pnlProgress.TabIndex = 0;
-            this.pnlProgress.Visible = false;
             // 
             // lblProgressStatus
             // 
-            this.lblProgressStatus.Location = new System.Drawing.Point(18, 13);
+            resources.ApplyResources(this.lblProgressStatus, "lblProgressStatus");
             this.lblProgressStatus.Name = "lblProgressStatus";
-            this.lblProgressStatus.Size = new System.Drawing.Size(477, 46);
-            this.lblProgressStatus.TabIndex = 0;
-            this.lblProgressStatus.Text = "please wait ...";
             // 
             // SyncProgress
             // 
-            this.SyncProgress.Location = new System.Drawing.Point(100, 62);
+            resources.ApplyResources(this.SyncProgress, "SyncProgress");
             this.SyncProgress.Name = "SyncProgress";
-            this.SyncProgress.Size = new System.Drawing.Size(303, 23);
-            this.SyncProgress.TabIndex = 1;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(-2, 121);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "&target:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 173);
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "pat&h:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 273);
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 13);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "pat&h:";
             // 
             // txtPathSource
             // 
-            this.txtPathSource.Location = new System.Drawing.Point(58, 170);
+            resources.ApplyResources(this.txtPathSource, "txtPathSource");
             this.txtPathSource.Name = "txtPathSource";
-            this.txtPathSource.Size = new System.Drawing.Size(218, 20);
-            this.txtPathSource.TabIndex = 5;
             // 
             // txtPathTarget
             // 
-            this.txtPathTarget.Location = new System.Drawing.Point(58, 270);
+            resources.ApplyResources(this.txtPathTarget, "txtPathTarget");
             this.txtPathTarget.Name = "txtPathTarget";
-            this.txtPathTarget.Size = new System.Drawing.Size(218, 20);
-            this.txtPathTarget.TabIndex = 16;
             // 
             // btnPathTarget
             // 
-            this.btnPathTarget.Location = new System.Drawing.Point(279, 268);
+            resources.ApplyResources(this.btnPathTarget, "btnPathTarget");
             this.btnPathTarget.Name = "btnPathTarget";
-            this.btnPathTarget.Size = new System.Drawing.Size(27, 23);
-            this.btnPathTarget.TabIndex = 17;
-            this.btnPathTarget.Text = "...";
             this.btnPathTarget.UseVisualStyleBackColor = true;
             // 
             // btnPathSource
             // 
-            this.btnPathSource.Location = new System.Drawing.Point(279, 168);
+            resources.ApplyResources(this.btnPathSource, "btnPathSource");
             this.btnPathSource.Name = "btnPathSource";
-            this.btnPathSource.Size = new System.Drawing.Size(27, 23);
-            this.btnPathSource.TabIndex = 6;
-            this.btnPathSource.Text = "...";
             this.btnPathSource.UseVisualStyleBackColor = true;
             // 
             // folderBrowser
@@ -301,68 +242,108 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(12, 325);
+            resources.ApplyResources(this.btnLoad, "btnLoad");
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(75, 23);
-            this.btnLoad.TabIndex = 26;
-            this.btnLoad.Text = "&load...";
             this.btnLoad.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(93, 325);
+            resources.ApplyResources(this.btnSave, "btnSave");
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 27;
-            this.btnSave.Text = "&save ...";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(316, 184);
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "&domain";
             // 
             // txtDomainSource
             // 
-            this.txtDomainSource.Location = new System.Drawing.Point(395, 181);
+            resources.ApplyResources(this.txtDomainSource, "txtDomainSource");
             this.txtDomainSource.Name = "txtDomainSource";
-            this.txtDomainSource.Size = new System.Drawing.Size(132, 20);
-            this.txtDomainSource.TabIndex = 12;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(316, 284);
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "do&main:";
             // 
             // txtDomainTarget
             // 
-            this.txtDomainTarget.Location = new System.Drawing.Point(395, 281);
+            resources.ApplyResources(this.txtDomainTarget, "txtDomainTarget");
             this.txtDomainTarget.Name = "txtDomainTarget";
-            this.txtDomainTarget.Size = new System.Drawing.Size(132, 20);
-            this.txtDomainTarget.TabIndex = 23;
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox1, "comboBox1");
+            this.comboBox1.Name = "comboBox1";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Sem.Sync.LocalSyncManager.Properties.Resources._1;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
+            this.menuStrip1.Name = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem,
+            this.savedProcessesToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            resources.ApplyResources(this.loadToolStripMenuItem, "loadToolStripMenuItem");
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            // 
+            // savedProcessesToolStripMenuItem
+            // 
+            this.savedProcessesToolStripMenuItem.Name = "savedProcessesToolStripMenuItem";
+            resources.ApplyResources(this.savedProcessesToolStripMenuItem, "savedProcessesToolStripMenuItem");
+            // 
             // SyncWizard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 360);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.pnlProgress);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnPathSource);
             this.Controls.Add(this.btnPathTarget);
+            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.txtPathTarget);
             this.Controls.Add(this.txtPathSource);
             this.Controls.Add(this.txtDomainTarget);
@@ -386,13 +367,18 @@
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblDialogStatus);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "SyncWizard";
-            this.Text = "SyncWizard";
             this.Load += new System.EventHandler(this.SyncWizard_Load);
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).EndInit();
             this.pnlProgress.ResumeLayout(false);
             this.pnlProgress.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -436,5 +422,14 @@
         private System.Windows.Forms.TextBox txtDomainTarget;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem savedProcessesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }

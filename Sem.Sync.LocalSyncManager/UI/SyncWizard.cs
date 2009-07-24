@@ -12,7 +12,6 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Windows.Forms;
 
     using Business;
@@ -122,8 +121,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
 
-            this.cboSource.SelectedItem = this.cboSource.SelectedValue = this.DataContext.Source.Name;
-            this.cboTarget.SelectedItem = this.cboTarget.SelectedValue = this.DataContext.Target.Name;
+            this.cboSource.SelectedValue = this.DataContext.Source.Name ?? this.cboSource.SelectedValue;
+            this.cboTarget.SelectedValue = this.DataContext.Target.Name ?? this.cboTarget.SelectedValue;
 
             if (this.DataContext.Source.ConnectorDescription != null)
             {

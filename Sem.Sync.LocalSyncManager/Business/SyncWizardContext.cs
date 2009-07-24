@@ -60,7 +60,8 @@ namespace Sem.Sync.LocalSyncManager.Business
                 foreach (var exportedType in assembly.GetExportedTypes())
                 {
                     if (exportedType.GetInterface("IClientBase") == null ||
-                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
+                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient" ||
+                        exportedType.IsGenericType)
                     {
                         continue;
                     }
