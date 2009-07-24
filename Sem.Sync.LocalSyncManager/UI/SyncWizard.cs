@@ -62,7 +62,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
-            this.btnLoad.Click += (s, ev) => this.DataContext.LoadFrom("wizard.xml"); 
+            this.btnLoad.Click += (s, ev) => this.DataContext.LoadFrom("wizard.xml");
             this.btnSave.Click += (s, ev) => this.DataContext.SaveTo("wizard.xml");
 
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
@@ -87,7 +87,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             this.pnlProgress.Visible = true;
             this.DataContext.Run(
-                "SyncLists\\Wizard.XSyncList",
+                "SyncLists\\Syncronize.XSyncList",
                 delegate(object entity, ProcessingEventArgs eventArgs) { this.lblProgressStatus.Text = eventArgs.Message; });
             this.pnlProgress.Visible = false;
             this.lblDialogStatus.Text = "process finished";
@@ -113,11 +113,10 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.cboSource.SelectedItem = this.DataContext.Source.Name;
             this.cboTarget.SelectedItem = this.DataContext.Target.Name;
 
-            this.btnPathSource.Visible = this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog;
-            this.btnPathTarget.Visible = this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog;
-
             if (this.DataContext.Source.ConnectorDescription != null)
             {
+                this.btnPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant && (this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog);
+                this.txtPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
                 this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
@@ -125,6 +124,8 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             if (this.DataContext.Target.ConnectorDescription != null)
             {
+                this.btnPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant && (this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog);
+                this.txtPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant;
                 this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;

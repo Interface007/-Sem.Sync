@@ -24,6 +24,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.Binding;
+    using SyncBase.DetailData;
 
     using Tools;
     

@@ -15,8 +15,6 @@
     {
         private readonly byte[] entropy = Encoding.UTF8.GetBytes("Sem.Sync");
 
-        #region ICredentialAware Members
-
         /// <summary>
         /// Gets or sets an identifier that groups user names in one authentication system. In windows
         /// environments this may be an NT-Domain, a Computer name or an Active Directory name.
@@ -35,8 +33,6 @@
         /// </summary>
         [XmlIgnore]
         public string LogOnPassword { get; set; }
-
-        #endregion
 
         /// <summary>
         /// Gets or sets the protected password. The password is protected by the user scope encryption key

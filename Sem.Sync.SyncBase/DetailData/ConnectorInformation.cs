@@ -1,13 +1,13 @@
-﻿namespace Sem.Sync.LocalSyncManager.Business
+﻿namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
     using System.ComponentModel;
     using System.Xml.Serialization;
 
+    using Attributes;
+
     using GenericHelpers;
     using GenericHelpers.Entities;
-
-    using SyncBase.Attributes;
 
     /// <summary>
     /// The ConnectorInformation class does provide information about a single connector.
@@ -39,15 +39,17 @@
                 this.ShowSelectPathDialog = false;
 
                 var typeName = value;
-                if (value.ToLowerInvariant().Contains(" of "))
+                if (value.ToUpperInvariant().Contains(" OF "))
                 {
                     typeName = value.Split(new[] { " of " }, StringSplitOptions.RemoveEmptyEntries)[0] + "`1";
                 }
 
                 var type = Type.GetType(this._factory.EnrichClassName(typeName));
+                this.ConnectorPathDescription = new ClientStoragePathDescriptionAttribute();
                 var sourceTypeAttributes = type.GetCustomAttributes(typeof(ClientStoragePathDescriptionAttribute), false);
                 foreach (ClientStoragePathDescriptionAttribute attribute in sourceTypeAttributes)
                 {
+                    this.ConnectorPathDescription = attribute;
                     this.ShowSelectFileDialog = attribute.ReferenceType == ClientPathType.FileSystemFileNameAndPath;
                     this.ShowSelectPathDialog = attribute.ReferenceType == ClientPathType.FileSystemPath;
                     if (string.IsNullOrEmpty(this.Path))
@@ -95,7 +97,7 @@
         /// Gets the <see cref="Credentials"/> to access the storage behind the
         /// connector. The password will be stored encrpyted when serialized using the <see cref="XmlSerializer"/>.
         /// </summary>
-        public Credentials LogonCredentials { get; private set; }
+        public Credentials LogonCredentials { get; set; }
 
         /// <summary>
         /// Gets the ConnectorDescription - this property will not be 
@@ -104,6 +106,9 @@
         /// </summary>
         [XmlIgnore]
         public ConnectorDescriptionAttribute ConnectorDescription { get; private set; }
+
+        [XmlIgnore]
+        public ClientStoragePathDescriptionAttribute ConnectorPathDescription { get; set; }
 
         private void RaisePropertyChanged(string propertyName)
         {

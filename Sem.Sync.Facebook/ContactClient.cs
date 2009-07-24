@@ -25,6 +25,7 @@ namespace Sem.Sync.FacebookConnector
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
     /// publishing too much data about friends.
     /// </summary>
+    [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Facebook")]
     public class ContactClient : StdClient
     {

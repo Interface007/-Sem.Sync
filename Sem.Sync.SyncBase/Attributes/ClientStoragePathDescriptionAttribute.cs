@@ -31,6 +31,11 @@ namespace Sem.Sync.SyncBase.Attributes
         /// The path information describes the full qualified path to a directory inside the file system
         /// </summary>
         FileSystemPath = 1,
+
+        /// <summary>
+        /// The path information describes something that is relevant for the storage, but we don't have an editor for it
+        /// </summary>
+        Undefined = 2,
     }
 
     /// <summary>

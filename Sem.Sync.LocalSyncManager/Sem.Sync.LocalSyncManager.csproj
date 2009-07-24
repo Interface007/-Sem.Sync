@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\ConnectorInformation.cs" />
     <Compile Include="Business\ClientViewModel.cs" />
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
@@ -106,6 +105,12 @@
     </Compile>
     <Compile Include="UI\SyncWizard.Designer.cs">
       <DependentUpon>SyncWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WizardExecution.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\WizardExecution.Designer.cs">
+      <DependentUpon>WizardExecution.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +176,7 @@
     <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Wizard.XSyncList">
+    <None Include="SyncLists\Syncronize.XSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SyncLists\Test FileSystem to vCard.SyncList">
