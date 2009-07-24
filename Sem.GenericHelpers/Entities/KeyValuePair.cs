@@ -1,9 +1,14 @@
-﻿//-----------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="KeyValuePair.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   A key value pair with string type for both members.
+//   List of KeyValuePair is needed for serialization and for generating
+//   Binding sources for UI.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.GenericHelpers.Entities
 {
     /// <summary>
@@ -14,16 +19,17 @@ namespace Sem.GenericHelpers.Entities
     public class KeyValuePair
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// Initializes a new instance of the <see cref="KeyValuePair"/> class. 
         /// </summary>
         public KeyValuePair()
         {
-            
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="KeyValuePair"/> class.
+        /// Initializes a new instance of the <see cref="KeyValuePair"/> class. 
         /// </summary>
+        /// <param name="key"> The key of the new key value pair. </param>
+        /// <param name="value"> The value of the new key value pair. </param>
         public KeyValuePair(string key, string value)
         {
             this.Key = key;
@@ -31,13 +37,13 @@ namespace Sem.GenericHelpers.Entities
         }
 
         /// <summary>
-        /// the "key" of the entry - there's no funcational difference to the value
+        /// Gets or sets the "Key" of the entry - there's no funcational difference to the value
         /// member of this type
         /// </summary>
         public string Key { get; set; }
 
         /// <summary>
-        /// The "Value" of the entry - there's no funcational difference to the key
+        /// Gets or sets the "Value" of the entry - there's no funcational difference to the key
         /// member of this type
         /// </summary>
         public string Value { get; set; }

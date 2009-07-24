@@ -43,10 +43,11 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <summary>
         /// Displays a modal dialog to let the user match entities.
         /// </summary>
-        /// <param name="sourceList"> The list of "unknown" elements to merge that will provide the profile id. </param>
-        /// <param name="targetList"> The list of "target" elements that should contribute the synchronization id. </param>
-        /// <param name="baselineList"> The baseline list that will be updated to connect a synchronization id to profile ids. </param>
-        /// <returns> The baseline list that has been updated to connect a synchronization id to profile ids. </returns>
+        /// <param name="sourceList"> The list of "unknown" elements to merge that will provide the profile id.  </param>
+        /// <param name="targetList"> The list of "target" elements that should contribute the synchronization id.  </param>
+        /// <param name="baselineList"> The baseline list that will be updated to connect a synchronization id to profile ids.  </param>
+        /// <param name="identifierToUse"> The identifier to use for matching the entities. </param>
+        /// <returns> The baseline list that has been updated to connect a synchronization id to profile ids.  </returns>
         public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
             var ui = new MatchEntities();

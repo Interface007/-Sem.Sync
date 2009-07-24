@@ -12,16 +12,17 @@ namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
 
     using Binding;
 
     using GenericHelpers;
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Interfaces;
 
     using Interfaces;
     using Properties;
-    using System.Reflection;
-    using System.IO;
 
     /// <summary>
     /// The sync engine is the heart of the library. This engine does coordinate the work in
@@ -123,9 +124,9 @@ namespace Sem.Sync.SyncBase
             var continueExecution = true;
 
             // create classes according to the description
-            var sourceClient = this.factory.GetNewObject<StdClient>(item.SourceConnector);
-            var targetClient = this.factory.GetNewObject<StdClient>(item.TargetConnector);
-            var baseliClient = this.factory.GetNewObject<StdClient>(item.BaselineConnector);
+            var sourceClient = this.SetupConnector(item.SourceConnector, item.SourceCredentials);
+            var targetClient = this.SetupConnector(item.TargetConnector, item.TargetCredentials);
+            var baseliClient = this.SetupConnector(item.BaselineConnector, item.BaselineCredentials);
 
             if (this.versionOutdated)
             {
@@ -168,6 +169,25 @@ namespace Sem.Sync.SyncBase
             }
 
             return continueExecution;
+        }
+
+        /// <summary>
+        /// Generates a connector and inserts some information
+        /// </summary>
+        /// <param name="typeName"> The type name to generate. </param>
+        /// <param name="credentials"> The credentials to add to the connector . </param>
+        /// <returns> The connector that is set up </returns>
+        private StdClient SetupConnector(string typeName, ICredentialAware credentials)
+        {
+            var client = this.factory.GetNewObject<StdClient>(typeName);
+            if (client != null && credentials != null)
+            {
+                client.LogOnUserId = credentials.LogOnUserId;
+                client.LogOnPassword = credentials.LogOnPassword;
+                client.LogOnDomain = credentials.LogOnDomain;
+            }
+            
+            return client;
         }
 
         /// <summary>

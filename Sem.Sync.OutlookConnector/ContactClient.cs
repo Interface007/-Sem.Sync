@@ -181,7 +181,7 @@ namespace Sem.Sync.OutlookConnector
                             var contactItem = contactItems[itemIndex] as ContactItem;
                             if (contactItem != null)
                             {
-                                currentElementName = contactItem.LastName + contactItem.FirstName;
+                                currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
                                 LogProcessingEvent(Resources.uiReadingContact, currentElementName);
 

@@ -30,14 +30,14 @@ namespace Sem.Sync.OutlookConnector2003
     public static class OutlookClient
     {
         /// <summary>
-        /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
-        /// </summary>
-        private static int GCRelevantCalls;
-
-        /// <summary>
         /// This is the name of the custom outlook field for the synchronization id
         /// </summary>
         private const string ContactIdOutlookPropertyName = "SemSyncId";
+
+        /// <summary>
+        /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
+        /// </summary>
+        private static int garbageCollectionRelevantCalls;
 
         /// <summary>
         /// creates a list of ContactsItemContainer from a contacts enumeration
@@ -382,8 +382,8 @@ namespace Sem.Sync.OutlookConnector2003
         /// </summary>
         private static void GCRelevantCall()
         {
-            GCRelevantCalls++;
-            if (GCRelevantCalls > 100)
+            garbageCollectionRelevantCalls++;
+            if (garbageCollectionRelevantCalls > 100)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -500,55 +500,7 @@ namespace Sem.Sync.OutlookConnector2003
 
             if (stdOldContact.BusinessAddressPrimary != null && stdNewContact.BusinessAddressPrimary != null)
             {
-                if (stdOldContact.BusinessAddressPrimary.CityName != stdNewContact.BusinessAddressPrimary.CityName)
-                {
-                    outlookContact.BusinessAddressCity = stdNewContact.BusinessAddressPrimary.CityName;
-                    dirty = true;
-                }
-
-                if (stdOldContact.BusinessAddressPrimary.CountryName !=
-                    stdNewContact.BusinessAddressPrimary.CountryName)
-                {
-                    outlookContact.BusinessAddressCountry = stdNewContact.BusinessAddressPrimary.CountryName;
-                    dirty = true;
-                }
-
-                if (stdOldContact.BusinessAddressPrimary.PostalCode !=
-                    stdNewContact.BusinessAddressPrimary.PostalCode)
-                {
-                    outlookContact.BusinessAddressPostalCode = stdNewContact.BusinessAddressPrimary.PostalCode;
-                    dirty = true;
-                }
-
-                if (stdOldContact.BusinessAddressPrimary.StateName != stdNewContact.BusinessAddressPrimary.StateName)
-                {
-                    outlookContact.BusinessAddressState = stdNewContact.BusinessAddressPrimary.StateName;
-                    dirty = true;
-                }
-
-                if (stdNewContact.BusinessAddressPrimary.Phone != null &&
-                    (stdOldContact.BusinessAddressPrimary.Phone == null ||
-                     stdOldContact.BusinessAddressPrimary.Phone.ToString() !=
-                     stdNewContact.BusinessAddressPrimary.Phone.ToString()))
-                {
-                    outlookContact.BusinessTelephoneNumber = stdNewContact.BusinessAddressPrimary.Phone.ToString();
-                    dirty = true;
-                }
-
-                if (stdNewContact.Categories != null &&
-                    (stdOldContact.Categories == null ||
-                    stdNewContact.Categories.Count != stdOldContact.Categories.Count))
-                {
-                    outlookContact.Categories = stdNewContact.Categories.MergeListOfStrings(stdOldContact.Categories).ConcatElementsToString(";");
-                    dirty = true;
-                }
-
-                if ((stdOldContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
-                    != (stdNewContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
-                {
-                    outlookContact.BusinessAddressStreet = stdNewContact.BusinessAddressPrimary.StreetName;
-                    dirty = true;
-                }
+                dirty = CompareAddress(outlookContact, stdNewContact.BusinessAddressPrimary, stdOldContact.BusinessAddressPrimary, "Business", dirty);
             }
 
             // if we do not have a business personal in the old address, we simply copy from the new one
@@ -560,55 +512,7 @@ namespace Sem.Sync.OutlookConnector2003
 
             if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
             {
-                if (stdOldContact.PersonalAddressPrimary.CityName !=
-                    stdNewContact.PersonalAddressPrimary.CityName)
-                {
-                    outlookContact.HomeAddressCity = stdNewContact.PersonalAddressPrimary.CityName;
-                    dirty = true;
-                }
-
-                if (stdOldContact.PersonalAddressPrimary.CountryName !=
-                    stdNewContact.PersonalAddressPrimary.CountryName)
-                {
-                    outlookContact.HomeAddressCountry = stdNewContact.PersonalAddressPrimary.CountryName;
-                    dirty = true;
-                }
-
-                if (stdOldContact.PersonalAddressPrimary.PostalCode !=
-                    stdNewContact.PersonalAddressPrimary.PostalCode)
-                {
-                    outlookContact.HomeAddressPostalCode = stdNewContact.PersonalAddressPrimary.PostalCode;
-                    dirty = true;
-                }
-
-                if (stdOldContact.PersonalAddressPrimary.StateName !=
-                    stdNewContact.PersonalAddressPrimary.StateName)
-                {
-                    outlookContact.HomeAddressState = stdNewContact.PersonalAddressPrimary.StateName;
-                    dirty = true;
-                }
-
-                if (stdOldContact.PersonalAddressPrimary.StreetName !=
-                    stdNewContact.PersonalAddressPrimary.StreetName)
-                {
-                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
-                    dirty = true;
-                }
-
-                if (stdNewContact.PersonalAddressPrimary.Phone != null &&
-                    (stdOldContact.PersonalAddressPrimary.Phone == null ||
-                    stdOldContact.PersonalAddressPrimary.Phone.ToString() != stdNewContact.PersonalAddressPrimary.Phone.ToString()))
-                {
-                    outlookContact.HomeTelephoneNumber = stdNewContact.PersonalAddressPrimary.Phone.ToString();
-                    dirty = true;
-                }
-
-                if ((stdOldContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
-                    != (stdNewContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
-                {
-                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
-                    dirty = true;
-                }
+                dirty = CompareAddress(outlookContact, stdNewContact.PersonalAddressPrimary, stdOldContact.PersonalAddressPrimary, "Home", dirty);
             }
 
             if ((stdOldContact.PersonalPhoneMobile == null && stdNewContact.PersonalPhoneMobile != null)
@@ -657,6 +561,71 @@ namespace Sem.Sync.OutlookConnector2003
                 File.WriteAllBytes(fullName, stdNewContact.PictureData);
                 outlookContact.AddPicture(fullName);
                 File.Delete(fullName);
+                dirty = true;
+            }
+
+            return dirty;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="outlookContact"> The outlook contact. </param>
+        /// <param name="stdNewContactAddress"> The std new contact address. </param>
+        /// <param name="stdOldContactAddress"> The std old contact address. </param>
+        /// <param name="prefix"> The prefix like "Home" or "Business". </param>
+        /// <param name="dirty"> A value that indicates if the outlook contact has already been changed. </param>
+        /// <returns>
+        /// A value that indicates if the outlook contact has been changed.
+        /// </returns>
+        private static bool CompareAddress(_ContactItem outlookContact, AddressDetail stdNewContactAddress, AddressDetail stdOldContactAddress, string prefix, bool dirty)
+        {
+            if (stdOldContactAddress.CityName !=
+                stdNewContactAddress.CityName)
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressCity", stdNewContactAddress.CityName);
+                dirty = true;
+            }
+
+            if (stdOldContactAddress.CountryName !=
+                stdNewContactAddress.CountryName)
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressCountry", stdNewContactAddress.CountryName);
+                dirty = true;
+            }
+
+            if (stdOldContactAddress.PostalCode !=
+                stdNewContactAddress.PostalCode)
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressPostalCode", stdNewContactAddress.PostalCode);
+                dirty = true;
+            }
+
+            if (stdOldContactAddress.StateName !=
+                stdNewContactAddress.StateName)
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressState", stdNewContactAddress.StateName);
+                dirty = true;
+            }
+
+            if (stdOldContactAddress.StreetName !=
+                stdNewContactAddress.StreetName)
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressStreet", stdNewContactAddress.StreetName);
+                dirty = true;
+            }
+
+            if (stdNewContactAddress.Phone != null &&
+                (stdOldContactAddress.Phone == null ||
+                 stdOldContactAddress.Phone.ToString() != stdNewContactAddress.Phone.ToString()))
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "TelephoneNumber", stdNewContactAddress.Phone.ToString());
+                dirty = true;
+            }
+
+            if ((stdOldContactAddress.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                != (stdNewContactAddress.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
+            {
+                Tools.SetPropertyValue(outlookContact, prefix + "AddressStreet", stdNewContactAddress.StreetName);
                 dirty = true;
             }
 

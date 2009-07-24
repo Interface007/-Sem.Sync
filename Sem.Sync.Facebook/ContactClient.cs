@@ -29,7 +29,15 @@ namespace Sem.Sync.FacebookConnector
     [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Facebook")]
     public class ContactClient : StdClient
     {
+        /// <summary>
+        /// Facebook does need the key to allow the access. This key does identify the application.
+        /// </summary>
         private readonly string apiKey;
+
+        /// <summary>
+        /// Facebook does need the secret as a password to allow the access.
+        /// Unfortunately Facebook does not allow sharing the secret.
+        /// </summary>
         private readonly string apiSecret;
 
         /// <summary>
@@ -70,6 +78,22 @@ namespace Sem.Sync.FacebookConnector
             }
         }
 
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public override sealed string FriendlyClientName
+        {
+            get { return "Facebook-Connector"; }
+        }
+
+        /// <summary>
+        /// Read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">Facebook does not need this parameter.</param>
+        /// <param name="result">The list of elements that should get the elements. This parameter is not used 
+        /// by this parameter - a new list is created.</param>
+        /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var resultList = new List<StdElement>();
@@ -140,14 +164,18 @@ namespace Sem.Sync.FacebookConnector
             return resultList;
         }
 
+        /// <summary>
+        /// Write access is not implemented.
+        /// </summary>
+        /// <param name="elements">The parameter elements id not used by this connector.</param>
+        /// <param name="clientFolderName">The parameter clientFolderName id not used by this connector.</param>
+        /// <param name="skipIfExisting">The parameter skipIfExisting id not used by this connector.</param>
+        /// <exception cref="NotImplementedException">
+        /// Write access is not implemented.
+        /// </exception>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             throw new NotImplementedException();
-        }
-
-        public override sealed string FriendlyClientName
-        {
-            get { return "Facebook-Connector"; }
         }
     }
 }

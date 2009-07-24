@@ -9,6 +9,8 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Xml.Serialization;
 
+    using GenericHelpers.Entities;
+
     /// <summary>
     /// Describes what to do (the action) for a synchronization command
     /// </summary>
@@ -159,5 +161,20 @@ namespace Sem.Sync.SyncBase
         /// the location/filter inside the storage this connector connects to.
         /// </summary>
         public string BaselineStorePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets a set of credentials for accessing the source
+        /// </summary>
+        public Credentials SourceCredentials { get; set; }
+
+        /// <summary>
+        /// Gets or sets a set of credentials for accessing the target
+        /// </summary>
+        public Credentials TargetCredentials { get; set; }
+
+        /// <summary>
+        /// Gets or sets a set of credentials for accessing the baseline
+        /// </summary>
+        public Credentials BaselineCredentials { get; set; }
     }
 }

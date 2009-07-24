@@ -10,6 +10,7 @@
 
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -19,7 +20,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using SyncBase.Helpers;
 
     using ViewModel;
-    using System;
 
     public partial class MatchEntities : Form
     {

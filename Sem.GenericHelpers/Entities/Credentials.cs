@@ -1,11 +1,19 @@
-﻿namespace Sem.GenericHelpers.Entities
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Credentials.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Minimal implementation of the &lt;see cref="ICredentialAware" /&gt; interface to represent
+//   log on credentials.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Sem.GenericHelpers.Entities
 {
-    using System.Security;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Xml.Serialization;
 
     using Interfaces;
-    using System.Xml.Serialization;
 
     /// <summary>
     /// Minimal implementation of the <see cref="ICredentialAware"/> interface to represent 
@@ -13,6 +21,9 @@
     /// </summary>
     public class Credentials : ICredentialAware
     {
+        /// <summary>
+        /// Add some entropy to not share the encryption with other local programs.
+        /// </summary>
         private readonly byte[] entropy = Encoding.UTF8.GetBytes("Sem.Sync");
 
         /// <summary>
@@ -42,8 +53,13 @@
         {
             get
             {
-                var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
-                var protectedString = ProtectedData.Protect(bytes, this.entropy, DataProtectionScope.CurrentUser);
+                byte[] protectedString = null;
+                if (this.LogOnPassword != null)
+                {
+                    var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
+                    protectedString = ProtectedData.Protect(bytes, this.entropy, DataProtectionScope.CurrentUser);
+                }
+
                 return protectedString;
             }
             

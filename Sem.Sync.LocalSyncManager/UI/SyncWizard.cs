@@ -12,11 +12,14 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Business;
 
     using GenericHelpers.EventArgs;
+
+    using SyncBase;
 
     /// <summary>
     /// User interface for wizard-like interaction
@@ -55,7 +58,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.contextDataTarget.CurrentChanged += (s, ev) => this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
 
             this.cboSource.DisplayMember = "Value";
+            this.cboSource.ValueMember = "Key";
             this.cboTarget.DisplayMember = "Value";
+            this.cboTarget.ValueMember = "Key";
 
             this.btnCancel.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
@@ -88,7 +93,12 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.pnlProgress.Visible = true;
             this.DataContext.Run(
                 "SyncLists\\Syncronize.XSyncList",
-                delegate(object entity, ProcessingEventArgs eventArgs) { this.lblProgressStatus.Text = eventArgs.Message; });
+                delegate(object entity, ProcessingEventArgs eventArgs)
+                    {
+                        this.lblProgressStatus.Text = eventArgs.Message +
+                                                      (entity as StdContact == null ? string.Empty : entity.ToString());
+                        this.lblProgressStatus.Refresh();
+                    });
             this.pnlProgress.Visible = false;
             this.lblDialogStatus.Text = "process finished";
         }
@@ -97,6 +107,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// In this method all properties are read from the context and pumped into the GUI 
         /// elements attributes.
         /// </summary>
+        /// <param name="sender"> The sender of this event. </param>
+        /// <param name="e"> The change event parameter. </param>
         private void ReadFromContext(object sender, PropertyChangedEventArgs e)
         {
             this.txtPathSource.Text = this.DataContext.Source.Path;
@@ -110,8 +122,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
 
-            this.cboSource.SelectedItem = this.DataContext.Source.Name;
-            this.cboTarget.SelectedItem = this.DataContext.Target.Name;
+            this.cboSource.SelectedItem = this.cboSource.SelectedValue = this.DataContext.Source.Name;
+            this.cboTarget.SelectedItem = this.cboTarget.SelectedValue = this.DataContext.Target.Name;
 
             if (this.DataContext.Source.ConnectorDescription != null)
             {

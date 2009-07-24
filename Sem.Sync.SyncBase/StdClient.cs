@@ -205,6 +205,12 @@ namespace Sem.Sync.SyncBase
             return elements;
         }
 
+        /// <summary>
+        /// Overrides the ToString method inherited from object with returning the friendly name.
+        /// </summary>
+        /// <returns>
+        /// The friendly name of this client
+        /// </returns>
         public override string ToString()
         {
             return this.FriendlyClientName;

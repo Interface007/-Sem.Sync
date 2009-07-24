@@ -98,13 +98,11 @@ namespace Sem.Sync.LocalSyncManager.Business
 
         public void SaveTo(string path)
         {
-            var connectors = new List<ConnectorInformation>();
-            connectors.Add(this.Source);
-            connectors.Add(this.Target);
+            var connectors = new List<ConnectorInformation> { this.Source, this.Target };
             Tools.SaveToFile(connectors, path, typeof(Credentials));
         }
 
-        public void Run(string templateScript, ProcessEventDelegate processingEvent)
+        public void Run(string templateScript, ProcessEvent processingEvent)
         {
             var engine = new SyncEngine
             {
@@ -118,6 +116,11 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             foreach (var command in commands)
             {
+                command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{source}") ? this.Source.LogonCredentials : command.SourceCredentials;
+                command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{target}") ? this.Target.LogonCredentials : command.SourceCredentials;
+                command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{source}") ? this.Source.LogonCredentials : command.TargetCredentials;
+                command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{target}") ? this.Target.LogonCredentials : command.TargetCredentials;
+                
                 command.SourceConnector = this.ReplaceToken(command.SourceConnector);
                 command.TargetConnector = this.ReplaceToken(command.TargetConnector);
                 command.SourceStorePath = this.ReplaceToken(command.SourceStorePath);

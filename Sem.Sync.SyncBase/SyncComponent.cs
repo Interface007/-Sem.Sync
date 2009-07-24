@@ -38,10 +38,10 @@ namespace Sem.Sync.SyncBase
         {
             if (this.ProcessingEvent != null)
             {
-                this.ProcessingEvent(this, new ProcessingEventArgs { Item = stdItem, Message = message });
+                this.ProcessingEvent((object)stdItem ?? (object)this, new ProcessingEventArgs { Item = stdItem, Message = message });
             }
         }
-        
+
         /// <summary>
         /// log an event by only specifying a message - in some situations a current element is not in context.
         /// </summary>
