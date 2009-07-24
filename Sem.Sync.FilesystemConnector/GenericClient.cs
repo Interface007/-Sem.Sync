@@ -38,6 +38,7 @@ namespace Sem.Sync.FilesystemConnector
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Elements.xml",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
+    [ConnectorDescription(DisplayName = "Filesystem generic client", IsGeneric = true)]
     public class GenericClient<T> : StdClient where T : StdElement
     {
         /// <summary>

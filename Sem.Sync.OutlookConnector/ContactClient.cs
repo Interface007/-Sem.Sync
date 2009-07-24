@@ -20,12 +20,14 @@ namespace Sem.Sync.OutlookConnector
 
     using Properties;
     using SyncBase;
-    
+    using SyncBase.Attributes;
+
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling outlook contacts
     /// </summary>
+    [ConnectorDescription(DisplayName = "Microsoft Outlook 2007")]
     public class ContactClient : StdClient
     {
         #region interface IClientBase

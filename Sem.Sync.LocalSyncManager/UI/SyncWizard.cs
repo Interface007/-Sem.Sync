@@ -11,6 +11,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Windows.Forms;
 
     using Business;
@@ -43,40 +44,36 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void SyncWizard_Load(object sender, EventArgs e)
         {
             this.DataContext = new SyncWizardContext();
+            this.DataContext.PropertyChanged += this.ReadFromContext;
 
             this.contextDataSource.DataSource = this.DataContext;
             this.contextDataSource.DataMember = "ClientsSource";
-            this.contextDataSource.CurrentChanged += (s, ev) =>
-                {
-                    this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-                    this.ReadFromContext();
-                };
+            this.contextDataSource.CurrentChanged += (s, ev) => this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
 
             this.contextDataTarget.DataSource = this.DataContext;
             this.contextDataTarget.DataMember = "ClientsTarget";
-            this.contextDataTarget.CurrentChanged += (s, ev) =>
-                {
-                    this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-                    this.ReadFromContext();
-                };
+            this.contextDataTarget.CurrentChanged += (s, ev) => this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+
+            this.cboSource.DisplayMember = "Value";
+            this.cboTarget.DisplayMember = "Value";
 
             this.btnCancel.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
-            this.btnLoad.Click += (s, ev) => { this.DataContext.LoadFrom("wizard.xml"); this.ReadFromContext(); };
+            this.btnLoad.Click += (s, ev) => this.DataContext.LoadFrom("wizard.xml"); 
             this.btnSave.Click += (s, ev) => this.DataContext.SaveTo("wizard.xml");
 
-            this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((TextBox)s).Text; };
-            this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((TextBox)s).Text; };
+            this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
+            this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };
 
-            this.txtUidSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnUserId = ((TextBox)s).Text; };
-            this.txtUidTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnUserId = ((TextBox)s).Text; };
-            this.txtPasswordSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnPassword = ((TextBox)s).Text; };
-            this.txtPasswordTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnPassword = ((TextBox)s).Text; };
-            this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((TextBox)s).Text; };
-            this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((TextBox)s).Text; };
+            this.txtUidSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnUserId = ((Control)s).Text; };
+            this.txtUidTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnUserId = ((Control)s).Text; };
+            this.txtPasswordSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnPassword = ((Control)s).Text; };
+            this.txtPasswordTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnPassword = ((Control)s).Text; };
+            this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((Control)s).Text; };
+            this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
 
             this.cboSource.SelectedIndex = 0;
             this.cboTarget.SelectedIndex = 0;
@@ -100,7 +97,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// In this method all properties are read from the context and pumped into the GUI 
         /// elements attributes.
         /// </summary>
-        private void ReadFromContext()
+        private void ReadFromContext(object sender, PropertyChangedEventArgs e)
         {
             this.txtPathSource.Text = this.DataContext.Source.Path;
             this.txtPathTarget.Text = this.DataContext.Target.Path;
@@ -113,19 +110,25 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
 
-            this.cboSource.Text = this.DataContext.Source.Name;
-            this.cboTarget.Text = this.DataContext.Target.Name;
+            this.cboSource.SelectedItem = this.DataContext.Source.Name;
+            this.cboTarget.SelectedItem = this.DataContext.Target.Name;
 
             this.btnPathSource.Visible = this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog;
             this.btnPathTarget.Visible = this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog;
 
-            this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-            this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-            this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-            
-            this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-            this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-            this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+            if (this.DataContext.Source.ConnectorDescription != null)
+            {
+                this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+            }
+
+            if (this.DataContext.Target.ConnectorDescription != null)
+            {
+                this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+            }
         }
 
         /// <summary>

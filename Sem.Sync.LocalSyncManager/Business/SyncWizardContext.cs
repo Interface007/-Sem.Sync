@@ -12,12 +12,12 @@
 namespace Sem.Sync.LocalSyncManager.Business
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.IO;
     using System.Reflection;
 
     using GenericHelpers;
     using GenericHelpers.Entities;
-    using GenericHelpers.EventArgs;
     
     using SharedUI.WinForms.Tools;
 
@@ -33,22 +33,24 @@ namespace Sem.Sync.LocalSyncManager.Business
     /// and target as well as  the paths inside the storage and  the credentials
     /// to authenticate.
     /// </summary>
-    public class SyncWizardContext
+    public class SyncWizardContext : INotifyPropertyChanged
     {
         public Dictionary<string, string> ClientsSource { get; set; }
         public Dictionary<string, string> ClientsTarget { get; set; }
 
         public ConnectorInformation Source { get; set; }
         public ConnectorInformation Target { get; set; }
-
-        public delegate void ProcessEventDelegate(object entity, ProcessingEventArgs eventArgs);
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         public SyncWizardContext()
         {
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
             this.Source = new ConnectorInformation();
             this.Target = new ConnectorInformation();
+
+            this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged(string.Empty);
+            this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged(string.Empty);
 
             foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
             {
@@ -70,12 +72,12 @@ namespace Sem.Sync.LocalSyncManager.Business
                         
                     if (attribute.CanRead)
                     {
-                        this.ClientsSource.Add(exportedType.FullName, exportedType.Name);
+                        this.ClientsSource.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
                     }
                         
                     if (attribute.CanWrite)
                     {
-                        this.ClientsTarget.Add(exportedType.FullName, exportedType.Name);
+                        this.ClientsTarget.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
                     }
                 }
             }
@@ -86,6 +88,11 @@ namespace Sem.Sync.LocalSyncManager.Business
             var connectors = Tools.LoadFromFile<List<ConnectorInformation>>(path);
             this.Source = connectors[0];
             this.Target = connectors[1];
+
+            this.Source.PropertyChanged += this.PropertyChanged;
+            this.Target.PropertyChanged += this.PropertyChanged;
+
+            this.RaisePropertyChanged(string.Empty);
         }
 
         public void SaveTo(string path)
@@ -117,6 +124,14 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             engine.Execute(commands);
+        }
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         private string ReplaceToken(string value)

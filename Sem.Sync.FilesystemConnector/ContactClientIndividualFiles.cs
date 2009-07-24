@@ -33,6 +33,7 @@ namespace Sem.Sync.FilesystemConnector
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Contacts",
         ReferenceType = ClientPathType.FileSystemPath)]
+    [ConnectorDescription(DisplayName = "Filesystem one Xml per contact")]
     public class ContactClientIndividualFiles : StdClient
     {
         /// <summary>

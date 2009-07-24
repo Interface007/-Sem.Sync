@@ -11,6 +11,8 @@
         public bool CanRead { get; set; }
         public bool CanWrite { get; set; }
         public bool NeedsCredentials { get; set; }
+        public string DisplayName { get; set; }
+        public bool IsGeneric { get; set; }
 
         public ConnectorDescriptionAttribute()
         {

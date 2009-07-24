@@ -29,7 +29,7 @@ namespace Sem.Sync.WerKenntWenConnector
     /// <summary>
     /// Client implementation for reading information from www.wer-kennt-wen.de
     /// </summary>
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Wer-Kennt-Wen.de")]
     public class ContactClient : StdClient
     {
         #region string resources for processing wkw pages

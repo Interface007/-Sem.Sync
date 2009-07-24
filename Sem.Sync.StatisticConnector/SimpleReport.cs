@@ -26,7 +26,8 @@ namespace Sem.Sync.StatisticConnector
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
     /// </summary>
-    [ConnectorDescription(CanRead = false, CanWrite = true, NeedsCredentials = false)]
+    [ConnectorDescription(CanRead = false, CanWrite = true, NeedsCredentials = false, DisplayName = "Simple Report")]
+    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class SimpleReport : StdClient
     {
         /// <summary>

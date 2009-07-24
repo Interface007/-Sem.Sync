@@ -27,7 +27,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
     /// <summary>
     /// connector to Active Directory via LDAP
     /// </summary>
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Active Directory")]
     public class ContactClient : StdClient
     {
         /// <summary>

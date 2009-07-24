@@ -37,7 +37,7 @@ namespace Sem.Sync.XingConnector
     /// reading contact data, so this class will use the http-helper class
     /// of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true)]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Xing")]
     public class ContactClient : StdClient
     {
         #region string resources for processing xing pages

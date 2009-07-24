@@ -34,6 +34,7 @@ namespace Sem.Sync.FilesystemConnector
         Mandatory = true, 
         Default = "{FS:WorkingFolder}\\vCards", 
         ReferenceType = ClientPathType.FileSystemPath)]
+    [ConnectorDescription(DisplayName = "Filesystem vCards")]
     public class ContactClientVCards : StdClient
     {
         /// <summary>

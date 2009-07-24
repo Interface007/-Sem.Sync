@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sem.GenericHelpers
+﻿namespace Sem.GenericHelpers
 {
+    using System.Collections.Generic;
+    using System.Text;
+
     public static class Extensions
     {
         /// <summary>

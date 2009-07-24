@@ -1,6 +1,7 @@
 ﻿namespace Sem.Sync.LocalSyncManager.Business
 {
     using System;
+    using System.ComponentModel;
     using System.Xml.Serialization;
 
     using GenericHelpers;
@@ -65,10 +66,28 @@
                 {
                     this.ConnectorDescription = new ConnectorDescriptionAttribute();
                 }
+
+                this.RaisePropertyChanged(string.Empty);
             }
         }
 
-        public string Path { get; set; }
+        private string _path;
+
+        public string Path
+        {
+            get
+            {
+                return this._path;
+            }
+            set
+            {
+                this._path = value;
+                this.RaisePropertyChanged("Path");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public bool ShowSelectPathDialog { get; set; }
         public bool ShowSelectFileDialog { get; set; }
 
@@ -85,5 +104,13 @@
         /// </summary>
         [XmlIgnore]
         public ConnectorDescriptionAttribute ConnectorDescription { get; private set; }
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

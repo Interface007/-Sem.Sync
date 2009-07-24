@@ -15,8 +15,10 @@ namespace Sem.Sync.OnlineStorageConnector
     using OnlineStorage;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
+    [ConnectorDescription(DisplayName = "SEM-Online sample")]
     public class ContactClient : StdClient
     {
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
