@@ -155,16 +155,16 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// </summary>
         /// <param name="bindingSource"> The binding source. </param>
         /// <param name="dataMember"> The data member. </param>
-        /// <param name="comboBox"> The combo box. </param>
+        /// <param name="control">the control to bind</param>
         /// <param name="targetPath"> The target path. </param>
-        private void SetupBind(BindingSource bindingSource, string dataMember, ComboBox comboBox, string targetPath)
+        private void SetupBind(BindingSource bindingSource, string dataMember, ListControl control, string targetPath)
         {
             bindingSource.DataSource = this.DataContext;
             bindingSource.DataMember = dataMember;
-            comboBox.DisplayMember = "Value";
-            comboBox.ValueMember = "Key";
+            control.DisplayMember = "Value";
+            control.ValueMember = "Key";
             bindingSource.CurrentChanged += (s, ev) => GenericHelpers.Tools.SetPropertyValue(this.DataContext, targetPath, ((KeyValuePair<string, string>)((BindingSource)s).Current).Key);
-            this.DataContext.PropertyChanged += (s, ev) => comboBox.SelectedValue = GenericHelpers.Tools.GetPropertyValue(this.DataContext, targetPath) ?? comboBox.SelectedValue;
+            this.DataContext.PropertyChanged += (s, ev) => control.SelectedValue = GenericHelpers.Tools.GetPropertyValue(this.DataContext, targetPath) ?? control.SelectedValue;
         }
 
         /// <summary>
