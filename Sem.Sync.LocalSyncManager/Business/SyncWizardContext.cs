@@ -16,6 +16,8 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.IO;
     using System.Reflection;
 
+    using Entities;
+
     using GenericHelpers;
     using GenericHelpers.Entities;
     
@@ -42,7 +44,10 @@ namespace Sem.Sync.LocalSyncManager.Business
         public ConnectorInformation Source { get; set; }
         public ConnectorInformation Target { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
+        public List<string> SyncWorkflowsTemplates { get; set; }
+        public string CurrentSyncWorkflowTemplate { get; set; }
+
         public SyncWizardContext()
         {
             this.ClientsSource = new Dictionary<string, string>();
@@ -83,13 +88,19 @@ namespace Sem.Sync.LocalSyncManager.Business
                     }
                 }
             }
+
+            foreach (var file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.WSyncList"))
+            {
+                this.SyncWorkflowsTemplates.Add(file);
+            }
         }
 
         public void LoadFrom(string path)
         {
-            var connectors = Tools.LoadFromFile<List<ConnectorInformation>>(path);
-            this.Source = connectors[0];
-            this.Target = connectors[1];
+            var workFlow = Tools.LoadFromFile<SyncWorkFlow>(path);
+            this.Source = workFlow.Source;
+            this.Target = workFlow.Target;
+            this.CurrentSyncWorkflowTemplate = workFlow.Template;
 
             this.Source.PropertyChanged += this.PropertyChanged;
             this.Target.PropertyChanged += this.PropertyChanged;
@@ -97,10 +108,17 @@ namespace Sem.Sync.LocalSyncManager.Business
             this.RaisePropertyChanged(string.Empty);
         }
 
-        public void SaveTo(string path)
+        public void SaveTo(string path, string name)
         {
-            var connectors = new List<ConnectorInformation> { this.Source, this.Target };
-            Tools.SaveToFile(connectors, path, typeof(Credentials));
+            var workFlow = new SyncWorkFlow
+                {
+                    Name = name,
+                    Source = this.Source,
+                    Target = this.Target,
+                    Template = this.CurrentSyncWorkflowTemplate
+                };
+
+            Tools.SaveToFile(workFlow, path, typeof(Credentials), typeof(SyncWorkFlow));
         }
 
         public void Run(string templateScript, ProcessEvent processingEvent)

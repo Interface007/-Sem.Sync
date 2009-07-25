@@ -67,7 +67,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
             this.btnLoad.Click += (s, ev) => this.DataContext.LoadFrom("wizard.xml");
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo("wizard.xml");
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo("wizard.xml", "test");
 
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
             this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };

@@ -117,19 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 356</value>
-  </data>
   <data name="btnCancel.Text" xml:space="preserve">
     <value>&amp;Abbrechen</value>
-  </data>
-  <data name="btnRun.Location" type="System.Drawing.Point, System.Drawing">
-    <value>453, 356</value>
   </data>
   <data name="btnRun.Text" xml:space="preserve">
     <value>&amp;Start</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
@@ -148,35 +142,17 @@
   <data name="label9.Text" xml:space="preserve">
     <value>&amp;Quelle:</value>
   </data>
-  <data name="txtPasswordTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 286</value>
-  </data>
-  <data name="txtUidTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 259</value>
-  </data>
-  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 289</value>
-  </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Pass&amp;wort:</value>
   </data>
-  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 262</value>
-  </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>B&amp;enutzer:</value>
-  </data>
-  <data name="cboTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 274</value>
-  </data>
-  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 277</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -196,29 +172,14 @@
   <data name="label2.Text" xml:space="preserve">
     <value>&amp;Pfad:</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 304</value>
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>P&amp;fad:</value>
   </data>
-  <data name="txtPathTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 301</value>
-  </data>
-  <data name="btnPathTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>279, 299</value>
-  </data>
-  <data name="btnLoad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 356</value>
-  </data>
   <data name="btnLoad.Text" xml:space="preserve">
     <value>&amp;Laden...</value>
-  </data>
-  <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>93, 356</value>
   </data>
   <data name="btnSave.Text" xml:space="preserve">
     <value>Spe&amp;ichern ...</value>
@@ -229,19 +190,10 @@
   <data name="label5.Text" xml:space="preserve">
     <value>&amp;Domäne</value>
   </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 315</value>
-  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Dom&amp;äne:</value>
-  </data>
-  <data name="txtDomainTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 312</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>540, 398</value>
   </data>
 </root>

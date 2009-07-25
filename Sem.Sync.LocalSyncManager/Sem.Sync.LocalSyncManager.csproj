@@ -59,6 +59,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Entities\SyncWorkFlow.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">
@@ -200,9 +201,6 @@
     <None Include="SyncLists\A Sync with Xing.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
