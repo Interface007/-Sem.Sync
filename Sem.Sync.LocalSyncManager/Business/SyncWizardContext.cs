@@ -20,7 +20,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
     using GenericHelpers;
     using GenericHelpers.Entities;
-    
+
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
@@ -29,7 +29,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.DetailData;
 
     using Tools;
-    
+
     /// <summary>
     /// The context does contain information needed to access the source and the 
     /// target of the sequence to be executed. This includes the types of source 
@@ -38,33 +38,34 @@ namespace Sem.Sync.LocalSyncManager.Business
     /// </summary>
     public class SyncWizardContext : INotifyPropertyChanged
     {
-        public Dictionary<string, string> ClientsSource { get; set; }
-        public Dictionary<string, string> ClientsTarget { get; set; }
+        /// <summary>
+        /// The working folder for data files (need to be writable).
+        /// </summary>
+        private static readonly string workingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
 
-        public ConnectorInformation Source { get; set; }
-        public ConnectorInformation Target { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// The working folder for template files.
+        /// </summary>
+        private static readonly string workingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
 
-        public Dictionary<string, string> SyncWorkflowsTemplates { get; set; }
-        public string CurrentSyncWorkflowTemplate { get; set; }
+        /// <summary>
+        /// The file extension for data files.
+        /// </summary>
+        private const string SyncListDataFileExtension = ".DSyncList";
 
-        public Dictionary<string, string> SyncWorkflowData { get; set; }
+        /// <summary>
+        /// The file extension for template files.
+        /// </summary>
+        private const string SyncListTemplateFileExtension = ".TSyncList";
 
-        private string _currentSyncWorkflowData;
+        /// <summary>
+        /// The current synchronization workflow data - this is created and saved by the user in the dialog..
+        /// </summary>
+        private string currentSyncWorkflowData;
 
-        public string CurrentSyncWorkflowData
-        {
-            get
-            {
-                return this._currentSyncWorkflowData;
-            }
-            set
-            {
-                this._currentSyncWorkflowData = value;
-                this.LoadFrom(value);
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyncWizardContext"/> class.
+        /// </summary>
         public SyncWizardContext()
         {
             this.ClientsSource = new Dictionary<string, string>();
@@ -90,16 +91,16 @@ namespace Sem.Sync.LocalSyncManager.Business
                     }
 
                     var sourceTypeAttributes = exportedType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
-                    var attribute = 
-                        sourceTypeAttributes.Length == 0 
+                    var attribute =
+                        sourceTypeAttributes.Length == 0
                         ? new ConnectorDescriptionAttribute()
                         : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
-                        
+
                     if (attribute.CanRead)
                     {
                         this.ClientsSource.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
                     }
-                        
+
                     if (attribute.CanWrite)
                     {
                         this.ClientsTarget.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
@@ -108,24 +109,84 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
-            foreach (var file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.TSyncList"))
+            foreach (var file in Directory.GetFiles(workingFolderTemplates, "*" + SyncListTemplateFileExtension))
             {
                 this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file));
             }
 
+            Tools.EnsurePathExist(workingFolderData);
             this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
-            foreach (
-                var file in
-                    Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.DSyncList"))
+            foreach (var file in Directory.GetFiles(workingFolderData, "*" + SyncListDataFileExtension))
             {
                 this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
             }
         }
 
+        /// <summary>
+        /// Event that signals a change in the properties
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets or sets the list of available connectors that can read data.
+        /// </summary>
+        public Dictionary<string, string> ClientsSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of connectors that can write data.
+        /// </summary>
+        public Dictionary<string, string> ClientsTarget { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected Source.
+        /// </summary>
+        public ConnectorInformation Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected Target.
+        /// </summary>
+        public ConnectorInformation Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of avaliable synchronization workflow templates.
+        /// </summary>
+        public Dictionary<string, string> SyncWorkflowsTemplates { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current synchronization workflow template.
+        /// </summary>
+        public string CurrentSyncWorkflowTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of available synchronization workflow data - this is created and saved by the user in the dialog.
+        /// </summary>
+        public Dictionary<string, string> SyncWorkflowData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current synchronization workflow data - this is created and saved by the user in the dialog..
+        /// </summary>
+        public string CurrentSyncWorkflowData
+        {
+            get
+            {
+                return this.currentSyncWorkflowData;
+            }
+
+            set
+            {
+                this.currentSyncWorkflowData = value;
+                this.LoadFrom(value);
+            }
+        }
+
+        /// <summary>
+        /// Loads workflow data from a file into this object.
+        /// </summary>
+        /// <param name="path"> The path to the file containing the workflow </param>
         public void LoadFrom(string path)
         {
             var workFlow = Tools.LoadFromFile<SyncWorkFlow>(path);
-            
+
             if (workFlow != null)
             {
                 this.Source = workFlow.Source;
@@ -139,6 +200,11 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        /// <summary>
+        /// Saves the current workflow data of this object into a file.
+        /// </summary>
+        /// <param name="fileNameWithoutExtension"> The file name to save to without the file name extension. </param>
+        /// <param name="name"> The name to be saved into the file. </param>
         public void SaveTo(string fileNameWithoutExtension, string name)
         {
             var workFlow = new SyncWorkFlow
@@ -150,13 +216,18 @@ namespace Sem.Sync.LocalSyncManager.Business
                 };
 
             Tools.SaveToFile(
-                workFlow, 
-                Path.Combine("SyncLists", fileNameWithoutExtension) + ".DSyncList",
+                workFlow,
+                Path.Combine(workingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension,
                 typeof(SyncWorkFlow),
-                typeof(Credentials), 
+                typeof(Credentials),
                 typeof(KeyValuePair<string, string>));
         }
 
+        /// <summary>
+        /// Runs the currently selected template with the currently loaded data.
+        /// </summary>
+        /// <param name="templateScript"> The template script. </param>
+        /// <param name="processingEvent"> The event handler that will get the processing events. </param>
         public void Run(string templateScript, ProcessEvent processingEvent)
         {
             var engine = new SyncEngine
@@ -175,7 +246,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{target}") ? this.Target.LogonCredentials : command.SourceCredentials;
                 command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{source}") ? this.Source.LogonCredentials : command.TargetCredentials;
                 command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{target}") ? this.Target.LogonCredentials : command.TargetCredentials;
-                
+
                 command.SourceConnector = this.ReplaceToken(command.SourceConnector);
                 command.TargetConnector = this.ReplaceToken(command.TargetConnector);
                 command.SourceStorePath = this.ReplaceToken(command.SourceStorePath);
@@ -185,6 +256,11 @@ namespace Sem.Sync.LocalSyncManager.Business
             engine.Execute(commands);
         }
 
+        /// <summary>
+        /// Calls the event to inform other classes about an internal change of this objects 
+        /// state - this will cause the GUI to read the data from this object.
+        /// </summary>
+        /// <param name="propertyName"> The property name that has been changed. </param>
         private void RaisePropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -193,6 +269,11 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        /// <summary>
+        /// replecaes some internal token to insert the workflow data into a workflow template.
+        /// </summary>
+        /// <param name="value"> The value that may contain tokens. </param>
+        /// <returns> The value with replaced tokens. </returns>
         private string ReplaceToken(string value)
         {
             return (value ?? string.Empty)

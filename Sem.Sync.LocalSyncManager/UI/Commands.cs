@@ -22,8 +22,8 @@ namespace Sem.Sync.LocalSyncManager.UI
     using SharedUI.WinForms.UI;
 
     using SyncBase;
+    using SyncBase.Binding;
     using SyncBase.Interfaces;
-    using Sem.Sync.SyncBase.Binding;
 
     /// <summary>
     /// the main for of the application
@@ -100,6 +100,12 @@ namespace Sem.Sync.LocalSyncManager.UI
                 };
 
             this.dataGridView1.CellDoubleClick += (gvs, gve) => this.RunRowCommand(gve.RowIndex);
+
+            // setup the commands
+            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
+            this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
+            this.simpleSyncToolStripMenuItem.Click += (s, ev) => new SyncWizard().ShowDialog();
+            this.runSelected.Click += (s, ev) => this.RunSelectedRow();
         }
 
         /// <summary>
@@ -142,17 +148,6 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         #region eventhandler
-
-        /// <summary>
-        /// Handels the click event of the "run selected" button
-        /// </summary>
-        /// <param name="sender"> The sender. </param>
-        /// <param name="e"> The empty event arguments. </param>
-        private void RunSelected_Click(object sender, EventArgs e)
-        {
-            this.RunSelectedRow();
-        }
-
         /// <summary>
         /// Handels the click event of the "run all" button
         /// </summary>
@@ -186,20 +181,5 @@ namespace Sem.Sync.LocalSyncManager.UI
             }
         }
         #endregion
-
-        private void openWorkingFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DataContext.OpenWorkingFolder();
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void simpleSyncToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new SyncWizard().ShowDialog();
-        }
     }
 }

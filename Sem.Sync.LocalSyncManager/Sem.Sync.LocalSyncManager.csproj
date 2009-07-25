@@ -110,12 +110,6 @@
     <Compile Include="UI\SyncWizard.Designer.cs">
       <DependentUpon>SyncWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\WizardExecution.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\WizardExecution.Designer.cs">
-      <DependentUpon>WizardExecution.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">

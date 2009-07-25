@@ -46,31 +46,11 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void SyncWizard_Load(object sender, EventArgs e)
         {
             this.DataContext = new SyncWizardContext();
-            
-            this.contextDataSource.DataSource = this.DataContext;
-            this.contextDataTarget.DataSource = this.DataContext;
-            this.contextDataWorkflows.DataSource = this.DataContext;
-            this.contextDataWorkflowData.DataSource = this.DataContext;
 
-            this.contextDataSource.DataMember = "ClientsSource";
-            this.contextDataTarget.DataMember = "ClientsTarget";
-            this.contextDataWorkflows.DataMember = "SyncWorkflowsTemplates";
-            this.contextDataWorkflowData.DataMember = "SyncWorkflowData";
-
-            this.cboSource.DisplayMember = "Value";
-            this.cboTarget.DisplayMember = "Value";
-            this.cboWorkFlowTemplates.DisplayMember = "Value";
-            this.cboWorkFlowData.DisplayMember = "Value";
-
-            this.cboSource.ValueMember = "Key";
-            this.cboTarget.ValueMember = "Key";
-            this.cboWorkFlowTemplates.ValueMember = "Key";
-            this.cboWorkFlowData.ValueMember = "Key";
-
-            this.contextDataSource.CurrentChanged += (s, ev) => this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-            this.contextDataTarget.CurrentChanged += (s, ev) => this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-            this.contextDataWorkflows.CurrentChanged += (s, ev) => this.DataContext.CurrentSyncWorkflowTemplate = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-            this.contextDataWorkflowData.CurrentChanged += (s, ev) => this.DataContext.CurrentSyncWorkflowData = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+            this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");
+            this.SetupBind(this.contextDataTarget, "ClientsTarget", this.cboTarget, "Target.Name");
+            this.SetupBind(this.contextDataWorkflows, "SyncWorkflowsTemplates", this.cboWorkFlowTemplates, "CurrentSyncWorkflowTemplate");
+            this.SetupBind(this.contextDataWorkflowData, "SyncWorkflowData", this.cboWorkFlowData, "CurrentSyncWorkflowData");
 
             this.btnCancel.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
@@ -151,9 +131,6 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
             this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
 
-            this.cboSource.SelectedValue = this.DataContext.Source.Name ?? this.cboSource.SelectedValue;
-            this.cboTarget.SelectedValue = this.DataContext.Target.Name ?? this.cboTarget.SelectedValue;
-
             if (this.DataContext.Source.ConnectorDescription != null)
             {
                 this.btnPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant && (this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog);
@@ -171,6 +148,23 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
             }
+        }
+
+        /// <summary>
+        /// Sets up a databinding of a combo box to an object data source.
+        /// </summary>
+        /// <param name="bindingSource"> The binding source. </param>
+        /// <param name="dataMember"> The data member. </param>
+        /// <param name="comboBox"> The combo box. </param>
+        /// <param name="targetPath"> The target path. </param>
+        private void SetupBind(BindingSource bindingSource, string dataMember, ComboBox comboBox, string targetPath)
+        {
+            bindingSource.DataSource = this.DataContext;
+            bindingSource.DataMember = dataMember;
+            comboBox.DisplayMember = "Value";
+            comboBox.ValueMember = "Key";
+            bindingSource.CurrentChanged += (s, ev) => GenericHelpers.Tools.SetPropertyValue(this.DataContext, targetPath, ((KeyValuePair<string, string>)((BindingSource)s).Current).Key);
+            this.DataContext.PropertyChanged += (s, ev) => comboBox.SelectedValue = GenericHelpers.Tools.GetPropertyValue(this.DataContext, targetPath) ?? comboBox.SelectedValue;
         }
 
         /// <summary>

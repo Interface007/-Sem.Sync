@@ -191,7 +191,6 @@
             resources.ApplyResources(this.runSelected, "runSelected");
             this.runSelected.Name = "runSelected";
             this.runSelected.UseVisualStyleBackColor = true;
-            this.runSelected.Click += new System.EventHandler(this.RunSelected_Click);
             // 
             // runAll
             // 
@@ -229,7 +228,6 @@
             // 
             this.openWorkingFolderToolStripMenuItem.Name = "openWorkingFolderToolStripMenuItem";
             resources.ApplyResources(this.openWorkingFolderToolStripMenuItem, "openWorkingFolderToolStripMenuItem");
-            this.openWorkingFolderToolStripMenuItem.Click += new System.EventHandler(this.openWorkingFolderToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -240,7 +238,6 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // wizardsToolStripMenuItem
             // 
@@ -253,7 +250,6 @@
             // 
             this.simpleSyncToolStripMenuItem.Name = "simpleSyncToolStripMenuItem";
             resources.ApplyResources(this.simpleSyncToolStripMenuItem, "simpleSyncToolStripMenuItem");
-            this.simpleSyncToolStripMenuItem.Click += new System.EventHandler(this.simpleSyncToolStripMenuItem_Click);
             // 
             // Commands
             // 
