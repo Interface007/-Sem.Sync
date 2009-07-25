@@ -58,7 +58,6 @@
             this.btnPathTarget = new System.Windows.Forms.Button();
             this.btnPathSource = new System.Windows.Forms.Button();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnLoad = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtDomainSource = new System.Windows.Forms.TextBox();
@@ -66,20 +65,25 @@
             this.txtDomainTarget = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboWorkFlowTemplates = new System.Windows.Forms.ComboBox();
+            this.contextDataWorkflows = new System.Windows.Forms.BindingSource(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savedProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.savedProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
+            this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -240,12 +244,6 @@
             // 
             this.folderBrowser.ShowNewFolderButton = false;
             // 
-            // btnLoad
-            // 
-            resources.ApplyResources(this.btnLoad, "btnLoad");
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            // 
             // btnSave
             // 
             resources.ApplyResources(this.btnSave, "btnSave");
@@ -278,11 +276,16 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // comboBox1
+            // cboWorkFlowTemplates
             // 
-            this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
+            this.cboWorkFlowTemplates.DataSource = this.contextDataWorkflows;
+            this.cboWorkFlowTemplates.FormattingEnabled = true;
+            resources.ApplyResources(this.cboWorkFlowTemplates, "cboWorkFlowTemplates");
+            this.cboWorkFlowTemplates.Name = "cboWorkFlowTemplates";
+            // 
+            // contextDataWorkflows
+            // 
+            this.contextDataWorkflows.AllowNew = false;
             // 
             // pictureBox1
             // 
@@ -319,6 +322,11 @@
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             resources.ApplyResources(this.loadToolStripMenuItem, "loadToolStripMenuItem");
             // 
+            // savedProcessesToolStripMenuItem
+            // 
+            this.savedProcessesToolStripMenuItem.Name = "savedProcessesToolStripMenuItem";
+            resources.ApplyResources(this.savedProcessesToolStripMenuItem, "savedProcessesToolStripMenuItem");
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -329,21 +337,23 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
             // 
-            // savedProcessesToolStripMenuItem
+            // cboWorkFlowData
             // 
-            this.savedProcessesToolStripMenuItem.Name = "savedProcessesToolStripMenuItem";
-            resources.ApplyResources(this.savedProcessesToolStripMenuItem, "savedProcessesToolStripMenuItem");
+            this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
+            this.cboWorkFlowData.FormattingEnabled = true;
+            resources.ApplyResources(this.cboWorkFlowData, "cboWorkFlowData");
+            this.cboWorkFlowData.Name = "cboWorkFlowData";
             // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cboWorkFlowData);
+            this.Controls.Add(this.cboWorkFlowTemplates);
             this.Controls.Add(this.pnlProgress);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnPathSource);
             this.Controls.Add(this.btnPathTarget);
-            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.txtPathTarget);
             this.Controls.Add(this.txtPathSource);
             this.Controls.Add(this.txtDomainTarget);
@@ -376,9 +386,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).EndInit();
             this.pnlProgress.ResumeLayout(false);
             this.pnlProgress.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,7 +426,6 @@
         private System.Windows.Forms.Button btnPathTarget;
         private System.Windows.Forms.Button btnPathSource;
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
-        private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtDomainSource;
@@ -422,7 +433,7 @@
         private System.Windows.Forms.TextBox txtDomainTarget;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cboWorkFlowTemplates;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -431,5 +442,8 @@
         private System.Windows.Forms.ToolStripMenuItem savedProcessesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.BindingSource contextDataWorkflows;
+        private System.Windows.Forms.ComboBox cboWorkFlowData;
+        private System.Windows.Forms.BindingSource contextDataWorkflowData;
     }
 }

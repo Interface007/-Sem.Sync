@@ -181,18 +181,18 @@
     <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\SimpleCopy.XSyncList">
+    <None Include="SyncLists\Template SimpleCopy.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Syncronize.XSyncList">
+    <None Include="SyncLists\Template Syncronize.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Test FileSystem to vCard.SyncList">
+    <None Include="SyncLists\Z FileSystem to vCard TEST.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\DataSources\Sem.Sync.LocalSyncManager.Tools.MergeView.datasource" />
     <None Include="Properties\DataSources\Sem.Sync.SyncBase.Merging.MergeConflict.datasource" />
-    <None Include="SyncLists\Sync TESTS.SyncList">
+    <None Include="SyncLists\Z Sync TESTS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SyncLists\A Sync with WCF %28Simple%29.SyncList">

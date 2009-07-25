@@ -45,8 +45,25 @@ namespace Sem.Sync.LocalSyncManager.Business
         public ConnectorInformation Target { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public List<string> SyncWorkflowsTemplates { get; set; }
+        public Dictionary<string, string> SyncWorkflowsTemplates { get; set; }
         public string CurrentSyncWorkflowTemplate { get; set; }
+
+        public Dictionary<string, string> SyncWorkflowData { get; set; }
+
+        private string _currentSyncWorkflowData;
+
+        public string CurrentSyncWorkflowData
+        {
+            get
+            {
+                return this._currentSyncWorkflowData;
+            }
+            set
+            {
+                this._currentSyncWorkflowData = value;
+                this.LoadFrom(value);
+            }
+        }
 
         public SyncWizardContext()
         {
@@ -55,8 +72,9 @@ namespace Sem.Sync.LocalSyncManager.Business
             this.Source = new ConnectorInformation();
             this.Target = new ConnectorInformation();
 
-            this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged(string.Empty);
-            this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged(string.Empty);
+            // propagate property change event to consuming objects
+            this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+            this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
 
             foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
             {
@@ -89,26 +107,39 @@ namespace Sem.Sync.LocalSyncManager.Business
                 }
             }
 
-            foreach (var file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.WSyncList"))
+            this.SyncWorkflowsTemplates = new Dictionary<string, string>();
+            foreach (var file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.TSyncList"))
             {
-                this.SyncWorkflowsTemplates.Add(file);
+                this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file));
+            }
+
+            this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
+            foreach (
+                var file in
+                    Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.DSyncList"))
+            {
+                this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
             }
         }
 
         public void LoadFrom(string path)
         {
             var workFlow = Tools.LoadFromFile<SyncWorkFlow>(path);
-            this.Source = workFlow.Source;
-            this.Target = workFlow.Target;
-            this.CurrentSyncWorkflowTemplate = workFlow.Template;
+            
+            if (workFlow != null)
+            {
+                this.Source = workFlow.Source;
+                this.Target = workFlow.Target;
+                this.CurrentSyncWorkflowTemplate = workFlow.Template;
 
-            this.Source.PropertyChanged += this.PropertyChanged;
-            this.Target.PropertyChanged += this.PropertyChanged;
+                this.Source.PropertyChanged += this.PropertyChanged;
+                this.Target.PropertyChanged += this.PropertyChanged;
 
-            this.RaisePropertyChanged(string.Empty);
+                this.RaisePropertyChanged(string.Empty);
+            }
         }
 
-        public void SaveTo(string path, string name)
+        public void SaveTo(string fileNameWithoutExtension, string name)
         {
             var workFlow = new SyncWorkFlow
                 {
@@ -118,7 +149,12 @@ namespace Sem.Sync.LocalSyncManager.Business
                     Template = this.CurrentSyncWorkflowTemplate
                 };
 
-            Tools.SaveToFile(workFlow, path, typeof(Credentials), typeof(SyncWorkFlow));
+            Tools.SaveToFile(
+                workFlow, 
+                Path.Combine("SyncLists", fileNameWithoutExtension) + ".DSyncList",
+                typeof(SyncWorkFlow),
+                typeof(Credentials), 
+                typeof(KeyValuePair<string, string>));
         }
 
         public void Run(string templateScript, ProcessEvent processingEvent)

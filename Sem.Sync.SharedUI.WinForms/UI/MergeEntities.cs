@@ -31,6 +31,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         public List<StdElement> PerformMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
+            if (toMerge.Count == 0)
+            {
+                return targetList;
+            }
+            
             this.conflictGrid.AutoGenerateColumns = true;
             this.conflictGrid.DataSource =
                 (from x in toMerge

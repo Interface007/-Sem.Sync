@@ -290,6 +290,9 @@
   <data name="&gt;&gt;cboSource.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
+  <metadata name="contextDataSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -552,7 +555,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblProgressStatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 13</value>
@@ -744,7 +747,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnPathTarget.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="btnPathSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>284, 220</value>
@@ -768,46 +771,22 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnPathSource.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="folderBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>314, 16</value>
+    <value>391, 49</value>
   </metadata>
-  <data name="btnLoad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 412</value>
-  </data>
-  <data name="btnLoad.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="btnLoad.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="btnLoad.Text" xml:space="preserve">
-    <value>&amp;load...</value>
-  </data>
-  <data name="&gt;&gt;btnLoad.Name" xml:space="preserve">
-    <value>btnLoad</value>
-  </data>
-  <data name="&gt;&gt;btnLoad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnLoad.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnLoad.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 412</value>
+    <value>461, 144</value>
   </data>
   <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>82, 23</value>
   </data>
   <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
   <data name="btnSave.Text" xml:space="preserve">
-    <value>&amp;save ...</value>
+    <value>&amp;save</value>
   </data>
   <data name="&gt;&gt;btnSave.Name" xml:space="preserve">
     <value>btnSave</value>
@@ -819,7 +798,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -923,27 +902,33 @@
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>577, 16</value>
   </metadata>
-  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>190, 271</value>
+  <metadata name="contextDataWorkflows.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>21, 49</value>
+  </metadata>
+  <data name="cboWorkFlowTemplates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 272</value>
   </data>
-  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 21</value>
+  <data name="cboWorkFlowTemplates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 21</value>
   </data>
-  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="cboWorkFlowTemplates.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
-    <value>comboBox1</value>
+  <data name="&gt;&gt;cboWorkFlowTemplates.Name" xml:space="preserve">
+    <value>cboWorkFlowTemplates</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;cboWorkFlowTemplates.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cboWorkFlowTemplates.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;cboWorkFlowTemplates.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
+  <metadata name="contextDataWorkflows.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>21, 49</value>
+  </metadata>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 167</value>
   </data>
@@ -1029,6 +1014,30 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
+  <metadata name="contextDataWorkflowData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>196, 49</value>
+  </metadata>
+  <data name="cboWorkFlowData.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 146</value>
+  </data>
+  <data name="cboWorkFlowData.Size" type="System.Drawing.Size, System.Drawing">
+    <value>444, 21</value>
+  </data>
+  <data name="cboWorkFlowData.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;cboWorkFlowData.Name" xml:space="preserve">
+    <value>cboWorkFlowData</value>
+  </data>
+  <data name="&gt;&gt;cboWorkFlowData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboWorkFlowData.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cboWorkFlowData.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1071,6 +1080,12 @@
   <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;contextDataWorkflows.Name" xml:space="preserve">
+    <value>contextDataWorkflows</value>
+  </data>
+  <data name="&gt;&gt;contextDataWorkflows.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Name" xml:space="preserve">
     <value>fileToolStripMenuItem</value>
   </data>
@@ -1106,6 +1121,12 @@
   </data>
   <data name="&gt;&gt;exitToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextDataWorkflowData.Name" xml:space="preserve">
+    <value>contextDataWorkflowData</value>
+  </data>
+  <data name="&gt;&gt;contextDataWorkflowData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SyncWizard</value>

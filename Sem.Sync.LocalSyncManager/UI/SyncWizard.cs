@@ -46,28 +46,38 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void SyncWizard_Load(object sender, EventArgs e)
         {
             this.DataContext = new SyncWizardContext();
-            this.DataContext.PropertyChanged += this.ReadFromContext;
-
+            
             this.contextDataSource.DataSource = this.DataContext;
-            this.contextDataSource.DataMember = "ClientsSource";
-            this.contextDataSource.CurrentChanged += (s, ev) => this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
-
             this.contextDataTarget.DataSource = this.DataContext;
+            this.contextDataWorkflows.DataSource = this.DataContext;
+            this.contextDataWorkflowData.DataSource = this.DataContext;
+
+            this.contextDataSource.DataMember = "ClientsSource";
             this.contextDataTarget.DataMember = "ClientsTarget";
-            this.contextDataTarget.CurrentChanged += (s, ev) => this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+            this.contextDataWorkflows.DataMember = "SyncWorkflowsTemplates";
+            this.contextDataWorkflowData.DataMember = "SyncWorkflowData";
 
             this.cboSource.DisplayMember = "Value";
-            this.cboSource.ValueMember = "Key";
             this.cboTarget.DisplayMember = "Value";
+            this.cboWorkFlowTemplates.DisplayMember = "Value";
+            this.cboWorkFlowData.DisplayMember = "Value";
+
+            this.cboSource.ValueMember = "Key";
             this.cboTarget.ValueMember = "Key";
+            this.cboWorkFlowTemplates.ValueMember = "Key";
+            this.cboWorkFlowData.ValueMember = "Key";
+
+            this.contextDataSource.CurrentChanged += (s, ev) => this.DataContext.Source.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+            this.contextDataTarget.CurrentChanged += (s, ev) => this.DataContext.Target.Name = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+            this.contextDataWorkflows.CurrentChanged += (s, ev) => this.DataContext.CurrentSyncWorkflowTemplate = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
+            this.contextDataWorkflowData.CurrentChanged += (s, ev) => this.DataContext.CurrentSyncWorkflowData = ((KeyValuePair<string, string>)((BindingSource)s).Current).Key;
 
             this.btnCancel.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
-            this.btnLoad.Click += (s, ev) => this.DataContext.LoadFrom("wizard.xml");
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo("wizard.xml", "test");
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
 
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
             this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };
@@ -79,8 +89,28 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((Control)s).Text; };
             this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
 
-            this.cboSource.SelectedIndex = 0;
-            this.cboTarget.SelectedIndex = 0;
+            if (this.cboSource.Items.Count > 0)
+            {
+                this.cboSource.SelectedIndex = 0;
+            }
+
+            if (this.cboTarget.Items.Count > 0)
+            {
+                this.cboTarget.SelectedIndex = 0;
+            }
+
+            if (this.cboWorkFlowData.Items.Count > 0)
+            {
+                this.cboWorkFlowData.SelectedIndex = 0;
+            }
+
+            if (this.cboWorkFlowTemplates.Items.Count > 0)
+            {
+                this.cboWorkFlowTemplates.SelectedIndex = 0;
+            }
+
+            this.DataContext.PropertyChanged += this.ReadFromContext;
+            this.ReadFromContext(null, new PropertyChangedEventArgs(string.Empty));
         }
 
         /// <summary>
@@ -91,7 +121,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             this.pnlProgress.Visible = true;
             this.DataContext.Run(
-                "SyncLists\\Syncronize.XSyncList",
+                this.DataContext.CurrentSyncWorkflowTemplate,
                 delegate(object entity, ProcessingEventArgs eventArgs)
                     {
                         this.lblProgressStatus.Text = eventArgs.Message +
