@@ -30,7 +30,8 @@ namespace Sem.Sync.WerKenntWenConnector
     /// Client implementation for reading information from www.wer-kennt-wen.de
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Wer-Kennt-Wen.de")]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true,
+        DisplayName = "Wer-Kennt-Wen.de", MatchingIdentifier = ProfileIdentifierType.WerKenntWenUrl)]
     public class ContactClient : StdClient
     {
         #region string resources for processing wkw pages

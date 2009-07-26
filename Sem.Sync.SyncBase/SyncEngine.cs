@@ -52,6 +52,16 @@ namespace Sem.Sync.SyncBase
         /// flag for already executed version check
         /// </summary>
         private bool versionChecked;
+
+        /// <summary>
+        /// the number of commands in the sequence
+        /// </summary>
+        private int numberOfCommandsInSequence;
+        
+        /// <summary>
+        /// the percentage of work already done
+        /// </summary>
+        private int percentageOfSequenceDone;
         #endregion
 
         #region events
@@ -81,13 +91,14 @@ namespace Sem.Sync.SyncBase
         public bool Execute(SyncCollection syncList)
         {
             var itemsDone = 0;
-            var itemsMax = syncList.Count;
+            this.numberOfCommandsInSequence = syncList.Count;
 
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, itemsMax));
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
 
             foreach (var item in syncList)
             {
-                UpdateProgress(itemsDone * 100 / itemsMax);
+                this.percentageOfSequenceDone = itemsDone * 100 / this.numberOfCommandsInSequence;
+                UpdateProgress(this.percentageOfSequenceDone);
                 if (!this.Execute(item))
                 {
                     LogProcessingEvent(Resources.uiProcessingCanceled);
@@ -98,7 +109,7 @@ namespace Sem.Sync.SyncBase
                 itemsDone++;
             }
 
-            UpdateProgress(itemsDone * 100 / itemsMax);
+            UpdateProgress(100);
             return true;
         }
 
@@ -140,8 +151,7 @@ namespace Sem.Sync.SyncBase
 
             try
             {
-                var command =
-                    this.factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
+                var command = this.factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
 
                 var commandAsComponent = command as SyncComponent;
 
@@ -208,6 +218,10 @@ namespace Sem.Sync.SyncBase
             if (addEvent)
             {
                 component.ProcessingEvent += this.LogProcessingEvent;
+                component.ProgressEvent += 
+                    (s, e) => this.UpdateProgress(
+                                  this.percentageOfSequenceDone 
+                                  + (e.PercentageDone / this.numberOfCommandsInSequence));
 
                 if (clientBase != null)
                 { 

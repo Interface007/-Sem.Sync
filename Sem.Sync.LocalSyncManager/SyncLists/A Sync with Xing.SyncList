@@ -12,6 +12,7 @@
   <SyncDescription Name="Export from Outlook to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
+    
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
@@ -19,6 +20,7 @@
   <SyncDescription Name="Export from Xing to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.XingConnector.ContactClient</SourceConnector>
+    
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Xing.xmlcontact</TargetStorePath>
   </SyncDescription>
@@ -38,7 +40,6 @@
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
-
 
   <SyncDescription Name="Add missing from Outlook to Xing (file system)">
     <Command>MergeMissing</Command>
@@ -84,7 +85,6 @@
   <SyncDescription Name="Ask if we want to overwrite Outlook">
     <Command>AskForContinue</Command>
     <CommandParameter>Do you want to import the merged contact list into your Outlook account?</CommandParameter>
-    <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
   </SyncDescription>
 
   <SyncDescription Name="Import all from file system to Outlook">
@@ -92,6 +92,7 @@
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
     <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
+    
   </SyncDescription>
 
   <SyncDescription Name="Remove duplicate calendar entries">

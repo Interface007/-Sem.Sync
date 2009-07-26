@@ -11,6 +11,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.LocalSyncManager.Business
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
@@ -180,6 +181,24 @@ namespace Sem.Sync.LocalSyncManager.Business
         }
 
         /// <summary>
+        /// Opens the current working folder using the explorer
+        /// </summary>
+        public static void OpenWorkingFolder()
+        {
+            var engine = new SyncEngine
+                {
+                    WorkingFolder = Config.WorkingFolder
+                };
+
+            engine.Execute(
+                new SyncDescription
+                    {
+                        Command = SyncCommand.OpenDocument.ToString(),
+                        CommandParameter = "{FS:WorkingFolder}"
+                    });
+        }
+
+        /// <summary>
         /// Loads workflow data from a file into this object.
         /// </summary>
         /// <param name="path"> The path to the file containing the workflow </param>
@@ -226,19 +245,18 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <summary>
         /// Runs the currently selected template with the currently loaded data.
         /// </summary>
-        /// <param name="templateScript"> The template script. </param>
-        /// <param name="processingEvent"> The event handler that will get the processing events. </param>
-        public void Run(string templateScript, ProcessEvent processingEvent)
+        /// <param name="templateScriptPath">
+        /// The path to the template script. 
+        /// </param>
+        /// <param name="processingEvent">
+        /// The event handler that will get the processing events. 
+        /// </param>
+        /// <param name="progressEvent">
+        /// The progress Event.
+        /// </param>
+        public void Run(string templateScriptPath, ProcessEvent processingEvent, ProgressEvent progressEvent)
         {
-            var engine = new SyncEngine
-            {
-                WorkingFolder = Config.WorkingFolder,
-                UiProvider = new UiDispatcher()
-            };
-
-            engine.ProcessingEvent += (s, e) => processingEvent(s, e);
-
-            var commands = SyncCollection.LoadSyncList(templateScript);
+            var commands = SyncCollection.LoadSyncList(templateScriptPath);
 
             foreach (var command in commands)
             {
@@ -251,9 +269,22 @@ namespace Sem.Sync.LocalSyncManager.Business
                 command.TargetConnector = this.ReplaceToken(command.TargetConnector);
                 command.SourceStorePath = this.ReplaceToken(command.SourceStorePath);
                 command.TargetStorePath = this.ReplaceToken(command.TargetStorePath);
+                command.CommandParameter = this.ReplaceToken(command.CommandParameter);
             }
 
+            var engine = new SyncEngine
+            {
+                WorkingFolder = Config.WorkingFolder,
+                UiProvider = new UiDispatcher()
+            };
+
+            engine.ProcessingEvent += (s, e) => processingEvent(s, e);
+            engine.ProgressEvent += (s, e) => progressEvent(s, e);
+
             engine.Execute(commands);
+
+            engine.ProcessingEvent -= (s, e) => processingEvent(s, e);
+            engine.ProgressEvent -= (s, e) => progressEvent(s, e);
         }
 
         /// <summary>
@@ -280,7 +311,9 @@ namespace Sem.Sync.LocalSyncManager.Business
                 .Replace("{source}", this.Source.Name)
                 .Replace("{target}", this.Target.Name)
                 .Replace("{sourcepath}", this.Source.Path)
-                .Replace("{targetpath}", this.Target.Path);
+                .Replace("{targetpath}", this.Target.Path)
+                .Replace("{sourcepersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Source.ConnectorDescription.MatchingIdentifier))
+                .Replace("{targetpersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Target.ConnectorDescription.MatchingIdentifier));
         }
     }
 }

@@ -85,7 +85,7 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // MergeWindow
+            // MergeEntities
             // 
             this.AcceptButton = this.btnOk;
             resources.ApplyResources(this, "$this");
@@ -95,7 +95,8 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.conflictGrid);
-            this.Name = "MergeWindow";
+            this.Name = "MergeEntities";
+            this.Load += new System.EventHandler(this.MergeEntities_Load);
             ((System.ComponentModel.ISupportInitialize)(this.conflictGrid)).EndInit();
             this.ResumeLayout(false);
 

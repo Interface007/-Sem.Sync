@@ -146,9 +146,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         private void SelectRowAndColum(int columnIndex, int rowIndex)
         {
             var currentRow = this.conflictGrid.Rows[rowIndex];
-            foreach (var cell in currentRow.Cells)
+            foreach (DataGridViewTextBoxCell cell in currentRow.Cells)
             {
-                ((DataGridViewTextBoxCell)cell).Style.BackColor = Color.White;
+                cell.Style.BackColor = Color.White;
             }
 
             ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo =
@@ -156,26 +156,14 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                     ? MergePropertyAction.CopySourceToTarget
                     : MergePropertyAction.KeepCurrentTarget;
 
-            this.Text = rowIndex + " " + columnIndex;
-
-            var currentCell = (DataGridViewTextBoxCell)currentRow.Cells[columnIndex];
-            currentCell.Style.BackColor = Color.PaleGreen;
+            currentRow.Cells[columnIndex].Style.BackColor = Color.PaleGreen;
         }
 
         private void SelectCompleteColumn(int columnIndex)
         {
             foreach (DataGridViewRow row in this.conflictGrid.Rows)
             {
-                foreach (DataGridViewTextBoxCell cell in row.Cells)
-                {
-                    cell.Style.BackColor = Color.White;
-                }
-
-                row.Cells[columnIndex].Style.BackColor = Color.PaleGreen;
-                ((MergeView)row.DataBoundItem).Conflict.ActionToDo =
-                    columnIndex == 2
-                        ? MergePropertyAction.CopySourceToTarget
-                        : MergePropertyAction.KeepCurrentTarget;
+                this.SelectRowAndColum(columnIndex, row.Index);
             }
         }
 
@@ -188,6 +176,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void MergeEntities_Load(object sender, EventArgs e)
+        {
+            conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
         }
     }
 }

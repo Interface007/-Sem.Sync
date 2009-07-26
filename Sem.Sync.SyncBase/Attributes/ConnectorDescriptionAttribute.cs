@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.Attributes
 {
     using System;
 
+    using DetailData;
+
     /// <summary>
     /// Specifies information about the connectors capabilities
     /// </summary>
@@ -26,6 +28,7 @@ namespace Sem.Sync.SyncBase.Attributes
             this.CanWrite = true;
             this.NeedsCredentials = false;
             this.IsGeneric = false;
+            this.MatchingIdentifier = ProfileIdentifierType.Default;
         }
 
         /// <summary>
@@ -53,5 +56,10 @@ namespace Sem.Sync.SyncBase.Attributes
         /// multiple types by a generic type parameter.
         /// </summary>
         public bool IsGeneric { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name for gui implementations.
+        /// </summary>
+        public ProfileIdentifierType MatchingIdentifier { get; set; }
     }
 }

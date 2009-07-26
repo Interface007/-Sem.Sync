@@ -45,23 +45,16 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> empty event arguments </param>
         private void SyncWizard_Load(object sender, EventArgs e)
         {
-            this.DataContext = new SyncWizardContext();
-
+            // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");
             this.SetupBind(this.contextDataTarget, "ClientsTarget", this.cboTarget, "Target.Name");
             this.SetupBind(this.contextDataWorkflows, "SyncWorkflowsTemplates", this.cboWorkFlowTemplates, "CurrentSyncWorkflowTemplate");
             this.SetupBind(this.contextDataWorkflowData, "SyncWorkflowData", this.cboWorkFlowData, "CurrentSyncWorkflowData");
 
-            this.btnCancel.Click += (s, ev) => this.Close();
-            this.btnRun.Click += (s, ev) => this.RunCommands();
-            this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
-            this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
-
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
-
+            // setup data propagation from control to business object
+            // todo: this needs to be changed to be included into databinding setup
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
             this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };
-
             this.txtUidSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnUserId = ((Control)s).Text; };
             this.txtUidTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnUserId = ((Control)s).Text; };
             this.txtPasswordSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnPassword = ((Control)s).Text; };
@@ -69,25 +62,20 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((Control)s).Text; };
             this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
 
-            if (this.cboSource.Items.Count > 0)
-            {
-                this.cboSource.SelectedIndex = 0;
-            }
+            // setup the click handling
+            this.btnCancel.Click += (s, ev) => this.Close();
+            this.btnRun.Click += (s, ev) => this.RunCommands();
+            this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
+            this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
+            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
+            this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
 
-            if (this.cboTarget.Items.Count > 0)
-            {
-                this.cboTarget.SelectedIndex = 0;
-            }
-
-            if (this.cboWorkFlowData.Items.Count > 0)
-            {
-                this.cboWorkFlowData.SelectedIndex = 0;
-            }
-
-            if (this.cboWorkFlowTemplates.Items.Count > 0)
-            {
-                this.cboWorkFlowTemplates.SelectedIndex = 0;
-            }
+            // initialize the gui
+            this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;
+            this.cboTarget.SelectedIndex = (this.cboTarget.Items.Count > 0) ? 0 : this.cboTarget.Items.Count;
+            this.cboWorkFlowData.SelectedIndex = (this.cboWorkFlowData.Items.Count > 0) ? 0 : this.cboWorkFlowData.Items.Count;
+            this.cboWorkFlowTemplates.SelectedIndex = (this.cboWorkFlowTemplates.Items.Count > 0) ? 0 : this.cboWorkFlowTemplates.Items.Count;
 
             this.DataContext.PropertyChanged += this.ReadFromContext;
             this.ReadFromContext(null, new PropertyChangedEventArgs(string.Empty));
@@ -104,12 +92,16 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.DataContext.CurrentSyncWorkflowTemplate,
                 delegate(object entity, ProcessingEventArgs eventArgs)
                     {
-                        this.lblProgressStatus.Text = eventArgs.Message +
-                                                      (entity as StdContact == null ? string.Empty : entity.ToString());
+                        this.lblProgressStatus.Text = eventArgs.Message + (entity as StdContact == null ? string.Empty : entity.ToString());
                         this.lblProgressStatus.Refresh();
-                    });
+                    },
+                delegate(object entity, ProgressEventArgs eventArgs)
+                {
+                    this.SyncProgress.Value = eventArgs.PercentageDone;
+                    this.SyncProgress.Refresh();
+                });
             this.pnlProgress.Visible = false;
-            this.lblDialogStatus.Text = "process finished";
+            this.lblDialogStatus.Text = "The process you've selected has now been finished. You might select another process or close the syncronization window.";
         }
 
         /// <summary>
@@ -120,6 +112,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> The change event parameter. </param>
         private void ReadFromContext(object sender, PropertyChangedEventArgs e)
         {
+            // todo: this needs to be changed to be included into databinding setup
             this.txtPathSource.Text = this.DataContext.Source.Path;
             this.txtPathTarget.Text = this.DataContext.Target.Path;
 
@@ -159,6 +152,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="targetPath"> The target path. </param>
         private void SetupBind(BindingSource bindingSource, string dataMember, ListControl control, string targetPath)
         {
+            // todo: currently the binding source is still needed - this has to be removed 
+            // todo: the binding setup has to be moved to the generic tools assembly and be generalized for more control types
             bindingSource.DataSource = this.DataContext;
             bindingSource.DataMember = dataMember;
             control.DisplayMember = "Value";

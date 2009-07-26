@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
+    using Attributes;
+
     using DetailData;
 
     using GenericHelpers.Interfaces;
@@ -70,7 +72,14 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("targetStorePath is null");
             }
 
-            var identifierToUse = (ProfileIdentifierType)Enum.Parse(typeof(ProfileIdentifierType), commandParameter, true);
+            var sourceTypeAttributes = sourceClient.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
+            var identifierToUse = (!string.IsNullOrEmpty(commandParameter))
+                                      ? (ProfileIdentifierType)
+                                        Enum.Parse(typeof(ProfileIdentifierType), commandParameter, true)
+                                      : (sourceTypeAttributes != null && sourceTypeAttributes.Length > 0)
+                                            ? ((ConnectorDescriptionAttribute)sourceTypeAttributes[0]).
+                                                  MatchingIdentifier
+                                            : ProfileIdentifierType.Default;
 
             var targetMatchList = targetClient.GetAll(targetStorePath);
             var matchResultList =

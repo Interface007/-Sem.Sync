@@ -28,7 +28,8 @@ namespace Sem.Sync.ActiveDirectoryConnector
     /// connector to Active Directory via LDAP
     /// </summary>
     [ClientStoragePathDescription(ReferenceType = ClientPathType.Undefined, Mandatory = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Active Directory")]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true,
+        DisplayName = "Active Directory", MatchingIdentifier = ProfileIdentifierType.ActiveDirectoryId)]
     public class ContactClient : StdClient
     {
         /// <summary>

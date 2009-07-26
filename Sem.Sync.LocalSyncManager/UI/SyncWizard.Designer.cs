@@ -70,10 +70,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.savedProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openWorkingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seperatorStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
@@ -304,33 +302,21 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.loadToolStripMenuItem,
-            this.savedProcessesToolStripMenuItem,
-            this.toolStripMenuItem1,
+            this.openWorkingFolderToolStripMenuItem,
+            this.seperatorStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
-            // saveToolStripMenuItem
+            // openWorkingFolderToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
+            this.openWorkingFolderToolStripMenuItem.Name = "openWorkingFolderToolStripMenuItem";
+            resources.ApplyResources(this.openWorkingFolderToolStripMenuItem, "openWorkingFolderToolStripMenuItem");
             // 
-            // loadToolStripMenuItem
+            // seperatorStripMenuItem1
             // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            resources.ApplyResources(this.loadToolStripMenuItem, "loadToolStripMenuItem");
-            // 
-            // savedProcessesToolStripMenuItem
-            // 
-            this.savedProcessesToolStripMenuItem.Name = "savedProcessesToolStripMenuItem";
-            resources.ApplyResources(this.savedProcessesToolStripMenuItem, "savedProcessesToolStripMenuItem");
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.seperatorStripMenuItem1.Name = "seperatorStripMenuItem1";
+            resources.ApplyResources(this.seperatorStripMenuItem1, "seperatorStripMenuItem1");
             // 
             // exitToolStripMenuItem
             // 
@@ -437,10 +423,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem savedProcessesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openWorkingFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator seperatorStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.BindingSource contextDataWorkflows;
         private System.Windows.Forms.ComboBox cboWorkFlowData;

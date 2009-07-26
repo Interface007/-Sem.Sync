@@ -23,7 +23,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     public partial class MatchEntities : Form
     {
-        
         private readonly Matching matching = new Matching();
 
         public MatchEntities()
@@ -208,6 +207,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             // perform the un-match
             this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);
+            
             // prevent matching again in case of an now empty list
             this.matching.CurrentSourceElement = null;
             

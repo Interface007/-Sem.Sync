@@ -78,6 +78,7 @@ namespace Facebook.Parser {
             {
                 try
                 {
+                    if (Enum.IsDefined(typeof(PoliticalView), XmlHelper.GetNodeText(node, "political").Replace(" ", "")))
                     user.PoliticalView = (PoliticalView)Enum.Parse(typeof(PoliticalView), XmlHelper.GetNodeText(node, "political").Replace(" ", ""), true);
                 }
                 catch (Exception)

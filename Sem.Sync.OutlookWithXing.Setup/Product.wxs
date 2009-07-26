@@ -31,12 +31,12 @@
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\SemSyncOutlookWithXing\bin\Release">
 
-            <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
+            <Component Id="SimpleClientExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
               <!-- Because we have a user dependent shortcut, we need to use a user dependent key item - in
                    this case a registry key. -->
               <RegistryValue
-                        Id='MainExecutableSettings' KeyPath='yes' Action='write'
+                        Id='SimpleClientExecutableSettings' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
                         Type='string' Value='true' />
 
@@ -59,13 +59,23 @@
                         Id='HelperLibrarySettings' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
                         Type='string' Value='true' />
+              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
+              
               <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
+
+              <File Id='Sem.Sync.ActiveDirectoryConnector'    Name='Sem.Sync.ActiveDirectoryConnector.dll'/>
+              <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
               <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
               <File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />
+              <File Id='Sem.Sync.StatisticConnector'          Name='Sem.Sync.StatisticConnector.dll'      />
+              <File Id='Sem.Sync.WerKenntWenConnector'        Name='Sem.Sync.WerKenntWenConnector.dll'    />
               <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
-              <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
-              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
+            </Component>
+
+            <Component Id="FacebookLibraries"                 Guid="B06EC15F-7574-47ad-8051-021845D40A9C">
+              <File Id='Sem.Sync.FacebookConnector'           Name='Sem.Sync.FacebookConnector.dll'       />
+              <File Id='Facebook'                             Name='Facebook.dll'                         />
             </Component>
 
             <!-- the help files are optional -->
@@ -89,12 +99,18 @@
 
     </Directory>
 
-    <Feature Id="ProductFeature" Title="Client application" Level="1" 
+    <Feature Id="XingClientFeature" Title="Simple Xing/Outlook client" Level="1" 
              Description="This is the executable (the application) together with the needed libraries. It will only install the libraries needed to sync from Xing to Outlook.">
-      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="SimpleClientExecutable" />
       <ComponentRef Id="HelperLibrary"  />
     </Feature>
 
+    <Feature Id="ManagerClientFeature" Title="Generic Synchronization Manager" Level="1"
+             Description="This executable is a gerenic one that allows the user to select from multiple sources and targets to synchronize using workflow templates.">
+      <ComponentRef Id="ManagerClientExecutable" />
+      <ComponentRef Id="HelperLibrary"  />
+    </Feature>
+    
     <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
       <ComponentRef Id="Documentation"  />
     </Feature>

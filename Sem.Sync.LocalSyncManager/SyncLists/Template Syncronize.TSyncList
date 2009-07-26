@@ -4,8 +4,8 @@
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
     <CommandParameter>
-      {FS:WorkingFolder}\Outlook.xmlcontact
-      {FS:WorkingFolder}\Xing.xmlcontact
+      {FS:WorkingFolder}\source.xmlcontact
+      {FS:WorkingFolder}\target.xmlcontact
     </CommandParameter>
   </SyncDescription>
 
@@ -41,7 +41,27 @@
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-
+  <SyncDescription Name="Match entries manually">
+    <Command>MatchManually</Command>
+    <CommandParameter>{sourcepersonalidentifier}</CommandParameter>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
+  </SyncDescription>
+  
+  <SyncDescription Name="Match source by Profile Id to Baseline">
+    <Command>MatchByProfileId</Command>
+    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
+    <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
+  </SyncDescription>
+  
   <SyncDescription Name="Add missing from target to source (file system)">
     <Command>MergeMissing</Command>
     <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>

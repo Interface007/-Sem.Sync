@@ -38,7 +38,8 @@ namespace Sem.Sync.XingConnector
     /// of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Xing")]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, 
+        DisplayName = "Xing", MatchingIdentifier = ProfileIdentifierType.XingProfileId)]
     public class ContactClient : StdClient
     {
         #region string resources for processing xing pages
@@ -169,7 +170,9 @@ namespace Sem.Sync.XingConnector
         {
             this.xingRequester.UiDispatcher = this.UiDispatcher;
             var xing = this.GetUrlList();
-            
+            var itemIndex = 0;
+            var itemsToDo = xing.Count;
+
             LogProcessingEvent(Resources.uiDownloadingVCards, xing.Count);
 
             foreach (var item in xing)
@@ -182,6 +185,8 @@ namespace Sem.Sync.XingConnector
                         new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }
+                
+                UpdateProgress(itemIndex++ / itemsToDo * 100);
             }
 
             return result;

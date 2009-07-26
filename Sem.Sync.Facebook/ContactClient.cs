@@ -26,7 +26,8 @@ namespace Sem.Sync.FacebookConnector
     /// publishing too much data about friends.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true, DisplayName = "Facebook")]
+    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true,
+        DisplayName = "Facebook", MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class ContactClient : StdClient
     {
         /// <summary>

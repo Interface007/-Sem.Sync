@@ -48,8 +48,11 @@ namespace Facebook.Parser {
                         }
                         else
                         {
-                            location.StateAbbreviation = (StateAbbreviation)Enum.Parse(typeof(StateAbbreviation), XmlHelper.GetNodeText(node, "state").Replace(" ", ""), true);
-                            location.State = (State)location.StateAbbreviation;
+                            if (Enum.IsDefined(typeof(StateAbbreviation), XmlHelper.GetNodeText(node, "state").Replace(" ", string.Empty)))
+                            {
+                                location.StateAbbreviation = (StateAbbreviation)Enum.Parse(typeof(StateAbbreviation), XmlHelper.GetNodeText(node, "state").Replace(" ", string.Empty), true);
+                                location.State = (State)location.StateAbbreviation;
+                            }
                         }
                     }
                     catch { }

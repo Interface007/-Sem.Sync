@@ -290,9 +290,6 @@
   <data name="&gt;&gt;cboSource.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
-  <metadata name="contextDataSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -443,9 +440,6 @@
   <data name="&gt;&gt;cboTarget.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <metadata name="contextDataTarget.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>162, 16</value>
-  </metadata>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -496,66 +490,6 @@
   </data>
   <data name="&gt;&gt;lblDialogStatus.ZOrder" xml:space="preserve">
     <value>28</value>
-  </data>
-  <data name="&gt;&gt;lblProgressStatus.Name" xml:space="preserve">
-    <value>lblProgressStatus</value>
-  </data>
-  <data name="&gt;&gt;lblProgressStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblProgressStatus.Parent" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="&gt;&gt;lblProgressStatus.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SyncProgress.Name" xml:space="preserve">
-    <value>SyncProgress</value>
-  </data>
-  <data name="&gt;&gt;SyncProgress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SyncProgress.Parent" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="&gt;&gt;SyncProgress.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pnlProgress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 33</value>
-  </data>
-  <data name="pnlProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 100</value>
-  </data>
-  <data name="pnlProgress.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pnlProgress.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Name" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="lblProgressStatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 13</value>
@@ -627,6 +561,30 @@
     <value>pnlProgress</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnlProgress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 33</value>
+  </data>
+  <data name="pnlProgress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 100</value>
+  </data>
+  <data name="pnlProgress.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="pnlProgress.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Name" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
@@ -926,9 +884,6 @@
   <data name="&gt;&gt;cboWorkFlowTemplates.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="contextDataWorkflows.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>21, 49</value>
-  </metadata>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 167</value>
   </data>
@@ -957,6 +912,27 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 0</value>
   </metadata>
+  <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 22</value>
+  </data>
+  <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Open working folder</value>
+  </data>
+  <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 22</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -967,7 +943,7 @@
     <value>30</value>
   </data>
   <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
+    <value>menuStrip</value>
   </data>
   <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
     <value>menuStrip1</value>
@@ -980,39 +956,6 @@
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>30</value>
-  </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Save as...</value>
-  </data>
-  <data name="loadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="loadToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Load ...</value>
-  </data>
-  <data name="savedProcessesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="savedProcessesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Saved processes</value>
-  </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 6</value>
-  </data>
-  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 22</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
   </data>
   <metadata name="contextDataWorkflowData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>196, 49</value>
@@ -1092,28 +1035,16 @@
   <data name="&gt;&gt;fileToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;saveToolStripMenuItem.Name" xml:space="preserve">
-    <value>saveToolStripMenuItem</value>
+  <data name="&gt;&gt;openWorkingFolderToolStripMenuItem.Name" xml:space="preserve">
+    <value>openWorkingFolderToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;saveToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;openWorkingFolderToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;loadToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadToolStripMenuItem</value>
+  <data name="&gt;&gt;seperatorStripMenuItem1.Name" xml:space="preserve">
+    <value>seperatorStripMenuItem1</value>
   </data>
-  <data name="&gt;&gt;loadToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;savedProcessesToolStripMenuItem.Name" xml:space="preserve">
-    <value>savedProcessesToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;savedProcessesToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+  <data name="&gt;&gt;seperatorStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;exitToolStripMenuItem.Name" xml:space="preserve">

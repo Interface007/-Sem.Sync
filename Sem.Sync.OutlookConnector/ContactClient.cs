@@ -15,7 +15,7 @@ namespace Sem.Sync.OutlookConnector
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    
+
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
@@ -171,9 +171,10 @@ namespace Sem.Sync.OutlookConnector
                 {
                     // get all the Contacts from the Contacts Folder 
                     var contactItems = outlookFolder.Items;
+                    var itemsToDo = contactItems.Count;
 
                     // iterate through the contacts
-                    for (var itemIndex = 1; itemIndex <= contactItems.Count; itemIndex++)
+                    for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
                     {
                         // in case of problems with a single item, we will continue with the next
                         try
@@ -200,6 +201,8 @@ namespace Sem.Sync.OutlookConnector
                                 throw;
                             }
                         }
+
+                        UpdateProgress(itemIndex * 100 / itemsToDo);
                     }
                 }
             }
