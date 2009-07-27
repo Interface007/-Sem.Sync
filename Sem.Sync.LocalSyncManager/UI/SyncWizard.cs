@@ -81,25 +81,25 @@ namespace Sem.Sync.LocalSyncManager.UI
                     var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
                     if (currentContact != null)
                     {
-                        //if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
-                        //{
-                        //    using (var imageStream = new MemoryStream(currentContact.PictureData))
-                        //    {
-                        //        this.currentPersonImage.Image = new Bitmap(imageStream);
-                        //        this.currentPersonImage.Refresh();
-                        //    }
-                        //}
+                        if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                        {
+                            using (var imageStream = new MemoryStream(currentContact.PictureData))
+                            {
+                                this.currentPersonImage.Image = new Bitmap(imageStream);
+                                this.currentPersonImage.Refresh();
+                            }
+                        }
                     }
 
                     return true;
                 };
             
-            this.DataContext.ProgressEvent = ((ProgressEventArgs eventArgs) =>
+            this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
                 {
                     this.SyncProgress.Value = eventArgs.PercentageDone;
                     this.SyncProgress.Refresh();
                     return true;
-                });
+                };
             
             // initialize the gui
             this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;

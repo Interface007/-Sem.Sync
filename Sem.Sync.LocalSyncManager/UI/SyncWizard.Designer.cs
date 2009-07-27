@@ -48,6 +48,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblDialogStatus = new System.Windows.Forms.Label();
             this.pnlProgress = new System.Windows.Forms.Panel();
+            this.currentPersonImage = new System.Windows.Forms.PictureBox();
             this.lblProgressStatus = new System.Windows.Forms.Label();
             this.SyncProgress = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
@@ -77,15 +78,14 @@
             this.removeDuplettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
-            this.currentPersonImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -193,6 +193,12 @@
             this.pnlProgress.Controls.Add(this.label3);
             resources.ApplyResources(this.pnlProgress, "pnlProgress");
             this.pnlProgress.Name = "pnlProgress";
+            // 
+            // currentPersonImage
+            // 
+            resources.ApplyResources(this.currentPersonImage, "currentPersonImage");
+            this.currentPersonImage.Name = "currentPersonImage";
+            this.currentPersonImage.TabStop = false;
             // 
             // lblProgressStatus
             // 
@@ -348,12 +354,6 @@
             resources.ApplyResources(this.cboWorkFlowData, "cboWorkFlowData");
             this.cboWorkFlowData.Name = "cboWorkFlowData";
             // 
-            // currentPersonImage
-            // 
-            resources.ApplyResources(this.currentPersonImage, "currentPersonImage");
-            this.currentPersonImage.Name = "currentPersonImage";
-            this.currentPersonImage.TabStop = false;
-            // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
@@ -396,12 +396,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).EndInit();
             this.pnlProgress.ResumeLayout(false);
             this.pnlProgress.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
