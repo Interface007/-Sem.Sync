@@ -142,7 +142,7 @@
     <value>problem accessing outlook store at name {0}: {1}</value>
   </data>
   <data name="uiReadingContact" xml:space="preserve">
-    <value>reading {0} ...</value>
+    <value>reading ...</value>
   </data>
   <data name="uiRemoveDuplicates" xml:space="preserve">
     <value>Remove duplicates finished</value>

@@ -133,7 +133,7 @@ namespace Sem.Sync.OutlookConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to reading {0} ....
+        ///   Looks up a localized string similar to reading ....
         /// </summary>
         internal static string uiReadingContact {
             get {

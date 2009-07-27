@@ -187,7 +187,7 @@ namespace Sem.Sync.OutlookConnector
                                 var newContact = OutlookClient.ConvertToStandardContact(contactItem);
                                 result.Add(newContact);
 
-                                LogProcessingEvent(newContact, Resources.uiReadingContact, currentElementName);
+                                LogProcessingEvent(newContact, Resources.uiReadingContact);
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)

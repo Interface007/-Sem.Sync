@@ -19,6 +19,8 @@ namespace Sem.Sync.LocalSyncManager.UI
 
     using GenericHelpers.EventArgs;
 
+    using Properties;
+
     using SyncBase;
 
     /// <summary>
@@ -86,10 +88,15 @@ namespace Sem.Sync.LocalSyncManager.UI
                             using (var imageStream = new MemoryStream(currentContact.PictureData))
                             {
                                 this.currentPersonImage.Image = new Bitmap(imageStream);
-                                this.currentPersonImage.Refresh();
                             }
+
+                            this.currentPersonImage.Visible = true;
+                            this.currentPersonImage.Refresh();
+                            return true;
                         }
                     }
+                    
+                    this.currentPersonImage.Visible = false;
 
                     return true;
                 };
@@ -120,7 +127,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.pnlProgress.Visible = true;
             this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
             this.pnlProgress.Visible = false;
-            this.lblDialogStatus.Text = "The process you've selected has now been finished. You might select another process or close the syncronization window.";
+            this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
         }
 
         /// <summary>
