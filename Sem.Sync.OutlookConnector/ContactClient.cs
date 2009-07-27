@@ -184,9 +184,10 @@ namespace Sem.Sync.OutlookConnector
                             {
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                LogProcessingEvent(Resources.uiReadingContact, currentElementName);
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem);
+                                result.Add(newContact);
 
-                                result.Add(OutlookClient.ConvertToStandardContact(contactItem));
+                                LogProcessingEvent(newContact, Resources.uiReadingContact, currentElementName);
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
