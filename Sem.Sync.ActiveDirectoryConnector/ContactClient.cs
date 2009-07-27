@@ -300,9 +300,12 @@ namespace Sem.Sync.ActiveDirectoryConnector
         /// </summary>
         private void PrepareCredentials()
         {
-            this.LogOnDomain = Tools.GetRegValue(RegBasePath, "domainName", string.Empty);
-            this.LogOnUserId = Tools.GetRegValue(RegBasePath, "username", "{default}");
-            this.LogOnPassword = Tools.GetRegValue(RegBasePath, "password", "{ask}");
+            if (string.IsNullOrEmpty(this.LogOnPassword))
+            {
+                this.LogOnDomain = Tools.GetRegValue(RegBasePath, "domainName", string.Empty);
+                this.LogOnUserId = Tools.GetRegValue(RegBasePath, "username", "{default}");
+                this.LogOnPassword = Tools.GetRegValue(RegBasePath, "password", "{ask}");
+            }
 
             // check if the user an empty string, in this case ask the user for credentials
             if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")

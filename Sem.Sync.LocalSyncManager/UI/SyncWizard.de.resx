@@ -178,9 +178,6 @@
   <data name="label4.Text" xml:space="preserve">
     <value>P&amp;fad:</value>
   </data>
-  <data name="btnLoad.Text" xml:space="preserve">
-    <value>&amp;Laden...</value>
-  </data>
   <data name="btnSave.Text" xml:space="preserve">
     <value>Spe&amp;ichern ...</value>
   </data>
@@ -195,5 +192,35 @@
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Dom&amp;äne:</value>
+  </data>
+  <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 22</value>
+  </data>
+  <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Arbeitsverzeichnis öffnen</value>
+  </data>
+  <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 22</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 20</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Datei</value>
+  </data>
+  <data name="removeDuplettesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 22</value>
+  </data>
+  <data name="removeDuplettesToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Duplikate aus Outlook Kalender entfernen</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 20</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xtras</value>
   </data>
 </root>

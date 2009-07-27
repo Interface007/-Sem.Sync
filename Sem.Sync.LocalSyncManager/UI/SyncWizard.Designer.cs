@@ -73,8 +73,11 @@
             this.openWorkingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seperatorStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeDuplettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
+            this.currentPersonImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -82,6 +85,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -183,6 +187,7 @@
             // 
             // pnlProgress
             // 
+            this.pnlProgress.Controls.Add(this.currentPersonImage);
             this.pnlProgress.Controls.Add(this.lblProgressStatus);
             this.pnlProgress.Controls.Add(this.SyncProgress);
             this.pnlProgress.Controls.Add(this.label3);
@@ -295,7 +300,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -323,6 +329,18 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeDuplettesToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            // 
+            // removeDuplettesToolStripMenuItem
+            // 
+            this.removeDuplettesToolStripMenuItem.Name = "removeDuplettesToolStripMenuItem";
+            resources.ApplyResources(this.removeDuplettesToolStripMenuItem, "removeDuplettesToolStripMenuItem");
+            // 
             // cboWorkFlowData
             // 
             this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
@@ -330,13 +348,19 @@
             resources.ApplyResources(this.cboWorkFlowData, "cboWorkFlowData");
             this.cboWorkFlowData.Name = "cboWorkFlowData";
             // 
+            // currentPersonImage
+            // 
+            resources.ApplyResources(this.currentPersonImage, "currentPersonImage");
+            this.currentPersonImage.Name = "currentPersonImage";
+            this.currentPersonImage.TabStop = false;
+            // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pnlProgress);
             this.Controls.Add(this.cboWorkFlowData);
             this.Controls.Add(this.cboWorkFlowTemplates);
-            this.Controls.Add(this.pnlProgress);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnPathSource);
             this.Controls.Add(this.btnPathTarget);
@@ -377,6 +401,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.currentPersonImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -429,5 +454,8 @@
         private System.Windows.Forms.BindingSource contextDataWorkflows;
         private System.Windows.Forms.ComboBox cboWorkFlowData;
         private System.Windows.Forms.BindingSource contextDataWorkflowData;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeDuplettesToolStripMenuItem;
+        private System.Windows.Forms.PictureBox currentPersonImage;
     }
 }

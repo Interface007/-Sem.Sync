@@ -107,8 +107,20 @@ namespace Sem.Sync.FilesystemConnector
             {
                 foreach (var filePathName in Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension))
                 {
-                    result.Add(this.vCardConverter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default));
-                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
+                    var newContact = this.vCardConverter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default);
+                    result.Add(newContact);
+
+                    if (this.savePictureExternal)
+                    {
+                        var picPath = Path.Combine(
+                            clientFolderName, Path.GetFileNameWithoutExtension(filePathName) + ".jpg");
+                        if (File.Exists(picPath))
+                        {
+                            newContact.PictureData = File.ReadAllBytes(picPath);
+                        }
+                    }
+
+                    LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, Path.GetFileName(filePathName)));
                 }
             }
 

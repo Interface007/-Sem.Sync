@@ -14,6 +14,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
 
@@ -21,6 +22,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
     using GenericHelpers;
     using GenericHelpers.Entities;
+    using GenericHelpers.EventArgs;
 
     using SharedUI.WinForms.Tools;
 
@@ -30,6 +32,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.DetailData;
 
     using Tools;
+    using Sem.Sync.LocalSyncManager.Properties;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 
@@ -85,8 +88,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 foreach (var exportedType in assembly.GetExportedTypes())
                 {
                     if (exportedType.GetInterface("IClientBase") == null ||
-                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient" ||
-                        exportedType.IsGenericType)
+                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
                     {
                         continue;
                     }
@@ -97,14 +99,24 @@ namespace Sem.Sync.LocalSyncManager.Business
                         ? new ConnectorDescriptionAttribute()
                         : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
 
+                    var fullName = 
+                        exportedType.IsGenericType
+                        ? exportedType.FullName.Replace("`1", " of StdContact")
+                        : exportedType.FullName;
+
+                    var nameToUse = 
+                        exportedType.IsGenericType
+                        ? (attribute.DisplayName ?? fullName) + " of StdContact"
+                        : attribute.DisplayName ?? fullName;
+                    
                     if (attribute.CanRead)
                     {
-                        this.ClientsSource.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
+                        this.ClientsSource.Add(fullName, nameToUse);
                     }
 
                     if (attribute.CanWrite)
                     {
-                        this.ClientsTarget.Add(exportedType.FullName, attribute.DisplayName ?? exportedType.FullName);
+                        this.ClientsTarget.Add(fullName, nameToUse);
                     }
                 }
             }
@@ -180,6 +192,9 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        public Func<object, ProcessingEventArgs, bool> ProcessingEvent { get; set; }
+        public Func<ProgressEventArgs, bool> ProgressEvent { get; set; }
+
         /// <summary>
         /// Opens the current working folder using the explorer
         /// </summary>
@@ -248,15 +263,20 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <param name="templateScriptPath">
         /// The path to the template script. 
         /// </param>
-        /// <param name="processingEvent">
-        /// The event handler that will get the processing events. 
-        /// </param>
-        /// <param name="progressEvent">
-        /// The progress Event.
-        /// </param>
-        public void Run(string templateScriptPath, ProcessEvent processingEvent, ProgressEvent progressEvent)
+        public void Run(string templateScriptPath)
         {
+            if (!File.Exists(templateScriptPath))
+            {
+                this.ProcessingEvent(this, new ProcessingEventArgs(string.Format(CultureInfo.CurrentCulture, Resources.InstalledFileNotFound, templateScriptPath)));
+                return;
+            }
+
             var commands = SyncCollection.LoadSyncList(templateScriptPath);
+
+            if (commands == null)
+            {
+                return;
+            }
 
             foreach (var command in commands)
             {
@@ -273,18 +293,18 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             var engine = new SyncEngine
-            {
-                WorkingFolder = Config.WorkingFolder,
-                UiProvider = new UiDispatcher()
-            };
+                {
+                    WorkingFolder = Config.WorkingFolder,
+                    UiProvider = new UiDispatcher(),
+                };
 
-            engine.ProcessingEvent += (s, e) => processingEvent(s, e);
-            engine.ProgressEvent += (s, e) => progressEvent(s, e);
+            engine.ProcessingEvent += (s, e) => this.ProcessingEvent(s, e);
+            engine.ProgressEvent += (s, e) => this.ProgressEvent(e);
 
             engine.Execute(commands);
 
-            engine.ProcessingEvent -= (s, e) => processingEvent(s, e);
-            engine.ProgressEvent -= (s, e) => progressEvent(s, e);
+            engine.ProcessingEvent -= (s, e) => this.ProcessingEvent(s, e);
+            engine.ProgressEvent -= (s, e) => this.ProgressEvent(e);
         }
 
         /// <summary>

@@ -10,8 +10,9 @@
 namespace Sem.Sync.LocalSyncManager.UI
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing;
+    using System.IO;
     using System.Windows.Forms;
 
     using Business;
@@ -70,7 +71,36 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
+            this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
 
+            // setup event handling
+            this.DataContext.ProcessingEvent = (object entity, ProcessingEventArgs eventArgs) =>
+                {
+                    this.lblProgressStatus.Text = eventArgs.Message + (entity as StdContact == null ? string.Empty : entity.ToString());
+                    this.lblProgressStatus.Refresh();
+                    var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
+                    if (currentContact != null)
+                    {
+                        //if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                        //{
+                        //    using (var imageStream = new MemoryStream(currentContact.PictureData))
+                        //    {
+                        //        this.currentPersonImage.Image = new Bitmap(imageStream);
+                        //        this.currentPersonImage.Refresh();
+                        //    }
+                        //}
+                    }
+
+                    return true;
+                };
+            
+            this.DataContext.ProgressEvent = ((ProgressEventArgs eventArgs) =>
+                {
+                    this.SyncProgress.Value = eventArgs.PercentageDone;
+                    this.SyncProgress.Refresh();
+                    return true;
+                });
+            
             // initialize the gui
             this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;
             this.cboTarget.SelectedIndex = (this.cboTarget.Items.Count > 0) ? 0 : this.cboTarget.Items.Count;
@@ -88,18 +118,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void RunCommands()
         {
             this.pnlProgress.Visible = true;
-            this.DataContext.Run(
-                this.DataContext.CurrentSyncWorkflowTemplate,
-                delegate(object entity, ProcessingEventArgs eventArgs)
-                    {
-                        this.lblProgressStatus.Text = eventArgs.Message + (entity as StdContact == null ? string.Empty : entity.ToString());
-                        this.lblProgressStatus.Refresh();
-                    },
-                delegate(object entity, ProgressEventArgs eventArgs)
-                {
-                    this.SyncProgress.Value = eventArgs.PercentageDone;
-                    this.SyncProgress.Refresh();
-                });
+            this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
             this.pnlProgress.Visible = false;
             this.lblDialogStatus.Text = "The process you've selected has now been finished. You might select another process or close the syncronization window.";
         }
@@ -158,7 +177,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             bindingSource.DataMember = dataMember;
             control.DisplayMember = "Value";
             control.ValueMember = "Key";
-            bindingSource.CurrentChanged += (s, ev) => GenericHelpers.Tools.SetPropertyValue(this.DataContext, targetPath, ((KeyValuePair<string, string>)((BindingSource)s).Current).Key);
+            control.SelectedValueChanged += (s, ev) => GenericHelpers.Tools.SetPropertyValue(this.DataContext, targetPath, (((ComboBox)s).SelectedValue ?? string.Empty).ToString());
             this.DataContext.PropertyChanged += (s, ev) => control.SelectedValue = GenericHelpers.Tools.GetPropertyValue(this.DataContext, targetPath) ?? control.SelectedValue;
         }
 

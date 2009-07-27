@@ -20,5 +20,13 @@ namespace Sem.GenericHelpers.EventArgs
         /// Gets or sets the message describing the event.
         /// </summary>
         public string Message { get; set; }
+
+        public ProcessingEventArgs()
+        {}
+
+        public ProcessingEventArgs(string message)
+        {
+            this.Message = message;
+        }
     }
 }

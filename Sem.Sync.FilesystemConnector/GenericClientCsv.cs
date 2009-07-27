@@ -50,6 +50,7 @@ namespace Sem.Sync.FilesystemConnector
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Elements.csv",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
+    [ConnectorDescription(DisplayName = "Filesystem CSV", IsGeneric = true)]
     public class GenericClientCsv<T> : StdClient
         where T : StdElement, new()
     {
