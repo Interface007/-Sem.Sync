@@ -7,15 +7,15 @@
   If we get more files we will split the file into sub files for the features for the
   setup.
   -->
-  <Product Name="Sem.Sync Sample Client for Xing to Outlook synchronization"
+  <Product Name="Sem.Sync Local Sync Manager"
            Manufacturer="Sven Erik Matzen"
            Id="*"
-           UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
+           UpgradeCode="{7DBC91F2-890F-40c6-9B27-D0CE94DD467A}"
            Language="1033" Version="1.0.0.0" >
 
     <Package InstallerVersion="200" Compressed="yes"
-             Description="Synchronization client for synchronizing Contacts Xing to Outlook"
-             Comments="This client is a sample application to show the capabilities of the synchronization library Sem.Sync"
+             Description="Synchronization client for synchronizing Contacts with Xing, Outlook, Filesystem (Xml, CSV, vCards), Wer-Kennt-Wen.de, ..."
+             Comments="This client does provide a generic UI to use Sem.Sync-connectors to synchronize contacts."
              Manufacturer="Sven Erik Matzen"/>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
@@ -29,47 +29,54 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="SemFolder" Name="Sven Erik Matzen">
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
-          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\SemSyncOutlookWithXing\bin\Release">
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\Sem.Sync.LocalSyncManager\bin\Release">
 
-            <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
+            <Component Id="MainExecutable"                    Guid="{7F3569D2-598D-462a-A537-9D6531FCD7E0}">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
               <!-- Because we have a user dependent shortcut, we need to use a user dependent key item - in
                    this case a registry key. -->
               <RegistryValue
                         Id='MainExecutableSettings' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
+                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='Sem.Sync.LocalSyncManager.Installed'
                         Type='string' Value='true' />
 
               <!-- the main executable -->
-              <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'          >
+              <File Id='Sem.Sync.LocalSyncManager'            Name='Sem.Sync.LocalSyncManager.exe'         >
                 <Shortcut
-                    Id="SemSyncOutlookWithXingIcon" Directory="ProgramMenuDir" Name="Sem.Sync Xing to Outlook"
+                    Id="MainExecutableIcon" Directory="ProgramMenuDir" Name="Sem.Sync Local Sync Manager"
                     WorkingDirectory="INSTALLLOCATION"
-                    Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0"  />
+                    Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0"  />
               </File>
 
+              <!-- the console program -->
+              <!--<File Id='Sem.Sync.ConsoleClient'               Name='Sem.Sync.ConsoleClient.exe'     Source='Sem.Sync.ConsoleClient.exe' />-->
+
               <!-- some configuration files -->
-              <File Id='commands.xml'                         Name='commands.xml'                         />
-              <File Id='Sem.Sync.OutlookWithXing.exe.config'  Name='Sem.Sync.OutlookWithXing.exe.config'  />
+              <File Id='Sem.Sync.LocalSyncManager.exe.config' Name='Sem.Sync.LocalSyncManager.exe.config' />
             </Component>
 
             <!-- we also should install the dependencies ;-) -->
-            <Component Id="HelperLibrary"                     Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
+            <Component Id="HelperLibrary"                     Guid="{66C26CA7-CD99-4022-84E8-D72B0F49A7D8}">
               <RegistryValue
                         Id='HelperLibrarySettings' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
                         Type='string' Value='true' />
+              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
               <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
-              <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
-              <File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />
-              <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
+
+              <File Id='Sem.Sync.ActiveDirectoryConnector'    Name='Sem.Sync.ActiveDirectoryConnector.dll'/>
+              <File Id='Sem.Sync.FacebookConnector'           Name='Sem.Sync.FacebookConnector.dll'       />
               <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
-              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
+              <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
+              <!--<File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />-->
+              <File Id='Sem.Sync.StatisticConnector'          Name='Sem.Sync.StatisticConnector.dll'      />
+              <File Id='Sem.Sync.WerKenntWenConnector'        Name='Sem.Sync.WerKenntWenConnector.dll'    />
+              <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
             </Component>
 
             <!-- the help files are optional -->
-            <Component Id="Documentation"                     Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
+            <Component Id="Documentation"                     Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}" >
               <RegistryValue
                         Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
@@ -89,8 +96,8 @@
 
     </Directory>
 
-    <Feature Id="ProductFeature" Title="Client application" Level="1" 
-             Description="This is the executable (the application) together with the needed libraries. It will only install the libraries needed to sync from Xing to Outlook.">
+    <Feature Id="ProductFeature" Title="Client application" Level="1"
+             Description="This is the executable (the application) together with the needed libraries.">
       <ComponentRef Id="MainExecutable" />
       <ComponentRef Id="HelperLibrary"  />
     </Feature>
@@ -104,7 +111,7 @@
 
     <WixVariable Id="WixUILicenseRtf" Value="UI-Elements\License.rtf" />
 
-    <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\SemSyncOutlookWithXing\bin\Debug\Sem.Sync.OutlookWithXing.exe" />
+    <Icon Id="Sem.Sync.LocalSyncManager.exe" SourceFile="..\Sem.Sync.LocalSyncManager\bin\Release\Sem.Sync.LocalSyncManager.exe" />
 
   </Product>
 </Wix>

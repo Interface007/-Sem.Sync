@@ -2,10 +2,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.0</ProductVersion>
-    <ProjectGuid>{7f11c83f-b81f-49f0-ade7-ff2ce5689c51}</ProjectGuid>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{5e6d43b1-cd8d-46bf-b425-22b1d6378f82}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Sem.Sync.OutlookWithXing.Setup</OutputName>
+    <OutputName>Sem.Sync.LocalSyncManager.Setup</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
@@ -18,16 +18,11 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
-    <SuppressAllWarnings>False</SuppressAllWarnings>
-    <Pedantic>True</Pedantic>
-    <SuppressValidation>False</SuppressValidation>
-    <SuppressIces>ICE64</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <SuppressIces>ICE64</SuppressIces>
-    <SuppressValidation>False</SuppressValidation>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
@@ -125,7 +120,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UI-Elements" />
+    <Folder Include="UI-Elements\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="UI-Elements\License.rtf" />

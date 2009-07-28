@@ -78,12 +78,13 @@ namespace Sem.Sync.LocalSyncManager.UI
             // setup event handling
             this.DataContext.ProcessingEvent = (object entity, ProcessingEventArgs eventArgs) =>
                 {
-                    this.lblProgressStatus.Text = eventArgs.Message + (entity as StdContact == null ? string.Empty : entity.ToString());
+                    this.lblProgressStatus.Text = eventArgs.Message + " " + (entity as StdContact == null ? string.Empty : entity.ToString());
                     this.lblProgressStatus.Refresh();
                     var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
                     if (currentContact != null)
                     {
-                        if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                        // update image, if there is one and image display is switched on.
+                        if (chkShowImage.CheckState == CheckState.Checked && currentContact.PictureData != null && currentContact.PictureData.Length > 10)
                         {
                             using (var imageStream = new MemoryStream(currentContact.PictureData))
                             {
@@ -92,20 +93,26 @@ namespace Sem.Sync.LocalSyncManager.UI
 
                             this.currentPersonImage.Visible = true;
                             this.currentPersonImage.Refresh();
-                            return true;
+
+                            // !!! HERE WE EXIT THE METHOD !!!
+                            return;
                         }
                     }
-                    
-                    this.currentPersonImage.Visible = false;
 
-                    return true;
+                    // hide the image if we need to.
+                    if (this.currentPersonImage.Visible)
+                    {
+                        this.currentPersonImage.Visible = false;
+                    }
+
+                    return;
                 };
             
             this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
                 {
                     this.SyncProgress.Value = eventArgs.PercentageDone;
                     this.SyncProgress.Refresh();
-                    return true;
+                    return;
                 };
             
             // initialize the gui

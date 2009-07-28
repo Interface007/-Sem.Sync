@@ -32,7 +32,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.DetailData;
 
     using Tools;
-    using Sem.Sync.LocalSyncManager.Properties;
+    using Properties;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 
@@ -192,8 +192,8 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
-        public Func<object, ProcessingEventArgs, bool> ProcessingEvent { get; set; }
-        public Func<ProgressEventArgs, bool> ProgressEvent { get; set; }
+        public Action<object, ProcessingEventArgs> ProcessingEvent { get; set; }
+        public Action<ProgressEventArgs> ProgressEvent { get; set; }
 
         /// <summary>
         /// Opens the current working folder using the explorer
