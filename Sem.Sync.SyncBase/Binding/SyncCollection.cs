@@ -28,7 +28,7 @@ namespace Sem.Sync.SyncBase.Binding
         {
             SyncCollection returnValue;
             var formatter = new XmlSerializer(typeof(SyncCollection));
-            using (var file = new FileStream(pathToFile, FileMode.Open))
+            using (var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
             {
                 returnValue = (SyncCollection)formatter.Deserialize(file);
             }

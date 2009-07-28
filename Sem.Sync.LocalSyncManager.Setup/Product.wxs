@@ -30,6 +30,12 @@
         <Directory Id="SemFolder" Name="Sven Erik Matzen">
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\Sem.Sync.LocalSyncManager\bin\Release">
+            <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
+              <Component Id="SyncLists"                       Guid="{C9C9BA56-9E25-4adb-9B74-FC1D5B18CAA2}">
+                <File Id='SyncLists.SimpleCopy'               Name='Template SimpleCopy.TSyncList' />
+                <File Id='SyncLists.Syncronize'               Name='Template Syncronize.TSyncList' />
+              </Component>
+            </Directory>
 
             <Component Id="MainExecutable"                    Guid="{7F3569D2-598D-462a-A537-9D6531FCD7E0}">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
@@ -96,13 +102,14 @@
 
     </Directory>
 
-    <Feature Id="ProductFeature" Title="Client application" Level="1"
+    <Feature Id="ProductFeature" Title="Synchronization Manager" Level="1"
              Description="This is the executable (the application) together with the needed libraries.">
       <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="SyncLists"/>
       <ComponentRef Id="HelperLibrary"  />
     </Feature>
 
-    <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
+    <Feature Id="Documentation" Title="Developers Documentation" Level="1">
       <ComponentRef Id="Documentation"  />
     </Feature>
 

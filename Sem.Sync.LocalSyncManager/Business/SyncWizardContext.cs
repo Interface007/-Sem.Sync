@@ -24,6 +24,8 @@ namespace Sem.Sync.LocalSyncManager.Business
     using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
 
+    using Properties;
+    
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
@@ -32,8 +34,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.DetailData;
 
     using Tools;
-    using Properties;
-
+    
     /// <summary>
     /// The context does contain information needed to access the source and the 
     /// target of the sequence to be executed. This includes the types of source 
