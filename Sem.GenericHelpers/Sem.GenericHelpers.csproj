@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
     <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />

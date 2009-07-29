@@ -105,7 +105,10 @@ namespace Sem.GenericHelpers
                 var myVersion = new VersionCheck();
 
                 var formatter = new XmlSerializer(typeof(VersionCheck));
-                var reader = new StringReader((new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider }).GetContent(VersionXmlUrl, "[NOCACHE]"));
+                var versionContentFromServer =
+                    (new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider }).GetContent(
+                        VersionXmlUrl, "[NOCACHE]");
+                var reader = new StringReader(versionContentFromServer);
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
                 return

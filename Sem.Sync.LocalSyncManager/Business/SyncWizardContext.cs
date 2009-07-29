@@ -128,12 +128,20 @@ namespace Sem.Sync.LocalSyncManager.Business
                 this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file));
             }
 
+            this.ReloadWorkflowDataList();
+        }
+
+        private void ReloadWorkflowDataList()
+        {
             Tools.EnsurePathExist(workingFolderData);
             this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
             foreach (var file in Directory.GetFiles(workingFolderData, "*" + SyncListDataFileExtension))
             {
                 this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
             }
+
+            this.RaisePropertyChanged(string.Empty);
+
         }
 
         /// <summary>
@@ -256,6 +264,8 @@ namespace Sem.Sync.LocalSyncManager.Business
                 typeof(SyncWorkFlow),
                 typeof(Credentials),
                 typeof(KeyValuePair<string, string>));
+            
+            this.ReloadWorkflowDataList();
         }
 
         /// <summary>
@@ -335,6 +345,18 @@ namespace Sem.Sync.LocalSyncManager.Business
                 .Replace("{targetpath}", this.Target.Path)
                 .Replace("{sourcepersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Source.ConnectorDescription.MatchingIdentifier))
                 .Replace("{targetpersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Target.ConnectorDescription.MatchingIdentifier));
+        }
+
+        internal void GenerateSamples()
+        {
+            Tools.EnsurePathExist(workingFolderData);
+            this.ReloadWorkflowDataList();
+        }
+
+        internal void DeleteWorkflowData(string path)
+        {
+            File.Delete(path);
+            this.ReloadWorkflowDataList();
         }
     }
 }

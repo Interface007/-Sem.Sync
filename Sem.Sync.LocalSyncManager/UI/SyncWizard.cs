@@ -16,11 +16,8 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.Windows.Forms;
 
     using Business;
-
     using GenericHelpers.EventArgs;
-
     using Properties;
-
     using SyncBase;
 
     /// <summary>
@@ -70,10 +67,12 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
+            this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
+            this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
 
             // setup event handling
             this.DataContext.ProcessingEvent = (object entity, ProcessingEventArgs eventArgs) =>
@@ -107,14 +106,14 @@ namespace Sem.Sync.LocalSyncManager.UI
 
                     return;
                 };
-            
+
             this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
                 {
                     this.SyncProgress.Value = eventArgs.PercentageDone;
                     this.SyncProgress.Refresh();
                     return;
                 };
-            
+
             // initialize the gui
             this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;
             this.cboTarget.SelectedIndex = (this.cboTarget.Items.Count > 0) ? 0 : this.cboTarget.Items.Count;
@@ -174,6 +173,8 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
             }
+
+            this.contextDataWorkflows.ResetBindings(false);
         }
 
         /// <summary>

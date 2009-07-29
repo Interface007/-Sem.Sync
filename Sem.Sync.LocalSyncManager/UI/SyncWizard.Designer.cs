@@ -77,9 +77,11 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeDuplettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateSampleProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.deleteCurrentProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -326,6 +328,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openWorkingFolderToolStripMenuItem,
+            this.deleteCurrentProfileToolStripMenuItem,
             this.seperatorStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -349,7 +352,8 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeDuplettesToolStripMenuItem});
+            this.removeDuplettesToolStripMenuItem,
+            this.generateSampleProfilesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
@@ -357,6 +361,11 @@
             // 
             this.removeDuplettesToolStripMenuItem.Name = "removeDuplettesToolStripMenuItem";
             resources.ApplyResources(this.removeDuplettesToolStripMenuItem, "removeDuplettesToolStripMenuItem");
+            // 
+            // generateSampleProfilesToolStripMenuItem
+            // 
+            this.generateSampleProfilesToolStripMenuItem.Name = "generateSampleProfilesToolStripMenuItem";
+            resources.ApplyResources(this.generateSampleProfilesToolStripMenuItem, "generateSampleProfilesToolStripMenuItem");
             // 
             // cboWorkFlowData
             // 
@@ -369,6 +378,11 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
+            // 
+            // deleteCurrentProfileToolStripMenuItem
+            // 
+            this.deleteCurrentProfileToolStripMenuItem.Name = "deleteCurrentProfileToolStripMenuItem";
+            resources.ApplyResources(this.deleteCurrentProfileToolStripMenuItem, "deleteCurrentProfileToolStripMenuItem");
             // 
             // SyncWizard
             // 
@@ -476,5 +490,7 @@
         private System.Windows.Forms.PictureBox currentPersonImage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkShowImage;
+        private System.Windows.Forms.ToolStripMenuItem generateSampleProfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteCurrentProfileToolStripMenuItem;
     }
 }

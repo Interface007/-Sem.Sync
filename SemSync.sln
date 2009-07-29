@@ -88,9 +88,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LotusNotes", "Sem.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MeinVZ", "Sem.Sync.MeinVZ\Sem.Sync.MeinVZ.csproj", "{9A99EDD4-4489-4E23-A409-36BA82F63D66}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{0D187AB7-63F9-462F-A812-63220CBC701D}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Sem.Sync.Cloud.Storage", "Sem.Sync.Cloud.Storage\Sem.Sync.Cloud.Storage.ccproj", "{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Cloud", "Sem.Sync.Cloud\Sem.Sync.Cloud.csproj", "{0856527D-C929-4E9D-862F-9971DA241A91}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 29
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -186,6 +192,26 @@ Global
 		SccProjectTopLevelParentUniqueName23 = SemSync.sln
 		SccProjectName23 = Sem.Sync.LocalSyncManager.Setup
 		SccLocalPath23 = Sem.Sync.LocalSyncManager.Setup
+		SccProjectUniqueName24 = Sem.Sync.MsSqlDataBase\\Sem.Sync.MsSqlDataBase.csproj
+		SccProjectTopLevelParentUniqueName24 = SemSync.sln
+		SccProjectName24 = Sem.Sync.MsSqlDataBase
+		SccLocalPath24 = Sem.Sync.MsSqlDataBase
+		SccProjectUniqueName25 = Sem.Sync.LotusNotes\\Sem.Sync.LotusNotes.csproj
+		SccProjectTopLevelParentUniqueName25 = SemSync.sln
+		SccProjectName25 = Sem.Sync.LotusNotes
+		SccLocalPath25 = Sem.Sync.LotusNotes
+		SccProjectUniqueName26 = Sem.Sync.MeinVZ\\Sem.Sync.MeinVZ.csproj
+		SccProjectTopLevelParentUniqueName26 = SemSync.sln
+		SccProjectName26 = Sem.Sync.MeinVZ
+		SccLocalPath26 = Sem.Sync.MeinVZ
+		SccProjectUniqueName27 = Sem.Sync.Cloud.Storage\\Sem.Sync.Cloud.Storage.ccproj
+		SccProjectTopLevelParentUniqueName27 = SemSync.sln
+		SccProjectName27 = Sem.Sync.Cloud.Storage
+		SccLocalPath27 = Sem.Sync.Cloud.Storage
+		SccProjectUniqueName28 = Sem.Sync.Cloud\\Sem.Sync.Cloud.csproj
+		SccProjectTopLevelParentUniqueName28 = SemSync.sln
+		SccProjectName28 = Sem.Sync.Cloud
+		SccLocalPath28 = Sem.Sync.Cloud
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -450,6 +476,26 @@ Global
 		{9A99EDD4-4489-4E23-A409-36BA82F63D66}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9A99EDD4-4489-4E23-A409-36BA82F63D66}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9A99EDD4-4489-4E23-A409-36BA82F63D66}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}.Release|x86.ActiveCfg = Release|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0856527D-C929-4E9D-862F-9971DA241A91}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -482,5 +528,7 @@ Global
 		{478077C0-A411-44A9-8053-E8E90BA2847B} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6} = {0D187AB7-63F9-462F-A812-63220CBC701D}
+		{0856527D-C929-4E9D-862F-9971DA241A91} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 	EndGlobalSection
 EndGlobal

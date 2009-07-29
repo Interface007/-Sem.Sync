@@ -129,6 +129,18 @@
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
       <Name>Sem.Sync.FilesystemConnector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.LotusNotes\Sem.Sync.LotusNotes.csproj">
+      <Project>{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}</Project>
+      <Name>Sem.Sync.LotusNotes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.MeinVZ\Sem.Sync.MeinVZ.csproj">
+      <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
+      <Name>Sem.Sync.MeinVZ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDataBase.csproj">
+      <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
+      <Name>Sem.Sync.MsSqlDataBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj">
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
       <Name>Sem.Sync.OnlineStorageConnector</Name>
