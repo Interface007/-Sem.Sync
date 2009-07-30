@@ -61,8 +61,14 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="ContactClient.cs" />
+    <Compile Include="CloudClient.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\Cloud\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\OnlineStorage\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +96,7 @@
     <None Include="Service References\OnlineStorage\ContactService2.xsd" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Cloud\" />
     <WCFMetadataStorage Include="Service References\OnlineStorage\" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +110,7 @@
     <None Include="Service References\OnlineStorage\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\Cloud\Storage.xsd" />
     <None Include="Service References\OnlineStorage\ContactService1.wsdl" />
     <None Include="Service References\OnlineStorage\ContactService4.xsd" />
     <None Include="Service References\OnlineStorage\Reference.svcmap">
@@ -117,6 +125,31 @@
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
       <Link>Properties\CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Cloud\Storage.disco" />
+    <None Include="Service References\Cloud\Storage.wsdl" />
+    <None Include="Service References\Cloud\Storage1.wsdl" />
+    <None Include="Service References\Cloud\Storage1.xsd" />
+    <None Include="Service References\Cloud\Storage2.xsd" />
+    <None Include="Service References\Cloud\Storage3.xsd" />
+    <None Include="Service References\Cloud\Storage4.xsd" />
+    <None Include="Service References\Cloud\Storage5.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Cloud\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Cloud\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Cloud\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\Cloud\Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

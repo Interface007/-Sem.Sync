@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { "A Copy to CSV.SyncList" };
+                args = new[] { "A Copy from Cloud.SyncList" };
             }
 #endif
 

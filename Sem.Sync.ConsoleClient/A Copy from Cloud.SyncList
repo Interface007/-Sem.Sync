@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export from Cloud to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.OnlineStorageConnector.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

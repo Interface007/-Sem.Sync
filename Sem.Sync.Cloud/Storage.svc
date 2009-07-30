@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Sem.Sync.Cloud.Storage" CodeBehind="Storage.svc.cs" %>

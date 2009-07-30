@@ -103,6 +103,10 @@
     <None Include="A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="A Copy from Cloud.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
