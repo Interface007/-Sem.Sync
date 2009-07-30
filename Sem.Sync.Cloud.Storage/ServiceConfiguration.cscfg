@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <ServiceConfiguration serviceName="Sem.Sync.Cloud.Storage" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration">
-  <Role name="WebRole">
-    <Instances count="1"/>
-    <ConfigurationSettings>
-    </ConfigurationSettings>
+  <Role name="Sem.Sync.Cloud">
+    <Instances count="1" />
+    <ConfigurationSettings />
   </Role>
 </ServiceConfiguration>

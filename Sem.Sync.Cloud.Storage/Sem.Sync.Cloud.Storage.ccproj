@@ -44,6 +44,7 @@
       <Project>{0856527d-c929-4e9d-862f-9971da241a91}</Project>
       <Private>True</Private>
       <RoleType>Web</RoleType>
+      <RoleName>Sem.Sync.Cloud</RoleName>
     </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->
