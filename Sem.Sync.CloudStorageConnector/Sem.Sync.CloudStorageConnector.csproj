@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="ContactClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageConnectors\CloudStorage.cs" />
+    <Compile Include="StorageConnectors\BlobStorage.cs" />
     <Compile Include="StorageConnectors\IStorageConnector.cs" />
     <Compile Include="StorageConnectors\QueueStorage.cs" />
     <Compile Include="StorageConnectors\StubStorage.cs" />

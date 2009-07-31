@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Cloud.StorageConnectors
+﻿namespace Sem.Sync.CloudStorageConnector.StorageConnectors
 {
     using System.IO;
     using System.Xml;

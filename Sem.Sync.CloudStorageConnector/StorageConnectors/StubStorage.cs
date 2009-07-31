@@ -1,11 +1,15 @@
-﻿namespace Sem.Sync.Cloud.StorageConnectors
+﻿namespace Sem.Sync.CloudStorageConnector.StorageConnectors
 {
-    using System.Xml;
     using System.IO;
     using System.Text;
+    using System.Xml;
 
     using Test.DataGenerator;
 
+    /// <summary>
+    /// This is a simple stub for "some" cloud storage. It does provide some
+    /// test data (different contacts), but does not persist any data.
+    /// </summary>
     public class StubStorage : IStorageConnector
     {
         #region IStorageConnector Members

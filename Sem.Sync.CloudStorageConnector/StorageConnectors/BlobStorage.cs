@@ -1,6 +1,6 @@
 ﻿namespace Sem.Sync.CloudStorageConnector.StorageConnectors
 {
-    public class QueueStorage
+    public class BlobStorage
     {
     }
 }

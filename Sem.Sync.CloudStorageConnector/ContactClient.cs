@@ -15,7 +15,7 @@ namespace Sem.Sync.CloudStorageConnector
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    using Cloud.StorageConnectors;
+    using StorageConnectors;
 
     using SyncBase;
     using SyncBase.Attributes;
