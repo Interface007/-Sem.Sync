@@ -1,32 +1,49 @@
-﻿namespace Sem.Sync.Cloud
-{
-    using GenericHelpers;
+﻿using System;
 
-    using SyncBase;
+namespace Sem.Sync.Cloud
+{
+    using CloudStorageConnector;
     using SyncBase.Helpers;
+    using Sem.Sync.SyncBase;
 
     // NOTE: If you change the class name "Storage" here, you must also update the reference to "Storage" in Web.config.
     public class Storage : IStorage
     {
         /// <summary>
-        /// The default file system path to store the information.
+        /// The file system path to store the information.
         /// </summary>
-        private const string storagePath = "DefaultStorage";
-        private static readonly Factory factory = new Factory("Sem.Sync.Cloud");
-        private readonly StdClient connector = factory.GetNewObject<StdClient>("{Connector}");
+       // private readonly string _storagePath = "DefaultStorage"; // "C:\\ContactsServerData\\Contacts.xml";
 
-        public ContactListContainer GetAll(string clientFolderName)
+        private readonly string _containerName = "contactcontainer";
+
+
+        /// <summary>
+        /// Gets all Contacts from the Blob with the specified Id.
+        /// </summary>
+        /// <param name="contactBlobId">The contacts id.</param>
+        /// <returns></returns>
+        public ContactListContainer GetAll(string contactBlobId)
         {
+            BlobStorageManager mgr = new BlobStorageManager(_containerName);
+
             var stdContacts = new ContactListContainer
-            {
-                ContactList = connector.GetAll(storagePath).ToContacts()
-            };
+                                  {
+                                      ContactList = mgr.GetEntitiesFromBlob<StdContact>(contactBlobId)
+                                  };
             return stdContacts;
         }
 
-        public bool WriteFullList(ContactListContainer elements, string clientFolderName, bool skipIfExisting)
+        public bool WriteFullList(ContactListContainer elements, string contactBlobId, bool skipIfExisting)
         {
-            connector.WriteRange(elements.ContactList.ToStdElement(), storagePath);
+            try
+            {
+                BlobStorageManager mgr = new BlobStorageManager(_containerName);
+                mgr.AddOrUpdateBlob(elements.ContactList, contactBlobId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             return true;
         }
     }
