@@ -103,7 +103,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.DataGenerator
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 29
+		SccNumberOfProjects = 31
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -219,6 +219,14 @@ Global
 		SccProjectTopLevelParentUniqueName28 = SemSync.sln
 		SccProjectName28 = Sem.Sync.Cloud
 		SccLocalPath28 = Sem.Sync.Cloud
+		SccProjectUniqueName29 = Sem.Sync.Test.DataGenerator\\Sem.Sync.Test.DataGenerator.csproj
+		SccProjectTopLevelParentUniqueName29 = SemSync.sln
+		SccProjectName29 = Sem.Sync.Test.DataGenerator
+		SccLocalPath29 = Sem.Sync.Test.DataGenerator
+		SccProjectUniqueName30 = Sem.Sync.CloudStorageConnector\\Sem.Sync.CloudStorageConnector.csproj
+		SccProjectTopLevelParentUniqueName30 = SemSync.sln
+		SccProjectName30 = Sem.Sync.CloudStorageConnector
+		SccLocalPath30 = Sem.Sync.CloudStorageConnector
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi

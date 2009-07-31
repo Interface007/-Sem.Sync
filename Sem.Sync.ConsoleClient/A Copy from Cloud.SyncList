@@ -8,7 +8,7 @@
 
   <SyncDescription Name="Export from Cloud to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OnlineStorageConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.CloudStorageConnector.ContactClient</SourceConnector>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
   </SyncDescription>
