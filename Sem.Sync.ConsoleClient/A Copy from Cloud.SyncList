@@ -13,4 +13,9 @@
     <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
   </SyncDescription>
 
+  <SyncDescription Name="open export csv file">
+    <Command>OpenDocument</Command>
+    <CommandParameter>{FS:WorkingFolder}\Cloud.xmlcontact</CommandParameter>
+  </SyncDescription>
+
 </ArrayOfSyncDescription>

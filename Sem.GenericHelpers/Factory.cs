@@ -151,7 +151,13 @@ namespace Sem.GenericHelpers
                 isFirstFragement = false;
             }
 
-            return returnValue.ToString();
+            var result = returnValue.ToString();
+            if (result.StartsWith("{", StringComparison.Ordinal) && result.EndsWith("}", StringComparison.Ordinal))
+            {
+                result = ConfigurationManager.AppSettings["factoryName-" + result.Substring(1, result.Length - 2)];
+            }
+
+            return result;
         }
     }
 }

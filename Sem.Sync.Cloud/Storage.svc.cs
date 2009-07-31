@@ -1,28 +1,32 @@
 ﻿namespace Sem.Sync.Cloud
 {
-    using CloudStorageConnector;
+    using GenericHelpers;
+
+    using SyncBase;
     using SyncBase.Helpers;
 
     // NOTE: If you change the class name "Storage" here, you must also update the reference to "Storage" in Web.config.
     public class Storage : IStorage
     {
         /// <summary>
-        /// The file system path to store the information.
+        /// The default file system path to store the information.
         /// </summary>
-        private readonly string storagePath = "DefaultStorage"; // "C:\\ContactsServerData\\Contacts.xml";
+        private const string storagePath = "DefaultStorage";
+        private static readonly Factory factory = new Factory("Sem.Sync.Cloud");
+        private readonly StdClient connector = factory.GetNewObject<StdClient>("{Connector}");
 
         public ContactListContainer GetAll(string clientFolderName)
         {
             var stdContacts = new ContactListContainer
             {
-                ContactList = new ContactClient().GetAll(this.storagePath).ToContacts()
+                ContactList = connector.GetAll(storagePath).ToContacts()
             };
             return stdContacts;
         }
 
         public bool WriteFullList(ContactListContainer elements, string clientFolderName, bool skipIfExisting)
         {
-            new ContactClient().WriteRange(elements.ContactList.ToStdElement(), this.storagePath);
+            connector.WriteRange(elements.ContactList.ToStdElement(), storagePath);
             return true;
         }
     }
