@@ -13,12 +13,9 @@ namespace Sem.Sync.CloudStorageConnector
     #region usings
 
     using System.Collections.Generic;
-    using System.IO;
     using System.Xml.Serialization;
 
     using Cloud.StorageConnectors;
-
-    using GenericHelpers;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -31,9 +28,9 @@ namespace Sem.Sync.CloudStorageConnector
     /// </summary>
     [ClientStoragePathDescriptionAttribute(
         Mandatory = true,
-        Default = "{FS:WorkingFolder}\\Contacts.xml",
+        Default = "{FS:WorkingFolder}\\Public",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    [ConnectorDescription(DisplayName = "Filesystem one big Xml file")]
+    [ConnectorDescription(DisplayName = "Cloud Contact Connector to be used inside the cloud")]
     public class ContactClient : StdClient
     {
         private readonly IStorageConnector storage = new StubStorage();
@@ -52,16 +49,6 @@ namespace Sem.Sync.CloudStorageConnector
             {
                 return "Cloud Contact Connector";
             }
-        }
-
-        /// <summary>
-        /// This overrides the event of just before accessing the storage location to 
-        /// ensure the path for saving/loading data does exist.
-        /// </summary>
-        /// <param name="clientFolderName"> The client folder name for the destination/source of the contact file. </param>
-        protected override void BeforeStorageAccess(string clientFolderName)
-        {
-            Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
         }
 
         /// <summary>
@@ -92,12 +79,12 @@ namespace Sem.Sync.CloudStorageConnector
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            using (var file = storage.CreateFullListWriter(clientFolderName))
+            using (var writer = storage.CreateFullListWriter(clientFolderName))
             {
                 try
                 {
                     CleanUpEntities(elements);
-                    ContactListFormatter.Serialize(file, elements.ToContacts());
+                    ContactListFormatter.Serialize(writer, elements.ToContacts());
                 }
                 catch (System.Exception ex)
                 {

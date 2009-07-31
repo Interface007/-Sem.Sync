@@ -62,6 +62,10 @@
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
       <Name>Sem.Sync.ActiveDirectoryConnector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.CloudStorageConnector\Sem.Sync.CloudStorageConnector.csproj">
+      <Project>{11F37589-CA3B-4B92-B87C-9B48073E4546}</Project>
+      <Name>Sem.Sync.CloudStorageConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj">
       <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
       <Name>Sem.Sync.FacebookConnector</Name>
