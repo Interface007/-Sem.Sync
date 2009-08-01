@@ -118,7 +118,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // initialize the gui
             this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;
             this.cboTarget.SelectedIndex = (this.cboTarget.Items.Count > 0) ? 0 : this.cboTarget.Items.Count;
-            this.cboWorkFlowData.SelectedValue = Config.LastUsedSyncTemplateData;
+            this.cboWorkFlowData.SelectedValue = Config.LastUsedSyncTemplateData ?? this.cboWorkFlowData.SelectedValue;
             this.cboWorkFlowTemplates.SelectedIndex = (this.cboWorkFlowTemplates.Items.Count > 0) ? 0 : this.cboWorkFlowTemplates.Items.Count;
 
             this.DataContext.PropertyChanged += this.ReadFromContext;

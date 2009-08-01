@@ -31,6 +31,7 @@
             {
                 return this._name;
             }
+
             set
             {
                 this._name = value;
@@ -46,6 +47,11 @@
 
                 var type = Type.GetType(this._factory.EnrichClassName(typeName));
                 this.ConnectorPathDescription = new ClientStoragePathDescriptionAttribute();
+                if (type == null)
+                {
+                    return;
+                }
+
                 var sourceTypeAttributes = type.GetCustomAttributes(typeof(ClientStoragePathDescriptionAttribute), false);
                 foreach (ClientStoragePathDescriptionAttribute attribute in sourceTypeAttributes)
                 {

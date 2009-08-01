@@ -284,6 +284,25 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        /// This does concatenates the specified value name with the FriendlyClientName to make the 
+        /// name unique for this client type.
+        /// </summary>
+        /// <param name="configName">the name of the value</param>
+        /// <returns>the value read from the config file - false, if there is no such value.</returns>
+        protected bool GetConfigValueBoolean(string configName)
+        {
+            var value = this.GetConfigValue(configName);
+            bool returnValue;
+            if (bool.TryParse(value, out returnValue))
+            {
+                return returnValue;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 

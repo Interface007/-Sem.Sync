@@ -22,11 +22,8 @@ namespace Sem.Sync.MeinVZ
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-    using SyncBase.Helpers;
-    using SyncBase.Properties;
 
     #endregion usings
-
 
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
@@ -34,10 +31,14 @@ namespace Sem.Sync.MeinVZ
     [ClientStoragePathDescription(
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "MeinVZ")]
+    [ConnectorDescription(DisplayName = "MeinVZ", 
+        CanRead = true,
+        CanWrite = false,
+        MatchingIdentifier = ProfileIdentifierType.MeinVZ,
+        NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
-        #region string resources for processing xing pages
+        #region string resources for processing the pages
 
         /// <summary>
         /// Detection string to parse the content of a request if we need to logon
@@ -47,10 +48,10 @@ namespace Sem.Sync.MeinVZ
         /// <summary>
         /// detection string to detect if we did fail to logon
         /// </summary>
-        private const string HttpDetectionStringLogonFailed = "/app/user?op=lostpassword";
+        private const string HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
 
         /// <summary>
-        /// Base address to communicate with Xing
+        /// Base address to communicate with the site
         /// </summary>
         private const string HttpUrlBaseAddress = "http://www.meinvz.net";
 
@@ -59,22 +60,35 @@ namespace Sem.Sync.MeinVZ
         /// </summary>
         private const string HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
 
+        /// <summary>
+        /// realtive url to get the data of the contacts
+        /// </summary>
         private const string HttpUrlListContent = "";
 
         /// <summary>
-        /// data string to be posted to logon into Xing
+        /// data string to be posted to logon into the site
         /// </summary>
         private const string HttpDataLogonRequest 
             = "email={0}&"
             + "password={1}&"
-            + "login=Einloggen&jsEnabled=true&"
+            + "login=Einloggen&jsEnabled=false&"
             + "formkey={2}&"
             + "iv={3}";
+
+        /// <summary>
+        /// regex to extract the form key for the log on
+        /// </summary>
+        private const string ExtractorFormKey = "<input type=\"hidden\" name=\"formkey\" value=\"([0-9a-z]*)\" />";
+
+        /// <summary>
+        /// regex to extract the iv for the log on
+        /// </summary>
+        private const string ExtractorIv = "<input type=\"hidden\" name=\"iv\" value=\"([0-9a-z]*)\" />";
 
         #endregion
 
         /// <summary>
-        /// http requester object that will read the data from xing
+        /// http requester object that will read the data from the site
         /// </summary>
         private readonly HttpHelper httpRequester;
 
@@ -89,9 +103,9 @@ namespace Sem.Sync.MeinVZ
         {
             this.httpRequester = new HttpHelper(HttpUrlBaseAddress, true)
             {
-                UseCache = Convert.ToBoolean(this.GetConfigValue("UseCache"), CultureInfo.InvariantCulture),
-                SkipNotCached = Convert.ToBoolean(this.GetConfigValue("SkipNotCached"), CultureInfo.InvariantCulture),
-                UseIeCookies = Convert.ToBoolean(this.GetConfigValue("UseIeCookies"), CultureInfo.InvariantCulture),
+                UseCache = this.GetConfigValueBoolean("UseCache"),
+                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
             };
         }
 
@@ -155,9 +169,6 @@ namespace Sem.Sync.MeinVZ
         /// <returns>a list of urls for the vCards to be downloaded</returns>
         private List<string> GetUrlList()
         {
-            // regular request    : https://www.xing.com/app/contact
-            // with offset        : https://www.xing.com/app/contact?notags_filter=0;search_filter=;tags_filter=;offset=10
-            // sample of vcard-url: /app/vcard?op=vcard;scr_id=364719.e3db1e
             var result = new List<string>();
             var offsetIndex = 0;
 
@@ -183,16 +194,24 @@ namespace Sem.Sync.MeinVZ
                         QueryForLogOnCredentials("needs some credentials");
                     }
 
+                    var matches = Regex.Matches(contactListContent, ExtractorFormKey, RegexOptions.Singleline);
+                    var formKey = matches[0].Groups[1].Captures[0].ToString();
+
+                    matches = Regex.Matches(contactListContent, ExtractorIv, RegexOptions.Singleline);
+                    var iv = matches[0].Groups[1].Captures[0].ToString();
+
                     // prepare the post data for log on
                     var postData = HttpHelper.PreparePostData(
                         HttpDataLogonRequest,
                         this.LogOnUserId,
-                        this.LogOnPassword);
+                        this.LogOnPassword,
+                        formKey,
+                        iv);
 
                     // post to get the cookies
                     var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
 
-                    if (logInResponse.Contains(HttpDetectionStringLogonFailed))
+                    if (!logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
                         return result;
                     }
@@ -200,29 +219,29 @@ namespace Sem.Sync.MeinVZ
                     // we did succeed to log on - tell the user and try reading the data again.
                 }
 
-                // we use regular expressions to extract the urls to the vCards
-                //var vCardExtractor = new Regex(PatternGetVCardUrls, RegexOptions.Singleline);
-                //var matches = vCardExtractor.Matches(contactListContent);
+                //// we use regular expressions to extract the urls to the vCards
+                ////var vCardExtractor = new Regex(PatternGetVCardUrls, RegexOptions.Singleline);
+                ////var matches = vCardExtractor.Matches(contactListContent);
 
-                // if we don't find more matches, we have finished, or an error did occure
-                //if (matches.Count == 0)
-                //{
-                //    break;
-                //}
+                //// if we don't find more matches, we have finished, or an error did occure
+                ////if (matches.Count == 0)
+                ////{
+                ////    break;
+                ////}
 
-                //// add the matches to the result
-                //foreach (Match match in matches)
-                //{
-                //    result.Add(
-                //        new XingContactReference
-                //        {
-                //            Url = match.Groups[1].ToString(),
-                //            Tags = match.Groups[2].ToString(),
-                //        });
-                //}
+                ////// add the matches to the result
+                ////foreach (Match match in matches)
+                ////{
+                ////    result.Add(
+                ////        new ContactReference
+                ////        {
+                ////            Url = match.Groups[1].ToString(),
+                ////            Tags = match.Groups[2].ToString(),
+                ////        });
+                ////}
 
-                //// we read 10 urls a time
-                //offsetIndex += matches.Count;
+                ////// we read 10 urls a time
+                ////offsetIndex += matches.Count;
             }
 
             return result;

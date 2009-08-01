@@ -95,7 +95,6 @@ namespace Sem.Sync.XingConnector
         
         #endregion
 
-
         #region ctors
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class. 
@@ -107,9 +106,9 @@ namespace Sem.Sync.XingConnector
         {
             this.xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
             {
-                UseCache = Convert.ToBoolean(this.GetConfigValue("UseCache"), CultureInfo.InvariantCulture),
-                SkipNotCached = Convert.ToBoolean(this.GetConfigValue("SkipNotCached"), CultureInfo.InvariantCulture),
-                UseIeCookies = Convert.ToBoolean(this.GetConfigValue("UseIeCookies"), CultureInfo.InvariantCulture),
+                UseCache = this.GetConfigValueBoolean("UseCache"),
+                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
             };
 
             this.vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };

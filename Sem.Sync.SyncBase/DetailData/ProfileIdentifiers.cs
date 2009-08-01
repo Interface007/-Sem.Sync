@@ -35,6 +35,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// this is the url at the social network side Wer-Kennt-Wen.de.
         /// </summary>
         WerKenntWenUrl,
+
+        /// <summary>
+        /// this is a string identifying the contact at the social network side MeinVZ.net.
+        /// </summary>
+        MeinVZ,
     }
 
     /// <summary>

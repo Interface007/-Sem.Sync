@@ -56,6 +56,9 @@ namespace Sem.Sync.LocalSyncManager.Tools
             }
         }
 
+        /// <summary>
+        /// Gets or sets last used SyncTemplateData.
+        /// </summary>
         public static string LastUsedSyncTemplateData
         {
             get
@@ -65,7 +68,7 @@ namespace Sem.Sync.LocalSyncManager.Tools
 
             set
             {
-                GenericHelpers.Tools.SetRegValue(RegBasePath ,"LastUsedSyncTemplateData", value);
+                GenericHelpers.Tools.SetRegValue(RegBasePath, "LastUsedSyncTemplateData", value);
             }
         }
     }

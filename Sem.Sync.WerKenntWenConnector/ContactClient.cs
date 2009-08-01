@@ -109,9 +109,9 @@ namespace Sem.Sync.WerKenntWenConnector
         {
             this.wkwRequester = new HttpHelper(HttpUrlBaseAddress, true)
             {
-                UseCache = false,
-                SkipNotCached = false,
-                UseIeCookies = false,
+                UseCache = this.GetConfigValueBoolean("UseCache"),
+                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
             };
         }
 
