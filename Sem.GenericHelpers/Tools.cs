@@ -116,7 +116,7 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="pathToValue">the path inside the registry to the value</param>
         /// <param name="keyName">the name of the value</param>
-        /// <param name="defaultValue">thsi value will be used (and set) if the value is missing - the value is not missing if it's empty</param>
+        /// <param name="defaultValue">this value will be used (and set) if the value is missing - the value is not missing if it's empty</param>
         /// <returns>the string value of the registry key</returns>
         public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
         {
@@ -128,7 +128,11 @@ namespace Sem.GenericHelpers
                     var regValue = regKey.GetValue(keyName);
                     if (regValue == null)
                     {
-                        regKey.SetValue(keyName, defaultValue);
+                        if (defaultValue != null)
+                        {
+                            regKey.SetValue(keyName, defaultValue);
+                        }
+
                         return defaultValue;
                     }
 
@@ -136,6 +140,24 @@ namespace Sem.GenericHelpers
                 }
 
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Reads a value from the registry and also ensures that the registry key does exist
+        /// </summary>
+        /// <param name="pathToValue">the path inside the registry to the value</param>
+        /// <param name="keyName">the name of the value</param>
+        /// <param name="value">this value will be set</param>
+        public static void SetRegValue(string pathToValue, string keyName, string value)
+        {
+            using (var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true)
+                   ?? Registry.CurrentUser.CreateSubKey(pathToValue))
+            {
+                if (regKey != null)
+                {
+                    regKey.SetValue(keyName, value);
+                }
             }
         }
 

@@ -18,6 +18,11 @@ namespace Sem.Sync.LocalSyncManager.Tools
     internal static class Config
     {
         /// <summary>
+        /// registry path to store credentials
+        /// </summary>
+        private const string RegBasePath = "Software\\Sem.Sync\\LocalSyncManager";
+        
+        /// <summary>
         /// Determine the default data folder (base of all file sytem paths)
         /// </summary>
         private static readonly string defaultBaseFolder =
@@ -48,6 +53,19 @@ namespace Sem.Sync.LocalSyncManager.Tools
                 // set the folder and save to app.config
                 Properties.Settings.Default["WorkingFolder"] = value;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        public static string LastUsedSyncTemplateData
+        {
+            get
+            {
+                return GenericHelpers.Tools.GetRegValue(RegBasePath, "LastUsedSyncTemplateData", null);
+            }
+
+            set
+            {
+                GenericHelpers.Tools.SetRegValue(RegBasePath ,"LastUsedSyncTemplateData", value);
             }
         }
     }

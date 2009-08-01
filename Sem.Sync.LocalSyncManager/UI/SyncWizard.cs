@@ -19,6 +19,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using GenericHelpers.EventArgs;
     using Properties;
     using SyncBase;
+    using Sem.Sync.LocalSyncManager.Tools;
 
     /// <summary>
     /// User interface for wizard-like interaction
@@ -117,7 +118,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // initialize the gui
             this.cboSource.SelectedIndex = (this.cboSource.Items.Count > 0) ? 0 : this.cboSource.SelectedIndex;
             this.cboTarget.SelectedIndex = (this.cboTarget.Items.Count > 0) ? 0 : this.cboTarget.Items.Count;
-            this.cboWorkFlowData.SelectedIndex = (this.cboWorkFlowData.Items.Count > 0) ? 0 : this.cboWorkFlowData.Items.Count;
+            this.cboWorkFlowData.SelectedValue = Config.LastUsedSyncTemplateData;
             this.cboWorkFlowTemplates.SelectedIndex = (this.cboWorkFlowTemplates.Items.Count > 0) ? 0 : this.cboWorkFlowTemplates.Items.Count;
 
             this.DataContext.PropertyChanged += this.ReadFromContext;
@@ -130,6 +131,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// </summary>
         private void RunCommands()
         {
+            Config.LastUsedSyncTemplateData = this.cboWorkFlowData.SelectedValue.ToString();
             this.pnlProgress.Visible = true;
             this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
             this.pnlProgress.Visible = false;

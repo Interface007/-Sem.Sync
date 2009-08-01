@@ -62,6 +62,16 @@ namespace Sem.GenericHelpers
         #endregion
 
         /// <summary>
+        /// cache hint string constant to specify a daily refresh for the cached files
+        /// </summary>
+        public const string CacheHintRefresh = "[REFRESH=DAILY]";
+
+        /// <summary>
+        /// cache hint string constant to specify that this item should not be cached at all
+        /// </summary>
+        public const string CacheHintNoCache = "[NOCACHE]";
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelper"/> class. 
         /// the constructor will switch off certificate validation if IgnoreCertificateError is true
         /// </summary>
@@ -469,11 +479,11 @@ namespace Sem.GenericHelpers
         private static string CachePathName(string name)
         {
             var result =
-                !name.Contains("[NOCACHE]")
+                !name.Contains(CacheHintNoCache)
                     ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
                     : string.Empty;
 
-            result = result.Replace("[REFRESH=DAILY]", string.Empty);
+            result = result.Replace(CacheHintRefresh, string.Empty);
 
             return result;
         }
@@ -489,8 +499,8 @@ namespace Sem.GenericHelpers
             return
                 this.UseCache
                 && File.Exists(fileName)
-                && !name.Contains("[NOCACHE]") &&
-                (!name.Contains("[REFRESH=DAILY]") || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
+                && !name.Contains(CacheHintNoCache) &&
+                (!name.Contains(CacheHintRefresh) || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
         }
         
         /// <summary>

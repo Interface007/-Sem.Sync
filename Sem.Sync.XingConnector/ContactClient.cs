@@ -95,15 +95,6 @@ namespace Sem.Sync.XingConnector
         
         #endregion
 
-        /// <summary>
-        /// cache hint string constant to specify a daily refresh for the cached files
-        /// </summary>
-        private const string CacheHintRefresh = "[REFRESH=DAILY]";
-
-        /// <summary>
-        /// cache hint string constant to specify that this item should not be cached at all
-        /// </summary>
-        private const string CacheHintNoCache = "[NOCACHE]";
 
         #region ctors
         /// <summary>
@@ -148,16 +139,6 @@ namespace Sem.Sync.XingConnector
             {
                 return "Xing-Contact-Connector";
             }
-        }
-
-        /// <summary>
-        /// Because Xing is a read only source, removing duplicates is not implemented.
-        /// This method will throw a NotImplementedException
-        /// </summary>
-        /// <param name="clientFolderName">the method is not implemented - this parameter is not used.</param>
-        public override void RemoveDuplicates(string clientFolderName)
-        {
-            throw new NotImplementedException(Resources.uiNoAlteringImplemented);
         }
 
         /// <summary>
@@ -249,7 +230,7 @@ namespace Sem.Sync.XingConnector
                     // this will succeed if we have a valid cookie
                     contactListContent = this.xingRequester.GetContent(
                         string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
-                        "UrlList" + offsetIndex + CacheHintRefresh);
+                        "UrlList" + offsetIndex + HttpHelper.CacheHintRefresh);
 
                     // if we don't find the logon form any more, we did succeed
                     if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
@@ -272,7 +253,7 @@ namespace Sem.Sync.XingConnector
                         this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, CacheHintNoCache, postData);
+                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
 
                     if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
