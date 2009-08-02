@@ -31,7 +31,7 @@ namespace Sem.Sync.MeinVZ
     [ClientStoragePathDescription(
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "MeinVZ", 
+    [ConnectorDescription(DisplayName = "MeinVZ",
         CanRead = true,
         CanWrite = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
@@ -68,7 +68,7 @@ namespace Sem.Sync.MeinVZ
         /// <summary>
         /// data string to be posted to logon into the site
         /// </summary>
-        private const string HttpDataLogonRequest 
+        private const string HttpDataLogonRequest
             = "email={0}&"
             + "password={1}&"
             + "login=Einloggen&jsEnabled=false&"
@@ -84,6 +84,11 @@ namespace Sem.Sync.MeinVZ
         /// regex to extract the iv for the log on
         /// </summary>
         private const string ExtractorIv = "<input type=\"hidden\" name=\"iv\" value=\"([0-9a-z]*)\" />";
+
+        /// <summary>
+        /// regex to extract the iv for the log on
+        /// </summary>
+        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-z0-9]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
 
         #endregion
 
@@ -177,16 +182,17 @@ namespace Sem.Sync.MeinVZ
             {
                 while (true)
                 {
+                    List<string> extractedData;
+                    this.httpRequester.LogonFormDetectionString = HttpDetectionStringLogonNeeded;
+
                     // optimistically we try to read the content without explicit logon
                     // this will succeed if we have a valid cookie
-                    contactListContent = this.httpRequester.GetContent(
-                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
-                        "UrlList" + offsetIndex + HttpHelper.CacheHintRefresh);
-
-                    // if we don't find the logon form any more, we did succeed
-                    if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
+                    if (this.httpRequester.GetExtract(HttpUrlListContent, ExtractorFriendUrls, out extractedData))
                     {
-                        break;
+                        if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out extractedData))
+                        {
+                            break;
+                        }
                     }
 
                     if (string.IsNullOrEmpty(this.LogOnPassword))
@@ -194,10 +200,10 @@ namespace Sem.Sync.MeinVZ
                         QueryForLogOnCredentials("needs some credentials");
                     }
 
-                    var matches = Regex.Matches(contactListContent, ExtractorFormKey, RegexOptions.Singleline);
+                    var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
                     var formKey = matches[0].Groups[1].Captures[0].ToString();
 
-                    matches = Regex.Matches(contactListContent, ExtractorIv, RegexOptions.Singleline);
+                    matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
                     var iv = matches[0].Groups[1].Captures[0].ToString();
 
                     // prepare the post data for log on
@@ -211,17 +217,14 @@ namespace Sem.Sync.MeinVZ
                     // post to get the cookies
                     var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
 
-                    if (!logInResponse.Contains(HttpDetectionStringLogonFailed))
+                    if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
                         return result;
                     }
-
-                    // we did succeed to log on - tell the user and try reading the data again.
                 }
 
-                //// we use regular expressions to extract the urls to the vCards
-                ////var vCardExtractor = new Regex(PatternGetVCardUrls, RegexOptions.Singleline);
-                ////var matches = vCardExtractor.Matches(contactListContent);
+                // we use regular expressions to extract the urls to the vCards
+                var vCardExtractor = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFriendUrls, RegexOptions.Singleline);
 
                 //// if we don't find more matches, we have finished, or an error did occure
                 ////if (matches.Count == 0)

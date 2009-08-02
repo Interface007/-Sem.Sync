@@ -7,11 +7,13 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     using Entities;
     using Interfaces;
@@ -43,6 +45,16 @@ namespace Sem.GenericHelpers
     /// </example>
     public class HttpHelper : IHttpHelper
     {
+        /// <summary>
+        /// cache hint string constant to specify a daily refresh for the cached files
+        /// </summary>
+        public const string CacheHintRefresh = "[REFRESH=DAILY]";
+
+        /// <summary>
+        /// cache hint string constant to specify that this item should not be cached at all
+        /// </summary>
+        public const string CacheHintNoCache = "[NOCACHE]";
+
         #region private members
         /// <summary>
         /// Gets or sets a value to determine the path to cache the content
@@ -60,16 +72,6 @@ namespace Sem.GenericHelpers
         private readonly ICredentialAware proxyCredentials = new Credentials();
 
         #endregion
-
-        /// <summary>
-        /// cache hint string constant to specify a daily refresh for the cached files
-        /// </summary>
-        public const string CacheHintRefresh = "[REFRESH=DAILY]";
-
-        /// <summary>
-        /// cache hint string constant to specify that this item should not be cached at all
-        /// </summary>
-        public const string CacheHintNoCache = "[NOCACHE]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelper"/> class. 
@@ -99,6 +101,14 @@ namespace Sem.GenericHelpers
         }
 
         #region public propertries
+
+        public string LastExtractContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the string uniquely represented on the log on form
+        /// </summary>
+        public string LogonFormDetectionString { get; set; }
+
         /// <summary>
         /// Gets or sets the base address for requests
         /// </summary>
@@ -258,6 +268,42 @@ namespace Sem.GenericHelpers
             }
 
             return result;
+        }
+        
+        /// <summary>
+        /// Download content as text and extracts all strings matching a regex (the first group is returned in a list of strings)
+        /// </summary>
+        /// <param name="url"> the url to access the content  </param>
+        /// <param name="regularExpression"> The regular Expression to extract the data.  </param>
+        /// <param name="result"> The list of strings with the extracted data. </param>
+        /// <returns> the text result of the request  </returns>
+        public bool GetExtract(string url, string regularExpression, out List<string> result)
+        {
+            result = new List<string>();
+            this.LastExtractContent = this.GetContent(url, string.Empty, string.Empty);
+
+            if (this.LastExtractContent.Contains(this.LogonFormDetectionString))
+            {
+                return false;
+            }
+
+            var listMatches = Regex.Matches(this.LastExtractContent, regularExpression, RegexOptions.Singleline);
+            foreach (Match match in listMatches)
+            {
+                result.Add(match.Groups[1].ToString());
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Download content as text
+        /// </summary>
+        /// <param name="url">the url to access the content</param>
+        /// <returns>the text result of the request</returns>
+        public string GetContent(string url)
+        {
+            return this.GetContent(url, string.Empty, string.Empty);
         }
 
         /// <summary>
