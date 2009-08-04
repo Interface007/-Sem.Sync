@@ -30,7 +30,7 @@ namespace Sem.GenericHelpers
     /// <list type="bullets">
     /// <item>GET and POST requests</item>
     /// <item>support for encoding post parameters using url encoding - see <see cref="EncodeForPost"/></item>
-    /// <item>getting data as text or binary - see <see cref="GetContent(string,string)"/> and <see cref="GetContentBinary"/></item>
+    /// <item>getting data as text or binary - see <see cref="GetContent(string,string)"/> and <see cref="GetContentBinary(string)"/></item>
     /// <item>optionally accepting untrusted certificates with http (to support fiddler debugging) - see <see cref="IgnoreCertificateError"/></item>
     /// <item>using the IE cookie cache or a "private" cookie cache - see <see cref="UseIeCookies"/></item>
     /// </list></para>
@@ -102,6 +102,9 @@ namespace Sem.GenericHelpers
 
         #region public propertries
 
+        /// <summary>
+        /// Gets or sets the last content downloaded to extract information (can be reused for extraction).
+        /// </summary>
         public string LastExtractContent { get; set; }
 
         /// <summary>
@@ -213,6 +216,21 @@ namespace Sem.GenericHelpers
         /// Download content binary
         /// </summary>
         /// <param name="url">the url to access the content</param>
+        /// <returns>the binary result of the request without conversion</returns>
+        public byte[] GetContentBinary(string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url");
+            }
+
+            return this.GetContentBinary(url, string.Empty);
+        }
+
+        /// <summary>
+        /// Download content binary
+        /// </summary>
+        /// <param name="url">the url to access the content</param>
         /// <param name="name">a name for caching - this should correspond to the url</param>
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinary(string url, string name)
@@ -290,7 +308,11 @@ namespace Sem.GenericHelpers
             var listMatches = Regex.Matches(this.LastExtractContent, regularExpression, RegexOptions.Singleline);
             foreach (Match match in listMatches)
             {
-                result.Add(match.Groups[1].ToString());
+                var newItem = match.Groups[1].ToString();
+                if (!result.Contains(newItem))
+                {
+                    result.Add(newItem);
+                }
             }
 
             return true;
@@ -525,6 +547,7 @@ namespace Sem.GenericHelpers
         private static string CachePathName(string name)
         {
             var result =
+                !string.IsNullOrEmpty(name) &&
                 !name.Contains(CacheHintNoCache)
                     ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
                     : string.Empty;

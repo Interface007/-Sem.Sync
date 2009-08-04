@@ -13,6 +13,27 @@ namespace Sem.Sync.SyncBase.DetailData
     public class PersonName
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PersonName"/> class.
+        /// </summary>
+        public PersonName()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonName"/> class.
+        /// </summary>
+        /// <param name="name"> The name to interpret. </param>
+        public PersonName(string name)
+        {
+            var nameParts = name.Split(' ');
+            if (nameParts.Length == 2)
+            {
+                this.FirstName = nameParts[0];
+                this.LastName = nameParts[1];
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the academic title of the person (like Dr.)
         /// </summary>
         public string AcademicTitle { get; set; }

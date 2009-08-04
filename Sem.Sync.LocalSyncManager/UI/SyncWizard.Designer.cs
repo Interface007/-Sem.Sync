@@ -73,6 +73,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWorkingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteCurrentProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seperatorStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +82,8 @@
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.deleteCurrentProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openNetworksViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -339,6 +341,11 @@
             this.openWorkingFolderToolStripMenuItem.Name = "openWorkingFolderToolStripMenuItem";
             resources.ApplyResources(this.openWorkingFolderToolStripMenuItem, "openWorkingFolderToolStripMenuItem");
             // 
+            // deleteCurrentProfileToolStripMenuItem
+            // 
+            this.deleteCurrentProfileToolStripMenuItem.Name = "deleteCurrentProfileToolStripMenuItem";
+            resources.ApplyResources(this.deleteCurrentProfileToolStripMenuItem, "deleteCurrentProfileToolStripMenuItem");
+            // 
             // seperatorStripMenuItem1
             // 
             this.seperatorStripMenuItem1.Name = "seperatorStripMenuItem1";
@@ -353,7 +360,9 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDuplettesToolStripMenuItem,
-            this.generateSampleProfilesToolStripMenuItem});
+            this.generateSampleProfilesToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.openNetworksViewToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
@@ -379,10 +388,15 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // deleteCurrentProfileToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.deleteCurrentProfileToolStripMenuItem.Name = "deleteCurrentProfileToolStripMenuItem";
-            resources.ApplyResources(this.deleteCurrentProfileToolStripMenuItem, "deleteCurrentProfileToolStripMenuItem");
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            // 
+            // openNetworksViewToolStripMenuItem
+            // 
+            this.openNetworksViewToolStripMenuItem.Name = "openNetworksViewToolStripMenuItem";
+            resources.ApplyResources(this.openNetworksViewToolStripMenuItem, "openNetworksViewToolStripMenuItem");
             // 
             // SyncWizard
             // 
@@ -492,5 +506,7 @@
         private System.Windows.Forms.CheckBox chkShowImage;
         private System.Windows.Forms.ToolStripMenuItem generateSampleProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentProfileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openNetworksViewToolStripMenuItem;
     }
 }

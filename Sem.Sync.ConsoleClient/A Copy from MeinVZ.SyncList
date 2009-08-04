@@ -3,19 +3,19 @@
 
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
-    <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\MeinVZ.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Export from Cloud to file system">
+  <SyncDescription Name="Export from MeinVZ to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.CloudStorageConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MeinVZ.ContactClient</SourceConnector>
     <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
-    <TargetStorePath>{FS:WorkingFolder}\Cloud.xmlcontact</TargetStorePath>
+    <TargetStorePath>{FS:WorkingFolder}\MeinVZ.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="open export xml file">
     <Command>OpenDocument</Command>
-    <CommandParameter>{FS:WorkingFolder}\Cloud.xmlcontact</CommandParameter>
+    <CommandParameter>{FS:WorkingFolder}\MeinVZ.xmlcontact</CommandParameter>
   </SyncDescription>
 
 </ArrayOfSyncDescription>

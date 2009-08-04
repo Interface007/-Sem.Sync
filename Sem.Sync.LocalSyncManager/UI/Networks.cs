@@ -22,6 +22,16 @@ namespace Sem.Sync.LocalSyncManager.UI
     public partial class Networks : Form
     {
         /// <summary>
+        /// The height of the buttons for the connectors
+        /// </summary>
+        private const int ButtonWidthConnectors = 90;
+
+        /// <summary>
+        /// The height of the buttons for the connectors
+        /// </summary>
+        private const int ButtonHeightConnectors = 60;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Networks"/> class.
         /// </summary>
         public Networks()
@@ -34,7 +44,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 var button = new Button
                     {
-                        Size = new Size(120, 90),
+                        Size = new Size(ButtonWidthConnectors, ButtonHeightConnectors),
                         UseVisualStyleBackColor = true,
                         Text = source.Value,
                         Visible = true,
@@ -44,21 +54,36 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.Controls.Add(button);
             }
 
-            var midX = this.Width / 2;
-            var midY = this.Height / 2;
+            this.ArrangeElements();
+        }
+
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            this.ArrangeElements();
+            base.OnResizeEnd(e);
+        }
+
+        private void ArrangeElements()
+        {
+            // ReSharper disable PossibleLossOfFraction
+            var midX = (int)(((this.Width - ButtonWidthConnectors) / 2) * 0.8);
+            var midY = (int)(((this.Height - ButtonHeightConnectors) / 2) * 0.8);
             var count = this.Network.Count;
 
+            // ReSharper restore PossibleLossOfFraction
             var i = 0;
             foreach (var button in this.Network)
             {
                 var index = 360 * i * Math.PI / 180 / count;
                 button.Location = new Point
                     {
-                        X = (int)(midX + ((midX * Math.Cos(index)) / 2)),
-                        Y = (int)(midY + ((midY * Math.Sin(index)) / 2))
+                        X = (int)((midX * 1.2) + (midX * Math.Cos(index))),
+                        Y = (int)((midY * 1.2) + (midY * Math.Sin(index)))
                     };
                 i++;
             }
+
+            btnLocalStore.Location = new Point((this.Width - btnLocalStore.Width) / 2, (this.Height - btnLocalStore.Height) / 2);
         }
 
         /// <summary>

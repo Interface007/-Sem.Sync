@@ -14,7 +14,6 @@ namespace Sem.Sync.MeinVZ
 
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -59,11 +58,6 @@ namespace Sem.Sync.MeinVZ
         /// relative url to log on
         /// </summary>
         private const string HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
-
-        /// <summary>
-        /// realtive url to get the data of the contacts
-        /// </summary>
-        private const string HttpUrlListContent = "";
 
         /// <summary>
         /// data string to be posted to logon into the site
@@ -151,8 +145,14 @@ namespace Sem.Sync.MeinVZ
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             this.httpRequester.UiDispatcher = this.UiDispatcher;
-            var site = this.GetUrlList();
+            var contactUrls = this.GetUrlList();
 
+            foreach (string contactUrl in contactUrls)
+            {
+                result.Add(this.GetContactFromUrl(contactUrl));
+            }
+            
+            result.Sort();
             return result;
         }
 
@@ -169,82 +169,122 @@ namespace Sem.Sync.MeinVZ
         }
 
         /// <summary>
+        /// Convert MeinVZ contact url to <see cref="StdContact"/>
+        /// </summary>
+        /// <param name="contactUrl"> The contact url. </param>
+        /// <returns> the downloaded information inserted into a <see cref="StdContact"/> </returns>
+        private StdContact GetContactFromUrl(string contactUrl)
+        {
+            var result = new StdContact();
+
+            const string ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
+            const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
+
+            var content = this.httpRequester.GetContent(contactUrl);
+            var imageUrl = Regex.Match(content, ContactImageSelector, RegexOptions.Singleline);
+            if (imageUrl != null)
+            {
+                var url = imageUrl.Groups[1].ToString();
+                result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
+                result.PictureData = this.httpRequester.GetContentBinary(url);
+            }
+
+            foreach (Match match in Regex.Matches(content, ContactContentSelector, RegexOptions.Singleline))
+            {
+                var key = match.Groups[1].ToString();
+                var value = match.Groups[2].ToString();
+                if (value.Contains(">"))
+                {
+                    value = value.Substring(value.IndexOf('>') + 1);
+                }
+
+                if (value.Contains("<"))
+                {
+                    value = value.Substring(0, value.IndexOf('<'));
+                }
+
+                result.InternalSyncData = new SyncData();
+
+                switch (key)
+                {
+                    case "Name:":
+                        result.Name = new PersonName(value);
+                        break;
+
+                    case "Mitglied seit:":
+                        result.InternalSyncData.DateOfCreation = DateTime.Parse(value);
+                        break;
+
+                    case "Letztes Update:":
+                        result.InternalSyncData.DateOfLastChange = DateTime.Parse(value);
+                        break;
+
+                    case "Geschlecht:":
+                        result.PersonGender = value == "männlich" ? Gender.Male : Gender.Female;
+                        break;
+
+                    case "Geburtstag:":
+                        result.DateOfBirth = DateTime.Parse(value);
+                        break;
+
+                    default:
+                        Console.WriteLine("new content: " + key + " => " + value);
+                        break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Ready a list of vCard locations - this will also establish the logon
         /// </summary>
         /// <returns>a list of urls for the vCards to be downloaded</returns>
         private List<string> GetUrlList()
         {
             var result = new List<string>();
-            var offsetIndex = 0;
 
-            string contactListContent;
             while (true)
             {
-                while (true)
+                List<string> extractedData;
+                this.httpRequester.LogonFormDetectionString = HttpDetectionStringLogonNeeded;
+
+                // optimistically we try to read the content without explicit logon
+                // this will succeed if we have a valid cookie
+                if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData))
                 {
-                    List<string> extractedData;
-                    this.httpRequester.LogonFormDetectionString = HttpDetectionStringLogonNeeded;
-
-                    // optimistically we try to read the content without explicit logon
-                    // this will succeed if we have a valid cookie
-                    if (this.httpRequester.GetExtract(HttpUrlListContent, ExtractorFriendUrls, out extractedData))
+                    if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out result))
                     {
-                        if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out extractedData))
-                        {
-                            break;
-                        }
-                    }
-
-                    if (string.IsNullOrEmpty(this.LogOnPassword))
-                    {
-                        QueryForLogOnCredentials("needs some credentials");
-                    }
-
-                    var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
-                    var formKey = matches[0].Groups[1].Captures[0].ToString();
-
-                    matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
-                    var iv = matches[0].Groups[1].Captures[0].ToString();
-
-                    // prepare the post data for log on
-                    var postData = HttpHelper.PreparePostData(
-                        HttpDataLogonRequest,
-                        this.LogOnUserId,
-                        this.LogOnPassword,
-                        formKey,
-                        iv);
-
-                    // post to get the cookies
-                    var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
-
-                    if (logInResponse.Contains(HttpDetectionStringLogonFailed))
-                    {
-                        return result;
+                        break;
                     }
                 }
 
-                // we use regular expressions to extract the urls to the vCards
-                var vCardExtractor = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFriendUrls, RegexOptions.Singleline);
+                if (string.IsNullOrEmpty(this.LogOnPassword))
+                {
+                    QueryForLogOnCredentials("needs some credentials");
+                }
 
-                //// if we don't find more matches, we have finished, or an error did occure
-                ////if (matches.Count == 0)
-                ////{
-                ////    break;
-                ////}
+                var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
+                var formKey = matches[0].Groups[1].Captures[0].ToString();
 
-                ////// add the matches to the result
-                ////foreach (Match match in matches)
-                ////{
-                ////    result.Add(
-                ////        new ContactReference
-                ////        {
-                ////            Url = match.Groups[1].ToString(),
-                ////            Tags = match.Groups[2].ToString(),
-                ////        });
-                ////}
+                matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
+                var iv = matches[0].Groups[1].Captures[0].ToString();
 
-                ////// we read 10 urls a time
-                ////offsetIndex += matches.Count;
+                // prepare the post data for log on
+                var postData = HttpHelper.PreparePostData(
+                    HttpDataLogonRequest,
+                    this.LogOnUserId,
+                    this.LogOnPassword,
+                    formKey,
+                    iv);
+
+                // post to get the cookies
+                var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
+
+                if (logInResponse.Contains(HttpDetectionStringLogonFailed))
+                {
+                    return result;
+                }
             }
 
             return result;
