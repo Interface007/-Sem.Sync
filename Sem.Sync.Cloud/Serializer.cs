@@ -1,25 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Web;
-using Sem.Sync.SyncBase;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Serializer.cs" company="Sven Erik Matzen">
+//   Copyright (c) SDX-AG
+// </copyright>
+// <summary>
+//   a serializer class to serialize and deserialize an entity to/from binary data - this class has been developed at 
+//   SDX-AG for implementing a sample Azure application.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Cloud
 {
-    class Serializer
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+    
+    using SyncBase;
+
+    /// <summary>
+    /// a serializer class to serialize and deserialize an entity to/from binary data.
+    /// </summary>
+    public class Serializer
     {
         /// <summary>
-        /// Serializes an Entity to Binarydata.
+        /// Serializes an entity to binary data.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type of entities</typeparam>
         /// <param name="entities">The entities.</param>
         /// <returns>The List of Entites as a Byte Array</returns>
-        public static Byte[] SerializeBinary<T>(List<T> entities) where T : StdContact
+        public static byte[] SerializeBinary<T>(List<T> entities) where T : StdContact
         {
-            BinaryFormatter serializer = new BinaryFormatter();
-            System.IO.MemoryStream memStream = new System.IO.MemoryStream();
+            var serializer = new BinaryFormatter();
+            var memStream = new MemoryStream();
             serializer.Serialize(memStream, entities);
             return memStream.ToArray();
         }
@@ -27,18 +38,16 @@ namespace Sem.Sync.Cloud
         /// <summary>
         /// Deserializes the serialized byte array.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of the entities</typeparam>
         /// <param name="serializedEntities">The serialized entities.</param>
-        /// <returns></returns>
-        public static List<T> DeSerializeBinary<T>(Byte[] serializedEntities) where T : StdContact
+        /// <returns>a list of deserialized entities</returns>
+        public static List<T> DeSerializeBinary<T>(byte[] serializedEntities) where T : StdContact
         {
-            MemoryStream stream = new MemoryStream(serializedEntities);
-            stream.Position = 0;
-            BinaryFormatter deserializer = new BinaryFormatter();
-            object newobj = deserializer.Deserialize(stream);
+            var stream = new MemoryStream(serializedEntities) { Position = 0 };
+            var deserializer = new BinaryFormatter();
+            var newobj = deserializer.Deserialize(stream);
             stream.Close();
             return newobj as List<T>;
         }
-
     }
 }

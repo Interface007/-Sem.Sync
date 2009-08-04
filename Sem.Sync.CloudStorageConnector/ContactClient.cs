@@ -24,7 +24,9 @@ namespace Sem.Sync.CloudStorageConnector
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling contacts persisted to the file system
+    /// This class is the client class for handling contacts persisted to a cloud storage system.
+    /// The interface <see cref="IStorageConnector"/> does provide definition for the functionality
+    /// the storage class must provide.
     /// </summary>
     [ClientStoragePathDescriptionAttribute(
         Mandatory = true,
@@ -33,6 +35,9 @@ namespace Sem.Sync.CloudStorageConnector
     [ConnectorDescription(DisplayName = "Cloud Contact Connector to be used inside the cloud")]
     public class ContactClient : StdClient
     {
+        /// <summary>
+        /// current stub-implementation to get data
+        /// </summary>
         private readonly IStorageConnector storage = new StubStorage();
 
         /// <summary>
@@ -59,7 +64,7 @@ namespace Sem.Sync.CloudStorageConnector
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            using (var reader = storage.GetFullListReader(clientFolderName))
+            using (var reader = this.storage.GetFullListReader(clientFolderName))
             {
                 if (reader != null)
                 {
@@ -79,7 +84,7 @@ namespace Sem.Sync.CloudStorageConnector
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            using (var writer = storage.CreateFullListWriter(clientFolderName))
+            using (var writer = this.storage.CreateFullListWriter(clientFolderName))
             {
                 try
                 {
