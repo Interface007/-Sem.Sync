@@ -19,7 +19,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using GenericHelpers.EventArgs;
     using Properties;
     using SyncBase;
-    using Sem.Sync.LocalSyncManager.Tools;
+    using Tools;
 
     /// <summary>
     /// User interface for wizard-like interaction
