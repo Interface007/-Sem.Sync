@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.ServiceModel;
     
-using SyncBase;
+using Sem.Sync.SyncBase;
 
 namespace Sem.Sync.Cloud
 {
