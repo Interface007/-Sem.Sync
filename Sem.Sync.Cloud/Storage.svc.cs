@@ -1,9 +1,9 @@
 ﻿using System;
+using Sem.Sync.SyncBase;
 
 namespace Sem.Sync.Cloud
 {
-    using Sem.Sync.SyncBase;
-
+    
     // NOTE: If you change the class name "Storage" here, you must also update the reference to "Storage" in Web.config.
     public class Storage : IStorage
     {

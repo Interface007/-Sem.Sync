@@ -85,7 +85,6 @@ namespace Sem.GenericHelpers
         /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
         public object GetNewObject(string className)
         {
-            Type t = Type.GetType(className);
             return Activator.CreateInstance(Type.GetType(this.EnrichClassName(className), true, true));
         }
 
