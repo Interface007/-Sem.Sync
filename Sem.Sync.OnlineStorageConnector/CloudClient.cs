@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ContactClient.cs" company="Sven Erik Matzen">
+// <copyright file="CloudClient.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
@@ -23,7 +23,7 @@ namespace Sem.Sync.OnlineStorageConnector
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = false)]
     [ConnectorDescription(CanRead = true, CanWrite = true, NeedsCredentials = true, DisplayName = "Cloud Connector")]
-    public class CloudtClient : StdClient
+    public class CloudClient : StdClient
     {
         /// <summary>
         /// Returns a human readable name of this class.
@@ -67,9 +67,9 @@ namespace Sem.Sync.OnlineStorageConnector
                 new ContactListContainer
                     {
                         ContactList = elements.ToContacts().ToArray()
-                                     }, 
-                                     clientFolderName, 
-                                     skipIfExisting);
+                    },
+                clientFolderName,
+                skipIfExisting);
         }
     }
 }

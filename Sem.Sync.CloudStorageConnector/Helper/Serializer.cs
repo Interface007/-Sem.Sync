@@ -8,18 +8,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Cloud
+namespace Sem.Sync.CloudStorageConnector.Helper
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
-    
+
     using SyncBase;
 
     /// <summary>
     /// a serializer class to serialize and deserialize an entity to/from binary data.
     /// </summary>
-    public class Serializer
+    public static class Serializer
     {
         /// <summary>
         /// Serializes an entity to binary data.

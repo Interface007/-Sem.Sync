@@ -6,7 +6,7 @@
 //   Manager Class for handling Blobs - this class has been developed at SDX-AG for implementing a sample Azure application.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Sem.Sync.Cloud
+namespace Sem.Sync.CloudStorageConnector.Helper
 {
     using System;
     using System.Collections.Generic;
