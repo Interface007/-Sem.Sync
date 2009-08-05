@@ -2,8 +2,6 @@
 
 namespace Sem.Sync.Cloud
 {
-    using CloudStorageConnector;
-    using SyncBase.Helpers;
     using Sem.Sync.SyncBase;
 
     // NOTE: If you change the class name "Storage" here, you must also update the reference to "Storage" in Web.config.
@@ -45,6 +43,12 @@ namespace Sem.Sync.Cloud
                 return false;
             }
             return true;
+        }
+
+        public void DeleteBlob(string blobId)
+        {
+            BlobStorageManager mgr = new BlobStorageManager(_containerName);
+            mgr.DeleteBlob(_containerName);
         }
     }
 }

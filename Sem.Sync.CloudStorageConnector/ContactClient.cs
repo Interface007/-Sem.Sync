@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.CloudStorageConnector.CloudStorage;
+
 namespace Sem.Sync.CloudStorageConnector
 {
     #region usings
@@ -35,10 +37,8 @@ namespace Sem.Sync.CloudStorageConnector
     [ConnectorDescription(DisplayName = "Cloud Contact Connector to be used inside the cloud")]
     public class ContactClient : StdClient
     {
-        /// <summary>
-        /// current stub-implementation to get data
-        /// </summary>
-        private readonly IStorageConnector storage = new StubStorage();
+
+        private readonly IStorage _storage = new CloudStorage.StorageClient();
 
         /// <summary>
         /// This is the formatter instance for serializing the list of contacts.
@@ -56,46 +56,73 @@ namespace Sem.Sync.CloudStorageConnector
             }
         }
 
+
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and
+        /// overwriting the elements if they do already exist. Missing elements will be added, existing
+        /// elements will overwritten with the new elements.
+        /// </summary>
+        /// <param name="elements">the elements to be added in a list of elements</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside -
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        public override void WriteRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
         /// <summary>
         /// Overrides the method to read the full list of data.
         /// </summary>
         /// <param name="clientFolderName">the full name including path of the file that does contain the contacts.</param>
         /// <param name="result">A list of StdElements that will get the new imported entries.</param>
         /// <returns>The list with the added contacts</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        protected override List<StdElement> ReadFullList(string blobId, List<StdElement> result)
         {
-            using (var reader = this.storage.GetFullListReader(clientFolderName))
+            var contacts = new List<StdElement>();
+            var container = _storage.GetAll(blobId);
+            foreach(var elem in container.ContactList)
             {
-                if (reader != null)
-                {
-                    result = ((List<StdContact>)ContactListFormatter.Deserialize(reader)).ToStdElement();
-                    CleanUpEntities(result);
-                }
+                contacts.Add(elem);
             }
-
-            return result;
+            return contacts;
         }
 
         /// <summary>
         /// Overrides the method to write the full list of data.
         /// </summary>
         /// <param name="elements"> The elements to be exported. </param>
-        /// <param name="clientFolderName">the full name including path of the file that will get the contacts while exporting data.</param>
+        /// <param name="blobId">the full name including path of the file that will get the contacts while exporting data.</param>
         /// <param name="skipIfExisting">this value is not used in this client.</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<StdElement> elements, string blobId, bool skipIfExisting)
         {
-            using (var writer = this.storage.CreateFullListWriter(clientFolderName))
+            ContactListContainer container = new ContactListContainer();
+            container.ContactList = new StdContact[elements.Count];
+            for(int i = 0; i < elements.Count; i++)
             {
-                try
-                {
-                    CleanUpEntities(elements);
-                    ContactListFormatter.Serialize(writer, elements.ToContacts());
-                }
-                catch (System.Exception ex)
-                {
-                    this.LogProcessingEvent(ex.Message);
-                }
+                container.ContactList[i] = elements[i] as StdContact;
             }
+            _storage.WriteFullList(container, blobId, skipIfExisting);
         }
+
+        /// <summary>
+        /// Gets the contacts.
+        /// </summary>
+        /// <param name="blobId">The BLOB id.</param>
+        /// <returns></returns>
+        public List<StdElement> GetContacts(string blobId)
+        {
+            return ReadFullList(blobId, null);
+        }
+
+        /// <summary>
+        /// Deletes the contacts.
+        /// </summary>
+        /// <param name="blobId">The BLOB id.</param>
+        public void DeleteContacts(string blobId)
+        {
+            _storage.DeleteBlob(blobId);
+        }
+
     }
 }

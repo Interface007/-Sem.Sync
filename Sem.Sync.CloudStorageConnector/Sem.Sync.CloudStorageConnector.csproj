@@ -49,6 +49,12 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -61,6 +67,11 @@
   <ItemGroup>
     <Compile Include="ContactClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\CloudStorage\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="StorageConnectors\BlobStorage.cs" />
     <Compile Include="StorageConnectors\IStorageConnector.cs" />
     <Compile Include="StorageConnectors\QueueStorage.cs" />
@@ -80,6 +91,41 @@
       <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
       <Name>Sem.Sync.Test.DataGenerator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\CloudStorage\Storage.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\CloudStorage\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CloudStorage\Storage.disco" />
+    <None Include="Service References\CloudStorage\Storage.wsdl" />
+    <None Include="Service References\CloudStorage\Storage1.wsdl" />
+    <None Include="Service References\CloudStorage\Storage1.xsd" />
+    <None Include="Service References\CloudStorage\Storage2.xsd" />
+    <None Include="Service References\CloudStorage\Storage3.xsd" />
+    <None Include="Service References\CloudStorage\Storage4.xsd" />
+    <None Include="Service References\CloudStorage\Storage5.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CloudStorage\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CloudStorage\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CloudStorage\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\CloudStorage\Sem.Sync.CloudStorageConnector.CloudStorage.ContactListContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
