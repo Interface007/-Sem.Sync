@@ -277,7 +277,8 @@ namespace Sem.GenericHelpers
             byte[] result = null;
             if (!this.SkipNotCached && !string.IsNullOrEmpty(fileName))
             {
-                using (var receiveStream = this.PostResponseStream(url, postData))
+                string encoding;
+                using (var receiveStream = this.PostResponseStream(url, postData, out encoding))
                 {
                     result = ReadStreamToByteArray(receiveStream, 32768);
                 }
@@ -357,9 +358,10 @@ namespace Sem.GenericHelpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.GetResponseStream(url, referer))
+                string encoding;
+                using (var receiveStream = this.GetResponseStream(url, referer, out encoding))
                 {
-                    result = ReadStreamToString(receiveStream);
+                    result = ReadStreamToString(receiveStream, encoding);
                 }
 
                 this.WriteToCache(name, result);
@@ -386,9 +388,10 @@ namespace Sem.GenericHelpers
             var result = string.Empty;
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.PostResponseStream(url, postData))
+                string encoding;
+                using (var receiveStream = this.PostResponseStream(url, postData, out encoding))
                 {
-                    result = ReadStreamToString(receiveStream);
+                    result = ReadStreamToString(receiveStream, encoding);
                 }
 
                 this.WriteToCache(name, result);
@@ -401,8 +404,9 @@ namespace Sem.GenericHelpers
         /// reads stream data to string
         /// </summary>
         /// <param name="receiveStream">the stream to read from</param>
+        /// <param name="encoding">the encoding of the result string</param>
         /// <returns>a string representing the resource</returns>
-        private static string ReadStreamToString(Stream receiveStream)
+        private static string ReadStreamToString(Stream receiveStream, string encoding)
         {
             if (receiveStream == null)
             {
@@ -410,7 +414,7 @@ namespace Sem.GenericHelpers
             }
 
             var resultBuilder = new StringBuilder();
-            var encode = Encoding.GetEncoding("utf-8");
+            var encode = Encoding.GetEncoding(string.IsNullOrEmpty(encoding) ? "utf-8" : encoding);
 
             // Pipe the stream to a higher level stream reader with the required encoding format
             using (var readStream = new StreamReader(receiveStream, encode))
@@ -577,14 +581,15 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="url">the uri to the resource to get</param>
         /// <param name="postData">the data to be posted (must already be encoded using application/x-www-form-urlencoded)</param>
+        /// <param name="encoding">the encoding of the text content</param>
         /// <returns>a stream that represents the binary data</returns>
-        private Stream PostResponseStream(string url, string postData)
+        private Stream PostResponseStream(string url, string postData, out string encoding)
         {
             var request = this.CreateRequest(url, "POST");
             request.ContentType = "application/x-www-form-urlencoded";
 
-            var encoding = new ASCIIEncoding();
-            var logonDataBytes = encoding.GetBytes(postData);
+            var postEncoding = new ASCIIEncoding();
+            var logonDataBytes = postEncoding.GetBytes(postData);
             request.ContentLength = logonDataBytes.Length;
 
             using (var stream = request.GetRequestStream())
@@ -594,6 +599,7 @@ namespace Sem.GenericHelpers
             }
 
             var objResponse = (HttpWebResponse)request.GetResponse();
+            encoding = objResponse.CharacterSet;
             return objResponse.GetResponseStream();
         }
 
@@ -604,7 +610,8 @@ namespace Sem.GenericHelpers
         /// <returns>a stream corresponding to the content at the uri</returns>
         private Stream GetResponseStream(string url)
         {
-            return this.GetResponseStream(url, string.Empty);
+            string encoding;
+            return this.GetResponseStream(url, string.Empty, out encoding);
         }
 
         /// <summary>
@@ -612,8 +619,9 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="url">url to the page to get</param>
         /// <param name="referer">specifies the referer (url this request came from) to add to the request</param>
+        /// <param name="encoding">the encoding used for the text</param>
         /// <returns>a stream corresponding to the content at the uri</returns>
-        private Stream GetResponseStream(string url, string referer)
+        private Stream GetResponseStream(string url, string referer, out string encoding)
         {
             HttpWebResponse objResponse;
             var request = this.CreateRequest(url, "GET", referer);
@@ -623,6 +631,7 @@ namespace Sem.GenericHelpers
                 try
                 {
                     objResponse = (HttpWebResponse)request.GetResponse();
+                    encoding = objResponse.CharacterSet;
                     break;
                 }
                 catch (WebException ex)
@@ -654,11 +663,13 @@ namespace Sem.GenericHelpers
                         }
                         else
                         {
+                            encoding = string.Empty;
                             return null;
                         }
                     }
                     else
                     {
+                        encoding = string.Empty;
                         return null;
                     }
                 }

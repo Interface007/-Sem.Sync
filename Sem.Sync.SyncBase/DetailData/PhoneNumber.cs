@@ -63,9 +63,7 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    var phoneNumberExtract = new Regex("[0-9]+");
-
-                    var matches = phoneNumberExtract.Matches(value);
+                    var matches = Regex.Matches(value, "[0-9]+");
                     if ((matches.Count > 2) && Enum.IsDefined(typeof(CountryCode), int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture)))
                     {
                         this.CountryCode = (CountryCode)int.Parse(matches[0].Captures[0].ToString(), CultureInfo.InvariantCulture);
@@ -74,11 +72,18 @@ namespace Sem.Sync.SyncBase.DetailData
                         {
                             this.Number += matches[i].Captures[0].ToString();
                         }
+                        
+                        return;
                     }
-                    else
+                 
+                    if ((matches.Count == 2) && (matches[0].ToString().StartsWith("0", StringComparison.Ordinal)))
                     {
-                        this.denormalizedPhoneNumber = value;
+                        this.AreaCode = int.Parse(matches[0].ToString(), CultureInfo.InvariantCulture);
+                        this.Number = matches[1].ToString();
+                        return;
                     }
+   
+                    this.denormalizedPhoneNumber = value;
                 }
             }
         }

@@ -55,5 +55,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets the Skype name.
         /// </summary>
         public string Skype { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Skype name.
+        /// </summary>
+        public string ICQ { get; set; }
     }
 }

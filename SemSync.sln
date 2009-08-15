@@ -108,9 +108,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{4A76460C-202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ContactSyncer", "Sem.Sync.ContactSyncer\Sem.Sync.ContactSyncer.csproj", "{12CDAB31-6327-448F-BFA2-F26EC8F8392F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.StayFriends", "Sem.Sync.StayFriends\Sem.Sync.StayFriends.csproj", "{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 33
+		SccNumberOfProjects = 34
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -242,6 +244,10 @@ Global
 		SccProjectTopLevelParentUniqueName32 = SemSync.sln
 		SccProjectName32 = Sem.Sync.ContactSyncer
 		SccLocalPath32 = Sem.Sync.ContactSyncer
+		SccProjectUniqueName33 = Sem.Sync.StayFriends\\Sem.Sync.StayFriends.csproj
+		SccProjectTopLevelParentUniqueName33 = SemSync.sln
+		SccProjectName33 = Sem.Sync.StayFriends
+		SccLocalPath33 = Sem.Sync.StayFriends
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -704,6 +710,21 @@ Global
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F}.Release|x86.ActiveCfg = Release|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -722,6 +743,7 @@ Global
 		{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{9A99EDD4-4489-4E23-A409-36BA82F63D66} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{11F37589-CA3B-4B92-B87C-9B48073E4546} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}

@@ -180,6 +180,10 @@
       <Project>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</Project>
       <Name>Sem.Sync.StatisticConnector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.StayFriends\Sem.Sync.StayFriends.csproj">
+      <Project>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</Project>
+      <Name>Sem.Sync.StayFriends</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
       <Name>Sem.Sync.SyncBase</Name>

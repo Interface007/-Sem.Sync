@@ -47,5 +47,14 @@ namespace Sem.GenericHelpers.Entities
         /// member of this type
         /// </summary>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Overrides the to ToString method from object to present a meaningful string that described this instance
+        /// </summary>
+        /// <returns>a string with the key and the value</returns>
+        public override string ToString()
+        {
+            return string.Format("key = '{0}', value = '{1}'", this.Key, this.Value);
+        }
     }
 }

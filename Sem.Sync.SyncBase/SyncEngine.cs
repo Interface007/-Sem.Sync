@@ -221,7 +221,7 @@ namespace Sem.Sync.SyncBase
                 component.ProgressEvent += 
                     (s, e) => this.UpdateProgress(
                                   this.percentageOfSequenceDone 
-                                  + (e.PercentageDone / this.numberOfCommandsInSequence));
+                                  + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
 
                 if (clientBase != null)
                 { 

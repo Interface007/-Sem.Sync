@@ -40,6 +40,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// this is a string identifying the contact at the social network side MeinVZ.net.
         /// </summary>
         MeinVZ,
+
+        /// <summary>
+        /// target system: www.StayFriends.com
+        /// </summary>
+        StayFriendsPersonId,
     }
 
     /// <summary>
@@ -80,6 +85,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.WerKenntWenUrl:
                     this.WerKenntWenUrl = profileId;
                     break;
+
+                case ProfileIdentifierType.StayFriendsPersonId:
+                    this.StayFriendsPersonId = profileId;
+                    break;
             }
         }
 
@@ -104,6 +113,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public string WerKenntWenUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the url at the social network side StayFriends.de
+        /// </summary>
+        public string StayFriendsPersonId { get; set; }
+        
+        /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
         /// <param name="type">the type of identifier to read</param>
@@ -123,6 +137,9 @@ namespace Sem.Sync.SyncBase.DetailData
                 
                 case ProfileIdentifierType.WerKenntWenUrl:
                     return this.WerKenntWenUrl;
+
+                case ProfileIdentifierType.StayFriendsPersonId:
+                    return this.StayFriendsPersonId;
             }
 
             return string.Empty;
@@ -152,6 +169,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.WerKenntWenUrl:
                     this.WerKenntWenUrl = newValue;
                     break;
+
+                case ProfileIdentifierType.StayFriendsPersonId:
+                    this.StayFriendsPersonId = newValue;
+                    break;
             }
         }
 
@@ -168,7 +189,8 @@ namespace Sem.Sync.SyncBase.DetailData
                 : (!string.IsNullOrEmpty(this.XingProfileId) && this.XingProfileId == other.XingProfileId) ||
                   (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
                   (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
-                  (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId);
+                  (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
+                  (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId);
         }
     }
 }

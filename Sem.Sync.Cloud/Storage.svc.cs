@@ -59,5 +59,10 @@ namespace Sem.Sync.Cloud
 
             return true;
         }
+
+        public void DeleteBlob(string blobId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
