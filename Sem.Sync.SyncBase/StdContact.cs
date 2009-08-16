@@ -298,6 +298,24 @@ namespace Sem.Sync.SyncBase
                 this.BusinessCompanyName = this.BusinessCompanyName.Trim();
             }
 
+            if (this.BusinessAddressPrimary != null)
+            {
+                if (!string.IsNullOrEmpty(this.BusinessAddressPrimary.PostalCode))
+                {
+                    this.BusinessAddressPrimary.PostalCode = this.BusinessAddressPrimary.PostalCode.Trim();
+                }
+                
+                if (!string.IsNullOrEmpty(this.BusinessAddressPrimary.StreetName))
+                {
+                    this.BusinessAddressPrimary.StreetName = this.BusinessAddressPrimary.StreetName.Trim();
+                }
+
+                if (!string.IsNullOrEmpty(this.BusinessAddressPrimary.CityName))
+                {
+                    this.BusinessAddressPrimary.CityName = this.BusinessAddressPrimary.CityName.Trim();
+                }
+            }
+
             if (this.DateOfBirth.Year < 1900 || this.DateOfBirth.Year > 2200)
             {
                 this.DateOfBirth = new DateTime(1900, 1, 1);

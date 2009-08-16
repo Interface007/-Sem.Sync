@@ -86,6 +86,11 @@
       <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.MeinVZ\Sem.Sync.MeinVZ.csproj">
+      <Name>Sem.Sync.MeinVZ</Name>
+      <Project>{9a99edd4-4489-4e23-a409-36ba82f63d66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj">
       <Name>Sem.Sync.OutlookConnector2003</Name>
       <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
@@ -104,6 +109,11 @@
     <ProjectReference Include="..\Sem.Sync.StatisticConnector\Sem.Sync.StatisticConnector.csproj">
       <Name>Sem.Sync.StatisticConnector</Name>
       <Project>{1068fba6-60f2-4a39-9941-ccd6447313e8}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.StayFriends\Sem.Sync.StayFriends.csproj">
+      <Name>Sem.Sync.StayFriends</Name>
+      <Project>{32aa1c0c-cc80-44dc-8f6d-2c603072ab09}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">

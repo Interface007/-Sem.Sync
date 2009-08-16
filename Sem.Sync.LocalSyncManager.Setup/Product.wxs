@@ -78,6 +78,8 @@
               <!--<File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />-->
               <File Id='Sem.Sync.StatisticConnector'          Name='Sem.Sync.StatisticConnector.dll'      />
               <File Id='Sem.Sync.WerKenntWenConnector'        Name='Sem.Sync.WerKenntWenConnector.dll'    />
+              <File Id='Sem.Sync.StayFriendsConnector'        Name='Sem.Sync.StayFriends.dll'             />
+              <File Id='Sem.Sync.MeinVZConnector'             Name='Sem.Sync.MeinVZ.dll'    />
               <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
             </Component>
 
