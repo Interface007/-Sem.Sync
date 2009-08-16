@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Local Sync Manager"
            Manufacturer="Sven Erik Matzen"
-           Id="*"
+           Id="{8F3406CE-5608-4727-A10B-4C8F0CD4B864}"
            UpgradeCode="{7DBC91F2-890F-40c6-9B27-D0CE94DD467A}"
            Language="1033" Version="1.0.0.0" >
 

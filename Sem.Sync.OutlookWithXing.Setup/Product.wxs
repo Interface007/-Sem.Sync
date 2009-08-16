@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Sample Client for Xing to Outlook synchronization"
            Manufacturer="Sven Erik Matzen"
-           Id="*"
+           Id="{30599CB7-E906-4631-8045-124A3E3C0128}"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
            Language="1033" Version="1.0.0.0" >
 
