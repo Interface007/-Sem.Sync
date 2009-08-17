@@ -338,13 +338,27 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <returns> The value with replaced tokens. </returns>
         private string ReplaceToken(string value)
         {
-            return (value ?? string.Empty)
+            var returnvalue = (value ?? string.Empty)
                 .Replace("{source}", this.Source.Name)
                 .Replace("{target}", this.Target.Name)
                 .Replace("{sourcepath}", this.Source.Path)
-                .Replace("{targetpath}", this.Target.Path)
-                .Replace("{sourcepersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Source.ConnectorDescription.MatchingIdentifier))
-                .Replace("{targetpersonalidentifier}", Enum.GetName(typeof(ProfileIdentifierType), this.Target.ConnectorDescription.MatchingIdentifier));
+                .Replace("{targetpath}", this.Target.Path);
+
+            if (this.Source.ConnectorDescription != null)
+            {
+                returnvalue = returnvalue.Replace(
+                    "{sourcepersonalidentifier}",
+                    Enum.GetName(typeof(ProfileIdentifierType), this.Source.ConnectorDescription.MatchingIdentifier));
+            }
+
+            if (this.Target.ConnectorDescription != null)
+            {
+                returnvalue = returnvalue.Replace(
+                    "{targetpersonalidentifier}",
+                    Enum.GetName(typeof(ProfileIdentifierType), this.Target.ConnectorDescription.MatchingIdentifier));
+            }
+
+            return returnvalue;
         }
 
         internal void GenerateSamples()
