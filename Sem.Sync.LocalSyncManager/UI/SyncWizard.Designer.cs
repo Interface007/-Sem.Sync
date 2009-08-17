@@ -79,11 +79,12 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeDuplettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateSampleProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openNetworksViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.openNetworksViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCommandsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -362,7 +363,8 @@
             this.removeDuplettesToolStripMenuItem,
             this.generateSampleProfilesToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.openNetworksViewToolStripMenuItem});
+            this.openNetworksViewToolStripMenuItem,
+            this.openCommandsViewToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
@@ -376,6 +378,16 @@
             this.generateSampleProfilesToolStripMenuItem.Name = "generateSampleProfilesToolStripMenuItem";
             resources.ApplyResources(this.generateSampleProfilesToolStripMenuItem, "generateSampleProfilesToolStripMenuItem");
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            // 
+            // openNetworksViewToolStripMenuItem
+            // 
+            this.openNetworksViewToolStripMenuItem.Name = "openNetworksViewToolStripMenuItem";
+            resources.ApplyResources(this.openNetworksViewToolStripMenuItem, "openNetworksViewToolStripMenuItem");
+            // 
             // cboWorkFlowData
             // 
             this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
@@ -388,15 +400,10 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // toolStripMenuItem1
+            // openCommandsViewToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-            // 
-            // openNetworksViewToolStripMenuItem
-            // 
-            this.openNetworksViewToolStripMenuItem.Name = "openNetworksViewToolStripMenuItem";
-            resources.ApplyResources(this.openNetworksViewToolStripMenuItem, "openNetworksViewToolStripMenuItem");
+            this.openCommandsViewToolStripMenuItem.Name = "openCommandsViewToolStripMenuItem";
+            resources.ApplyResources(this.openCommandsViewToolStripMenuItem, "openCommandsViewToolStripMenuItem");
             // 
             // SyncWizard
             // 
@@ -508,5 +515,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openNetworksViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openCommandsViewToolStripMenuItem;
     }
 }

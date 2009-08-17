@@ -264,11 +264,35 @@
   <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <data name="SourceCardView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="SourceCardView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 102</value>
+  </data>
+  <data name="SourceCardView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 192</value>
+  </data>
+  <data name="SourceCardView.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;SourceCardView.Name" xml:space="preserve">
+    <value>SourceCardView</value>
+  </data>
+  <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2009.5.22.3, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;SourceCardView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="dataGridSourceDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridSourceDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 156</value>
+    <value>0, 150</value>
   </data>
   <data name="dataGridSourceDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>356, 144</value>
@@ -286,7 +310,7 @@
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;dataGridSourceDetail.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="dataGridSourceCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -295,7 +319,7 @@
     <value>0, 0</value>
   </data>
   <data name="dataGridSourceCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 150</value>
+    <value>356, 96</value>
   </data>
   <data name="dataGridSourceCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -310,7 +334,7 @@
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;dataGridSourceCandidates.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -324,11 +348,35 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="TargetCardView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="TargetCardView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 102</value>
+  </data>
+  <data name="TargetCardView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>351, 192</value>
+  </data>
+  <data name="TargetCardView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TargetCardView.Name" xml:space="preserve">
+    <value>TargetCardView</value>
+  </data>
+  <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2009.5.22.3, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;TargetCardView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="dataGridTargetDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridTargetDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 155</value>
+    <value>0, 150</value>
   </data>
   <data name="dataGridTargetDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>351, 145</value>
@@ -346,7 +394,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;dataGridTargetDetail.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="dataGridTargetCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -355,7 +403,7 @@
     <value>0, 0</value>
   </data>
   <data name="dataGridTargetCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>351, 149</value>
+    <value>351, 96</value>
   </data>
   <data name="dataGridTargetCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -370,7 +418,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;dataGridTargetCandidates.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -385,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>711, 300</value>
+    <value>711, 294</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>356</value>
@@ -424,7 +472,7 @@
     <value>0, 0</value>
   </data>
   <data name="dataGridMatches.Size" type="System.Drawing.Size, System.Drawing">
-    <value>711, 153</value>
+    <value>711, 159</value>
   </data>
   <data name="dataGridMatches.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -457,7 +505,7 @@
     <value>711, 457</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>300</value>
+    <value>294</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>

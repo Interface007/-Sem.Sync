@@ -25,6 +25,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     {
         private readonly Matching matching = new Matching();
 
+        private int lastSelectedSourceRow;
+
+        private int lastSelectedTargetRow;
+
         public MatchEntities()
         {
             InitializeComponent();
@@ -37,7 +41,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 return baselineList;
             }
 
-            this.matching.Profile = identifierToUse; // ProfileIdentifierType.XingProfileId;
+            this.matching.Profile = identifierToUse;
             
             this.matching.Source = sourceList.ToContacts();
             this.matching.Target = targetList.ToContacts();
@@ -77,6 +81,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentSourceElement = element;
+            this.SourceCardView.Contact = element;
 
             this.dataGridSourceDetail.DataSource = this.matching.CurrentSourceProperties();
             this.dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -110,6 +115,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentTargetElement = element;
+            this.TargetCardView.Contact = element;
 
             dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
             dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -121,16 +127,28 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             // clear all selections
             this.dataGridSourceCandidates.ClearSelection();
             this.dataGridTargetCandidates.ClearSelection();
-
+            
             // clear detail grids
             this.dataGridSourceDetail.DataSource = null;
             this.dataGridTargetDetail.DataSource = null;
+            this.SourceCardView.Contact = null;
+            this.TargetCardView.Contact = null;
 
             // rebind grids
             SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
             SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
             SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
-            
+
+            if (this.lastSelectedSourceRow > 0)
+            {
+                this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
+            }
+
+            if (this.lastSelectedTargetRow > 0)
+            {
+                this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Selected = true;
+            }
+
             // enumerate the source grid to find one entry that does
             // have a matching entry in the target grid
             for (var r = 0; r < this.dataGridSourceCandidates.Rows.Count; r++)
@@ -191,6 +209,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         private void btnMatch_Click(object sender, EventArgs e)
         {
+            this.lastSelectedSourceRow =
+                this.dataGridSourceCandidates.CurrentRow == null
+                ? 0
+                : this.dataGridSourceCandidates.CurrentRow.Index;
+
+            this.lastSelectedTargetRow =
+                this.dataGridTargetCandidates.CurrentRow == null
+                ? 0
+                : this.dataGridTargetCandidates.CurrentRow.Index;
+
             // perform the matching
             this.matching.Match();
 

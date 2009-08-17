@@ -188,16 +188,10 @@ namespace Sem.Sync.SyncBase
         [AddAsProperty]
         public string GetFullName()
         {
-            var name = string.Empty;
-            if (this.Name != null)
-            {
-                name += this.Name.LastName;
-                name += string.IsNullOrEmpty(this.Name.AcademicTitle) ? string.Empty : " (" + this.Name.AcademicTitle + ")";
-                name += ((name.Length > 0) ? ", " : string.Empty) + this.Name.FirstName + " ";
-                name += this.Name.MiddleName + " ";
-            }
-
-            return name.Replace("()", string.Empty).Replace("  ", " ").Trim();
+            return 
+                this.Name != null 
+                ? this.Name.ToString() 
+                : string.Empty;
         }
 
         /// <summary>

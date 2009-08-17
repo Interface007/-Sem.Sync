@@ -96,6 +96,9 @@
     <EmbeddedResource Include="UI\Networks.resx">
       <DependentUpon>Networks.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SyncDetails.resx">
+      <DependentUpon>SyncDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SyncWizard.de.resx">
       <DependentUpon>SyncWizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,6 +126,12 @@
     </Compile>
     <Compile Include="UI\Networks.Designer.cs">
       <DependentUpon>Networks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SyncDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SyncDetails.Designer.cs">
+      <DependentUpon>SyncDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SyncWizard.cs">
       <SubType>Form</SubType>

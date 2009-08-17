@@ -1,5 +1,7 @@
 ﻿namespace Sem.Sync.SharedUI.WinForms.UI
 {
+    using Controls;
+
     partial class MatchEntities
     {
         /// <summary>
@@ -35,8 +37,10 @@
             this.btnUnMatch = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.SourceCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
             this.dataGridSourceDetail = new System.Windows.Forms.DataGridView();
             this.dataGridSourceCandidates = new System.Windows.Forms.DataGridView();
+            this.TargetCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
             this.dataGridTargetDetail = new System.Windows.Forms.DataGridView();
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.dataGridMatches = new System.Windows.Forms.DataGridView();
@@ -100,13 +104,21 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.SourceCardView);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceDetail);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceCandidates);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.TargetCardView);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetDetail);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
+            // 
+            // SourceCardView
+            // 
+            resources.ApplyResources(this.SourceCardView, "SourceCardView");
+            this.SourceCardView.BackColor = System.Drawing.Color.White;
+            this.SourceCardView.Name = "SourceCardView";
             // 
             // dataGridSourceDetail
             // 
@@ -124,10 +136,17 @@
             this.dataGridSourceCandidates.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.dataGridSourceCandidates, "dataGridSourceCandidates");
             this.dataGridSourceCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridSourceCandidates.MultiSelect = false;
             this.dataGridSourceCandidates.Name = "dataGridSourceCandidates";
             this.dataGridSourceCandidates.ReadOnly = true;
             this.dataGridSourceCandidates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridSourceCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridSourceCandidatesCellEnter);
+            // 
+            // TargetCardView
+            // 
+            resources.ApplyResources(this.TargetCardView, "TargetCardView");
+            this.TargetCardView.BackColor = System.Drawing.Color.White;
+            this.TargetCardView.Name = "TargetCardView";
             // 
             // dataGridTargetDetail
             // 
@@ -145,6 +164,7 @@
             this.dataGridTargetCandidates.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.dataGridTargetCandidates, "dataGridTargetCandidates");
             this.dataGridTargetCandidates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridTargetCandidates.MultiSelect = false;
             this.dataGridTargetCandidates.Name = "dataGridTargetCandidates";
             this.dataGridTargetCandidates.ReadOnly = true;
             this.dataGridTargetCandidates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -156,6 +176,7 @@
             this.dataGridMatches.AllowUserToDeleteRows = false;
             this.dataGridMatches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             resources.ApplyResources(this.dataGridMatches, "dataGridMatches");
+            this.dataGridMatches.MultiSelect = false;
             this.dataGridMatches.Name = "dataGridMatches";
             this.dataGridMatches.ReadOnly = true;
             this.dataGridMatches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -199,5 +220,7 @@
         private System.Windows.Forms.DataGridView dataGridTargetDetail;
         private System.Windows.Forms.DataGridView dataGridTargetCandidates;
         private System.Windows.Forms.DataGridView dataGridMatches;
+        private ContactCardView SourceCardView;
+        private ContactCardView TargetCardView;
     }
 }

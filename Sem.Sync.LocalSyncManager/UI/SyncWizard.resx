@@ -290,6 +290,9 @@
   <data name="&gt;&gt;cboSource.ZOrder" xml:space="preserve">
     <value>24</value>
   </data>
+  <metadata name="contextDataSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -440,6 +443,9 @@
   <data name="&gt;&gt;cboTarget.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
+  <metadata name="contextDataTarget.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>162, 16</value>
+  </metadata>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -490,6 +496,90 @@
   </data>
   <data name="&gt;&gt;lblDialogStatus.ZOrder" xml:space="preserve">
     <value>29</value>
+  </data>
+  <data name="&gt;&gt;chkShowImage.Name" xml:space="preserve">
+    <value>chkShowImage</value>
+  </data>
+  <data name="&gt;&gt;chkShowImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkShowImage.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;chkShowImage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;currentPersonImage.Name" xml:space="preserve">
+    <value>currentPersonImage</value>
+  </data>
+  <data name="&gt;&gt;currentPersonImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;currentPersonImage.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;currentPersonImage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblProgressStatus.Name" xml:space="preserve">
+    <value>lblProgressStatus</value>
+  </data>
+  <data name="&gt;&gt;lblProgressStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblProgressStatus.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;lblProgressStatus.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;SyncProgress.Name" xml:space="preserve">
+    <value>SyncProgress</value>
+  </data>
+  <data name="&gt;&gt;SyncProgress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SyncProgress.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;SyncProgress.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="pnlProgress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 33</value>
+  </data>
+  <data name="pnlProgress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 100</value>
+  </data>
+  <data name="pnlProgress.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="pnlProgress.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Name" xml:space="preserve">
+    <value>pnlProgress</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="chkShowImage.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -614,30 +704,6 @@
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="pnlProgress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 33</value>
-  </data>
-  <data name="pnlProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 100</value>
-  </data>
-  <data name="pnlProgress.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="pnlProgress.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Name" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -936,6 +1002,9 @@
   <data name="&gt;&gt;cboWorkFlowTemplates.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <metadata name="contextDataWorkflows.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>21, 49</value>
+  </metadata>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 167</value>
   </data>
@@ -963,27 +1032,6 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 0</value>
   </metadata>
-  <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Open working folder</value>
-  </data>
-  <data name="deleteCurrentProfileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="deleteCurrentProfileToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete current profile</value>
-  </data>
-  <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
-  </data>
-  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 20</value>
   </data>
@@ -1000,7 +1048,7 @@
     <value>297, 22</value>
   </data>
   <data name="generateSampleProfilesToolStripMenuItem.Text" xml:space="preserve">
-    <value>generate sample profiles</value>
+    <value>generate &amp;sample profiles</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 6</value>
@@ -1009,7 +1057,13 @@
     <value>297, 22</value>
   </data>
   <data name="openNetworksViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>open &amp;Networks view</value>
+    <value>open &amp;networks view</value>
+  </data>
+  <data name="openCommandsViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 22</value>
+  </data>
+  <data name="openCommandsViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>open &amp;commands view</value>
   </data>
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
@@ -1041,6 +1095,27 @@
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>31</value>
   </data>
+  <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Open working folder</value>
+  </data>
+  <data name="deleteCurrentProfileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="deleteCurrentProfileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Delete current profile</value>
+  </data>
+  <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
   <metadata name="contextDataWorkflowData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>196, 49</value>
   </metadata>
@@ -1065,6 +1140,9 @@
   <data name="&gt;&gt;cboWorkFlowData.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="contextDataWorkflowData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>196, 49</value>
+  </metadata>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1188,12 +1266,6 @@
   <data name="&gt;&gt;generateSampleProfilesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;contextDataWorkflowData.Name" xml:space="preserve">
-    <value>contextDataWorkflowData</value>
-  </data>
-  <data name="&gt;&gt;contextDataWorkflowData.Type" xml:space="preserve">
-    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
     <value>toolStripMenuItem1</value>
   </data>
@@ -1204,6 +1276,18 @@
     <value>openNetworksViewToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;openNetworksViewToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;contextDataWorkflowData.Name" xml:space="preserve">
+    <value>contextDataWorkflowData</value>
+  </data>
+  <data name="&gt;&gt;contextDataWorkflowData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;openCommandsViewToolStripMenuItem.Name" xml:space="preserve">
+    <value>openCommandsViewToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;openCommandsViewToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

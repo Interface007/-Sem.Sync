@@ -86,11 +86,25 @@ namespace Sem.Sync.SyncBase.DetailData
         /// that this is the son of a father with the same name.
         /// </example>
         public string Suffix { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the former LastName of the person. This entity does only support one 
         /// former name.
         /// </summary>
         public string FormerName { get; set; }
+
+        ///<summary>
+        /// Overrides the inherited ToString method from object to represent a meaningful name
+        ///</summary>
+        ///<returns>the full name of the person</returns>
+        public override string ToString()
+        {
+            var name = this.LastName;
+            name += string.IsNullOrEmpty(this.AcademicTitle) ? string.Empty : " (" + this.AcademicTitle + ")";
+            name += ((name.Length > 0) ? ", " : string.Empty) + this.FirstName + " ";
+            name += this.MiddleName + " ";
+
+            return name.Replace("()", string.Empty).Replace("  ", " ").Trim();
+        }
     }
 }
