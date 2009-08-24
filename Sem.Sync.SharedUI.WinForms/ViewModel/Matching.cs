@@ -149,8 +149,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             var result = (from b in this.BaseLine
                           join s in this.Source on 
-                            b.ProfileId.GetProfileId(this.Profile) equals 
-                            (s.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile)
+                            b.ProfileId equals s.PersonalProfileIdentifiers 
                           join t in this.Target on b.Id equals t.Id
                           select new MatchView
                                      {

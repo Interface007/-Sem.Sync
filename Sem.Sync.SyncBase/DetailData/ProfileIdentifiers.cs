@@ -192,5 +192,52 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId);
         }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="obj"></param>
+        ///<returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != typeof(ProfileIdentifiers))
+            {
+                return false;
+            }
+            return Equals((ProfileIdentifiers)obj);
+        }
+
+        public bool Equals(ProfileIdentifiers other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return this.MatchesAny(other as ProfileIdentifiers);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = (this.XingProfileId != null ? this.XingProfileId.GetHashCode() : 0);
+                result = (result * 397) ^ (this.FacebookProfileId != null ? this.FacebookProfileId.GetHashCode() : 0);
+                result = (result * 397) ^ (this.ActiveDirectoryId != null ? this.ActiveDirectoryId.GetHashCode() : 0);
+                result = (result * 397) ^ (this.WerKenntWenUrl != null ? this.WerKenntWenUrl.GetHashCode() : 0);
+                result = (result * 397) ^ (this.StayFriendsPersonId != null ? this.StayFriendsPersonId.GetHashCode() : 0);
+                return result;
+            }
+        }
     }
 }

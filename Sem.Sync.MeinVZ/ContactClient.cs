@@ -233,6 +233,8 @@ namespace Sem.Sync.MeinVZ
                 }
             }
 
+            result.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.MeinVZ, contactUrl);
+
             return result;
         }
 
