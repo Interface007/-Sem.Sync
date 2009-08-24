@@ -66,7 +66,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
             if (contact.PersonalAddressPrimary != null)
             {
-                AddAttributeToStringBuilder(vCard, "ADR;TYPE=HOME", contact.PersonalAddressPrimary.StreetName, contact.PersonalAddressPrimary.CityName, contact.PersonalAddressPrimary.StateName, contact.PersonalAddressPrimary.PostalCode, contact.PersonalAddressPrimary.CountryName);
+                AddAttributeToStringBuilder(vCard, "ADR;TYPE=HOME", null, null, contact.PersonalAddressPrimary.StreetName, contact.PersonalAddressPrimary.CityName, contact.PersonalAddressPrimary.StateName, contact.PersonalAddressPrimary.PostalCode, contact.PersonalAddressPrimary.CountryName);
                 AddAttributeToStringBuilder(vCard, "TEL;TYPE=HOME", contact.PersonalAddressPrimary.Phone);
             }
 
