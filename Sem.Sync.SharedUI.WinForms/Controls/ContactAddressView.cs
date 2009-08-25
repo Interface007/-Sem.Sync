@@ -11,6 +11,9 @@
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Sets the address information to display for the control
+        /// </summary>
         public AddressDetail Address
         {
             set

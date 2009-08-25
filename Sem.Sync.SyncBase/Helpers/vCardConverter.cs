@@ -132,7 +132,7 @@ namespace Sem.Sync.SyncBase.Helpers
             var linesIso8859 = vCardIso8859.Split('\n');
             for (var i = 0; i < linesIso8859.Length; i++)
             {
-                var line = linesIso8859[i].Replace("\r", "");
+                var line = linesIso8859[i].Replace("\r", string.Empty);
 
                 if (line.Length == 0 || !line.Contains(":"))
                 {

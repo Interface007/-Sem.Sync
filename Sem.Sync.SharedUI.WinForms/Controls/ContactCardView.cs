@@ -14,6 +14,9 @@
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Sets the contact information to be shown
+        /// </summary>
         public StdContact Contact
         {
             set

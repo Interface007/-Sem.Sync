@@ -8,8 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem Sync SyncBase")]
 [assembly: AssemblyDescription("")]
