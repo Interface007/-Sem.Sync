@@ -81,10 +81,10 @@
             this.generateSampleProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.openNetworksViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openCommandsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.openCommandsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -388,6 +388,11 @@
             this.openNetworksViewToolStripMenuItem.Name = "openNetworksViewToolStripMenuItem";
             resources.ApplyResources(this.openNetworksViewToolStripMenuItem, "openNetworksViewToolStripMenuItem");
             // 
+            // openCommandsViewToolStripMenuItem
+            // 
+            this.openCommandsViewToolStripMenuItem.Name = "openCommandsViewToolStripMenuItem";
+            resources.ApplyResources(this.openCommandsViewToolStripMenuItem, "openCommandsViewToolStripMenuItem");
+            // 
             // cboWorkFlowData
             // 
             this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
@@ -399,11 +404,6 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
-            // openCommandsViewToolStripMenuItem
-            // 
-            this.openCommandsViewToolStripMenuItem.Name = "openCommandsViewToolStripMenuItem";
-            resources.ApplyResources(this.openCommandsViewToolStripMenuItem, "openCommandsViewToolStripMenuItem");
             // 
             // SyncWizard
             // 

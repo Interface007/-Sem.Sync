@@ -25,7 +25,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using GenericHelpers.EventArgs;
 
     using Properties;
-    
+
     using SharedUI.WinForms.Tools;
 
     using SyncBase;
@@ -34,7 +34,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.DetailData;
 
     using Tools;
-    
+
     /// <summary>
     /// The context does contain information needed to access the source and the 
     /// target of the sequence to be executed. This includes the types of source 
@@ -78,9 +78,7 @@ namespace Sem.Sync.LocalSyncManager.Business
             this.Source = new ConnectorInformation();
             this.Target = new ConnectorInformation();
 
-            // propagate property change event to consuming objects
-            this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
-            this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+            this.SetupPropertyChanged(true);
 
             foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
             {
@@ -100,16 +98,16 @@ namespace Sem.Sync.LocalSyncManager.Business
                         ? new ConnectorDescriptionAttribute()
                         : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
 
-                    var fullName = 
+                    var fullName =
                         exportedType.IsGenericType
                         ? exportedType.FullName.Replace("`1", " of StdContact")
                         : exportedType.FullName;
 
-                    var nameToUse = 
+                    var nameToUse =
                         exportedType.IsGenericType
                         ? (attribute.DisplayName ?? fullName) + " of StdContact"
                         : attribute.DisplayName ?? fullName;
-                    
+
                     if (attribute.CanRead)
                     {
                         this.ClientsSource.Add(fullName, nameToUse);
@@ -131,6 +129,34 @@ namespace Sem.Sync.LocalSyncManager.Business
             this.ReloadWorkflowDataList();
         }
 
+        private void SetupPropertyChanged(bool attach)
+        {
+            if (attach)
+            {
+                if (this.Source != null)
+                {
+                    this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                }
+
+                if (this.Target != null)
+                {
+                    this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                }
+            }
+            else
+            {
+                if (this.Source != null)
+                {
+                    this.Source.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                }
+
+                if (this.Target != null)
+                {
+                    this.Target.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                }
+            }
+        }
+
         private void ReloadWorkflowDataList()
         {
             Tools.EnsurePathExist(workingFolderData);
@@ -140,8 +166,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
             }
 
-            this.RaisePropertyChanged(string.Empty);
-
+            this.RaisePropertyChanged("SyncWorkflowData");
         }
 
         /// <summary>
@@ -196,8 +221,11 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             set
             {
-                this.currentSyncWorkflowData = value;
-                this.LoadFrom(value);
+                if (this.currentSyncWorkflowData != value)
+                {
+                    this.currentSyncWorkflowData = value;
+                    this.LoadFrom(value);
+                }
             }
         }
 
@@ -232,14 +260,15 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             if (workFlow != null)
             {
+                this.SetupPropertyChanged(false);
+
                 this.Source = workFlow.Source;
                 this.Target = workFlow.Target;
+
                 this.CurrentSyncWorkflowTemplate = workFlow.Template;
+                this.RaisePropertyChanged("CurrentSyncWorkflowData");
 
-                this.Source.PropertyChanged += this.PropertyChanged;
-                this.Target.PropertyChanged += this.PropertyChanged;
-
-                this.RaisePropertyChanged(string.Empty);
+                this.SetupPropertyChanged(true);
             }
         }
 
@@ -250,6 +279,17 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <param name="name"> The name to be saved into the file. </param>
         public void SaveTo(string fileNameWithoutExtension, string name)
         {
+            if (fileNameWithoutExtension == "(new)")
+            {
+                fileNameWithoutExtension = Tools.ReplaceInvalidFileCharacters(
+                    string.Format(
+                            CultureInfo.CurrentCulture,
+                            "from {0} to {1} ({2})",
+                            this.Source.Name,
+                            this.Target.Name,
+                            DateTime.Now));
+            }
+
             var workFlow = new SyncWorkFlow
                 {
                     Name = name,
@@ -258,14 +298,16 @@ namespace Sem.Sync.LocalSyncManager.Business
                     Template = this.CurrentSyncWorkflowTemplate
                 };
 
+            var fileName = Path.Combine(workingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension;
             Tools.SaveToFile(
                 workFlow,
-                Path.Combine(workingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension,
+                fileName,
                 typeof(SyncWorkFlow),
                 typeof(Credentials),
                 typeof(KeyValuePair<string, string>));
-            
+
             this.ReloadWorkflowDataList();
+            this.CurrentSyncWorkflowData = fileName;
         }
 
         /// <summary>

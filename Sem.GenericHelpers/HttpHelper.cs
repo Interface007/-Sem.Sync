@@ -298,8 +298,22 @@ namespace Sem.GenericHelpers
         /// <returns> the text result of the request  </returns>
         public bool GetExtract(string url, string regularExpression, out List<string> result)
         {
+            return GetExtract(url, regularExpression, out result, string.Empty, string.Empty);
+        }
+
+        /// <summary>
+        /// Download content as text and extracts all strings matching a regex (the first group is returned in a list of strings)
+        /// </summary>
+        /// <param name="url"> the url to access the content  </param>
+        /// <param name="regularExpression"> The regular Expression to extract the data.  </param>
+        /// <param name="result"> The list of strings with the extracted data. </param>
+        /// <param name="name">a name for caching - this should correspond to the url</param>
+        /// <param name="referer">the url of the referer to add</param>
+        /// <returns> the text result of the request  </returns>
+        public bool GetExtract(string url, string regularExpression, out List<string> result, string name, string referer)
+        {
             result = new List<string>();
-            this.LastExtractContent = this.GetContent(url, string.Empty, string.Empty);
+            this.LastExtractContent = this.GetContent(url, name, referer);
 
             if (this.LastExtractContent.Contains(this.LogonFormDetectionString))
             {

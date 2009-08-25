@@ -165,21 +165,30 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 this.btnPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant && (this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog);
                 this.txtPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
-                this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
             }
 
             if (this.DataContext.Target.ConnectorDescription != null)
             {
                 this.btnPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant && (this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog);
                 this.txtPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant;
-                this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
             }
 
-            this.contextDataWorkflows.ResetBindings(false);
+            if (e.PropertyName != "CurrentSyncWorkflowData")
+            {
+                this.contextDataWorkflowData.DataSource = null;
+                this.contextDataWorkflowData.DataMember = "";
+                
+                this.contextDataWorkflowData.DataSource = this.DataContext;
+                this.contextDataWorkflowData.DataMember = "SyncWorkflowData";
+            
+                this.contextDataWorkflowData.ResetBindings(false);
+            }
         }
 
         /// <summary>

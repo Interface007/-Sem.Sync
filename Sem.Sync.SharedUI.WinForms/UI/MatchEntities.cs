@@ -139,7 +139,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
             SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
 
-            if (this.lastSelectedSourceRow > 0)
+            if (this.lastSelectedSourceRow > 0 && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount && this.dataGridSourceCandidates.RowCount > 1)
             {
                 this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
             }

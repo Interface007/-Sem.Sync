@@ -15,7 +15,7 @@
     /// the credentials. The credentials are serialized in a save manner by encrypting
     /// them with the current users .net encryption key.
     /// </summary>
-    public class ConnectorInformation
+    public class ConnectorInformation : INotifyPropertyChanged
     {
         private string _name;
         private readonly Factory _factory = new Factory("Sem.Sync.SyncBase");
@@ -75,7 +75,9 @@
                     this.ConnectorDescription = new ConnectorDescriptionAttribute();
                 }
 
-                this.RaisePropertyChanged(string.Empty);
+                this.RaisePropertyChanged("Name");
+                this.RaisePropertyChanged("Path");
+                this.RaisePropertyChanged("ConnectorDescription");
             }
         }
 
@@ -116,6 +118,11 @@
         [XmlIgnore]
         public ClientStoragePathDescriptionAttribute ConnectorPathDescription { get; set; }
 
+        /// <summary>
+        /// Calls the event to inform other classes about an internal change of this objects 
+        /// state - this will cause the GUI to read the data from this object.
+        /// </summary>
+        /// <param name="propertyName"> The property name that has been changed. </param>
         private void RaisePropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)

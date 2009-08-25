@@ -964,61 +964,61 @@
     <value>0, 0</value>
   </metadata>
   <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>187, 22</value>
   </data>
   <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Open working folder</value>
   </data>
   <data name="deleteCurrentProfileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>187, 22</value>
   </data>
   <data name="deleteCurrentProfileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete current profile</value>
   </data>
   <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
+    <value>184, 6</value>
   </data>
   <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>187, 22</value>
   </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>35, 20</value>
   </data>
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;File</value>
   </data>
   <data name="removeDuplettesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>284, 22</value>
   </data>
   <data name="removeDuplettesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Remove duplicates from Outlook calendar</value>
   </data>
   <data name="generateSampleProfilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>284, 22</value>
   </data>
   <data name="generateSampleProfilesToolStripMenuItem.Text" xml:space="preserve">
     <value>generate &amp;sample profiles</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 6</value>
+    <value>281, 6</value>
   </data>
   <data name="openNetworksViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>284, 22</value>
   </data>
   <data name="openNetworksViewToolStripMenuItem.Text" xml:space="preserve">
     <value>open &amp;networks view</value>
   </data>
   <data name="openCommandsViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+    <value>284, 22</value>
   </data>
   <data name="openCommandsViewToolStripMenuItem.Text" xml:space="preserve">
     <value>open &amp;commands view</value>
   </data>
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>44, 20</value>
   </data>
   <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Tools</value>

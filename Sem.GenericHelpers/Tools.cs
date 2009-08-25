@@ -215,6 +215,16 @@ namespace Sem.GenericHelpers
             return string.Empty;
         }
 
+        public static string ReplaceInvalidFileCharacters(string fileName)
+        {
+            foreach (var invalidChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(invalidChar.ToString(), "-");
+            }
+
+            return fileName;
+        }
+
         /// <summary>
         /// Sets a property by the complete path specified as a string (like "PersonalAddressPrimary.Phone.AreaCode").
         /// If one of the objects inside the path is null, it will be initialized with a default instance. If the type

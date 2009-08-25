@@ -30,6 +30,7 @@ namespace Sem.Sync.LocalSyncManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             Application.Run(new SyncWizard { DataContext = new SyncWizardContext() });
         }
     }

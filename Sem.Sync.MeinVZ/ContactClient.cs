@@ -180,13 +180,13 @@ namespace Sem.Sync.MeinVZ
             const string ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
             const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
 
-            var content = this.httpRequester.GetContent(contactUrl);
+            var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
             var imageUrl = Regex.Match(content, ContactImageSelector, RegexOptions.Singleline);
             if (imageUrl != null)
             {
                 var url = imageUrl.Groups[1].ToString();
                 result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
-                result.PictureData = this.httpRequester.GetContentBinary(url);
+                result.PictureData = this.httpRequester.GetContentBinary(url, url);
             }
 
             foreach (Match match in Regex.Matches(content, ContactContentSelector, RegexOptions.Singleline))
@@ -253,7 +253,7 @@ namespace Sem.Sync.MeinVZ
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData))
+                if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
                 {
                     if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out result))
                     {

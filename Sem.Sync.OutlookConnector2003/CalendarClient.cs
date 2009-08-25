@@ -39,7 +39,7 @@ namespace Sem.Sync.OutlookConnector2003
         /// <summary>
         /// detects duplicates and removes them from the calendar
         /// </summary>
-        /// <param name="clientFolderPath">the path to the outlook folder to process</param>
+        /// <param name="pathToStore">the path to the outlook folder to process</param>
         public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
@@ -71,7 +71,9 @@ namespace Sem.Sync.OutlookConnector2003
                         if (lastItem.Subject == item.Subject
                             && lastItem.Start == item.Start
                             && lastItem.Body == item.Body
-                            && item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase))
+                            && 
+                            (  item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase)
+                            || item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
                         {
                             LogProcessingEvent(stdItem, "removing ...");
 
