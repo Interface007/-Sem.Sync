@@ -109,7 +109,6 @@
             this.Controls.Add(this.StreetName);
             this.Name = "ContactAddressView";
             this.Size = new System.Drawing.Size(177, 56);
-            this.Load += new System.EventHandler(this.ContactAddressView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

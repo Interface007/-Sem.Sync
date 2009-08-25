@@ -89,6 +89,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.StayFriendsPersonId:
                     this.StayFriendsPersonId = profileId;
                     break;
+
+                case ProfileIdentifierType.MeinVZ:
+                    this.MeinVZPersonId = profileId;
+                    break;
             }
         }
 
@@ -116,7 +120,12 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets the url at the social network side StayFriends.de
         /// </summary>
         public string StayFriendsPersonId { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the url at the social network side StayFriends.de
+        /// </summary>
+        public string MeinVZPersonId { get; set; }
+
         /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
@@ -140,6 +149,9 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.StayFriendsPersonId:
                     return this.StayFriendsPersonId;
+                
+                case ProfileIdentifierType.MeinVZ:
+                    return this.MeinVZPersonId;
             }
 
             return string.Empty;
@@ -173,6 +185,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.StayFriendsPersonId:
                     this.StayFriendsPersonId = newValue;
                     break;
+                
+                case ProfileIdentifierType.MeinVZ:
+                    this.MeinVZPersonId = newValue;
+                    break;
             }
         }
 
@@ -190,6 +206,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
                   (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
+                  (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId);
         }
 
@@ -235,6 +252,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 result = (result * 397) ^ (this.FacebookProfileId != null ? this.FacebookProfileId.GetHashCode() : 0);
                 result = (result * 397) ^ (this.ActiveDirectoryId != null ? this.ActiveDirectoryId.GetHashCode() : 0);
                 result = (result * 397) ^ (this.WerKenntWenUrl != null ? this.WerKenntWenUrl.GetHashCode() : 0);
+                result = (result * 397) ^ (this.MeinVZPersonId != null ? this.MeinVZPersonId.GetHashCode() : 0);
                 result = (result * 397) ^ (this.StayFriendsPersonId != null ? this.StayFriendsPersonId.GetHashCode() : 0);
                 return result;
             }

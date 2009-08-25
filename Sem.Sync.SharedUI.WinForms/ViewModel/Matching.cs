@@ -147,7 +147,12 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         internal List<MatchView> BaselineAsList()
         {
-            var result = (from b in this.BaseLine
+            // filtering out entries without matching information is not needed, but helpful for debugging ;-)
+            var list = from x in this.BaseLine
+                       where !string.IsNullOrEmpty(x.ProfileId.GetProfileId(this.Profile))
+                       select x;
+
+            var result = (from b in list
                           join s in this.Source on 
                             b.ProfileId equals s.PersonalProfileIdentifiers 
                           join t in this.Target on b.Id equals t.Id
