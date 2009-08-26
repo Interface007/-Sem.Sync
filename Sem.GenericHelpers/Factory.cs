@@ -29,11 +29,6 @@ namespace Sem.GenericHelpers
     public class Factory
     {
         /// <summary>
-        /// Gets or sets the default name space for class names that do not have a name space specified.
-        /// </summary>
-        public string DefaultNamespace { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Factory"/> class.
         /// </summary>
         public Factory()
@@ -48,6 +43,11 @@ namespace Sem.GenericHelpers
         {
             this.DefaultNamespace = defaultNamespace;
         }
+
+        /// <summary>
+        /// Gets or sets the default name space for class names that do not have a name space specified.
+        /// </summary>
+        public string DefaultNamespace { get; set; }
 
         /// <summary>
         /// Create an object by using the class name.
@@ -130,6 +130,7 @@ namespace Sem.GenericHelpers
                         {
                             throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
                         }
+
                         assemblyName = this.DefaultNamespace.Trim();
                         returnValue.Append(assemblyName).Append(".");
                     }

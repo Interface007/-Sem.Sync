@@ -43,7 +43,7 @@
             this.buttonSyncWithXing.Font = null;
             this.buttonSyncWithXing.Name = "buttonSyncWithXing";
             this.buttonSyncWithXing.UseVisualStyleBackColor = true;
-            this.buttonSyncWithXing.Click += new System.EventHandler(this.buttonSyncWithXing_Click);
+            this.buttonSyncWithXing.Click += new System.EventHandler(this.ButtonSyncWithXing_Click);
             // 
             // progressBar
             // 

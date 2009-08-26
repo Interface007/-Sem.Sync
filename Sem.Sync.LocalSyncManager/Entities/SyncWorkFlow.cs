@@ -9,8 +9,6 @@
 
 namespace Sem.Sync.LocalSyncManager.Entities
 {
-    using System.Collections.Generic;
-
     using SyncBase.DetailData;
 
     /// <summary>

@@ -298,7 +298,7 @@ namespace Sem.GenericHelpers
         /// <returns> the text result of the request  </returns>
         public bool GetExtract(string url, string regularExpression, out List<string> result)
         {
-            return GetExtract(url, regularExpression, out result, string.Empty, string.Empty);
+            return this.GetExtract(url, regularExpression, out result, string.Empty, string.Empty);
         }
 
         /// <summary>

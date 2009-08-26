@@ -210,45 +210,62 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId);
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="obj"></param>
-        ///<returns></returns>
-        public override bool Equals(object obj)
+        /// <summary>
+        /// Implements a comparison to determine if the provile identifier describes the same person. This means if ANY of the
+        /// indentifiers is equal to the other object.
+        /// </summary>
+        /// <param name="other"> The "other" object. </param>
+        /// <returns> true if one of the identifiers matches </returns>
+        public override bool Equals(object other)
         {
-            if (ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, other))
             {
                 return false;
             }
-            if (ReferenceEquals(this, obj))
+
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
-            if (obj.GetType() != typeof(ProfileIdentifiers))
+
+            if (other.GetType() != typeof(ProfileIdentifiers))
             {
                 return false;
             }
-            return Equals((ProfileIdentifiers)obj);
+
+            return this.Equals((ProfileIdentifiers)other);
         }
 
+        /// <summary>
+        /// Implements a comparison to determine if the provile identifier describes the same person. This means if ANY of the
+        /// indentifiers is equal to the other object.
+        /// </summary>
+        /// <param name="other">the "other" object</param>
+        /// <returns>true if one of the identifiers matches</returns>
         public bool Equals(ProfileIdentifiers other)
         {
             if (ReferenceEquals(null, other))
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
-            return this.MatchesAny(other as ProfileIdentifiers);
+
+            return this.MatchesAny(other);
         }
 
+        /// <summary>
+        /// overrides the hash code method for sorting (because we also did override <see cref="Equals(object)"/>)
+        /// </summary>
+        /// <returns> an integer representing this value </returns>
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = (this.XingProfileId != null ? this.XingProfileId.GetHashCode() : 0);
+                var result = this.XingProfileId != null ? this.XingProfileId.GetHashCode() : 0;
                 result = (result * 397) ^ (this.FacebookProfileId != null ? this.FacebookProfileId.GetHashCode() : 0);
                 result = (result * 397) ^ (this.ActiveDirectoryId != null ? this.ActiveDirectoryId.GetHashCode() : 0);
                 result = (result * 397) ^ (this.WerKenntWenUrl != null ? this.WerKenntWenUrl.GetHashCode() : 0);

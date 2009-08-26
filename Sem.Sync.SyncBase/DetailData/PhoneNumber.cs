@@ -76,7 +76,7 @@ namespace Sem.Sync.SyncBase.DetailData
                         return;
                     }
                  
-                    if ((matches.Count == 2) && (matches[0].ToString().StartsWith("0", StringComparison.Ordinal)))
+                    if ((matches.Count == 2) && matches[0].ToString().StartsWith("0", StringComparison.Ordinal))
                     {
                         this.AreaCode = int.Parse(matches[0].ToString(), CultureInfo.InvariantCulture);
                         this.Number = matches[1].ToString();

@@ -12,6 +12,24 @@ namespace Sem.GenericHelpers.EventArgs
     public class ProcessingEventArgs : System.EventArgs
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessingEventArgs"/> class.
+        /// </summary>
+        public ProcessingEventArgs()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessingEventArgs"/> class.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        public ProcessingEventArgs(string message)
+        {
+            this.Message = message;
+        }
+        
+        /// <summary>
         /// Gets or sets the item that is related to the current work.
         /// </summary>
         public object Item { get; set; }
@@ -20,13 +38,5 @@ namespace Sem.GenericHelpers.EventArgs
         /// Gets or sets the message describing the event.
         /// </summary>
         public string Message { get; set; }
-
-        public ProcessingEventArgs()
-        {}
-
-        public ProcessingEventArgs(string message)
-        {
-            this.Message = message;
-        }
     }
 }

@@ -10,7 +10,6 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Xml.Serialization;
 
     using DetailData;

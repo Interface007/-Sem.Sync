@@ -12,7 +12,7 @@ namespace Sem.GenericHelpers.EventArgs
     public class ProgressEventArgs : System.EventArgs
     {
         /// <summary>
-        /// The percentage of work being done.
+        /// Gets or sets the percentage of work being done.
         /// </summary>
         public int PercentageDone { get; set; }
     }

@@ -25,7 +25,7 @@ namespace Sem.Sync.LocalSyncManager.Tools
         /// <summary>
         /// Determine the default data folder (base of all file sytem paths)
         /// </summary>
-        private static readonly string defaultBaseFolder =
+        private static readonly string DefaultBaseFolder =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager");
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Sem.Sync.LocalSyncManager.Tools
                 // default to base folder + "\Work" and save to app.config
                 if (string.IsNullOrEmpty(folder))
                 {
-                    folder = Path.Combine(defaultBaseFolder, "Work");
+                    folder = Path.Combine(DefaultBaseFolder, "Work");
                     WorkingFolder = folder;
                 }
 

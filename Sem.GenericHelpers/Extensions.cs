@@ -1,8 +1,17 @@
-﻿namespace Sem.GenericHelpers
+﻿//-----------------------------------------------------------------------
+// <copyright file="Extensions.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+namespace Sem.GenericHelpers
 {
     using System.Collections.Generic;
     using System.Text;
 
+    /// <summary>
+    /// This class contains generic extension methods
+    /// </summary>
     public static class Extensions
     {
         /// <summary>

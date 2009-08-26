@@ -215,6 +215,11 @@ namespace Sem.GenericHelpers
             return string.Empty;
         }
 
+        /// <summary>
+        /// replaces all invalid chars from a file name with a hyphen ("-")
+        /// </summary>
+        /// <param name="fileName"> The file name. </param>
+        /// <returns> the file name without any invalid character </returns>
         public static string ReplaceInvalidFileCharacters(string fileName)
         {
             foreach (var invalidChar in Path.GetInvalidFileNameChars())

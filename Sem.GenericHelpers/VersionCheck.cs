@@ -18,9 +18,19 @@ namespace Sem.GenericHelpers
     /// </summary>
     public class VersionCheck
     {
+        /// <summary>
+        /// base url for the version check
+        /// </summary>
         private const string VersionBaseUrl = "http://svenerikmatzen.info";
+
+        /// <summary>
+        /// location of the version file relative to the base url
+        /// </summary>
         private const string VersionXmlUrl = "/Content/Portals/0/sem.sync.version.xml";
 
+        /// <summary>
+        /// name of the calling assembly (the one that did create this object)
+        /// </summary>
         private readonly string assemblyName;
         
         /// <summary>
@@ -30,7 +40,7 @@ namespace Sem.GenericHelpers
         {
             var assembly = Assembly.GetCallingAssembly().GetName();
             var myVersion = assembly.Version;
-            assemblyName = assembly.Name;
+            this.assemblyName = assembly.Name;
 
             this.Build = myVersion.Build;
             this.Major = myVersion.Major;
@@ -77,7 +87,7 @@ namespace Sem.GenericHelpers
         /// <returns>true if the version of this assembly is higher or equal</returns>
         public bool Check()
         {
-            return Check(null);
+            return this.Check(null);
         }
 
         /// <summary>
@@ -92,7 +102,7 @@ namespace Sem.GenericHelpers
         {
             try
             {
-                var value = ConfigurationManager.AppSettings[assemblyName + "-VersionCheck"];
+                var value = ConfigurationManager.AppSettings[this.assemblyName + "-VersionCheck"];
                 bool doCheck;
                 if (bool.TryParse(value, out doCheck))
                 {
@@ -106,8 +116,8 @@ namespace Sem.GenericHelpers
 
                 var formatter = new XmlSerializer(typeof(VersionCheck));
                 var versionContentFromServer =
-                    (new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider }).GetContent(
-                        VersionXmlUrl, "[NOCACHE]");
+                    (new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider })
+                    .GetContent(VersionXmlUrl, "[NOCACHE]");
                 var reader = new StringReader(versionContentFromServer);
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 

@@ -17,7 +17,7 @@ namespace Sem.GenericHelpers.EventArgs
         public string MessageForUser { get; set; }
 
         /// <summary>
-        /// Gets ot sets the log on id (e.g. user name) to be used while log on
+        /// Gets or sets the log on id (e.g. user name) to be used while log on
         /// </summary>
         public string LogonUserId { get; set; }
 
