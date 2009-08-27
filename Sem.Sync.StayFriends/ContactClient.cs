@@ -92,6 +92,10 @@ namespace Sem.Sync.StayFriends
         /// Extracts the data from the page
         /// </summary>
         private const string PersonDataExtractionPattern1 = "<span class=\"legend\">(?<key>[a-zA-Z ,]*):</span><br>((?<value>[^\\<]*?)<div class=\"spaceXS cl\">&nbsp;</div>)+";
+
+        /// <summary>
+        /// Extracts the data from a page (2nd version that may match such data)
+        /// </summary>
         private const string PersonDataExtractionPattern2 = "<td class=\"legend\" width=\"[0-9]*%\">(?<key>[a-zA-Z ,]*):</td><td width=\"[0-9]*%\"></td><td class=\"copyLegend\" width=\"[0-9]*%\">(?<value>[a-zA-Z ,]*)</td>";
 
         /// <summary>
@@ -158,6 +162,19 @@ namespace Sem.Sync.StayFriends
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Removes the URL encoding assuming "iso8859-1" and removes \t and \n from the text.
+        /// </summary>
+        /// <param name="toDecode"> The text data to decode. </param>
+        /// <returns> The decoded text data. </returns>
+        private static string DecodeResultString(string toDecode)
+        {
+            return HttpUtility.UrlDecode(toDecode, Encoding.GetEncoding("iso8859-1"))
+                .Replace("\t", string.Empty)
+                .Replace("\n", string.Empty)
+                .Trim();
         }
 
         /// <summary>
@@ -334,7 +351,8 @@ namespace Sem.Sync.StayFriends
                             contact.PersonalAddressPrimary.CityName = DecodeResultString(value.Captures[0].ToString().Split(' ')[1]);
                             contact.PersonalAddressPrimary.CountryName = DecodeResultString(value.Captures[1].ToString());
                             break;
-                        } 
+                        }
+ 
                         break;
 
                     default:
@@ -357,14 +375,6 @@ namespace Sem.Sync.StayFriends
 
             LogProcessingEvent(contact, "downloaded");
             return contact;
-        }
-
-        private static string DecodeResultString(string toDecode)
-        {
-            return HttpUtility.UrlDecode(toDecode, Encoding.GetEncoding("iso8859-1"))
-                .Replace("\t", string.Empty)
-                .Replace("\n", string.Empty)
-                .Trim();
         }
     }
 }
