@@ -4,8 +4,8 @@
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
     <CommandParameter>
-      {FS:WorkingFolder}\Outlook.xmlcontact
-      {FS:WorkingFolder}\Xing.xmlcontact
+      {FS:WorkingFolder}\target.xmlcontact
+      {FS:WorkingFolder}\source.xmlcontact
     </CommandParameter>
   </SyncDescription>
 
