@@ -165,8 +165,10 @@ namespace Sem.Sync.SyncBase
                     this.WireUpEvents(baseliClient, true);
                     this.WireUpEvents(commandAsComponent, true);
 
+                    // execute the command with the connectors
                     continueExecution = command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
                     
+                    // detach events
                     this.WireUpEvents(sourceClient, false);
                     this.WireUpEvents(targetClient, false);
                     this.WireUpEvents(baseliClient, false);

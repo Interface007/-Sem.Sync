@@ -235,7 +235,7 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinary(string url, string name)
         {
-            var fileName = CachePathName(name);
+            var fileName = CachePathName(name, url);
 
             if (this.UseCache && File.Exists(fileName))
             {
@@ -268,7 +268,7 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
-            var fileName = CachePathName(name);
+            var fileName = CachePathName(name, url);
             if (this.CacheReadAllowed(name, fileName))
             {
                 return File.ReadAllBytes(fileName);
@@ -363,7 +363,7 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContent(string url, string name, string referer)
         {
-            var fileName = CachePathName(name);
+            var fileName = CachePathName(name, url);
             if (this.CacheReadAllowed(name, fileName))
             {
                 return File.ReadAllText(fileName);
@@ -378,7 +378,7 @@ namespace Sem.GenericHelpers
                     result = ReadStreamToString(receiveStream, encoding);
                 }
 
-                this.WriteToCache(name, result);
+                this.WriteToCache(name, result, url);
             }
 
             return result;
@@ -393,7 +393,7 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContentPost(string url, string name, string postData)
         {
-            var fileName = CachePathName(name);
+            var fileName = CachePathName(name, url);
             if (this.UseCache && File.Exists(fileName))
             {
                 return File.ReadAllText(fileName);
@@ -408,7 +408,7 @@ namespace Sem.GenericHelpers
                     result = ReadStreamToString(receiveStream, encoding);
                 }
 
-                this.WriteToCache(name, result);
+                this.WriteToCache(name, result, url);
             }
 
             return result;
@@ -561,13 +561,13 @@ namespace Sem.GenericHelpers
         /// determines the cache path for a given cache item name
         /// </summary>
         /// <param name="name">name of the cache item</param>
+        /// <param name="url">the url the content is located</param>
         /// <returns>the path if successfull, empty string if no cache should be used</returns>
-        private static string CachePathName(string name)
+        private string CachePathName(string name, string url)
         {
             var result =
-                !string.IsNullOrEmpty(name) &&
                 !name.Contains(CacheHintNoCache)
-                    ? Path.Combine(CachePath, name.Replace("/", "_").Replace(":", "_"))
+                    ? Path.Combine(CachePath, Tools.ReplaceInvalidFileCharacters(name + "$$" + this.BaseUrl + "/" + url))
                     : string.Empty;
 
             result = result.Replace(CacheHintRefresh, string.Empty);
@@ -750,11 +750,12 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="name">the name of the cache item</param>
         /// <param name="result">the content of the cache item</param>
-        private void WriteToCache(string name, string result)
+        /// <param name="url">the url the content belongs to</param>
+        private void WriteToCache(string name, string result, string url)
         {
             if (this.UseCache)
             {
-                var fileName = CachePathName(name);
+                var fileName = CachePathName(name, url);
                 if (!string.IsNullOrEmpty(fileName))
                 {
                     Tools.EnsurePathExist(CachePath);
