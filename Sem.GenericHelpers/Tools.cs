@@ -14,6 +14,8 @@ namespace Sem.GenericHelpers
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
     using System.Xml.Serialization;
 
     using Entities;
@@ -304,6 +306,35 @@ namespace Sem.GenericHelpers
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Gets the SH a1 hash.
+        /// </summary>
+        /// <param name="text">The text to be hashed.</param>
+        /// <returns>the hash value of the text</returns>
+        public static string GetSHA1Hash(string text)
+        {
+            var sha1 = new SHA1CryptoServiceProvider();
+
+            string result = null;
+            string temp;
+
+            var arrayData = Encoding.ASCII.GetBytes(text);
+            var arrayResult = sha1.ComputeHash(arrayData);
+            for (var i = 0; i < arrayResult.Length; i++)
+            {
+                temp = Convert.ToString(arrayResult[i], 16);
+                if (temp.Length == 1)
+                {
+                    temp = "0" + temp;
+                }
+
+                result += temp;
+            }
+
+            return result;
         }
     }
 }

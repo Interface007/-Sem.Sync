@@ -281,7 +281,7 @@ namespace Sem.Sync.MeinVZ
                     iv);
 
                 // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
+                var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, "logOn", postData);
 
                 if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                 {

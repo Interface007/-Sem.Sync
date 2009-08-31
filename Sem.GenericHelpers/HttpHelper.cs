@@ -235,7 +235,7 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinary(string url, string name)
         {
-            var fileName = CachePathName(name, url);
+            var fileName = this.CachePathName(name, url, string.Empty);
 
             if (this.UseCache && File.Exists(fileName))
             {
@@ -268,8 +268,8 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
-            var fileName = CachePathName(name, url);
-            if (this.CacheReadAllowed(name, fileName))
+            var fileName = this.CachePathName(name, url, postData);
+            if (this.CacheReadAllowed(fileName))
             {
                 return File.ReadAllBytes(fileName);
             }
@@ -363,8 +363,8 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContent(string url, string name, string referer)
         {
-            var fileName = CachePathName(name, url);
-            if (this.CacheReadAllowed(name, fileName))
+            var fileName = this.CachePathName(name, url, string.Empty);
+            if (this.CacheReadAllowed(fileName))
             {
                 return File.ReadAllText(fileName);
             }
@@ -378,7 +378,7 @@ namespace Sem.GenericHelpers
                     result = ReadStreamToString(receiveStream, encoding);
                 }
 
-                this.WriteToCache(name, result, url);
+                this.WriteToCache(fileName, result);
             }
 
             return result;
@@ -393,7 +393,7 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContentPost(string url, string name, string postData)
         {
-            var fileName = CachePathName(name, url);
+            var fileName = this.CachePathName(name, url, postData);
             if (this.UseCache && File.Exists(fileName))
             {
                 return File.ReadAllText(fileName);
@@ -408,7 +408,7 @@ namespace Sem.GenericHelpers
                     result = ReadStreamToString(receiveStream, encoding);
                 }
 
-                this.WriteToCache(name, result, url);
+                this.WriteToCache(fileName, result);
             }
 
             return result;
@@ -560,16 +560,27 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// determines the cache path for a given cache item name
         /// </summary>
-        /// <param name="name">name of the cache item</param>
-        /// <param name="url">the url the content is located</param>
-        /// <returns>the path if successfull, empty string if no cache should be used</returns>
-        private string CachePathName(string name, string url)
+        /// <param name="name"> name of the cache item </param>
+        /// <param name="url"> the url the content is located </param>
+        /// <param name="postData"> The post Data. </param>
+        /// <returns> the path if successfull, empty string if no cache should be used </returns>
+        private string CachePathName(string name, string url, string postData)
         {
-            var result =
-                !name.Contains(CacheHintNoCache)
-                    ? Path.Combine(CachePath, Tools.ReplaceInvalidFileCharacters(name + "$$" + this.BaseUrl + "/" + url))
-                    : string.Empty;
+            if (name.Contains(CacheHintNoCache))
+            {
+                return string.Empty;
+            }
 
+            var sessionData = postData + url;
+            foreach (Cookie cookie in this.sessionCookies.GetCookies(new Uri(url.Contains("://") ? url : this.BaseUrl + url)))
+            {
+                sessionData += cookie.Name + "=" + cookie.Value;
+            }
+
+            var hash = Tools.GetSHA1Hash(sessionData);
+
+            var result = Tools.ReplaceInvalidFileCharacters(name + "$$" + this.BaseUrl + "$$" + hash);
+            result = Path.Combine(CachePath, result);
             result = result.Replace(CacheHintRefresh, string.Empty);
 
             return result;
@@ -578,16 +589,15 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Determines if reading from cache is allowed
         /// </summary>
-        /// <param name="name">the name of the information (dows contain caching hints)</param>
         /// <param name="fileName">the name of the cache-file</param>
         /// <returns>true if reading the cache is allowed</returns>
-        private bool CacheReadAllowed(string name, string fileName)
+        private bool CacheReadAllowed(string fileName)
         {
             return
                 this.UseCache
                 && File.Exists(fileName)
-                && !name.Contains(CacheHintNoCache) &&
-                (!name.Contains(CacheHintRefresh) || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
+                && !fileName.Contains(CacheHintNoCache) &&
+                (!fileName.Contains(CacheHintRefresh) || File.GetLastWriteTime(fileName).AddDays(-1) > DateTime.Now);
         }
         
         /// <summary>
@@ -748,20 +758,17 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="name">the name of the cache item</param>
-        /// <param name="result">the content of the cache item</param>
-        /// <param name="url">the url the content belongs to</param>
-        private void WriteToCache(string name, string result, string url)
+        /// <param name="fileName">the file name and path of the cache item</param>
+        /// <param name="result">the content of the cache item to be written</param>
+        private void WriteToCache(string fileName, string result)
         {
-            if (this.UseCache)
+            if (!this.UseCache || string.IsNullOrEmpty(fileName))
             {
-                var fileName = CachePathName(name, url);
-                if (!string.IsNullOrEmpty(fileName))
-                {
-                    Tools.EnsurePathExist(CachePath);
-                    File.WriteAllText(fileName, result);
-                }
+                return;
             }
+
+            Tools.EnsurePathExist(CachePath);
+            File.WriteAllText(fileName, result);
         }
     }
 }
