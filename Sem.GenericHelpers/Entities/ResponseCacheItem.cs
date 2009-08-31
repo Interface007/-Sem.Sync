@@ -1,10 +1,12 @@
 ﻿namespace Sem.GenericHelpers.Entities
 {
-    using System.Net;
+    using System;
+    using System.Collections.Generic;
 
+    [Serializable]
     public class ResponseCacheItem
     {
         public byte[] Content { get; set; }
-        public CookieCollection Cookies { get; set; }
+        public List<KeyValuePair> Cookies { get; set; }
     }
 }

@@ -234,6 +234,13 @@ namespace Sem.GenericHelpers
             return this.GetContentBinary(url, name, string.Empty);
         }
 
+        /// <summary>
+        /// Download content binary
+        /// </summary>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <param name="referer"> The referer to be added. </param>
+        /// <returns> the binary result of the request without conversion </returns>
         public byte[] GetContentBinary(string url, string name, string referer)
         {
             Uri uri = this.CreateUri(url);
@@ -247,10 +254,11 @@ namespace Sem.GenericHelpers
             
             if (!this.SkipNotCached)
             {
-                using (var receiveStream = this.GetResponseStream(uri))
+                string encoding;
+                using (var receiveStream = this.GetResponseStream(uri, referer, out encoding))
                 {
                     result = ReadStreamToByteArray(receiveStream, 32768);
-                    this.WriteToCache(fileName, result,uri);
+                    this.WriteToCache(fileName, result, uri);
                 }
             }
 
@@ -383,11 +391,6 @@ namespace Sem.GenericHelpers
             }
 
             return result;
-        }
-
-        private Uri CreateUri(string url)
-        {
-            return new Uri(url.Contains("://") ? url : this.BaseUrl + url);
         }
 
         /// <summary>
@@ -574,7 +577,9 @@ namespace Sem.GenericHelpers
         /// <returns> the path if successfull, empty string if no cache should be used </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
-            if  (name.Contains(CacheHintNoCache))
+            if (name == null 
+                || string.IsNullOrEmpty(name) 
+                || name.Contains(CacheHintNoCache))
             {
                 return string.Empty;
             }
@@ -594,6 +599,16 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Creates a new Uri by adding the base url if needed.
+        /// </summary>
+        /// <param name="url"> The absolute or relative url. </param>
+        /// <returns> the uri matching the specified url </returns>
+        private Uri CreateUri(string url)
+        {
+            return new Uri(url.Contains("://") ? url : this.BaseUrl + url);
+        }
+
+        /// <summary>
         /// Determines if reading from cache is allowed
         /// </summary>
         /// <param name="fileName">the name of the cache-file</param>
@@ -603,7 +618,7 @@ namespace Sem.GenericHelpers
             return
                 this.UseCache
                 && fileName != null
-                && string.IsNullOrEmpty(fileName)
+                && !string.IsNullOrEmpty(fileName)
                 && !fileName.Contains(CacheHintNoCache)
                 && File.Exists(fileName);
         }
@@ -633,17 +648,6 @@ namespace Sem.GenericHelpers
             var objResponse = (HttpWebResponse)request.GetResponse();
             encoding = objResponse.CharacterSet;
             return objResponse.GetResponseStream();
-        }
-
-        /// <summary>
-        /// Create a request and get the response stream for the GET method
-        /// </summary>
-        /// <param name="uri">url to the page to get</param>
-        /// <returns>a stream corresponding to the content at the uri</returns>
-        private Stream GetResponseStream(Uri uri)
-        {
-            string encoding;
-            return this.GetResponseStream(uri, string.Empty, out encoding);
         }
 
         /// <summary>
@@ -763,13 +767,14 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="fileName">the file name and path of the cache item</param>
-        /// <param name="result">the content of the cache item to be written</param>
-        /// <param name="uri">the url to write the content for</param>
+        /// <param name="fileName"> the file name and path of the cache item </param>
+        /// <param name="result"> the content of the cache item to be written </param>
+        /// <param name="uri"> the url to write the content for </param>
+        /// <returns> a value indicating whether the cache read did succeed. </returns>
         private bool ReadFromCache(string fileName, out string result, Uri uri)
         {
             result = string.Empty;
-            if (this.CacheReadAllowed(fileName))
+            if (!this.CacheReadAllowed(fileName))
             {
                 return false;
             }
@@ -779,10 +784,14 @@ namespace Sem.GenericHelpers
             Tools.EnsurePathExist(CachePath);
             using (var file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                cacheItem = (ResponseCacheItem)new XmlSerializer(typeof(ResponseCacheItem)).Deserialize(file);
+                cacheItem = (ResponseCacheItem)new XmlSerializer(
+                    typeof(ResponseCacheItem)).Deserialize(file);
             }
 
-            this.sessionCookies.Add(uri, cacheItem.Cookies);
+            foreach (var cookie in cacheItem.Cookies)
+            {
+                this.sessionCookies.Add(uri, new Cookie(cookie.Key, cookie.Value));
+            }
 
             result = Encoding.UTF32.GetString(cacheItem.Content);
             return true;
@@ -794,10 +803,11 @@ namespace Sem.GenericHelpers
         /// <param name="fileName">the file name and path of the cache item</param>
         /// <param name="result">the content of the cache item to be written</param>
         /// <param name="uri">the url to write the content for</param>
+        /// <returns> a value indicating whether the cache read did succeed. </returns>
         private bool ReadFromCacheBinary(string fileName, out byte[] result, Uri uri)
         {
-            result = new byte[]{};
-            if (this.CacheReadAllowed(fileName))
+            result = new byte[] { };
+            if (!this.CacheReadAllowed(fileName))
             {
                 return false;
             }
@@ -807,10 +817,15 @@ namespace Sem.GenericHelpers
             Tools.EnsurePathExist(CachePath);
             using (var file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                cacheItem = (ResponseCacheItem)new XmlSerializer(typeof(ResponseCacheItem)).Deserialize(file);
+                cacheItem = (ResponseCacheItem)new XmlSerializer(
+                    typeof(ResponseCacheItem),
+                    new[] { typeof(CookieCollection) }).Deserialize(file);
             }
 
-            this.sessionCookies.Add(uri, cacheItem.Cookies);
+            foreach (var cookie in cacheItem.Cookies)
+            {
+                this.sessionCookies.Add(uri, new Cookie(cookie.Key, cookie.Value));
+            }
 
             result = cacheItem.Content;
             return true;
@@ -824,22 +839,9 @@ namespace Sem.GenericHelpers
         /// <param name="url">the url to write the content for</param>
         private void WriteToCache(string fileName, string result, Uri url)
         {
-            if (string.IsNullOrEmpty(fileName))
-            {
-                return;
-            }
-
-            var cacheItem = new ResponseCacheItem();
-            cacheItem.Cookies = this.sessionCookies.GetCookies(url);
-            cacheItem.Content = Encoding.UTF32.GetBytes(result);
-
-            Tools.EnsurePathExist(CachePath);
-            using (var file = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-            {
-                new XmlSerializer(typeof(ResponseCacheItem)).Serialize(file, cacheItem);
-            }
+            this.WriteToCache(fileName, Encoding.UTF32.GetBytes(result), url);
         }
-        
+
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
@@ -853,11 +855,24 @@ namespace Sem.GenericHelpers
                 return;
             }
 
-            var cacheItem = new ResponseCacheItem();
-            cacheItem.Cookies = this.sessionCookies.GetCookies(url);
+            var cookieList = new List<KeyValuePair>();
+            foreach (Cookie cookie in this.sessionCookies.GetCookies(url))
+            {
+                cookieList.Add(new KeyValuePair(cookie.Name, cookie.Value));
+            } 
+            
+            var cacheItem = new ResponseCacheItem
+                {
+                    Content = result,
+                    Cookies = cookieList
+                };
 
             Tools.EnsurePathExist(CachePath);
-            File.WriteAllBytes(fileName, result);
+            using (var file = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                new XmlSerializer(typeof(ResponseCacheItem)).Serialize(
+                    file, cacheItem);
+            }
         }
     }
 }
