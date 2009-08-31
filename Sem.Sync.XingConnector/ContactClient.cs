@@ -229,7 +229,7 @@ namespace Sem.Sync.XingConnector
                     // this will succeed if we have a valid cookie
                     contactListContent = this.xingRequester.GetContent(
                         string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
-                        "UrlList" + offsetIndex + HttpHelper.CacheHintRefresh);
+                        "UrlList" + offsetIndex);
 
                     // if we don't find the logon form any more, we did succeed
                     if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))

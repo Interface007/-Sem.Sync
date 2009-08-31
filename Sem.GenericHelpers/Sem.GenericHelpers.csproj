@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
+    <Compile Include="Entities\ResponseCacheItem.cs" />
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />
     <Compile Include="EventArgs\ProgressEventArgs.cs" />
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
