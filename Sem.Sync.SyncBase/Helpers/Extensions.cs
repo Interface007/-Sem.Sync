@@ -141,7 +141,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
 
                         case "Byte[]":
-                            setValue = ((byte[])sourceValue).Length > 0;
+                            setValue = ((byte[])sourceValue).Length > ((byte[])targetValue).Length;
                             break;
 
                         case "List`1":

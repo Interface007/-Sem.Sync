@@ -215,11 +215,6 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinary(string url)
         {
-            if (url == null)
-            {
-                throw new ArgumentNullException("url");
-            }
-
             return this.GetContentBinary(url, string.Empty);
         }
 
@@ -605,6 +600,11 @@ namespace Sem.GenericHelpers
         /// <returns> the uri matching the specified url </returns>
         private Uri CreateUri(string url)
         {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url");
+            }
+
             return new Uri(url.Contains("://") ? url : this.BaseUrl + url);
         }
 

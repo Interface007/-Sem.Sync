@@ -21,6 +21,7 @@
             var contact = new StdContact { Id = new Guid() };
             var contacts = new List<StdElement> { contact, contact };
             var connector = new OnlineStorageConnector.CloudClient();
+            connector.BindingAddress = "http://localhost:50643/Storage.svc";
 
             connector.WriteRange(contacts,_unitTestBlobId);
             Assert.IsTrue(connector.GetAll(_unitTestBlobId).Count == 2);

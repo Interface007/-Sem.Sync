@@ -10,7 +10,10 @@
 
 namespace Sem.Sync.OnlineStorageConnector
 {
+    using System;
     using System.Collections.Generic;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
 
     using Cloud;
 
@@ -44,7 +47,7 @@ namespace Sem.Sync.OnlineStorageConnector
         /// <returns>the list of contacts that has been read from the online storage</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var client = new StorageClient();
+            var client = this.GetClient();
             var contacts = client.GetAll(clientFolderName).ContactList;
             foreach (var contact in contacts)
             {
@@ -62,7 +65,7 @@ namespace Sem.Sync.OnlineStorageConnector
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var client = new StorageClient();
+            var client = this.GetClient();
             client.WriteFullList(
                 new ContactListContainer
                     {
@@ -71,5 +74,22 @@ namespace Sem.Sync.OnlineStorageConnector
                 clientFolderName,
                 skipIfExisting);
         }
+        
+        private StorageClient GetClient()
+        {
+            StorageClient client;
+            if (string.IsNullOrEmpty(this.BindingAddress))
+            {
+                client = new StorageClient();
+            }
+            else
+            {
+                client = new StorageClient(new BasicHttpBinding(BasicHttpSecurityMode.None), new EndpointAddress(this.BindingAddress));
+            }
+
+            return client;
+        }
+
+        public string BindingAddress { get; set; }
     }
 }
