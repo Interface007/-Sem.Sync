@@ -136,5 +136,10 @@ namespace Sem.Sync.SyncBase.Merging
         /// Gets or sets the description of the action to be done to solve the conflict.
         /// </summary>
         public MergePropertyAction ActionToDo { get; set; }
+
+        public override string ToString()
+        {
+            return this.SourceElement + " vs. " + this.TargetElement + " : " + this.PathToProperty;
+        }
     }
 }

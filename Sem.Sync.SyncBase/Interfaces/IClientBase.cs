@@ -98,12 +98,5 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <param name="clientFolderName">the information where inside the source the elements reside - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void WriteRange(List<StdElement> elements, string clientFolderName);
-
-        /// <summary>
-        /// Normalizes the information inside the list. This includes removing leading and tailing white space etc.
-        /// </summary>
-        /// <param name="elements">the list of elements to be normalized</param>
-        /// <returns>a list of processed elements</returns>
-        List<StdElement> Normalize(List<StdElement> elements);
     }
 }

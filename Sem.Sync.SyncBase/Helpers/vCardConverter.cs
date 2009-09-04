@@ -139,10 +139,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     continue;
                 }
 
-                if (line.ToUpperInvariant().Contains("CHARSET=UTF-8:"))
-                {
-                    line = linesUtf8[i];
-                }
+                line = GetInformationSegment(
+                    ref i, 
+                    line.ToUpperInvariant().Contains("CHARSET=UTF-8:") 
+                    ? linesUtf8 
+                    : linesIso8859);
 
                 var propertyDescription = line.Substring(0, line.IndexOf(':')).ToUpperInvariant();
                 var value = line.Substring(line.IndexOf(':') + 1).Replace("\r", string.Empty);
@@ -154,6 +155,9 @@ namespace Sem.Sync.SyncBase.Helpers
                 {
                     propertyName = propertyDescription.Substring(0, propertyDescription.IndexOf(';'));
                 }
+
+                var binaryData = new byte[] { };
+                DecodeData(propertyDescription, ref value, ref binaryData);
 
                 switch (propertyName)
                 {
@@ -283,10 +287,19 @@ namespace Sem.Sync.SyncBase.Helpers
                         contact.BusinessPosition = value;
                         break;
 
+                    case "X-WAB-GENDER":
+                        contact.PersonGender = 
+                            value == "2"
+                            ? Gender.Male
+                            : value == "1" 
+                                ? Gender.Female 
+                                : Gender.Unspecified;
+                        break;
+
                     case "PHOTO":
-                        if (PropertyAttribute(propertyDescription, "ENCODING", string.Empty).Contains("B"))
+                        if (binaryData.Length > 0)
                         {
-                            contact.PictureData = Convert.FromBase64String(value);
+                            contact.PictureData = binaryData;
                         }
                         else
                         {
@@ -331,6 +344,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
                         break;
 
+                    case "LABEL":
                     case "PRODID":
                     case "BEGIN":
                     case "END":
@@ -339,7 +353,10 @@ namespace Sem.Sync.SyncBase.Helpers
                     case "FN":
                     case "":
                     case "CATEGORIES":
-                    case "VERSION:2.1":
+                    case "VERSION":
+                    case "X-MATZEN-GENERATOR":
+                    case "X-MS-OL-DESIGN":
+                    case "X-MS-OL-DEFAULT-POSTAL-ADDRESS":
                         break;
 
                     default:
@@ -365,6 +382,125 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             return contact;
+        }
+
+        private static string GetInformationSegment(ref int i, string[] lines)
+        {
+            string line = lines[i];
+            
+            while (lines[i + 1].StartsWith(" ", StringComparison.Ordinal))
+            {
+                line += lines[i + 1];
+                i++;
+            }
+
+            return line;
+        }
+
+        private static void DecodeData(string propertyDescription, ref string value, ref byte[] binaryData)
+        {
+            var encoding = PropertyAttribute(propertyDescription, "ENCODING", string.Empty).ConcatElementsToString("");
+            if (string.IsNullOrEmpty(encoding))
+            {
+                return;
+            }
+
+            switch (encoding)
+            {
+                case "B":
+                case "BASE64":
+                    binaryData = Convert.FromBase64String(value);
+                    break;
+
+                case "QUOTED-PRINTABLE":
+                    value = DecodeFromQuotedPrintable(value);
+                    break;
+
+                default:
+                    Console.WriteLine("unhandled encoding: " + encoding);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Encodes a not QP-Encoded string.
+        /// </summary>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
+        public static string DecodeFromQuotedPrintable(string value)
+        {
+            //Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+            //Darstellung mit einem vorangestellten =
+            //Bsp.: aus "ü" wird "=FC"
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < value.Length; i++)
+            {
+                var s = value[i];
+
+                if (s != '=')
+                    sb.Append(s);
+                else
+                {
+                    if (i > value.Length - 2)
+                    {
+                        break;
+                    }
+
+                    if (value[i + 1] == '\n')
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    sb.Append(Encoding.ASCII.GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
+                    i = i + 2;
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Encodes a not QP-Encoded string.
+        /// </summary>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
+        public static string EncodeToQuotedPrintable(string value)
+        {
+            //Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+            //Darstellung mit einem vorangestellten =
+            //Bsp.: aus "ü" wird "=FC"
+
+            var ascii7Bit = GetAllowedAsciiSigns();
+            StringBuilder sb = new StringBuilder();
+            foreach (char s in value)
+            {
+                if (ascii7Bit.LastIndexOf(s) > -1)
+                    sb.Append(s);
+                else
+                {
+
+                    sb.Append("=");
+                    sb.Append(Convert.ToString(s, 16));
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets a string which contains the first 128-characters (ANSII 7 bit).
+        /// </summary>
+        private static string GetAllowedAsciiSigns()
+        {
+            StringBuilder sb = new StringBuilder(128);
+            for (int i = 0; i < 127; i++)
+            {
+                sb.Append(Convert.ToChar(i));
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>

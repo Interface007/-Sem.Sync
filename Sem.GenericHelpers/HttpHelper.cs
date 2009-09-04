@@ -398,7 +398,7 @@ namespace Sem.GenericHelpers
         public string GetContentPost(string url, string name, string postData)
         {
             Uri uri = this.CreateUri(url);
-            var fileName = this.CachePathName(name, uri, string.Empty);
+            var fileName = this.CachePathName(name, uri, postData);
             string result;
 
             if (this.ReadFromCache(fileName, out result, uri))

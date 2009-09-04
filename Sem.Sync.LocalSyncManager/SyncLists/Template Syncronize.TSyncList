@@ -13,7 +13,7 @@
     <Command>CopyAll</Command>
     <SourceConnector>{source}</SourceConnector>
     <SourceStorePath>{sourcepath}</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
 
@@ -21,32 +21,32 @@
     <Command>CopyAll</Command>
     <SourceConnector>{target}</SourceConnector>
     <SourceStorePath>{targetpath}</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Normalize source (file system)">
     <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Normalize target (file system)">
     <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\target.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Match entries manually">
     <Command>MatchManually</Command>
     <CommandParameter>{sourcepersonalidentifier}</CommandParameter>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
     <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
     <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
@@ -54,52 +54,52 @@
   
   <SyncDescription Name="Match source by Profile Id to Baseline">
     <Command>MatchByProfileId</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
     <BaselineConnector>Sem.Sync.FilesystemConnector.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
     <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
   
   <SyncDescription Name="Add missing from target to source (file system)">
     <Command>MergeMissing</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\target.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Add missing from source to target (file system)">
     <Command>MergeMissing</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Merge high evidence from source to target (file system)">
     <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Merge high evidence from target to source (file system)">
     <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\target.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Detect Conflicts">
     <Command>DetectConflicts</Command>
     <CommandParameter>{FS:WorkingFolder}\MergeConflicts.xml</CommandParameter>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
   </SyncDescription>
 
@@ -110,7 +110,7 @@
 
   <SyncDescription Name="Import all from file system to Outlook">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.MemoryConnector.GenericClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
     <TargetConnector>{target}</TargetConnector>
     <TargetStorePath>{targetpath}</TargetStorePath>

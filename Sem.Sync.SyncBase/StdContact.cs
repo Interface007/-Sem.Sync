@@ -10,6 +10,7 @@ namespace Sem.Sync.SyncBase
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using System.Xml.Serialization;
 
     using DetailData;
 
@@ -24,6 +25,25 @@ namespace Sem.Sync.SyncBase
     /// </summary>
     public class StdContact : StdElement
     {
+        [XmlAttribute]
+        public override Guid Id
+        {
+            get
+            {
+                return base.Id;
+            }
+            set
+            {
+                base.Id = value;
+                
+                if (this.PersonalProfileIdentifiers == null)
+                {
+                    this.PersonalProfileIdentifiers = new ProfileIdentifiers();
+                }
+
+                this.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
+            }
+        }
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>

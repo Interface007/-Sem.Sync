@@ -48,9 +48,14 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("item.sourceClient is null");
             }
 
-            targetClient.WriteRange(
-                targetClient.Normalize(targetClient.GetAll(targetStorePath)),
-                sourceStorePath);
+            var elements = sourceClient.GetAll(sourceStorePath);
+            
+            foreach (var element in elements)
+            {
+                element.NormalizeContent();
+            }
+
+            targetClient.WriteRange(elements, targetStorePath);
             return true;
         }
     }

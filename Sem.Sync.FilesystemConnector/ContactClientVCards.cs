@@ -41,6 +41,7 @@ namespace Sem.Sync.FilesystemConnector
         /// This is the file name suffix to be used when reading/writing vCards
         /// </summary>
         private const string VCardFilenameExtension = ".vCard";
+        private const string VCardFilenameExtension2 = ".vcf";
 
         /// <summary>
         /// This is the objects instance of the vCard-converter class from the base library
@@ -105,7 +106,10 @@ namespace Sem.Sync.FilesystemConnector
         {
             if (Directory.Exists(clientFolderName))
             {
-                foreach (var filePathName in Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension))
+                var files = new List<string>(Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension));
+                files.AddRange(Directory.GetFiles(clientFolderName, "*" + VCardFilenameExtension2));
+
+                foreach (var filePathName in files)
                 {
                     var newContact = this.vCardConverter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default);
                     result.Add(newContact);

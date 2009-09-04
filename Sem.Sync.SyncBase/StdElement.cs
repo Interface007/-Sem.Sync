@@ -27,7 +27,7 @@ namespace Sem.Sync.SyncBase
         /// space / whatever) will have only one ID.
         /// </summary>
         [XmlAttribute]
-        public Guid Id { get; set; }
+        public virtual Guid Id { get; set; }
         
         /// <summary>
         /// Gets or sets some internal synchronization data that does not need to (but 

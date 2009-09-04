@@ -115,18 +115,19 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         internal List<MatchCandidateView> SourceAsList()
         {
-            return (from x in this.Source
-                    join y in this.BaseLine on
-                    (x.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile) equals
-                    y.ProfileId.GetProfileId(this.Profile) into g
-                    from y in g.DefaultIfEmpty()
-                    where y == null
-                    select
-                        new MatchCandidateView
-                        {
-                            ContactName = x.GetFullName(),
-                            Element = x
-                        }).ToList();
+            var step1 = this.Source.GroupJoin(
+                this.BaseLine,
+                x => x.PersonalProfileIdentifiers.GetProfileId(this.Profile),
+                y => y.ProfileId.GetProfileId(this.Profile),
+                (x, g) => new { x, g });
+
+            // this seem to be a problem
+            var step2 = step1.SelectMany(@t => @t.g.DefaultIfEmpty(), (@t, y) => new { @t, y });
+
+            var step3 = step2.Where(@t => @t.y == null);
+            var step4 = step3.Select(@t => new MatchCandidateView { ContactName = @t.@t.x.GetFullName(), Element = @t.@t.x });
+            
+            return step4.ToList();
         }
 
         internal List<MatchCandidateView> TargetAsList()
