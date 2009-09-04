@@ -6,6 +6,8 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System.Text;
+
     /// <summary>
     /// Identifies the target system for the profile identifier
     /// </summary>
@@ -93,8 +95,17 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.MeinVZ:
                     this.MeinVZPersonId = profileId;
                     break;
+
+                default:
+                    this.DefaultProfileId = profileId;
+                    break;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the profile id of the persons xing membership.
+        /// </summary>
+        public string DefaultProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets the profile id of the persons xing membership.
@@ -152,9 +163,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 
                 case ProfileIdentifierType.MeinVZ:
                     return this.MeinVZPersonId;
-            }
 
-            return string.Empty;
+                default:
+                    return this.DefaultProfileId;
+            }
         }
 
         /// <summary>
@@ -189,6 +201,10 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.MeinVZ:
                     this.MeinVZPersonId = newValue;
                     break;
+            
+                default:
+                    this.DefaultProfileId = newValue;
+                    break;
             }
         }
 
@@ -207,7 +223,8 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
                   (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
-                  (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId);
+                  (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId) ||
+                  (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
 
         /// <summary>
@@ -258,20 +275,31 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
-        /// overrides the hash code method for sorting (because we also did override <see cref="Equals(object)"/>)
+        /// Overrides the ToString implementation by returning a meaningful string
         /// </summary>
-        /// <returns> an integer representing this value </returns>
+        /// <returns> a string containing the ids </returns>
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            result.Append((this.FacebookProfileId ?? string.Empty) + " - ");
+            result.Append((this.ActiveDirectoryId ?? string.Empty) + " - ");
+            result.Append((this.WerKenntWenUrl ?? string.Empty) + " - ");
+            result.Append((this.MeinVZPersonId ?? string.Empty) + " - ");
+            result.Append((this.StayFriendsPersonId ?? string.Empty) + " - ");
+            result.Append((this.DefaultProfileId ?? string.Empty));
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// overrides the GetHashCode to be sure all identifiers are compared
+        /// </summary>
+        /// <returns> this class returns always 0 </returns>
         public override int GetHashCode()
         {
             unchecked
             {
-                var result = this.XingProfileId != null ? this.XingProfileId.GetHashCode() : 0;
-                result = (result * 397) ^ (this.FacebookProfileId != null ? this.FacebookProfileId.GetHashCode() : 0);
-                result = (result * 397) ^ (this.ActiveDirectoryId != null ? this.ActiveDirectoryId.GetHashCode() : 0);
-                result = (result * 397) ^ (this.WerKenntWenUrl != null ? this.WerKenntWenUrl.GetHashCode() : 0);
-                result = (result * 397) ^ (this.MeinVZPersonId != null ? this.MeinVZPersonId.GetHashCode() : 0);
-                result = (result * 397) ^ (this.StayFriendsPersonId != null ? this.StayFriendsPersonId.GetHashCode() : 0);
-                return result;
+                // enforce explicit comparison of identifiers
+                return 0;
             }
         }
     }

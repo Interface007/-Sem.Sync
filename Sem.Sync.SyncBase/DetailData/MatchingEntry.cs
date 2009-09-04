@@ -28,5 +28,10 @@ namespace Sem.Sync.SyncBase.DetailData
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return base.Id.ToString("B") + " matches " + this.ProfileId;
+        }
     }
 }

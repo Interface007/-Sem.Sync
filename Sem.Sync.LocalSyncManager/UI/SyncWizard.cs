@@ -135,6 +135,10 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void RunCommands()
         {
             Config.LastUsedSyncTemplateData = this.cboWorkFlowData.SelectedValue.ToString();
+            
+            // special case of memory storage that needs to be whiped
+            MemoryConnector.GenericClient.Clear();
+
             this.pnlProgress.Visible = true;
             this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
             this.pnlProgress.Visible = false;

@@ -37,13 +37,13 @@
             this.btnUnMatch = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.SourceCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
             this.dataGridSourceDetail = new System.Windows.Forms.DataGridView();
             this.dataGridSourceCandidates = new System.Windows.Forms.DataGridView();
-            this.TargetCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
             this.dataGridTargetDetail = new System.Windows.Forms.DataGridView();
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.dataGridMatches = new System.Windows.Forms.DataGridView();
+            this.SourceCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
+            this.TargetCardView = new Sem.Sync.SharedUI.WinForms.Controls.ContactCardView();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -74,8 +74,11 @@
             // chkMatchedOnly
             // 
             resources.ApplyResources(this.chkMatchedOnly, "chkMatchedOnly");
+            this.chkMatchedOnly.Checked = true;
+            this.chkMatchedOnly.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMatchedOnly.Name = "chkMatchedOnly";
             this.chkMatchedOnly.UseVisualStyleBackColor = true;
+            this.chkMatchedOnly.CheckedChanged += new System.EventHandler(this.chkMatchedOnly_CheckedChanged);
             // 
             // btnUnMatch
             // 
@@ -114,12 +117,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetDetail);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
             // 
-            // SourceCardView
-            // 
-            resources.ApplyResources(this.SourceCardView, "SourceCardView");
-            this.SourceCardView.BackColor = System.Drawing.Color.White;
-            this.SourceCardView.Name = "SourceCardView";
-            // 
             // dataGridSourceDetail
             // 
             this.dataGridSourceDetail.AllowUserToAddRows = false;
@@ -141,12 +138,6 @@
             this.dataGridSourceCandidates.ReadOnly = true;
             this.dataGridSourceCandidates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridSourceCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridSourceCandidatesCellEnter);
-            // 
-            // TargetCardView
-            // 
-            resources.ApplyResources(this.TargetCardView, "TargetCardView");
-            this.TargetCardView.BackColor = System.Drawing.Color.White;
-            this.TargetCardView.Name = "TargetCardView";
             // 
             // dataGridTargetDetail
             // 
@@ -180,6 +171,18 @@
             this.dataGridMatches.Name = "dataGridMatches";
             this.dataGridMatches.ReadOnly = true;
             this.dataGridMatches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            // 
+            // SourceCardView
+            // 
+            resources.ApplyResources(this.SourceCardView, "SourceCardView");
+            this.SourceCardView.BackColor = System.Drawing.Color.White;
+            this.SourceCardView.Name = "SourceCardView";
+            // 
+            // TargetCardView
+            // 
+            resources.ApplyResources(this.TargetCardView, "TargetCardView");
+            this.TargetCardView.BackColor = System.Drawing.Color.White;
+            this.TargetCardView.Name = "TargetCardView";
             // 
             // MatchEntities
             // 

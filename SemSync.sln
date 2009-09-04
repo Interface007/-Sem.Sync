@@ -113,7 +113,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MemoryConnector", 
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 34
+		SccNumberOfProjects = 35
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -249,6 +249,10 @@ Global
 		SccProjectTopLevelParentUniqueName33 = SemSync.sln
 		SccProjectName33 = Sem.Sync.StayFriends
 		SccLocalPath33 = Sem.Sync.StayFriends
+		SccProjectUniqueName34 = Sem.Sync.MemoryConnector\\Sem.Sync.MemoryConnector.csproj
+		SccProjectTopLevelParentUniqueName34 = SemSync.sln
+		SccProjectName34 = Sem.Sync.MemoryConnector
+		SccLocalPath34 = Sem.Sync.MemoryConnector
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi

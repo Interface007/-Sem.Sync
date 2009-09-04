@@ -14,9 +14,15 @@ namespace Sem.Sync.MemoryConnector
 
     using SyncBase;
 
+    /// <summary>
+    /// Class that provides a memory only connector to speed up operations
+    /// </summary>
     public class GenericClient : StdClient
     {
-        private static readonly Dictionary<string, List<StdElement>> content = new Dictionary<string, List<StdElement>>();
+        /// <summary>
+        /// private storage in memory
+        /// </summary>
+        private static readonly Dictionary<string, List<StdElement>> Content = new Dictionary<string, List<StdElement>>();
 
         /// <summary>
         /// Gets the user readable name of the client implementation. This name should
@@ -31,6 +37,14 @@ namespace Sem.Sync.MemoryConnector
         }
 
         /// <summary>
+        /// Special method to reset the memory storage
+        /// </summary>
+        public static void Clear()
+        {
+            Content.Clear();
+        }
+
+        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
@@ -40,12 +54,12 @@ namespace Sem.Sync.MemoryConnector
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            if (!content.ContainsKey(clientFolderName))
+            if (!Content.ContainsKey(clientFolderName))
             {
-                content.Add(clientFolderName, new List<StdElement>());
+                Content.Add(clientFolderName, new List<StdElement>());
             }
             
-            return content[clientFolderName];
+            return Content[clientFolderName];
         }
 
         /// <summary>
@@ -57,12 +71,12 @@ namespace Sem.Sync.MemoryConnector
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            if (content.ContainsKey(clientFolderName))
+            if (Content.ContainsKey(clientFolderName))
             {
-                content.Remove(clientFolderName);
+                Content.Remove(clientFolderName);
             }
 
-            content.Add(clientFolderName, elements);
+            Content.Add(clientFolderName, elements);
         }
     }
 }

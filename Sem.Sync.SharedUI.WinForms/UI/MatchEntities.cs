@@ -134,6 +134,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.SourceCardView.Contact = null;
             this.TargetCardView.Contact = null;
 
+            // determine display of already matched entities
+            this.matching.FilterMatchedEntries = chkMatchedOnly.Checked;
+
             // rebind grids
             SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
             SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
@@ -247,6 +250,12 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void chkMatchedOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            // rebind the gui
+            this.SetupGui();
         }
     }
 }

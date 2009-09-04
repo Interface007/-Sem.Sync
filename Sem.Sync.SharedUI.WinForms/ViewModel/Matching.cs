@@ -29,6 +29,8 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         private StdContact currentSourceElement;
         private StdContact currentTargetElement;
 
+        public bool FilterMatchedEntries { get; set; }
+
         public StdContact CurrentSourceElement
         {
             set
@@ -67,8 +69,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         private MatchingEntry GetBaselineElementById(Guid baseLineId)
         {
             return (from x in this.BaseLine
-                    where
-                        x.Id == baseLineId
+                    where x.Id == baseLineId
                     select x).FirstOrDefault();
         }
 
@@ -81,7 +82,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             }
 
             var targetId = this.currentTargetElement.Id;
-            var sourceProfileId = (this.currentSourceElement.PersonalProfileIdentifiers ?? new ProfileIdentifiers()).GetProfileId(this.Profile);
+            var sourceProfileId = this.currentSourceElement.PersonalProfileIdentifiers.GetProfileId(this.Profile);
 
             // search for the element to match and set the profile id
             var element = this.GetBaselineElementById(targetId);
@@ -115,35 +116,49 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         internal List<MatchCandidateView> SourceAsList()
         {
-            var step1 = this.Source.GroupJoin(
-                this.BaseLine,
-                x => x.PersonalProfileIdentifiers.GetProfileId(this.Profile),
-                y => y.ProfileId.GetProfileId(this.Profile),
-                (x, g) => new { x, g });
-
-            // this seem to be a problem
-            var step2 = step1.SelectMany(@t => @t.g.DefaultIfEmpty(), (@t, y) => new { @t, y });
-
-            var step3 = step2.Where(@t => @t.y == null);
-            var step4 = step3.Select(@t => new MatchCandidateView { ContactName = @t.@t.x.GetFullName(), Element = @t.@t.x });
-            
-            return step4.ToList();
+            return this.FilterMatchedEntries
+                ? (from s in this.Source
+                   join b in this.BaseLine on
+                   s.PersonalProfileIdentifiers equals b.ProfileId into g
+                   from y in g.DefaultIfEmpty()
+                   where y == null
+                   select
+                       new MatchCandidateView
+                       {
+                           ContactName = s.GetFullName(),
+                           Element = s
+                       }).ToList()
+                : (from s in this.Source
+                   select
+                       new MatchCandidateView
+                       {
+                           ContactName = s.GetFullName(),
+                           Element = s
+                       }).ToList();
         }
 
         internal List<MatchCandidateView> TargetAsList()
         {
-            return (from x in this.Target
-                    join y in this.BaseLine on
-                        x.Id equals y.Id
-                    into g
-                    from y in g.DefaultIfEmpty()
-                    where y == null || string.IsNullOrEmpty(y.ProfileId.GetProfileId(this.Profile))
-                    select
-                        new MatchCandidateView
-                        {
-                            ContactName = x.GetFullName(),
-                            Element = x
-                        }).ToList();
+            return this.FilterMatchedEntries
+                ? (from x in this.Target
+                   join y in this.BaseLine on
+                       x.Id equals y.Id
+                   into g
+                   from y in g.DefaultIfEmpty()
+                   where y == null || string.IsNullOrEmpty(y.ProfileId.GetProfileId(this.Profile))
+                   select
+                       new MatchCandidateView
+                       {
+                           ContactName = x.GetFullName(),
+                           Element = x
+                       }).ToList()
+                : (from x in this.Target
+                   select
+                       new MatchCandidateView
+                       {
+                           ContactName = x.GetFullName(),
+                           Element = x
+                       }).ToList();
         }
 
         internal List<MatchView> BaselineAsList()
@@ -193,9 +208,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                             resultList.Add(
                                 new KeyValuePair
                                     {
-                                    Key = item.Name,
-                                    Value = item.GetValue(objectToInspect, null).ToString()
-                                });
+                                        Key = item.Name,
+                                        Value = item.GetValue(objectToInspect, null).ToString()
+                                    });
                         }
 
                         break;
