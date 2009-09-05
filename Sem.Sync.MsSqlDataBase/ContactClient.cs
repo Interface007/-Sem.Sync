@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.MsSqlDataBase
+namespace Sem.Sync.MsSqlDatabase
 {
     using System;
     using System.Collections.Generic;

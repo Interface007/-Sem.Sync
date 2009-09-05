@@ -55,11 +55,14 @@ namespace Sem.Sync.OutlookConnector
             var contactsList = new List<ContactsItemContainer>();
             foreach (var item in contactsEnum)
             {
-                if (item is ContactItem)
+                var contactItem = item as ContactItem;
+                if (contactItem == null)
                 {
-                    contactsList.Add(new ContactsItemContainer { Item = (ContactItem)item });
-                    GCRelevantCall();
+                    continue;
                 }
+
+                contactsList.Add(new ContactsItemContainer { Item = contactItem });
+                GCRelevantCall();
             }
 
             return contactsList;

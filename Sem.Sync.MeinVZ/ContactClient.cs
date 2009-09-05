@@ -21,6 +21,7 @@ namespace Sem.Sync.MeinVZ
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
+    using System.Globalization;
 
     #endregion usings
 
@@ -212,11 +213,11 @@ namespace Sem.Sync.MeinVZ
                         break;
 
                     case "Mitglied seit:":
-                        result.InternalSyncData.DateOfCreation = DateTime.Parse(value);
+                        result.InternalSyncData.DateOfCreation = DateTime.Parse(value, CultureInfo.CurrentCulture);
                         break;
 
                     case "Letztes Update:":
-                        result.InternalSyncData.DateOfLastChange = DateTime.Parse(value);
+                        result.InternalSyncData.DateOfLastChange = DateTime.Parse(value, CultureInfo.CurrentCulture);
                         break;
 
                     case "Geschlecht:":
@@ -224,7 +225,7 @@ namespace Sem.Sync.MeinVZ
                         break;
 
                     case "Geburtstag:":
-                        result.DateOfBirth = DateTime.Parse(value);
+                        result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
                         break;
 
                     default:
@@ -233,7 +234,7 @@ namespace Sem.Sync.MeinVZ
                 }
             }
 
-            result.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/") + 1));
+            result.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
             return result;
         }
@@ -249,7 +250,7 @@ namespace Sem.Sync.MeinVZ
             while (true)
             {
                 List<string> extractedData;
-                this.httpRequester.LogonFormDetectionString = HttpDetectionStringLogonNeeded;
+                this.httpRequester.LogOnFormDetectionString = HttpDetectionStringLogonNeeded;
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie

@@ -93,10 +93,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         public string FormerName { get; set; }
 
-        ///<summary>
+        /// <summary>
         /// Overrides the inherited ToString method from object to represent a meaningful name
-        ///</summary>
-        ///<returns>the full name of the person</returns>
+        /// </summary>
+        /// <returns>the full name of the person</returns>
         public override string ToString()
         {
             var name = this.LastName;

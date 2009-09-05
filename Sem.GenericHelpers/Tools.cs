@@ -51,6 +51,74 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Encodes a not QP-Encoded string.
+        /// Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+        /// Darstellung mit einem vorangestellten =
+        /// Bsp.: aus "ü" wird "=FC"
+        /// </summary>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
+        public static string DecodeFromQuotedPrintable(string value)
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < value.Length; i++)
+            {
+                var s = value[i];
+
+                if (s != '=')
+                {
+                    sb.Append(s);
+                }
+                else
+                {
+                    if (i > value.Length - 2)
+                    {
+                        break;
+                    }
+
+                    if (value[i + 1] == '\n')
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    sb.Append(Encoding.ASCII.GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
+                    i = i + 2;
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Encodes a not QP-Encoded string.
+        /// Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+        /// Darstellung mit einem vorangestellten =
+        /// Bsp.: aus "ü" wird "=FC"
+        /// </summary>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
+        public static string EncodeToQuotedPrintable(string value)
+        {
+            var ascii7Bit = GetAllowedAscii();
+            var sb = new StringBuilder();
+            foreach (var s in value)
+            {
+                if (ascii7Bit.LastIndexOf(s) > -1)
+                {
+                    sb.Append(s);
+                }
+                else
+                {
+                    sb.Append("=");
+                    sb.Append(Convert.ToString(s, 16));
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Saves the entity to the file system
         /// </summary>
         /// <typeparam name="T">the type that should be serialized</typeparam>
@@ -308,13 +376,12 @@ namespace Sem.GenericHelpers
             }
         }
 
-
         /// <summary>
         /// Gets the SH a1 hash.
         /// </summary>
         /// <param name="text">The text to be hashed.</param>
         /// <returns>the hash value of the text</returns>
-        public static string GetSHA1Hash(string text)
+        public static string GetSha1Hash(string text)
         {
             var sha1 = new SHA1CryptoServiceProvider();
 
@@ -335,6 +402,21 @@ namespace Sem.GenericHelpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets a string which contains the first 128-characters (ANSII 7 bit).
+        /// </summary>
+        /// <returns> The allowed ascii characters. </returns>
+        private static string GetAllowedAscii()
+        {
+            var sb = new StringBuilder(128);
+            for (var i = 0; i < 127; i++)
+            {
+                sb.Append(Convert.ToChar(i));
+            }
+
+            return sb.ToString();
         }
     }
 }

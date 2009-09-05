@@ -66,6 +66,19 @@
     <ErrorReport>prompt</ErrorReport>
     <NoConfig>true</NoConfig>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <NoConfig>true</NoConfig>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -84,6 +97,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Page.xaml.cs">
       <DependentUpon>Page.xaml</DependentUpon>
     </Compile>

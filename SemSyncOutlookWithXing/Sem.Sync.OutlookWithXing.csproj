@@ -44,6 +44,17 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -65,6 +76,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +106,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
     <Content Include="commands.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

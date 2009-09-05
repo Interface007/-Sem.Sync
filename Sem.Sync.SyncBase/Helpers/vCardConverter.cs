@@ -139,11 +139,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     continue;
                 }
 
-                line = GetInformationSegment(
-                    ref i, 
-                    line.ToUpperInvariant().Contains("CHARSET=UTF-8:") 
-                    ? linesUtf8 
-                    : linesIso8859);
+                line = GetInformationSegment(ref i, line.ToUpperInvariant().Contains("CHARSET=UTF-8:") ? linesUtf8 : linesIso8859);
 
                 var propertyDescription = line.Substring(0, line.IndexOf(':')).ToUpperInvariant();
                 var value = line.Substring(line.IndexOf(':') + 1).Replace("\r", string.Empty);
@@ -384,22 +380,36 @@ namespace Sem.Sync.SyncBase.Helpers
             return contact;
         }
 
-        private static string GetInformationSegment(ref int i, string[] lines)
+        /// <summary>
+        /// Extractes the value from the current data segment. Increments the line index if the 
+        /// data spans multiple lines.
+        /// </summary>
+        /// <param name="lineIndex"> The current line index. </param>
+        /// <param name="lines"> The lines. </param>
+        /// <returns> a string represening the data for the current segment </returns>
+        private static string GetInformationSegment(ref int lineIndex, string[] lines)
         {
-            string line = lines[i];
+            var line = lines[lineIndex];
             
-            while (lines[i + 1].StartsWith(" ", StringComparison.Ordinal))
+            while (lines[lineIndex + 1].StartsWith(" ", StringComparison.Ordinal))
             {
-                line += lines[i + 1];
-                i++;
+                line += lines[lineIndex + 1];
+                lineIndex++;
             }
 
             return line;
         }
 
+        /// <summary>
+        /// Decodes the data of the <paramref name="value"/> parameter and extracts binary data into the
+        /// <paramref name="binaryData"/> parameter in case of base64-encoding.
+        /// </summary>
+        /// <param name="propertyDescription"> The property description. </param>
+        /// <param name="value"> The value to be decoded. </param>
+        /// <param name="binaryData"> The binary data extracted if the encoding was for binary data. </param>
         private static void DecodeData(string propertyDescription, ref string value, ref byte[] binaryData)
         {
-            var encoding = PropertyAttribute(propertyDescription, "ENCODING", string.Empty).ConcatElementsToString("");
+            var encoding = PropertyAttribute(propertyDescription, "ENCODING", string.Empty).ConcatElementsToString(string.Empty);
             if (string.IsNullOrEmpty(encoding))
             {
                 return;
@@ -413,94 +423,13 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "QUOTED-PRINTABLE":
-                    value = DecodeFromQuotedPrintable(value);
+                    value = Tools.DecodeFromQuotedPrintable(value);
                     break;
 
                 default:
                     Console.WriteLine("unhandled encoding: " + encoding);
                     break;
             }
-        }
-
-        /// <summary>
-        /// Encodes a not QP-Encoded string.
-        /// </summary>
-        /// <param name="value">The string which should be encoded.</param>
-        /// <returns>The encoded string</returns>
-        public static string DecodeFromQuotedPrintable(string value)
-        {
-            //Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
-            //Darstellung mit einem vorangestellten =
-            //Bsp.: aus "ü" wird "=FC"
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < value.Length; i++)
-            {
-                var s = value[i];
-
-                if (s != '=')
-                    sb.Append(s);
-                else
-                {
-                    if (i > value.Length - 2)
-                    {
-                        break;
-                    }
-
-                    if (value[i + 1] == '\n')
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    sb.Append(Encoding.ASCII.GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
-                    i = i + 2;
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Encodes a not QP-Encoded string.
-        /// </summary>
-        /// <param name="value">The string which should be encoded.</param>
-        /// <returns>The encoded string</returns>
-        public static string EncodeToQuotedPrintable(string value)
-        {
-            //Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
-            //Darstellung mit einem vorangestellten =
-            //Bsp.: aus "ü" wird "=FC"
-
-            var ascii7Bit = GetAllowedAsciiSigns();
-            StringBuilder sb = new StringBuilder();
-            foreach (char s in value)
-            {
-                if (ascii7Bit.LastIndexOf(s) > -1)
-                    sb.Append(s);
-                else
-                {
-
-                    sb.Append("=");
-                    sb.Append(Convert.ToString(s, 16));
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Gets a string which contains the first 128-characters (ANSII 7 bit).
-        /// </summary>
-        private static string GetAllowedAsciiSigns()
-        {
-            StringBuilder sb = new StringBuilder(128);
-            for (int i = 0; i < 127; i++)
-            {
-                sb.Append(Convert.ToChar(i));
-            }
-
-            return sb.ToString();
         }
 
         /// <summary>

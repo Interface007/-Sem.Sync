@@ -125,6 +125,6 @@
     <value>File {0} was not found - please ensure the installations is complete.</value>
   </data>
   <data name="ProcessFinishedMessage" xml:space="preserve">
-    <value>The process you've selected has now been finished. You might select another process or close the syncronization window.</value>
+    <value>The process you've selected has now been finished. You might select another process or close the synchronization window.</value>
   </data>
 </root>

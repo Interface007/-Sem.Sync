@@ -106,7 +106,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Gets or sets the string uniquely represented on the log on form
         /// </summary>
-        public string LogonFormDetectionString { get; set; }
+        public string LogOnFormDetectionString { get; set; }
 
         /// <summary>
         /// Gets or sets the base address for requests
@@ -238,8 +238,7 @@ namespace Sem.GenericHelpers
         /// <returns> the binary result of the request without conversion </returns>
         public byte[] GetContentBinary(string url, string name, string referer)
         {
-            Uri uri = this.CreateUri(url);
-            
+            var uri = this.CreateUri(url);
             var fileName = this.CachePathName(name, uri, string.Empty);
             byte[] result;
             if (this.ReadFromCacheBinary(fileName, out result, uri))
@@ -269,7 +268,7 @@ namespace Sem.GenericHelpers
         /// <returns>the binary result of the request without conversion</returns>
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
-            Uri uri = this.CreateUri(url);
+            var uri = this.CreateUri(url);
             var fileName = this.CachePathName(name, uri, postData);
             byte[] result;
             if (this.ReadFromCacheBinary(fileName, out result, uri))
@@ -317,7 +316,7 @@ namespace Sem.GenericHelpers
             result = new List<string>();
             this.LastExtractContent = this.GetContent(url, name, referer);
 
-            if (this.LastExtractContent.Contains(this.LogonFormDetectionString))
+            if (this.LastExtractContent.Contains(this.LogOnFormDetectionString))
             {
                 return false;
             }
@@ -585,7 +584,7 @@ namespace Sem.GenericHelpers
                 sessionData += cookie.Name + "=" + cookie.Value;
             }
 
-            var hash = Tools.GetSHA1Hash(sessionData);
+            var hash = Tools.GetSha1Hash(sessionData);
 
             var result = Tools.ReplaceInvalidFileCharacters(name + "$$" + this.BaseUrl + "$$" + hash);
             result = Path.Combine(CachePath, result);

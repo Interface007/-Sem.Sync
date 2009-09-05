@@ -1,7 +1,19 @@
-﻿namespace Sem.Sync.Test.DataGenerator
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Contacts.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the Contacts type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test.DataGenerator
 {
     using System.Text;
 
+    /// <summary>
+    /// Defines contact test data
+    /// </summary>
     public static class Contacts
     {
         /// <summary>
@@ -26,6 +38,9 @@
             content.AppendLine("      <CountryCode>unspecified</CountryCode>");
             content.AppendLine("      <AreaCode>0</AreaCode>");
             content.AppendLine("    </PersonalPhoneMobile>");
+            content.AppendLine("    <PersonalProfileIdentifiers>");
+            content.AppendLine("    <DefaultProfileId>{9c8a9b29-2fda-44f3-8324-62b983468a7e}</DefaultProfileId>");
+            content.AppendLine("    </PersonalProfileIdentifiers>");
             content.AppendLine("    <PictureData />");
             content.AppendLine("  </StdContact>");
         }
@@ -82,6 +97,9 @@
             content.AppendLine("   </PersonalPhoneMobile>");
             content.AppendLine("   <PersonalEmailPrimary>sven.erik.matzen@web.de</PersonalEmailPrimary>");
             content.AppendLine("   <PersonalHomepage>http://www.svenerikmatzen.info</PersonalHomepage>");
+            content.AppendLine("   <PersonalProfileIdentifiers>");
+            content.AppendLine("   <DefaultProfileId>{929e2981-ee94-4e1f-adb0-240cb8a9afd6}</DefaultProfileId>");
+            content.AppendLine("   </PersonalProfileIdentifiers>");
             content.AppendLine("   <BusinessCompanyName>SDX AG</BusinessCompanyName>");
             content.AppendLine("   <BusinessAddressPrimary>");
             content.AppendLine("     <CountryName>Deutschland</CountryName>");

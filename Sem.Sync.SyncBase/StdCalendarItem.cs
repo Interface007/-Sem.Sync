@@ -89,6 +89,10 @@ namespace Sem.Sync.SyncBase
             this.ExternalIdentifier = new List<CalendarIdentifier>();
         }
 
+        /// <summary>
+        /// Returns a meaningful string representation for this object
+        /// </summary>
+        /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
             return this.Start.ToString("yyyy-MM-dd hh:mm:ss - ", CultureInfo.InvariantCulture) + this.Subject;

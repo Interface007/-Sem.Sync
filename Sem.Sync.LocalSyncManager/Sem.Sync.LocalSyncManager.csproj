@@ -46,6 +46,17 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -169,9 +180,9 @@
       <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
       <Name>Sem.Sync.MemoryConnector</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDataBase.csproj">
+    <ProjectReference Include="..\Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDatabase.csproj">
       <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
-      <Name>Sem.Sync.MsSqlDataBase</Name>
+      <Name>Sem.Sync.MsSqlDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj">
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>

@@ -22,7 +22,7 @@ namespace Sem.Sync.ConsoleClient
     /// <summary>
     /// Main execution class that will run the program.
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
         /// Executes the list of commands specified as a path to the file containing the serialized list in the first parameter.

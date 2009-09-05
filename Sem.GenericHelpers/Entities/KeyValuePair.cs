@@ -11,6 +11,8 @@
 
 namespace Sem.GenericHelpers.Entities
 {
+    using System.Globalization;
+
     /// <summary>
     /// A key value pair with string type for both members.
     /// List of KeyValuePair is needed for serialization and for generating
@@ -54,7 +56,7 @@ namespace Sem.GenericHelpers.Entities
         /// <returns>a string with the key and the value</returns>
         public override string ToString()
         {
-            return string.Format("key = '{0}', value = '{1}'", this.Key, this.Value);
+            return string.Format(CultureInfo.CurrentCulture, "key = '{0}', value = '{1}'", this.Key, this.Value);
         }
     }
 }

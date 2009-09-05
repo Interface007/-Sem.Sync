@@ -44,6 +44,17 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -59,6 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiDispatcher.cs" />
@@ -88,9 +103,9 @@
       <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
       <Name>Sem.Sync.MeinVZ</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDataBase.csproj">
+    <ProjectReference Include="..\Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDatabase.csproj">
       <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
-      <Name>Sem.Sync.MsSqlDataBase</Name>
+      <Name>Sem.Sync.MsSqlDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj">
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
@@ -132,6 +147,11 @@
     <None Include="A Copy from MeinVZ.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

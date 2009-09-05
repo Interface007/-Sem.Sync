@@ -43,8 +43,8 @@ namespace Sem.Sync.OutlookConnector
         /// <summary>
         /// detects duplicates and removes them from the contacts
         /// </summary>
-        /// <param name="pathToStore">the outlook path that should be searched for duplicates</param>
-        public override void RemoveDuplicates(string pathToStore)
+        /// <param name="clientFolderName">the outlook path that should be searched for duplicates</param>
+        public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
 
@@ -55,7 +55,7 @@ namespace Sem.Sync.OutlookConnector
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderContacts);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
                 LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()

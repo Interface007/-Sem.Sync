@@ -34,6 +34,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -50,7 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
     <Compile Include="ContactClient.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +77,11 @@
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
       <Name>Sem.Sync.SyncBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

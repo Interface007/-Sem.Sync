@@ -309,7 +309,6 @@ namespace Sem.Sync.SyncBase.Helpers
                 if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.TargetChanged;
                 if (container.TargetProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.TargetChanged;
 
-
                 var typeName = item.PropertyType.Name;
                 if (item.PropertyType.BaseType.FullName == "System.Enum")
                 {

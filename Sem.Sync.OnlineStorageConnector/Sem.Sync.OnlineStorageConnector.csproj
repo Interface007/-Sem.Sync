@@ -25,7 +25,7 @@
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +39,17 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Development MeinVZ\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28Code Analysis%29\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

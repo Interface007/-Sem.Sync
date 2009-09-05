@@ -10,3 +10,5 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.LocalSyncManager.ClientViewModel.#SyncCommandLists")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFile", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Business.SyncWizardContext.#.ctor()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]

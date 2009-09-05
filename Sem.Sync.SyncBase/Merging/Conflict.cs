@@ -137,6 +137,10 @@ namespace Sem.Sync.SyncBase.Merging
         /// </summary>
         public MergePropertyAction ActionToDo { get; set; }
 
+        /// <summary>
+        /// Returns a meaningful string representation for this object
+        /// </summary>
+        /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
             return this.SourceElement + " vs. " + this.TargetElement + " : " + this.PathToProperty;

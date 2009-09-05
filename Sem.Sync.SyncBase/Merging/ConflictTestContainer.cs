@@ -53,7 +53,11 @@ namespace Sem.Sync.SyncBase.Merging
         /// Gets or sets the object reference for the base line object this property belongs to - this might be null
         /// </summary>
         public StdElement BaselineObject { get; set; }
-        
+
+        /// <summary>
+        /// Returns a meaningful string representation for this object
+        /// </summary>
+        /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
             return this.SourceObject + " vs. " + this.TargetObject + " : " + this.PropertyName;

@@ -29,6 +29,10 @@ namespace Sem.Sync.SyncBase.DetailData
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns a meaningful string representation for this object
+        /// </summary>
+        /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
             return base.Id.ToString("B") + " matches " + this.ProfileId;

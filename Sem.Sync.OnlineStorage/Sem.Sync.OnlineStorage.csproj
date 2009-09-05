@@ -45,6 +45,17 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -73,6 +84,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
     <Content Include="ContactService.svc" />
     <Content Include="ContactViewerTestPage.aspx" />
     <Content Include="ContactViewerTestPage.html" />
@@ -91,6 +105,7 @@
       <DependentUpon>ContactViewService.svc</DependentUpon>
     </Compile>
     <Compile Include="Ententions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IContact.cs" />
     <Compile Include="IContactViewService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,6 +18,10 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         public string ContactNameMatch { get; set; }
         public Guid BaselineId { get; set; }
 
+        /// <summary>
+        /// Returns a meaningful string representation for this object
+        /// </summary>
+        /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
             return this.ContactName + " is matched to " + this.ContactNameMatch;

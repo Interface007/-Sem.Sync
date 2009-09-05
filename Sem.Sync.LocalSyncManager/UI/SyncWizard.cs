@@ -81,9 +81,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             // setup event handling
             this.DataContext.ProcessingEvent = (object entity, ProcessingEventArgs eventArgs) =>
                 {
-                    this.lblProgressStatus.Text = eventArgs.Message + " " + (entity as StdContact == null ? string.Empty : entity.ToString());
-                    this.lblProgressStatus.Refresh();
                     var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
+                    this.lblProgressStatus.Text = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
+                    this.lblProgressStatus.Refresh();
                     if (currentContact != null)
                     {
                         // update image, if there is one and image display is switched on.

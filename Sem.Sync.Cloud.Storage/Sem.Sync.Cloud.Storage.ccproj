@@ -54,5 +54,8 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Development MeinVZ' ">
     <OutputPath>bin\Development MeinVZ\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug (Code Analysis)' ">
+    <OutputPath>bin\Debug (Code Analysis)\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(CloudExtensionsDir)Microsoft.CloudService.targets" />
 </Project>

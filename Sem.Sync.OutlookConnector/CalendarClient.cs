@@ -39,8 +39,8 @@ namespace Sem.Sync.OutlookConnector
         /// <summary>
         /// detects duplicates and removes them from the calendar
         /// </summary>
-        /// <param name="pathToStore">the path to the outlook folder to process</param>
-        public override void RemoveDuplicates(string pathToStore)
+        /// <param name="clientFolderName">the path to the outlook folder to process</param>
+        public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
 
@@ -51,7 +51,7 @@ namespace Sem.Sync.OutlookConnector
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, pathToStore, OlDefaultFolders.olFolderCalendar);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 LogProcessingEvent("preparing list ...");
                 var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()

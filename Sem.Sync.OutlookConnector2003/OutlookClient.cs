@@ -568,6 +568,8 @@ namespace Sem.Sync.OutlookConnector2003
         }
 
         /// <summary>
+        /// Compares an address of a new contact against an old contact. If the information differs, the outlook 
+        /// contact will be updated with the information from the new contact.
         /// </summary>
         /// <param name="outlookContact"> The outlook contact. </param>
         /// <param name="stdNewContactAddress"> The std new contact address. </param>
