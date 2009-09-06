@@ -71,6 +71,11 @@ namespace Sem.Sync.MeinVZ
         /// </summary>
         private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-z0-9]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
 
+        /// <summary>
+        /// regex to extract additional information
+        /// </summary>
+        private const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
+
         #endregion
 
         /// <summary>
@@ -79,26 +84,6 @@ namespace Sem.Sync.MeinVZ
         private readonly HttpHelper httpRequester;
 
         #region ctors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContactClient"/> class. 
-        /// The default constructor will create and configure a new http-requester by reading 
-        /// the config file. Use the parametrized constructor to provide a "ready-to-use"
-        /// http-requester.
-        /// </summary>
-        public ContactClient()
-        {
-            this.HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
-            this.HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
-            this.HttpUrlBaseAddress = "http://www.meinvz.net";
-
-            this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
-            {
-                UseCache = this.GetConfigValueBoolean("UseCache"),
-                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
-            };
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class. 
         /// This parametrized constructore does accept a "ready to use" http-requester. 
@@ -111,7 +96,40 @@ namespace Sem.Sync.MeinVZ
             this.httpRequester = preconfiguredHttpHelper;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class. 
+        /// The default constructor will create and configure a new http-requester by reading 
+        /// the config file. Use the parametrized constructor to provide a "ready-to-use"
+        /// http-requester.
+        /// </summary>
+        protected ContactClient()
+        {
+            this.HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
+            this.HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
+            this.HttpUrlBaseAddress = "http://www.meinvz.net";
+            this.ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
+
+            this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
+            {
+                UseCache = this.GetConfigValueBoolean("UseCache"),
+                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
+            };
+        }
+
         #endregion
+
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "MeinVZ-Connector";
+            }
+        }
 
         /// <summary>
         /// Gets the HttpRequester.
@@ -125,16 +143,9 @@ namespace Sem.Sync.MeinVZ
         }
 
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        /// Gets or sets the extraction string for the image.
         /// </summary>
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "MeinVZ-Connector";
-            }
-        }
+        protected string ContactImageSelector { get; set; } 
 
         /// <summary>
         /// Gets or sets the detection string to detect if we did fail to logon
@@ -194,11 +205,8 @@ namespace Sem.Sync.MeinVZ
         {
             var result = new StdContact();
 
-            const string ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
-            const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
-
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
-            var imageUrl = Regex.Match(content, ContactImageSelector, RegexOptions.Singleline);
+            var imageUrl = Regex.Match(content, this.ContactImageSelector, RegexOptions.Singleline);
             if (imageUrl != null)
             {
                 var url = imageUrl.Groups[1].ToString();
@@ -242,6 +250,64 @@ namespace Sem.Sync.MeinVZ
 
                     case "Geburtstag:":
                         result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        break;
+
+                    case "Skype:":
+                        result.PersonalInstantMessengerAddresses = result.PersonalInstantMessengerAddresses ?? new InstantMessengerAddresses();
+                        result.PersonalInstantMessengerAddresses.Skype = value.Replace("&nbsp;", " ");
+                        break;
+
+                    case "Handy:":
+                        result.PersonalPhoneMobile = new PhoneNumber(value);
+                        break;
+
+                    case "Telefon:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.Phone = new PhoneNumber(value);
+                        break;
+
+                    case "Anschrift:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.StreetName = value;
+                        break;
+
+                    case "Ort:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        while (value.Contains("  "))
+                        {
+                            value = value.Replace("  ", " ");
+                        }
+
+                        if (Regex.IsMatch(value, "^[0-9]+ "))
+                        {
+                            result.PersonalAddressPrimary.PostalCode = value.Split(' ')[0];
+                            result.PersonalAddressPrimary.CityName = value.Split(' ')[1];
+                        }
+                        else
+                        {
+                            result.PersonalAddressPrimary.CityName = value;
+                        }
+
+                        break;
+
+                    case "Land:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.CountryName = value;
+                        break;
+
+                    case "Webseite:":
+                        result.PersonalHomepage = value;
+                        break;
+
+                    case "Auf der Suche nach:":
+                        break;
+
+                    case "Firma:":
+                        result.BusinessCompanyName = value;
+                        break;
+
+                    case "Position:":
+                        result.BusinessPosition = value;
                         break;
 
                     default:
@@ -298,9 +364,9 @@ namespace Sem.Sync.MeinVZ
                     iv);
 
                 // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(HttpUrlLogonRequest, "logOn", postData);
+                var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogonRequest, "logOn", postData);
 
-                if (logInResponse.Contains(HttpDetectionStringLogonFailed))
+                if (logInResponse.Contains(this.HttpDetectionStringLogonFailed))
                 {
                     return result;
                 }

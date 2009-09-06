@@ -38,7 +38,7 @@ namespace Sem.Sync.MeinVZ
             this.HttpDetectionStringLogonFailed = "action=\"https://secure.studivz.net/Login\"";
             this.HttpUrlLogonRequest = "https://secure.studivz.net/Login";
             this.HttpUrlBaseAddress = "http://www.studivz.net/";
-
+            
             this.HttpRequester.BaseUrl = this.HttpUrlBaseAddress;
         }
 

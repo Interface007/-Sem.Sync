@@ -31,6 +31,13 @@ namespace Sem.Sync.SyncBase.DetailData
                 this.FirstName = nameParts[0];
                 this.LastName = nameParts[1];
             }
+
+            if (nameParts.Length == 3)
+            {
+                this.FirstName = nameParts[0];
+                this.MiddleName = nameParts[1];
+                this.LastName = nameParts[2];
+            }
         }
 
         /// <summary>
