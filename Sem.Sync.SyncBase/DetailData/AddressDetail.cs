@@ -62,16 +62,23 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns>a well formatted string representation of the data</returns>
         public override string ToString()
         {
-            var result = this.StreetName ?? string.Empty;
-            result += " " + this.StreetNumber;
-            result += (this.StreetNumberExtension ?? string.Empty) + " / ";
-            result += (this.PostalCode ?? string.Empty) + " ";
-            result += this.CityName ?? string.Empty;
-            result += " (" + (this.StateName ?? string.Empty) + ")";
-            result += this.CountryName ?? string.Empty;
-            result += " Phone: " + ((this.Phone == null) ? string.Empty : this.Phone.ToString());
+            var result = string.Empty;
 
-            return (result == " 0 /   () Phone: ") ? null : result;
+            result += this.StreetName ?? string.Empty;
+            result = result.Replace(this.StreetNumber.ToString(), string.Empty);
+            result += this.StreetNumber > 0 ? " " + this.StreetNumber : string.Empty;
+            result += string.IsNullOrEmpty(this.StreetNumberExtension) ? string.Empty : " " + this.StreetNumberExtension;
+            result += string.IsNullOrEmpty(result) ? string.Empty : " / ";
+
+            result += string.IsNullOrEmpty(this.PostalCode) ? string.Empty : this.PostalCode + " ";
+            result += string.IsNullOrEmpty(this.CityName) ? string.Empty : this.CityName + " ";
+            result += string.IsNullOrEmpty(this.StateName) ? string.Empty : "(" + this.StateName + ") ";
+            result += string.IsNullOrEmpty(this.CountryName) ? string.Empty : this.CountryName + " ";
+            result += (this.Phone == null) ? string.Empty : (" Phone: " + this.Phone);
+
+            result = result.Trim().Replace("  ", " ");
+
+            return result;
         }
     }
 }

@@ -337,22 +337,39 @@ namespace Sem.Sync.StayFriends
                         break;
 
                     case "Wohnort":
-                        if (value.Captures.Count == 3)
+
+                        foreach (Capture capture in value.Captures)
                         {
-                            contact.PersonalAddressPrimary.StreetName = DecodeResultString(value.Captures[0].ToString());
-                            contact.PersonalAddressPrimary.PostalCode = DecodeResultString(value.Captures[1].ToString().Split(' ')[0]);
-                            contact.PersonalAddressPrimary.CityName = DecodeResultString(value.Captures[1].ToString().Split(' ')[1]);
-                            contact.PersonalAddressPrimary.CountryName = DecodeResultString(value.Captures[2].ToString());
-                            break;
+                            var line = capture.ToString()
+                                .Replace("\t", string.Empty)
+                                .Replace("\n", string.Empty)
+                                .Trim();
+
+                            if (Regex.IsMatch(line, "^[0-9]+ "))
+                            {
+                                contact.PersonalAddressPrimary.PostalCode = DecodeResultString(line.Split(' ')[0]);
+                                contact.PersonalAddressPrimary.CityName = DecodeResultString(line.Split(' ')[1]);
+                                Console.WriteLine("PLZ Stadt : " + line);
+                                continue;
+                            }
+
+                            if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+"))
+                            {
+                                contact.PersonalAddressPrimary.StreetName = DecodeResultString(line);
+                                Console.WriteLine("Straße : " + line);
+                                continue;
+                            }
+
+                            if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+"))
+                            {
+                                contact.PersonalAddressPrimary.CountryName += DecodeResultString(line);
+                                Console.WriteLine("Land : " + line);
+                                continue;
+                            }
+
+                            Console.WriteLine("??? : " + line);
                         }
 
-                        if (value.Captures.Count == 2)
-                        {
-                            contact.PersonalAddressPrimary.CityName = DecodeResultString(value.Captures[0].ToString().Split(' ')[1]);
-                            contact.PersonalAddressPrimary.CountryName = DecodeResultString(value.Captures[1].ToString());
-                            break;
-                        }
- 
                         break;
 
                     default:
@@ -369,6 +386,13 @@ namespace Sem.Sync.StayFriends
             if (pictureUrlResult.Count == 1)
             {
                 var pictureName = pictureUrlResult[0].Groups["image"].ToString();
+                contact.PictureName = pictureName.Substring(pictureName.LastIndexOf('/') + 1);
+                contact.PictureData = this.httpRequester.GetContentBinary(pictureName, contact.PictureName);
+            }
+
+            if (pictureUrlResult.Count > 1)
+            {
+                var pictureName = pictureUrlResult[1].Groups["image"].ToString();
                 contact.PictureName = pictureName.Substring(pictureName.LastIndexOf('/') + 1);
                 contact.PictureData = this.httpRequester.GetContentBinary(pictureName, contact.PictureName);
             }

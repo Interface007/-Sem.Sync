@@ -199,6 +199,12 @@
   <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Arbeitsverzeichnis öffnen</value>
   </data>
+  <data name="deleteCurrentProfileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 22</value>
+  </data>
+  <data name="deleteCurrentProfileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Aktuelles Profil l&amp;öschen</value>
+  </data>
   <data name="seperatorStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>204, 6</value>
   </data>
@@ -219,6 +225,27 @@
   </data>
   <data name="removeDuplettesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Duplikate aus Outlook Kalender entfernen</value>
+  </data>
+  <data name="generateSampleProfilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 22</value>
+  </data>
+  <data name="generateSampleProfilesToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Beispiel-Profile generieren</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 6</value>
+  </data>
+  <data name="openNetworksViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 22</value>
+  </data>
+  <data name="openNetworksViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>öffne "&amp;Networks"-Ansicht</value>
+  </data>
+  <data name="openCommandsViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 22</value>
+  </data>
+  <data name="openCommandsViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>öffne "&amp;Kommando"-Ansicht</value>
   </data>
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 20</value>
