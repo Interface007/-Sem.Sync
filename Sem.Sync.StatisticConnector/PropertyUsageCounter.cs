@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.StatisticConnector
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyUsageCounter.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the PropertyUsageCounter type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.StatisticConnector
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -8,8 +17,16 @@
 
     using SyncBase.Helpers;
 
+    /// <summary>
+    /// Analyzes the usage of properties by count
+    /// </summary>
     internal static class PropertyUsageCounter
     {
+        /// <summary>
+        /// Analyzes the usage of properties by count
+        /// </summary>
+        /// <param name="elements"> The elements to be analyzed. </param>
+        /// <returns> a list of key value pairs containing the properties and the usage count </returns>
         internal static List<KeyValuePair> GetPropertyUsage(ICollection elements)
         {
             var result = new List<KeyValuePair>();
@@ -33,6 +50,12 @@
             return result;
         }
 
+        /// <summary>
+        /// analyzes an object for property usage
+        /// </summary>
+        /// <param name="element"> The element to be analyzed. </param>
+        /// <param name="root"> The root of the property path. </param>
+        /// <param name="propList"> The prop list to be updated. </param>
         private static void AddPropertyCounts(object element, string root, IDictionary<string, int> propList)
         {
             var myType = element.GetType();

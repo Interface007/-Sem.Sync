@@ -26,15 +26,19 @@ namespace Sem.Sync.StatisticConnector
     /// </summary>
     public class ValueAnalysisCounter
     {
-        public decimal PercentageGenderFemale { get; set; }
-        public decimal PercentageGenderMale { get; set; }
-        public List<KeyValuePair> Top10CitiesPersonal { get; set; }
-        public List<KeyValuePair> Top10CitiesBusiness { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValueAnalysisCounter"/> class.
+        /// </summary>
         public ValueAnalysisCounter()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValueAnalysisCounter"/> class.
+        /// </summary>
+        /// <param name="elements">
+        /// The elements to be analyzed.
+        /// </param>
         public ValueAnalysisCounter(List<StdElement> elements)
         {
             var contacts = elements.ToContacts();
@@ -69,5 +73,25 @@ namespace Sem.Sync.StatisticConnector
                                                         }).Take(10).ToList();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the percentage of contacts that do have a specified gender "female".
+        /// </summary>
+        public decimal PercentageGenderFemale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of contacts that do have a specified gender "female".
+        /// </summary>
+        public decimal PercentageGenderMale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the top 10 used city names in personal address.
+        /// </summary>
+        public List<KeyValuePair> Top10CitiesPersonal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the top 10 used city names in personal address.
+        /// </summary>
+        public List<KeyValuePair> Top10CitiesBusiness { get; set; }
     }
 }

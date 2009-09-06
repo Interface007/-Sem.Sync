@@ -56,6 +56,53 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 : this.matching.BaseLine.ToStdElement();
         }
 
+        /// <summary>
+        /// Sets up a grid content from a list of elements
+        /// </summary>
+        /// <param name="theGrid"> The the grid to be set up. </param>
+        /// <param name="elementList"> The list of elements to be set into the grid. </param>
+        /// <typeparam name="T"> the type of elements inside <paramref name="elementList"/> </typeparam>
+        private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
+        {
+            theGrid.AutoGenerateColumns = true;
+            theGrid.DataSource = elementList;
+
+            var col = theGrid.Columns["Element"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
+
+            col = theGrid.Columns["ElementMatch"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
+
+            col = theGrid.Columns["BaselineId"];
+            if (col != null)
+            {
+                col.Visible = false;
+            }
+
+            col = theGrid.Columns["ContactName"];
+            if (col != null)
+            {
+                col.HeaderText = "Contact Name";
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+
+            col = theGrid.Columns["ContactNameMatch"];
+            if (col != null)
+            {
+                col.HeaderText = "matched to";
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+
+            col = theGrid.Columns[theGrid.Columns.Count - 1];
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+        
         private void dataGridTargetCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
@@ -169,47 +216,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.btnUnMatch.Enabled = this.dataGridMatches.RowCount > 0;
         }
 
-        private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
-        {
-            theGrid.AutoGenerateColumns = true;
-            theGrid.DataSource = elementList;
-
-            var col = theGrid.Columns["Element"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["ElementMatch"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["BaselineId"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["ContactName"];
-            if (col != null)
-            {
-                col.HeaderText = "Contact Name";
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            col = theGrid.Columns["ContactNameMatch"];
-            if (col != null)
-            {
-                col.HeaderText = "matched to";
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            col = theGrid.Columns[theGrid.Columns.Count - 1];
-            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        }
-
         private void btnMatch_Click(object sender, EventArgs e)
         {
             this.lastSelectedSourceRow =
@@ -246,13 +252,23 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.SetupGui();
         }
 
-        private void btnFinished_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Event handler for pressing the finished button
+        /// </summary>
+        /// <param name="sender"> The sender object. </param>
+        /// <param name="e"> The event parameters. </param>
+        private void BtnFinished_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void chkMatchedOnly_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event handler for changing the ckeckbox
+        /// </summary>
+        /// <param name="sender"> The sender object. </param>
+        /// <param name="e"> The event parameters. </param>
+        private void ChkMatchedOnly_CheckedChanged(object sender, EventArgs e)
         {
             // rebind the gui
             this.SetupGui();

@@ -224,9 +224,9 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
-                if (folderBrowser.ShowDialog() == DialogResult.OK)
+                if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
-                    textBox.Text = folderBrowser.SelectedPath;
+                    textBox.Text = this.folderBrowser.SelectedPath;
                 }
 
                 return;
@@ -234,17 +234,17 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             if (useSave)
             {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    textBox.Text = saveFileDialog1.FileName;
+                    textBox.Text = this.saveFileDialog1.FileName;
                 }
 
                 return;
             }
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox.Text = openFileDialog1.FileName;
+                textBox.Text = this.openFileDialog1.FileName;
             }
         }
     }

@@ -98,6 +98,8 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="ContactContainer.cs" />
+    <Compile Include="ContactListContainer.cs" />
     <Compile Include="ContactService.svc.cs">
       <DependentUpon>ContactService.svc</DependentUpon>
     </Compile>

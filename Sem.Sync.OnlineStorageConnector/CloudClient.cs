@@ -10,10 +10,8 @@
 
 namespace Sem.Sync.OnlineStorageConnector
 {
-    using System;
     using System.Collections.Generic;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
 
     using Cloud;
 
@@ -28,6 +26,11 @@ namespace Sem.Sync.OnlineStorageConnector
     [ConnectorDescription(CanRead = true, CanWrite = true, NeedsCredentials = true, DisplayName = "Cloud Connector")]
     public class CloudClient : StdClient
     {
+        /// <summary>
+        /// Gets or sets the binding address for the storage client.
+        /// </summary>
+        public string BindingAddress { get; set; }
+
         /// <summary>
         /// Returns a human readable name of this class.
         /// </summary>
@@ -74,22 +77,19 @@ namespace Sem.Sync.OnlineStorageConnector
                 clientFolderName,
                 skipIfExisting);
         }
-        
+
+        /// <summary>
+        /// Creates a new storage client - does regard the <see cref="BindingAddress"/>.
+        /// </summary>
+        /// <returns> a new client for accessing the storage </returns>
         private StorageClient GetClient()
         {
-            StorageClient client;
-            if (string.IsNullOrEmpty(this.BindingAddress))
-            {
-                client = new StorageClient();
-            }
-            else
-            {
-                client = new StorageClient(new BasicHttpBinding(BasicHttpSecurityMode.None), new EndpointAddress(this.BindingAddress));
-            }
+            var client = 
+                string.IsNullOrEmpty(this.BindingAddress) 
+                ? new StorageClient() 
+                : new StorageClient(new BasicHttpBinding(BasicHttpSecurityMode.None), new EndpointAddress(this.BindingAddress));
 
             return client;
         }
-
-        public string BindingAddress { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace Sem.Sync.OutlookConnector2003
         /// <summary>
         /// detects duplicates and removes them from the contacts
         /// </summary>
-        /// <param name="pathToStore">the outlook path that should be searched for duplicates</param>
+        /// <param name="clientFolderName">the outlook path that should be searched for duplicates</param>
         public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;

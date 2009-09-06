@@ -14,6 +14,7 @@ namespace Sem.Sync.MeinVZ
 
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -21,8 +22,7 @@ namespace Sem.Sync.MeinVZ
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-    using System.Globalization;
-
+    
     #endregion usings
 
     /// <summary>

@@ -25,6 +25,10 @@ namespace Sem.Sync.SyncBase
     /// </summary>
     public class StdContact : StdElement
     {
+        /// <summary>
+        /// Gets or sets the identifier for this contact. Overwritten to set the default
+        /// <see cref="PersonalProfileIdentifiers"/>, too.
+        /// </summary>
         [XmlAttribute]
         public override Guid Id
         {
@@ -32,6 +36,7 @@ namespace Sem.Sync.SyncBase
             {
                 return base.Id;
             }
+
             set
             {
                 base.Id = value;
@@ -44,6 +49,7 @@ namespace Sem.Sync.SyncBase
                 this.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
             }
         }
+
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>

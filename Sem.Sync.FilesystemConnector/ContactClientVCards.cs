@@ -41,6 +41,10 @@ namespace Sem.Sync.FilesystemConnector
         /// This is the file name suffix to be used when reading/writing vCards
         /// </summary>
         private const string VCardFilenameExtension = ".vCard";
+
+        /// <summary>
+        /// This is the an alternative file name suffix to be used when reading/writing vCards
+        /// </summary>
         private const string VCardFilenameExtension2 = ".vcf";
 
         /// <summary>

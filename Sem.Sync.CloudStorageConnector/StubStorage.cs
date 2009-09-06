@@ -10,6 +10,7 @@
 
 namespace Sem.Sync.CloudStorageConnector
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -30,7 +31,10 @@ namespace Sem.Sync.CloudStorageConnector
         /// This is the formatter instance for serializing the list of contacts.
         /// </summary>
         private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(List<StdContact>));
-        
+
+        /// <summary>
+        /// Gets the user friendly name of the connector.
+        /// </summary>
         public override string FriendlyClientName
         {
             get
@@ -39,6 +43,12 @@ namespace Sem.Sync.CloudStorageConnector
             }
         }
 
+        /// <summary>
+        /// reads a full sample list of contacts
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <param name="result"> The list of elements to be filled. </param>
+        /// <returns> The result list of elements. </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var resultXml = new StringBuilder(102400);
@@ -58,9 +68,16 @@ namespace Sem.Sync.CloudStorageConnector
             return result;
         }
 
+        /// <summary>
+        /// Throws the exception <see cref="NotImplementedException"/>, because this stub does not provide writing capability
+        /// </summary>
+        /// <param name="elements"> The elements. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <param name="skipIfExisting"> The skip if existing. </param>
+        /// <exception cref="NotImplementedException"></exception>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

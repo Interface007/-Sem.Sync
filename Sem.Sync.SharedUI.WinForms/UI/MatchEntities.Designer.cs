@@ -62,7 +62,7 @@
             resources.ApplyResources(this.btnFinished, "btnFinished");
             this.btnFinished.Name = "btnFinished";
             this.btnFinished.UseVisualStyleBackColor = true;
-            this.btnFinished.Click += new System.EventHandler(this.btnFinished_Click);
+            this.btnFinished.Click += new System.EventHandler(this.BtnFinished_Click);
             // 
             // btnMatch
             // 
@@ -78,7 +78,7 @@
             this.chkMatchedOnly.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMatchedOnly.Name = "chkMatchedOnly";
             this.chkMatchedOnly.UseVisualStyleBackColor = true;
-            this.chkMatchedOnly.CheckedChanged += new System.EventHandler(this.chkMatchedOnly_CheckedChanged);
+            this.chkMatchedOnly.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
             // 
             // btnUnMatch
             // 

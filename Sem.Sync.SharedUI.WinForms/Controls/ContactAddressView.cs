@@ -1,11 +1,26 @@
-﻿namespace Sem.Sync.SharedUI.WinForms.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContactAddressView.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Control that displays a contact address.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.SharedUI.WinForms.Controls
 {
     using System.Windows.Forms;
 
     using SyncBase.DetailData;
 
+    /// <summary>
+    /// Control that displays a contact address.
+    /// </summary>
     public partial class ContactAddressView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactAddressView"/> class.
+        /// </summary>
         public ContactAddressView()
         {
             InitializeComponent();

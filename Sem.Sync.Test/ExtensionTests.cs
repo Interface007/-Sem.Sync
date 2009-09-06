@@ -58,7 +58,6 @@ namespace Sem.Sync.Test
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
         // public void MyTestCleanup() { }
-        //
         #endregion
 
         [TestMethod]

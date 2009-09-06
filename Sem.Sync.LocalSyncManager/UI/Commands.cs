@@ -142,9 +142,9 @@ namespace Sem.Sync.LocalSyncManager.UI
                 logEntry.Append(")");
             }
 
-            StatusLabel.Text = args.Message;
-            LogList.Items.Add(logEntry.ToString());
-            LogList.TopIndex = LogList.Items.Count - 1;
+            this.StatusLabel.Text = args.Message;
+            this.LogList.Items.Add(logEntry.ToString());
+            this.LogList.TopIndex = LogList.Items.Count - 1;
         }
 
         #region eventhandler

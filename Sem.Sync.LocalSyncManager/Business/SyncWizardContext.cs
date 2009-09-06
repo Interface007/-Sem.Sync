@@ -46,12 +46,12 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <summary>
         /// The working folder for data files (need to be writable).
         /// </summary>
-        private static readonly string workingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
+        private static readonly string WorkingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
 
         /// <summary>
         /// The working folder for template files.
         /// </summary>
-        private static readonly string workingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
+        private static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
 
         /// <summary>
         /// The file extension for data files.
@@ -121,52 +121,12 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
-            foreach (var file in Directory.GetFiles(workingFolderTemplates, "*" + SyncListTemplateFileExtension))
+            foreach (var file in Directory.GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension))
             {
                 this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file));
             }
 
             this.ReloadWorkflowDataList();
-        }
-
-        private void SetupPropertyChanged(bool attach)
-        {
-            if (attach)
-            {
-                if (this.Source != null)
-                {
-                    this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
-                }
-
-                if (this.Target != null)
-                {
-                    this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
-                }
-            }
-            else
-            {
-                if (this.Source != null)
-                {
-                    this.Source.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
-                }
-
-                if (this.Target != null)
-                {
-                    this.Target.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
-                }
-            }
-        }
-
-        private void ReloadWorkflowDataList()
-        {
-            Tools.EnsurePathExist(workingFolderData);
-            this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
-            foreach (var file in Directory.GetFiles(workingFolderData, "*" + SyncListDataFileExtension))
-            {
-                this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
-            }
-
-            this.RaisePropertyChanged("SyncWorkflowData");
         }
 
         /// <summary>
@@ -229,7 +189,14 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        /// <summary>
+        /// Gets or sets the event reporting special events while executing commands.
+        /// </summary>
         public Action<object, ProcessingEventArgs> ProcessingEvent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event reporting progress while executing commands.
+        /// </summary>
         public Action<ProgressEventArgs> ProgressEvent { get; set; }
 
         /// <summary>
@@ -298,7 +265,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                     Template = this.CurrentSyncWorkflowTemplate
                 };
 
-            var fileName = Path.Combine(workingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension;
+            var fileName = Path.Combine(WorkingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension;
             Tools.SaveToFile(
                 workFlow,
                 fileName,
@@ -361,6 +328,28 @@ namespace Sem.Sync.LocalSyncManager.Business
         }
 
         /// <summary>
+        /// Generates sample data - not yet completed
+        /// TODO: Create workflow data files.
+        /// </summary>
+        internal void GenerateSamples()
+        {
+            Tools.EnsurePathExist(WorkingFolderData);
+            this.ReloadWorkflowDataList();
+        }
+
+        /// <summary>
+        /// Deletes a file and reloads the list of available workflows
+        /// </summary>
+        /// <param name="path">
+        /// The path to be deleted.
+        /// </param>
+        internal void DeleteWorkflowData(string path)
+        {
+            File.Delete(path);
+            this.ReloadWorkflowDataList();
+        }
+
+        /// <summary>
         /// Calls the event to inform other classes about an internal change of this objects 
         /// state - this will cause the GUI to read the data from this object.
         /// </summary>
@@ -371,6 +360,55 @@ namespace Sem.Sync.LocalSyncManager.Business
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        /// <summary>
+        /// setup of the property changed event handlers
+        /// </summary>
+        /// <param name="attach">
+        /// a value indicating if the events should be attached (true) or detached (false).
+        /// </param>
+        private void SetupPropertyChanged(bool attach)
+        {
+            if (attach)
+            {
+                if (this.Source != null)
+                {
+                    this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                }
+
+                if (this.Target != null)
+                {
+                    this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                }
+            }
+            else
+            {
+                if (this.Source != null)
+                {
+                    this.Source.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                }
+
+                if (this.Target != null)
+                {
+                    this.Target.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reloads the list of workflow data
+        /// </summary>
+        private void ReloadWorkflowDataList()
+        {
+            Tools.EnsurePathExist(WorkingFolderData);
+            this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
+            foreach (var file in Directory.GetFiles(WorkingFolderData, "*" + SyncListDataFileExtension))
+            {
+                this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
+            }
+
+            this.RaisePropertyChanged("SyncWorkflowData");
         }
 
         /// <summary>
@@ -401,18 +439,6 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             return returnvalue;
-        }
-
-        internal void GenerateSamples()
-        {
-            Tools.EnsurePathExist(workingFolderData);
-            this.ReloadWorkflowDataList();
-        }
-
-        internal void DeleteWorkflowData(string path)
-        {
-            File.Delete(path);
-            this.ReloadWorkflowDataList();
         }
     }
 }
