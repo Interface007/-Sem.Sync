@@ -31,8 +31,9 @@ namespace Sem.Sync.MeinVZ
     [ClientStoragePathDescription(
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "MeinVZ",
-        CanRead = true,
+    //// specifying the connector description as no-read and no-write will hide it from the GUI
+    [ConnectorDescription(DisplayName = "MeinVZ-Base-Client",
+        CanRead = false,
         CanWrite = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
@@ -44,21 +45,6 @@ namespace Sem.Sync.MeinVZ
         /// Detection string to parse the content of a request if we need to logon
         /// </summary>
         private const string HttpDetectionStringLogonNeeded = "form id=\"Loginbox\"";
-
-        /// <summary>
-        /// detection string to detect if we did fail to logon
-        /// </summary>
-        private const string HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
-
-        /// <summary>
-        /// Base address to communicate with the site
-        /// </summary>
-        private const string HttpUrlBaseAddress = "http://www.meinvz.net";
-
-        /// <summary>
-        /// relative url to log on
-        /// </summary>
-        private const string HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
 
         /// <summary>
         /// data string to be posted to logon into the site
@@ -101,7 +87,11 @@ namespace Sem.Sync.MeinVZ
         /// </summary>
         public ContactClient()
         {
-            this.httpRequester = new HttpHelper(HttpUrlBaseAddress, true)
+            this.HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
+            this.HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
+            this.HttpUrlBaseAddress = "http://www.meinvz.net";
+
+            this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
             {
                 UseCache = this.GetConfigValueBoolean("UseCache"),
                 SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
@@ -124,6 +114,17 @@ namespace Sem.Sync.MeinVZ
         #endregion
 
         /// <summary>
+        /// Gets the HttpRequester.
+        /// </summary>
+        protected HttpHelper HttpRequester
+        {
+            get
+            {
+                return this.httpRequester;
+            }
+        }
+
+        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
@@ -134,6 +135,21 @@ namespace Sem.Sync.MeinVZ
                 return "MeinVZ-Connector";
             }
         }
+
+        /// <summary>
+        /// Gets or sets the detection string to detect if we did fail to logon
+        /// </summary>
+        protected string HttpDetectionStringLogonFailed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the base address to communicate with the site
+        /// </summary>
+        protected string HttpUrlBaseAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the relative url to log on
+        /// </summary>
+        protected string HttpUrlLogonRequest { get; set; }
 
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
