@@ -168,6 +168,10 @@
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
       <Name>Sem.Sync.FilesystemConnector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.GoogleClient\Sem.Sync.GoogleClient.csproj">
+      <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
+      <Name>Sem.Sync.GoogleClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.LotusNotes\Sem.Sync.LotusNotes.csproj">
       <Project>{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}</Project>
       <Name>Sem.Sync.LotusNotes</Name>

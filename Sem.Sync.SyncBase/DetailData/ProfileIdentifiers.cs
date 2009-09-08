@@ -47,6 +47,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// target system: www.StayFriends.com
         /// </summary>
         StayFriendsPersonId,
+
+        /// <summary>
+        /// Google Mail, Google Contacts, Google Calendar ...
+        /// </summary>
+        Google
     }
 
     /// <summary>
@@ -96,6 +101,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.MeinVZPersonId = profileId;
                     break;
 
+                case ProfileIdentifierType.Google:
+                    this.GoogleId = profileId;
+                    break;
+
                 default:
                     this.DefaultProfileId = profileId;
                     break;
@@ -138,6 +147,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public string MeinVZPersonId { get; set; }
 
         /// <summary>
+        /// Gets or sets the google user id
+        /// </summary>
+        public string GoogleId { get; set; }
+
+        /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
         /// <param name="type">the type of identifier to read</param>
@@ -160,9 +174,12 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.StayFriendsPersonId:
                     return this.StayFriendsPersonId;
-                
+
                 case ProfileIdentifierType.MeinVZ:
                     return this.MeinVZPersonId;
+
+                case ProfileIdentifierType.Google:
+                    return this.GoogleId;
 
                 default:
                     return this.DefaultProfileId;
@@ -197,11 +214,15 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.StayFriendsPersonId:
                     this.StayFriendsPersonId = newValue;
                     break;
-                
+
                 case ProfileIdentifierType.MeinVZ:
                     this.MeinVZPersonId = newValue;
                     break;
-            
+
+                case ProfileIdentifierType.Google:
+                    this.GoogleId = newValue;
+                    break;
+
                 default:
                     this.DefaultProfileId = newValue;
                     break;
@@ -224,6 +245,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
                   (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId) ||
+                  (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
                   (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
 
@@ -286,6 +308,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.WerKenntWenUrl ?? string.Empty) + " - ");
             result.Append((this.MeinVZPersonId ?? string.Empty) + " - ");
             result.Append((this.StayFriendsPersonId ?? string.Empty) + " - ");
+            result.Append((this.GoogleId ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
             return result.ToString();
         }
