@@ -4,6 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
+using System.Text.RegularExpressions;
 namespace Sem.Sync.SyncBase.DetailData
 {
     /// <summary>
@@ -25,18 +26,38 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <param name="name"> The name to interpret. </param>
         public PersonName(string name)
         {
-            var nameParts = name.Split(' ');
-            if (nameParts.Length == 2)
+            if (Regex.IsMatch(name, "^[a-zA-Z-]+, "))
             {
-                this.FirstName = nameParts[0];
-                this.LastName = nameParts[1];
-            }
+                var nameParts = name.Split(',');
+                var firstNames = nameParts[1].Trim().Split(' ');
+                if (firstNames.Length == 1)
+                {
+                    this.FirstName = firstNames[0];
+                    this.LastName = nameParts[0];
+                }
 
-            if (nameParts.Length == 3)
+                if (firstNames.Length == 2)
+                {
+                    this.FirstName = firstNames[0];
+                    this.MiddleName = firstNames[1];
+                    this.LastName = nameParts[0];
+                }
+            }
+            else
             {
-                this.FirstName = nameParts[0];
-                this.MiddleName = nameParts[1];
-                this.LastName = nameParts[2];
+                var nameParts = name.Split(' ');
+                if (nameParts.Length == 2)
+                {
+                    this.FirstName = nameParts[0];
+                    this.LastName = nameParts[1];
+                }
+
+                if (nameParts.Length == 3)
+                {
+                    this.FirstName = nameParts[0];
+                    this.MiddleName = nameParts[1];
+                    this.LastName = nameParts[2];
+                }
             }
         }
 

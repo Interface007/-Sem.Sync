@@ -152,7 +152,6 @@ namespace Sem.Sync.SyncBase
             try
             {
                 var command = this.factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
-
                 var commandAsComponent = command as SyncComponent;
 
                 if (command != null)
@@ -167,17 +166,20 @@ namespace Sem.Sync.SyncBase
 
                     // execute the command with the connectors
                     continueExecution = command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
-                    
-                    // detach events
-                    this.WireUpEvents(sourceClient, false);
-                    this.WireUpEvents(targetClient, false);
-                    this.WireUpEvents(baseliClient, false);
+
                     this.WireUpEvents(commandAsComponent, false);
                 }
             }
             catch (Exception ex)
             {
                 this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
+            }
+            finally
+            {
+                // detach events
+                this.WireUpEvents(sourceClient, false);
+                this.WireUpEvents(targetClient, false);
+                this.WireUpEvents(baseliClient, false);
             }
 
             return continueExecution;

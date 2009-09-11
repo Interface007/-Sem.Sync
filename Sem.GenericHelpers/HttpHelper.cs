@@ -18,7 +18,7 @@ namespace Sem.GenericHelpers
 
     using Entities;
     using Interfaces;
-    
+
     /// <summary>
     /// This class provides funktionality to get information from the web.
     /// </summary>
@@ -67,7 +67,17 @@ namespace Sem.GenericHelpers
         /// </summary>
         private readonly ICredentialAware proxyCredentials = new Credentials();
 
+        /// <summary>
+        /// credentials for the content server
+        /// </summary>
+        public ICredentialAware ContentCredentials { get; set; }
+
         #endregion
+
+        static HttpHelper()
+        {
+            DefaultInstance = new HttpHelper("", false);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelper"/> class. 
@@ -94,9 +104,13 @@ namespace Sem.GenericHelpers
                 ServicePointManager.ServerCertificateValidationCallback +=
                     (sender, cert, chain, errors) => true;
             }
+
+            this.ContentCredentials = new Credentials();
         }
 
         #region public propertries
+
+        public static HttpHelper DefaultInstance { get; set; }
 
         /// <summary>
         /// Gets or sets the last content downloaded to extract information (can be reused for extraction).
@@ -241,11 +255,12 @@ namespace Sem.GenericHelpers
             var uri = this.CreateUri(url);
             var fileName = this.CachePathName(name, uri, string.Empty);
             byte[] result;
+
             if (this.ReadFromCacheBinary(fileName, out result, uri))
             {
                 return result;
             }
-            
+
             if (!this.SkipNotCached)
             {
                 string encoding;
@@ -275,7 +290,7 @@ namespace Sem.GenericHelpers
             {
                 return result;
             }
-            
+
             if (!this.SkipNotCached && !string.IsNullOrEmpty(fileName))
             {
                 string encoding;
@@ -289,7 +304,7 @@ namespace Sem.GenericHelpers
 
             return result;
         }
-        
+
         /// <summary>
         /// Download content as text and extracts all strings matching a regex (the first group is returned in a list of strings)
         /// </summary>
@@ -465,6 +480,11 @@ namespace Sem.GenericHelpers
         /// <returns>The read stream converted into a byte array.</returns>
         private static byte[] ReadStreamToByteArray(Stream stream, int initialLength)
         {
+            if (stream == null)
+            {
+                return new byte[]{};
+            }
+
             var buffer = new byte[initialLength];
             var read = 0;
 
@@ -571,8 +591,8 @@ namespace Sem.GenericHelpers
         /// <returns> the path if successfull, empty string if no cache should be used </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
-            if (name == null 
-                || string.IsNullOrEmpty(name) 
+            if (name == null
+                || string.IsNullOrEmpty(name)
                 || name.Contains(CacheHintNoCache))
             {
                 return string.Empty;
@@ -621,7 +641,7 @@ namespace Sem.GenericHelpers
                 && !fileName.Contains(CacheHintNoCache)
                 && File.Exists(fileName);
         }
-        
+
         /// <summary>
         /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
         /// </summary>
@@ -704,6 +724,18 @@ namespace Sem.GenericHelpers
                     }
                     else
                     {
+                        if (ex.Response != null)
+                        {
+                            if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Unauthorized)
+                            {
+                                if (this.ContentCredentials.LogOnDomain == "[GOOGLE]")
+                                {
+                                    request = this.CreateRequest(url, "GET", referer);
+                                    request.Headers.Add("Authorization", "GoogleLogin auth=" + this.ContentCredentials.LogOnPassword);
+                                }
+                            }
+                        }
+
                         encoding = string.Empty;
                         return null;
                     }
@@ -858,8 +890,8 @@ namespace Sem.GenericHelpers
             foreach (Cookie cookie in this.sessionCookies.GetCookies(url))
             {
                 cookieList.Add(new KeyValuePair(cookie.Name, cookie.Value));
-            } 
-            
+            }
+
             var cacheItem = new ResponseCacheItem
                 {
                     Content = result,
