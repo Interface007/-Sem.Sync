@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ContactClient.cs" />
     <Compile Include="GoogleContactGroups.cs" />
+    <Compile Include="GoogleContactMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

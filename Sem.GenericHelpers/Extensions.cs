@@ -6,6 +6,8 @@
 //-----------------------------------------------------------------------
 namespace Sem.GenericHelpers
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Text;
 
@@ -36,6 +38,22 @@ namespace Sem.GenericHelpers
             }
 
             return result.ToString();
+        }
+
+        public static void Invoke<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            foreach (var element in enumerable)
+            {
+                action.Invoke(element);
+            }
+        }
+
+        public static void Invoke<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
+        {
+            foreach (var element in enumerable)
+            {
+                action.Invoke(element, parameter1);
+            }
         }
     }
 }
