@@ -47,6 +47,36 @@ namespace Sem.Sync.GoogleClient
     public class ContactClient : StdClient
     {
         /// <summary>
+        /// The schema prefix for the google data api
+        /// </summary>
+        private const string GoogleSchemaPrefix2005 = "http://schemas.google.com/g/2005#";
+
+        /// <summary>
+        /// The qualifier for the attribute "work"
+        /// </summary>
+        private const string GoogleSchemaQualifierWork = "work";
+
+        /// <summary>
+        /// The qualifier for the attribute "home"
+        /// </summary>
+        private const string GoogleSchemaQualifierHome = "home";
+
+        /// <summary>
+        /// The settings instance
+        /// </summary>
+        private RequestSettings settings;
+        
+        /// <summary>
+        /// The requester object for the google api
+        /// </summary>
+        private ContactsRequest requester;
+
+        /// <summary>
+        /// An URI representing the currently logged in user
+        /// </summary>
+        private Uri contactsUri;
+
+        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
@@ -68,13 +98,9 @@ namespace Sem.Sync.GoogleClient
         {
             try
             {
-                var userName = this.LogOnUserId;
-                var passWord = this.LogOnPassword;
+                this.EnsureInitialization();
 
-                var rs = new RequestSettings("Sem.Sync.GoogleClient", userName, passWord) { AutoPaging = true };
-                var cr = new ContactsRequest(rs);
-
-                var f = cr.GetContacts();
+                var f = this.requester.GetContacts();
                 foreach (var googleContact in f.Entries)
                 {
                     try
@@ -160,7 +186,7 @@ namespace Sem.Sync.GoogleClient
                         {
                             try
                             {
-                                using (var stream = cr.GetPhoto(googleContact))
+                                using (var stream = this.requester.GetPhoto(googleContact))
                                 {
                                     if (stream != null)
                                     {
@@ -173,7 +199,7 @@ namespace Sem.Sync.GoogleClient
                             {
                                 var helper = HttpHelper.DefaultInstance;
                                 helper.ContentCredentials.LogOnDomain = "[GOOGLE]";
-                                helper.ContentCredentials.LogOnPassword = ((GDataGAuthRequestFactory)cr.Service.RequestFactory).GAuthToken;
+                                helper.ContentCredentials.LogOnPassword = ((GDataGAuthRequestFactory)this.requester.Service.RequestFactory).GAuthToken;
                                 stdEntry.PictureData = helper.GetContentBinary(googleContact.PhotoUri.AbsoluteUri, string.Empty, string.Empty);
                                 this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
                             }
@@ -203,67 +229,67 @@ namespace Sem.Sync.GoogleClient
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var rs = new RequestSettings("Sem.Sync.GoogleClient", this.LogOnUserId, this.LogOnPassword) { AutoPaging = true };
-            var cr = new ContactsRequest(rs);
+            this.EnsureInitialization();
 
-            var contactsUri = new Uri(ContactsQuery.CreateContactsUri(this.LogOnUserId, GroupsQuery.fullProjection));
-
-            foreach (var contact in elements.ToContacts())
+            foreach (var stdContact in elements.ToContacts())
             {
                 try
                 {
-                    var googleId = contact.PersonalProfileIdentifiers.GoogleId;
+                    var googleId = stdContact.PersonalProfileIdentifiers.GoogleId;
 
                     var googleContact =
                         (!string.IsNullOrEmpty(googleId)
-                             ? cr.Retrieve<Contact>(new Uri(googleId)) 
+                             ? this.requester.Retrieve<Contact>(new Uri(googleId))
                              : null) ?? new Contact();
 
-                    var semSyncId = (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x).FirstOrDefault();
-
-                    if (semSyncId == null)
+                    ExtendedProperty semSyncId = null;
+                    if (googleContact.ExtendedProperties != null)
                     {
-                        semSyncId = new ExtendedProperty { Name = contact.Id.ToString(), Value = "SemSyncId" };
-                        googleContact.ExtendedProperties.Add(semSyncId);
+                        if (googleContact.ExtendedProperties.Count > 0)
+                        {
+                            semSyncId = (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x).FirstOrDefault();
+                        }
+                        
+                        if (semSyncId == null)
+                        {
+                            semSyncId = new ExtendedProperty { Name = stdContact.Id.ToString(), Value = "SemSyncId" };
+                            googleContact.ExtendedProperties.Add(semSyncId);
+                        }
                     }
 
-                    googleContact.Title = contact.Name.ToString();
+                    googleContact.Title = stdContact.Name.ToString();
 
-                    if (!string.IsNullOrEmpty(contact.PersonalEmailPrimary))
+                    if (!string.IsNullOrEmpty(stdContact.PersonalEmailPrimary))
                     {
-                        googleContact.Emails.Add(new EMail(contact.PersonalEmailPrimary, "http://schemas.google.com/g/2005#" + "home"));
+                        googleContact.Emails.Add(new EMail(stdContact.PersonalEmailPrimary, GoogleSchemaPrefix2005 + GoogleSchemaQualifierHome));
                     }
 
-                    if (!string.IsNullOrEmpty(contact.BusinessEmailPrimary))
+                    if (!string.IsNullOrEmpty(stdContact.BusinessEmailPrimary))
                     {
-                        googleContact.Emails.Add(new EMail(contact.BusinessEmailPrimary, "http://schemas.google.com/g/2005#" + "work"));
+                        googleContact.Emails.Add(new EMail(stdContact.BusinessEmailPrimary, GoogleSchemaPrefix2005 + GoogleSchemaQualifierWork));
                     }
 
-                    AddAddressToGoogleContact(googleContact, contact.PersonalAddressPrimary, "home");
-                    AddAddressToGoogleContact(googleContact, contact.PersonalAddressSecondary, "home");
-                    AddAddressToGoogleContact(googleContact, contact.BusinessAddressPrimary, "work");
-                    AddAddressToGoogleContact(googleContact, contact.BusinessAddressSecondary, "work");
+                    AddAddressToGoogleContact(googleContact, stdContact.PersonalAddressPrimary, GoogleSchemaQualifierHome);
+                    AddAddressToGoogleContact(googleContact, stdContact.PersonalAddressSecondary, GoogleSchemaQualifierHome);
+                    AddAddressToGoogleContact(googleContact, stdContact.BusinessAddressPrimary, GoogleSchemaQualifierWork);
+                    AddAddressToGoogleContact(googleContact, stdContact.BusinessAddressSecondary, GoogleSchemaQualifierWork);
 
                     if (string.IsNullOrEmpty(googleId))
                     {
                         // replace the google contact with the updated version
-                        googleContact = cr.Insert(contactsUri, googleContact);
-                        contact.PersonalProfileIdentifiers.GoogleId = googleContact.Id;
+                        googleContact = this.requester.Insert(this.contactsUri, googleContact);
+                        stdContact.PersonalProfileIdentifiers.GoogleId = googleContact.Id;
                     }
                     else
                     {
-                        googleContact = cr.Update(googleContact);
+                        googleContact = this.requester.Update(googleContact);
                     }
 
-                    this.UpdateGooglePhoto(contact, googleContact);
-                }
-                catch (GDataRequestException ex)
-                {
-                    this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
+                    this.UpdateGooglePhoto(stdContact, googleContact);
                 }
                 catch (Exception ex)
                 {
-                    this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
+                    this.LogError(ex);
                 }
             }
         }
@@ -283,7 +309,7 @@ namespace Sem.Sync.GoogleClient
                 {
                     var postalAddress = new PostalAddress(addressText)
                     {
-                        Rel = "http://schemas.google.com/g/2005#" + addressType,
+                        Rel = GoogleSchemaPrefix2005 + addressType,
                     };
 
                     if (!IsAddressExisting(googleContact.PostalAddresses, stdAddress))
@@ -296,7 +322,7 @@ namespace Sem.Sync.GoogleClient
                 {
                     var phone = new Google.GData.Extensions.PhoneNumber(stdAddress.Phone.ToString())
                         {
-                            Rel = "http://schemas.google.com/g/2005#" + addressType
+                            Rel = GoogleSchemaPrefix2005 + addressType
                         };
 
                     googleContact.Phonenumbers.Add(phone);
@@ -327,6 +353,16 @@ namespace Sem.Sync.GoogleClient
         }
 
         /// <summary>
+        /// logs the exception to the console and the <see cref="SyncComponent.LogProcessingEvent(object,Sem.GenericHelpers.EventArgs.ProcessingEventArgs)"/>.
+        /// </summary>
+        /// <param name="exception"> The exception. </param>
+        private void LogError(Exception exception)
+        {
+            Console.WriteLine(exception + " : " + exception.Message);
+            this.LogProcessingEvent("Error while executing client: {0}", exception.Message);
+        }
+        
+        /// <summary>
         /// Creates or updates photo information for a google contact with the infoprmation found in the
         /// std-contact.
         /// </summary>
@@ -334,26 +370,49 @@ namespace Sem.Sync.GoogleClient
         /// <param name="googleContact"> The google contact. </param>
         private void UpdateGooglePhoto(StdContact contact, Contact googleContact)
         {
+            if (contact.PictureData == null || contact.PictureData.Length <= 0 || string.IsNullOrEmpty(googleContact.Id))
+            {
+                return;
+            }
+
             var rs = new RequestSettings("Sem.Sync.GoogleClient", this.LogOnUserId, this.LogOnPassword) { AutoPaging = true };
             var cr = new ContactsRequest(rs);
 
-            if (contact.PictureData != null && contact.PictureData.Length > 0 && !string.IsNullOrEmpty(googleContact.Id))
+            using (var photoStream = new MemoryStream(contact.PictureData))
             {
-                using (var photoStream = new MemoryStream(contact.PictureData))
+                try
                 {
-                    try
-                    {
-                        cr.SetPhoto(googleContact, photoStream);
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        return;
-                    }
-                    catch (Exception ex)
-                    {
-                        return;
-                    }
+                    cr.SetPhoto(googleContact, photoStream);
                 }
+                catch (Exception ex)
+                {
+                    this.LogError(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes the object after calling the <see cref="StdClient.ReadFullList"/> or <see cref="StdClient.WriteFullList"/> method.
+        /// This performs a setup of the requester to query the Google Data API.
+        /// </summary>
+        private void EnsureInitialization()
+        {
+            if (this.settings == null)
+            {
+                var userName = this.LogOnUserId;
+                var passWord = this.LogOnPassword;
+
+                this.settings = new RequestSettings("Sem.Sync.GoogleClient", userName, passWord)
+                    {
+                        AutoPaging = true
+                    };
+            }
+
+            this.requester = this.requester ?? new ContactsRequest(this.settings);
+
+            if (this.contactsUri == null)
+            {
+                this.contactsUri = new Uri(ContactsQuery.CreateContactsUri(this.LogOnUserId, GroupsQuery.fullProjection));
             }
         }
     }
