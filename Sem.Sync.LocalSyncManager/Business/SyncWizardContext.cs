@@ -16,6 +16,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.ComponentModel;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
 
     using Entities;
@@ -32,6 +33,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.Attributes;
     using SyncBase.Binding;
     using SyncBase.DetailData;
+    using SyncBase.Interfaces;
 
     using Tools;
 
@@ -80,45 +82,17 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             this.SetupPropertyChanged(true);
 
-            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
-            {
-                // todo: check if the dll is a loadable assembly
-                var assembly = Assembly.LoadFile(file);
-                foreach (var exportedType in assembly.GetExportedTypes())
-                {
-                    if (exportedType.GetInterface("IClientBase") == null ||
-                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
-                    {
-                        continue;
-                    }
+            var fileInfo = ScanFiles(Directory.GetCurrentDirectory());
 
-                    var sourceTypeAttributes = exportedType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
-                    var attribute =
-                        sourceTypeAttributes.Length == 0
-                        ? new ConnectorDescriptionAttribute()
-                        : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
-
-                    var fullName =
-                        exportedType.IsGenericType
-                        ? exportedType.FullName.Replace("`1", " of StdContact")
-                        : exportedType.FullName;
-
-                    var nameToUse =
-                        exportedType.IsGenericType
-                        ? (attribute.DisplayName ?? fullName) + " of StdContact"
-                        : attribute.DisplayName ?? fullName;
-
-                    if (attribute.CanRead)
-                    {
-                        this.ClientsSource.Add(fullName, nameToUse);
-                    }
-
-                    if (attribute.CanWrite)
-                    {
-                        this.ClientsTarget.Add(fullName, nameToUse);
-                    }
-                }
-            }
+            this.ClientsSource = from x in fileInfo
+                                 where (x.Value3 & 1) == 1
+                                 orderby x.Value2
+                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
+            
+            this.ClientsTarget = from x in fileInfo
+                                 where (x.Value3 & 2) == 2
+                                 orderby x.Value2
+                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
             foreach (var file in Directory.GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension))
@@ -137,12 +111,12 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <summary>
         /// Gets or sets the list of available connectors that can read data.
         /// </summary>
-        public Dictionary<string, string> ClientsSource { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> ClientsSource { get; set; }
 
         /// <summary>
         /// Gets or sets the list of connectors that can write data.
         /// </summary>
-        public Dictionary<string, string> ClientsTarget { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> ClientsTarget { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected Source.
@@ -347,6 +321,58 @@ namespace Sem.Sync.LocalSyncManager.Business
         {
             File.Delete(path);
             this.ReloadWorkflowDataList();
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> with a <see cref="Triple{T1,T2,T3}"/> that includes two
+        /// strings and an int describing the classes found in the assemblies of the scanned path. Each class 
+        /// does implement <see cref="IClientBase"/> and supports reading and/or writing. The first bit in 
+        /// the int is for read-support, the second for write-support.
+        /// </summary>
+        /// <param name="path"> The path to scan. </param>
+        /// <returns> The IEnumerable with the information. </returns>
+        private static IEnumerable<Triple<string, string, int>> ScanFiles(string path)
+        {
+            foreach (var file in Directory.GetFiles(path, "*.dll"))
+            {
+                // todo: check if the dll is a loadable assembly
+                var assembly = Assembly.LoadFile(file);
+                foreach (var exportedType in assembly.GetExportedTypes())
+                {
+                    if (exportedType.GetInterface("IClientBase") == null ||
+                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
+                    {
+                        continue;
+                    }
+
+                    var sourceTypeAttributes = exportedType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
+                    var attribute =
+                        sourceTypeAttributes.Length == 0
+                        ? new ConnectorDescriptionAttribute()
+                        : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
+
+                    var fullName =
+                        exportedType.IsGenericType
+                        ? exportedType.FullName.Replace("`1", " of StdContact")
+                        : exportedType.FullName;
+
+                    var nameToUse =
+                        exportedType.IsGenericType
+                        ? (attribute.DisplayName ?? fullName) + " of StdContact"
+                        : attribute.DisplayName ?? fullName;
+
+                    if (attribute.CanRead || attribute.CanWrite)
+                    {
+                        yield return
+                            new Triple<string, string, int>
+                                {
+                                    Value1 = fullName,
+                                    Value2 = nameToUse,
+                                    Value3 = attribute.CanRead ? (attribute.CanWrite ? 3 : 1) : 2
+                                };
+                    }
+                }
+            }
         }
 
         /// <summary>
