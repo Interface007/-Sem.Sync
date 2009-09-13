@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.Test
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GoogleConnectorTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Tests the google connector
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test
 {
     using DataGenerator;
     using GenericHelpers;
@@ -6,7 +15,7 @@
     using SyncBase.Helpers;
 
     /// <summary>
-    /// Tests the google connector with a 
+    /// Tests the google connector with a test of standard data and with standard account
     /// </summary>
     [TestClass]
     public class GoogleConnectorTest

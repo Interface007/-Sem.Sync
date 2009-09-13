@@ -7,7 +7,6 @@
 namespace Sem.GenericHelpers
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Text;
 
@@ -40,6 +39,12 @@ namespace Sem.GenericHelpers
             return result.ToString();
         }
 
+        /// <summary>
+        /// Performs an invoke of an <see cref="Action{T}"/> with the element of the IEnumerable as the only parameter for all elements inside the IEnumerable 
+        /// </summary>
+        /// <param name="enumerable"> The IEnumerable to get the elements from. </param>
+        /// <param name="action"> The action to be performed (eg. a lambda). </param>
+        /// <typeparam name="T"> the type parameter of the IEnumerable member </typeparam>
         public static void Invoke<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var element in enumerable)
@@ -48,6 +53,14 @@ namespace Sem.GenericHelpers
             }
         }
 
+        /// <summary>
+        /// Performs an invoke of an <see cref="Action{T}"/> with the element of the IEnumerable and another parameter for all elements inside the IEnumerable 
+        /// </summary>
+        /// <param name="enumerable"> The IEnumerable to get the elements from.  </param>
+        /// <param name="action"> The action to be performed (eg. a lambda).  </param>
+        /// <param name="parameter1"> The parameter to call the action. </param>
+        /// <typeparam name="T1"> the type parameter of the IEnumerable member  </typeparam>
+        /// <typeparam name="T2"> the type parameter of the parameter <paramref name="parameter1"/> member  </typeparam>
         public static void Invoke<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
         {
             foreach (var element in enumerable)

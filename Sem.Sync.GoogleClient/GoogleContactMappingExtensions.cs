@@ -37,6 +37,13 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         private const string GoogleSchemaPrefix2005 = "http://schemas.google.com/g/2005#";
 
+        /// <summary>
+        /// Adda a business company and position to the contact - the department is currently ignored
+        /// </summary>
+        /// <param name="googleContact"> The google contact. </param>
+        /// <param name="stdBusinessCompanyName"> The business company name to add. </param>
+        /// <param name="stdBusinessDepartment"> The business department name to add - this parameter is currently ignored. </param>
+        /// <param name="stdBusinessPosition"> The business position to add. </param>
         public static void AddOrganization(this Contact googleContact, string stdBusinessCompanyName, string stdBusinessDepartment, string stdBusinessPosition)
         {
             if (!string.IsNullOrEmpty(stdBusinessCompanyName))
@@ -146,12 +153,6 @@ namespace Sem.Sync.GoogleClient
                     }
                 }
             }
-        }
-
-        private static void UnlockCaptch(string urlToWebPage)
-        {
-            // todo: we need to open the web page for the unlock process and wait until the user di finish the process. 
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -320,6 +321,19 @@ namespace Sem.Sync.GoogleClient
                     stdEntry.BusinessAddressSecondary = stdAddress;
                 }
             }
+        }
+
+        /// <summary>
+        /// unlocks a locked account using a captcha
+        /// </summary>
+        /// <param name="urlToWebPage"> The url to web page to unlock the captcha-lock. </param>
+        /// <exception cref="NotImplementedException">
+        /// This still needs to be implemented - we should implement that inside a UI assembly
+        /// </exception>
+        private static void UnlockCaptch(string urlToWebPage)
+        {
+            // todo: we need to open the web page for the unlock process and wait until the user di finish the process. 
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -4,11 +4,14 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-using System;
-using System.Text.RegularExpressions;
-
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+    using System.Text.RegularExpressions;
+
+    /// <summary>
+    /// Enumeration of address formatting styles
+    /// </summary>
     public enum AddressFormatting
     {
         /// <summary>
@@ -27,6 +30,51 @@ namespace Sem.Sync.SyncBase.DetailData
     /// </summary>
     public class AddressDetail
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressDetail"/> class. 
+        /// </summary>
+        public AddressDetail()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressDetail"/> class. 
+        /// This constructor also parses the string parameter <paramref name="address"/> by lines to extract the address information.
+        /// </summary>
+        /// <param name="address">the string representation of an address</param>
+        public AddressDetail(string address)
+        {
+            var lines = address.Split('\n');
+            foreach (var parts in lines)
+            {
+                var line = parts
+                    .Replace("\t", string.Empty)
+                    .Replace("\n", string.Empty)
+                    .Trim();
+
+                if (Regex.IsMatch(line, "^[0-9]+ "))
+                {
+                    this.PostalCode = line.Split(' ')[0];
+                    this.CityName = line.Split(' ')[1];
+                    continue;
+                }
+
+                if (Regex.IsMatch(line, "^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+[0-9]+"))
+                {
+                    this.StreetName = line;
+                    continue;
+                }
+
+                if (Regex.IsMatch(line, "^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+"))
+                {
+                    this.CountryName += line;
+                    continue;
+                }
+
+                Console.WriteLine("??? : " + line);
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the name of the country (USA / Germany / Spain...)
         /// </summary>
@@ -73,52 +121,6 @@ namespace Sem.Sync.SyncBase.DetailData
         public PhoneNumber Phone { get; set; }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="AddressDetail"/> type.
-        /// </summary>
-        public AddressDetail()
-        {
-            
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="AddressDetail"/> type.
-        /// This constructor also parses the string parameter <paramref name="address"/> by lines to extract the address information.
-        /// </summary>
-        /// <param name="address"></param>
-        public AddressDetail(string address)
-        {
-            var lines = address.Split('\n');
-            foreach (var parts in lines)
-            {
-                var line = parts
-                    .Replace("\t", string.Empty)
-                    .Replace("\n", string.Empty)
-                    .Trim();
-
-                if (Regex.IsMatch(line, "^[0-9]+ "))
-                {
-                    this.PostalCode = line.Split(' ')[0];
-                    this.CityName = line.Split(' ')[1];
-                    continue;
-                }
-
-                if (Regex.IsMatch(line, "^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+[0-9]+"))
-                {
-                    this.StreetName = line;
-                    continue;
-                }
-
-                if (Regex.IsMatch(line, "^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+"))
-                {
-                    this.CountryName += line;
-                    continue;
-                }
-
-                Console.WriteLine("??? : " + line);
-            }
-        }
-
-        /// <summary>
         /// Builds up a string representation of the information inside this object.
         /// </summary>
         /// <returns>a well formatted string representation of the data</returns>
@@ -130,7 +132,8 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Builds up a string representation of the information inside this object.
         /// </summary>
-        /// <returns>a well formatted string representation of the data</returns>
+        /// <param name="format"> The format to use for the address formatting (<see cref="AddressFormatting"/>). </param>
+        /// <returns> a well formatted string representation of the data </returns>
         public string ToString(AddressFormatting format)
         {
             var result = string.Empty;
