@@ -26,38 +26,31 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <param name="name"> The name to interpret. </param>
         public PersonName(string name)
         {
-            if (Regex.IsMatch(name, "^[a-zA-Z-]+, "))
+            var match = Regex.Match(
+                name, @"^(?<last>[a-zA-Z-]+)( \((?<aka>[a-zA-Z.,-/ ]*)\))?,[ ]*(?<first>\w*)( (?<second>.*))?");
+            if (match.Groups.Count > 0 && !string.IsNullOrEmpty(match.Groups[0].ToString()))
             {
-                var nameParts = name.Split(',');
-                var firstNames = nameParts[1].Trim().Split(' ');
-                if (firstNames.Length == 1)
-                {
-                    this.FirstName = firstNames[0];
-                    this.LastName = nameParts[0];
-                }
-
-                if (firstNames.Length == 2)
-                {
-                    this.FirstName = firstNames[0];
-                    this.MiddleName = firstNames[1];
-                    this.LastName = nameParts[0];
-                }
+                this.FirstName = match.Groups["first"].ToString();
+                this.MiddleName = match.Groups["second"].ToString();
+                this.LastName = match.Groups["last"].ToString();
+                this.AcademicTitle = match.Groups["aka"].ToString();
+                return;
             }
-            else
+            
+            var namePartsX = name.Split(' ');
+            if (namePartsX.Length == 2)
             {
-                var nameParts = name.Split(' ');
-                if (nameParts.Length == 2)
-                {
-                    this.FirstName = nameParts[0];
-                    this.LastName = nameParts[1];
-                }
+                this.FirstName = namePartsX[0];
+                this.LastName = namePartsX[1];
+                return;
+            }
 
-                if (nameParts.Length == 3)
-                {
-                    this.FirstName = nameParts[0];
-                    this.MiddleName = nameParts[1];
-                    this.LastName = nameParts[2];
-                }
+            if (namePartsX.Length == 3)
+            {
+                this.FirstName = namePartsX[0];
+                this.MiddleName = namePartsX[1];
+                this.LastName = namePartsX[2];
+                return;
             }
         }
 

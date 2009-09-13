@@ -43,6 +43,26 @@ namespace Sem.Sync.GoogleClient
         /// <param name="googleContact"> The google contact. </param>
         /// <param name="stdAddress"> The <see cref="AddressDetail"/> data from the <see cref="StdContact"/>. </param>
         /// <param name="addressType"> A text type of address ("home", "work"). </param>
+        public static void AddOrganization(this Contact googleContact, string stdBusinessCompanyName, string stdBusinessDepartment, string stdBusinessPosition)
+        {
+            if (!string.IsNullOrEmpty(stdBusinessCompanyName))
+            {
+                var company = new Organization
+                    {
+                        Name = stdBusinessCompanyName,
+                        Title = stdBusinessPosition
+                    };
+
+                googleContact.Organizations.Add(company);
+            }
+        }
+
+        /// <summary>
+        /// Adds a specific <see cref="AddressDetail"/> to the google address list of a google contact
+        /// </summary>
+        /// <param name="googleContact"> The google contact. </param>
+        /// <param name="stdAddress"> The <see cref="AddressDetail"/> data from the <see cref="StdContact"/>. </param>
+        /// <param name="addressType"> A text type of address ("home", "work"). </param>
         public static void AddAddress(this Contact googleContact, AddressDetail stdAddress, string addressType)
         {
             if (stdAddress != null)
@@ -61,16 +81,29 @@ namespace Sem.Sync.GoogleClient
                     }
                 }
 
-                if (stdAddress.Phone != null && !string.IsNullOrEmpty(stdAddress.Phone.ToString()))
-                {
-                    var phone = new Google.GData.Extensions.PhoneNumber(stdAddress.Phone.ToString())
-                    {
-                        Rel = GoogleSchemaPrefix2005 + addressType
-                    };
-
-                    googleContact.Phonenumbers.Add(phone);
-                }
+                googleContact.AddPhoneNumber(stdAddress.Phone, addressType);
             }
+        }
+
+        /// <summary>
+        /// Adds a specific <see cref="PhoneNumber"/> to the google address list of a google contact
+        /// </summary>
+        /// <param name="googleContact"> The google contact. </param>
+        /// <param name="stdPhoneNumber"> The std phone number. </param>
+        /// <param name="addressType"> The address type. </param>
+        public static void AddPhoneNumber(this Contact googleContact, PhoneNumber stdPhoneNumber, string addressType)
+        {
+            if (stdPhoneNumber == null || string.IsNullOrEmpty(stdPhoneNumber.ToString()))
+            {
+                return;
+            }
+
+            var phone = new Google.GData.Extensions.PhoneNumber(stdPhoneNumber.ToString())
+                {
+                    Rel = GoogleSchemaPrefix2005 + addressType
+                };
+
+            googleContact.Phonenumbers.Add(phone);
         }
 
         /// <summary>
@@ -209,12 +242,12 @@ namespace Sem.Sync.GoogleClient
         {
             if (email.Home)
             {
-                stdEntry.PersonalEmailPrimary = email.Value;
+                stdEntry.PersonalEmailPrimary = email.Address;
             }
 
             if (email.Work)
             {
-                stdEntry.BusinessEmailPrimary = email.Value;
+                stdEntry.BusinessEmailPrimary = email.Address;
             }
         }
 
@@ -236,6 +269,18 @@ namespace Sem.Sync.GoogleClient
             {
                 stdEntry.BusinessAddressPrimary = stdEntry.BusinessAddressPrimary ?? new AddressDetail();
                 stdEntry.BusinessAddressPrimary.Phone = stdPhoneNumber;
+            }
+
+            if (phonenumber.Rel == GoogleSchemaPrefix2005 + "mobile")
+            {
+                if (stdEntry.PersonalPhoneMobile == null)
+                {
+                    stdEntry.PersonalPhoneMobile = stdPhoneNumber;
+                }
+                else
+                {
+                    stdEntry.BusinessPhoneMobile = stdPhoneNumber;
+                }
             }
         }
 

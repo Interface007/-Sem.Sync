@@ -51,6 +51,11 @@ namespace Sem.Sync.GoogleClient
         /// The qualifier for the attribute "home"
         /// </summary>
         private const string GoogleSchemaQualifierHome = "home";
+        
+        /// <summary>
+        /// The qualifier for the attribute "home"
+        /// </summary>
+        private const string GoogleSchemaQualifierMobile = "mobile";
         #endregion const
 
         #region members
@@ -162,23 +167,41 @@ namespace Sem.Sync.GoogleClient
                 try
                 {
                     var googleId = stdContact.PersonalProfileIdentifiers.GoogleId;
+                    var googleContact = new Contact();
 
-                    var googleContact =
-                        (!string.IsNullOrEmpty(googleId)
-                             ? this.requester.Retrieve<Contact>(new Uri(googleId))
-                             : null) ?? new Contact();
+                    if (!string.IsNullOrEmpty(googleId))
+                    {
+                        try
+                        {
+                            googleContact = this.requester.Retrieve<Contact>(new Uri(googleId));
+                        }
+                        catch (GDataRequestException ex)
+                        {
+                            googleId = string.Empty;
+                            if (ex.ResponseString != "Contact not found.")
+                            {
+                                Console.WriteLine(ex.Message);
+                                throw;
+                            }
+                        }
+                    }
 
                     googleContact.SetSyncIdentifier(stdContact.Id);
-                    googleContact.Title = stdContact.Name.ToString();
+                    googleContact.Title = (stdContact.Name ?? new PersonName("(unknown)")).ToString();
 
                     googleContact.AddEmail(stdContact.PersonalEmailPrimary, GoogleSchemaQualifierHome);
                     googleContact.AddEmail(stdContact.BusinessEmailPrimary, GoogleSchemaQualifierWork);
+
+                    googleContact.AddOrganization(stdContact.BusinessCompanyName, stdContact.BusinessDepartment, stdContact.BusinessPosition);
 
                     // setting the addresses if available
                     googleContact.AddAddress(stdContact.PersonalAddressPrimary, GoogleSchemaQualifierHome);
                     googleContact.AddAddress(stdContact.BusinessAddressPrimary, GoogleSchemaQualifierWork);
                     googleContact.AddAddress(stdContact.PersonalAddressSecondary, GoogleSchemaQualifierHome);
                     googleContact.AddAddress(stdContact.BusinessAddressSecondary, GoogleSchemaQualifierWork);
+
+                    googleContact.AddPhoneNumber(stdContact.PersonalPhoneMobile, GoogleSchemaQualifierMobile);
+                    googleContact.AddPhoneNumber(stdContact.BusinessPhoneMobile, GoogleSchemaQualifierMobile);
 
                     if (string.IsNullOrEmpty(googleId))
                     {
