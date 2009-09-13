@@ -135,6 +135,10 @@ namespace Sem.Sync.GoogleClient
                             break;
                         }
                     }
+                    catch (CaptchaRequiredException)
+                    {
+                        UnlockCaptch("https://www.google.com/accounts/DisplayUnlockCaptcha");
+                    }
                     catch (Exception ex)
                     {
                         ((ContactClient)credentials).LogError(ex);
@@ -142,6 +146,12 @@ namespace Sem.Sync.GoogleClient
                     }
                 }
             }
+        }
+
+        private static void UnlockCaptch(string urlToWebPage)
+        {
+            // todo: we need to open the web page for the unlock process and wait until the user di finish the process. 
+            throw new NotImplementedException();
         }
 
         /// <summary>
