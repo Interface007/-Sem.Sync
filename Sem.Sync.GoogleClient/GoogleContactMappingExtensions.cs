@@ -42,9 +42,10 @@ namespace Sem.Sync.GoogleClient
             if (!string.IsNullOrEmpty(stdBusinessCompanyName))
             {
                 var company = new Organization
-                    {
-                        Name = stdBusinessCompanyName,
-                        Title = stdBusinessPosition
+                    { 
+                        Name = stdBusinessCompanyName, 
+                        Title = stdBusinessPosition,
+                        Rel = GoogleSchemaPrefix2005 + "work"
                     };
 
                 googleContact.Organizations.Add(company);
@@ -187,7 +188,7 @@ namespace Sem.Sync.GoogleClient
         /// <param name="organization"> The organization information from the google contact. </param>
         public static void SetBusiness(this StdContact stdEntry, Organization organization)
         {
-            if (organization.Primary)
+            if (organization.Primary || string.IsNullOrEmpty(stdEntry.BusinessCompanyName))
             {
                 stdEntry.BusinessPosition = organization.Title;
                 stdEntry.BusinessCompanyName = organization.Name;

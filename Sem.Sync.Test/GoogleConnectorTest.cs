@@ -25,7 +25,7 @@
                     LogOnUserId = "semsynctest@svenerikmatzen.info",
                     LogOnPassword =
                         Tools.GetRegValue(
-                        "Software\\Sem.Sync\\Test", "GoogleTestPassword", "{71AFF4AF-01B9-4f28-83AA-94C15EB39857}")
+                        "Software\\Sem.Sync\\Test", "GoogleTestPassword", string.Empty)
                 };
 
             connector.WriteRange(original.ToStdElement(), string.Empty);

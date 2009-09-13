@@ -139,7 +139,7 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case AddressFormatting.StreetAndCity:
                     result += this.StreetName ?? string.Empty;
-                    result = result.Replace(this.StreetNumber.ToString(), string.Empty);
+                    result = result.Replace(this.StreetNumber + (this.StreetNumberExtension ?? string.Empty), string.Empty);
                     result += this.StreetNumber > 0 ? " " + this.StreetNumber : string.Empty;
                     result += string.IsNullOrEmpty(this.StreetNumberExtension) ? string.Empty : " " + this.StreetNumberExtension;
                     result += string.IsNullOrEmpty(result) ? string.Empty : "\n";
@@ -150,7 +150,7 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 default:
                     result += this.StreetName ?? string.Empty;
-                    result = result.Replace(this.StreetNumber.ToString(), string.Empty);
+                    result = result.Replace(this.StreetNumber + (this.StreetNumberExtension ?? string.Empty), string.Empty);
                     result += this.StreetNumber > 0 ? " " + this.StreetNumber : string.Empty;
                     result += string.IsNullOrEmpty(this.StreetNumberExtension) ? string.Empty : " " + this.StreetNumberExtension;
                     result += string.IsNullOrEmpty(result) ? string.Empty : " / ";

@@ -93,8 +93,15 @@ namespace Sem.Sync.GoogleClient
         /// <param name="exception"> The exception. </param>
         internal void LogError(Exception exception)
         {
-            Console.WriteLine(exception + " : " + exception.Message);
-            this.LogProcessingEvent("Error while executing client: {0}", exception.Message);
+            var message = exception.Message;
+            var gex = exception as GDataRequestException;
+            if (gex != null)
+            {
+                message = gex.ResponseString;
+            }
+
+            Console.WriteLine(exception + " : " + message);
+            this.LogProcessingEvent("Error while executing client: {0}", message);
         }
 
         /// <summary>
