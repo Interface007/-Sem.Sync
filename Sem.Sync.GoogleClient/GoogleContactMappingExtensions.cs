@@ -37,12 +37,6 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         private const string GoogleSchemaPrefix2005 = "http://schemas.google.com/g/2005#";
 
-        /// <summary>
-        /// Adds a specific <see cref="AddressDetail"/> to the google address list of a google contact
-        /// </summary>
-        /// <param name="googleContact"> The google contact. </param>
-        /// <param name="stdAddress"> The <see cref="AddressDetail"/> data from the <see cref="StdContact"/>. </param>
-        /// <param name="addressType"> A text type of address ("home", "work"). </param>
         public static void AddOrganization(this Contact googleContact, string stdBusinessCompanyName, string stdBusinessDepartment, string stdBusinessPosition)
         {
             if (!string.IsNullOrEmpty(stdBusinessCompanyName))
