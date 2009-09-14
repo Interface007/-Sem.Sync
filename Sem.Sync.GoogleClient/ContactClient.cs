@@ -149,6 +149,7 @@ namespace Sem.Sync.GoogleClient
                         googleContact.Organizations.ForEach(stdEntry.SetBusiness);
                         googleContact.Phonenumbers.ForEach(stdEntry.SetPhone);
                         googleContact.Emails.ForEach(stdEntry.SetEmail);
+                        googleContact.IMs.ForEach(stdEntry.SetInstantMessenger);
                         
                         // downloads the image
                         stdEntry.SetPicture(googleContact, this.requester);
@@ -219,6 +220,9 @@ namespace Sem.Sync.GoogleClient
 
                     googleContact.AddPhoneNumber(stdContact.PersonalPhoneMobile, GoogleSchemaQualifierMobile);
                     googleContact.AddPhoneNumber(stdContact.BusinessPhoneMobile, GoogleSchemaQualifierMobile);
+
+                    // TODO: add the IM addresses
+                    ////googleContact.AddAddress(stdContact.BusinessAddressSecondary, GoogleSchemaQualifierWork);
 
                     if (string.IsNullOrEmpty(googleId))
                     {

@@ -258,6 +258,39 @@ namespace Sem.Sync.GoogleClient
         }
 
         /// <summary>
+        /// sets the correct IM address from a google contacts Ims
+        /// </summary>
+        /// <param name="stdEntry"> The std entry. </param>
+        /// <param name="imAddress"> The IM address. </param>
+        public static void SetInstantMessenger(this StdContact stdEntry, IMAddress imAddress)
+        {
+            if (stdEntry.PersonalInstantMessengerAddresses == null)
+            {
+                stdEntry.PersonalInstantMessengerAddresses = new InstantMessengerAddresses();
+            }
+
+            if (imAddress.Home)
+            {
+                switch (imAddress.Protocol)
+                {
+                    case "msn":
+                        stdEntry.PersonalInstantMessengerAddresses.MsnMessenger = imAddress.Address;
+                        break;
+                }
+            }
+
+            if (imAddress.Work)
+            {
+                switch (imAddress.Protocol)
+                {
+                    case "msn":
+                        stdEntry.BusinessInstantMessengerAddresses.MsnMessenger = imAddress.Address;
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
         /// sets the correct phone number from a google contacts email
         /// </summary>
         /// <param name="stdEntry"> The std entry. </param>
