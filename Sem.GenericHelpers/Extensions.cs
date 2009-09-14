@@ -45,7 +45,7 @@ namespace Sem.GenericHelpers
         /// <param name="enumerable"> The IEnumerable to get the elements from. </param>
         /// <param name="action"> The action to be performed (eg. a lambda). </param>
         /// <typeparam name="T"> the type parameter of the IEnumerable member </typeparam>
-        public static void Invoke<T>(this IEnumerable<T> enumerable, Action<T> action)
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var element in enumerable)
             {
@@ -61,7 +61,7 @@ namespace Sem.GenericHelpers
         /// <param name="parameter1"> The parameter to call the action. </param>
         /// <typeparam name="T1"> the type parameter of the IEnumerable member  </typeparam>
         /// <typeparam name="T2"> the type parameter of the parameter <paramref name="parameter1"/> member  </typeparam>
-        public static void Invoke<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
+        public static void ForEach<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
         {
             foreach (var element in enumerable)
             {

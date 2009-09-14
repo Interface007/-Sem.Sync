@@ -1,25 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sem.Sync.SyncBase.DetailData;
-
-namespace Sem.Sync.Test
+﻿namespace Sem.Sync.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using SyncBase.DetailData;
+
     /// <summary>
     /// Summary description for PersonNameClassTest
     /// </summary>
     [TestClass]
     public class PersonNameClassTest
     {
-        public PersonNameClassTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -108,6 +97,27 @@ namespace Sem.Sync.Test
             Assert.AreEqual("Matzen", name.LastName);
             Assert.IsTrue(string.IsNullOrEmpty(name.Suffix));
             Assert.IsTrue(string.IsNullOrEmpty(name.FormerName));
+            Assert.AreEqual("Matzen (Dr.), Sven Erik", name.ToString());
+        }
+
+        [TestMethod]
+        public void ToStringTest()
+        {
+            PersonName name;
+
+            name = new PersonName("Sven Erik Matzen");
+            Assert.AreEqual("Matzen, Sven Erik", name.ToString());
+
+            name = new PersonName("Sven Matzen");
+            Assert.AreEqual("Matzen, Sven", name.ToString());
+
+            name = new PersonName("Matzen, Sven Erik");
+            Assert.AreEqual("Matzen, Sven Erik", name.ToString());
+
+            name = new PersonName("Matzen, Sven");
+            Assert.AreEqual("Matzen, Sven", name.ToString());
+
+            name = new PersonName("Matzen (Dr.), Sven Erik");
             Assert.AreEqual("Matzen (Dr.), Sven Erik", name.ToString());
         }
     }

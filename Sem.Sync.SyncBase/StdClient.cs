@@ -81,6 +81,19 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Deletes a list/collection of entities stecified by the identifiers.
+        /// </summary>
+        /// <param name="elementsToDelete">
+        /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
+        /// only the id read from <see cref="StdContact.PersonalProfileIdentifiers"/> is needed to delete an element.
+        /// </param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        public virtual void DeleteElements(IEnumerable<StdElement> elementsToDelete, string clientFolderName)
+        {
+        }
+
+        /// <summary>
         /// Overridable implementation of the process of retrieving the full list of elements. In the
         /// default implementation this calls <see cref="BeforeStorageAccess"/> and 
         /// <see cref="ReadFullList"/> to get the elements and performs sorting and logging calls. 

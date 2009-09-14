@@ -42,8 +42,10 @@ namespace Sem.Sync.Test
 
             var originalText = Contacts.SerializeList(original);
             var receivedText = Contacts.SerializeList(received);
-            
+
             Assert.IsTrue(originalText == receivedText);
+
+            connector.DeleteElements(original.ToStdElement(), string.Empty);
         }
     }
 }

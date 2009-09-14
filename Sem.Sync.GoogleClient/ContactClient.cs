@@ -88,6 +88,16 @@ namespace Sem.Sync.GoogleClient
         }
 
         /// <summary>
+        /// Deletes a list of Contact IDs. 
+        /// </summary>
+        /// <param name="elements"> The identifiers. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        public override void DeleteElements(IEnumerable<StdElement> elements, string clientFolderName)
+        {
+            elements.ForEach(x => this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GoogleId)).Entries.ForEach(this.requester.Delete));
+        }
+
+        /// <summary>
         /// logs the exception to the console and the <see cref="SyncComponent.LogProcessingEvent(object,Sem.GenericHelpers.EventArgs.ProcessingEventArgs)"/>.
         /// </summary>
         /// <param name="exception"> The exception. </param>
@@ -135,10 +145,10 @@ namespace Sem.Sync.GoogleClient
                         googleContact.SetSyncIdentifier(semSyncId);
 
                         // the Invoke is an extension method that calls the lambda for each element of an IEnumerable
-                        googleContact.PostalAddresses.Invoke(x => stdEntry.SetAddress(x));
-                        googleContact.Organizations.Invoke(x => stdEntry.SetBusiness(x));
-                        googleContact.Phonenumbers.Invoke(x => stdEntry.SetPhone(x));
-                        googleContact.Emails.Invoke(x => stdEntry.SetEmail(x));
+                        googleContact.PostalAddresses.ForEach(stdEntry.SetAddress);
+                        googleContact.Organizations.ForEach(stdEntry.SetBusiness);
+                        googleContact.Phonenumbers.ForEach(stdEntry.SetPhone);
+                        googleContact.Emails.ForEach(stdEntry.SetEmail);
                         
                         // downloads the image
                         stdEntry.SetPicture(googleContact, this.requester);

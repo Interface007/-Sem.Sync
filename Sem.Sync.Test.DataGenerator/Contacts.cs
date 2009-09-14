@@ -125,6 +125,12 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine(" </StdContact>");
         }
 
+        /// <summary>
+        /// Generates a standard contact list containing multiple contacts with different aspects for testing.
+        /// if <paramref name="includeNulls"/> is true, this includes a contact with mainly null values.
+        /// </summary>
+        /// <param name="includeNulls"> A value indicating if a contact with only null values is wanted. </param>
+        /// <returns> a list of contacts </returns>
         public static List<StdContact> GetStandardContactList(bool includeNulls)
         {
             var container = new StringBuilder();
@@ -147,6 +153,11 @@ namespace Sem.Sync.Test.DataGenerator
             return (List<StdContact>)contactListFormatter.Deserialize(textStream);
         }
 
+        /// <summary>
+        /// Serializes a list of contacts into a string
+        /// </summary>
+        /// <param name="list"> The list to be serialized. </param>
+        /// <returns> the serialized object as an xml string </returns>
         public static string SerializeList(List<StdContact> list)
         {
             var contactListFormatter = new XmlSerializer(typeof(List<StdContact>));
