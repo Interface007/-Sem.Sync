@@ -33,15 +33,12 @@ namespace Sem.Sync.GoogleClient
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(
-        DisplayName = "Google Mail Contacts Client",
-        CanRead = true,
-        CanWrite = true,
-        MatchingIdentifier = ProfileIdentifierType.Google,
-        NeedsCredentials = true)]
+    [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanRead = true, CanWrite = true,
+        MatchingIdentifier = ProfileIdentifierType.Google, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
         #region const
+
         /// <summary>
         /// The qualifier for the attribute "work"
         /// </summary>
@@ -51,19 +48,21 @@ namespace Sem.Sync.GoogleClient
         /// The qualifier for the attribute "home"
         /// </summary>
         private const string GoogleSchemaQualifierHome = "home";
-        
+
         /// <summary>
         /// The qualifier for the attribute "home"
         /// </summary>
         private const string GoogleSchemaQualifierMobile = "mobile";
+
         #endregion const
 
         #region members
+
         /// <summary>
         /// The settings instance
         /// </summary>
         private RequestSettings settings;
-        
+
         /// <summary>
         /// The requester object for the google api
         /// </summary>
@@ -73,6 +72,7 @@ namespace Sem.Sync.GoogleClient
         /// An URI representing the currently logged in user
         /// </summary>
         private Uri contactsUri;
+
         #endregion members
 
         /// <summary>
@@ -94,7 +94,10 @@ namespace Sem.Sync.GoogleClient
         /// <param name="clientFolderName"> The client folder name. </param>
         public override void DeleteElements(IEnumerable<StdElement> elements, string clientFolderName)
         {
-            elements.ForEach(x => this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GoogleId)).Entries.ForEach(this.requester.Delete));
+            elements.ForEach(
+                x =>
+                this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GoogleId)).Entries.
+                    ForEach(this.requester.Delete));
         }
 
         /// <summary>
@@ -126,21 +129,26 @@ namespace Sem.Sync.GoogleClient
             {
                 this.EnsureInitialization();
 
-                var f = this.requester.GetContacts();
-                foreach (var googleContact in f.Entries)
+                var contactsCollection = this.requester.GetContacts();
+                foreach (var googleContact in contactsCollection.Entries)
                 {
                     try
                     {
                         // todo: the extended properties are not filled - find out why and how to solve that issue
-                        var semSyncIdString = (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x.Value).FirstOrDefault();
-                        var semSyncId = string.IsNullOrEmpty(semSyncIdString) ? Guid.NewGuid() : new Guid(semSyncIdString);
+                        var semSyncIdString =
+                            (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x.Value).
+                                FirstOrDefault();
+                        var semSyncId = string.IsNullOrEmpty(semSyncIdString)
+                                            ? Guid.NewGuid()
+                                            : new Guid(semSyncIdString);
 
                         var stdEntry = new StdContact
-                        {
-                            Id = semSyncId,
-                            Name = new PersonName(googleContact.Title),
-                            PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.Google, googleContact.Id)
-                        };
+                            {
+                                Id = semSyncId,
+                                Name = new PersonName(googleContact.Title),
+                                PersonalProfileIdentifiers =
+                                    new ProfileIdentifiers(ProfileIdentifierType.Google, googleContact.Id)
+                            };
 
                         googleContact.SetSyncIdentifier(semSyncId);
 
@@ -150,7 +158,7 @@ namespace Sem.Sync.GoogleClient
                         googleContact.Phonenumbers.ForEach(stdEntry.SetPhone);
                         googleContact.Emails.ForEach(stdEntry.SetEmail);
                         googleContact.IMs.ForEach(stdEntry.SetInstantMessenger);
-                        
+
                         // downloads the image
                         stdEntry.SetPicture(googleContact, this.requester);
 
@@ -210,7 +218,8 @@ namespace Sem.Sync.GoogleClient
                     googleContact.AddEmail(stdContact.PersonalEmailPrimary, GoogleSchemaQualifierHome);
                     googleContact.AddEmail(stdContact.BusinessEmailPrimary, GoogleSchemaQualifierWork);
 
-                    googleContact.AddOrganization(stdContact.BusinessCompanyName, stdContact.BusinessDepartment, stdContact.BusinessPosition);
+                    googleContact.AddOrganization(
+                        stdContact.BusinessCompanyName, stdContact.BusinessDepartment, stdContact.BusinessPosition);
 
                     // setting the addresses if available
                     googleContact.AddAddress(stdContact.PersonalAddressPrimary, GoogleSchemaQualifierHome);
@@ -257,17 +266,15 @@ namespace Sem.Sync.GoogleClient
                 var userName = this.LogOnUserId;
                 var passWord = this.LogOnPassword;
 
-                this.settings = new RequestSettings("Sem.Sync.GoogleClient", userName, passWord)
-                    {
-                        AutoPaging = true
-                    };
+                this.settings = new RequestSettings("Sem.Sync.GoogleClient", userName, passWord) { AutoPaging = true };
             }
 
             this.requester = this.requester ?? new ContactsRequest(this.settings);
 
             if (this.contactsUri == null)
             {
-                this.contactsUri = new Uri(ContactsQuery.CreateContactsUri(this.LogOnUserId, GroupsQuery.fullProjection));
+                this.contactsUri = new Uri(
+                    ContactsQuery.CreateContactsUri(this.LogOnUserId, GroupsQuery.fullProjection));
             }
         }
     }

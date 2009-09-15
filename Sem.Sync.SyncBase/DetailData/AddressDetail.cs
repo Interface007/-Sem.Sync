@@ -52,16 +52,20 @@ namespace Sem.Sync.SyncBase.DetailData
                     .Replace("\n", string.Empty)
                     .Trim();
 
-                if (Regex.IsMatch(line, "^[0-9]+ "))
+                if (Regex.IsMatch(line, "^[0-9]+"))
                 {
-                    this.PostalCode = line.Split(' ')[0];
-                    this.CityName = line.Split(' ')[1];
+                    var lineParts = Regex.Matches(line, "(?<plz>^[0-9]+)(?<city>[^0-9]+.+)?");
+                    this.PostalCode = GetMatchGroupWithDefault(lineParts, "plz", string.Empty);
+                    this.CityName = GetMatchGroupWithDefault(lineParts, "city", string.Empty);
                     continue;
                 }
 
                 if (Regex.IsMatch(line, "^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+[0-9]+"))
                 {
-                    this.StreetName = line;
+                    var lineParts = Regex.Matches(line, "(?<name>^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+)(?<num>[0-9]+)(?<ext>.+)");
+                    this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
+                    this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"));
+                    this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
                     continue;
                 }
 
@@ -74,7 +78,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 Console.WriteLine("??? : " + line);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the name of the country (USA / Germany / Spain...)
         /// </summary>
@@ -169,6 +173,25 @@ namespace Sem.Sync.SyncBase.DetailData
             }
             
             return result;
+        }
+
+        /// <summary>
+        /// extracts a named match string
+        /// </summary>
+        /// <param name="lineParts"> The line parts. </param>
+        /// <param name="groupName"> The group name. </param>
+        /// <param name="defaultValue"> The default value. </param>
+        /// <returns>
+        /// the default value if there is no such group name match
+        /// </returns>
+        private static string GetMatchGroupWithDefault(MatchCollection lineParts, string groupName, string defaultValue)
+        {
+            if (lineParts.Count < 1 || lineParts[0].Groups[groupName] == null)
+            {
+                return defaultValue;
+            }
+
+            return lineParts[0].Groups[groupName].ToString().Trim();
         }
     }
 }

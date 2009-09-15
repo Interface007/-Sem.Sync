@@ -128,6 +128,7 @@
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Interfaces\IUiSyncInteraction.cs" />
+    <Compile Include="StdProfileInformationClient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

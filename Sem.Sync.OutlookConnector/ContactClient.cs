@@ -16,6 +16,8 @@ namespace Sem.Sync.OutlookConnector
     using System.Globalization;
     using System.Linq;
 
+    using GenericHelpers;
+
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
@@ -30,8 +32,6 @@ namespace Sem.Sync.OutlookConnector
     [ConnectorDescription(DisplayName = "Microsoft Outlook 2007")]
     public class ContactClient : StdClient
     {
-        #region interface IClientBase
-
         /// <summary>
         /// Gets the ui friendly name of this connector
         /// </summary>
@@ -59,8 +59,8 @@ namespace Sem.Sync.OutlookConnector
 
                 LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
-                                       orderby a.LastName, a.FirstName
-                                       select a;
+                                      orderby a.LastName, a.FirstName
+                                      select a;
 
                 _ContactItem lastItem = null;
                 foreach (var item in outlookItemList)
@@ -73,7 +73,7 @@ namespace Sem.Sync.OutlookConnector
                         LogProcessingEvent(stdItem, Resources.uiComparing);
 
                         if (lastItem.LastName == item.LastName
-                            && lastItem.FirstName == item.FirstName 
+                            && lastItem.FirstName == item.FirstName
                             && lastItem.MiddleName == item.MiddleName)
                         {
                             LogProcessingEvent(stdItem, Resources.uiRemoving);
@@ -140,6 +140,31 @@ namespace Sem.Sync.OutlookConnector
         public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, true);
+        }
+
+        /// <summary>
+        /// Deletes a contact entry.
+        /// </summary>
+        /// <param name="elementsToDelete"> The elements to delete. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        public override void DeleteElements(IEnumerable<StdElement> elementsToDelete, string clientFolderName)
+        {
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var outlookFolder = OutlookClient.GetOutlookMapiFolder(
+                outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+
+            elementsToDelete.ForEach(
+                x =>
+                {
+                    // todo: the filter needs to be corrected!
+                    var contact = outlookFolder.Items.Find(x.Id.ToString()) as ContactItem;
+                    if (contact != null)
+                    {
+                        contact.Delete();
+                    }
+                });
+
+            outlookNamespace.Logoff();
         }
 
         /// <summary>
@@ -251,6 +276,5 @@ namespace Sem.Sync.OutlookConnector
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
         }
-        #endregion
     }
 }
