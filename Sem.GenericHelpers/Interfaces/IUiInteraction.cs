@@ -10,6 +10,8 @@
 
 namespace Sem.GenericHelpers.Interfaces
 {
+    using Entities;
+
     /// <summary>
     /// Interface for objects that are able to route UI access to the correct objects
     /// </summary>
@@ -33,5 +35,15 @@ namespace Sem.GenericHelpers.Interfaces
         /// <param name="title">the title of the message box</param>
         /// <returns>a value indicating whether the user did click the "ok" button</returns>
         bool AskForConfirm(string messageForUser, string title);
+
+        /// <summary>
+        /// Asks the user to resolve a captcha request on a web site. 
+        /// TODO: enhance the method to be able to pass back the information
+        /// </summary>
+        /// <param name="messageForUser"> a message that should be displayed to the user </param>
+        /// <param name="title"> the title of the message box </param>
+        /// <param name="request"> The information collected while resolving the captcha. </param>
+        /// <returns> a <see cref="CaptchaResolveResult"/> instance with information of the web site </returns>
+        CaptchaResolveResult ResolveCaptcha(string messageForUser, string title, CaptchaResolveRequest request);
     }
 }

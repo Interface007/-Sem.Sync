@@ -98,5 +98,17 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <param name="clientFolderName">the information where inside the source the elements reside - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void WriteRange(List<StdElement> elements, string clientFolderName);
+
+        /// <summary>
+        /// Deletes a list/collection of entities stecified by the identifiers.
+        /// </summary>
+        /// <param name="elementsToDelete">
+        /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
+        /// only the id read from <see cref="StdContact.PersonalProfileIdentifiers"/> is needed to delete an element.
+        /// </param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName);
+
     }
 }

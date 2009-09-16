@@ -87,6 +87,8 @@
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Entities\CaptchaResolveRequest.cs" />
+    <Compile Include="Entities\CaptchaResolveResult.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Entities\Credentials.cs" />
     <Compile Include="Entities\KeyValuePair.cs" />

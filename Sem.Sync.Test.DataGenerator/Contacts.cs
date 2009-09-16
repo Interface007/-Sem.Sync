@@ -9,18 +9,28 @@
 
 namespace Sem.Sync.Test.DataGenerator
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using System.Xml.Serialization;
 
     using SyncBase;
+    using SyncBase.Attributes;
+    using SyncBase.DetailData;
+    using SyncBase.Helpers;
 
     /// <summary>
     /// Defines contact test data
     /// </summary>
-    public static class Contacts
+    [ClientStoragePathDescriptionAttribute(Irrelevant = true)]
+    [ConnectorDescription(
+        DisplayName = "Test Data connector",
+        CanWrite = true, CanRead = true)]
+    public class Contacts : StdClient
     {
+        private static int x = 0;
+
         /// <summary>
         /// Adds a contact to a StringBuilder that does not contain a picture.
         /// </summary>
@@ -161,14 +171,119 @@ namespace Sem.Sync.Test.DataGenerator
         public static string SerializeList(List<StdContact> list)
         {
             var contactListFormatter = new XmlSerializer(typeof(List<StdContact>));
-            
+
             var textStream = new MemoryStream();
             contactListFormatter.Serialize(textStream, list);
-            
+
             TextReader reader = new StreamReader(textStream);
             textStream.Seek(0, 0);
 
             return reader.ReadToEnd();
+        }
+
+        public static List<StdContact> GetVariableContactList(bool b)
+        {
+            return new List<StdContact>
+                {
+                    new StdContact
+                        {
+                            Name = new PersonName("Susanne Mustermann"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                "Obere Galle 44a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich\nDeutschland"))
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName("Kati Katze"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 22\n56545 Irgendwo\nGermany",
+                                "Untere Galle 34a\n78631 SomeWhere",
+                                "Meine Strasse unterm Deich\nDeutschland"))
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName("Maria Klaus Hartwig"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "An der B46 78s\n85365 Ober Unter Schleißheim\nGermany",
+                                "Obere Untertasse 44a\n89273 Krotzen",
+                                "Deine Strasse Überm Deich\nDeutschland"))
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName("Meier, Arnold"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                "Obere Galle 44a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich\nDeutschland")),
+                            AdditionalTextData = "ich bin auch noch da",
+                            Categories = new List<string> { "gut", "böse", "no category" }
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName(OneOf("Lässig, Harry", "Patricia Müller", "Frahm, Manuela")),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Babylon Weg 67\n57845 Irgendwo\nDeutschland",
+                                "Obere Galle 24a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich 21857\nDeutschland")),
+                            AdditionalTextData = "ich bin auch noch da",
+                            Categories = new List<string> { "gut", "böse", "no category" }
+                        }
+                };
+        }
+
+        private static string OneOf(params string[] candidates)
+        {
+            return candidates[new Random(x++).Next(candidates.Length - 1)];
+        }
+
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "Test data store";
+            }
+        }
+
+        /// <summary>
+        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="result">The list of elements that should get the elements. The elements should be added to
+        /// the list instead of replacing it.</param>
+        /// <returns>The list with the newly added elements</returns>
+        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        {
+            var list = GetVariableContactList(true);
+            list.AddRange(GetStandardContactList(false));
+            return list.ToStdElement();
+        }
+
+        /// <summary>
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+
         }
     }
 }

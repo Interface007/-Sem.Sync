@@ -89,7 +89,7 @@ namespace Sem.Sync.SyncBase
         /// </param>
         /// <param name="clientFolderName">the information where inside the source the elements reside - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void DeleteElements(IEnumerable<StdElement> elementsToDelete, string clientFolderName)
+        public virtual void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
         }
 

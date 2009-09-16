@@ -26,11 +26,19 @@ namespace Sem.Sync.SyncBase
     public class StdContact : StdElement
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="StdContact"/> class.
+        /// </summary>
+        public StdContact()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
+        /// <summary>
         /// Gets or sets the identifier for this contact. Overwritten to set the default
         /// <see cref="PersonalProfileIdentifiers"/>, too.
         /// </summary>
         [XmlAttribute]
-        public override Guid Id
+        public override sealed Guid Id
         {
             get
             {

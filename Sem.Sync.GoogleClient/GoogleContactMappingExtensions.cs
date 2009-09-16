@@ -16,6 +16,7 @@ namespace Sem.Sync.GoogleClient
     using System.Text;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
     using GenericHelpers.Interfaces;
 
     using Google.Contacts;
@@ -24,6 +25,7 @@ namespace Sem.Sync.GoogleClient
 
     using SyncBase;
     using SyncBase.DetailData;
+    using SyncBase.Interfaces;
 
     using PhoneNumber = SyncBase.DetailData.PhoneNumber;
 
@@ -37,6 +39,8 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         private const string GoogleSchemaPrefix2005 = "http://schemas.google.com/g/2005#";
 
+        public static IUiInteraction GenericUiResponder { get; set; }
+
         /// <summary>
         /// Adda a business company and position to the contact - the department is currently ignored
         /// </summary>
@@ -49,8 +53,8 @@ namespace Sem.Sync.GoogleClient
             if (!string.IsNullOrEmpty(stdBusinessCompanyName))
             {
                 var company = new Organization
-                    { 
-                        Name = stdBusinessCompanyName, 
+                    {
+                        Name = stdBusinessCompanyName,
                         Title = stdBusinessPosition,
                         Rel = GoogleSchemaPrefix2005 + "work"
                     };
@@ -144,7 +148,7 @@ namespace Sem.Sync.GoogleClient
                     }
                     catch (CaptchaRequiredException)
                     {
-                        UnlockCaptch("https://www.google.com/accounts/DisplayUnlockCaptcha");
+                        UnlockCaptch();
                     }
                     catch (Exception ex)
                     {
@@ -166,6 +170,20 @@ namespace Sem.Sync.GoogleClient
             if (!string.IsNullOrEmpty(email))
             {
                 googleContact.Emails.Add(new EMail(email, GoogleSchemaPrefix2005 + addressType));
+            }
+        }
+
+        /// <summary>
+        /// adds email information to a google contact
+        /// </summary>
+        /// <param name="googleContact"> The google contact to add the information to. </param>
+        /// <param name="instantMessengerAddresses"> The instant messenger addresses. </param>
+        /// <param name="addressType"> The address type (home or work). </param>
+        public static void AddImAddress(this Contact googleContact, InstantMessengerAddresses instantMessengerAddresses, string addressType)
+        {
+            if (!string.IsNullOrEmpty(instantMessengerAddresses.MsnMessenger))
+            {
+                googleContact.IMs.Add(new IMAddress(instantMessengerAddresses.MsnMessenger));
             }
         }
 
@@ -261,30 +279,30 @@ namespace Sem.Sync.GoogleClient
         /// sets the correct IM address from a google contacts Ims
         /// </summary>
         /// <param name="stdEntry"> The std entry. </param>
-        /// <param name="imAddress"> The IM address. </param>
-        public static void SetInstantMessenger(this StdContact stdEntry, IMAddress imAddress)
+        /// <param name="instantMessengerAddress"> The IM address. </param>
+        public static void SetInstantMessenger(this StdContact stdEntry, IMAddress instantMessengerAddress)
         {
             if (stdEntry.PersonalInstantMessengerAddresses == null)
             {
                 stdEntry.PersonalInstantMessengerAddresses = new InstantMessengerAddresses();
             }
 
-            if (imAddress.Home)
+            if (instantMessengerAddress.Home)
             {
-                switch (imAddress.Protocol)
+                switch (instantMessengerAddress.Protocol)
                 {
                     case "msn":
-                        stdEntry.PersonalInstantMessengerAddresses.MsnMessenger = imAddress.Address;
+                        stdEntry.PersonalInstantMessengerAddresses.MsnMessenger = instantMessengerAddress.Address;
                         break;
                 }
             }
 
-            if (imAddress.Work)
+            if (instantMessengerAddress.Work)
             {
-                switch (imAddress.Protocol)
+                switch (instantMessengerAddress.Protocol)
                 {
                     case "msn":
-                        stdEntry.BusinessInstantMessengerAddresses.MsnMessenger = imAddress.Address;
+                        stdEntry.BusinessInstantMessengerAddresses.MsnMessenger = instantMessengerAddress.Address;
                         break;
                 }
             }
@@ -359,14 +377,22 @@ namespace Sem.Sync.GoogleClient
         /// <summary>
         /// unlocks a locked account using a captcha
         /// </summary>
-        /// <param name="urlToWebPage"> The url to web page to unlock the captcha-lock. </param>
         /// <exception cref="NotImplementedException">
         /// This still needs to be implemented - we should implement that inside a UI assembly
         /// </exception>
-        private static void UnlockCaptch(string urlToWebPage)
+        private static void UnlockCaptch()
         {
-            // todo: we need to open the web page for the unlock process and wait until the user di finish the process. 
-            throw new NotImplementedException();
+            if (GenericUiResponder != null)
+            {
+                GenericUiResponder.ResolveCaptcha(
+                    "Google requests you to resolve a captach to reactivate your account. Please resolve the captcha on the web page and press ok after that.",
+                    "Google Captcha Request",
+                    new CaptchaResolveRequest { UrlOfWebSite = @"https://www.google.com/accounts/DisplayUnlockCaptcha" });
+            }
+            else
+            {
+                throw new NullReferenceException("Google requests a captcha to be resolved in order to reactivate the account, but the UI handler to resolve the captcha has not been setup yet. Make sure the GenericUiResponder property of the static GoogleContactMappingExtensions class has been setup properly.");
+            }
         }
 
         /// <summary>

@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="Attributes\ClientStoragePathDescriptionAttribute.cs" />
     <Compile Include="Attributes\ConnectorDescriptionAttribute.cs" />
+    <Compile Include="Attributes\Copy of ClientStoragePathDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="Commands\AskForContinue.cs" />
     <Compile Include="Commands\CopyAll.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Commands\NormalizeContent.cs" />
     <Compile Include="Commands\OpenDocument.cs" />
     <Compile Include="Commands\RemoveDuplicatesOnTarget.cs" />
+    <Compile Include="Commands\UpdateTestData.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />

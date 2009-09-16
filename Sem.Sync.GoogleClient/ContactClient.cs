@@ -92,7 +92,7 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         /// <param name="elements"> The identifiers. </param>
         /// <param name="clientFolderName"> The client folder name. </param>
-        public override void DeleteElements(IEnumerable<StdElement> elements, string clientFolderName)
+        public override void DeleteElements(List<StdElement> elements, string clientFolderName)
         {
             elements.ForEach(
                 x =>
@@ -135,7 +135,6 @@ namespace Sem.Sync.GoogleClient
                 {
                     try
                     {
-                        // todo: the extended properties are not filled - find out why and how to solve that issue
                         var semSyncIdString =
                             (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x.Value).
                                 FirstOrDefault();
@@ -189,6 +188,7 @@ namespace Sem.Sync.GoogleClient
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            GoogleContactMappingExtensions.GenericUiResponder = this.UiDispatcher;
             this.EnsureInitialization();
 
             foreach (var stdContact in elements.ToContacts())
@@ -235,8 +235,8 @@ namespace Sem.Sync.GoogleClient
                     googleContact.AddPhoneNumber(stdContact.PersonalPhoneMobile, GoogleSchemaQualifierMobile);
                     googleContact.AddPhoneNumber(stdContact.BusinessPhoneMobile, GoogleSchemaQualifierMobile);
 
-                    // TODO: add the IM addresses
-                    ////googleContact.AddAddress(stdContact.BusinessAddressSecondary, GoogleSchemaQualifierWork);
+                    googleContact.AddImAddress(stdContact.PersonalInstantMessengerAddresses, GoogleSchemaQualifierHome);
+                    googleContact.AddImAddress(stdContact.BusinessInstantMessengerAddresses, GoogleSchemaQualifierWork);
 
                     if (string.IsNullOrEmpty(googleId))
                     {

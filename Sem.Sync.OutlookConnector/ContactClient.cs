@@ -16,8 +16,6 @@ namespace Sem.Sync.OutlookConnector
     using System.Globalization;
     using System.Linq;
 
-    using GenericHelpers;
-
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
@@ -147,7 +145,7 @@ namespace Sem.Sync.OutlookConnector
         /// </summary>
         /// <param name="elementsToDelete"> The elements to delete. </param>
         /// <param name="clientFolderName"> The client folder name. </param>
-        public override void DeleteElements(IEnumerable<StdElement> elementsToDelete, string clientFolderName)
+        public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
             var outlookNamespace = OutlookClient.GetNamespace();
             var outlookFolder = OutlookClient.GetOutlookMapiFolder(

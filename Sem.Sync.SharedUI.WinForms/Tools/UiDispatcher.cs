@@ -9,9 +9,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Windows.Forms;
 
+    using GenericHelpers.Entities;
     using GenericHelpers.Interfaces;
 
     using SyncBase;
@@ -76,6 +79,20 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         public bool AskForConfirm(string messageForUser, string title)
         {
             return MessageBox.Show(messageForUser, title, MessageBoxButtons.OKCancel) == DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Asks the user to resolve a captcha request on a web site. 
+        /// TODO: enhance the method to be able to pass back the information
+        /// </summary>
+        /// <param name="messageForUser"> a message that should be displayed to the user </param>
+        /// <param name="title"> the title of the message box </param>
+        /// <param name="request"> The information collected while resolving the captcha. </param>
+        /// <returns> a <see cref="CaptchaResolveResult"/> instance with information of the web site </returns>
+        public CaptchaResolveResult ResolveCaptcha(string messageForUser, string title, CaptchaResolveRequest request)
+        {
+            Process.Start(new ProcessStartInfo(request.UrlOfWebSite));
+            return new CaptchaResolveResult { UserReportsSuccess = this.AskForConfirm(messageForUser, title) };
         }
     }
 }
