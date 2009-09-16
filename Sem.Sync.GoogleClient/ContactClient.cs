@@ -127,6 +127,7 @@ namespace Sem.Sync.GoogleClient
         {
             try
             {
+                this.LogProcessingEvent("downloading contacts ...");
                 this.EnsureInitialization();
 
                 var contactsCollection = this.requester.GetContacts();
@@ -150,6 +151,7 @@ namespace Sem.Sync.GoogleClient
                                     new ProfileIdentifiers(ProfileIdentifierType.Google, googleContact.Id)
                             };
 
+                        this.LogProcessingEvent("mapping contact {0} ...", stdEntry.Name.ToString());
                         googleContact.SetSyncIdentifier(semSyncId);
 
                         // the Invoke is an extension method that calls the lambda for each element of an IEnumerable
@@ -160,6 +162,7 @@ namespace Sem.Sync.GoogleClient
                         googleContact.IMs.ForEach(stdEntry.SetInstantMessenger);
 
                         // downloads the image
+                        this.LogProcessingEvent("downloading picture {0} ...", stdEntry.Name.ToString());
                         stdEntry.SetPicture(googleContact, this.requester);
 
                         result.Add(stdEntry);
@@ -192,6 +195,7 @@ namespace Sem.Sync.GoogleClient
             {
                 try
                 {
+                    this.LogProcessingEvent(stdContact, "reading contact for update ...");
                     var googleId = stdContact.PersonalProfileIdentifiers.GoogleId;
                     var googleContact = new Contact();
 
@@ -199,7 +203,8 @@ namespace Sem.Sync.GoogleClient
                     {
                         try
                         {
-                            googleContact = this.requester.Retrieve<Contact>(new Uri(googleId));
+                            // we need to replace the "base" inside the url with a "full" to get the correct "projection" for extended properties
+                            googleContact = this.requester.Retrieve<Contact>(new Uri(googleId.Replace(@"/base/", @"/full/")));
                         }
                         catch (GDataRequestException ex)
                         {
@@ -235,12 +240,16 @@ namespace Sem.Sync.GoogleClient
 
                     if (string.IsNullOrEmpty(googleId))
                     {
+                        this.LogProcessingEvent(stdContact, "inserting contact ...");
+
                         // replace the google contact with the new generated version from the server
                         googleContact = this.requester.Insert(this.contactsUri, googleContact);
                         stdContact.PersonalProfileIdentifiers.GoogleId = googleContact.Id;
                     }
                     else
                     {
+                        this.LogProcessingEvent(stdContact, "updating contact ...");
+
                         // replace the google contact with the updated version
                         googleContact = this.requester.Update(googleContact);
                     }

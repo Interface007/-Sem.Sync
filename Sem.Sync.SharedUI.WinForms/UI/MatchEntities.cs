@@ -192,11 +192,13 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             if (this.lastSelectedSourceRow > 0 && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount && this.dataGridSourceCandidates.RowCount > 1)
             {
                 this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
+                this.dataGridSourceCandidates.CurrentCell = this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Cells[0];
             }
 
             if (this.lastSelectedTargetRow > 0)
             {
                 this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Selected = true;
+                this.dataGridTargetCandidates.CurrentCell = this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Cells[0];
             }
 
             // enumerate the source grid to find one entry that does
@@ -218,21 +220,28 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         private void btnMatch_Click(object sender, EventArgs e)
         {
-            this.lastSelectedSourceRow =
+            try
+            {
+                this.lastSelectedSourceRow =
                 this.dataGridSourceCandidates.CurrentRow == null
                 ? 0
                 : this.dataGridSourceCandidates.CurrentRow.Index;
 
-            this.lastSelectedTargetRow =
-                this.dataGridTargetCandidates.CurrentRow == null
-                ? 0
-                : this.dataGridTargetCandidates.CurrentRow.Index;
+                this.lastSelectedTargetRow =
+                    this.dataGridTargetCandidates.CurrentRow == null
+                    ? 0
+                    : this.dataGridTargetCandidates.CurrentRow.Index;
 
-            // perform the matching
-            this.matching.Match();
+                // perform the matching
+                this.matching.Match();
 
-            // setup grids for next match
-            this.SetupGui();
+                // setup grids for next match
+                this.SetupGui();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnUnMatch_Click(object sender, EventArgs e)
