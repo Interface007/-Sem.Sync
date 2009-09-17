@@ -87,6 +87,7 @@
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
       <Link>Properties\CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+    <Content Include="ClientBin\ContactViewer.xap" />
     <Content Include="ContactService.svc" />
     <Content Include="ContactViewerTestPage.aspx" />
     <Content Include="ContactViewerTestPage.html" />

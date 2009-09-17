@@ -14,7 +14,8 @@ namespace Sem.Sync.SyncBase.DetailData
     public enum ProfileIdentifierType
     {
         /// <summary>
-        /// unknown or not registered target system
+        /// unknown or not registered target system, this defaults to the 
+        /// contacts internal id.
         /// </summary>
         Default = 0,
 
@@ -113,6 +114,7 @@ namespace Sem.Sync.SyncBase.DetailData
 
         /// <summary>
         /// Gets or sets the profile id of the persons xing membership.
+        /// This defaults to the contact elements interlan Id (a Guid)
         /// </summary>
         public string DefaultProfileId { get; set; }
 

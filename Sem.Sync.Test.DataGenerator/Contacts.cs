@@ -29,7 +29,22 @@ namespace Sem.Sync.Test.DataGenerator
         CanWrite = true, CanRead = true)]
     public class Contacts : StdClient
     {
-        private static int x = 0;
+        /// <summary>
+        /// random number generator for the OneOf function
+        /// </summary>
+        private static readonly Random Rnd = new Random();
+
+        /// <summary>
+        /// Gets the user readable name of the client implementation. This name should
+        /// be specific enough to let the user know what element store will be accessed.
+        /// </summary>
+        public override string FriendlyClientName
+        {
+            get
+            {
+                return "Test data store";
+            }
+        }
 
         /// <summary>
         /// Adds a contact to a StringBuilder that does not contain a picture.
@@ -181,13 +196,18 @@ namespace Sem.Sync.Test.DataGenerator
             return reader.ReadToEnd();
         }
 
-        public static List<StdContact> GetVariableContactList(bool b)
+        /// <summary>
+        /// Generates a list of variable contacts. Some do have a constant name, some have a constant Id, some oave a constant DefaultProfileId
+        /// </summary>
+        /// <returns>a list of standard contacts with some variations </returns>
+        public static List<StdContact> GetVariableContactList()
         {
             return new List<StdContact>
                 {
                     new StdContact
                         {
                             Name = new PersonName("Susanne Mustermann"),
+                            Id = new Guid("{F4A4A250-D5EA-4413-93DB-9E040510C766}"),
                             PersonalAddressPrimary =
                                 new AddressDetail(
                                 OneOf(
@@ -198,6 +218,9 @@ namespace Sem.Sync.Test.DataGenerator
                     new StdContact
                         {
                             Name = new PersonName("Kati Katze"),
+                            Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
+                            PersonalProfileIdentifiers =
+                                new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
                             PersonalAddressPrimary =
                                 new AddressDetail(
                                 OneOf(
@@ -218,6 +241,7 @@ namespace Sem.Sync.Test.DataGenerator
                     new StdContact
                         {
                             Name = new PersonName("Meier, Arnold"),
+                            Id = new Guid("{3611AB68-CE1C-4a8e-919E-59E07ABC7CD7}"),
                             PersonalAddressPrimary =
                                 new AddressDetail(
                                 OneOf(
@@ -242,23 +266,6 @@ namespace Sem.Sync.Test.DataGenerator
                 };
         }
 
-        private static string OneOf(params string[] candidates)
-        {
-            return candidates[new Random(x++).Next(candidates.Length - 1)];
-        }
-
-        /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
-        /// </summary>
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "Test data store";
-            }
-        }
-
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
@@ -269,7 +276,7 @@ namespace Sem.Sync.Test.DataGenerator
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var list = GetVariableContactList(true);
+            var list = GetVariableContactList();
             list.AddRange(GetStandardContactList(false));
             return list.ToStdElement();
         }
@@ -283,7 +290,16 @@ namespace Sem.Sync.Test.DataGenerator
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+        }
 
+        /// <summary>
+        /// Selects a random string from the params array
+        /// </summary>
+        /// <param name="candidates"> The string candidates. </param>
+        /// <returns> the random string </returns>
+        private static string OneOf(params string[] candidates)
+        {
+            return candidates[Rnd.Next(candidates.Length)];
         }
     }
 }

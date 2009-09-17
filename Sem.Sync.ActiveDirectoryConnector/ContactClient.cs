@@ -283,6 +283,7 @@ namespace Sem.Sync.ActiveDirectoryConnector
             var content = new StringBuilder();
 
             Tools.EnsurePathExist(Path.GetDirectoryName(path));
+
             foreach (var name in searchItem.Properties.PropertyNames)
             {
                 foreach (var propItem in searchItem.Properties[name.ToString()])

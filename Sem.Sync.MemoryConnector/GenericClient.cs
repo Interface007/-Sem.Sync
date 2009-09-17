@@ -45,6 +45,19 @@ namespace Sem.Sync.MemoryConnector
         }
 
         /// <summary>
+        /// Deletes a content folder
+        /// </summary>
+        /// <param name="elementsToDelete">ignored - this will always delete the complete "folder" </param>
+        /// <param name="clientFolderName"> The client folder name to be deleted. </param>
+        public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
+        {
+            if (Content.ContainsKey(clientFolderName))
+            {
+                Content.Remove(clientFolderName);
+            }
+        }
+
+        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 

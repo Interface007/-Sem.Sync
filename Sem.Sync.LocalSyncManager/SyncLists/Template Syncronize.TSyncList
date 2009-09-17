@@ -9,6 +9,18 @@
     </CommandParameter>
   </SyncDescription>
 
+  <SyncDescription Name="Delete memory storage for source">
+    <Command>DeletePattern</Command>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
+    <CommandParameter>{FS:WorkingFolder}\source.xmlcontact</CommandParameter>
+  </SyncDescription>
+
+  <SyncDescription Name="Delete memory storage for source">
+    <Command>DeletePattern</Command>
+    <TargetConnector>Sem.Sync.MemoryConnector.GenericClient</TargetConnector>
+    <CommandParameter>{FS:WorkingFolder}\target.xmlcontact</CommandParameter>
+  </SyncDescription>
+
   <SyncDescription Name="Export from Source to file system">
     <Command>CopyAll</Command>
     <SourceConnector>{source}</SourceConnector>
