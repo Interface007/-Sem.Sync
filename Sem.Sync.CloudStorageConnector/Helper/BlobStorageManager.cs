@@ -97,7 +97,7 @@ namespace Sem.Sync.CloudStorageConnector.Helper
                 return Serializer.DeSerializeBinary<T>(contents.AsBytes());
             }
 
-            return null;
+            return new List<T>();
         }
         #endregion
     }

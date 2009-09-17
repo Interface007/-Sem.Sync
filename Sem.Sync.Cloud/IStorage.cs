@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-    
-using Sem.Sync.SyncBase;
-
-namespace Sem.Sync.Cloud
+﻿namespace Sem.Sync.Cloud
 {
-    // NOTE: If you change the interface name "IStorage" here, you must also update the reference to "IStorage" in Web.config.
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+
+    using SyncBase;
+
     [ServiceContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public interface IStorage
     {
@@ -28,10 +27,20 @@ namespace Sem.Sync.Cloud
         public StdContact Contact { get; set; }
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
+    public class TechnicalMessage
+    {
+        [DataMember]
+        public string Message { get; set; }
+    }
+
+    [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public class ContactListContainer
     {
         [DataMember]
         public List<StdContact> ContactList { get; set; }
+
+        [DataMember]
+        public List<TechnicalMessage> messages { get; set; }
     }
 }

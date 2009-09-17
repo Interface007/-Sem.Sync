@@ -1874,6 +1874,7 @@
   <xs:complexType name="InstantMessengerAddresses">
     <xs:sequence>
       <xs:element minOccurs="0" name="GoogleTalk" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ICQ" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="MsnMessenger" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Skype" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="YahooMessenger" nillable="true" type="xs:string" />
@@ -1903,7 +1904,11 @@
   <xs:complexType name="ProfileIdentifiers">
     <xs:sequence>
       <xs:element minOccurs="0" name="ActiveDirectoryId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DefaultProfileId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FacebookProfileId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GoogleId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MeinVZPersonId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StayFriendsPersonId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="WerKenntWenUrl" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="XingProfileId" nillable="true" type="xs:string" />
     </xs:sequence>

@@ -10,6 +10,7 @@
 namespace Sem.Sync.Cloud
 {
     using System;
+    using System.Collections.Generic;
 
     using CloudStorageConnector;
 
@@ -28,13 +29,20 @@ namespace Sem.Sync.Cloud
         /// <returns>a list of <see cref="StdContact"/></returns>
         public ContactListContainer GetAll(string contactBlobId)
         {
-            // this can be replaced by any class inheriting from StdClient
-            var client = new BlobStorage();
-            var stdContacts = new ContactListContainer
-                                  {
-                                      ContactList = client.GetAll(contactBlobId).ToContacts()
-                                  };
-            return stdContacts;
+            try
+            {
+                // this can be replaced by any class inheriting from StdClient
+                var client = new BlobStorage();
+                var stdContacts = new ContactListContainer
+                {
+                    ContactList = client.GetAll(contactBlobId ?? "default").ToContacts()
+                };
+                return stdContacts;
+            }
+            catch (Exception)
+            {
+                return new ContactListContainer { ContactList = new List<StdContact>() };
+            }
         }
 
         /// <summary>
@@ -50,7 +58,7 @@ namespace Sem.Sync.Cloud
             {
                 // this can be replaced by any class inheriting from StdClient
                 var client = new BlobStorage();
-                client.WriteRange(elements.ContactList.ToStdElement(), contactBlobId);
+                client.WriteRange(elements.ContactList.ToStdElement(), contactBlobId ?? "default");
             }
             catch (Exception)
             {
@@ -60,6 +68,12 @@ namespace Sem.Sync.Cloud
             return true;
         }
 
+        /// <summary>
+        /// Deletes a blob (= list of contacts)
+        /// </summary>
+        /// <param name="blobId"> The blob id. </param>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         public void DeleteBlob(string blobId)
         {
             throw new NotImplementedException();

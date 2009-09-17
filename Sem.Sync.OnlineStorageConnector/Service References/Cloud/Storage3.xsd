@@ -4,7 +4,7 @@
   <xs:element name="GetAll">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="clientFolderName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="blobId" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -19,7 +19,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" minOccurs="0" name="elements" nillable="true" type="q2:ContactListContainer" />
-        <xs:element minOccurs="0" name="clientFolderName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="blobId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="skipIfExisting" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
@@ -29,6 +29,18 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="WriteFullListResult" type="xs:boolean" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlob">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="blobId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteBlobResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>
