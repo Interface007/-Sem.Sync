@@ -114,9 +114,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MemoryConnector", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.GoogleClient", "Sem.Sync.GoogleClient\Sem.Sync.GoogleClient.csproj", "{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{9ADB93A1-9E87-4FA3-829A-2A6EF061558A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Azure.Storage", "Sem.Azure.Storage\Sem.Azure.Storage.csproj", "{D2903196-B5F9-43CC-9B43-85CDFF0D6268}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 36
+		SccNumberOfProjects = 37
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -225,6 +229,7 @@ Global
 		SccProjectName26 = Sem.Sync.MeinVZ
 		SccLocalPath26 = Sem.Sync.MeinVZ
 		SccProjectUniqueName27 = Sem.Sync.Cloud.Storage\\Sem.Sync.Cloud.Storage.ccproj
+		SccProjectTopLevelParentUniqueName27 = SemSync.sln
 		SccProjectName27 = Sem.Sync.Cloud.Storage
 		SccLocalPath27 = Sem.Sync.Cloud.Storage
 		SccProjectUniqueName28 = Sem.Sync.Cloud\\Sem.Sync.Cloud.csproj
@@ -259,6 +264,10 @@ Global
 		SccProjectTopLevelParentUniqueName35 = SemSync.sln
 		SccProjectName35 = Sem.Sync.GoogleClient
 		SccLocalPath35 = Sem.Sync.GoogleClient
+		SccProjectUniqueName36 = Sem.Azure.Storage\\Sem.Azure.Storage.csproj
+		SccProjectTopLevelParentUniqueName36 = SemSync.sln
+		SccProjectName36 = Sem.Azure.Storage
+		SccLocalPath36 = Sem.Azure.Storage
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -935,6 +944,26 @@ Global
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -966,15 +995,17 @@ Global
 		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{23E33D41-535B-4FCA-AC56-EDEF6DFB14F1} = {024EBF54-994C-4E06-87F6-17D444178E99}
+		{9ADB93A1-9E87-4FA3-829A-2A6EF061558A} = {024EBF54-994C-4E06-87F6-17D444178E99}
 		{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA} = {23E33D41-535B-4FCA-AC56-EDEF6DFB14F1}
 		{8F4B9954-1BA5-4664-BBCE-B79519FEE120} = {23E33D41-535B-4FCA-AC56-EDEF6DFB14F1}
 		{478077C0-A411-44A9-8053-E8E90BA2847B} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{42794DFF-7448-47AA-BBFE-E56D83B756DB} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
-		{0856527D-C929-4E9D-862F-9971DA241A91} = {0D187AB7-63F9-462F-A812-63220CBC701D}
-		{C6F30C10-E1C2-4327-BB6B-3160B479CCA1} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6} = {0D187AB7-63F9-462F-A812-63220CBC701D}
+		{0856527D-C929-4E9D-862F-9971DA241A91} = {0D187AB7-63F9-462F-A812-63220CBC701D}
+		{D2903196-B5F9-43CC-9B43-85CDFF0D6268} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
+		{C6F30C10-E1C2-4327-BB6B-3160B479CCA1} = {9ADB93A1-9E87-4FA3-829A-2A6EF061558A}
 	EndGlobalSection
 EndGlobal
