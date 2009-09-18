@@ -4,10 +4,9 @@
     <xsd:schema targetNamespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/Imports">
       <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd0" namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" />
       <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" />
-      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
-      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" />
-      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
+      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" />
+      <xsd:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IStorage_GetAll_InputMessage">

@@ -20,14 +20,13 @@
     <MetadataSource Address="http://localhost:50643/Storage.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Storage.xsd" MetadataType="Schema" ID="aae6271d-004e-4f5d-ad96-a2333ee3b717" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd1" />
+    <MetadataFile FileName="Storage2.xsd" MetadataType="Schema" ID="e69b1af5-c115-4e84-b582-a374e5e014a9" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd3" />
     <MetadataFile FileName="Storage.disco" MetadataType="Disco" ID="b1597b43-d8b1-43b1-88ee-93faafe1d7d3" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?disco" />
     <MetadataFile FileName="Storage.wsdl" MetadataType="Wsdl" ID="7b9b9ce8-9936-47dd-9ed7-26c4fb42ecea" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?wsdl=wsdl0" />
     <MetadataFile FileName="Storage1.xsd" MetadataType="Schema" ID="d78246d0-45ec-4c7f-9eba-d1872337bfe7" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd4" />
     <MetadataFile FileName="Storage1.wsdl" MetadataType="Wsdl" ID="129e2dd7-deeb-487b-b14b-ef44176be72e" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?wsdl" />
-    <MetadataFile FileName="Storage2.xsd" MetadataType="Schema" ID="e69b1af5-c115-4e84-b582-a374e5e014a9" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd3" />
+    <MetadataFile FileName="Storage.xsd" MetadataType="Schema" ID="aae6271d-004e-4f5d-ad96-a2333ee3b717" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd1" />
     <MetadataFile FileName="Storage3.xsd" MetadataType="Schema" ID="b13e10d6-63bc-4e47-a733-1e3122d89d04" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd0" />
-    <MetadataFile FileName="Storage4.xsd" MetadataType="Schema" ID="53f8b552-d9c7-4223-ac2c-1c3b8e110994" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd5" />
     <MetadataFile FileName="Storage5.xsd" MetadataType="Schema" ID="f961326b-a50e-4f8f-90b0-743827a2854a" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>

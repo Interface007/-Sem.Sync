@@ -52,9 +52,12 @@ namespace Sem.Sync.OnlineStorageConnector
         {
             var client = this.GetClient();
             var contacts = client.GetAll(clientFolderName).ContactList;
-            foreach (var contact in contacts)
+            if (contacts != null)
             {
-                result.Add(contact);
+                foreach (var contact in contacts)
+                {
+                    result.Add(contact);
+                }
             }
 
             return result;
@@ -69,11 +72,9 @@ namespace Sem.Sync.OnlineStorageConnector
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var client = this.GetClient();
+            var container = new ContactListContainer { ContactList = elements.ToContacts().ToArray() };
             client.WriteFullList(
-                new ContactListContainer
-                    {
-                        ContactList = elements.ToContacts().ToArray()
-                    },
+                container,
                 clientFolderName,
                 skipIfExisting);
         }
@@ -84,9 +85,9 @@ namespace Sem.Sync.OnlineStorageConnector
         /// <returns> a new client for accessing the storage </returns>
         private StorageClient GetClient()
         {
-            var client = 
-                string.IsNullOrEmpty(this.BindingAddress) 
-                ? new StorageClient() 
+            var client =
+                string.IsNullOrEmpty(this.BindingAddress)
+                ? new StorageClient()
                 : new StorageClient(new BasicHttpBinding(BasicHttpSecurityMode.None), new EndpointAddress(this.BindingAddress));
 
             return client;

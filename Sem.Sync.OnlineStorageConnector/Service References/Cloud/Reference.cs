@@ -15,7 +15,7 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ContactListContainer", Namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ContactListContainer", Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     [System.SerializableAttribute()]
     public partial class ContactListContainer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -24,6 +24,9 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Sem.Sync.SyncBase.StdContact[] ContactListField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] messagesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -44,6 +47,64 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
                 if ((object.ReferenceEquals(this.ContactListField, value) != true)) {
                     this.ContactListField = value;
                     this.RaisePropertyChanged("ContactList");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] messages {
+            get {
+                return this.messagesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.messagesField, value) != true)) {
+                    this.messagesField = value;
+                    this.RaisePropertyChanged("messages");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TechnicalMessage", Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
+    [System.SerializableAttribute()]
+    public partial class TechnicalMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
                 }
             }
         }

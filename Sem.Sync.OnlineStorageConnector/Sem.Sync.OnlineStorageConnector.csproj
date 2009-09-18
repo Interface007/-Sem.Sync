@@ -155,7 +155,6 @@
     <None Include="Service References\Cloud\Storage1.xsd" />
     <None Include="Service References\Cloud\Storage2.xsd" />
     <None Include="Service References\Cloud\Storage3.xsd" />
-    <None Include="Service References\Cloud\Storage4.xsd" />
     <None Include="Service References\Cloud\Storage5.xsd" />
   </ItemGroup>
   <ItemGroup>

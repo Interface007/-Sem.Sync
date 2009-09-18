@@ -92,6 +92,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactContainer.cs" />
+    <Compile Include="ContactListContainer.cs" />
     <Compile Include="Default.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Default.aspx</DependentUpon>
@@ -104,6 +106,7 @@
     <Compile Include="Storage.svc.cs">
       <DependentUpon>Storage.svc</DependentUpon>
     </Compile>
+    <Compile Include="TechnicalMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" elementFormDefault="qualified" targetNamespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" />
+  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
   <xs:element name="GetAll">
     <xs:complexType>
       <xs:sequence>
@@ -11,14 +11,33 @@
   <xs:element name="GetAllResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" minOccurs="0" name="GetAllResult" nillable="true" type="q1:ContactListContainer" />
+        <xs:element minOccurs="0" name="GetAllResult" nillable="true" type="tns:ContactListContainer" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:complexType name="ContactListContainer">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" minOccurs="0" name="ContactList" nillable="true" type="q1:ArrayOfStdContact" />
+      <xs:element minOccurs="0" name="messages" nillable="true" type="tns:ArrayOfTechnicalMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContactListContainer" nillable="true" type="tns:ContactListContainer" />
+  <xs:complexType name="ArrayOfTechnicalMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TechnicalMessage" nillable="true" type="tns:TechnicalMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTechnicalMessage" nillable="true" type="tns:ArrayOfTechnicalMessage" />
+  <xs:complexType name="TechnicalMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TechnicalMessage" nillable="true" type="tns:TechnicalMessage" />
   <xs:element name="WriteFullList">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" minOccurs="0" name="elements" nillable="true" type="q2:ContactListContainer" />
+        <xs:element minOccurs="0" name="elements" nillable="true" type="tns:ContactListContainer" />
         <xs:element minOccurs="0" name="blobId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="skipIfExisting" type="xs:boolean" />
       </xs:sequence>

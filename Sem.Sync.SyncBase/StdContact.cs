@@ -9,6 +9,7 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.Serialization;
     using System.Text;
     using System.Xml.Serialization;
 
@@ -23,6 +24,8 @@ namespace Sem.Sync.SyncBase
     /// This class provides an entity to store standardized contact information. It should be capable to 
     /// store any information that's needed for describing contact relevant information of a person.
     /// </summary>
+    [Serializable]
+    [DataContract]
     public class StdContact : StdElement
     {
         /// <summary>
@@ -38,6 +41,7 @@ namespace Sem.Sync.SyncBase
         /// <see cref="PersonalProfileIdentifiers"/>, too.
         /// </summary>
         [XmlAttribute]
+        [DataMember]
         public override sealed Guid Id
         {
             get
@@ -61,96 +65,113 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>
+        [DataMember]
         public Gender PersonGender { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth of a person. This property cannot be set to unusual dates. If the real 
         /// date of birth is not clear, it should be set to the date with the highest propability.
         /// </summary>
+        [DataMember]
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the name description of the person.
         /// </summary>
+        [DataMember]
         public PersonName Name { get; set; }
 
         /// <summary>
         /// Gets or sets the primary personal address used by the person (this address is normally 
         /// shared with some parts of the family).
         /// </summary>
+        [DataMember]
         public AddressDetail PersonalAddressPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the secondary personal address used by the person (this address might be 
         /// used in case of second address for the time while working).
         /// </summary>
+        [DataMember]
         public AddressDetail PersonalAddressSecondary { get; set; }
 
         /// <summary>
         /// Gets or sets the telephone number of the private mobile phone used by the person.
         /// </summary>
+        [DataMember]
         public PhoneNumber PersonalPhoneMobile { get; set; }
 
         /// <summary>
         /// Gets or sets the primary (high priority) personal (non-business) email address of this contact.
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string PersonalEmailPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the secondary (low priority) personal (non-business) email address of this contact.
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string PersonalEmailSecondary { get; set; }
 
         /// <summary>
         /// Gets or sets a personal (non-business) internet homepage address
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string PersonalHomepage { get; set; }
 
         /// <summary>
         /// Gets or sets a personal (non-business) instant messenger address list (with addresses for googke-talk, msn-messenger or similar)
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public InstantMessengerAddresses PersonalInstantMessengerAddresses { get; set; }
 
         /// <summary>
         /// Gets or sets a list of identifiers for different information stored like active directory, social networking sited or similar
         /// </summary>
+        [DataMember]
         public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the company this contact is associated with
         /// </summary>
+        [DataMember]
         public string BusinessCompanyName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the department inside the company this contact is associated with
         /// </summary>
+        [DataMember]
         public string BusinessDepartment { get; set; }
 
         /// <summary>
         /// Gets or sets the primary (first to use) business address. This is the address where the contact is "mostly"
         /// available.
         /// </summary>
+        [DataMember]
         public AddressDetail BusinessAddressPrimary { get; set; }
 
         /// <summary>
         /// Gets or sets the secondary business address. This is the address where the contact is "maybe sometimes"
         /// available.
         /// </summary>
+        [DataMember]
         public AddressDetail BusinessAddressSecondary { get; set; }
 
         /// <summary>
         /// Gets or sets the business mobile phone number. This (in most cases) is not available at non-business time
         /// </summary>
+        [DataMember]
         public PhoneNumber BusinessPhoneMobile { get; set; }
 
         /// <summary>
         /// Gets or sets the primary business email address. This (in most cases) is not available at non-business time
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string BusinessEmailPrimary { get; set; }
 
         /// <summary>
@@ -158,35 +179,41 @@ namespace Sem.Sync.SyncBase
         /// business email address. This (in most cases) is not available at non-business time
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string BusinessEmailSecondary { get; set; }
 
         /// <summary>
         /// Gets or sets the position in the company. Something like "developer", "CIO" or "Human Resource Manager".
         /// Typically this is something that's printed on the business card and describes the role inside the company.
         /// </summary>
+        [DataMember]
         public string BusinessPosition { get; set; }
         
         /// <summary>
         /// Gets or sets the internet address of the companies homepage.
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string BusinessHomepage { get; set; }
 
         /// <summary>
         /// Gets or sets a collection of business instance messenger addresses where this contact is available.
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public InstantMessengerAddresses BusinessInstantMessengerAddresses { get; set; }
 
         /// <summary>
         /// Gets or sets unstructured text data
         /// </summary>
+        [DataMember]
         public string AdditionalTextData { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the image file that is stored inside this contact.
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
+        [DataMember]
         public string PictureName { get; set; }
 
         /// <summary>
@@ -195,12 +222,14 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "this is truely a property, not a collection of bytes and not a method."),
         ComparisonModifier(SkipCompare = true, SkipMerge = true)]
+        [DataMember]
         public byte[] PictureData { get; set; }
 
         /// <summary>
         /// Gets or sets Categories.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "without a setter this cannot be serialized using the xml serializer")]
+        [DataMember]
         public List<string> Categories { get; set; }
 
         /// <summary>
