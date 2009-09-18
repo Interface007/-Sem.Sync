@@ -171,6 +171,7 @@
     <None Include="Service References\Cloud\Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\Cloud\Storage4.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

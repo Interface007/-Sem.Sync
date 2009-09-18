@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
     using System.Text;
 
     /// <summary>
@@ -59,6 +60,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// This class implements a set of profile identifiers. One assumption is that each entity does 
     /// have only one identifier of a specific type. This may be a problem in case of Active Directory.
     /// </summary>
+    [Serializable]
     public class ProfileIdentifiers
     {
         /// <summary>

@@ -16,6 +16,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// This class represents the information needed  to establish a phone connection
     /// to the parent entity. No information should be omitted.
     /// </summary>
+    [Serializable]
     public class PhoneNumber
     {
         /// <summary>

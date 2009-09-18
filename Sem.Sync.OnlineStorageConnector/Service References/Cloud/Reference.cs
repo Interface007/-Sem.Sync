@@ -15,7 +15,7 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ContactListContainer", Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ContactListContainer", Namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud")]
     [System.SerializableAttribute()]
     public partial class ContactListContainer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -76,7 +76,7 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TechnicalMessage", Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TechnicalMessage", Namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud")]
     [System.SerializableAttribute()]
     public partial class TechnicalMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         

@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
     using System.Collections.Generic;
 
     using GenericHelpers.Entities;
@@ -17,6 +18,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// many ways like "Sdx Ag" or "SDX-AG". To have a normalized set or strings
     /// inside the internal data, these lists provide translations.
     /// </summary>
+    [Serializable]
     public class ReplacementLists
     {
         /// <summary>

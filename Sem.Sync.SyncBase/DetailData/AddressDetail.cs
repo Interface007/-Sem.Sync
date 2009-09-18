@@ -28,6 +28,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// Holds the detail data of an address
     /// </summary>
+    [Serializable]
     public class AddressDetail
     {
         /// <summary>

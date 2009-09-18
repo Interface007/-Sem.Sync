@@ -1,53 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" />
-  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:complexType name="ArrayOfStdContact">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:50643/Storage.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
+  <xs:complexType name="ContactListContainer">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="StdContact" nillable="true" type="tns:StdContact" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" minOccurs="0" name="ContactList" nillable="true" type="q1:ArrayOfStdContact" />
+      <xs:element minOccurs="0" name="messages" nillable="true" type="tns:ArrayOfTechnicalMessage" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfStdContact" nillable="true" type="tns:ArrayOfStdContact" />
-  <xs:complexType name="StdContact">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:StdElement">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="AdditionalTextData" nillable="true" type="xs:string" />
-          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="BusinessAddressPrimary" nillable="true" type="q1:AddressDetail" />
-          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="BusinessAddressSecondary" nillable="true" type="q2:AddressDetail" />
-          <xs:element minOccurs="0" name="BusinessCompanyName" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="BusinessDepartment" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="BusinessEmailPrimary" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="BusinessEmailSecondary" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="BusinessHomepage" nillable="true" type="xs:string" />
-          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="BusinessInstantMessengerAddresses" nillable="true" type="q3:InstantMessengerAddresses" />
-          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="BusinessPhoneMobile" nillable="true" type="q4:PhoneNumber" />
-          <xs:element minOccurs="0" name="BusinessPosition" nillable="true" type="xs:string" />
-          <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Categories" nillable="true" type="q5:ArrayOfstring" />
-          <xs:element minOccurs="0" name="DateOfBirth" type="xs:dateTime" />
-          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="Name" nillable="true" type="q6:PersonName" />
-          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonGender" type="q7:Gender" />
-          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonalAddressPrimary" nillable="true" type="q8:AddressDetail" />
-          <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonalAddressSecondary" nillable="true" type="q9:AddressDetail" />
-          <xs:element minOccurs="0" name="PersonalEmailPrimary" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="PersonalEmailSecondary" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="PersonalHomepage" nillable="true" type="xs:string" />
-          <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonalInstantMessengerAddresses" nillable="true" type="q10:InstantMessengerAddresses" />
-          <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonalPhoneMobile" nillable="true" type="q11:PhoneNumber" />
-          <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" minOccurs="0" name="PersonalProfileIdentifiers" nillable="true" type="q12:ProfileIdentifiers" />
-          <xs:element minOccurs="0" name="PictureData" nillable="true" type="xs:base64Binary" />
-          <xs:element minOccurs="0" name="PictureName" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="StdContact" nillable="true" type="tns:StdContact" />
-  <xs:complexType name="StdElement">
+  <xs:element name="ContactListContainer" nillable="true" type="tns:ContactListContainer" />
+  <xs:complexType name="ArrayOfTechnicalMessage">
     <xs:sequence>
-      <xs:element name="_x003C_Id_x003E_k__BackingField" type="ser:guid" />
-      <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" name="_x003C_InternalSyncData_x003E_k__BackingField" nillable="true" type="q13:SyncData" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TechnicalMessage" nillable="true" type="tns:TechnicalMessage" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="StdElement" nillable="true" type="tns:StdElement" />
+  <xs:element name="ArrayOfTechnicalMessage" nillable="true" type="tns:ArrayOfTechnicalMessage" />
+  <xs:complexType name="TechnicalMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TechnicalMessage" nillable="true" type="tns:TechnicalMessage" />
 </xs:schema>

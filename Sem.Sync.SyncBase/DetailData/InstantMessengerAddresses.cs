@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// Implements a generic representation of the addressing information for instant
     /// messaging clients for a specific user.
     /// </summary>
+    [Serializable]
     public class InstantMessengerAddresses
     {
         /// <summary>

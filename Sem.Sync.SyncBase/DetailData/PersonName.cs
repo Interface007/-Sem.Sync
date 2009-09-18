@@ -4,13 +4,16 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
-using System.Text.RegularExpressions;
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// This class represents the name of a person in a normalized form. This way 
     /// you can access different parts of the name like the academic title.
     /// </summary>
+    [Serializable]
     public class PersonName
     {
         /// <summary>

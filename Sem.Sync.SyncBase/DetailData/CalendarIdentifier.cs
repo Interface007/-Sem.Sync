@@ -10,6 +10,8 @@
 
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+
     /// <summary>
     /// Identifies the calendar provider/type
     /// </summary>
@@ -34,6 +36,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// Identifier that describes the calendar (type and name) of the calendar
     /// </summary>
+    [Serializable]
     public class CalendarIdentifier
     {
         /// <summary>

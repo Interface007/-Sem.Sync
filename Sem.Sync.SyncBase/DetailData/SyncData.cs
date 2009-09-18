@@ -11,6 +11,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// This class describes entity independent synchronization properties.
     /// </summary>
+    [Serializable]
     public class SyncData
     {
         /// <summary>
