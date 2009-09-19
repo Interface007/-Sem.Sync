@@ -92,6 +92,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudCredentials.cs" />
     <Compile Include="ContactContainer.cs" />
     <Compile Include="ContactListContainer.cs" />
     <Compile Include="Default.aspx.cs">

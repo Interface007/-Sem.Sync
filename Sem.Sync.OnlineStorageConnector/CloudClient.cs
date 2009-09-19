@@ -72,7 +72,17 @@ namespace Sem.Sync.OnlineStorageConnector
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var client = this.GetClient();
-            var container = new ContactListContainer { ContactList = elements.ToContacts().ToArray() };
+            var container = new ContactListContainer
+                {
+                    ContactList = elements.ToContacts().ToArray(),
+                    Credentials = new CloudCredentials
+                        {
+                            AccountId = this.LogOnUserId,
+                            AccountPassword = this.LogOnPassword,
+                            AccountDomain = this.LogOnDomain
+                        }
+                };
+
             client.WriteFullList(
                 container,
                 clientFolderName,

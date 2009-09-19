@@ -4,10 +4,19 @@
   <xs:complexType name="ContactListContainer">
     <xs:sequence>
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" minOccurs="0" name="ContactList" nillable="true" type="q1:ArrayOfStdContact" />
-      <xs:element minOccurs="0" name="messages" nillable="true" type="tns:ArrayOfTechnicalMessage" />
+      <xs:element minOccurs="0" name="Credentials" nillable="true" type="tns:CloudCredentials" />
+      <xs:element minOccurs="0" name="Messages" nillable="true" type="tns:ArrayOfTechnicalMessage" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ContactListContainer" nillable="true" type="tns:ContactListContainer" />
+  <xs:complexType name="CloudCredentials">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountDomain" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AccountId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AccountPassword" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CloudCredentials" nillable="true" type="tns:CloudCredentials" />
   <xs:complexType name="ArrayOfTechnicalMessage">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="TechnicalMessage" nillable="true" type="tns:TechnicalMessage" />

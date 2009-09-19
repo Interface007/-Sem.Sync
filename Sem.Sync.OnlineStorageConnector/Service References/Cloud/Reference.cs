@@ -26,7 +26,10 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         private Sem.Sync.SyncBase.StdContact[] ContactListField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] messagesField;
+        private Sem.Sync.OnlineStorageConnector.Cloud.CloudCredentials CredentialsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] MessagesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -52,14 +55,104 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] messages {
+        public Sem.Sync.OnlineStorageConnector.Cloud.CloudCredentials Credentials {
             get {
-                return this.messagesField;
+                return this.CredentialsField;
             }
             set {
-                if ((object.ReferenceEquals(this.messagesField, value) != true)) {
-                    this.messagesField = value;
-                    this.RaisePropertyChanged("messages");
+                if ((object.ReferenceEquals(this.CredentialsField, value) != true)) {
+                    this.CredentialsField = value;
+                    this.RaisePropertyChanged("Credentials");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] Messages {
+            get {
+                return this.MessagesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessagesField, value) != true)) {
+                    this.MessagesField = value;
+                    this.RaisePropertyChanged("Messages");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CloudCredentials", Namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.Cloud")]
+    [System.SerializableAttribute()]
+    public partial class CloudCredentials : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AccountDomainField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AccountIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AccountPasswordField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AccountDomain {
+            get {
+                return this.AccountDomainField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AccountDomainField, value) != true)) {
+                    this.AccountDomainField = value;
+                    this.RaisePropertyChanged("AccountDomain");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AccountId {
+            get {
+                return this.AccountIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AccountIdField, value) != true)) {
+                    this.AccountIdField = value;
+                    this.RaisePropertyChanged("AccountId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AccountPassword {
+            get {
+                return this.AccountPasswordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AccountPasswordField, value) != true)) {
+                    this.AccountPasswordField = value;
+                    this.RaisePropertyChanged("AccountPassword");
                 }
             }
         }

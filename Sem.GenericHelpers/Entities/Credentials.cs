@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.GenericHelpers.Entities
 {
+    using System;
     using System.Security.Cryptography;
     using System.Text;
     using System.Xml.Serialization;
@@ -19,6 +20,7 @@ namespace Sem.GenericHelpers.Entities
     /// Minimal implementation of the <see cref="ICredentialAware"/> interface to represent 
     /// log on credentials.
     /// </summary>
+    [Serializable]
     public class Credentials : ICredentialAware
     {
         /// <summary>
