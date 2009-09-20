@@ -64,6 +64,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
             // simply set the profile id for the current type to null
             element.ProfileId.SetProfileId(this.Profile, null);
+
+            // prevent matching again in case of an now empty list
+            this.CurrentSourceElement = null;
         }
 
         private MatchingEntry GetBaselineElementById(Guid baseLineId)

@@ -137,7 +137,6 @@
             this.dataGridSourceCandidates.Name = "dataGridSourceCandidates";
             this.dataGridSourceCandidates.ReadOnly = true;
             this.dataGridSourceCandidates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridSourceCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridSourceCandidatesCellEnter);
             // 
             // dataGridTargetDetail
             // 
@@ -159,7 +158,6 @@
             this.dataGridTargetCandidates.Name = "dataGridTargetCandidates";
             this.dataGridTargetCandidates.ReadOnly = true;
             this.dataGridTargetCandidates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridTargetCandidates.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridTargetCandidatesCellEnter);
             // 
             // dataGridMatches
             // 

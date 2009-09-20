@@ -77,39 +77,10 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
             this.openNetworksViewToolStripMenuItem.Click += (s, ev) => new Networks().Show();
             this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() } .Show();
+            this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
             // setup event handling
-            this.DataContext.ProcessingEvent = (object entity, ProcessingEventArgs eventArgs) =>
-                {
-                    var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
-                    this.lblProgressStatus.Text = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
-                    this.lblProgressStatus.Refresh();
-                    if (currentContact != null)
-                    {
-                        // update image, if there is one and image display is switched on.
-                        if (chkShowImage.CheckState == CheckState.Checked && currentContact.PictureData != null && currentContact.PictureData.Length > 10)
-                        {
-                            using (var imageStream = new MemoryStream(currentContact.PictureData))
-                            {
-                                this.currentPersonImage.Image = new Bitmap(imageStream);
-                            }
-
-                            this.currentPersonImage.Visible = true;
-                            this.currentPersonImage.Refresh();
-
-                            // !!! HERE WE EXIT THE METHOD !!!
-                            return;
-                        }
-                    }
-
-                    // hide the image if we need to.
-                    if (this.currentPersonImage.Visible)
-                    {
-                        this.currentPersonImage.Visible = false;
-                    }
-
-                    return;
-                };
+            this.DataContext.ProcessingEvent = this.ProcessingEventHandler;
 
             this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
                 {
@@ -129,13 +100,52 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         /// <summary>
+        /// Handels the processing events
+        /// </summary>
+        /// <param name="entity"> The entity. </param>
+        /// <param name="eventArgs"> The event args. </param>
+        private void ProcessingEventHandler(object entity, ProcessingEventArgs eventArgs)
+        {
+            var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
+            var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
+            this.lblProgressStatus.Text = message;
+            this.LogList.Items.Add(message);
+            this.LogList.TopIndex = this.LogList.Items.Count > 10 ? this.LogList.Items.Count - 10 : 0;
+            this.lblProgressStatus.Refresh();
+            if (currentContact != null)
+            {
+                // update image, if there is one and image display is switched on.
+                if (this.chkShowImage.CheckState == CheckState.Checked && currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                {
+                    using (var imageStream = new MemoryStream(currentContact.PictureData))
+                    {
+                        this.currentPersonImage.Image = new Bitmap(imageStream);
+                    }
+
+                    this.currentPersonImage.Visible = true;
+                    this.currentPersonImage.Refresh();
+
+                    // !!! HERE WE EXIT THE METHOD !!!
+                    return;
+                }
+            }
+
+            // hide the image if we need to.
+            if (this.currentPersonImage.Visible)
+            {
+                this.currentPersonImage.Visible = false;
+            }
+        }
+
+        /// <summary>
         /// Runs the currently command sequence stored inside "SyncLists\\Wizard.XSyncList" with the context
         /// (the context does contain source and target of the data with additional information like credentials)
         /// </summary>
         private void RunCommands()
         {
             Config.LastUsedSyncTemplateData = this.cboWorkFlowData.SelectedValue.ToString();
-            
+
+            this.LogList.Items.Clear();
             this.pnlProgress.Visible = true;
             this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
             this.pnlProgress.Visible = false;

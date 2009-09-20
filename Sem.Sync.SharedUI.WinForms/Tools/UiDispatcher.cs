@@ -54,7 +54,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
             var ui = new MatchEntities();
-            return ui.PerformMerge(sourceList, targetList, baselineList, identifierToUse);
+            return ui.PerformMatch(sourceList, targetList, baselineList, identifierToUse);
         }
 
         /// <summary>

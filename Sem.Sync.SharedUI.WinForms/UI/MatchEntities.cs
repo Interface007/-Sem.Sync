@@ -21,20 +21,49 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     using ViewModel;
 
+    /// <summary>
+    /// This form perfoms an entity merge. The method <see cref="PerformMatch"/> accepts a source, target and baseline list of <see cref="StdElement"/>.
+    /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdContact.PersonalProfileIdentifiers"/> and
+    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdContact.PersonalProfileIdentifiers"/> from the source and 
+    /// <see cref="StdContact.Id"/> of the target are stored inside the baseline.
+    /// </summary>
     public partial class MatchEntities : Form
     {
+        /// <summary>
+        /// The class providing the "business logic" for merging entities.
+        /// </summary>
         private readonly Matching matching = new Matching();
 
+        /// <summary>
+        /// The last selected source row of the gui - this will be set after a match has been triggered by the user
+        /// </summary>
         private int lastSelectedSourceRow;
 
+        /// <summary>
+        /// The last selected target row of the gui - this will be set after a match has been triggered by 
+        /// the user if there is no "name match" for the currently selected source entry
+        /// </summary>
         private int lastSelectedTargetRow;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatchEntities"/> class.
+        /// </summary>
         public MatchEntities()
         {
+            dataGridTargetCandidates.CellEnter += this.DataGridCellEnter;
+            dataGridSourceCandidates.CellEnter += this.DataGridCellEnter;
             InitializeComponent();
         }
 
-        public List<StdElement> PerformMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
+        /// <summary>
+        /// Lets the user perform a manual matching
+        /// </summary>
+        /// <param name="sourceList"> The source list. </param>
+        /// <param name="targetList"> The target list. </param>
+        /// <param name="baselineList"> The baseline list. </param>
+        /// <param name="identifierToUse"> The identifier to use. </param>
+        /// <returns> a list of matches (the base line list manipulated by the user) </returns>
+        public List<StdElement> PerformMatch(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
             if (sourceList.Count == 0)
             {
@@ -51,7 +80,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
-            return this.ShowDialog() != DialogResult.OK 
+            return 
+                this.ShowDialog() != DialogResult.OK 
                 ? null 
                 : this.matching.BaseLine.ToStdElement();
         }
@@ -67,43 +97,39 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             theGrid.AutoGenerateColumns = true;
             theGrid.DataSource = elementList;
 
-            var col = theGrid.Columns["Element"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["ElementMatch"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["BaselineId"];
-            if (col != null)
-            {
-                col.Visible = false;
-            }
-
-            col = theGrid.Columns["ContactName"];
-            if (col != null)
-            {
-                col.HeaderText = "Contact Name";
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            col = theGrid.Columns["ContactNameMatch"];
-            if (col != null)
-            {
-                col.HeaderText = "matched to";
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            col = theGrid.Columns[theGrid.Columns.Count - 1];
-            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            SetupGridColumn(theGrid, "Element", false, string.Empty);
+            SetupGridColumn(theGrid, "ElementMatch", false, string.Empty);
+            SetupGridColumn(theGrid, "BaselineId", false, string.Empty);
+            SetupGridColumn(theGrid, "ContactName", true, "Contact Name");
+            SetupGridColumn(theGrid, "ContactNameMatch", true, "matched to");
         }
-        
-        private void dataGridTargetCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
+
+        /// <summary>
+        /// Performs some setup for the columns
+        /// </summary>
+        /// <param name="theGrid"> The the grid. </param>
+        /// <param name="columnName"> The column name. </param>
+        /// <param name="visible"> A value indicating whether the column should be visible. </param>
+        /// <param name="headerText"> The header text. </param>
+        private static void SetupGridColumn(DataGridView theGrid, string columnName, bool visible, string headerText)
+        {
+            var col = theGrid.Columns[columnName];
+            if (col == null)
+            {
+                return;
+            }
+
+            col.Visible = visible;
+            col.HeaderText = headerText;
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        }
+
+        /// <summary>
+        /// performs the row selection if the cell selection is changed
+        /// </summary>
+        /// <param name="sender"> The sender control. </param>
+        /// <param name="e"> The event arguments. </param>
+        private void DataGridCellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
@@ -111,14 +137,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
         }
 
-        private void dataGridSourceCandidatesCellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1)
-            {
-                this.SelectSourceRow(((DataGridView)sender).Rows[e.RowIndex]);
-            }
-        }
-
+        /// <summary>
+        /// Selects a row inside the source grid
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
         private bool SelectSourceRow(DataGridViewRow row)
         {
             if (row.Index == -1)
@@ -246,19 +269,23 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         private void btnUnMatch_Click(object sender, EventArgs e)
         {
-            if (this.dataGridMatches.SelectedRows.Count <= 0)
+            try
             {
-                return;
-            }
+                if (this.dataGridMatches.SelectedRows.Count <= 0)
+                {
+                    return;
+                }
 
-            // perform the un-match
-            this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);
-            
-            // prevent matching again in case of an now empty list
-            this.matching.CurrentSourceElement = null;
-            
-            // rebind the gui
-            this.SetupGui();
+                // perform the un-match
+                this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);
+
+                // rebind the gui
+                this.SetupGui();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
