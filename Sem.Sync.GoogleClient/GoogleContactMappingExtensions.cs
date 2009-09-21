@@ -25,7 +25,6 @@ namespace Sem.Sync.GoogleClient
 
     using SyncBase;
     using SyncBase.DetailData;
-    using SyncBase.Interfaces;
 
     using PhoneNumber = SyncBase.DetailData.PhoneNumber;
 
@@ -39,6 +38,9 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         private const string GoogleSchemaPrefix2005 = "http://schemas.google.com/g/2005#";
 
+        /// <summary>
+        /// Gets or sets the generic ui responder.
+        /// </summary>
         public static IUiInteraction GenericUiResponder { get; set; }
 
         /// <summary>

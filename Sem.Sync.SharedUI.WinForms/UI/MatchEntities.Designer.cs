@@ -69,7 +69,7 @@
             resources.ApplyResources(this.btnMatch, "btnMatch");
             this.btnMatch.Name = "btnMatch";
             this.btnMatch.UseVisualStyleBackColor = true;
-            this.btnMatch.Click += new System.EventHandler(this.btnMatch_Click);
+            this.btnMatch.Click += new System.EventHandler(this.BtnMatch_Click);
             // 
             // chkMatchedOnly
             // 
@@ -85,7 +85,7 @@
             resources.ApplyResources(this.btnUnMatch, "btnUnMatch");
             this.btnUnMatch.Name = "btnUnMatch";
             this.btnUnMatch.UseVisualStyleBackColor = true;
-            this.btnUnMatch.Click += new System.EventHandler(this.btnUnMatch_Click);
+            this.btnUnMatch.Click += new System.EventHandler(this.BtnUnMatch_Click);
             // 
             // splitContainer2
             // 

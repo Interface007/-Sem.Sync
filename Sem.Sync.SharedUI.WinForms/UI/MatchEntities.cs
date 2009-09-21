@@ -50,9 +50,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         public MatchEntities()
         {
-            dataGridTargetCandidates.CellEnter += this.DataGridCellEnter;
-            dataGridSourceCandidates.CellEnter += this.DataGridCellEnter;
             InitializeComponent();
+            dataGridTargetCandidates.CellEnter += (s, e) => this.DataGridCellEnter(s, e, this.SelectTargetRow);
+            dataGridSourceCandidates.CellEnter += (s, e) => this.DataGridCellEnter(s, e, this.SelectSourceRow);
         }
 
         /// <summary>
@@ -94,6 +94,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <typeparam name="T"> the type of elements inside <paramref name="elementList"/> </typeparam>
         private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
         {
+            theGrid.ClearSelection();
+
             theGrid.AutoGenerateColumns = true;
             theGrid.DataSource = elementList;
 
@@ -127,21 +129,22 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// performs the row selection if the cell selection is changed
         /// </summary>
-        /// <param name="sender"> The sender control. </param>
-        /// <param name="e"> The event arguments. </param>
-        private void DataGridCellEnter(object sender, DataGridViewCellEventArgs e)
+        /// <param name="sender"> The sender control.  </param>
+        /// <param name="e"> The event arguments.  </param>
+        /// <param name="action"> The method to be invoked. </param>
+        private void DataGridCellEnter(object sender, DataGridViewCellEventArgs e, Func<DataGridViewRow, bool> action)
         {
             if (e.RowIndex != -1)
             {
-                this.SelectTargetRow(((DataGridView)sender).Rows[e.RowIndex]);
+                action(((DataGridView)sender).Rows[e.RowIndex]);
             }
         }
 
         /// <summary>
         /// Selects a row inside the source grid
         /// </summary>
-        /// <param name="row"></param>
-        /// <returns></returns>
+        /// <param name="row">the row to be selected</param>
+        /// <returns>true if there has been selected a target row automatically, too</returns>
         private bool SelectSourceRow(DataGridViewRow row)
         {
             if (row.Index == -1)
@@ -176,11 +179,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             return true;
         }
 
-        private void SelectTargetRow(DataGridViewRow row)
+        /// <summary>
+        /// Selects a row inside the target candidate grid
+        /// </summary>
+        /// <param name="row"> The row to be selected.  </param>
+        /// <returns> always false. </returns>
+        private bool SelectTargetRow(DataGridViewRow row)
         {
             if (row.Index == -1)
             {
-                return;
+                return false;
             }
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
@@ -190,20 +198,15 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
             dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            return false;
         }
 
+        /// <summary>
+        /// Performs a general refresh of the GUI
+        /// </summary>
         private void SetupGui()
         {
-            // clear all selections
-            this.dataGridSourceCandidates.ClearSelection();
-            this.dataGridTargetCandidates.ClearSelection();
-            
-            // clear detail grids
-            this.dataGridSourceDetail.DataSource = null;
-            this.dataGridTargetDetail.DataSource = null;
-            this.SourceCardView.Contact = null;
-            this.TargetCardView.Contact = null;
-
             // determine display of already matched entities
             this.matching.FilterMatchedEntries = chkMatchedOnly.Checked;
 
@@ -211,28 +214,39 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
             SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
             SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
+            SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
+            SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
 
-            if (this.lastSelectedSourceRow > 0 && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount && this.dataGridSourceCandidates.RowCount > 1)
+            // clear detail business cards
+            this.SourceCardView.Contact = null;
+            this.TargetCardView.Contact = null;
+
+            // if there is a "last selected source row", select it if possible
+            if (this.lastSelectedSourceRow > 0 
+                && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount 
+                && this.dataGridSourceCandidates.RowCount > 1)
             {
                 this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
                 this.dataGridSourceCandidates.CurrentCell = this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Cells[0];
             }
 
-            if (this.lastSelectedTargetRow > 0)
-            {
-                this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Selected = true;
-                this.dataGridTargetCandidates.CurrentCell = this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Cells[0];
-            }
-
             // enumerate the source grid to find one entry that does
             // have a matching entry in the target grid
+            var found = false;
             for (var r = 0; r < this.dataGridSourceCandidates.Rows.Count; r++)
             {
                 if (this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
                 {
                     // if we found one, exit this loop
+                    found = true;
                     break;
                 }
+            }
+
+            if (!found && this.lastSelectedTargetRow > 0)
+            {
+                this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Selected = true;
+                this.dataGridTargetCandidates.CurrentCell = this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Cells[0];
             }
 
             this.btnMatch.Enabled = this.dataGridSourceCandidates.RowCount > 0 &&
@@ -241,7 +255,12 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.btnUnMatch.Enabled = this.dataGridMatches.RowCount > 0;
         }
 
-        private void btnMatch_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handels the click event of the Match button
+        /// </summary>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnMatch_Click(object sender, EventArgs e)
         {
             try
             {
@@ -267,7 +286,12 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
         }
 
-        private void btnUnMatch_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handels the click event of the UnMatch button
+        /// </summary>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnUnMatch_Click(object sender, EventArgs e)
         {
             try
             {
