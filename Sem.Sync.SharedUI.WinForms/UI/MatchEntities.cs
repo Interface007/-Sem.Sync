@@ -237,7 +237,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             // enumerate the source grid to find one entry that does
             // have a matching entry in the target grid
             var found = false;
-            for (var r = 0; r < this.dataGridSourceCandidates.Rows.Count; r++)
+            for (var r = this.lastSelectedSourceRow; r < this.dataGridSourceCandidates.Rows.Count; r++)
             {
                 if (this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
                 {
