@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AddressClassTest.cs" />
     <Compile Include="CloudConnectorTest.cs" />
+    <Compile Include="GenericToolsTest.cs" />
     <Compile Include="GoogleConnectorTest.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="PersonNameClassTest.cs" />

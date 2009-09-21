@@ -240,7 +240,7 @@ namespace Sem.GenericHelpers
         /// <param name="objectToReadFrom">the object to read from</param>
         /// <param name="pathToProperty">the path to the property</param>
         /// <returns>the value of the property rendered as a string</returns>
-        public static string GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
+        public static object GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
         {
             if (!Equals(objectToReadFrom, default(T)))
             {
@@ -254,7 +254,7 @@ namespace Sem.GenericHelpers
 
                 if (propName.EndsWith("()", StringComparison.Ordinal))
                 {
-                    return type.GetMethod(propName.Substring(0, propName.Length - 2)).Invoke(objectToReadFrom, null).ToString();
+                    return type.GetMethod(propName.Substring(0, propName.Length - 2)).Invoke(objectToReadFrom, null);
                 }
 
                 if (type.GetProperty(propName) != null)
@@ -262,7 +262,7 @@ namespace Sem.GenericHelpers
                     if (pathToProperty.Contains('.'))
                     {
                         return
-                            GetPropertyValue(
+                            GetPropertyValueString(
                                 type
                                     .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
                                     .GetValue(objectToReadFrom, null),
@@ -271,18 +271,31 @@ namespace Sem.GenericHelpers
 
                     if (type.Name == "List`1")
                     {
-                        ((List<string>)type.GetProperty(pathToProperty).GetValue(objectToReadFrom, null)).ConcatElementsToString(",");
+                        return type.GetProperty(pathToProperty).GetValue(objectToReadFrom, null);
                     }
 
                     return
-                        (type
+                        type
                             .GetProperty(pathToProperty)
-                            .GetValue(objectToReadFrom, null) ?? string.Empty)
-                            .ToString();
+                            .GetValue(objectToReadFrom, null);
                 }
             }
 
-            return string.Empty;
+            return null;
+        }
+
+        /// <summary>
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
+        /// </summary>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a string</returns>
+        public static string GetPropertyValueString<T>(T objectToReadFrom, string pathToProperty)
+        {
+            return (GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty).ToString();
         }
 
         /// <summary>

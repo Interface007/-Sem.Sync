@@ -133,7 +133,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnFinished.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="btnFinished.Text" xml:space="preserve">
     <value>&amp;finished</value>
@@ -163,7 +163,7 @@
     <value>75, 23</value>
   </data>
   <data name="btnMatch.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnMatch.Text" xml:space="preserve">
     <value>&amp;match</value>
@@ -196,7 +196,7 @@
     <value>129, 17</value>
   </data>
   <data name="chkMatchedOnly.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="chkMatchedOnly.Text" xml:space="preserve">
     <value>show &amp;only unmatched</value>
@@ -298,7 +298,7 @@
     <value>356, 144</value>
   </data>
   <data name="dataGridSourceDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;dataGridSourceDetail.Name" xml:space="preserve">
     <value>dataGridSourceDetail</value>
@@ -382,7 +382,7 @@
     <value>351, 145</value>
   </data>
   <data name="dataGridTargetDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;dataGridTargetDetail.Name" xml:space="preserve">
     <value>dataGridTargetDetail</value>
@@ -439,7 +439,7 @@
     <value>356</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
     <value>splitContainer1</value>
@@ -475,7 +475,7 @@
     <value>711, 159</value>
   </data>
   <data name="dataGridMatches.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;dataGridMatches.Name" xml:space="preserve">
     <value>dataGridMatches</value>
@@ -508,7 +508,7 @@
     <value>294</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer2.Name" xml:space="preserve">
     <value>splitContainer2</value>
@@ -530,9 +530,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>735, 510</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>MatchEntries</value>

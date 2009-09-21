@@ -153,7 +153,7 @@ namespace Sem.Sync.FilesystemConnector
                     var line = new StringBuilder();
                     foreach (var column in columnDefinition)
                     {
-                        var valueString = Tools.GetPropertyValue(element, column.Selector);
+                        var valueString = Tools.GetPropertyValueString(element, column.Selector);
 
                         // skipping "empty" dates
                         if (valueString != "01.01.0001 00:00:00")

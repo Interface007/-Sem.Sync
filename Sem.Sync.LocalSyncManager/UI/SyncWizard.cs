@@ -218,7 +218,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             control.DisplayMember = "Value";
             control.ValueMember = "Key";
             control.SelectedValueChanged += (s, ev) => GenericHelpers.Tools.SetPropertyValue(this.DataContext, targetPath, (((ComboBox)s).SelectedValue ?? string.Empty).ToString());
-            this.DataContext.PropertyChanged += (s, ev) => control.SelectedValue = GenericHelpers.Tools.GetPropertyValue(this.DataContext, targetPath) ?? control.SelectedValue;
+            this.DataContext.PropertyChanged += (s, ev) => control.SelectedValue = GenericHelpers.Tools.GetPropertyValueString(this.DataContext, targetPath) ?? control.SelectedValue;
         }
 
         /// <summary>

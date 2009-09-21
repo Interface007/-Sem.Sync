@@ -152,6 +152,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 return false;
             }
 
+            this.dataGridSourceCandidates.CurrentCell = row.Cells[0];
+
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentSourceElement = element;
             this.SourceCardView.Contact = element;
@@ -190,6 +192,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             {
                 return false;
             }
+
+            this.dataGridTargetCandidates.CurrentCell = row.Cells[0];
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentTargetElement = element;
@@ -243,7 +247,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 }
             }
 
-            if (!found && this.lastSelectedTargetRow > 0)
+            if (!found && this.lastSelectedTargetRow > 0 && this.lastSelectedTargetRow < this.dataGridTargetCandidates.RowCount)
             {
                 this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Selected = true;
                 this.dataGridTargetCandidates.CurrentCell = this.dataGridTargetCandidates.Rows[this.lastSelectedTargetRow].Cells[0];

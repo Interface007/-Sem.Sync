@@ -57,12 +57,29 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.ArrangeElements();
         }
 
+        /// <summary>
+        /// Gets or sets the data context.
+        /// </summary>
+        public SyncWizardContext DataContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of network.
+        /// </summary>
+        private List<Button> Network { get; set; }
+
+        /// <summary>
+        /// Handels the ResizeEnd event.
+        /// </summary>
+        /// <param name="e"> Empty event argument. </param>
         protected override void OnResizeEnd(EventArgs e)
         {
             this.ArrangeElements();
             base.OnResizeEnd(e);
         }
 
+        /// <summary>
+        /// Arranges element around the local store
+        /// </summary>
         private void ArrangeElements()
         {
             // ReSharper disable PossibleLossOfFraction
@@ -85,15 +102,5 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             btnLocalStore.Location = new Point((this.Width - btnLocalStore.Width) / 2, (this.Height - btnLocalStore.Height) / 2);
         }
-
-        /// <summary>
-        /// Gets or sets the data context.
-        /// </summary>
-        public SyncWizardContext DataContext { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of network.
-        /// </summary>
-        private List<Button> Network { get; set; }
     }
 }

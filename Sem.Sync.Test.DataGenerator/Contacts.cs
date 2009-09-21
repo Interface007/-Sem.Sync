@@ -253,6 +253,42 @@ namespace Sem.Sync.Test.DataGenerator
                         },
                     new StdContact
                         {
+                            Name = new PersonName("Meier, Marcel"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                "Obere Galle 44a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich\nDeutschland")),
+                            AdditionalTextData = "ich bin auch noch da",
+                            Categories = new List<string> { "gut", "böse", "no category" }
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName("Meier, Maria"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                "Obere Galle 44a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich\nDeutschland")),
+                            AdditionalTextData = "ich bin auch noch da",
+                            Categories = new List<string> { "gut", "böse", "no category" }
+                        },
+                    new StdContact
+                        {
+                            Name = new PersonName("Meier, Andrea"),
+                            PersonalAddressPrimary =
+                                new AddressDetail(
+                                OneOf(
+                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                "Obere Galle 44a\n78631 SomeWhere",
+                                "Meine Strasse Überm Deich\nDeutschland")),
+                            AdditionalTextData = "ich bin auch noch da",
+                            Categories = new List<string> { "gut", "böse", "no category" }
+                        },
+                    new StdContact
+                        {
                             Name = new PersonName(OneOf("Lässig, Harry", "Patricia Müller", "Frahm, Manuela")),
                             PersonalAddressPrimary =
                                 new AddressDetail(
