@@ -22,6 +22,7 @@ namespace Sem.GenericHelpers
 
     using Microsoft.Win32;
     using System.Reflection;
+    using System.Collections;
 
     /// <summary>
     /// This class contains some "misc" tools
@@ -247,10 +248,10 @@ namespace Sem.GenericHelpers
             {
                 var type = objectToReadFrom.GetType();
                 var propName = GetInvokePartFromPath(ref pathToProperty);
-                
+
                 var isMethod = propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("(");
                 var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
-                
+
                 var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
                 var parameter = parameterStart > -1 ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2) : string.Empty;
                 propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
@@ -258,13 +259,26 @@ namespace Sem.GenericHelpers
                 // for method invocation parameters are not allowed!
                 if (isMethod)
                 {
-                    return type.GetMethod(propName).Invoke(objectToReadFrom, null);
+                    var method = type.GetMethod(propName);
+                    if (method == null)
+                    {
+                        return null;
+                    }
+
+                    if (string.IsNullOrEmpty(parameter))
+                    {
+                        return type.GetMethod(propName).Invoke(objectToReadFrom, null);
+                    }
+                    else
+                    {
+                        return type.GetMethod(propName).Invoke(objectToReadFrom, new []{parameter});
+                    }
                 }
 
                 var propertyInfo = type.GetProperty(propName);
                 var value =
-                    propertyInfo == null 
-                    ? objectToReadFrom 
+                    propertyInfo == null
+                    ? objectToReadFrom
                     : propertyInfo.GetValue(objectToReadFrom, null);
 
                 if (value == null)
@@ -276,11 +290,62 @@ namespace Sem.GenericHelpers
 
                 if (isIndexed)
                 {
-                    ////var indexer = valueType.GetMethods(BindingFlags.)
-                    int index;
-                    if (int.TryParse(parameter, out index))
+                    int numIndex;
+                    var checkIndex = false;
+                    if (parameter.EndsWith("?"))
+                    { 
+                        parameter = parameter.Substring(0, parameter.Length - 1);
+                        checkIndex = true;
+                    }
+     
+                    var indexerObject = valueType.GetCustomAttributes(typeof(DefaultMemberAttribute), true);
+                    if (indexerObject.Length == 0)
                     {
-                        value = ((object[])value)[index];
+                        if (!int.TryParse(parameter, out numIndex))
+                        {
+                            return null;
+                        }
+
+                        value = ((object[])value)[numIndex];
+                    }
+                    else
+                    {
+                        var indexerName = ((DefaultMemberAttribute)indexerObject[0]).MemberName;
+                        PropertyInfo indexerPropertyInfo = valueType.GetProperty(indexerName);
+
+                        if (valueType.Name == "Dictionary`2")
+                        {
+                            if (checkIndex)
+                            {
+                                var exists = (bool)GetPropertyValue(value, "ContainsKey(" + parameter + ")");
+                                if (!exists)
+                                {
+                                    return null;
+                                }
+                            }
+
+                            value = indexerPropertyInfo.GetValue(value, new Object[] { parameter });
+                        }
+                        else
+                        {
+                            if (!int.TryParse(parameter, out numIndex))
+                            {
+                                return null;
+                            }
+                            
+                            if (checkIndex)
+                            {
+                                var maxIndex = ((int)GetPropertyValue<object>(value, "Count")) - 1;
+                                if (maxIndex < numIndex)
+                                {
+                                    return null;
+                                }
+
+                                value = indexerPropertyInfo.GetValue(value, new Object[] { numIndex });
+                            }
+
+                            value = indexerPropertyInfo.GetValue(value, new Object[] { numIndex });
+                        }
                     }
                 }
 

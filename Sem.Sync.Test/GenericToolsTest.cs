@@ -13,6 +13,47 @@ namespace Sem.Sync.Test
     using DataGenerator;
     using GenericHelpers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Net;
+    using System.Collections.Generic;
+
+    public class RecursiveTestClass
+    {
+        public string[] s { get; set; }
+        public RecursiveTestClass[] t { get; set; }
+    }
+
+    public class ComplexTestClass
+    {
+        public NetworkCredential myProp1 { get; set; }
+        public NetworkCredential myProp2 { get; set; }
+        public NetworkCredential[] myProp3 { get; set; }
+        public List<NetworkCredential> myProp4 { get; set; }
+        public Dictionary<string, NetworkCredential> myProp5 { get; set; }
+
+        public ComplexTestClass()
+        {
+            myProp1 = new System.Net.NetworkCredential("sven", "geheim1", "domain");
+
+            myProp2 = null;
+
+            myProp3 = new[]
+            {
+                new System.Net.NetworkCredential("sven", "geheim2", "domain"),
+                new System.Net.NetworkCredential("sven", "geheim3", "domain")
+            };
+
+            myProp4 = new List<NetworkCredential>{
+                new System.Net.NetworkCredential("sven", "geheim4", "domain"),
+                new System.Net.NetworkCredential("sven", "geheim5", "domain")
+            };
+
+            myProp5 = new Dictionary<string, NetworkCredential>
+            {
+                {"key1", new System.Net.NetworkCredential("sven", "geheim6", "domain")},
+                {"key2", new System.Net.NetworkCredential("sven", "geheim7", "domain")}
+            };
+        }
+    }
 
     /// <summary>
     /// Tests the functionality of the generic (non-project-specific) library
@@ -75,6 +116,35 @@ namespace Sem.Sync.Test
             Assert.AreEqual(testClass.arr[1], Tools.GetPropertyValueString(testClass, "arr[1]"));
             // Assert.AreEqual(testClass.arrayOfArrays[1][2], Tools.GetPropertyValueString(testClass, "arrayOfArrays[1][2]"));
             Assert.AreEqual(testClass.arrayOfClasses[1].a, Tools.GetPropertyValueString(testClass, "arrayOfClasses[1].a"));
+        }
+
+        [TestMethod]
+        public void GetPropertyValueTestCoBa1()
+        {
+            RecursiveTestClass t = new RecursiveTestClass();
+
+            t.s = new string[] { "hallo", "123" };
+            t.t = new RecursiveTestClass[5];
+
+            t.t[0] = new RecursiveTestClass();
+            t.t[0].s = new string[] { "Ichbineintest", "nocheintest" };
+
+            string s = Tools.GetPropertyValue<RecursiveTestClass>(t, ".t[0].s[1]") as string;
+        }
+
+        [TestMethod]
+        public void GetPropertyValueTestCoBa2()
+        {
+            var x = new ComplexTestClass();
+
+            Assert.AreEqual("geheim1", Tools.GetPropertyValue(x, "myProp1.Password"));
+            Assert.IsNull(Tools.GetPropertyValue(x, "myProp2.Password"));
+            Assert.AreEqual("geheim3", Tools.GetPropertyValue(x, "myProp3[1].Password"));
+            Assert.AreEqual("geheim4", Tools.GetPropertyValue(x, "myProp4[0].Password"));
+            Assert.AreEqual("geheim7", Tools.GetPropertyValue(x, "myProp5[key2].Password"));
+
+            Assert.IsNull(Tools.GetPropertyValue(x, "myProp4[20?].Password"));
+            Assert.IsNull(Tools.GetPropertyValue(x, "myProp5[nonexistingkey?].Password"));
         }
     }
 }
