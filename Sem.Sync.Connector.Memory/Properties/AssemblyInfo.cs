@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.MemoryConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Memory")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

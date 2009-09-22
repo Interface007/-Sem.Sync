@@ -36,7 +36,7 @@ namespace Sem.Sync.Test.Cloud
         {
             var contact = new StdContact { Id = new Guid() };
             var contacts = new List<StdElement> { contact, contact };
-            var connector = new OnlineStorageConnector.CloudClient
+            var connector = new Connector.OnlineStorage.CloudClient
                 {
                     BindingAddress = "http://localhost:50643/Storage.svc" 
                 };

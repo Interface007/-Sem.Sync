@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.LotusNotes")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.LotusNotes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.OnlineStorageConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.OnlineStorage")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

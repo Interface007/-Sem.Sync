@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.FilesystemConnector
+namespace Sem.Sync.Connector.Filesystem
 {
     #region usings
 

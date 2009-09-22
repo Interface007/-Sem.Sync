@@ -8,8 +8,8 @@
     <ProjectGuid>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.MeinVZ</RootNamespace>
-    <AssemblyName>Sem.Sync.MeinVZ</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.LotusNotes</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.LotusNotes</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

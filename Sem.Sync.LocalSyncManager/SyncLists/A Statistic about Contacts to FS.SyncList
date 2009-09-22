@@ -8,9 +8,9 @@
 
   <SyncDescription Name="Export Report of contacts from FS to FS">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.StatisticConnector.SimpleReport</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Statistic.SimpleReport</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}</TargetStorePath>
   </SyncDescription>
 

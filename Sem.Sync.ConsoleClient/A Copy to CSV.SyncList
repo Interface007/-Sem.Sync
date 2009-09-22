@@ -11,16 +11,16 @@
 
   <SyncDescription Name="Export from Outlook to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.Outlook.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Export contacts from FS-XML to FS-CSV">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact</TargetConnector>
     <TargetStorePath>
       {FS:WorkingFolder}\test.csv
       {FS:WorkingFolder}\test.csv.config.{write}

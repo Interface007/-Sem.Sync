@@ -8,81 +8,81 @@
 
   <SyncDescription Name="Export from Outlook to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OutlookConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.Outlook.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Export from OnlineStore to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OnlineStorageConnector.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.OnlineStorage.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Normalize OnlineStore (file system)">
     <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Normalize Outlook (file system)">
     <Command>NormalizeContent</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Add missing from Outlook to OnlineStore (file system)">
     <Command>MergeMissing</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Add missing from OnlineStore to Outlook (file system)">
     <Command>MergeMissing</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
   <SyncDescription Name="Merge high evidence from OnlineStore to Outlook (file system)">
     <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Merge high evidence from Outlook to OnlineStore (file system)">
     <Command>MergeHighEvidence</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\OnlineStore.xmlcontact</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Ask if we want to overwrite Outlook">
     <Command>AskForContinue</Command>
     <CommandParameter>Do you want to import the merged contact list into your Outlook account?</CommandParameter>
-    <TargetConnector>Sem.Sync.OutlookConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Outlook.ContactClient</TargetConnector>
   </SyncDescription>
 
   <SyncDescription Name="Import all from file system to OnlineStore">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.FilesystemConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
-    <TargetConnector>Sem.Sync.OnlineStorageConnector.ContactClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.OnlineStorage.ContactClient</TargetConnector>
   </SyncDescription>
 
   <!--<SyncDescription Name="Remove duplicate calendar entries">
 		<Command>RemoveDuplicatesOnTarget</Command>
-		<TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
+		<TargetConnector>Sem.Sync.Connector.Outlook.CalendarClient</TargetConnector>
 	</SyncDescription>-->
 
 </ArrayOfSyncDescription>

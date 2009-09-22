@@ -21,9 +21,9 @@ namespace Sem.GenericHelpers
     /// </remarks>
     /// <example>
     /// creating a new source object using the simple type specification:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClientCsv of StdContact");</code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact");</code>
     /// creating a new source object using the generic type specification by using the " of "-substring:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem");</code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");</code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
     public class Factory

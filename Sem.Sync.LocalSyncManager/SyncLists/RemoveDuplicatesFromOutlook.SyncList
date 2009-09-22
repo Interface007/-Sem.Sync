@@ -6,13 +6,13 @@
 
   <SyncDescription Name="Remove duplicate calendar entries">
     <Command>RemoveDuplicatesOnTarget</Command>
-    <TargetConnector>Sem.Sync.OutlookConnector.CalendarClient</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Outlook.CalendarClient</TargetConnector>
   </SyncDescription>
 
   <!--
   <SyncDescription Name="Remove duplicate calendar entries - for Outlook 2003">
     <Command>RemoveDuplicatesOnTarget</Command>
-    <TargetConnector>Sem.Sync.OutlookConnector.CalendarClient2003</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Outlook.CalendarClient2003</TargetConnector>
   </SyncDescription>
   -->
 

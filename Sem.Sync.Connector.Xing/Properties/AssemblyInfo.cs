@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.XingConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Xing")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

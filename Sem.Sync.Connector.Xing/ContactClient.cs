@@ -11,7 +11,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.XingConnector
+namespace Sem.Sync.Connector.Xing
 {
     #region usings
 

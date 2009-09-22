@@ -8,8 +8,8 @@
     <ProjectGuid>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.FilesystemConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.FilesystemConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Filesystem</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Filesystem</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.FilesystemConnector.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.Filesystem.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

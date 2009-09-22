@@ -9,7 +9,7 @@
 
 namespace Sem.Sync.OnlineStorage
 {
-    using FilesystemConnector;
+    using Connector.Filesystem;
     using SyncBase.Helpers;
 
     /// <summary>

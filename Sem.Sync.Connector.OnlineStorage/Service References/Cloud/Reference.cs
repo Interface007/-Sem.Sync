@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sem.Sync.OnlineStorageConnector.Cloud {
+namespace Sem.Sync.Connector.OnlineStorage.Cloud {
     using System.Runtime.Serialization;
     using System;
     
@@ -26,10 +26,10 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         private Sem.Sync.SyncBase.StdContact[] ContactListField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Sem.Sync.OnlineStorageConnector.Cloud.CloudCredentials CredentialsField;
+        private Sem.Sync.Connector.OnlineStorage.Cloud.CloudCredentials CredentialsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] MessagesField;
+        private Sem.Sync.Connector.OnlineStorage.Cloud.TechnicalMessage[] MessagesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -55,7 +55,7 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Sem.Sync.OnlineStorageConnector.Cloud.CloudCredentials Credentials {
+        public Sem.Sync.Connector.OnlineStorage.Cloud.CloudCredentials Credentials {
             get {
                 return this.CredentialsField;
             }
@@ -68,7 +68,7 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Sem.Sync.OnlineStorageConnector.Cloud.TechnicalMessage[] Messages {
+        public Sem.Sync.Connector.OnlineStorage.Cloud.TechnicalMessage[] Messages {
             get {
                 return this.MessagesField;
             }
@@ -217,22 +217,22 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
     public interface IStorage {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/GetAll", ReplyAction="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/GetAllResponse")]
-        Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer GetAll(string blobId);
+        Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer GetAll(string blobId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/WriteFullList", ReplyAction="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/WriteFullListResponse")]
-        bool WriteFullList(Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer elements, string blobId, bool skipIfExisting);
+        bool WriteFullList(Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer elements, string blobId, bool skipIfExisting);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/DeleteBlob", ReplyAction="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IStorage/DeleteBlobResponse")]
         void DeleteBlob(string blobId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    public interface IStorageChannel : Sem.Sync.OnlineStorageConnector.Cloud.IStorage, System.ServiceModel.IClientChannel {
+    public interface IStorageChannel : Sem.Sync.Connector.OnlineStorage.Cloud.IStorage, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    public partial class StorageClient : System.ServiceModel.ClientBase<Sem.Sync.OnlineStorageConnector.Cloud.IStorage>, Sem.Sync.OnlineStorageConnector.Cloud.IStorage {
+    public partial class StorageClient : System.ServiceModel.ClientBase<Sem.Sync.Connector.OnlineStorage.Cloud.IStorage>, Sem.Sync.Connector.OnlineStorage.Cloud.IStorage {
         
         public StorageClient() {
         }
@@ -253,11 +253,11 @@ namespace Sem.Sync.OnlineStorageConnector.Cloud {
                 base(binding, remoteAddress) {
         }
         
-        public Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer GetAll(string blobId) {
+        public Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer GetAll(string blobId) {
             return base.Channel.GetAll(blobId);
         }
         
-        public bool WriteFullList(Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer elements, string blobId, bool skipIfExisting) {
+        public bool WriteFullList(Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer elements, string blobId, bool skipIfExisting) {
             return base.Channel.WriteFullList(elements, blobId, skipIfExisting);
         }
         

@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.FacebookConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Facebook")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

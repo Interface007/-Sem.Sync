@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.OutlookConnector2003
+namespace Sem.Sync.Connector.Outlook2003
 {
     using Microsoft.Office.Interop.Outlook;
 

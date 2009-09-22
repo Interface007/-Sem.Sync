@@ -8,8 +8,8 @@
     <ProjectGuid>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.StatisticConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.StatisticConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Statistic</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Statistic</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

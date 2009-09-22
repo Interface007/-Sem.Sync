@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.MemoryConnector
+namespace Sem.Sync.Connector.Memory
 {
     using System.Collections.Generic;
 

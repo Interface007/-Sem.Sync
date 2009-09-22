@@ -8,8 +8,8 @@
     <ProjectGuid>{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.WerKenntWenConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.WerKenntWenConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.WerKenntWen</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.WerKenntWen</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

@@ -8,9 +8,9 @@
 
   <SyncDescription Name="Export from AD to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.ActiveDirectoryConnector.ContactClient</SourceConnector>
+    <SourceConnector>Sem.Sync.Connector.ActiveDirectory.ContactClient</SourceConnector>
     <SourceStorePath>memberof=CN=Enter The Group here,OU=YourOU,DC=subdomain,DC=myCompany,DC=com</SourceStorePath>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClientCsv</TargetConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClientCsv</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\AD.csv</TargetStorePath>
   </SyncDescription>
   

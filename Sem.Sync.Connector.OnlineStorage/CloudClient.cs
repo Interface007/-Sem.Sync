@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.OnlineStorageConnector
+namespace Sem.Sync.Connector.OnlineStorage
 {
     using System.Collections.Generic;
     using System.ServiceModel;

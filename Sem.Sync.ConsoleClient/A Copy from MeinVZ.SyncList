@@ -8,8 +8,8 @@
 
   <SyncDescription Name="Export from MeinVZ to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.MeinVZ.ContactClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.ContactClient</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.MeinVZ.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\MeinVZ.xmlcontact</TargetStorePath>
   </SyncDescription>
 

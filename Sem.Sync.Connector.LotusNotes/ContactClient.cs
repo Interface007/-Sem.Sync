@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.LotusNotes
+namespace Sem.Sync.Connector.LotusNotes
 {
     using System;
     using System.Collections.Generic;

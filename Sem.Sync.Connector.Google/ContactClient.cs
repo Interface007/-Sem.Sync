@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.GoogleClient
+namespace Sem.Sync.Connector.Google
 {
     #region usings
 
@@ -18,9 +18,9 @@ namespace Sem.Sync.GoogleClient
 
     using GenericHelpers;
 
-    using Google.Contacts;
-    using Google.GData.Client;
-    using Google.GData.Contacts;
+    using global::Google.Contacts;
+    using global::Google.GData.Client;
+    using global::Google.GData.Contacts;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -275,7 +275,7 @@ namespace Sem.Sync.GoogleClient
                 var userName = this.LogOnUserId;
                 var passWord = this.LogOnPassword;
 
-                this.settings = new RequestSettings("Sem.Sync.GoogleClient", userName, passWord) { AutoPaging = true };
+                this.settings = new RequestSettings("Sem.Sync.Connector.Google", userName, passWord) { AutoPaging = true };
             }
 
             this.requester = this.requester ?? new ContactsRequest(this.settings);

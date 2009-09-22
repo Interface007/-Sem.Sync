@@ -8,8 +8,8 @@
     <ProjectGuid>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.StayFriends</RootNamespace>
-    <AssemblyName>Sem.Sync.StayFriends</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.StayFriends</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.StayFriends</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

@@ -8,8 +8,8 @@
     <ProjectGuid>{DA88047A-8BA7-492B-BB71-EB87472817A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.OnlineStorageConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.OnlineStorageConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.OnlineStorage</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.OnlineStorage</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.OnlineStorageConnector.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.OnlineStorage.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,9 +149,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\OnlineStorage\Sem.Sync.OnlineStorageConnector.OnlineStorage.ContactListContainer.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
@@ -178,10 +175,14 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\Cloud\Sem.Sync.OnlineStorageConnector.Cloud.ContactListContainer.datasource">
+    <None Include="Service References\Cloud\Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Cloud\Storage4.xsd" />
+    <None Include="Service References\OnlineStorage\ContactService5.xsd" />
+    <None Include="Service References\OnlineStorage\Sem.Sync.Connector.OnlineStorage.OnlineStorage.ContactListContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

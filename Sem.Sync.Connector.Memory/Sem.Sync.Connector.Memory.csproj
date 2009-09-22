@@ -8,8 +8,8 @@
     <ProjectGuid>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.MemoryConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.MemoryConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Memory</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Memory</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

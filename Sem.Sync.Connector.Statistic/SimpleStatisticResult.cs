@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.StatisticConnector
+namespace Sem.Sync.Connector.Statistic
 {
     using System.Collections.Generic;
 

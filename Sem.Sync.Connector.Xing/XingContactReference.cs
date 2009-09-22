@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.XingConnector
+namespace Sem.Sync.Connector.Xing
 {
     /// <summary>
     /// contact references do contain the tags, so we need a class to hold the url to doenload the

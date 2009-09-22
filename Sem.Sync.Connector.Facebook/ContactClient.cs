@@ -8,18 +8,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.FacebookConnector
+namespace Sem.Sync.Connector.Facebook
 {
     using System;
     using System.Collections.Generic;
 
-    using Facebook.Components;
+    using global::Facebook.Components;
+    using global::Facebook.Entity;
 
     using Microsoft.Win32;
 
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
+
+    using Gender = SyncBase.DetailData.Gender;
 
     /// <summary>
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
@@ -104,7 +107,7 @@ namespace Sem.Sync.FacebookConnector
             var friendList = service.GetFriendIds();
             foreach (var friend in friendList)
             {
-                Facebook.Entity.User userData = null;
+                User userData = null;
                 try
                 {
                     userData = service.GetUserInfo(friend)[0];
@@ -131,10 +134,10 @@ namespace Sem.Sync.FacebookConnector
                                 InternalSyncData = new SyncData { DateOfLastChange = userData.ProfileUpdateDate },
 
                                 PersonGender =
-                                    (userData.Sex == Facebook.Entity.Gender.Female)
+                                    (userData.Sex == global::Facebook.Entity.Gender.Female)
                                         ? Gender.Female
                                         :
-                                            (userData.Sex == Facebook.Entity.Gender.Male)
+                                            (userData.Sex == global::Facebook.Entity.Gender.Male)
                                                 ? Gender.Male
                                                 :
                                                     Gender.Unspecified,

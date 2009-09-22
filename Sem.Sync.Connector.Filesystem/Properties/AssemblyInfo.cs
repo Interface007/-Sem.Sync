@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.FilesystemConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Filesystem")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

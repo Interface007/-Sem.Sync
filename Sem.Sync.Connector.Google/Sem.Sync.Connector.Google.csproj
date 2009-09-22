@@ -8,8 +8,8 @@
     <ProjectGuid>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.GoogleClient</RootNamespace>
-    <AssemblyName>Sem.Sync.GoogleClient</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Google</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Google</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

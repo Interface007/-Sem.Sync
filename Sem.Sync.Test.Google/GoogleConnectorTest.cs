@@ -9,6 +9,8 @@
 
 namespace Sem.Sync.Test.Google
 {
+    using Connector.Google;
+
     using DataGenerator;
 
     using GenericHelpers;
@@ -30,7 +32,7 @@ namespace Sem.Sync.Test.Google
         {
             var original = Contacts.GetStandardContactList(false);
 
-            var connector = new GoogleClient.ContactClient 
+            var connector = new ContactClient 
                 {
                     LogOnUserId = "semsynctest@svenerikmatzen.info",
                     LogOnPassword =

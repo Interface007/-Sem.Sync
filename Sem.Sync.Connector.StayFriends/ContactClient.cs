@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.StayFriends
+namespace Sem.Sync.Connector.StayFriends
 {
     using System;
     using System.Collections.Generic;

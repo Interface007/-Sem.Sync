@@ -147,11 +147,6 @@
       <Project>{2b1ec971-9055-4156-9fff-0f2b3c7697f4}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SemSyncOutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
-      <Name>Sem.Sync.OutlookWithXing</Name>
-      <Project>{ab6d712c-8e4b-46f9-8ac8-bf65f3da1b79}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

@@ -7,6 +7,7 @@
       <xsd:import schemaLocation="http://localhost:63638/ContactService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.OnlineStorage" />
       <xsd:import schemaLocation="http://localhost:63638/ContactService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
       <xsd:import schemaLocation="http://localhost:63638/ContactService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" />
+      <xsd:import schemaLocation="http://localhost:63638/ContactService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IContact_GetAll_InputMessage">
@@ -31,4 +32,25 @@
       <wsdl:output wsaw:Action="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IContact/WriteFullListResponse" message="tns:IContact_WriteFullList_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
+  <wsdl:binding name="HTTPBasic" type="tns:IContact">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAll">
+      <soap:operation soapAction="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IContact/GetAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteFullList">
+      <soap:operation soapAction="http://svenerikmatzen.com/Sem/Sync/OnlineStorage/IContact/WriteFullList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
 </wsdl:definitions>

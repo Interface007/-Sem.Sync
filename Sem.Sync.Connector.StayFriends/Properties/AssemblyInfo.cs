@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.StayFriends")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.StayFriends")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

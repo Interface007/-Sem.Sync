@@ -13,9 +13,8 @@ namespace Sem.Sync.Test
     using System.IO;
     using System.Text;
 
+    using Connector.Filesystem;
     using DataGenerator;
-
-    using FilesystemConnector;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

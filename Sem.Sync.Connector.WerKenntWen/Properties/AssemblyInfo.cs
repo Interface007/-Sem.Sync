@@ -10,7 +10,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.WerKenntWenConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.WerKenntWen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

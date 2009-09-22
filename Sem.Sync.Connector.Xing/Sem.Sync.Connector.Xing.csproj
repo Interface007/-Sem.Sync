@@ -8,8 +8,8 @@
     <ProjectGuid>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.XingConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.XingConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Xing</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Xing</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.XingConnector.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.Xing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

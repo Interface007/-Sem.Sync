@@ -8,8 +8,8 @@
     <ProjectGuid>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.MsSqlDatabase</RootNamespace>
-    <AssemblyName>Sem.Sync.MsSqlDatabase</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.MsSqlDatabase</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.MsSqlDatabase</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

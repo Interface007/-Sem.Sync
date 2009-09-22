@@ -10,7 +10,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.MeinVZ")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.MeinVZ")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

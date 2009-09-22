@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.MeinVZ
+namespace Sem.Sync.Connector.MeinVZ
 {
     #region usings
 

@@ -194,6 +194,10 @@
       <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
       <Name>Sem.Sync.Connector.MeinVZ</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Memory\Sem.Sync.Connector.Memory.csproj">
+      <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
+      <Name>Sem.Sync.Connector.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
       <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
       <Name>Sem.Sync.Connector.MsSqlDatabase</Name>

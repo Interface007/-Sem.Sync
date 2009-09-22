@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.WerKenntWenConnector
+namespace Sem.Sync.Connector.WerKenntWen
 {
     #region usings
 

@@ -1,12 +1,12 @@
 ﻿namespace Sem.Sync.OnlineStorage
 {
     using System.Linq;
-    
+
+    using Connector.Filesystem;
+
     using SyncBase.DetailData;
     using SyncBase.Helpers;
     
-    using FilesystemConnector;
-
     public class ContactViewService : IContactViewService
     {
         private string StoragePath = (new Properties.Settings()).StoragePath; // "C:\\ContactsServerData\\Contacts.xml";

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.GoogleClient
+namespace Sem.Sync.Connector.Google
 {
     using System;
     using System.Collections.Generic;
@@ -19,9 +19,9 @@ namespace Sem.Sync.GoogleClient
     using GenericHelpers.Entities;
     using GenericHelpers.Interfaces;
 
-    using Google.Contacts;
-    using Google.GData.Client;
-    using Google.GData.Extensions;
+    using global::Google.Contacts;
+    using global::Google.GData.Client;
+    using global::Google.GData.Extensions;
 
     using SyncBase;
     using SyncBase.DetailData;
@@ -106,7 +106,7 @@ namespace Sem.Sync.GoogleClient
                 return;
             }
 
-            var phone = new Google.GData.Extensions.PhoneNumber(stdPhoneNumber.ToString())
+            var phone = new global::Google.GData.Extensions.PhoneNumber(stdPhoneNumber.ToString())
                 {
                     Rel = GoogleSchemaPrefix2005 + addressType
                 };
@@ -128,7 +128,7 @@ namespace Sem.Sync.GoogleClient
                 return;
             }
 
-            var rs = new RequestSettings("Sem.Sync.GoogleClient", credentials.LogOnUserId, credentials.LogOnPassword) { AutoPaging = true };
+            var rs = new RequestSettings("Sem.Sync.Connector.Google", credentials.LogOnUserId, credentials.LogOnPassword) { AutoPaging = true };
             var cr = new ContactsRequest(rs);
 
             using (var photoStream = new MemoryStream(contact.PictureData))
@@ -315,7 +315,7 @@ namespace Sem.Sync.GoogleClient
         /// </summary>
         /// <param name="stdEntry"> The std entry. </param>
         /// <param name="phonenumber"> The phone number to set into the std entry. </param>
-        public static void SetPhone(this StdContact stdEntry, Google.GData.Extensions.PhoneNumber phonenumber)
+        public static void SetPhone(this StdContact stdEntry, global::Google.GData.Extensions.PhoneNumber phonenumber)
         {
             var stdPhoneNumber = new PhoneNumber(phonenumber.Value);
             if (phonenumber.Home)

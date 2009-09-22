@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.StatisticConnector
+namespace Sem.Sync.Connector.Statistic
 {
     #region usings
 

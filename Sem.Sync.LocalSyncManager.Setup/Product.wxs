@@ -72,15 +72,15 @@
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
 
               <File Id='Sem.Sync.ActiveDirectoryConnector'    Name='Sem.Sync.ActiveDirectoryConnector.dll'/>
-              <File Id='Sem.Sync.FacebookConnector'           Name='Sem.Sync.FacebookConnector.dll'       />
-              <File Id='Sem.Sync.FilesystemConnector'         Name='Sem.Sync.FilesystemConnector.dll'     />
-              <File Id='Sem.Sync.OutlookConnector'            Name='Sem.Sync.OutlookConnector.dll'        />
-              <!--<File Id='Sem.Sync.OutlookConnector2003'        Name='Sem.Sync.OutlookConnector2003.dll'    />-->
-              <File Id='Sem.Sync.StatisticConnector'          Name='Sem.Sync.StatisticConnector.dll'      />
-              <File Id='Sem.Sync.WerKenntWenConnector'        Name='Sem.Sync.WerKenntWenConnector.dll'    />
-              <File Id='Sem.Sync.StayFriendsConnector'        Name='Sem.Sync.StayFriends.dll'             />
-              <File Id='Sem.Sync.MeinVZConnector'             Name='Sem.Sync.MeinVZ.dll'    />
-              <File Id='Sem.Sync.XingConnector'               Name='Sem.Sync.XingConnector.dll'           />
+              <File Id='Sem.Sync.Connector.Facebook'           Name='Sem.Sync.Connector.Facebook.dll'       />
+              <File Id='Sem.Sync.Connector.Filesystem'         Name='Sem.Sync.Connector.Filesystem.dll'     />
+              <File Id='Sem.Sync.Connector.Outlook'            Name='Sem.Sync.Connector.Outlook.dll'        />
+              <!--<File Id='Sem.Sync.Connector.Outlook2003'        Name='Sem.Sync.Connector.Outlook2003.dll'    />-->
+              <File Id='Sem.Sync.Connector.Statistic'          Name='Sem.Sync.Connector.Statistic.dll'      />
+              <File Id='Sem.Sync.Connector.WerKenntWen'        Name='Sem.Sync.Connector.WerKenntWen.dll'    />
+              <File Id='Sem.Sync.Connector.StayFriendsConnector'        Name='Sem.Sync.Connector.StayFriends.dll'             />
+              <File Id='Sem.Sync.Connector.MeinVZConnector'             Name='Sem.Sync.Connector.MeinVZ.dll'    />
+              <File Id='Sem.Sync.Connector.Xing'               Name='Sem.Sync.Connector.Xing.dll'           />
             </Component>
 
             <!-- the help files are optional -->

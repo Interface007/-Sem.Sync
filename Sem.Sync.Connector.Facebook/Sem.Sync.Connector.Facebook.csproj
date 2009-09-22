@@ -8,8 +8,8 @@
     <ProjectGuid>{C1B81350-1893-49FF-9582-470C46C2729A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.FacebookConnector</RootNamespace>
-    <AssemblyName>Sem.Sync.FacebookConnector</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Facebook</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Facebook</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.FacebookConnector.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.Facebook.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

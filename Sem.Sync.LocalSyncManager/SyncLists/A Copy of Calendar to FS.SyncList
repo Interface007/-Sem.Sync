@@ -13,15 +13,15 @@
 
   <SyncDescription Name="Export Cal from Outlook to file system">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClient of StdCalendarItem</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Outlook.xmlcalendar</TargetStorePath>
   </SyncDescription>
 
   <SyncDescription Name="Export Cal from Outlook to file system as CSV file">
     <Command>CopyAll</Command>
-    <SourceConnector>Sem.Sync.OutlookConnector.CalendarClient</SourceConnector>
-    <TargetConnector>Sem.Sync.FilesystemConnector.GenericClientCsv of StdCalendarItem</TargetConnector>
+    <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClientCsv of StdCalendarItem</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\calendar.csv</TargetStorePath>
   </SyncDescription>
 

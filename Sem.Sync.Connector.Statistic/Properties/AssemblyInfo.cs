@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.StatisticConnector")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Statistic")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

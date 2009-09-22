@@ -1,14 +1,9 @@
-﻿namespace Sem.Sync.GoogleClient
+﻿namespace Sem.Sync.Connector.Google
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
-    using Google.Contacts;
-    using Google.GData.Client;
-    using Google.GData.Contacts;
-    using Google.GData.Extensions;
+    using global::Google.Contacts;
 
     public class GoogleContactGroups
     {
