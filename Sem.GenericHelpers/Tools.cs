@@ -21,6 +21,7 @@ namespace Sem.GenericHelpers
     using Entities;
 
     using Microsoft.Win32;
+    using System.Reflection;
 
     /// <summary>
     /// This class contains some "misc" tools
@@ -244,44 +245,71 @@ namespace Sem.GenericHelpers
         {
             if (!Equals(objectToReadFrom, default(T)))
             {
-                if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
-                {
-                    pathToProperty = pathToProperty.Substring(1);
-                }
-
                 var type = objectToReadFrom.GetType();
-                var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
+                var propName = GetInvokePartFromPath(ref pathToProperty);
+                
+                var isMethod = propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("(");
+                var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
+                
+                var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
+                var parameter = parameterStart > -1 ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2) : string.Empty;
+                propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
 
-                if (propName.EndsWith("()", StringComparison.Ordinal))
+                // for method invocation parameters are not allowed!
+                if (isMethod)
                 {
-                    return type.GetMethod(propName.Substring(0, propName.Length - 2)).Invoke(objectToReadFrom, null);
+                    return type.GetMethod(propName).Invoke(objectToReadFrom, null);
                 }
 
-                if (type.GetProperty(propName) != null)
+                var propertyInfo = type.GetProperty(propName);
+                var value =
+                    propertyInfo == null 
+                    ? objectToReadFrom 
+                    : propertyInfo.GetValue(objectToReadFrom, null);
+
+                if (value == null)
                 {
-                    if (pathToProperty.Contains('.'))
-                    {
-                        return
-                            GetPropertyValueString(
-                                type
-                                    .GetProperty(pathToProperty.Substring(0, pathToProperty.IndexOf('.')))
-                                    .GetValue(objectToReadFrom, null),
-                                pathToProperty.Substring(pathToProperty.IndexOf('.') + 1));
-                    }
-
-                    if (type.Name == "List`1")
-                    {
-                        return type.GetProperty(pathToProperty).GetValue(objectToReadFrom, null);
-                    }
-
-                    return
-                        type
-                            .GetProperty(pathToProperty)
-                            .GetValue(objectToReadFrom, null);
+                    return null;
                 }
+
+                var valueType = value.GetType();
+
+                if (isIndexed)
+                {
+                    ////var indexer = valueType.GetMethods(BindingFlags.)
+                    int index;
+                    if (int.TryParse(parameter, out index))
+                    {
+                        value = ((object[])value)[index];
+                    }
+                }
+
+                return pathToProperty.Contains('.') ? GetPropertyValue(value, pathToProperty) : value;
             }
 
             return null;
+        }
+
+        private static string GetInvokePartFromPath(ref string pathToProperty)
+        {
+            if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
+            {
+                pathToProperty = pathToProperty.Substring(1);
+            }
+
+            string propName;
+            var indexOfNextPart = pathToProperty.IndexOf('.');
+            if (indexOfNextPart > 0)
+            {
+                propName = pathToProperty.Substring(0, indexOfNextPart);
+                pathToProperty = pathToProperty.Substring(indexOfNextPart);
+            }
+            else
+            {
+                propName = pathToProperty;
+                pathToProperty = string.Empty;
+            }
+            return propName;
         }
 
         /// <summary>

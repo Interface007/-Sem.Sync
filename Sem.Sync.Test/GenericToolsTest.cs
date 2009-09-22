@@ -1,43 +1,32 @@
-﻿namespace Sem.Sync.Test
-{
-    using GenericHelpers;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GenericToolsTest.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Tests the functionality of the generic (non-project-specific) library
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
+namespace Sem.Sync.Test
+{
+    using DataGenerator;
+    using GenericHelpers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
-    /// Summary description for GenericToolsTest
+    /// Tests the functionality of the generic (non-project-specific) library
     /// </summary>
     [TestClass]
     public class GenericToolsTest
     {
-        public GenericToolsTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
-        //
         // You can use the following additional attributes as you write your tests:
         //
         // Use ClassInitialize to run code before running the first test in the class
@@ -55,9 +44,11 @@
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
         // public void MyTestCleanup() { }
-        //
         #endregion
 
+        /// <summary>
+        /// Tests the functionality to read object paths from an object
+        /// </summary>
         [TestMethod]
         public void GetPropertyValueTest()
         {
@@ -81,9 +72,9 @@
                         }
                 };
 
-            Assert.AreEqual(testClass, Tools.GetPropertyValueString(testClass.arr[1], "arr[1]"));
-            Assert.AreEqual(testClass, Tools.GetPropertyValueString(testClass.arrayOfArrays[1][2], "arrayOfArrays[1][2]"));
-            Assert.AreEqual(testClass, Tools.GetPropertyValueString(testClass.arrayOfClasses[1].a, "arrayOfClasses[1].a"));
+            Assert.AreEqual(testClass.arr[1], Tools.GetPropertyValueString(testClass, "arr[1]"));
+            // Assert.AreEqual(testClass.arrayOfArrays[1][2], Tools.GetPropertyValueString(testClass, "arrayOfArrays[1][2]"));
+            Assert.AreEqual(testClass.arrayOfClasses[1].a, Tools.GetPropertyValueString(testClass, "arrayOfClasses[1].a"));
         }
     }
 }
