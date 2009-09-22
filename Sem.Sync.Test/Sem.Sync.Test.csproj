@@ -97,9 +97,9 @@
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj">
+    <ProjectReference Include="..\Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj">
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
-      <Name>Sem.Sync.FilesystemConnector</Name>
+      <Name>Sem.Sync.Connector.Filesystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>

@@ -82,8 +82,8 @@
       <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj">
-      <Name>Sem.Sync.ActiveDirectoryConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.ActiveDirectoryConnector\Sem.Sync.Connector.ActiveDirectory.csproj">
+      <Name>Sem.Sync.Connector.ActiveDirectory</Name>
       <Project>{abf6a30f-5063-460c-9277-af0f59c89290}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -97,13 +97,13 @@
       <Project>{c59830a8-5f30-4ac1-a862-473d9911b08a}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj">
-      <Name>Sem.Sync.FacebookConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.Facebook\Sem.Sync.Connector.Facebook.csproj">
+      <Name>Sem.Sync.Connector.Facebook</Name>
       <Project>{c1b81350-1893-49ff-9582-470c46c2729a}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj">
-      <Name>Sem.Sync.FilesystemConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.FilesystemConnector\Sem.Sync.Connector.Filesystem.csproj">
+      <Name>Sem.Sync.Connector.Filesystem</Name>
       <Project>{f0a26b2b-02ca-4095-ad20-013d0110abb3}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -112,13 +112,13 @@
       <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj">
-      <Name>Sem.Sync.OutlookConnector2003</Name>
+    <ProjectReference Include="..\Sem.Sync.OutlookConnector2003\Sem.Sync.Connector.Outlook2003.csproj">
+      <Name>Sem.Sync.Connector.Outlook2003</Name>
       <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj">
-      <Name>Sem.Sync.OutlookConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.OutlookConnector\Sem.Sync.Connector.Outlook.csproj">
+      <Name>Sem.Sync.Connector.Outlook</Name>
       <Project>{809277c4-f27e-47b6-ac9f-e5ee54ae1399}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -127,8 +127,8 @@
       <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.StatisticConnector\Sem.Sync.StatisticConnector.csproj">
-      <Name>Sem.Sync.StatisticConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.StatisticConnector\Sem.Sync.Connector.Statistic.csproj">
+      <Name>Sem.Sync.Connector.Statistic</Name>
       <Project>{1068fba6-60f2-4a39-9941-ccd6447313e8}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -137,13 +137,13 @@
       <Project>{4725c93e-55a0-42a5-9c61-61dc498a4308}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.WerKenntWenConnector\Sem.Sync.WerKenntWenConnector.csproj">
-      <Name>Sem.Sync.WerKenntWenConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.WerKenntWenConnector\Sem.Sync.Connector.WerKenntWen.csproj">
+      <Name>Sem.Sync.Connector.WerKenntWen</Name>
       <Project>{2a78b30c-36fa-4b2d-b6ad-da2ec52164a0}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj">
-      <Name>Sem.Sync.XingConnector</Name>
+    <ProjectReference Include="..\Sem.Sync.XingConnector\Sem.Sync.Connector.Xing.csproj">
+      <Name>Sem.Sync.Connector.Xing</Name>
       <Project>{2b1ec971-9055-4156-9fff-0f2b3c7697f4}</Project>
       <Private>True</Private>
     </ProjectReference>

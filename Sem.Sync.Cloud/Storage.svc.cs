@@ -12,7 +12,7 @@ namespace Sem.Sync.Cloud
     using System;
     using System.Collections.Generic;
 
-    using CloudStorageConnector;
+    using Connector.CloudStorage;
 
     using SyncBase;
     using SyncBase.Helpers;

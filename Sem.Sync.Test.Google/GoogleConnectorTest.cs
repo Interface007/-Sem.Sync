@@ -7,9 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Test
+namespace Sem.Sync.Test.Google
 {
     using DataGenerator;
+
     using GenericHelpers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SyncBase.Helpers;

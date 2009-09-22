@@ -63,7 +63,7 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+"))
                 {
-                    var lineParts = Regex.Matches(line, "(?<name>^[a-zA-Z -.ßäöüÄÖÜ]+)(?<num>[0-9]+)(?<ext>.+)");
+                    var lineParts = Regex.Matches(line, "(?<name>^[a-zA-Z -.ßäöüÄÖÜ]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
                     this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
                     this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"));
                     this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookConnector", "Sem.Sync.OutlookConnector\Sem.Sync.OutlookConnector.csproj", "{809277C4-F27E-47B6-AC9F-E5EE54AE1399}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Outlook", "Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj", "{809277C4-F27E-47B6-AC9F-E5EE54AE1399}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
 EndProject
@@ -23,19 +23,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		SemSync-Mapping.xlsx = SemSync-Mapping.xlsx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.FilesystemConnector", "Sem.Sync.FilesystemConnector\Sem.Sync.FilesystemConnector.csproj", "{F0A26B2B-02CA-4095-AD20-013D0110ABB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Filesystem", "Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj", "{F0A26B2B-02CA-4095-AD20-013D0110ABB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.XingConnector", "Sem.Sync.XingConnector\Sem.Sync.XingConnector.csproj", "{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Xing", "Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj", "{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OnlineStorage", "Sem.Sync.OnlineStorage\Sem.Sync.OnlineStorage.csproj", "{D5963ECC-B62A-49AA-8627-87F95867D8A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OnlineStorageConnector", "Sem.Sync.OnlineStorageConnector\Sem.Sync.OnlineStorageConnector.csproj", "{DA88047A-8BA7-492B-BB71-EB87472817A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.OnlineStorage", "Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj", "{DA88047A-8BA7-492B-BB71-EB87472817A5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0856527D-C929-4E9D-862F-9971DA241A91} = {0856527D-C929-4E9D-862F-9971DA241A91}
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {D5963ECC-B62A-49AA-8627-87F95867D8A8}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookConnector2003", "Sem.Sync.OutlookConnector2003\Sem.Sync.OutlookConnector2003.csproj", "{15DD2E27-2606-4211-BDCA-863BB9E26142}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Outlook2003", "Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj", "{15DD2E27-2606-4211-BDCA-863BB9E26142}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookWithXing", "SemSyncOutlookWithXing\Sem.Sync.OutlookWithXing.csproj", "{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}"
 EndProject
@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{6B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{467B0823-AB21-4F23-B85C-00C31D5BC2C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.FacebookConnector", "Sem.Sync.Facebook\Sem.Sync.FacebookConnector.csproj", "{C1B81350-1893-49FF-9582-470C46C2729A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Facebook", "Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj", "{C1B81350-1893-49FF-9582-470C46C2729A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientApis", "ClientApis", "{024EBF54-994C-4E06-87F6-17D444178E99}"
 EndProject
@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook", "ClientApis\Face
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Controls", "ClientApis\Facebook\Facebook.Controls\Facebook.Controls.csproj", "{8F4B9954-1BA5-4664-BBCE-B79519FEE120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ActiveDirectoryConnector", "Sem.Sync.ActiveDirectoryConnector\Sem.Sync.ActiveDirectoryConnector.csproj", "{ABF6A30F-5063-460C-9277-AF0F59C89290}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.ActiveDirectory", "Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj", "{ABF6A30F-5063-460C-9277-AF0F59C89290}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A462F00C-C5D1-4784-B712-81FDA7D566D4}"
 EndProject
@@ -75,21 +75,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{F3AF3F0D
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sem.Sync.OutlookWithXing.Setup", "Sem.Sync.OutlookWithXing.Setup\Sem.Sync.OutlookWithXing.Setup.wixproj", "{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.StatisticConnector", "Sem.Sync.StatisticConnector\Sem.Sync.StatisticConnector.csproj", "{1068FBA6-60F2-4A39-9941-CCD6447313E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Statistic", "Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj", "{1068FBA6-60F2-4A39-9941-CCD6447313E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ConsoleClient", "Sem.Sync.ConsoleClient\Sem.Sync.ConsoleClient.csproj", "{9165EBDB-D528-4D2A-BD36-A0D986E609FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers", "Sem.GenericHelpers\Sem.GenericHelpers.csproj", "{930EBD41-0114-4B39-A89A-EBCD7C81931F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.WerKenntWenConnector", "Sem.Sync.WerKenntWenConnector\Sem.Sync.WerKenntWenConnector.csproj", "{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.WerKenntWen", "Sem.Sync.Connector.WerKenntWen\Sem.Sync.Connector.WerKenntWen.csproj", "{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sem.Sync.LocalSyncManager.Setup", "Sem.Sync.LocalSyncManager.Setup\Sem.Sync.LocalSyncManager.Setup.wixproj", "{5E6D43B1-CD8D-46BF-B425-22B1D6378F82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MsSqlDatabase", "Sem.Sync.MsSqlDataBase\Sem.Sync.MsSqlDatabase.csproj", "{A454EA6D-1B59-44AF-8EF2-72F66924279A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsSqlDatabase", "Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj", "{A454EA6D-1B59-44AF-8EF2-72F66924279A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LotusNotes", "Sem.Sync.LotusNotes\Sem.Sync.LotusNotes.csproj", "{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.LotusNotes", "Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj", "{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MeinVZ", "Sem.Sync.MeinVZ\Sem.Sync.MeinVZ.csproj", "{9A99EDD4-4489-4E23-A409-36BA82F63D66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MeinVZ", "Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj", "{9A99EDD4-4489-4E23-A409-36BA82F63D66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{0D187AB7-63F9-462F-A812-63220CBC701D}"
 EndProject
@@ -97,7 +97,7 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Sem.Sync.Cloud.Storage", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Cloud", "Sem.Sync.Cloud\Sem.Sync.Cloud.csproj", "{0856527D-C929-4E9D-862F-9971DA241A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.CloudStorageConnector", "Sem.Sync.CloudStorageConnector\Sem.Sync.CloudStorageConnector.csproj", "{11F37589-CA3B-4B92-B87C-9B48073E4546}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.CloudStorage", "Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj", "{11F37589-CA3B-4B92-B87C-9B48073E4546}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.DataGenerator", "Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj", "{42794DFF-7448-47AA-BBFE-E56D83B756DB}"
 EndProject
@@ -107,11 +107,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{4A76460C-202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ContactSyncer", "Sem.Sync.ContactSyncer\Sem.Sync.ContactSyncer.csproj", "{12CDAB31-6327-448F-BFA2-F26EC8F8392F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.StayFriends", "Sem.Sync.StayFriends\Sem.Sync.StayFriends.csproj", "{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.StayFriends", "Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj", "{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.MemoryConnector", "Sem.Sync.MemoryConnector\Sem.Sync.MemoryConnector.csproj", "{1F1C8AFD-703C-48BD-9398-02AA97CD6432}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.GoogleClient", "Sem.Sync.GoogleClient\Sem.Sync.GoogleClient.csproj", "{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Google", "Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj", "{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{9ADB93A1-9E87-4FA3-829A-2A6EF061558A}"
 EndProject
@@ -125,7 +123,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.WebConnectors
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 40
+		SccNumberOfProjects = 39
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -141,147 +139,147 @@ Global
 		SccProjectTopLevelParentUniqueName3 = SemSync.sln
 		SccProjectName3 = ContactViewer
 		SccLocalPath3 = ContactViewer
-		SccProjectUniqueName4 = Sem.Sync.Facebook\\Sem.Sync.FacebookConnector.csproj
+		SccProjectUniqueName4 = Sem.Sync.LocalSyncManager\\Sem.Sync.LocalSyncManager.csproj
 		SccProjectTopLevelParentUniqueName4 = SemSync.sln
-		SccProjectName4 = Sem.Sync.Facebook
-		SccLocalPath4 = Sem.Sync.Facebook
-		SccProjectUniqueName5 = Sem.Sync.FilesystemConnector\\Sem.Sync.FilesystemConnector.csproj
+		SccProjectName4 = Sem.Sync.LocalSyncManager
+		SccLocalPath4 = Sem.Sync.LocalSyncManager
+		SccProjectUniqueName5 = Sem.Sync.OnlineStorage\\Sem.Sync.OnlineStorage.csproj
 		SccProjectTopLevelParentUniqueName5 = SemSync.sln
-		SccProjectName5 = Sem.Sync.FilesystemConnector
-		SccLocalPath5 = Sem.Sync.FilesystemConnector
-		SccProjectUniqueName6 = Sem.Sync.LocalSyncManager\\Sem.Sync.LocalSyncManager.csproj
+		SccProjectName5 = Sem.Sync.OnlineStorage
+		SccLocalPath5 = Sem.Sync.OnlineStorage
+		SccProjectUniqueName6 = Sem.Sync.SharedUI.WinForms\\Sem.Sync.SharedUI.WinForms.csproj
 		SccProjectTopLevelParentUniqueName6 = SemSync.sln
-		SccProjectName6 = Sem.Sync.LocalSyncManager
-		SccLocalPath6 = Sem.Sync.LocalSyncManager
-		SccProjectUniqueName7 = Sem.Sync.OnlineStorage\\Sem.Sync.OnlineStorage.csproj
+		SccProjectName6 = Sem.Sync.SharedUI.WinForms
+		SccLocalPath6 = Sem.Sync.SharedUI.WinForms
+		SccProjectUniqueName7 = Sem.Sync.SyncBase\\Sem.Sync.SyncBase.csproj
 		SccProjectTopLevelParentUniqueName7 = SemSync.sln
-		SccProjectName7 = Sem.Sync.OnlineStorage
-		SccLocalPath7 = Sem.Sync.OnlineStorage
-		SccProjectUniqueName8 = Sem.Sync.OnlineStorageConnector\\Sem.Sync.OnlineStorageConnector.csproj
+		SccProjectName7 = Sem.Sync.SyncBase
+		SccLocalPath7 = Sem.Sync.SyncBase
+		SccProjectUniqueName8 = Sem.Sync.Test\\Sem.Sync.Test.csproj
 		SccProjectTopLevelParentUniqueName8 = SemSync.sln
-		SccProjectName8 = Sem.Sync.OnlineStorageConnector
-		SccLocalPath8 = Sem.Sync.OnlineStorageConnector
-		SccProjectUniqueName9 = Sem.Sync.OutlookConnector2003\\Sem.Sync.OutlookConnector2003.csproj
+		SccProjectName8 = Sem.Sync.Test
+		SccLocalPath8 = Sem.Sync.Test
+		SccProjectUniqueName9 = Sem.Sync.Documentation\\Sem.Sync.Documentation.csproj
 		SccProjectTopLevelParentUniqueName9 = SemSync.sln
-		SccProjectName9 = Sem.Sync.OutlookConnector2003
-		SccLocalPath9 = Sem.Sync.OutlookConnector2003
-		SccProjectUniqueName10 = Sem.Sync.OutlookConnector\\Sem.Sync.OutlookConnector.csproj
+		SccProjectName9 = Sem.Sync.Documentation
+		SccLocalPath9 = Sem.Sync.Documentation
+		SccProjectUniqueName10 = Sem.Sync.OutlookWithXing.Setup\\Sem.Sync.OutlookWithXing.Setup.wixproj
 		SccProjectTopLevelParentUniqueName10 = SemSync.sln
-		SccProjectName10 = Sem.Sync.OutlookConnector
-		SccLocalPath10 = Sem.Sync.OutlookConnector
-		SccProjectUniqueName11 = Sem.Sync.SharedUI.WinForms\\Sem.Sync.SharedUI.WinForms.csproj
+		SccProjectName10 = Sem.Sync.OutlookWithXing.Setup
+		SccLocalPath10 = Sem.Sync.OutlookWithXing.Setup
+		SccProjectUniqueName11 = Sem.Sync.ConsoleClient\\Sem.Sync.ConsoleClient.csproj
 		SccProjectTopLevelParentUniqueName11 = SemSync.sln
-		SccProjectName11 = Sem.Sync.SharedUI.WinForms
-		SccLocalPath11 = Sem.Sync.SharedUI.WinForms
-		SccProjectUniqueName12 = Sem.Sync.SyncBase\\Sem.Sync.SyncBase.csproj
+		SccProjectName11 = Sem.Sync.ConsoleClient
+		SccLocalPath11 = Sem.Sync.ConsoleClient
+		SccProjectUniqueName12 = Sem.GenericHelpers\\Sem.GenericHelpers.csproj
 		SccProjectTopLevelParentUniqueName12 = SemSync.sln
-		SccProjectName12 = Sem.Sync.SyncBase
-		SccLocalPath12 = Sem.Sync.SyncBase
-		SccProjectUniqueName13 = Sem.Sync.XingConnector\\Sem.Sync.XingConnector.csproj
+		SccProjectName12 = Sem.GenericHelpers
+		SccLocalPath12 = Sem.GenericHelpers
+		SccProjectUniqueName13 = Sem.Sync.LocalSyncManager.Setup\\Sem.Sync.LocalSyncManager.Setup.wixproj
 		SccProjectTopLevelParentUniqueName13 = SemSync.sln
-		SccProjectName13 = Sem.Sync.XingConnector
-		SccLocalPath13 = Sem.Sync.XingConnector
-		SccProjectUniqueName14 = Sem.Sync.ActiveDirectoryConnector\\Sem.Sync.ActiveDirectoryConnector.csproj
+		SccProjectName13 = Sem.Sync.LocalSyncManager.Setup
+		SccLocalPath13 = Sem.Sync.LocalSyncManager.Setup
+		SccProjectUniqueName14 = Sem.Sync.Cloud.Storage\\Sem.Sync.Cloud.Storage.ccproj
 		SccProjectTopLevelParentUniqueName14 = SemSync.sln
-		SccProjectName14 = Sem.Sync.ActiveDirectoryConnector
-		SccLocalPath14 = Sem.Sync.ActiveDirectoryConnector
-		SccProjectUniqueName15 = Sem.Sync.Test\\Sem.Sync.Test.csproj
+		SccProjectName14 = Sem.Sync.Cloud.Storage
+		SccLocalPath14 = Sem.Sync.Cloud.Storage
+		SccProjectUniqueName15 = Sem.Sync.Cloud\\Sem.Sync.Cloud.csproj
 		SccProjectTopLevelParentUniqueName15 = SemSync.sln
-		SccProjectName15 = Sem.Sync.Test
-		SccLocalPath15 = Sem.Sync.Test
-		SccProjectUniqueName16 = Sem.Sync.Documentation\\Sem.Sync.Documentation.csproj
+		SccProjectName15 = Sem.Sync.Cloud
+		SccLocalPath15 = Sem.Sync.Cloud
+		SccProjectUniqueName16 = Sem.Sync.Test.DataGenerator\\Sem.Sync.Test.DataGenerator.csproj
 		SccProjectTopLevelParentUniqueName16 = SemSync.sln
-		SccProjectName16 = Sem.Sync.Documentation
-		SccLocalPath16 = Sem.Sync.Documentation
-		SccProjectUniqueName17 = Sem.Sync.OutlookWithXing.Setup\\Sem.Sync.OutlookWithXing.Setup.wixproj
-		SccProjectName17 = Sem.Sync.OutlookWithXing.Setup
-		SccLocalPath17 = Sem.Sync.OutlookWithXing.Setup
-		SccProjectUniqueName18 = SemSyncOutlookWithXing\\Sem.Sync.OutlookWithXing.csproj
+		SccProjectName16 = Sem.Sync.Test.DataGenerator
+		SccLocalPath16 = Sem.Sync.Test.DataGenerator
+		SccProjectUniqueName17 = Sem.Sync.Cloud.Storage\\StorageClientApi\\StorageClient.csproj
+		SccProjectTopLevelParentUniqueName17 = SemSync.sln
+		SccProjectName17 = Sem.Sync.Cloud.Storage/StorageClientApi
+		SccLocalPath17 = Sem.Sync.Cloud.Storage\\StorageClientApi
+		SccProjectUniqueName18 = Sem.Sync.ContactSyncer\\Sem.Sync.ContactSyncer.csproj
 		SccProjectTopLevelParentUniqueName18 = SemSync.sln
-		SccProjectName18 = SemSyncOutlookWithXing
-		SccLocalPath18 = SemSyncOutlookWithXing
-		SccProjectUniqueName19 = Sem.Sync.StatisticConnector\\Sem.Sync.StatisticConnector.csproj
+		SccProjectName18 = Sem.Sync.ContactSyncer
+		SccLocalPath18 = Sem.Sync.ContactSyncer
+		SccProjectUniqueName19 = Sem.Azure.Storage\\Sem.Azure.Storage.csproj
 		SccProjectTopLevelParentUniqueName19 = SemSync.sln
-		SccProjectName19 = Sem.Sync.StatisticConnector
-		SccLocalPath19 = Sem.Sync.StatisticConnector
-		SccProjectUniqueName20 = Sem.Sync.ConsoleClient\\Sem.Sync.ConsoleClient.csproj
+		SccProjectName19 = Sem.Azure.Storage
+		SccLocalPath19 = Sem.Azure.Storage
+		SccProjectUniqueName20 = Sem.Sync.Test.Cloud\\Sem.Sync.Test.Cloud.csproj
 		SccProjectTopLevelParentUniqueName20 = SemSync.sln
-		SccProjectName20 = Sem.Sync.ConsoleClient
-		SccLocalPath20 = Sem.Sync.ConsoleClient
-		SccProjectUniqueName21 = Sem.GenericHelpers\\Sem.GenericHelpers.csproj
+		SccProjectName20 = Sem.Sync.Test.Cloud
+		SccLocalPath20 = Sem.Sync.Test.Cloud
+		SccProjectUniqueName21 = Sem.Sync.Test.Google\\Sem.Sync.Test.Google.csproj
 		SccProjectTopLevelParentUniqueName21 = SemSync.sln
-		SccProjectName21 = Sem.GenericHelpers
-		SccLocalPath21 = Sem.GenericHelpers
-		SccProjectUniqueName22 = Sem.Sync.WerKenntWenConnector\\Sem.Sync.WerKenntWenConnector.csproj
+		SccProjectName21 = Sem.Sync.Test.Google
+		SccLocalPath21 = Sem.Sync.Test.Google
+		SccProjectUniqueName22 = Sem.Sync.Test.WebConnectors\\Sem.Sync.Test.WebConnectors.csproj
 		SccProjectTopLevelParentUniqueName22 = SemSync.sln
-		SccProjectName22 = Sem.Sync.WerKenntWenConnector
-		SccLocalPath22 = Sem.Sync.WerKenntWenConnector
-		SccProjectUniqueName23 = Sem.Sync.LocalSyncManager.Setup\\Sem.Sync.LocalSyncManager.Setup.wixproj
-		SccProjectName23 = Sem.Sync.LocalSyncManager.Setup
-		SccLocalPath23 = Sem.Sync.LocalSyncManager.Setup
-		SccProjectUniqueName24 = Sem.Sync.MsSqlDataBase\\Sem.Sync.MsSqlDatabase.csproj
+		SccProjectName22 = Sem.Sync.Test.WebConnectors
+		SccLocalPath22 = Sem.Sync.Test.WebConnectors
+		SccProjectUniqueName23 = Sem.Sync.Connector.CloudStorage\\Sem.Sync.Connector.CloudStorage.csproj
+		SccProjectTopLevelParentUniqueName23 = SemSync.sln
+		SccProjectName23 = Sem.Sync.Connector.CloudStorage
+		SccLocalPath23 = Sem.Sync.Connector.CloudStorage
+		SccProjectUniqueName24 = Sem.Sync.Connector.ActiveDirectory\\Sem.Sync.Connector.ActiveDirectory.csproj
 		SccProjectTopLevelParentUniqueName24 = SemSync.sln
-		SccProjectName24 = Sem.Sync.MsSqlDataBase
-		SccLocalPath24 = Sem.Sync.MsSqlDataBase
-		SccProjectUniqueName25 = Sem.Sync.LotusNotes\\Sem.Sync.LotusNotes.csproj
+		SccProjectName24 = Sem.Sync.Connector.ActiveDirectory
+		SccLocalPath24 = Sem.Sync.Connector.ActiveDirectory
+		SccProjectUniqueName25 = Sem.Sync.Connector.Facebook\\Sem.Sync.Connector.Facebook.csproj
 		SccProjectTopLevelParentUniqueName25 = SemSync.sln
-		SccProjectName25 = Sem.Sync.LotusNotes
-		SccLocalPath25 = Sem.Sync.LotusNotes
-		SccProjectUniqueName26 = Sem.Sync.MeinVZ\\Sem.Sync.MeinVZ.csproj
+		SccProjectName25 = Sem.Sync.Connector.Facebook
+		SccLocalPath25 = Sem.Sync.Connector.Facebook
+		SccProjectUniqueName26 = Sem.Sync.Connector.Filesystem\\Sem.Sync.Connector.Filesystem.csproj
 		SccProjectTopLevelParentUniqueName26 = SemSync.sln
-		SccProjectName26 = Sem.Sync.MeinVZ
-		SccLocalPath26 = Sem.Sync.MeinVZ
-		SccProjectUniqueName27 = Sem.Sync.Cloud.Storage\\Sem.Sync.Cloud.Storage.ccproj
-		SccProjectName27 = Sem.Sync.Cloud.Storage
-		SccLocalPath27 = Sem.Sync.Cloud.Storage
-		SccProjectUniqueName28 = Sem.Sync.Cloud\\Sem.Sync.Cloud.csproj
+		SccProjectName26 = Sem.Sync.Connector.Filesystem
+		SccLocalPath26 = Sem.Sync.Connector.Filesystem
+		SccProjectUniqueName27 = Sem.Sync.Connector.Google\\Sem.Sync.Connector.Google.csproj
+		SccProjectTopLevelParentUniqueName27 = SemSync.sln
+		SccProjectName27 = Sem.Sync.Connector.Google
+		SccLocalPath27 = Sem.Sync.Connector.Google
+		SccProjectUniqueName28 = Sem.Sync.Connector.LotusNotes\\Sem.Sync.Connector.LotusNotes.csproj
 		SccProjectTopLevelParentUniqueName28 = SemSync.sln
-		SccProjectName28 = Sem.Sync.Cloud
-		SccLocalPath28 = Sem.Sync.Cloud
-		SccProjectUniqueName29 = Sem.Sync.Test.DataGenerator\\Sem.Sync.Test.DataGenerator.csproj
+		SccProjectName28 = Sem.Sync.Connector.LotusNotes
+		SccLocalPath28 = Sem.Sync.Connector.LotusNotes
+		SccProjectUniqueName29 = Sem.Sync.Connector.MeinVZ\\Sem.Sync.Connector.MeinVZ.csproj
 		SccProjectTopLevelParentUniqueName29 = SemSync.sln
-		SccProjectName29 = Sem.Sync.Test.DataGenerator
-		SccLocalPath29 = Sem.Sync.Test.DataGenerator
-		SccProjectUniqueName30 = Sem.Sync.CloudStorageConnector\\Sem.Sync.CloudStorageConnector.csproj
+		SccProjectName29 = Sem.Sync.Connector.MeinVZ
+		SccLocalPath29 = Sem.Sync.Connector.MeinVZ
+		SccProjectUniqueName30 = Sem.Sync.Connector.MsSqlDataBase\\Sem.Sync.Connector.MsSqlDatabase.csproj
 		SccProjectTopLevelParentUniqueName30 = SemSync.sln
-		SccProjectName30 = Sem.Sync.CloudStorageConnector
-		SccLocalPath30 = Sem.Sync.CloudStorageConnector
-		SccProjectUniqueName31 = Sem.Sync.Cloud.Storage\\StorageClientApi\\StorageClient.csproj
+		SccProjectName30 = Sem.Sync.Connector.MsSqlDataBase
+		SccLocalPath30 = Sem.Sync.Connector.MsSqlDataBase
+		SccProjectUniqueName31 = Sem.Sync.Connector.OnlineStorage\\Sem.Sync.Connector.OnlineStorage.csproj
 		SccProjectTopLevelParentUniqueName31 = SemSync.sln
-		SccProjectName31 = Sem.Sync.Cloud.Storage/StorageClientApi
-		SccLocalPath31 = Sem.Sync.Cloud.Storage\\StorageClientApi
-		SccProjectUniqueName32 = Sem.Sync.ContactSyncer\\Sem.Sync.ContactSyncer.csproj
+		SccProjectName31 = Sem.Sync.Connector.OnlineStorage
+		SccLocalPath31 = Sem.Sync.Connector.OnlineStorage
+		SccProjectUniqueName32 = Sem.Sync.Connector.Outlook\\Sem.Sync.Connector.Outlook.csproj
 		SccProjectTopLevelParentUniqueName32 = SemSync.sln
-		SccProjectName32 = Sem.Sync.ContactSyncer
-		SccLocalPath32 = Sem.Sync.ContactSyncer
-		SccProjectUniqueName33 = Sem.Sync.StayFriends\\Sem.Sync.StayFriends.csproj
+		SccProjectName32 = Sem.Sync.OutlookConnector
+		SccLocalPath32 = Sem.Sync.OutlookConnector
+		SccProjectFilePathRelativizedFromConnection32 = ..\\Sem.Sync.Connector.Outlook\\
+		SccProjectUniqueName33 = Sem.Sync.Connector.Outlook2003\\Sem.Sync.Connector.Outlook2003.csproj
 		SccProjectTopLevelParentUniqueName33 = SemSync.sln
-		SccProjectName33 = Sem.Sync.StayFriends
-		SccLocalPath33 = Sem.Sync.StayFriends
-		SccProjectUniqueName34 = Sem.Sync.MemoryConnector\\Sem.Sync.MemoryConnector.csproj
+		SccProjectName33 = Sem.Sync.Connector.Outlook2003
+		SccLocalPath33 = Sem.Sync.Connector.Outlook2003
+		SccProjectUniqueName34 = Sem.Sync.Connector.Statistic\\Sem.Sync.Connector.Statistic.csproj
 		SccProjectTopLevelParentUniqueName34 = SemSync.sln
-		SccProjectName34 = Sem.Sync.MemoryConnector
-		SccLocalPath34 = Sem.Sync.MemoryConnector
-		SccProjectUniqueName35 = Sem.Sync.GoogleClient\\Sem.Sync.GoogleClient.csproj
+		SccProjectName34 = Sem.Sync.Connector.Statistic
+		SccLocalPath34 = Sem.Sync.Connector.Statistic
+		SccProjectUniqueName35 = Sem.Sync.Connector.StayFriends\\Sem.Sync.Connector.StayFriends.csproj
 		SccProjectTopLevelParentUniqueName35 = SemSync.sln
-		SccProjectName35 = Sem.Sync.GoogleClient
-		SccLocalPath35 = Sem.Sync.GoogleClient
-		SccProjectUniqueName36 = Sem.Azure.Storage\\Sem.Azure.Storage.csproj
+		SccProjectName35 = Sem.Sync.Connector.StayFriends
+		SccLocalPath35 = Sem.Sync.Connector.StayFriends
+		SccProjectUniqueName36 = Sem.Sync.Connector.WerKenntWen\\Sem.Sync.Connector.WerKenntWen.csproj
 		SccProjectTopLevelParentUniqueName36 = SemSync.sln
-		SccProjectName36 = Sem.Azure.Storage
-		SccLocalPath36 = Sem.Azure.Storage
-		SccProjectUniqueName37 = Sem.Sync.Test.Cloud\\Sem.Sync.Test.Cloud.csproj
+		SccProjectName36 = Sem.Sync.Connector.WerKenntWen
+		SccLocalPath36 = Sem.Sync.Connector.WerKenntWen
+		SccProjectUniqueName37 = Sem.Sync.Connector.Xing\\Sem.Sync.Connector.Xing.csproj
 		SccProjectTopLevelParentUniqueName37 = SemSync.sln
-		SccProjectName37 = Sem.Sync.Test.Cloud
-		SccLocalPath37 = Sem.Sync.Test.Cloud
-		SccProjectUniqueName38 = Sem.Sync.Test.Google\\Sem.Sync.Test.Google.csproj
+		SccProjectName37 = Sem.Sync.Connector.Xing
+		SccLocalPath37 = Sem.Sync.Connector.Xing
+		SccProjectUniqueName38 = SemSyncOutlookWithXing\\Sem.Sync.OutlookWithXing.csproj
 		SccProjectTopLevelParentUniqueName38 = SemSync.sln
-		SccProjectName38 = Sem.Sync.Test.Google
-		SccLocalPath38 = Sem.Sync.Test.Google
-		SccProjectUniqueName39 = Sem.Sync.Test.WebConnectors\\Sem.Sync.Test.WebConnectors.csproj
-		SccProjectTopLevelParentUniqueName39 = SemSync.sln
-		SccProjectName39 = Sem.Sync.Test.WebConnectors
-		SccLocalPath39 = Sem.Sync.Test.WebConnectors
+		SccProjectName38 = SemSyncOutlookWithXing
+		SccLocalPath38 = SemSyncOutlookWithXing
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -1058,31 +1056,6 @@ Global
 		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}.Release|x86.ActiveCfg = Release|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug (Code Analysis)|Any CPU.Build.0 = Debug (Code Analysis)|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug (Code Analysis)|x86.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Exclude Non-Standard-Projects|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Exclude Non-Standard-Projects|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Exclude Non-Standard-Projects|x86.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432}.Release|x86.ActiveCfg = Release|Any CPU
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -1222,7 +1195,6 @@ Global
 		{9A99EDD4-4489-4E23-A409-36BA82F63D66} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{11F37589-CA3B-4B92-B87C-9B48073E4546} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{32AA1C0C-CC80-44DC-8F6D-2C603072AB09} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
-		{1F1C8AFD-703C-48BD-9398-02AA97CD6432} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
@@ -1242,6 +1214,9 @@ Global
 		{0F0A60CA-C12A-46B1-AEE4-FED06A15E24D} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{D99EFB32-29AC-4025-BE85-8ECAA250B21C} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{F66A835D-11C6-4EF2-A3D7-65E7B1D90915} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
+		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
+		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
+		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{0856527D-C929-4E9D-862F-9971DA241A91} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{D2903196-B5F9-43CC-9B43-85CDFF0D6268} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{C6F30C10-E1C2-4327-BB6B-3160B479CCA1} = {9ADB93A1-9E87-4FA3-829A-2A6EF061558A}

@@ -1,15 +1,31 @@
-﻿namespace Sem.Sync.Test
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CloudConnectorTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Tests the loud connector
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test.Cloud
 {
     using System;
     using System.Collections.Generic;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SyncBase;
-    
+
+    /// <summary>
+    /// Tests the loud connector
+    /// </summary>
     [TestClass]
     public class CloudConnectorTest
     {
-        private const string _unitTestBlobId = "unitTestBlobId";
+        /// <summary>
+        /// Blob-Id to use
+        /// </summary>
+        private const string UnitTestBlobId = "unitTestBlobId";
         
         /// <summary>
         /// Performs a copy from one file system store to another. This executes read and write.
@@ -20,11 +36,13 @@
         {
             var contact = new StdContact { Id = new Guid() };
             var contacts = new List<StdElement> { contact, contact };
-            var connector = new OnlineStorageConnector.CloudClient();
-            connector.BindingAddress = "http://localhost:50643/Storage.svc";
+            var connector = new OnlineStorageConnector.CloudClient
+                {
+                    BindingAddress = "http://localhost:50643/Storage.svc" 
+                };
 
-            connector.WriteRange(contacts,_unitTestBlobId);
-            Assert.IsTrue(connector.GetAll(_unitTestBlobId).Count == 2);
+            connector.WriteRange(contacts, UnitTestBlobId);
+            Assert.IsTrue(connector.GetAll(UnitTestBlobId).Count == 2);
         }
     }
 }

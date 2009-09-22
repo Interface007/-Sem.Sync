@@ -114,7 +114,7 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void AddressToStringTest01()
         {
-            Assert.AreEqual("Birkenweg 21a\n35586 Wetzlar\nGermany", new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany").ToString());
+            Assert.AreEqual("Birkenweg 21 a / 35586 Wetzlar Germany", new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany").ToString());
         }
 
         private void CheckConstructorCountry(string checkThis, string countryName)
