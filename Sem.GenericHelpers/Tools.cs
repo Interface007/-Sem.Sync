@@ -259,19 +259,31 @@ namespace Sem.GenericHelpers
                 // for method invocation parameters are not allowed!
                 if (isMethod)
                 {
-                    var method = type.GetMethod(propName);
-                    if (method == null)
+                    var methods = type.GetMethods();
+                    if (methods.Length == 0)
                     {
                         return null;
                     }
 
                     if (string.IsNullOrEmpty(parameter))
                     {
-                        return type.GetMethod(propName).Invoke(objectToReadFrom, null);
+                        var method = (from x in methods where x.GetParameters().Length == 0 && x.Name == propName select x).FirstOrDefault();
+                        if (method == null)
+                        {
+                            return null;
+                        }
+
+                        return method.Invoke(objectToReadFrom, null);
                     }
                     else
                     {
-                        return type.GetMethod(propName).Invoke(objectToReadFrom, new []{parameter});
+                        var method = (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).FirstOrDefault();
+                        if (method == null)
+                        {
+                            return null;
+                        }
+
+                        return method.Invoke(objectToReadFrom, new[] { parameter });
                     }
                 }
 

@@ -15,6 +15,7 @@ namespace Sem.Sync.Test
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Net;
     using System.Collections.Generic;
+    using System;
 
     public class RecursiveTestClass
     {
@@ -29,6 +30,10 @@ namespace Sem.Sync.Test
         public NetworkCredential[] myProp3 { get; set; }
         public List<NetworkCredential> myProp4 { get; set; }
         public Dictionary<string, NetworkCredential> myProp5 { get; set; }
+
+        public DateTime? myProp6 { get; set; }
+        public DateTime? myProp7 { get; set; }
+        public int? myProp8 { get; set; }
 
         public ComplexTestClass()
         {
@@ -52,6 +57,18 @@ namespace Sem.Sync.Test
                 {"key1", new System.Net.NetworkCredential("sven", "geheim6", "domain")},
                 {"key2", new System.Net.NetworkCredential("sven", "geheim7", "domain")}
             };
+
+            myProp6 = new DateTime(2009, 7, 8);
+        }
+
+        public DateTime AsString()
+        {
+            return this.myProp6 ?? new DateTime(1900, 1, 1);
+        }
+
+        public DateTime AsString(string defaultValue)
+        {
+            return this.myProp6 ?? DateTime.Parse(defaultValue);
         }
     }
 
@@ -142,6 +159,14 @@ namespace Sem.Sync.Test
             Assert.AreEqual("geheim3", Tools.GetPropertyValue(x, "myProp3[1].Password"));
             Assert.AreEqual("geheim4", Tools.GetPropertyValue(x, "myProp4[0].Password"));
             Assert.AreEqual("geheim7", Tools.GetPropertyValue(x, "myProp5[key2].Password"));
+            
+            Assert.AreEqual(new DateTime(2009, 7, 8), Tools.GetPropertyValue(x, "myProp6"));
+            Assert.AreEqual("08.07.2009 00:00:00", Tools.GetPropertyValueString(x, "myProp6"));
+            Assert.AreEqual("08.07.2009 00:00:00", Tools.GetPropertyValueString(x, "AsString()"));
+            Assert.AreEqual("08.07.2009 00:00:00", Tools.GetPropertyValueString(x, "AsString(----)"));
+            
+            Assert.IsNull(Tools.GetPropertyValue(x, "myProp7"));
+            Assert.AreEqual(string.Empty, Tools.GetPropertyValueString(x, "myProp7"));
 
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp4[20?].Password"));
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp5[nonexistingkey?].Password"));
