@@ -123,6 +123,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Memory",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookWithXing", "Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj", "{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{A8B5097E-7E40-4660-9063-5B1661B3F500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericTools.ProjectSettings", "Sem.GenericTools.ProjectSettings\Sem.GenericTools.ProjectSettings.csproj", "{4595B0B3-0182-451C-A4CD-415377193307}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 40
@@ -1209,6 +1213,31 @@ Global
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}.Release|x86.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4595B0B3-0182-451C-A4CD-415377193307}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1255,5 +1284,6 @@ Global
 		{D2903196-B5F9-43CC-9B43-85CDFF0D6268} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{C6F30C10-E1C2-4327-BB6B-3160B479CCA1} = {9ADB93A1-9E87-4FA3-829A-2A6EF061558A}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
+		{4595B0B3-0182-451C-A4CD-415377193307} = {A8B5097E-7E40-4660-9063-5B1661B3F500}
 	EndGlobalSection
 EndGlobal
