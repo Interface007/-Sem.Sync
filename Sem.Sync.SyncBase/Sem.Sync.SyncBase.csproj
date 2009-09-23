@@ -165,7 +165,6 @@
     <Compile Include="StdElement.cs" />
     <Compile Include="DetailData\CountryCode.cs" />
     <Compile Include="DetailData\Genders.cs" />
-    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IClientBase.cs" />
     <Compile Include="DetailData\InstantMessengerAddresses.cs" />
     <Compile Include="DetailData\PersonName.cs" />
@@ -183,9 +182,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.de-DE.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -224,6 +220,11 @@
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

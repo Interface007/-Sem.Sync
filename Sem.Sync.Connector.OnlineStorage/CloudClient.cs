@@ -18,6 +18,8 @@ namespace Sem.Sync.Connector.OnlineStorage
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.Helpers;
+    using System;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Implements a sample client for the sample online storage (accessed via WCF).
@@ -71,6 +73,12 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            if (Regex.IsMatch(clientFolderName, "^http(s)?://.*(\\?)?"))
+            {
+                this.BindingAddress = clientFolderName.Split('?')[0];
+                clientFolderName = clientFolderName.Split('?')[1];
+            }
+
             var client = this.GetClient();
             var container = new ContactListContainer
                 {

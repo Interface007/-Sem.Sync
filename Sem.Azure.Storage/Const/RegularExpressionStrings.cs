@@ -1,4 +1,14 @@
-namespace Sem.Azure.Storage
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RegularExpressionStrings.cs" company="Sven Erik Matzen">
+//   Sven Erik Matzen
+// </copyright>
+// <summary>
+//   Contains regular expressions for checking whether container and table names conform
+//   to the rules of the storage REST protocols.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Azure.Storage.Const
 {
     /// <summary>
     /// Contains regular expressions for checking whether container and table names conform

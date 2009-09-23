@@ -4,6 +4,7 @@ namespace Sem.Azure.Storage
     {
         internal const int KB = 1024;
         internal const int MB = 1024 * KB;
+
         /// <summary>
         /// When transmitting a blob that is larger than this constant, this library automatically
         /// transmits the blob as individual blocks. I.e., the blob is (1) partitioned
@@ -18,6 +19,7 @@ namespace Sem.Azure.Storage
         /// amount of data that needs to be retransmitted in case of connection failures.
         /// </summary>
         internal const long MaximumBlobSizeBeforeTransmittingAsBlocks = 2 * MB;
+        
         /// <summary>
         /// The size of a single block when transmitting a blob that is larger than the 
         /// MaximumBlobSizeBeforeTransmittingAsBlocks constant (see above).

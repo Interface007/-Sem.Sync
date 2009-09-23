@@ -1,46 +1,33 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExtensionTests.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Tests the Extension Methods from the generic helpers
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Test
 {
+    using System.Collections.Generic;
+
+    using GenericHelpers;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SyncBase.Helpers;
 
     /// <summary>
-    /// Summary description for ExtensionTests
+    /// Tests the Extension Methods from the generic helpers
     /// </summary>
     [TestClass]
     public class ExtensionTests
     {
-        public ExtensionTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
-        //
         // You can use the following additional attributes as you write your tests:
         //
         // Use ClassInitialize to run code before running the first test in the class
@@ -60,18 +47,34 @@ namespace Sem.Sync.Test
         // public void MyTestCleanup() { }
         #endregion
 
+        /// <summary>
+        /// performs a basic test for the "is one of" method
+        /// </summary>
         [TestMethod]
         public void IsOneOfBasicTest()
         {
-            var testObject = "check";
+            const string TestObject = "check";
 
-            Assert.IsTrue(testObject.IsOneOf("isnot", "no", "check", "test"));
-            Assert.IsTrue(testObject.IsOneOf("check", "no", "check", "test"));
-            Assert.IsTrue(testObject.IsOneOf("isnot", "no", "test1", "check"));
-            Assert.IsTrue(testObject.IsOneOf("check"));
-            Assert.IsFalse(testObject.IsOneOf("isnot", "no", "test1", "nocheck"));
-            Assert.IsFalse(testObject.IsOneOf("isnot"));
-            Assert.IsFalse(testObject.IsOneOf());
+            Assert.IsTrue(TestObject.IsOneOf("isnot", "no", "check", "test"));
+            Assert.IsTrue(TestObject.IsOneOf("check", "no", "check", "test"));
+            Assert.IsTrue(TestObject.IsOneOf("isnot", "no", "test1", "check"));
+            Assert.IsTrue(TestObject.IsOneOf("check"));
+            Assert.IsFalse(TestObject.IsOneOf("isnot", "no", "test1", "nocheck"));
+            Assert.IsFalse(TestObject.IsOneOf("isnot"));
+            Assert.IsFalse(TestObject.IsOneOf());
+        }
+
+        /// <summary>
+        /// performs a basic test for the "is one of" method
+        /// </summary>
+        [TestMethod]
+        public void ConcatElementsToStringTest()
+        {
+            Assert.AreEqual("hello world", (new List<string> { "hello", "world" }).ConcatElementsToString(" "));
+            Assert.AreEqual("hello world", (new List<string> { "hello world" }).ConcatElementsToString(" "));
+            Assert.AreEqual("hello world !", (new List<string> { "hello", "world", "!" }).ConcatElementsToString(" "));
+            Assert.AreEqual("hello-world-!", (new List<string> { "hello", "world", "!" }).ConcatElementsToString("-"));
+            Assert.AreEqual(string.Empty, (new List<string>()).ConcatElementsToString("-"));
         }
     }
 }

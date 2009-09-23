@@ -49,7 +49,8 @@
               <!-- the main executable -->
               <File Id='Sem.Sync.LocalSyncManager'            Name='Sem.Sync.LocalSyncManager.exe'         >
                 <Shortcut
-                    Id="MainExecutableIcon" Directory="ProgramMenuDir" Name="Sem.Sync Local Sync Manager"
+                    Id="MainExecutableIcon" Name="Sem.Sync Local Sync Manager"
+                    Directory="ProgramMenuDir" 
                     WorkingDirectory="INSTALLLOCATION"
                     Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0"  />
               </File>
@@ -67,20 +68,21 @@
                         Id='HelperLibrarySettings' KeyPath='yes' Action='write'
                         Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
                         Type='string' Value='true' />
-              <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
-              <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
-              <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
+              
+              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'               />
+              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                />
+              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'       />
 
-              <File Id='Sem.Sync.ActiveDirectoryConnector'    Name='Sem.Sync.ActiveDirectoryConnector.dll'/>
-              <File Id='Sem.Sync.Connector.Facebook'           Name='Sem.Sync.Connector.Facebook.dll'       />
-              <File Id='Sem.Sync.Connector.Filesystem'         Name='Sem.Sync.Connector.Filesystem.dll'     />
-              <File Id='Sem.Sync.Connector.Outlook'            Name='Sem.Sync.Connector.Outlook.dll'        />
-              <!--<File Id='Sem.Sync.Connector.Outlook2003'        Name='Sem.Sync.Connector.Outlook2003.dll'    />-->
-              <File Id='Sem.Sync.Connector.Statistic'          Name='Sem.Sync.Connector.Statistic.dll'      />
-              <File Id='Sem.Sync.Connector.WerKenntWen'        Name='Sem.Sync.Connector.WerKenntWen.dll'    />
-              <File Id='Sem.Sync.Connector.StayFriendsConnector'        Name='Sem.Sync.Connector.StayFriends.dll'             />
-              <File Id='Sem.Sync.Connector.MeinVZConnector'             Name='Sem.Sync.Connector.MeinVZ.dll'    />
-              <File Id='Sem.Sync.Connector.Xing'               Name='Sem.Sync.Connector.Xing.dll'           />
+              <File Id='Sem.Sync.ActiveDirectoryConnector'      Name='Sem.Sync.ActiveDirectoryConnector.dll'/>
+              <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'       />
+              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'     />
+              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'        />
+              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'    />
+              <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'      />
+              <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'    />
+              <File Id='Sem.Sync.Connector.StayFriendsConnector'Name='Sem.Sync.Connector.StayFriends.dll'             />
+              <File Id='Sem.Sync.Connector.MeinVZConnector'     Name='Sem.Sync.Connector.MeinVZ.dll'    />
+              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'           />
             </Component>
 
             <!-- the help files are optional -->

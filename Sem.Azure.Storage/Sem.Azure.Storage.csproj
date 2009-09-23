@@ -79,7 +79,7 @@
     <Compile Include="Const\XmlElementNames.cs" />
     <Compile Include="HttpRequestAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Const\Utilities.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="ResourceUriComponents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -43,6 +43,10 @@ namespace Sem.Sync.Test.Cloud
 
             connector.WriteRange(contacts, UnitTestBlobId);
             Assert.IsTrue(connector.GetAll(UnitTestBlobId).Count == 2);
+
+            connector = new Connector.OnlineStorage.CloudClient();
+            connector.WriteRange(contacts, "http://localhost:50643/Storage.svc?" + UnitTestBlobId);
+            Assert.IsTrue(connector.GetAll(UnitTestBlobId).Count == 2);
         }
     }
 }

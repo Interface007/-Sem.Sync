@@ -1,28 +1,44 @@
-﻿namespace Sem.GenericTools.ProjectSettings
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This program reads and writes project settings from project files
+//   to a flat file in tsv format. This was it's easy to compare the
+//   settings between different parts of a solution.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.GenericTools.ProjectSettings
 {
-    using System.IO;
-    using System.Xml;
-    using System.Reflection;
     using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Xml;
 
     /// <summary>
     /// This program reads and writes project settings from project files
     /// to a flat file in tsv format. This was it's easy to compare the 
     /// settings between different parts of a solution.
     /// </summary>
-    class Program
+    public class Program
     {
-        private static readonly string[] Selectors = new []
-                {
-                    @"//cs:Project/cs:PropertyGroup/cs:RootNamespace",
-                    @"//cs:Project/cs:PropertyGroup/cs:AssemblyName",
-                    @"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion",
-                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
-                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath",
-                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants",
-                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType",
-                };
+        /// <summary>
+        /// contains the xpath selectors to extract project data
+        /// </summary>
+        private static readonly string[] Selectors = new[]
+            {
+                @"//cs:Project/cs:PropertyGroup/cs:RootNamespace", @"//cs:Project/cs:PropertyGroup/cs:AssemblyName",
+                @"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion",
+                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
+                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath",
+                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants",
+                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType",
+            };
 
+        /// <summary>
+        /// contains xpath selectors with parameters to extract configuration specific data
+        /// </summary>
         private static readonly string[] ConfigurationConditions = new[]
                 {
                     @"'$(Configuration)' == ''",
@@ -31,12 +47,16 @@
                     @"'$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU'",
                 };
 
-        static void Main(string[] args)
+        /// <summary>
+        /// Performs an export into a tab seperated file and an import back into the project files - the import can be skipped
+        /// </summary>
+        /// <param name="args"> The command line arguments. </param>
+        public static void Main(string[] args)
         {
-            var rootFolderPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            var rootFolderPath = AppDomain.CurrentDomain.BaseDirectory;
             if (rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name) > -1)
             {
-                rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name)); // @"C:\CodePlex\SemSync";
+                rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name)); 
             }
 
             using (var outStream = new StreamWriter(Path.Combine(rootFolderPath, "projectsettings.csv")))

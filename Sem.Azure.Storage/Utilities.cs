@@ -10,6 +10,8 @@ namespace Sem.Azure.Storage
     using System.Text.RegularExpressions;
     using System.Web;
 
+    using Const;
+
     internal static class Utilities
     {
         internal static HttpWebRequest CreateHttpRequest(Uri uri, string httpMethod, TimeSpan timeout)
@@ -26,6 +28,8 @@ namespace Sem.Azure.Storage
         /// <summary>
         /// Converts the date time to a valid string form as per HTTP standards
         /// </summary>
+        /// <param name="dateTime"> The date time to be converted.  </param>
+        /// <returns> The converted date time in format of an http string. </returns>
         internal static string ConvertDateTimeToHttpString(DateTime dateTime)
         {
             // On the wire everything should be represented in UTC. This assert will catch invalid callers who
