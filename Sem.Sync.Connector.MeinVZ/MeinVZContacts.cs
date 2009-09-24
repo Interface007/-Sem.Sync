@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StudiVZ.cs" company="Sven Erik Matzen">
+// <copyright file="MeinVZ.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
@@ -23,25 +23,13 @@ namespace Sem.Sync.Connector.MeinVZ
     [ClientStoragePathDescription(
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "StudiVZ",
+    [ConnectorDescription(DisplayName = "MeinVZ",
         CanRead = true,
         CanWrite = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
-    public class StudiVZ : ContactClient
+    public class MeinVZContacts : ContactClient
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StudiVZ"/> class.
-        /// </summary>
-        public StudiVZ()
-        {
-            this.HttpDetectionStringLogonFailed = "action=\"https://secure.studivz.net/Login\"";
-            this.HttpUrlLogonRequest = "https://secure.studivz.net/Login";
-            this.HttpUrlBaseAddress = "http://www.studivz.net/";
-            
-            this.HttpRequester.BaseUrl = this.HttpUrlBaseAddress;
-        }
-
         /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.

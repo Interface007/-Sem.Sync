@@ -174,44 +174,5 @@ namespace Sem.Sync.Test
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp4[20?].Password"));
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp5[nonexistingkey?].Password"));
         }
-
-        [TestMethod]
-        public void map()
-        {
-            var x = new ComplexTestClass();
-            var y = new NetworkCredential
-                {
-                    Domain = x.myProp1.NewIfNull().Domain, 
-                    Password = x.myProp3.NewIfNull(5).Password
-                };
-
-            Console.WriteLine(y.Domain);
-        }
-    }
-
-    public static class Ex
-    {
-        public static T NewIfNull<T>(this T testObject) where T : class, new()
-        {
-            return testObject ?? new T();
-        }
-
-        public static T NewIfNull<T>(this T[] testObject, int index) where T : class, new()
-        {
-            var x = (testObject ?? new T[0]);
-            return x.Length > index ? x[index] : new T();
-        }
-        
-        public static T NewIfNull<T>(this List<T> testObject, int index) where T : class, new()
-        {
-            var x = (testObject ?? new List<T>());
-            return x.Count > index ? x[index] : new T();
-        }
-        
-        public static T NewIfNull<T>(this Dictionary<string, T> testObject, string index) where T : class, new()
-        {
-            var x = (testObject ?? new Dictionary<string, T>());
-            return x.ContainsKey(index) ? x[index] : new T();
-        }
     }
 }

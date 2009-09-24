@@ -104,8 +104,8 @@ namespace Sem.Sync.Connector.MeinVZ
         /// </summary>
         protected ContactClient()
         {
-            this.HttpDetectionStringLogonFailed = "action=\"https://secure.meinvz.net/Login\"";
-            this.HttpUrlLogonRequest = "https://secure.meinvz.net/Login";
+            this.HttpDetectionStringLogOnFailed = "action=\"https://secure.meinvz.net/Login\"";
+            this.HttpUrlLogOnRequest = "https://secure.meinvz.net/Login";
             this.HttpUrlBaseAddress = "http://www.meinvz.net";
             this.ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
 
@@ -150,7 +150,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Gets or sets the detection string to detect if we did fail to logon
         /// </summary>
-        protected string HttpDetectionStringLogonFailed { get; set; }
+        protected string HttpDetectionStringLogOnFailed { get; set; }
 
         /// <summary>
         /// Gets or sets the base address to communicate with the site
@@ -160,7 +160,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Gets or sets the relative url to log on
         /// </summary>
-        protected string HttpUrlLogonRequest { get; set; }
+        protected string HttpUrlLogOnRequest { get; set; }
 
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
@@ -364,9 +364,9 @@ namespace Sem.Sync.Connector.MeinVZ
                     iv);
 
                 // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogonRequest, "logOn", postData);
+                var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
 
-                if (logInResponse.Contains(this.HttpDetectionStringLogonFailed))
+                if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
                 {
                     return result;
                 }

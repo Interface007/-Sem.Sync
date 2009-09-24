@@ -29,7 +29,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="SemFolder" Name="Sven Erik Matzen">
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
-          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\SemSyncOutlookWithXing\bin\Release">
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\Sem.Sync.OutlookWithXing\bin\Release">
 
             <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
@@ -61,10 +61,10 @@
                         Type='string' Value='true' />
               <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
-              <File Id='Sem.Sync.Connector.Outlook'            Name='Sem.Sync.Connector.Outlook.dll'        />
-              <File Id='Sem.Sync.Connector.Outlook2003'        Name='Sem.Sync.Connector.Outlook2003.dll'    />
-              <File Id='Sem.Sync.Connector.Xing'               Name='Sem.Sync.Connector.Xing.dll'           />
-              <File Id='Sem.Sync.Connector.Filesystem'         Name='Sem.Sync.Connector.Filesystem.dll'     />
+              <File Id='Sem.Sync.Connector.Outlook'           Name='Sem.Sync.Connector.Outlook.dll'        />
+              <File Id='Sem.Sync.Connector.Outlook2003'       Name='Sem.Sync.Connector.Outlook2003.dll'    />
+              <File Id='Sem.Sync.Connector.Xing'              Name='Sem.Sync.Connector.Xing.dll'           />
+              <File Id='Sem.Sync.Connector.Filesystem'        Name='Sem.Sync.Connector.Filesystem.dll'     />
               <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
             </Component>
 

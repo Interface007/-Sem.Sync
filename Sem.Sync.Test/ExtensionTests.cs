@@ -76,5 +76,30 @@ namespace Sem.Sync.Test
             Assert.AreEqual("hello-world-!", (new List<string> { "hello", "world", "!" }).ConcatElementsToString("-"));
             Assert.AreEqual(string.Empty, (new List<string>()).ConcatElementsToString("-"));
         }
+
+        /// <summary>
+        /// Tests if the extension method NewIfNull does run correctly
+        /// </summary>
+        [TestMethod]
+        public void NewIfNullTest()
+        {
+            var x = new ComplexTestClass();
+
+            // simple reference type
+            Assert.AreEqual("geheim1", x.myProp1.NewIfNull().Password);
+            Assert.AreEqual(string.Empty, x.myProp2.NewIfNull().Domain);
+
+            // array
+            Assert.AreEqual("domain", x.myProp3.NewIfNull(0).Domain);
+            Assert.AreEqual(string.Empty, x.myProp3.NewIfNull(20).Domain);
+
+            // list
+            Assert.AreEqual("domain", x.myProp4.NewIfNull(0).Domain);
+            Assert.AreEqual(string.Empty, x.myProp4.NewIfNull(70).Domain);
+
+            // dictionary
+            Assert.AreEqual("domain", x.myProp5.NewIfNull("key2").Domain);
+            Assert.AreEqual(string.Empty, x.myProp5.NewIfNull("nonexistingKey").Domain);
+        }
     }
 }

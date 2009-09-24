@@ -11,7 +11,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem Sync OutlookConnector2003")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Outlook2003")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

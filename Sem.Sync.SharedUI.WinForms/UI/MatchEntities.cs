@@ -51,8 +51,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         public MatchEntities()
         {
             InitializeComponent();
-            dataGridTargetCandidates.CellEnter += (s, e) => this.DataGridCellEnter(s, e, this.SelectTargetRow);
-            dataGridSourceCandidates.CellEnter += (s, e) => this.DataGridCellEnter(s, e, this.SelectSourceRow);
+            dataGridTargetCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectTargetRow);
+            dataGridSourceCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectSourceRow);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="sender"> The sender control.  </param>
         /// <param name="e"> The event arguments.  </param>
         /// <param name="action"> The method to be invoked. </param>
-        private void DataGridCellEnter(object sender, DataGridViewCellEventArgs e, Func<DataGridViewRow, bool> action)
+        private static void DataGridCellEnter(object sender, DataGridViewCellEventArgs e, Func<DataGridViewRow, bool> action)
         {
             if (e.RowIndex != -1)
             {

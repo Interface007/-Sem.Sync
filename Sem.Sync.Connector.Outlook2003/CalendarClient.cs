@@ -39,7 +39,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// detects duplicates and removes them from the calendar
         /// </summary>
-        /// <param name="pathToStore">the path to the outlook folder to process</param>
+        /// <param name="clientFolderName">the path to the outlook folder to process</param>
         public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;

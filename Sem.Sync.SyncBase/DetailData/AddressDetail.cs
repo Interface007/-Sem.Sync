@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
+    using System.Globalization;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -65,7 +66,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 {
                     var lineParts = Regex.Matches(line, "(?<name>^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
                     this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
-                    this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"));
+                    this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"), CultureInfo.InvariantCulture);
                     this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
                     continue;
                 }

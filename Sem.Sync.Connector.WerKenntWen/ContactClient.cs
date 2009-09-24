@@ -321,7 +321,10 @@ namespace Sem.Sync.Connector.WerKenntWen
                     birthday = birthday + "-01";
                 }
 
-                contact.DateOfBirth = new DateTime(int.Parse(birthyear.Substring(0, 4)), int.Parse(birthday.Substring(0, 2)), int.Parse(birthday.Substring(3, 2)));
+                contact.DateOfBirth = new DateTime(
+                    int.Parse(birthyear.Substring(0, 4), CultureInfo.InvariantCulture),
+                    int.Parse(birthday.Substring(0, 2), CultureInfo.InvariantCulture),
+                    int.Parse(birthday.Substring(3, 2), CultureInfo.InvariantCulture));
             }
 
             contact.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.WerKenntWenUrl, downloadUrl);

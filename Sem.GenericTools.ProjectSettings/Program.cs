@@ -45,6 +45,8 @@ namespace Sem.GenericTools.ProjectSettings
                     @"'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'",
                     @"'$(Configuration)|$(Platform)' == 'Release|AnyCPU'",
                     @"'$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU'",
+                    @"'$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU'",
+                    @"'$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU'",
                 };
 
         /// <summary>

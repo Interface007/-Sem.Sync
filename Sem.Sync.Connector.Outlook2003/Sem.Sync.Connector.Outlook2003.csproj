@@ -8,8 +8,8 @@
     <ProjectGuid>{15DD2E27-2606-4211-BDCA-863BB9E26142}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.OutlookConnector2003</RootNamespace>
-    <AssemblyName>Sem.Sync.OutlookConnector2003</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.Outlook2003</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.Outlook2003</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -36,7 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.OutlookConnector2003.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.Outlook2003.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

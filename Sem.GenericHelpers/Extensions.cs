@@ -68,5 +68,65 @@ namespace Sem.GenericHelpers
                 action.Invoke(element, parameter1);
             }
         }
+
+        /// <summary>
+        /// Tests a value for being NULL and returns a new object of the same type if it is null.
+        /// Returns the tested object if it was not null.
+        /// </summary>
+        /// <param name="testObject"> The test object. </param>
+        /// <typeparam name="T"> The type to test and return </typeparam>
+        /// <returns> the non-null value or a new object if the original value was null </returns>
+        public static T NewIfNull<T>(this T testObject) where T : class, new()
+        {
+            return testObject ?? new T();
+        }
+
+        /// <summary>
+        /// Tests a an array of values for being NULL or not containing the desired index 
+        /// and returns a new object of the element type of the array if either the array
+        /// is null or the element does not exist.
+        /// Returns the array element if it does exist.
+        /// </summary>
+        /// <param name="testObject"> The array to get the element from.  </param>
+        /// <param name="index"> The index. </param>
+        /// <typeparam name="T"> The type of elements inside the array </typeparam>
+        /// <returns> the existing element or a new element, if the element does not exist  </returns>
+        public static T NewIfNull<T>(this T[] testObject, int index) where T : class, new()
+        {
+            var x = testObject ?? new T[0];
+            return x.Length > index ? x[index] : new T();
+        }
+
+        /// <summary>
+        /// Tests a an List of values for being NULL or not containing the desired index 
+        /// and returns a new object of the element type of the List if either the List
+        /// is null or the element does not exist.
+        /// Returns the List element if it does exist.
+        /// </summary>
+        /// <param name="testObject"> The List of elements.  </param>
+        /// <param name="index"> The index. </param>
+        /// <typeparam name="T"> The type of elements inside the List </typeparam>
+        /// <returns> the existing element or a new element, if the element does not exist  </returns>
+        public static T NewIfNull<T>(this List<T> testObject, int index) where T : class, new()
+        {
+            var x = testObject ?? new List<T>();
+            return x.Count > index ? x[index] : new T();
+        }
+
+        /// <summary>
+        /// Tests a a Dictionary of values for being NULL or not containing the desired Key
+        /// and returns a new object of the values type of the Dictionary if either the Dictionary
+        /// is null or the element does not exist.
+        /// Returns the Dictionary element if it does exist.
+        /// </summary>
+        /// <param name="testObject"> The Dictionary of elements.  </param>
+        /// <param name="key"> The key of the element to search. </param>
+        /// <typeparam name="T"> The type of elements inside the Dictionary </typeparam>
+        /// <returns> the existing element or a new element, if the element does not exist  </returns>
+        public static T NewIfNull<T>(this Dictionary<string, T> testObject, string key) where T : class, new()
+        {
+            var x = testObject ?? new Dictionary<string, T>();
+            return x.ContainsKey(key) ? x[key] : new T();
+        }
     }
 }

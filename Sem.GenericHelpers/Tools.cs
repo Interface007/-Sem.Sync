@@ -10,10 +10,10 @@
 namespace Sem.GenericHelpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Security.Cryptography;
     using System.Text;
     using System.Xml.Serialization;
@@ -21,8 +21,6 @@ namespace Sem.GenericHelpers
     using Entities;
 
     using Microsoft.Win32;
-    using System.Reflection;
-    using System.Collections;
 
     /// <summary>
     /// This class contains some "misc" tools
@@ -336,7 +334,7 @@ namespace Sem.GenericHelpers
                                 }
                             }
 
-                            value = indexerPropertyInfo.GetValue(value, new Object[] { parameter });
+                            value = indexerPropertyInfo.GetValue(value, new object[] { parameter });
                         }
                         else
                         {
@@ -347,16 +345,16 @@ namespace Sem.GenericHelpers
                             
                             if (checkIndex)
                             {
-                                var maxIndex = ((int)GetPropertyValue<object>(value, "Count")) - 1;
+                                var maxIndex = ((int)GetPropertyValue(value, "Count")) - 1;
                                 if (maxIndex < numIndex)
                                 {
                                     return null;
                                 }
 
-                                value = indexerPropertyInfo.GetValue(value, new Object[] { numIndex });
+                                value = indexerPropertyInfo.GetValue(value, new object[] { numIndex });
                             }
 
-                            value = indexerPropertyInfo.GetValue(value, new Object[] { numIndex });
+                            value = indexerPropertyInfo.GetValue(value, new object[] { numIndex });
                         }
                     }
                 }
@@ -365,28 +363,6 @@ namespace Sem.GenericHelpers
             }
 
             return null;
-        }
-
-        private static string GetInvokePartFromPath(ref string pathToProperty)
-        {
-            if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
-            {
-                pathToProperty = pathToProperty.Substring(1);
-            }
-
-            string propName;
-            var indexOfNextPart = pathToProperty.IndexOf('.');
-            if (indexOfNextPart > 0)
-            {
-                propName = pathToProperty.Substring(0, indexOfNextPart);
-                pathToProperty = pathToProperty.Substring(indexOfNextPart);
-            }
-            else
-            {
-                propName = pathToProperty;
-                pathToProperty = string.Empty;
-            }
-            return propName;
         }
 
         /// <summary>
@@ -520,6 +496,34 @@ namespace Sem.GenericHelpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the next path of the invocation path - will cut off this part from the path.
+        /// </summary>
+        /// <param name="pathToProperty"> The path to property - the part wil be removed from that string. </param>
+        /// <returns> next part of the invocation path to get the property </returns>
+        private static string GetInvokePartFromPath(ref string pathToProperty)
+        {
+            if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
+            {
+                pathToProperty = pathToProperty.Substring(1);
+            }
+
+            string propName;
+            var indexOfNextPart = pathToProperty.IndexOf('.');
+            if (indexOfNextPart > 0)
+            {
+                propName = pathToProperty.Substring(0, indexOfNextPart);
+                pathToProperty = pathToProperty.Substring(indexOfNextPart);
+            }
+            else
+            {
+                propName = pathToProperty;
+                pathToProperty = string.Empty;
+            }
+
+            return propName;
         }
 
         /// <summary>
