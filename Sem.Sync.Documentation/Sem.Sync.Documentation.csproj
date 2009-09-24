@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -88,7 +88,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
+      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -279,13 +279,29 @@
     <None Include="Help\Settings\Projects\help1x.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.Azure.Storage\Sem.Azure.Storage.csproj">
+      <Project>{D2903196-B5F9-43CC-9B43-85CDFF0D6268}</Project>
+      <Name>Sem.Azure.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.GenericTools.ProjectSettings\Sem.GenericTools.ProjectSettings.csproj">
+      <Project>{4595B0B3-0182-451C-A4CD-415377193307}</Project>
+      <Name>Sem.GenericTools.ProjectSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Cloud.Storage\StorageClientApi\StorageClient.csproj">
+      <Project>{C6F30C10-E1C2-4327-BB6B-3160B479CCA1}</Project>
+      <Name>StorageClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
+      <Project>{11F37589-CA3B-4B92-B87C-9B48073E4546}</Project>
+      <Name>Sem.Sync.Connector.CloudStorage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj">
       <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
@@ -295,6 +311,10 @@
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
       <Name>Sem.Sync.Connector.Filesystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
+      <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
+      <Name>Sem.Sync.Connector.Google</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
       <Project>{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}</Project>
       <Name>Sem.Sync.Connector.LotusNotes</Name>
@@ -303,9 +323,17 @@
       <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
       <Name>Sem.Sync.Connector.MeinVZ</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Memory\Sem.Sync.Connector.Memory.csproj">
+      <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
+      <Name>Sem.Sync.Connector.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
       <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
       <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
+      <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
+      <Name>Sem.Sync.Connector.OnlineStorage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
       <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
@@ -314,6 +342,14 @@
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
       <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
       <Name>Sem.Sync.Connector.Outlook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj">
+      <Project>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</Project>
+      <Name>Sem.Sync.Connector.StayFriends</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.WerKenntWen\Sem.Sync.Connector.WerKenntWen.csproj">
+      <Project>{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}</Project>
+      <Name>Sem.Sync.Connector.WerKenntWen</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>
