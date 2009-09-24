@@ -67,16 +67,14 @@ namespace Sem.GenericHelpers
         /// </summary>
         private readonly ICredentialAware proxyCredentials = new Credentials();
 
-        /// <summary>
-        /// credentials for the content server
-        /// </summary>
-        public ICredentialAware ContentCredentials { get; set; }
-
         #endregion
 
+        /// <summary>
+        /// Initializes static members of the <see cref="HttpHelper"/> class.
+        /// </summary>
         static HttpHelper()
         {
-            DefaultInstance = new HttpHelper("", false);
+            DefaultInstance = new HttpHelper(string.Empty, false);
         }
 
         /// <summary>
@@ -110,7 +108,15 @@ namespace Sem.GenericHelpers
 
         #region public propertries
 
+        /// <summary>
+        /// Gets or sets the Default Instance for requesting information from the network without any further configuration.
+        /// </summary>
         public static HttpHelper DefaultInstance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the credentials for the content server
+        /// </summary>
+        public ICredentialAware ContentCredentials { get; set; }
 
         /// <summary>
         /// Gets or sets the last content downloaded to extract information (can be reused for extraction).
@@ -482,7 +488,7 @@ namespace Sem.GenericHelpers
         {
             if (stream == null)
             {
-                return new byte[]{};
+                return new byte[] { };
             }
 
             var buffer = new byte[initialLength];

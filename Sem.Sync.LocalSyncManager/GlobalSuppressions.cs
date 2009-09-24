@@ -15,3 +15,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Business.SyncWizardContext.#SyncWorkflowsTemplates")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Business.SyncWizardContext.#SyncWorkflowData")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Business.ClientViewModel.#SyncCommandLists")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Business.ClientViewModel.#SyncCommandLists")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WorkFlow", Scope = "type", Target = "Sem.Sync.LocalSyncManager.Entities.SyncWorkFlow")]
