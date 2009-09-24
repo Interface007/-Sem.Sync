@@ -123,6 +123,9 @@
   <data name="&gt;&gt;lblProgressStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;generateSampleProfilesToolStripMenuItem.Name" xml:space="preserve">
+    <value>generateSampleProfilesToolStripMenuItem</value>
+  </data>
   <data name="&gt;&gt;txtPasswordTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -133,8 +136,8 @@
   <data name="label5.Text" xml:space="preserve">
     <value>&amp;domain</value>
   </data>
-  <data name="&gt;&gt;generateSampleProfilesToolStripMenuItem.Name" xml:space="preserve">
-    <value>generateSampleProfilesToolStripMenuItem</value>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
   </data>
   <data name="openCommandsViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 22</value>
@@ -170,8 +173,8 @@
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnPathSource.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>784, 24</value>
@@ -203,8 +206,8 @@
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
   </data>
-  <data name="&gt;&gt;openWorkingFolderToolStripMenuItem.Name" xml:space="preserve">
-    <value>openWorkingFolderToolStripMenuItem</value>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;chkShowImage.Parent" xml:space="preserve">
     <value>pnlProgress</value>
@@ -252,14 +255,17 @@
   <data name="&gt;&gt;btnPathTarget.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
   </data>
   <data name="&gt;&gt;removeDuplettesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtPathTarget.Name" xml:space="preserve">
     <value>txtPathTarget</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SyncWizard</value>
@@ -348,14 +354,8 @@
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
     <value>27</value>
   </data>
-  <data name="label12.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="txtUidSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>400, 180</value>
-  </data>
-  <data name="&gt;&gt;txtPathSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;deleteCurrentProfileToolStripMenuItem.Name" xml:space="preserve">
     <value>deleteCurrentProfileToolStripMenuItem</value>
@@ -375,8 +375,8 @@
   <data name="&gt;&gt;cboWorkFlowData.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>&amp;password:</value>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
   </data>
   <data name="btnPathTarget.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -405,8 +405,8 @@
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
   </data>
-  <data name="&gt;&gt;txtPasswordSource.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="txtUidSource.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -417,8 +417,8 @@
   <data name="openWorkingFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 22</value>
   </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>pnlProgress</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
@@ -471,6 +471,9 @@
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 13</value>
   </data>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="currentPersonImage.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 93</value>
   </data>
@@ -485,9 +488,6 @@
   </data>
   <data name="&gt;&gt;seperatorStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -561,7 +561,7 @@
   <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>AutoSize</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="txtPasswordSource.TabIndex" type="System.Int32, mscorlib">
@@ -666,8 +666,8 @@
   <data name="&gt;&gt;cboSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 6</value>
+  <data name="&gt;&gt;txtPathSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnPathSource.Name" xml:space="preserve">
     <value>btnPathSource</value>
@@ -678,8 +678,8 @@
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
     <value>18</value>
   </data>
-  <data name="starteSynchronisationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 22</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>&amp;password:</value>
   </data>
   <data name="cboTarget.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -834,6 +834,9 @@
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="starteSynchronisationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 22</value>
+  </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 345</value>
   </data>
@@ -882,6 +885,9 @@
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;File</value>
   </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 6</value>
+  </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 198</value>
   </data>
@@ -903,8 +909,8 @@
   <data name="&gt;&gt;btnPathTarget.Name" xml:space="preserve">
     <value>btnPathTarget</value>
   </data>
-  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="cboWorkFlowTemplates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 272</value>
   </data>
   <data name="txtPasswordSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>400, 207</value>
@@ -1098,8 +1104,8 @@
   <data name="&gt;&gt;chkShowImage.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label10.Name" xml:space="preserve">
-    <value>label10</value>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 13</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1149,8 +1155,8 @@
   <data name="chkShowImage.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;openWorkingFolderToolStripMenuItem.Name" xml:space="preserve">
+    <value>openWorkingFolderToolStripMenuItem</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 167</value>
@@ -1160,6 +1166,9 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>pat&amp;h:</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>pat&amp;h:</value>
@@ -1188,9 +1197,6 @@
   <data name="deleteCurrentProfileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete current profile</value>
   </data>
-  <data name="cboWorkFlowTemplates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 272</value>
-  </data>
   <data name="&gt;&gt;contextDataWorkflows.Type" xml:space="preserve">
     <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1203,14 +1209,8 @@
   <data name="&gt;&gt;txtPathSource.Name" xml:space="preserve">
     <value>txtPathSource</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>pnlProgress</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;currentPersonImage.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;txtPasswordSource.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="txtPasswordSource.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
@@ -1227,11 +1227,11 @@
   <data name="txtPathTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 20</value>
   </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 13</value>
+  <data name="&gt;&gt;btnPathSource.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;currentPersonImage.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label9.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1280,8 +1280,5 @@
   </metadata>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>577, 16</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>German</value>
   </metadata>
 </root>

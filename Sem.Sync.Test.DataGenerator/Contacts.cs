@@ -35,6 +35,115 @@ namespace Sem.Sync.Test.DataGenerator
         private static readonly Random Rnd = new Random();
 
         /// <summary>
+        /// Gets a list of variable contacts. Some do have a constant name, some have a constant Id, some oave a constant DefaultProfileId
+        /// </summary>
+        /// <returns>a list of standard contacts with some variations </returns>
+        public static List<StdContact> VariableContactList
+        {
+            get
+            {
+                return new List<StdContact>
+                    {
+                        new StdContact
+                            {
+                                Name = new PersonName("Susanne Mustermann"),
+                                Id = new Guid("{F4A4A250-D5EA-4413-93DB-9E040510C766}"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                    "Obere Galle 44a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich\nDeutschland"))
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Kati Katze"),
+                                Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
+                                PersonalProfileIdentifiers =
+                                    new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 22\n56545 Irgendwo\nGermany",
+                                    "Untere Galle 34a\n78631 SomeWhere",
+                                    "Meine Strasse unterm Deich\nDeutschland"))
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Maria Klaus Hartwig"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "An der B46 78s\n85365 Ober Unter Schleißheim\nGermany",
+                                    "Obere Untertasse 44a\n89273 Krotzen",
+                                    "Deine Strasse Überm Deich\nDeutschland"))
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Meier, Arnold"),
+                                Id = new Guid("{3611AB68-CE1C-4a8e-919E-59E07ABC7CD7}"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                    "Obere Galle 44a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich\nDeutschland")),
+                                AdditionalTextData = "ich bin auch noch da",
+                                Categories = new List<string> { "gut", "böse", "no category" }
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Meier, Marcel"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                    "Obere Galle 44a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich\nDeutschland")),
+                                AdditionalTextData = "ich bin auch noch da",
+                                Categories = new List<string> { "gut", "böse", "no category" }
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Meier, Maria"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                    "Obere Galle 44a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich\nDeutschland")),
+                                AdditionalTextData = "ich bin auch noch da",
+                                Categories = new List<string> { "gut", "böse", "no category" }
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName("Meier, Andrea"),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Hirtenweg 21\n56545 Irgendwo\nGermany",
+                                    "Obere Galle 44a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich\nDeutschland")),
+                                AdditionalTextData = "ich bin auch noch da",
+                                Categories = new List<string> { "gut", "böse", "no category" }
+                            },
+                        new StdContact
+                            {
+                                Name = new PersonName(OneOf("Lässig, Harry", "Patricia Müller", "Frahm, Manuela")),
+                                PersonalAddressPrimary =
+                                    new AddressDetail(
+                                    OneOf(
+                                    "Babylon Weg 67\n57845 Irgendwo\nDeutschland",
+                                    "Obere Galle 24a\n78631 SomeWhere",
+                                    "Meine Strasse Überm Deich 21857\nDeutschland")),
+                                AdditionalTextData = "ich bin auch noch da",
+                                Categories = new List<string> { "gut", "böse", "no category" }
+                            }
+                    };
+            }
+        }
+
+        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
@@ -197,112 +306,6 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
-        /// Generates a list of variable contacts. Some do have a constant name, some have a constant Id, some oave a constant DefaultProfileId
-        /// </summary>
-        /// <returns>a list of standard contacts with some variations </returns>
-        public static List<StdContact> GetVariableContactList()
-        {
-            return new List<StdContact>
-                {
-                    new StdContact
-                        {
-                            Name = new PersonName("Susanne Mustermann"),
-                            Id = new Guid("{F4A4A250-D5EA-4413-93DB-9E040510C766}"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
-                                "Obere Galle 44a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich\nDeutschland"))
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Kati Katze"),
-                            Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
-                            PersonalProfileIdentifiers =
-                                new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 22\n56545 Irgendwo\nGermany",
-                                "Untere Galle 34a\n78631 SomeWhere",
-                                "Meine Strasse unterm Deich\nDeutschland"))
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Maria Klaus Hartwig"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "An der B46 78s\n85365 Ober Unter Schleißheim\nGermany",
-                                "Obere Untertasse 44a\n89273 Krotzen",
-                                "Deine Strasse Überm Deich\nDeutschland"))
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Meier, Arnold"),
-                            Id = new Guid("{3611AB68-CE1C-4a8e-919E-59E07ABC7CD7}"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
-                                "Obere Galle 44a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich\nDeutschland")),
-                            AdditionalTextData = "ich bin auch noch da",
-                            Categories = new List<string> { "gut", "böse", "no category" }
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Meier, Marcel"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
-                                "Obere Galle 44a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich\nDeutschland")),
-                            AdditionalTextData = "ich bin auch noch da",
-                            Categories = new List<string> { "gut", "böse", "no category" }
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Meier, Maria"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
-                                "Obere Galle 44a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich\nDeutschland")),
-                            AdditionalTextData = "ich bin auch noch da",
-                            Categories = new List<string> { "gut", "böse", "no category" }
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName("Meier, Andrea"),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Hirtenweg 21\n56545 Irgendwo\nGermany",
-                                "Obere Galle 44a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich\nDeutschland")),
-                            AdditionalTextData = "ich bin auch noch da",
-                            Categories = new List<string> { "gut", "böse", "no category" }
-                        },
-                    new StdContact
-                        {
-                            Name = new PersonName(OneOf("Lässig, Harry", "Patricia Müller", "Frahm, Manuela")),
-                            PersonalAddressPrimary =
-                                new AddressDetail(
-                                OneOf(
-                                "Babylon Weg 67\n57845 Irgendwo\nDeutschland",
-                                "Obere Galle 24a\n78631 SomeWhere",
-                                "Meine Strasse Überm Deich 21857\nDeutschland")),
-                            AdditionalTextData = "ich bin auch noch da",
-                            Categories = new List<string> { "gut", "böse", "no category" }
-                        }
-                };
-        }
-
-        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
@@ -312,9 +315,13 @@ namespace Sem.Sync.Test.DataGenerator
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var list = GetVariableContactList();
-            list.AddRange(GetStandardContactList(false));
-            return list.ToStdElement();
+            if (VariableContactList != null)
+            {
+                result = VariableContactList.ToStdElement();
+                result.AddRange(GetStandardContactList(false).ToStdElement());
+            }
+
+            return result;
         }
 
         /// <summary>

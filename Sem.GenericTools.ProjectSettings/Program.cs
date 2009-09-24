@@ -69,10 +69,14 @@ namespace Sem.GenericTools.ProjectSettings
             var ask = true;
             while (ask)
             {
-                Console.WriteLine("(W)rite or (E)xit?");
-                var input = Console.ReadLine();
+                Console.WriteLine("(W)rite or (E)xit or (O)open file?");
+                var input = (Console.ReadLine() ?? string.Empty).ToUpperInvariant();
                 switch (input)
                 {
+                    case "O":
+                        System.Diagnostics.Process.Start(Path.Combine(rootFolderPath, "projectsettings.csv"));
+                        break;
+
                     case "W":
                         ask = false;
                         break;
@@ -85,6 +89,10 @@ namespace Sem.GenericTools.ProjectSettings
             CopyCsvToProjectFiles(rootFolderPath);
         }
 
+        /// <summary>
+        /// updates all project files in a folder including the sub folders with the settings of a csv file
+        /// </summary>
+        /// <param name="rootFolderPath"> The root folder path. </param>
         private static void CopyCsvToProjectFiles(string rootFolderPath)
         {
             using (var inStream = new StreamReader(Path.Combine(rootFolderPath, "projectsettings.csv")))
@@ -95,12 +103,17 @@ namespace Sem.GenericTools.ProjectSettings
                 while (line.Length > 0)
                 {
                     line = inStream.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+
                     var columns = line.Split(';');
 
                     XmlNamespaceManager namespaceManager;
                     var projectSettings = GetProjectSettings(columns[0], out namespaceManager);
                     
-                    for (var i = 0; i < headers.Length; i++)
+                    for (var i = 1; i < headers.Length; i++)
                     {
                         string selector;
                         if (headers[i].Contains("..."))
@@ -114,7 +127,18 @@ namespace Sem.GenericTools.ProjectSettings
                         }
 
                         var value = projectSettings.SelectSingleNode(selector, namespaceManager);
-                        value.InnerText = columns[i];
+                        
+                        if (value == null)
+                        {
+                            Console.WriteLine("nonexisting value in file " + Path.GetFileName(columns[0]) + ": " + headers[i]);
+
+                            // TODO: we need to generate the xml nodes if they are missing.
+                            ////value.InnerText = columns[i];
+                        }
+                        else
+                        {
+                            value.InnerText = columns[i].Replace("+", ";");
+                        }
                     }
 
                     projectSettings.Save(columns[0]);
@@ -122,6 +146,10 @@ namespace Sem.GenericTools.ProjectSettings
             }
         }
 
+        /// <summary>
+        /// reads the projects files in a folder including all sub folders and exports selected properties into a csv file
+        /// </summary>
+        /// <param name="rootFolderPath"> The root folder path. </param>
         private static void CopyProjectFilesToCsv(string rootFolderPath)
         {
             using (var outStream = new StreamWriter(Path.Combine(rootFolderPath, "projectsettings.csv")))
@@ -178,6 +206,12 @@ namespace Sem.GenericTools.ProjectSettings
             }
         }
 
+        /// <summary>
+        /// reads the project file into a document
+        /// </summary>
+        /// <param name="projectFile"> The project file. </param>
+        /// <param name="namespaceManager"> The namespace manager. </param>
+        /// <returns> an xml document with the content of the project file </returns>
         private static XmlDocument GetProjectSettings(string projectFile, out XmlNamespaceManager namespaceManager)
         {
             var projectSettings = new XmlDocument();

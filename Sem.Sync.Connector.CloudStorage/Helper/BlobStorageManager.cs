@@ -83,7 +83,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
         /// <typeparam name="T">the type of the entity to read from the BLOB</typeparam>
         /// <param name="contactsId">The scenario id.</param>
         /// <returns>a list of entities</returns>
-        public List<T> GetEntitiesFromBlob<T>(string contactsId) where T : StdContact
+        public List<T> GetEntitiesFromBlob<T>(string contactsId)  
         {
             if (contactsId == null)
             {
@@ -94,7 +94,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
             if (this.blobContainer.DoesBlobExist(contactsId))
             {
                 this.blobContainer.GetBlob(contactsId, contents, false);
-                return Serializer.DeSerializeBinary<T>(contents.AsBytes());
+                return Serializer.DeSerializeBinary<List<T>>(contents.AsBytes());
             }
 
             return new List<T>();

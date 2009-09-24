@@ -105,9 +105,10 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="testObject"> The List of elements.  </param>
         /// <param name="index"> The index. </param>
-        /// <typeparam name="T"> The type of elements inside the List </typeparam>
+        /// <typeparam name="T"> The type of elements inside the collection </typeparam>
         /// <returns> the existing element or a new element, if the element does not exist  </returns>
-        public static T NewIfNull<T>(this List<T> testObject, int index) where T : class, new()
+        public static T NewIfNull<T>(this List<T> testObject, int index) 
+            where T : class, new()
         {
             var x = testObject ?? new List<T>();
             return x.Count > index ? x[index] : new T();
@@ -128,10 +129,16 @@ namespace Sem.GenericHelpers
             var x = testObject ?? new Dictionary<string, T>();
             return x.ContainsKey(key) ? x[key] : new T();
         }
-    
-        public static string DefaultIfNullOrEmpty(this string toCheck, string defaultString)
+
+        /// <summary>
+        /// Returns a default value in case of an empty/null-string
+        /// </summary>
+        /// <param name="toCheck"> The string to check. </param>
+        /// <param name="defaultValue"> The default value. </param>
+        /// <returns> The default string if the checked string is null or empty, the checked string otherwise </returns>
+        public static string DefaultIfNullOrEmpty(this string toCheck, string defaultValue)
         {
-            return string.IsNullOrEmpty(toCheck) ? defaultString : toCheck;
+            return string.IsNullOrEmpty(toCheck) ? defaultValue : toCheck;
         }
     }
 }

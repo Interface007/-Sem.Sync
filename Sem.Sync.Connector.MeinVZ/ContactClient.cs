@@ -177,7 +177,7 @@ namespace Sem.Sync.Connector.MeinVZ
 
             foreach (string contactUrl in contactUrls)
             {
-                result.Add(this.GetContactFromUrl(contactUrl));
+                result.Add(this.DownloadContact(contactUrl));
             }
             
             result.Sort();
@@ -201,7 +201,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// </summary>
         /// <param name="contactUrl"> The contact url. </param>
         /// <returns> the downloaded information inserted into a <see cref="StdContact"/> </returns>
-        private StdContact GetContactFromUrl(string contactUrl)
+        private StdContact DownloadContact(string contactUrl)
         {
             var result = new StdContact();
 

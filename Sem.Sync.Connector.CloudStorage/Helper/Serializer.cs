@@ -27,7 +27,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
         /// <typeparam name="T">the type of entities</typeparam>
         /// <param name="entities">The entities.</param>
         /// <returns>The List of Entites as a Byte Array</returns>
-        public static byte[] SerializeBinary<T>(List<T> entities) where T : StdContact
+        public static byte[] SerializeBinary<T>(T entities) 
         {
             var serializer = new BinaryFormatter();
             var memStream = new MemoryStream();
@@ -41,13 +41,13 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
         /// <typeparam name="T">The type of the entities</typeparam>
         /// <param name="serializedEntities">The serialized entities.</param>
         /// <returns>a list of deserialized entities</returns>
-        public static List<T> DeSerializeBinary<T>(byte[] serializedEntities) where T : StdContact
+        public static T DeSerializeBinary<T>(byte[] serializedEntities) where T : class
         {
             var stream = new MemoryStream(serializedEntities) { Position = 0 };
             var deserializer = new BinaryFormatter();
             var newobj = deserializer.Deserialize(stream);
             stream.Close();
-            return newobj as List<T>;
+            return newobj as T;
         }
     }
 }

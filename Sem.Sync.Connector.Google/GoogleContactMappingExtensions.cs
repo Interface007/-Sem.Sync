@@ -121,7 +121,7 @@ namespace Sem.Sync.Connector.Google
         /// <param name="googleContact"> The google contact.  </param>
         /// <param name="contact"> The contact containing the image information. </param>
         /// <param name="credentials"> The credentials providing object. </param>
-        public static void UpdatePhoto(this Contact googleContact, StdContact contact, ICredentialAware credentials)
+        public static void UpdatePhoto(this Contact googleContact, StdContact contact, ContactClient credentials)
         {
             if (contact.PictureData == null || contact.PictureData.Length <= 0 || string.IsNullOrEmpty(googleContact.Id))
             {
@@ -142,8 +142,8 @@ namespace Sem.Sync.Connector.Google
                     }
                     catch (GDataRequestException ex)
                     {
-                        ((ContactClient)credentials).LogError(ex);
-                        if (ex.ResponseString != string.Empty)
+                        credentials.LogError(ex);
+                        if (string.IsNullOrEmpty(ex.ResponseString))
                         {
                             break;
                         }
@@ -154,7 +154,7 @@ namespace Sem.Sync.Connector.Google
                     }
                     catch (Exception ex)
                     {
-                        ((ContactClient)credentials).LogError(ex);
+                        credentials.LogError(ex);
                         break;
                     }
                 }
@@ -393,7 +393,7 @@ namespace Sem.Sync.Connector.Google
             }
             else
             {
-                throw new NullReferenceException("Google requests a captcha to be resolved in order to reactivate the account, but the UI handler to resolve the captcha has not been setup yet. Make sure the GenericUiResponder property of the static GoogleContactMappingExtensions class has been setup properly.");
+                throw new InvalidOperationException("Google requests a captcha to be resolved in order to reactivate the account, but the UI handler to resolve the captcha has not been setup yet. Make sure the GenericUiResponder property of the static GoogleContactMappingExtensions class has been setup properly.");
             }
         }
 

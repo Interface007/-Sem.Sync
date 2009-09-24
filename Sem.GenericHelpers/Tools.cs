@@ -302,7 +302,7 @@ namespace Sem.GenericHelpers
                 {
                     int numIndex;
                     var checkIndex = false;
-                    if (parameter.EndsWith("?"))
+                    if (parameter.EndsWith("?", StringComparison.Ordinal))
                     { 
                         parameter = parameter.Substring(0, parameter.Length - 1);
                         checkIndex = true;

@@ -58,7 +58,7 @@ namespace Sem.Sync.Test
             targetClient.DeleteElements(targetClient.GetAll(targetStorePath), targetStorePath);
 
             var contacts = Contacts.GetStandardContactList(true);
-            contacts.AddRange(Contacts.GetVariableContactList());
+            contacts.AddRange(Contacts.VariableContactList);
             
             targetClient.AddRange(
                 contacts.ToStdElement(),
