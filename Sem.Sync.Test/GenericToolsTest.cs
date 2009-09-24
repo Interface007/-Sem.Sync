@@ -37,28 +37,28 @@ namespace Sem.Sync.Test
 
         public ComplexTestClass()
         {
-            myProp1 = new System.Net.NetworkCredential("sven", "geheim1", "domain");
+            this.myProp1 = new NetworkCredential("sven", "geheim1", "domain");
 
-            myProp2 = null;
+            this.myProp2 = null;
 
-            myProp3 = new[]
-            {
-                new System.Net.NetworkCredential("sven", "geheim2", "domain"),
-                new System.Net.NetworkCredential("sven", "geheim3", "domain")
-            };
+            this.myProp3 = new[]
+                {
+                    new NetworkCredential("sven", "geheim2", "domain"), new NetworkCredential("sven", "geheim3", "domain")
+                };
 
-            myProp4 = new List<NetworkCredential>{
-                new System.Net.NetworkCredential("sven", "geheim4", "domain"),
-                new System.Net.NetworkCredential("sven", "geheim5", "domain")
-            };
+            this.myProp4 = new List<NetworkCredential>
+                {
+                    new NetworkCredential("sven", "geheim4", "domain"),
+                    new NetworkCredential("sven", "geheim5", "domain")
+                };
 
-            myProp5 = new Dictionary<string, NetworkCredential>
-            {
-                {"key1", new System.Net.NetworkCredential("sven", "geheim6", "domain")},
-                {"key2", new System.Net.NetworkCredential("sven", "geheim7", "domain")}
-            };
+            this.myProp5 = new Dictionary<string, NetworkCredential>
+                {
+                    { "key1", new NetworkCredential("sven", "geheim6", "domain") },
+                    { "key2", new NetworkCredential("sven", "geheim7", "domain") }
+                };
 
-            myProp6 = new DateTime(2009, 7, 8);
+            this.myProp6 = new DateTime(2009, 7, 8);
         }
 
         public DateTime AsString()
@@ -131,22 +131,25 @@ namespace Sem.Sync.Test
                 };
 
             Assert.AreEqual(testClass.arr[1], Tools.GetPropertyValueString(testClass, "arr[1]"));
-            // Assert.AreEqual(testClass.arrayOfArrays[1][2], Tools.GetPropertyValueString(testClass, "arrayOfArrays[1][2]"));
+            //// Assert.AreEqual(testClass.arrayOfArrays[1][2], Tools.GetPropertyValueString(testClass, "arrayOfArrays[1][2]"));
             Assert.AreEqual(testClass.arrayOfClasses[1].a, Tools.GetPropertyValueString(testClass, "arrayOfClasses[1].a"));
         }
 
         [TestMethod]
         public void GetPropertyValueTestCoBa1()
         {
-            RecursiveTestClass t = new RecursiveTestClass();
+            var t = new RecursiveTestClass
+                {
+                    s = new[] { "hallo", "123" }, 
+                    t = new RecursiveTestClass[5]
+                };
 
-            t.s = new string[] { "hallo", "123" };
-            t.t = new RecursiveTestClass[5];
+            t.t[0] = new RecursiveTestClass
+                {
+                    s = new[] { "Ichbineintest", "nocheintest" }
+                };
 
-            t.t[0] = new RecursiveTestClass();
-            t.t[0].s = new string[] { "Ichbineintest", "nocheintest" };
-
-            string s = Tools.GetPropertyValue<RecursiveTestClass>(t, ".t[0].s[1]") as string;
+            var s = Tools.GetPropertyValue(t, ".t[0].s[1]") as string;
         }
 
         [TestMethod]
@@ -170,6 +173,45 @@ namespace Sem.Sync.Test
 
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp4[20?].Password"));
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp5[nonexistingkey?].Password"));
+        }
+
+        [TestMethod]
+        public void map()
+        {
+            var x = new ComplexTestClass();
+            var y = new NetworkCredential
+                {
+                    Domain = x.myProp1.NewIfNull().Domain, 
+                    Password = x.myProp3.NewIfNull(5).Password
+                };
+
+            Console.WriteLine(y.Domain);
+        }
+    }
+
+    public static class Ex
+    {
+        public static T NewIfNull<T>(this T testObject) where T : class, new()
+        {
+            return testObject ?? new T();
+        }
+
+        public static T NewIfNull<T>(this T[] testObject, int index) where T : class, new()
+        {
+            var x = (testObject ?? new T[0]);
+            return x.Length > index ? x[index] : new T();
+        }
+        
+        public static T NewIfNull<T>(this List<T> testObject, int index) where T : class, new()
+        {
+            var x = (testObject ?? new List<T>());
+            return x.Count > index ? x[index] : new T();
+        }
+        
+        public static T NewIfNull<T>(this Dictionary<string, T> testObject, string index) where T : class, new()
+        {
+            var x = (testObject ?? new Dictionary<string, T>());
+            return x.ContainsKey(index) ? x[index] : new T();
         }
     }
 }
