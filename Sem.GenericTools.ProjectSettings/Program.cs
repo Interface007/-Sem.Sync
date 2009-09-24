@@ -12,6 +12,7 @@
 namespace Sem.GenericTools.ProjectSettings
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -26,28 +27,30 @@ namespace Sem.GenericTools.ProjectSettings
         /// <summary>
         /// contains the xpath selectors to extract project data
         /// </summary>
-        private static readonly string[] Selectors = new[]
+        private static readonly Dictionary<string, string> Selectors = new Dictionary<string, string> 
             {
-                @"//cs:Project/cs:PropertyGroup/cs:RootNamespace", @"//cs:Project/cs:PropertyGroup/cs:AssemblyName",
-                @"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion",
-                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
-                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath",
-                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants",
-                @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType",
+                { "NameSpace", @"//cs:Project/cs:PropertyGroup/cs:RootNamespace" },
+                { "AssemblyName", @"//cs:Project/cs:PropertyGroup/cs:AssemblyName" },
+                { "Target", @"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion" },
+                { "DebugSymbols", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols" },
+                { "OutputPath", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath" },
+                { "Constants", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants" },
+                { "DebugType", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType" },
+                { "RunCode-Analysis", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis" }, 
             };
 
         /// <summary>
         /// contains xpath selectors with parameters to extract configuration specific data
         /// </summary>
-        private static readonly string[] ConfigurationConditions = new[]
-                {
-                    @"'$(Configuration)' == ''",
-                    @"'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'",
-                    @"'$(Configuration)|$(Platform)' == 'Release|AnyCPU'",
-                    @"'$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU'",
-                    @"'$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU'",
-                    @"'$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU'",
-                };
+        private static readonly Dictionary<string, string> ConfigurationConditions = new Dictionary<string, string>
+            {
+                { "default", @"'$(Configuration)' == ''" },
+                { "debug", @"'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" },
+                { "release", @"'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" },
+                { "ca-build", @"'$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU'" },
+                { "ca build", @"'$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU'" },
+                { "exclude non standard", @"'$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU'" },
+            };
 
         /// <summary>
         /// Performs an export into a tab seperated file and an import back into the project files - the import can be skipped
@@ -58,33 +61,112 @@ namespace Sem.GenericTools.ProjectSettings
             var rootFolderPath = AppDomain.CurrentDomain.BaseDirectory;
             if (rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name) > -1)
             {
-                rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name)); 
+                rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name));
             }
 
+            CopyProjectFilesToCsv(rootFolderPath);
+
+            var ask = true;
+            while (ask)
+            {
+                Console.WriteLine("(W)rite or (E)xit?");
+                var input = Console.ReadLine();
+                switch (input)
+                {
+                    case "W":
+                        ask = false;
+                        break;
+
+                    case "E":
+                        return;
+                }
+            }
+
+            CopyCsvToProjectFiles(rootFolderPath);
+        }
+
+        private static void CopyCsvToProjectFiles(string rootFolderPath)
+        {
+            using (var inStream = new StreamReader(Path.Combine(rootFolderPath, "projectsettings.csv")))
+            {
+                var line = inStream.ReadLine();
+                var headers = line.Split(';');
+
+                while (line.Length > 0)
+                {
+                    line = inStream.ReadLine();
+                    var columns = line.Split(';');
+
+                    XmlNamespaceManager namespaceManager;
+                    var projectSettings = GetProjectSettings(columns[0], out namespaceManager);
+                    
+                    for (var i = 0; i < headers.Length; i++)
+                    {
+                        string selector;
+                        if (headers[i].Contains("..."))
+                        {
+                            var parts = headers[i].Split(new[] { "..." }, StringSplitOptions.None);
+                            selector = string.Format(Selectors[parts[0]], ConfigurationConditions[parts[1]]);
+                        }
+                        else
+                        {
+                            selector = Selectors[headers[i]];
+                        }
+
+                        var value = projectSettings.SelectSingleNode(selector, namespaceManager);
+                        value.InnerText = columns[i];
+                    }
+
+                    projectSettings.Save(columns[0]);
+                }
+            }
+        }
+
+        private static void CopyProjectFilesToCsv(string rootFolderPath)
+        {
             using (var outStream = new StreamWriter(Path.Combine(rootFolderPath, "projectsettings.csv")))
             {
+                outStream.Write("filename;");
+                foreach (var selector in Selectors)
+                {
+                    if (!selector.Value.Contains("{0}"))
+                    {
+                        outStream.Write(selector.Key.Replace(';', '+'));
+                        outStream.Write(";");
+                    }
+                    else
+                    {
+                        foreach (var config in ConfigurationConditions)
+                        {
+                            outStream.Write((selector.Key + "..." + config.Key).Replace(';', '+'));
+                            outStream.Write(";");
+                        }
+                    }
+                }
+
+                outStream.WriteLine();
+
                 foreach (var projectFile in Directory.GetFiles(rootFolderPath, "*.csproj", SearchOption.AllDirectories))
                 {
-                    var projectSettings = new XmlDocument();
-                    projectSettings.Load(projectFile);
-                    var namespaceManager = new XmlNamespaceManager(projectSettings.NameTable);
-                    namespaceManager.AddNamespace("cs", "http://schemas.microsoft.com/developer/msbuild/2003");
-                    
+                    XmlNamespaceManager namespaceManager;
+                    var projectSettings = GetProjectSettings(projectFile, out namespaceManager);
+
+                    outStream.Write(projectFile + ";");
                     foreach (var selector in Selectors)
                     {
-                        if (!selector.Contains("{0}"))
+                        if (!selector.Value.Contains("{0}"))
                         {
-                            var value = projectSettings.SelectSingleNode(selector, namespaceManager);
-                            outStream.Write(value != null ? value.InnerXml : string.Empty);
-                            outStream.Write("\t");
+                            var value = projectSettings.SelectSingleNode(selector.Value, namespaceManager);
+                            outStream.Write(value != null ? value.InnerXml.Replace(';', '+') : string.Empty);
+                            outStream.Write(";");
                         }
                         else
                         {
                             foreach (var config in ConfigurationConditions)
                             {
-                                var value = projectSettings.SelectSingleNode(string.Format(selector, config), namespaceManager);
-                                outStream.Write(value != null ? value.InnerXml : string.Empty);
-                                outStream.Write("\t");
+                                var value = projectSettings.SelectSingleNode(string.Format(selector.Value, config.Value), namespaceManager);
+                                outStream.Write(value != null ? value.InnerXml.Replace(';', '+') : string.Empty);
+                                outStream.Write(";");
                             }
                         }
                     }
@@ -94,9 +176,15 @@ namespace Sem.GenericTools.ProjectSettings
 
                 outStream.Close();
             }
+        }
 
-            Console.WriteLine("press ENTER to write the manipulated properties back");
-            Console.ReadLine();
+        private static XmlDocument GetProjectSettings(string projectFile, out XmlNamespaceManager namespaceManager)
+        {
+            var projectSettings = new XmlDocument();
+            projectSettings.Load(projectFile);
+            namespaceManager = new XmlNamespaceManager(projectSettings.NameTable);
+            namespaceManager.AddNamespace("cs", "http://schemas.microsoft.com/developer/msbuild/2003");
+            return projectSettings;
         }
     }
 }
