@@ -174,5 +174,12 @@ namespace Sem.Sync.Test
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp4[20?].Password"));
             Assert.IsNull(Tools.GetPropertyValue(x, "myProp5[nonexistingkey?].Password"));
         }
+
+        [TestMethod]
+        public void GetPropertyNulls()
+        {
+            var x = new ComplexTestClass();
+            Assert.AreEqual("default", x.NewIfNull().myProp2.NewIfNull().Domain.DefaultIfNullOrEmpty("default"));
+        }
     }
 }

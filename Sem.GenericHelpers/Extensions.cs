@@ -128,5 +128,10 @@ namespace Sem.GenericHelpers
             var x = testObject ?? new Dictionary<string, T>();
             return x.ContainsKey(key) ? x[key] : new T();
         }
+    
+        public static string DefaultIfNullOrEmpty(this string toCheck, string defaultString)
+        {
+            return string.IsNullOrEmpty(toCheck) ? defaultString : toCheck;
+        }
     }
 }
