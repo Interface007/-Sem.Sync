@@ -3,21 +3,18 @@
 //     Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 //
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Net;
-using System.Diagnostics;
-using System.Globalization;
-using System.Collections.Specialized;
-using System.Web;
-using System.Xml;
-using System.Text.RegularExpressions;
-
 namespace Microsoft.Samples.ServiceHosting.StorageClient
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Web;
+
     namespace StorageHttpConstants
     {
 
@@ -210,6 +207,7 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
         {
             internal const int KB = 1024;
             internal const int MB = 1024 * KB;
+            
             /// <summary>
             /// When transmitting a blob that is larger than this constant, this library automatically
             /// transmits the blob as individual blocks. I.e., the blob is (1) partitioned
@@ -224,6 +222,7 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             /// amount of data that needs to be retransmitted in case of connection failures.
             /// </summary>
             internal const long MaximumBlobSizeBeforeTransmittingAsBlocks = 2 * MB;
+            
             /// <summary>
             /// The size of a single block when transmitting a blob that is larger than the 
             /// MaximumBlobSizeBeforeTransmittingAsBlocks constant (see above).
@@ -279,13 +278,14 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
     {
         internal static HttpWebRequest CreateHttpRequest(Uri uri, string httpMethod, TimeSpan timeout)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
             request.Timeout = (int)timeout.TotalMilliseconds;
             request.ReadWriteTimeout = (int)timeout.TotalMilliseconds;
             request.Method = httpMethod;
             request.ContentLength = 0;
-            request.Headers.Add(StorageHttpConstants.HeaderNames.StorageDateTime,
-                                Utilities.ConvertDateTimeToHttpString(DateTime.UtcNow));
+            request.Headers.Add(
+                StorageHttpConstants.HeaderNames.StorageDateTime, 
+                ConvertDateTimeToHttpString(DateTime.UtcNow));
             return request;
         }
 
@@ -296,7 +296,7 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
         {
             // On the wire everything should be represented in UTC. This assert will catch invalid callers who
             // are violating this rule.
-            Debug.Assert(dateTime == DateTime.MaxValue || dateTime == DateTime.MinValue || dateTime.Kind == DateTimeKind.Utc);
+            Debug.Assert(dateTime == DateTime.MaxValue || dateTime == DateTime.MinValue || dateTime.Kind == DateTimeKind.Utc, "On the wire everything should be represented in UTC. This assert will catch invalid callers.");
 
             // 'R' means rfc1123 date which is what our server uses for all dates...
             // It will be in the following format:
@@ -313,7 +313,7 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             result = null;
 
             // 'R' means rfc1123 date which is the preferred format used in HTTP
-            bool parsed = DateTime.TryParseExact(dateString, "R", null, DateTimeStyles.None, out dateTime);
+            var parsed = DateTime.TryParseExact(dateString, "R", null, DateTimeStyles.None, out dateTime);
             if (parsed)
             {
                 // For some reason, format string "R" makes the DateTime.Kind as Unspecified while it's actually
@@ -336,8 +336,8 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
         internal static long CopyStream(Stream sourceStream, Stream destinationStream)
         {
             const int BufferSize = 0x10000;
-            byte[] buffer = new byte[BufferSize];
-            int n = 0;
+            var buffer = new byte[BufferSize];
+            int n;
             long totalRead = 0;
             do
             {
@@ -347,17 +347,17 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
                     totalRead += n;
                     destinationStream.Write(buffer, 0, n);
                 }
-                
-            } while (n > 0);
+            }
+            while (n > 0);
             return totalRead;
         }
 
         internal static void CopyStream(Stream sourceStream, Stream destinationStream, long length)
         {
             const int BufferSize = 0x10000;
-            byte[] buffer = new byte[BufferSize];
-            int n = 0;
-            long amountLeft = length;           
+            var buffer = new byte[BufferSize];
+            var n = 0;
+            var amountLeft = length;
 
             do
             {
@@ -367,19 +367,20 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
                 {
                     destinationStream.Write(buffer, 0, n);
                 }
-
-            } while (n > 0);
+            }
+            while (n > 0);
         }
 
         internal static int CopyStreamToBuffer(Stream sourceStream, byte[] buffer, int bytesToRead)
         {
-            int n = 0;
-            int amountLeft = bytesToRead;
+            int n;
+            var amountLeft = bytesToRead;
             do
             {
                 n = sourceStream.Read(buffer, bytesToRead - amountLeft, amountLeft);
                 amountLeft -= n;
-            } while (n > 0);
+            }
+            while (n > 0);
             return bytesToRead - amountLeft;
         }
 
@@ -389,47 +390,48 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
                                 string accountName,
                                 string containerName,
                                 string blobName,
-                                TimeSpan Timeout,
+                                TimeSpan timeout,
                                 NameValueCollection queryParameters,
-                                out ResourceUriComponents uriComponents
-                                )
+                                out ResourceUriComponents uriComponents)
         {
-            uriComponents = 
-                new ResourceUriComponents(accountName, containerName, blobName);
-            Uri uri = HttpRequestAccessor.ConstructResourceUri(baseUri, uriComponents, usePathStyleUris);
+            uriComponents = new ResourceUriComponents(accountName, containerName, blobName);
+            var uri = HttpRequestAccessor.ConstructResourceUri(baseUri, uriComponents, usePathStyleUris);
 
-            if (queryParameters != null)
-            {
-                UriBuilder builder = new UriBuilder(uri);
-
-                if (queryParameters.Get(StorageHttpConstants.QueryParams.QueryParamTimeout) == null)
-                {
-                    queryParameters.Add(StorageHttpConstants.QueryParams.QueryParamTimeout,
-                    Timeout.TotalSeconds.ToString(CultureInfo.InvariantCulture));
-                }
-
-                StringBuilder sb = new StringBuilder();
-                bool firstParam = true;
-                foreach (string queryKey in queryParameters.AllKeys)
-                {
-                    if (!firstParam)
-                        sb.Append("&");
-                    sb.Append(HttpUtility.UrlEncode(queryKey));
-                    sb.Append('=');
-                    sb.Append(HttpUtility.UrlEncode(queryParameters[queryKey]));
-                    firstParam = false;
-                }
-
-                if (sb.Length > 0)
-                {
-                    builder.Query = sb.ToString();
-                }
-                return builder.Uri;
-            }
-            else
+            if (queryParameters == null)
             {
                 return uri;
             }
+
+            var builder = new UriBuilder(uri);
+
+            if (queryParameters.Get(StorageHttpConstants.QueryParams.QueryParamTimeout) == null)
+            {
+                queryParameters.Add(
+                    StorageHttpConstants.QueryParams.QueryParamTimeout,
+                    timeout.TotalSeconds.ToString(CultureInfo.InvariantCulture));
+            }
+
+            var sb = new StringBuilder();
+            var firstParam = true;
+            foreach (var queryKey in queryParameters.AllKeys)
+            {
+                if (!firstParam)
+                {
+                    sb.Append("&");
+                }
+
+                sb.Append(HttpUtility.UrlEncode(queryKey));
+                sb.Append('=');
+                sb.Append(HttpUtility.UrlEncode(queryParameters[queryKey]));
+                firstParam = false;
+            }
+
+            if (sb.Length > 0)
+            {
+                builder.Query = sb.ToString();
+            }
+
+            return builder.Uri;
         }
 
         internal static bool StringIsIPAddress(string address)
@@ -444,9 +446,8 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             foreach (string key in metadata.Keys)
             {
                 request.Headers.Add(
-                    StorageHttpConstants.HeaderNames.PrefixForMetadata + key,
-                    metadata[key]
-                    );
+                    StorageHttpConstants.HeaderNames.PrefixForMetadata + key, 
+                    metadata[key]);
             }
         }
 
@@ -456,15 +457,9 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             {
                 return false;
             }
-            Regex reg = new Regex(StorageHttpConstants.RegularExpressionStrings.ValidTableNameRegex);
-            if (reg.IsMatch(name))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+
+            var reg = new Regex(StorageHttpConstants.RegularExpressionStrings.ValidTableNameRegex);
+            return reg.IsMatch(name);
         }
 
         internal static bool IsValidContainerOrQueueName(string name)
@@ -473,15 +468,9 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             {
                 return false;
             }
-            Regex reg = new Regex(StorageHttpConstants.RegularExpressionStrings.ValidContainerNameRegex);
-            if (reg.IsMatch(name))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
+            var reg = new Regex(StorageHttpConstants.RegularExpressionStrings.ValidContainerNameRegex);
+            return reg.IsMatch(name);
         }
     }
 }

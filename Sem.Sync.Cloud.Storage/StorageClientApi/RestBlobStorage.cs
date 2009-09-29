@@ -3,19 +3,18 @@
 //     Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 //
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Xml;
-using Microsoft.Samples.ServiceHosting.StorageClient.StorageHttpConstants;
-
 namespace Microsoft.Samples.ServiceHosting.StorageClient
 {
-    using System.Reflection;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Text;
+    using System.Xml;
+
+    using StorageHttpConstants;
 
     internal class BlobStorageRest : BlobStorage
     {
@@ -30,7 +29,10 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
             byte[] key = null;
             this.Base64Key = base64Key;
             if (base64Key != null)
+            {
                 key = Convert.FromBase64String(base64Key);
+            }
+
             this.credentials = new SharedKeyCredentials(accountName, key);
         }
 
@@ -60,8 +62,9 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
         /// <returns>A list of containers</returns>
         public override IEnumerable<BlobContainer> ListBlobContainers()
         {
-            string marker = "", prefix = null;
-            const int maxResults = StorageHttpConstants.ListingConstants.MaxContainerListResults;
+            string marker = string.Empty;
+            string prefix = null;
+            const int MaxResults = ListingConstants.MaxContainerListResults;
             byte[] key = null;
             if (Base64Key != null)
                 key = Convert.FromBase64String(Base64Key);
@@ -70,7 +73,7 @@ namespace Microsoft.Samples.ServiceHosting.StorageClient
 
             do
             {
-                ListContainersResult result = ListContainersImpl(prefix, marker, maxResults);
+                ListContainersResult result = ListContainersImpl(prefix, marker, MaxResults);
                 marker = result.NextMarker;
                 foreach (ContainerProperties container in result.Containers)
                 {

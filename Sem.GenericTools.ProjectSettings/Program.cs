@@ -17,6 +17,8 @@ namespace Sem.GenericTools.ProjectSettings
     using System.Reflection;
     using System.Xml;
 
+    using GenericHelpers;
+
     /// <summary>
     /// This program reads and writes project settings from project files
     /// to a flat file in tsv format. This was it's easy to compare the 
@@ -27,16 +29,29 @@ namespace Sem.GenericTools.ProjectSettings
         /// <summary>
         /// contains the xpath selectors to extract project data
         /// </summary>
-        private static readonly Dictionary<string, string> Selectors = new Dictionary<string, string> 
+        private static readonly Dictionary<string, NodeDescription> Selectors = new Dictionary<string, NodeDescription> 
             {
-                { "NameSpace", @"//cs:Project/cs:PropertyGroup/cs:RootNamespace" },
-                { "AssemblyName", @"//cs:Project/cs:PropertyGroup/cs:AssemblyName" },
-                { "Target", @"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion" },
-                { "DebugSymbols", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols" },
-                { "OutputPath", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath" },
-                { "Constants", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants" },
-                { "DebugType", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType" },
-                { "RunCode-Analysis", @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis" }, 
+                { "NameSpace", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:RootNamespace", null) },
+                { "AssemblyName", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:AssemblyName", null) },
+                { "Target", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion", null) },
+                {
+                    "DebugSymbols",
+                    new NodeDescription(
+                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
+                    (doc, para) =>
+                        {
+                            var ret = doc.CreateElement("PropertyGroup");
+                            ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                            return ret;
+                        },
+                    (doc, para) => doc.CreateElement("DebugSymbols")) }, 
+                {
+                    "OutputPath", 
+                    new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath", null) },
+                { "Constants", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants", null) },
+                { "DebugType", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType", null) },
+                { "RunCode-Analysis", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis", null) },
+                { "Optimize", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:Optimize", null) },                  
             };
 
         /// <summary>
@@ -64,29 +79,31 @@ namespace Sem.GenericTools.ProjectSettings
                 rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name));
             }
 
-            CopyProjectFilesToCsv(rootFolderPath);
-
-            var ask = true;
-            while (ask)
+            while (true)
             {
-                Console.WriteLine("(W)rite or (E)xit or (O)open file?");
+                Console.WriteLine("(C)opy project file settings to CSV file");
+                Console.WriteLine("(O)pen file in standard program for *.CSV");
+                Console.WriteLine("(W)rite settings from CSV to project files");
+                Console.WriteLine("(E)xit program");
                 var input = (Console.ReadLine() ?? string.Empty).ToUpperInvariant();
                 switch (input)
                 {
+                    case "C":
+                        CopyProjectFilesToCsv(rootFolderPath);
+                        break;
+
                     case "O":
                         System.Diagnostics.Process.Start(Path.Combine(rootFolderPath, "projectsettings.csv"));
                         break;
 
                     case "W":
-                        ask = false;
+                        CopyCsvToProjectFiles(rootFolderPath);
                         break;
 
                     case "E":
                         return;
                 }
             }
-
-            CopyCsvToProjectFiles(rootFolderPath);
         }
 
         /// <summary>
@@ -112,28 +129,29 @@ namespace Sem.GenericTools.ProjectSettings
 
                     XmlNamespaceManager namespaceManager;
                     var projectSettings = GetProjectSettings(columns[0], out namespaceManager);
-                    
+
                     for (var i = 1; i < headers.Length; i++)
                     {
-                        string selector;
+                        var selector = Selectors.NewIfNull(headers[i]);
+                        var parameter = string.Empty;
+
                         if (headers[i].Contains("..."))
                         {
                             var parts = headers[i].Split(new[] { "..." }, StringSplitOptions.None);
-                            selector = string.Format(Selectors[parts[0]], ConfigurationConditions[parts[1]]);
-                        }
-                        else
-                        {
-                            selector = Selectors[headers[i]];
+                            selector = Selectors[parts[0]];
+                            parameter = ConfigurationConditions[parts[1]];
                         }
 
-                        var value = projectSettings.SelectSingleNode(selector, namespaceManager);
-                        
+                        var value = projectSettings.SelectSingleNode(selector.ProcessedSelector(parameter), namespaceManager);
+
                         if (value == null)
                         {
                             Console.WriteLine("nonexisting value in file " + Path.GetFileName(columns[0]) + ": " + headers[i]);
-
-                            // TODO: we need to generate the xml nodes if they are missing.
-                            ////value.InnerText = columns[i];
+                            if (selector.DefaultContent != null)
+                            {
+                                value = CreateXml(projectSettings, selector, parameter, namespaceManager);
+                                value.InnerText = columns[i];
+                            }
                         }
                         else
                         {
@@ -144,6 +162,52 @@ namespace Sem.GenericTools.ProjectSettings
                     projectSettings.Save(columns[0]);
                 }
             }
+        }
+
+        private static XmlNode CreateXml(XmlDocument document, NodeDescription selector, string defaultNodeParameter, XmlNamespaceManager nameSpaceManager)
+        {
+            XmlNode node = document.DocumentElement;
+            var selectorString = selector.ProcessedSelector(defaultNodeParameter);
+
+            if (selectorString.StartsWith("//"))
+            {
+                selectorString = selectorString.Substring(2);
+                GetFragment(ref selectorString, "/");
+            }
+
+            var index = 0;
+            do
+            {
+                if (node == null)
+                {
+                    return null;
+                }
+
+                var localSelector = GetFragment(ref selectorString, "/");
+                node = node.SelectSingleNode(localSelector, nameSpaceManager) ??
+                       node.AppendChild(selector.DefaultContent[index].Invoke(document, defaultNodeParameter));
+
+                index++;
+            }
+            while (selectorString.Length > 0);
+
+            return node;
+        }
+
+        private static string GetFragment(ref string combinedString, string separator)
+        {
+            var pos = combinedString.IndexOf(separator);
+            var value = combinedString;
+
+            if (pos > 0)
+            {
+                value = combinedString.Substring(0, pos);
+                combinedString = combinedString.Substring(pos + 1);
+                return value;
+            }
+
+            combinedString = string.Empty;
+            return value;
         }
 
         /// <summary>
@@ -157,7 +221,7 @@ namespace Sem.GenericTools.ProjectSettings
                 outStream.Write("filename;");
                 foreach (var selector in Selectors)
                 {
-                    if (!selector.Value.Contains("{0}"))
+                    if (!selector.Value.XPathSelector.Contains("{0}"))
                     {
                         outStream.Write(selector.Key.Replace(';', '+'));
                         outStream.Write(";");
@@ -182,9 +246,9 @@ namespace Sem.GenericTools.ProjectSettings
                     outStream.Write(projectFile + ";");
                     foreach (var selector in Selectors)
                     {
-                        if (!selector.Value.Contains("{0}"))
+                        if (!selector.Value.XPathSelector.Contains("{0}"))
                         {
-                            var value = projectSettings.SelectSingleNode(selector.Value, namespaceManager);
+                            var value = projectSettings.SelectSingleNode(selector.Value.XPathSelector, namespaceManager);
                             outStream.Write(value != null ? value.InnerXml.Replace(';', '+') : string.Empty);
                             outStream.Write(";");
                         }
@@ -192,7 +256,7 @@ namespace Sem.GenericTools.ProjectSettings
                         {
                             foreach (var config in ConfigurationConditions)
                             {
-                                var value = projectSettings.SelectSingleNode(string.Format(selector.Value, config.Value), namespaceManager);
+                                var value = projectSettings.SelectSingleNode(string.Format(selector.Value.XPathSelector, config.Value), namespaceManager);
                                 outStream.Write(value != null ? value.InnerXml.Replace(';', '+') : string.Empty);
                                 outStream.Write(";");
                             }
