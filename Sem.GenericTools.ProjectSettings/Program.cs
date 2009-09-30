@@ -17,8 +17,6 @@ namespace Sem.GenericTools.ProjectSettings
     using System.Reflection;
     using System.Xml;
 
-    using GenericHelpers;
-
     /// <summary>
     /// This program reads and writes project settings from project files
     /// to a flat file in tsv format. This was it's easy to compare the 
@@ -26,6 +24,11 @@ namespace Sem.GenericTools.ProjectSettings
     /// </summary>
     public class Program
     {
+        /// <summary>
+        /// the default namespace of a ms-build file
+        /// </summary>
+        private const string MsbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
+
         /// <summary>
         /// contains the xpath selectors to extract project data
         /// </summary>
@@ -37,21 +40,69 @@ namespace Sem.GenericTools.ProjectSettings
                 {
                     "DebugSymbols",
                     new NodeDescription(
-                    @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
-                    (doc, para) =>
-                        {
-                            var ret = doc.CreateElement("PropertyGroup");
-                            ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
-                            return ret;
-                        },
-                    (doc, para) => doc.CreateElement("DebugSymbols")) }, 
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("DebugSymbols", MsbuildNamespace)) }, 
                 {
                     "OutputPath", 
-                    new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath", null) },
-                { "Constants", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants", null) },
-                { "DebugType", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType", null) },
-                { "RunCode-Analysis", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis", null) },
-                { "Optimize", new NodeDescription(@"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:Optimize", null) },                  
+                    new NodeDescription(
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath", 
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("OutputPath", MsbuildNamespace)) }, 
+                {
+                    "Constants", 
+                    new NodeDescription(
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants", 
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("DefineConstants", MsbuildNamespace)) }, 
+                {
+                    "DebugType", 
+                    new NodeDescription(
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType", 
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("DebugType", MsbuildNamespace)) }, 
+                {
+                    "RunCode-Analysis", 
+                    new NodeDescription(
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis", 
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("RunCodeAnalysis", MsbuildNamespace)) }, 
+                {
+                    "Optimize", 
+                    new NodeDescription(
+                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:Optimize", 
+                        (doc, para) =>
+                            {
+                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                return ret;
+                            },
+                        (doc, para) => doc.CreateElement("Optimize", MsbuildNamespace)) },                  
             };
 
         /// <summary>
@@ -125,6 +176,7 @@ namespace Sem.GenericTools.ProjectSettings
                         break;
                     }
 
+                    var changeApplied = false;
                     var columns = line.Split(';');
 
                     XmlNamespaceManager namespaceManager;
@@ -132,6 +184,11 @@ namespace Sem.GenericTools.ProjectSettings
 
                     for (var i = 1; i < headers.Length; i++)
                     {
+                        if (string.IsNullOrEmpty(columns[i]))
+                        {
+                            continue;
+                        }
+
                         var selector = Selectors.NewIfNull(headers[i]);
                         var parameter = string.Empty;
 
@@ -150,20 +207,33 @@ namespace Sem.GenericTools.ProjectSettings
                             if (selector.DefaultContent != null)
                             {
                                 value = CreateXml(projectSettings, selector, parameter, namespaceManager);
-                                value.InnerText = columns[i];
                             }
                         }
-                        else
+
+                        var valueText = columns[i].Replace("+", ";");
+                        if (value != null && value.InnerText != valueText)
                         {
-                            value.InnerText = columns[i].Replace("+", ";");
+                            value.InnerText = valueText;
+                            changeApplied = true;
                         }
                     }
 
-                    projectSettings.Save(columns[0]);
+                    if (changeApplied)
+                    {
+                        projectSettings.Save(columns[0]);
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Creates a node inside a document including the hierarchy.
+        /// </summary>
+        /// <param name="document"> The document in which the node should be created. </param>
+        /// <param name="selector"> The selector that contains information about the node. </param>
+        /// <param name="defaultNodeParameter"> The default node parameter for the selector. </param>
+        /// <param name="nameSpaceManager"> The namespace manager. </param>
+        /// <returns> the newly creaded xml node </returns>
         private static XmlNode CreateXml(XmlDocument document, NodeDescription selector, string defaultNodeParameter, XmlNamespaceManager nameSpaceManager)
         {
             XmlNode node = document.DocumentElement;
@@ -194,6 +264,13 @@ namespace Sem.GenericTools.ProjectSettings
             return node;
         }
 
+        /// <summary>
+        /// Returns a fragment of the string - the first character sequence until the occurance of the seperator. Also cuts this
+        /// sequence from the parameter <paramref name="combinedString"/>.
+        /// </summary>
+        /// <param name="combinedString"> The combined string including the leading fragment and the seperator. </param>
+        /// <param name="separator"> The separator. </param>
+        /// <returns> the leading fragment without the seperator </returns>
         private static string GetFragment(ref string combinedString, string separator)
         {
             var pos = combinedString.IndexOf(separator);
@@ -281,7 +358,8 @@ namespace Sem.GenericTools.ProjectSettings
             var projectSettings = new XmlDocument();
             projectSettings.Load(projectFile);
             namespaceManager = new XmlNamespaceManager(projectSettings.NameTable);
-            namespaceManager.AddNamespace("cs", "http://schemas.microsoft.com/developer/msbuild/2003");
+            namespaceManager.AddNamespace(string.Empty, MsbuildNamespace);
+            namespaceManager.AddNamespace("cs", MsbuildNamespace);
             return projectSettings;
         }
     }
