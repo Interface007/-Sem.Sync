@@ -26,11 +26,6 @@ namespace Sem.GenericTools.ProjectSettings
     internal class Program
     {
         /// <summary>
-        /// the default namespace of a ms-build file
-        /// </summary>
-        private const string MsbuildNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
-
-        /// <summary>
         /// contains the xpath selectors to extract project data
         /// </summary>
         private static readonly Dictionary<string, NodeDescription> Selectors = new Dictionary<string, NodeDescription> 
@@ -38,72 +33,12 @@ namespace Sem.GenericTools.ProjectSettings
                 { "NameSpace", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:RootNamespace", null) },
                 { "AssemblyName", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:AssemblyName", null) },
                 { "Target", new NodeDescription(@"//cs:Project/cs:PropertyGroup/cs:TargetFrameworkVersion", null) },
-                {
-                    "DebugSymbols",
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugSymbols",
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("DebugSymbols", MsbuildNamespace)) }, 
-                {
-                    "OutputPath", 
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:OutputPath", 
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("OutputPath", MsbuildNamespace)) }, 
-                {
-                    "Constants", 
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DefineConstants", 
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("DefineConstants", MsbuildNamespace)) }, 
-                {
-                    "DebugType", 
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:DebugType", 
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("DebugType", MsbuildNamespace)) }, 
-                {
-                    "RunCode-Analysis", 
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:RunCodeAnalysis", 
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("RunCodeAnalysis", MsbuildNamespace)) }, 
-                {
-                    "Optimize", 
-                    new NodeDescription(
-                        @"//cs:Project/cs:PropertyGroup[@Condition="" {0} ""]/cs:Optimize", 
-                        (doc, para) =>
-                            {
-                                var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
-                                return ret;
-                            },
-                        (doc, para) => doc.CreateElement("Optimize", MsbuildNamespace)) },                  
+                { "DebugSymbols", NodeDescription.FromElementNameInPropertyGroup("DebugSymbols") }, 
+                { "OutputPath", NodeDescription.FromElementNameInPropertyGroup("OutputPath") }, 
+                { "Constants", NodeDescription.FromElementNameInPropertyGroup("DefineConstants") }, 
+                { "DebugType", NodeDescription.FromElementNameInPropertyGroup("DebugType") }, 
+                { "RunCode-Analysis", NodeDescription.FromElementNameInPropertyGroup("RunCodeAnalysis") }, 
+                { "Optimize", NodeDescription.FromElementNameInPropertyGroup("Optimize") },                  
             };
 
         /// <summary>
@@ -181,8 +116,8 @@ namespace Sem.GenericTools.ProjectSettings
                     var changeApplied = false;
                     var columns = line.Split(';');
 
-                    XmlNamespaceManager namespaceManager;
-                    var projectSettings = GetProjectSettings(columns[0], out namespaceManager);
+                    var projectSettings = GetProjectSettings(columns[0]);
+                    var namespaceManager = NodeTools.CreateNamespaceManager(projectSettings.NameTable);
 
                     for (var i = 1; i < headers.Length; i++)
                     {
@@ -319,9 +254,9 @@ namespace Sem.GenericTools.ProjectSettings
 
                 foreach (var projectFile in Directory.GetFiles(rootFolderPath, "*.csproj", SearchOption.AllDirectories))
                 {
-                    XmlNamespaceManager namespaceManager;
-                    var projectSettings = GetProjectSettings(projectFile, out namespaceManager);
-
+                    var projectSettings = GetProjectSettings(projectFile);
+                    var namespaceManager = NodeTools.CreateNamespaceManager(projectSettings.NameTable);
+                    
                     outStream.Write(projectFile + ";");
                     foreach (var selector in Selectors)
                     {
@@ -353,15 +288,11 @@ namespace Sem.GenericTools.ProjectSettings
         /// reads the project file into a document
         /// </summary>
         /// <param name="projectFile"> The project file. </param>
-        /// <param name="namespaceManager"> The namespace manager. </param>
         /// <returns> an xml document with the content of the project file </returns>
-        private static XmlDocument GetProjectSettings(string projectFile, out XmlNamespaceManager namespaceManager)
+        private static XmlDocument GetProjectSettings(string projectFile)
         {
             var projectSettings = new XmlDocument();
             projectSettings.Load(projectFile);
-            namespaceManager = new XmlNamespaceManager(projectSettings.NameTable);
-            namespaceManager.AddNamespace(string.Empty, MsbuildNamespace);
-            namespaceManager.AddNamespace("cs", MsbuildNamespace);
             return projectSettings;
         }
     }
