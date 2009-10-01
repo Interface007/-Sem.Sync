@@ -109,33 +109,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                     ? new DirectoryEntry("LDAP://" + domainController)
                     : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
-                var search = new DirectorySearcher(entry)
-                {
-                    Filter = clientFolderName
-                };
-
-                this.LogProcessingEvent("receiving data ...");
-                var resultList = search.FindAll();
-
-                foreach (SearchResult searchItem in resultList)
-                {
-                    var newContact = ConvertToContact(searchItem);
-
-                    if (string.IsNullOrEmpty(newContact.ToStringSimple()))
-                    {
-                        continue;
-                    }
-
-                    if (!string.IsNullOrEmpty(this.DumpPath))
-                    {
-                        DumpUserInformation(
-                            searchItem,
-                            Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
-                    }
-
-                    this.LogProcessingEvent(newContact, "adding new element");
-                    result.Add(newContact);
-                }
+                AddContactsFromADFilter(clientFolderName, result, entry);
             }
             catch (Exception ex)
             {
@@ -144,7 +118,52 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             return result;
         }
-        
+
+        private void AddContactsFromADFilter(string clientFolderName, List<StdElement> result, DirectoryEntry entry)
+        {
+            var search = new DirectorySearcher(entry)
+            {
+                Filter = clientFolderName,
+                SearchScope = SearchScope.Subtree,
+            };
+
+            this.LogProcessingEvent("receiving data ...");
+            var resultList = search.FindAll();
+
+            foreach (SearchResult searchItem in resultList)
+            {
+                if (searchItem.Properties["objectclass"].Contains("user"))
+                {
+                    AddContactFromSearchResult(result, searchItem);
+                }
+                else
+                {
+                    if (searchItem.Properties["objectclass"].Contains("group"))
+                    {
+                        AddContactsFromADFilter("memberof=" + searchItem.Properties["distinguishedname"][0], result, entry);
+                    }
+                }
+            }
+        }
+
+        private void AddContactFromSearchResult(List<StdElement> result, SearchResult searchItem)
+        {
+            var newContact = ConvertToContact(searchItem);
+
+            if (!string.IsNullOrEmpty(newContact.ToStringSimple()))
+            {
+                if (!string.IsNullOrEmpty(this.DumpPath))
+                {
+                    DumpUserInformation(
+                        searchItem,
+                        Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
+                }
+
+                this.LogProcessingEvent(newContact, "adding new element");
+                result.Add(newContact);
+            }
+        }
+
         /// <summary>
         /// lookup the list of domain controllers for the specified domain
         /// </summary>
@@ -167,7 +186,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             return domainControllerList;
         }
-        
+
         /// <summary>
         /// Extract contact information from an Active Directory entry
         /// </summary>
@@ -250,7 +269,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                     {
                         return thePropertyCollection[name][0].ToString();
                     }
-                }                
+                }
             }
 
             return null;
