@@ -90,11 +90,11 @@ namespace Sem.Sync.Connector.Google
         /// <summary>
         /// Deletes a list of Contact IDs. 
         /// </summary>
-        /// <param name="elements"> The identifiers. </param>
+        /// <param name="elementsToDelete"> The identifiers. </param>
         /// <param name="clientFolderName"> The client folder name. </param>
-        public override void DeleteElements(List<StdElement> elements, string clientFolderName)
+        public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
-            elements.ForEach(
+            elementsToDelete.ForEach(
                 x =>
                 this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GoogleId)).Entries.
                     ForEach(this.requester.Delete));
@@ -188,7 +188,7 @@ namespace Sem.Sync.Connector.Google
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            GoogleContactMappingExtensions.GenericUiResponder = this.UiDispatcher;
+            GoogleContactMappingExtensions.GenericUIResponder = this.UiDispatcher;
             this.EnsureInitialization();
 
             foreach (var stdContact in elements.ToContacts())
@@ -235,8 +235,8 @@ namespace Sem.Sync.Connector.Google
                     googleContact.AddPhoneNumber(stdContact.PersonalPhoneMobile, GoogleSchemaQualifierMobile);
                     googleContact.AddPhoneNumber(stdContact.BusinessPhoneMobile, GoogleSchemaQualifierMobile);
 
-                    googleContact.AddImAddress(stdContact.PersonalInstantMessengerAddresses, GoogleSchemaQualifierHome);
-                    googleContact.AddImAddress(stdContact.BusinessInstantMessengerAddresses, GoogleSchemaQualifierWork);
+                    googleContact.AddIMAddress(stdContact.PersonalInstantMessengerAddresses, GoogleSchemaQualifierHome);
+                    googleContact.AddIMAddress(stdContact.BusinessInstantMessengerAddresses, GoogleSchemaQualifierWork);
 
                     if (string.IsNullOrEmpty(googleId))
                     {

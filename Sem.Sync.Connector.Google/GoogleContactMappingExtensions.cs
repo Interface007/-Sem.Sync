@@ -41,7 +41,7 @@ namespace Sem.Sync.Connector.Google
         /// <summary>
         /// Gets or sets the generic ui responder.
         /// </summary>
-        public static IUiInteraction GenericUiResponder { get; set; }
+        public static IUiInteraction GenericUIResponder { get; set; }
 
         /// <summary>
         /// Adda a business company and position to the contact - the department is currently ignored
@@ -181,7 +181,7 @@ namespace Sem.Sync.Connector.Google
         /// <param name="googleContact"> The google contact to add the information to. </param>
         /// <param name="instantMessengerAddresses"> The instant messenger addresses. </param>
         /// <param name="addressType"> The address type (home or work). </param>
-        public static void AddImAddress(this Contact googleContact, InstantMessengerAddresses instantMessengerAddresses, string addressType)
+        public static void AddIMAddress(this Contact googleContact, InstantMessengerAddresses instantMessengerAddresses, string addressType)
         {
             if (!string.IsNullOrEmpty(instantMessengerAddresses.MsnMessenger))
             {
@@ -194,21 +194,23 @@ namespace Sem.Sync.Connector.Google
         /// </summary>
         /// <param name="googleContact"> The google contact to add the information to. </param>
         /// <param name="identifier"> The identifier. </param>
-        public static void SetSyncIdentifier(this Contact googleContact, Guid identifier)
+        public static void SetSyncIdentifier(this ContactBase googleContact, Guid identifier)
         {
-            ExtendedProperty semSyncId = null;
-            if (googleContact.ExtendedProperties != null)
+            if (googleContact.ExtendedProperties == null)
             {
-                if (googleContact.ExtendedProperties.Count > 0)
-                {
-                    semSyncId = (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x).FirstOrDefault();
-                }
+                return;
+            }
 
-                if (semSyncId == null)
-                {
-                    semSyncId = new ExtendedProperty { Name = identifier.ToString(), Value = "SemSyncId" };
-                    googleContact.ExtendedProperties.Add(semSyncId);
-                }
+            ExtendedProperty semSyncId = null;
+            if (googleContact.ExtendedProperties.Count > 0)
+            {
+                semSyncId = (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x).FirstOrDefault();
+            }
+
+            if (semSyncId == null)
+            {
+                semSyncId = new ExtendedProperty { Name = identifier.ToString(), Value = "SemSyncId" };
+                googleContact.ExtendedProperties.Add(semSyncId);
             }
         }
 
@@ -314,23 +316,23 @@ namespace Sem.Sync.Connector.Google
         /// sets the correct phone number from a google contacts email
         /// </summary>
         /// <param name="stdEntry"> The std entry. </param>
-        /// <param name="phonenumber"> The phone number to set into the std entry. </param>
-        public static void SetPhone(this StdContact stdEntry, global::Google.GData.Extensions.PhoneNumber phonenumber)
+        /// <param name="phoneNumber"> The phone number to set into the std entry. </param>
+        public static void SetPhone(this StdContact stdEntry, global::Google.GData.Extensions.PhoneNumber phoneNumber)
         {
-            var stdPhoneNumber = new PhoneNumber(phonenumber.Value);
-            if (phonenumber.Home)
+            var stdPhoneNumber = new PhoneNumber(phoneNumber.Value);
+            if (phoneNumber.Home)
             {
                 stdEntry.PersonalAddressPrimary = stdEntry.PersonalAddressPrimary ?? new AddressDetail();
                 stdEntry.PersonalAddressPrimary.Phone = stdPhoneNumber;
             }
 
-            if (phonenumber.Work)
+            if (phoneNumber.Work)
             {
                 stdEntry.BusinessAddressPrimary = stdEntry.BusinessAddressPrimary ?? new AddressDetail();
                 stdEntry.BusinessAddressPrimary.Phone = stdPhoneNumber;
             }
 
-            if (phonenumber.Rel == GoogleSchemaPrefix2005 + "mobile")
+            if (phoneNumber.Rel == GoogleSchemaPrefix2005 + "mobile")
             {
                 if (stdEntry.PersonalPhoneMobile == null)
                 {
@@ -384,9 +386,9 @@ namespace Sem.Sync.Connector.Google
         /// </exception>
         private static void UnlockCaptch()
         {
-            if (GenericUiResponder != null)
+            if (GenericUIResponder != null)
             {
-                GenericUiResponder.ResolveCaptcha(
+                GenericUIResponder.ResolveCaptcha(
                     "Google requests you to resolve a captach to reactivate your account. Please resolve the captcha on the web page and press ok after that.",
                     "Google Captcha Request",
                     new CaptchaResolveRequest { UrlOfWebSite = @"https://www.google.com/accounts/DisplayUnlockCaptcha" });

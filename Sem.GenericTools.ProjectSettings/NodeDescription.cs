@@ -2,6 +2,7 @@
 {
     using System;
     using System.Xml;
+    using System.Globalization;
 
     public class NodeDescription
     {
@@ -11,8 +12,8 @@
         public string ProcessedSelector(string parameter)
     {
             return 
-                XPathSelector.Contains("{0}") 
-                ? string.Format(this.XPathSelector, parameter) 
+                this.XPathSelector.Contains("{0}")
+                ? string.Format(CultureInfo.CurrentCulture, this.XPathSelector, parameter) 
                 : this.XPathSelector;
     }
 

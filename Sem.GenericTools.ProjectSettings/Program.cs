@@ -13,6 +13,7 @@ namespace Sem.GenericTools.ProjectSettings
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -22,7 +23,7 @@ namespace Sem.GenericTools.ProjectSettings
     /// to a flat file in tsv format. This was it's easy to compare the 
     /// settings between different parts of a solution.
     /// </summary>
-    public class Program
+    internal class Program
     {
         /// <summary>
         /// the default namespace of a ms-build file
@@ -44,7 +45,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("DebugSymbols", MsbuildNamespace)) }, 
@@ -55,7 +56,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("OutputPath", MsbuildNamespace)) }, 
@@ -66,7 +67,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("DefineConstants", MsbuildNamespace)) }, 
@@ -77,7 +78,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("DebugType", MsbuildNamespace)) }, 
@@ -88,7 +89,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("RunCodeAnalysis", MsbuildNamespace)) }, 
@@ -99,7 +100,7 @@ namespace Sem.GenericTools.ProjectSettings
                         (doc, para) =>
                             {
                                 var ret = doc.CreateElement("PropertyGroup", MsbuildNamespace);
-                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(@" {0} ", para);
+                                ret.Attributes.Append(doc.CreateAttribute("Condition")).Value = string.Format(CultureInfo.CurrentCulture, @" {0} ", para);
                                 return ret;
                             },
                         (doc, para) => doc.CreateElement("Optimize", MsbuildNamespace)) },                  
@@ -121,13 +122,14 @@ namespace Sem.GenericTools.ProjectSettings
         /// <summary>
         /// Performs an export into a tab seperated file and an import back into the project files - the import can be skipped
         /// </summary>
-        /// <param name="args"> The command line arguments. </param>
-        public static void Main(string[] args)
+        public static void Main()
         {
             var rootFolderPath = AppDomain.CurrentDomain.BaseDirectory;
-            if (rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name) > -1)
+            var nameIndex = rootFolderPath.IndexOf(
+                Assembly.GetExecutingAssembly().GetName().Name, StringComparison.Ordinal);
+            if (nameIndex > -1)
             {
-                rootFolderPath = rootFolderPath.Substring(0, rootFolderPath.IndexOf(Assembly.GetExecutingAssembly().GetName().Name));
+                rootFolderPath = rootFolderPath.Substring(0, nameIndex);
             }
 
             while (true)
@@ -239,7 +241,7 @@ namespace Sem.GenericTools.ProjectSettings
             XmlNode node = document.DocumentElement;
             var selectorString = selector.ProcessedSelector(defaultNodeParameter);
 
-            if (selectorString.StartsWith("//"))
+            if (selectorString.StartsWith("//", StringComparison.Ordinal))
             {
                 selectorString = selectorString.Substring(2);
                 GetFragment(ref selectorString, "/");
@@ -273,7 +275,7 @@ namespace Sem.GenericTools.ProjectSettings
         /// <returns> the leading fragment without the seperator </returns>
         private static string GetFragment(ref string combinedString, string separator)
         {
-            var pos = combinedString.IndexOf(separator);
+            var pos = combinedString.IndexOf(separator, StringComparison.Ordinal);
             var value = combinedString;
 
             if (pos > 0)
@@ -333,7 +335,7 @@ namespace Sem.GenericTools.ProjectSettings
                         {
                             foreach (var config in ConfigurationConditions)
                             {
-                                var value = projectSettings.SelectSingleNode(string.Format(selector.Value.XPathSelector, config.Value), namespaceManager);
+                                var value = projectSettings.SelectSingleNode(string.Format(CultureInfo.CurrentCulture, selector.Value.XPathSelector, config.Value), namespaceManager);
                                 outStream.Write(value != null ? value.InnerXml.Replace(';', '+') : string.Empty);
                                 outStream.Write(";");
                             }

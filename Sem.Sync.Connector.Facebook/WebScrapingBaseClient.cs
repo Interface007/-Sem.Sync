@@ -85,12 +85,12 @@ namespace Sem.Sync.Connector.Facebook
         /// <summary>
         /// Gets the detection string to parse the content of a request if we need to logon
         /// </summary>
-        protected abstract string HttpDetectionStringLogonNeeded { get; }
+        protected abstract string HttpDetectionStringLogOnNeeded { get; }
 
         /// <summary>
         /// Gets the data string to be posted to logon into the site
         /// </summary>
-        protected abstract string HttpDataLogonRequest { get; }
+        protected abstract string HttpDataLogOnRequest { get; }
 
         /// <summary>
         /// Gets the regex to extract the form key for the log on
@@ -315,7 +315,7 @@ namespace Sem.Sync.Connector.Facebook
             while (true)
             {
                 List<string> extractedData;
-                this.httpRequester.LogOnFormDetectionString = this.HttpDetectionStringLogonNeeded;
+                this.httpRequester.LogOnFormDetectionString = this.HttpDetectionStringLogOnNeeded;
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
@@ -340,7 +340,7 @@ namespace Sem.Sync.Connector.Facebook
 
                 // prepare the post data for log on
                 var postData = HttpHelper.PreparePostData(
-                    this.HttpDataLogonRequest,
+                    this.HttpDataLogOnRequest,
                     this.LogOnUserId,
                     this.LogOnPassword,
                     formKey,

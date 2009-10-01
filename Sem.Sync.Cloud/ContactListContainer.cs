@@ -8,20 +8,14 @@ namespace Sem.Sync.Cloud
     /// <summary>
     /// The container structure to transport information between client and cloud
     /// </summary>
-    [DataContract]
-    public class ContactListContainer
+    [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
+    public class ContactListContainer : ResultBase
     {
         /// <summary>
         /// Gets or sets the list of StdContact elements.
         /// </summary>
         [DataMember]
         public List<StdContact> ContactList { get; set; }
-
-        /// <summary>
-        /// Gets or sets a list of messages to be exchanged in conjunction with the contact item list.
-        /// </summary>
-        [DataMember]
-        public List<TechnicalMessage> Messages { get; set; }
 
         /// <summary>
         /// Gets or sets the authentiaction credentials.

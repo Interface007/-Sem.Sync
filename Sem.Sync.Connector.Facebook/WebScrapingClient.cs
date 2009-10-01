@@ -13,14 +13,14 @@ namespace Sem.Sync.Connector.Facebook
     /// <summary>
     /// WebScaping implementation of a FaceBook StdClient
     /// </summary>
-    public class WebScapingClient : WebScrapingBaseClient
+    public class WebScrapingClient : WebScrapingBaseClient
     {
-        protected override string HttpDetectionStringLogonNeeded
+        protected override string HttpDetectionStringLogOnNeeded
         {
             get { throw new System.NotImplementedException(); }
         }
 
-        protected override string HttpDataLogonRequest
+        protected override string HttpDataLogOnRequest
         {
             get { throw new System.NotImplementedException(); }
         }

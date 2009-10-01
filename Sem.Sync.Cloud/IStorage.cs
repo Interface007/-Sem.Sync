@@ -9,10 +9,10 @@
         ContactListContainer GetAll(string blobId);
 
         [OperationContract]
-        bool WriteFullList(ContactListContainer elements, string blobId, bool skipIfExisting);
+        BooleanResultContainer WriteFullList(ContactListContainer elements, string blobId, bool skipIfExisting);
 
         [OperationContract]
-        void DeleteBlob(string blobId);
+        BooleanResultContainer DeleteBlob(string blobId);
 
     }
 }

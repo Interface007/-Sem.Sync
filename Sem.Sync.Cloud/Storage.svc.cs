@@ -25,9 +25,9 @@ namespace Sem.Sync.Cloud
         /// <summary>
         /// Gets all contacts from the Azure storage with the specified Id.
         /// </summary>
-        /// <param name="contactBlobId">The contacts id.</param>
-        /// <returns>a list of <see cref="StdContact"/></returns>
-        public ContactListContainer GetAll(string contactBlobId)
+        /// <param name="blobId"> The blob Id. </param>
+        /// <returns> a list of <see cref="StdContact"/> </returns>
+        public ContactListContainer GetAll(string blobId)
         {
             try
             {
@@ -35,13 +35,24 @@ namespace Sem.Sync.Cloud
                 var client = new BlobStorage();
                 var stdContacts = new ContactListContainer
                 {
-                    ContactList = client.GetAll(contactBlobId ?? "default").ToContacts()
+                    ContactList = client.GetAll(blobId ?? "default").ToContacts()
                 };
                 return stdContacts;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ContactListContainer { ContactList = new List<StdContact>() };
+                return 
+                    new ContactListContainer
+                        {
+                            ContactList = new List<StdContact>(),
+                            Messages = new List<TechnicalMessage>
+                                {
+                                    new TechnicalMessage
+                                        {
+                                            Message = ex.Message
+                                        }
+                                }
+                        };
             }
         }
 
@@ -49,23 +60,37 @@ namespace Sem.Sync.Cloud
         /// Writes a list of contacts to the Azure storage
         /// </summary>
         /// <param name="elements"> The elements to write to the storage. </param>
-        /// <param name="contactBlobId"> The contact blob id. </param>
+        /// <param name="blobId"> The contact blob id. </param>
         /// <param name="skipIfExisting"> This parameter is not used at the moment. </param>
         /// <returns> True if the operation was successful </returns>
-        public bool WriteFullList(ContactListContainer elements, string contactBlobId, bool skipIfExisting)
+        public BooleanResultContainer WriteFullList(ContactListContainer elements, string blobId, bool skipIfExisting)
         {
             try
             {
                 // this can be replaced by any class inheriting from StdClient
                 var client = new BlobStorage();
-                client.WriteRange(elements.ContactList.ToStdElement(), contactBlobId ?? "default");
+                client.WriteRange(elements.ContactList.ToStdElement(), blobId ?? "default");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return
+                    new BooleanResultContainer
+                    {
+                        Result = false,
+                        Messages = new List<TechnicalMessage>
+                                {
+                                    new TechnicalMessage
+                                        {
+                                            Message = ex.Message
+                                        }
+                                }
+                    };
             }
 
-            return true;
+            return new BooleanResultContainer
+                    {
+                        Result = true,
+                    };
         }
 
         /// <summary>
@@ -74,9 +99,20 @@ namespace Sem.Sync.Cloud
         /// <param name="blobId"> The blob id. </param>
         /// <exception cref="NotImplementedException">
         /// </exception>
-        public void DeleteBlob(string blobId)
+        public BooleanResultContainer DeleteBlob(string blobId)
         {
-            throw new NotImplementedException();
+            return new BooleanResultContainer
+                {
+                    Messages = new List<TechnicalMessage>
+                    { 
+                        new TechnicalMessage
+                        {
+                            Classification = MessageClassification.Error,
+                            Message = "Method not implemented",
+                            MessageId = 1
+                        }
+                    }
+                };
         }
     }
 }

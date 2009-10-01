@@ -55,6 +55,8 @@
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,6 +95,7 @@
     <Compile Include="Authentication.cs" />
     <Compile Include="BlobStorage.cs" />
     <Compile Include="Errors.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Queue.cs" />
     <Compile Include="RestBlobStorage.cs" />
     <Compile Include="RestHelpers.cs" />
