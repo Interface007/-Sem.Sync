@@ -20,12 +20,16 @@ namespace Sem.Sync.Connector.Outlook2003
     using Microsoft.Office.Interop.Outlook;
 
     using SyncBase;
+    using SyncBase.Attributes;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
+    [ConnectorDescription(DisplayName = "Outlook Canlendar Connector",
+        CanReadContacts = false,
+        CanWriteContacts = false)]
     public class CalendarClient : StdClient
     {
         /// <summary>
@@ -70,10 +74,9 @@ namespace Sem.Sync.Connector.Outlook2003
 
                         if (lastItem.Subject == item.Subject
                             && lastItem.Start == item.Start
-                            && lastItem.Body == item.Body
-                            && 
-                            (  item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase)
-                            || item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
+                            && lastItem.Body == item.Body &&
+                            (item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase) ||
+                             item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
                         {
                             LogProcessingEvent(stdItem, "removing ...");
 
@@ -118,17 +121,41 @@ namespace Sem.Sync.Connector.Outlook2003
             this.WriteFullList(elements, clientFolderName, false);
         }
 
+        /// <summary>
+        /// Implementation of the process of writing a single element and skipping this process if this 
+        /// element is already present. If the element does not exist, it will be added. If it does exist
+        /// the element will not be added and not be overridden.
+        /// </summary>
+        /// <param name="element">the element to be added</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         public override void MergeMissingItem(StdElement element, string clientFolderName)
         {
             var elements = new List<StdElement> { element };
             this.WriteFullList(elements, clientFolderName, true);
         }
 
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        /// skipping this process if an element is already present. Missing elements will be added, existing 
+        /// elements will not be altered.
+        /// </summary>
+        /// <param name="elements">the elements to be added in a list of elements</param>
+        /// <param name="clientFolderName">the information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, true);
         }
 
+        /// <summary>
+        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="result">The list of elements that should get the elements. The elements should be added to
+        /// the list instead of replacing it.</param>
+        /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
@@ -196,6 +223,13 @@ namespace Sem.Sync.Connector.Outlook2003
             return result;
         }
 
+        /// <summary>
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "adding {0} elements ...", elements.Count));

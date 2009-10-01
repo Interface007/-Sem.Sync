@@ -33,8 +33,8 @@ namespace Sem.Sync.Connector.Facebook
         ReferenceType = ClientPathType.Undefined)]
     //// specifying the connector description as no-read and no-write will hide it from the GUI
     [ConnectorDescription(DisplayName = "WebScraping-Base-Client",
-        CanRead = false,
-        CanWrite = false,
+        CanReadContacts = false,
+        CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.Default,
         NeedsCredentials = true)]
     public abstract class WebScrapingBaseClient : StdClient

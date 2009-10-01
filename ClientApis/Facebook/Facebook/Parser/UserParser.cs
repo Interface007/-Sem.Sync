@@ -53,36 +53,31 @@ namespace Facebook.Parser {
             {
                 user.ProfileUpdateDate = DateHelper.ConvertDoubleToDate(double.Parse(XmlHelper.GetNodeText(node, "profile_update_time"), CultureInfo.InvariantCulture));
             }
-                     
 
-
-            if (!String.IsNullOrEmpty(XmlHelper.GetNodeText(node, "sex")))
+            var value = XmlHelper.GetNodeText(node, "sex");
+            if (!String.IsNullOrEmpty(value) && Enum.IsDefined(typeof(Gender), value))
             {
-                user.Sex = (Gender)Enum.Parse(typeof(Gender), XmlHelper.GetNodeText(node, "sex"), true);
+                user.Sex = (Gender)Enum.Parse(typeof(Gender), value, true);
             }
 
-            if (!String.IsNullOrEmpty(XmlHelper.GetNodeText(node, "relationship_status")))
+            value = XmlHelper.GetNodeText(node, "relationship_status");
+            if (!String.IsNullOrEmpty(value))
             {
-                try
+                if (Enum.IsDefined(typeof(RelationshipStatus), value))
                 {
-                    user.RelationshipStatus = (RelationshipStatus)Enum.Parse(typeof(RelationshipStatus), XmlHelper.GetNodeText(node, "relationship_status").Replace(" ", "").Replace("'", ""), true);
-                }
-                catch (Exception)
-                {                    
+                    user.RelationshipStatus = (RelationshipStatus)Enum.Parse(typeof(RelationshipStatus), value, true);
                 }
             }
 
             user.SignificantOtherId = XmlHelper.GetNodeText(node, "significant_other_id");
 
-            if (!String.IsNullOrEmpty(XmlHelper.GetNodeText(node, "political")))
+            value = XmlHelper.GetNodeText(node, "political");
+            if (!String.IsNullOrEmpty(value))
             {
-                try
+                value = value.Replace(" ", string.Empty).Replace("'", string.Empty);
+                if (Enum.IsDefined(typeof(PoliticalView), value))
                 {
-                    if (Enum.IsDefined(typeof(PoliticalView), XmlHelper.GetNodeText(node, "political").Replace(" ", "")))
-                    user.PoliticalView = (PoliticalView)Enum.Parse(typeof(PoliticalView), XmlHelper.GetNodeText(node, "political").Replace(" ", ""), true);
-                }
-                catch (Exception)
-                {
+                    user.PoliticalView = (PoliticalView)Enum.Parse(typeof(PoliticalView), value, true);
                 }
             }
 
@@ -96,7 +91,7 @@ namespace Facebook.Parser {
             user.AboutMe = XmlHelper.GetNodeText(node, "about_me");
 
 
-            int tempInt = 0;
+            int tempInt;
             if (int.TryParse(XmlHelper.GetNodeText(node, "notes_count"), out tempInt))
             {
                 user.NotesCount = tempInt;
@@ -107,7 +102,7 @@ namespace Facebook.Parser {
             }
 
             XmlNodeList statusNodeList = ((XmlElement)node).GetElementsByTagName("status");
-            user.Status.Message = XmlHelper.GetNodeText(statusNodeList[statusNodeList.Count-1], "message");
+            user.Status.Message = XmlHelper.GetNodeText(statusNodeList[statusNodeList.Count - 1], "message");
             if (!String.IsNullOrEmpty(XmlHelper.GetNodeText(statusNodeList[statusNodeList.Count - 1], "time")))
             {
                 user.Status.Time = DateHelper.ConvertDoubleToDate(double.Parse(XmlHelper.GetNodeText(statusNodeList[statusNodeList.Count - 1], "time"), CultureInfo.InvariantCulture));

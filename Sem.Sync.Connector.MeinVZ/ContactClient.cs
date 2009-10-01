@@ -33,8 +33,8 @@ namespace Sem.Sync.Connector.MeinVZ
         ReferenceType = ClientPathType.Undefined)]
     //// specifying the connector description as no-read and no-write will hide it from the GUI
     [ConnectorDescription(DisplayName = "MeinVZ-Base-Client",
-        CanRead = false,
-        CanWrite = false,
+        CanReadContacts = false,
+        CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
     public class ContactClient : StdClient

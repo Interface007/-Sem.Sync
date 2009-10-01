@@ -13,16 +13,23 @@ namespace Sem.Sync.Connector.Memory
     using System.Collections.Generic;
 
     using SyncBase;
+    using SyncBase.Attributes;
 
     /// <summary>
-    /// Class that provides a memory only connector to speed up operations
+    /// Class that provides a memory only connector to speed up operations.
+    /// By adding a <see cref="ConnectorDescriptionAttribute"/> with CanRead = false and CanWrite = false
+    /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
     /// </summary>
+    [ConnectorDescription(DisplayName = "Generic-Memory-Client",
+        CanReadContacts = false,
+        CanWriteContacts = false)]
     public class GenericClient : StdClient
     {
         /// <summary>
         /// private storage in memory
         /// </summary>
-        private static readonly Dictionary<string, List<StdElement>> Content = new Dictionary<string, List<StdElement>>();
+        private static readonly Dictionary<string, List<StdElement>> Content =
+            new Dictionary<string, List<StdElement>>();
 
         /// <summary>
         /// Gets the user readable name of the client implementation. This name should
@@ -58,6 +65,24 @@ namespace Sem.Sync.Connector.Memory
         }
 
         /// <summary>
+        /// adds a range of elements
+        /// </summary>
+        /// <param name="elements">The elements.</param>
+        /// <param name="clientFolderName">The client folder name.</param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            if (!Content.ContainsKey(clientFolderName))
+            {
+                Content.Add(clientFolderName, elements);
+                return;
+            }
+
+            var storage = Content[clientFolderName];
+            elements.ForEach(x => storage.Remove(x));
+            storage.AddRange(elements);
+        }
+
+        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
@@ -71,7 +96,7 @@ namespace Sem.Sync.Connector.Memory
             {
                 Content.Add(clientFolderName, new List<StdElement>());
             }
-            
+
             return Content[clientFolderName];
         }
 

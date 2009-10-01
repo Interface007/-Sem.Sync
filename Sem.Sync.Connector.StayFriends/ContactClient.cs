@@ -27,7 +27,7 @@ namespace Sem.Sync.Connector.StayFriends
     /// Client implementation for reading information from www.StayFriends.de
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true,
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "StayFriends.de", MatchingIdentifier = ProfileIdentifierType.StayFriendsPersonId)]
     public class ContactClient : StdClient
     {

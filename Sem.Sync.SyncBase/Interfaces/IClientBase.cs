@@ -109,6 +109,5 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <param name="clientFolderName">the information where inside the source the elements reside - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName);
-
     }
 }

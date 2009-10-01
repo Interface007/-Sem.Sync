@@ -17,6 +17,7 @@ namespace Sem.Sync.Connector.CloudStorage
     using System.Xml.Serialization;
 
     using SyncBase;
+    using SyncBase.Attributes;
     using SyncBase.Helpers;
 
     using Test.DataGenerator;
@@ -24,7 +25,12 @@ namespace Sem.Sync.Connector.CloudStorage
     /// <summary>
     /// This is a simple stub for "some" cloud storage. It does provide some
     /// test data (different contacts), but does not persist any data.
+    /// By adding a <see cref="ConnectorDescriptionAttribute"/> with CanRead = false and CanWrite = false
+    /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
     /// </summary>
+    [ConnectorDescription(DisplayName = "Azure storage stub",
+        CanReadContacts = false,
+        CanWriteContacts = false)]
     public class StubStorage : StdClient
     {
         /// <summary>

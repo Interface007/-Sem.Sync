@@ -120,7 +120,7 @@
     </Compile>
     <Compile Include="Attributes\ClientStoragePathDescriptionAttribute.cs" />
     <Compile Include="Attributes\ConnectorDescriptionAttribute.cs" />
-    <Compile Include="Attributes\Copy of ClientStoragePathDescriptionAttribute.cs" />
+    <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="Commands\AskForContinue.cs" />
     <Compile Include="Commands\CopyAll.cs" />

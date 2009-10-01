@@ -12,10 +12,12 @@ namespace Sem.Sync.Cloud
     using System;
     using System.Collections.Generic;
 
-    using Connector.CloudStorage;
+    using Azure.Storage;
 
     using SyncBase;
     using SyncBase.Helpers;
+
+    using BlobStorage = Connector.CloudStorage.BlobStorage;
 
     /// <summary>
     /// Implements the service to read/write contacts to/from the blob storage
@@ -29,6 +31,7 @@ namespace Sem.Sync.Cloud
         /// <returns> a list of <see cref="StdContact"/> </returns>
         public ContactListContainer GetAll(string blobId)
         {
+            AccessControlHelper.DemandActionClaim("Contacts.GetAll");
             try
             {
                 // this can be replaced by any class inheriting from StdClient

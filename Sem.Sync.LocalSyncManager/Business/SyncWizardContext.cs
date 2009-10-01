@@ -361,14 +361,14 @@ namespace Sem.Sync.LocalSyncManager.Business
                         ? (attribute.DisplayName ?? fullName) + " of StdContact"
                         : attribute.DisplayName ?? fullName;
 
-                    if (attribute.CanRead || attribute.CanWrite)
+                    if (attribute.CanReadContacts || attribute.CanWriteContacts)
                     {
                         yield return
                             new Triple<string, string, int>
                                 {
                                     Value1 = fullName,
                                     Value2 = nameToUse,
-                                    Value3 = attribute.CanRead ? (attribute.CanWrite ? 3 : 1) : 2
+                                    Value3 = attribute.CanReadContacts ? (attribute.CanWriteContacts ? 3 : 1) : 2
                                 };
                     }
                 }

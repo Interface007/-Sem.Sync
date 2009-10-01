@@ -41,14 +41,14 @@
             resources.ApplyResources(this.no, "no");
             this.no.Name = "no";
             this.no.UseVisualStyleBackColor = true;
-            this.no.Click += new System.EventHandler(this.no_Click);
+            this.no.Click += new System.EventHandler(this.No_Click);
             // 
             // yes
             // 
             resources.ApplyResources(this.yes, "yes");
             this.yes.Name = "yes";
             this.yes.UseVisualStyleBackColor = true;
-            this.yes.Click += new System.EventHandler(this.yes_Click);
+            this.yes.Click += new System.EventHandler(this.Yes_Click);
             // 
             // warning
             // 
@@ -61,7 +61,7 @@
             resources.ApplyResources(this.iDoUnterstand, "iDoUnterstand");
             this.iDoUnterstand.Name = "iDoUnterstand";
             this.iDoUnterstand.UseVisualStyleBackColor = true;
-            this.iDoUnterstand.CheckedChanged += new System.EventHandler(this.iDoUnterstand_CheckedChanged);
+            this.iDoUnterstand.CheckedChanged += new System.EventHandler(this.IDoUnterstand_CheckedChanged);
             // 
             // Disclaimer
             // 

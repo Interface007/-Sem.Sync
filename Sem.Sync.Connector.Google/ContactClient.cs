@@ -33,7 +33,7 @@ namespace Sem.Sync.Connector.Google
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanRead = true, CanWrite = true,
+    [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanReadContacts = true, CanWriteContacts = true,
         MatchingIdentifier = ProfileIdentifierType.Google, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {

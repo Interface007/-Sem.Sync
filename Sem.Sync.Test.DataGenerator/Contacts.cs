@@ -26,7 +26,7 @@ namespace Sem.Sync.Test.DataGenerator
     [ClientStoragePathDescriptionAttribute(Irrelevant = true)]
     [ConnectorDescription(
         DisplayName = "Test Data connector",
-        CanWrite = true, CanRead = true)]
+        CanWriteContacts = true, CanReadContacts = true)]
     public class Contacts : StdClient
     {
         /// <summary>

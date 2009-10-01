@@ -124,6 +124,10 @@
     <Compile Include="TechnicalMessage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.Azure.Storage\Sem.Azure.Storage.csproj">
+      <Project>{D2903196-B5F9-43CC-9B43-85CDFF0D6268}</Project>
+      <Name>Sem.Azure.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>

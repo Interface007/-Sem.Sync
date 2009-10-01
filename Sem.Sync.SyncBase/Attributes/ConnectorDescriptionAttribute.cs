@@ -24,8 +24,8 @@ namespace Sem.Sync.SyncBase.Attributes
         /// </summary>
         public ConnectorDescriptionAttribute()
         {
-            this.CanRead = true;
-            this.CanWrite = true;
+            this.CanReadContacts = true;
+            this.CanWriteContacts = true;
             this.NeedsCredentials = false;
             this.IsGeneric = false;
             this.MatchingIdentifier = ProfileIdentifierType.Default;
@@ -34,12 +34,12 @@ namespace Sem.Sync.SyncBase.Attributes
         /// <summary>
         /// Gets or sets a value indicating whether the connector can read data.
         /// </summary>
-        public bool CanRead { get; set; }
+        public bool CanReadContacts { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the connector can write data.
         /// </summary>
-        public bool CanWrite { get; set; }
+        public bool CanWriteContacts { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the connector needs credentials.

@@ -23,7 +23,7 @@ namespace Sem.Sync.SharedUI.WinForms.Controls
         /// </summary>
         public ContactAddressView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>

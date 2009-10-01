@@ -35,7 +35,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
-            return base.Id.ToString("B") + " matches " + this.ProfileId;
+            return this.Id.ToString("B") + " matches " + this.ProfileId;
         }
     }
 }

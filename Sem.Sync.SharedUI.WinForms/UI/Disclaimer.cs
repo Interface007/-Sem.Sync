@@ -24,7 +24,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         public Disclaimer()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         /// <param name="sender"> The No-button. </param>
         /// <param name="e"> empty event-args - button click events do not have arguments. </param>
-        private void no_Click(object sender, EventArgs e)
+        private void No_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -42,7 +42,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         /// <param name="sender"> The Yes-button. </param>
         /// <param name="e"> empty event-args - button click events do not have arguments. </param>
-        private void yes_Click(object sender, EventArgs e)
+        private void Yes_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -52,9 +52,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         /// <param name="sender"> The "I understand"-checkbox. </param>
         /// <param name="e"> empty event-args - checkbox CheckedChanged events do not have arguments. </param>
-        private void iDoUnterstand_CheckedChanged(object sender, EventArgs e)
+        private void IDoUnterstand_CheckedChanged(object sender, EventArgs e)
         {
-            yes.Enabled = iDoUnterstand.Checked;
+            yes.Enabled = this.iDoUnterstand.Checked;
         }
     }
 }

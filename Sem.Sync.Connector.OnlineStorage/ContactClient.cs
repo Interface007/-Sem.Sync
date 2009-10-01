@@ -22,7 +22,7 @@ namespace Sem.Sync.Connector.OnlineStorage
     /// Implements a sample client for the sample online storage (accessed via WCF).
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = false)]
-    [ConnectorDescription(CanRead = true, CanWrite = true, NeedsCredentials = true, DisplayName = "SEM-Online sample")]
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = true, NeedsCredentials = true, DisplayName = "SEM-Online sample")]
     public class ContactClient : StdClient
     {
         /// <summary>

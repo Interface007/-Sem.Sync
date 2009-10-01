@@ -4,7 +4,7 @@
 // </copyright>
 // <summary>
 //   This program reads and writes project settings from project files
-//   to a flat file in tsv format. This was it's easy to compare the
+//   to a flat file in csv format. This was it's easy to compare the
 //   settings between different parts of a solution.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ namespace Sem.GenericTools.ProjectSettings
 
     /// <summary>
     /// This program reads and writes project settings from project files
-    /// to a flat file in tsv format. This was it's easy to compare the 
+    /// to a flat file in csv format. This was it's easy to compare the 
     /// settings between different parts of a solution.
     /// </summary>
     internal class Program

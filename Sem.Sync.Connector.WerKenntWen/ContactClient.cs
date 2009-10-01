@@ -30,7 +30,7 @@ namespace Sem.Sync.Connector.WerKenntWen
     /// Client implementation for reading information from www.wer-kennt-wen.de
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanRead = true, CanWrite = false, NeedsCredentials = true,
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "Wer-Kennt-Wen.de", MatchingIdentifier = ProfileIdentifierType.WerKenntWenUrl)]
     public class ContactClient : StdClient
     {

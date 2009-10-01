@@ -20,12 +20,16 @@ namespace Sem.Sync.Connector.Outlook
     using Microsoft.Office.Interop.Outlook;
 
     using SyncBase;
+    using SyncBase.Attributes;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
+    [ConnectorDescription(DisplayName = "Outlook Canlendar Connector",
+        CanReadContacts = false,
+        CanWriteContacts = false)]
     public class CalendarClient : StdClient
     {
         /// <summary>

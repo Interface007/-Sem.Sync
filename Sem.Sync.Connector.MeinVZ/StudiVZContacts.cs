@@ -24,8 +24,8 @@ namespace Sem.Sync.Connector.MeinVZ
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
     [ConnectorDescription(DisplayName = "StudiVZ",
-        CanRead = true,
-        CanWrite = false,
+        CanReadContacts = true,
+        CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
     public class StudiVZContacts : ContactClient

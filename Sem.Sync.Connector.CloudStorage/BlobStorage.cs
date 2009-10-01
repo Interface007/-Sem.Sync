@@ -21,7 +21,7 @@ namespace Sem.Sync.Connector.CloudStorage
     /// implements a <see cref="StdClient"/> accessing the Azure blob storage.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = false)]
-    [ConnectorDescription(CanRead = false, CanWrite = false, DisplayName = "Azure Cloud Blob Storage")]
+    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, DisplayName = "Azure Cloud Blob Storage")]
     public class BlobStorage : StdClient
     {
         /// <summary>
