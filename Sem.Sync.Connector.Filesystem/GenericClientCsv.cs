@@ -176,9 +176,9 @@ namespace Sem.Sync.Connector.Filesystem
         /// <returns> the file name of the column definition file</returns>
         private static string GetColumnDefinitionFileName(string clientFolderName)
         {
-            return clientFolderName.Contains("\n")
+            return clientFolderName.Contains("\n") || clientFolderName.Contains("|")
                        ? clientFolderName.Split(
-                             new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+                             new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
                        : string.Empty;
         }
 
@@ -190,9 +190,9 @@ namespace Sem.Sync.Connector.Filesystem
         private static string GetFileName(string clientFolderName)
         {
             var fileName = clientFolderName;
-            if (fileName.Contains("\n"))
+            if (fileName.Contains("\n") || fileName.Contains("|"))
             {
-                fileName = fileName.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+                fileName = fileName.Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
             }
 
             return fileName;
