@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -91,7 +91,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
+      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -290,10 +290,6 @@
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.GenericTools.ProjectSettings\Sem.GenericTools.ProjectSettings.csproj">
-      <Project>{4595B0B3-0182-451C-A4CD-415377193307}</Project>
-      <Name>Sem.GenericTools.ProjectSettings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Cloud.Storage\StorageClientApi\StorageClient.csproj">
       <Project>{C6F30C10-E1C2-4327-BB6B-3160B479CCA1}</Project>
       <Name>StorageClient</Name>
@@ -371,15 +367,15 @@
       <Name>Sem.Sync.Connector.Xing</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
-    <Folder Include="Help\Art\" />
-    <Folder Include="Help\Topics\" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Exclude Non-Standard-Projects\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="Help\Art\" />
+    <Folder Include="Help\Topics\" />
+  </ItemGroup>
 </Project>
