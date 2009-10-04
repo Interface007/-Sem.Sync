@@ -65,11 +65,6 @@ namespace Sem.Sync.Connector.Facebook
         /// </summary>
         protected WebScrapingBaseClient()
         {
-            this.HttpDetectionStringLogOnFailed = "action=\"https://secure.meinvz.net/Login\"";
-            this.HttpUrlLogOnRequest = "https://secure.meinvz.net/Login";
-            this.HttpUrlBaseAddress = "http://www.meinvz.net";
-            this.ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
-
             this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
             {
                 UseCache = this.GetConfigValueBoolean("UseCache"),
@@ -113,7 +108,7 @@ namespace Sem.Sync.Connector.Facebook
         protected abstract string ContactContentSelector { get; }
 
         #endregion
-        
+
         /// <summary>
         /// Gets the HttpRequester.
         /// </summary>
@@ -126,24 +121,29 @@ namespace Sem.Sync.Connector.Facebook
         }
 
         /// <summary>
-        /// Gets or sets the extraction string for the image.
+        /// Gets the extraction string for the image.
         /// </summary>
-        protected string ContactImageSelector { get; set; }
+        protected abstract string ContactImageSelector { get; }
 
         /// <summary>
-        /// Gets or sets the detection string to detect if we did fail to logon
+        /// Gets the detection string to detect if we did fail to logon
         /// </summary>
-        protected string HttpDetectionStringLogOnFailed { get; set; }
+        protected abstract string HttpDetectionStringLogOnFailed { get; }
 
         /// <summary>
-        /// Gets or sets the base address to communicate with the site
+        /// Gets the base address to communicate with the site
         /// </summary>
-        protected string HttpUrlBaseAddress { get; set; }
+        protected abstract string HttpUrlBaseAddress { get; }
 
         /// <summary>
-        /// Gets or sets the relative url to log on
+        /// Gets the base address to communicate with the site
         /// </summary>
-        protected string HttpUrlLogOnRequest { get; set; }
+        protected abstract string HttpUrlFriendList { get; }
+
+        /// <summary>
+        /// Gets the relative url to log on
+        /// </summary>
+        protected abstract string HttpUrlLogOnRequest { get; }
 
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
@@ -160,7 +160,7 @@ namespace Sem.Sync.Connector.Facebook
 
             foreach (var contactUrl in contactUrls)
             {
-                result.Add(this.DownloadContact(contactUrl));
+                result.Add(this.DownloadContact(string.Format("http://www.facebook.com/profile.php?id={0}", contactUrl)));
             }
 
             result.Sort();
@@ -189,15 +189,23 @@ namespace Sem.Sync.Connector.Facebook
             var result = new StdContact();
 
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
-            var imageUrl = Regex.Match(content, this.ContactImageSelector, RegexOptions.Singleline);
-            if (imageUrl != null)
+
+            var redirectUrl = Regex.Match(content, @"<script>window.location.replace(""([^""].)"");</script>");
+            if (redirectUrl.Groups.Count > 0 && redirectUrl.Groups[0].Captures.Count > 0)
             {
-                var url = imageUrl.Groups[1].ToString();
-                result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
-                result.PictureData = this.httpRequester.GetContentBinary(url, url);
+                contactUrl = redirectUrl.Groups[0].Captures[0].ToString();
+                content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
             }
 
-            foreach (Match match in Regex.Matches(content, this.ContactContentSelector, RegexOptions.Singleline))
+            ////var imageUrl = Regex.Match(content, this.ContactImageSelector, RegexOptions.Singleline);
+            ////if (imageUrl != null)
+            ////{
+            ////    var url = imageUrl.Groups[1].ToString();
+            ////    result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
+            ////    result.PictureData = this.httpRequester.GetContentBinary(url, url);
+            ////}
+
+            foreach (Match match in Regex.Matches(content, @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>[^<]*)</dd></div>", RegexOptions.Singleline))
             {
                 var key = match.Groups[1].ToString();
                 var value = match.Groups[2].ToString();
@@ -231,7 +239,7 @@ namespace Sem.Sync.Connector.Facebook
                         result.PersonGender = value == "männlich" ? Gender.Male : Gender.Female;
                         break;
 
-                    case "Geburtstag:":
+                    case "birthday":
                         result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
                         break;
 
@@ -254,7 +262,7 @@ namespace Sem.Sync.Connector.Facebook
                         result.PersonalAddressPrimary.StreetName = value;
                         break;
 
-                    case "Ort:":
+                    case "hometown":
                         result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
                         while (value.Contains("  "))
                         {
@@ -293,6 +301,9 @@ namespace Sem.Sync.Connector.Facebook
                         result.BusinessPosition = value;
                         break;
 
+                    case "relationship_status":
+                        break;
+
                     default:
                         Console.WriteLine("new content: " + key + " => " + value);
                         break;
@@ -314,17 +325,21 @@ namespace Sem.Sync.Connector.Facebook
 
             while (true)
             {
-                List<string> extractedData;
                 this.httpRequester.LogOnFormDetectionString = this.HttpDetectionStringLogOnNeeded;
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                if (this.httpRequester.GetExtract(string.Empty, this.ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
+                var theContact = this.httpRequester.GetContent(string.Format(this.HttpUrlFriendList, 0));
+                var friendIds = Regex.Match(theContact, @"""members"":\[((?<id>\d*)[,\]])*");
+
+                if (friendIds.Groups.Count >= 2)
                 {
-                    if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out result))
+                    foreach (var capture in friendIds.Groups["id"].Captures)
                     {
-                        break;
+                        result.Add(capture.ToString());
                     }
+
+                    return result;
                 }
 
                 if (string.IsNullOrEmpty(this.LogOnPassword))
@@ -332,30 +347,24 @@ namespace Sem.Sync.Connector.Facebook
                     QueryForLogOnCredentials("needs some credentials");
                 }
 
-                var matches = Regex.Matches(this.httpRequester.LastExtractContent, this.ExtractorFormKey, RegexOptions.Singleline);
-                var formKey = matches[0].Groups[1].Captures[0].ToString();
-
-                matches = Regex.Matches(this.httpRequester.LastExtractContent, this.ExtractorIv, RegexOptions.Singleline);
-                var iv = matches[0].Groups[1].Captures[0].ToString();
-
                 // prepare the post data for log on
                 var postData = HttpHelper.PreparePostData(
                     this.HttpDataLogOnRequest,
                     this.LogOnUserId,
-                    this.LogOnPassword,
-                    formKey,
-                    iv);
+                    this.LogOnPassword);
 
                 // post to get the cookies
                 var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
+                if (logInResponse.Contains(@"<meta http-equiv=""refresh"" content=""0;url=http://www.facebook.com/home.php?"" />"))
+                {
+                    logInResponse = this.httpRequester.GetContent("http://www.facebook.com/home.php?", string.Empty);
+                }
 
                 if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
                 {
                     return result;
                 }
             }
-
-            return result;
         }
     }
 }
