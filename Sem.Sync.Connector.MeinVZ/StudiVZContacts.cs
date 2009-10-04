@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StudiVZ.cs" company="Sven Erik Matzen">
+// <copyright file="StudiVZContacts.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
@@ -28,12 +28,12 @@ namespace Sem.Sync.Connector.MeinVZ
         CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
-    public class StudiVZContacts : ContactClient
+    public class StudiVzContacts : ContactClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StudiVZ"/> class.
+        /// Initializes a new instance of the <see cref="StudiVzContacts"/> class.
         /// </summary>
-        public StudiVZContacts()
+        public StudiVzContacts()
         {
             this.HttpDetectionStringLogOnFailed = "action=\"https://secure.studivz.net/Login\"";
             this.HttpUrlLogOnRequest = "https://secure.studivz.net/Login";

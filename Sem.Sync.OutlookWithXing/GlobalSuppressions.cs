@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="GlobalSuppressions.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+//-----------------------------------------------------------------------
+
 // This file is used by Code Analysis to maintain SuppressMessage 
 // attributes that are applied to this project. 
 // Project-level suppressions either have no target or are given 

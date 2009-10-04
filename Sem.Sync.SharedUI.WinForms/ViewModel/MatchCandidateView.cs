@@ -12,10 +12,19 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using SyncBase;
 
+    /// <summary>
+    /// Implements a view entity for a match-candidate
+    /// </summary>
     public class MatchCandidateView
     {
+        /// <summary>
+        /// Gets or sets the name of the contact.
+        /// </summary>
         public string ContactName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the contact element.
+        /// </summary>
         public StdContact Element { get; set; }
     }
 }

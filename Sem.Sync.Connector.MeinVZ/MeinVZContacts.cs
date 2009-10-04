@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MeinVZ.cs" company="Sven Erik Matzen">
+// <copyright file="MeinVZContacts.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>

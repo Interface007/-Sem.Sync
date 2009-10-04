@@ -1,10 +1,23 @@
-﻿namespace Sem.Sync.Connector.Google
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GoogleContactGroups.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Implements a group of contacts
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.Google
 {
     using System;
     using System.Collections.Generic;
 
     using global::Google.Contacts;
 
+    /// <summary>
+    /// Implements a group of contacts
+    /// </summary>
     public class GoogleContactGroups
     {
         private readonly ContactsRequest myRequester;

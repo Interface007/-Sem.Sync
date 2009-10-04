@@ -112,25 +112,39 @@ namespace Sem.Sync.SyncBase
     /// defines a calendar entry which exists at a certain point in time
     /// </summary>
     public class StdCalendarItem : StdElement
-    {        
-        #region _AppointmentItem Members
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StdCalendarItem"/> class.
+        /// </summary>
+        public StdCalendarItem()
+        {
+            this.ExternalIdentifier = new List<CalendarIdentifier>();
+        }
 
         public string EntryId { get; set; }
+        
         public string GlobalAppointmentId { get; set; }
+        
         public DateTime LastModificationTime { get; set; }
         
         public RecurrenceState RecurrenceState { get; set; }
+        
         public BusyStatus BusyStatus { get; set; }
 
         public DateTime Start { get; set; }
+        
         public DateTime End { get; set; }
+        
         public string TimeZone { get; set; }
         
         public bool ResponseRequested { get; set; }
+        
         public ResponseStatus ResponseStatus { get; set; }
 
         public string Subject { get; set; }
+        
         public string Location { get; set; }
+        
         public string Body { get; set; }
         
         public string Categories { get; set; }
@@ -138,25 +152,22 @@ namespace Sem.Sync.SyncBase
         public string Links { get; set; }
         
         public string RequiredAttendees { get; set; }
+        
         public string OptionalAttendees { get; set; }
+        
         public string Resources { get; set; }
         
         public string Organizer { get; set; }
+        
         public string Recipients { get; set; }
         
         public int ReminderMinutesBeforeStart { get; set; }
-        #endregion
 
         /// <summary>
         /// Gets or sets the list of ExternalIdentifier.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
         public List<CalendarIdentifier> ExternalIdentifier { get; set; }
-
-        public StdCalendarItem()
-        {
-            this.ExternalIdentifier = new List<CalendarIdentifier>();
-        }
 
         /// <summary>
         /// Returns a meaningful string representation for this object
