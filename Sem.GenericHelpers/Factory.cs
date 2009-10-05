@@ -85,7 +85,25 @@ namespace Sem.GenericHelpers
         /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
         public object GetNewObject(string className)
         {
-            return Activator.CreateInstance(Type.GetType(this.EnrichClassName(className), true, true));
+            var type = Type.GetType(this.EnrichClassName(className), false, true);
+            if (type == null)
+            {
+                // search for an alternative object (e.g. compatible with an older version of the installed target)
+                switch (className)
+                {
+                    case "Sem.Sync.Connector.Outlook.CalendarClient":
+                        // the standard connector for outlook is for outlook 2008 - that
+                        // one is not compatible with outlook 2003, so we do fall back
+                        // to outlook 2003 if the standard one cannot be created.
+                        className = "Sem.Sync.Connector.Outlook2003.CalendarClient";
+                        break;
+                }
+
+                // we do only have one try, so this one will throw an exception ;-)
+                type = Type.GetType(this.EnrichClassName(className), true, true);
+            }
+
+            return Activator.CreateInstance(type);
         }
 
         /// <summary>
