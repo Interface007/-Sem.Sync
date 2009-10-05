@@ -241,8 +241,8 @@ namespace Sem.Sync.Connector.Outlook2003
                     Id = Guid.NewGuid(),
                     Subject = outlookItem.Subject,
                     Body = outlookItem.Body,
-                    Start = outlookItem.StartUTC,
-                    End = outlookItem.EndUTC,
+                    Start = outlookItem.Start,
+                    End = outlookItem.End,
                 };
 
             // TODO: this is a very "incomplete" version of the method

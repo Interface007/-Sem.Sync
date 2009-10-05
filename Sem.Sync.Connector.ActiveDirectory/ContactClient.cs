@@ -15,6 +15,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
     using System.DirectoryServices;
     using System.DirectoryServices.ActiveDirectory;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     using GenericHelpers;
@@ -152,15 +153,24 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             if (!string.IsNullOrEmpty(newContact.ToStringSimple()))
             {
-                if (!string.IsNullOrEmpty(this.DumpPath))
-                {
-                    DumpUserInformation(
-                        searchItem,
-                        Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
-                }
+                var existing =
+                    from x in result
+                    where ((StdContact)x).PersonalProfileIdentifiers.ActiveDirectoryId ==
+                    newContact.PersonalProfileIdentifiers.ActiveDirectoryId
+                    select x;
 
-                this.LogProcessingEvent(newContact, "adding new element");
-                result.Add(newContact);
+                if (existing.Count() == 0)
+                {
+                    if (!string.IsNullOrEmpty(this.DumpPath))
+                    {
+                        DumpUserInformation(
+                            searchItem,
+                            Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
+                    }
+
+                    this.LogProcessingEvent(newContact, "adding new element");
+                    result.Add(newContact);
+                }
             }
         }
 
