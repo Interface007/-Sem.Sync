@@ -10,12 +10,14 @@
 
 namespace Sem.Sync.Test
 {
-    using DataGenerator;
-    using GenericHelpers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Net;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
+    using System.Net;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Sem.GenericHelpers;
+    using Sem.Sync.Test.DataGenerator;
 
     public class RecursiveTestClass
     {
@@ -180,6 +182,28 @@ namespace Sem.Sync.Test
         {
             var x = new ComplexTestClass();
             Assert.AreEqual("default", x.NewIfNull().myProp2.NewIfNull().Domain.DefaultIfNullOrEmpty("default"));
+        }
+
+        [TestMethod]
+        public void CheckCachePathGeneration()
+        {
+            Assert.AreEqual("da39a3ee5e6b4b0d3255bfef95601890afd80709", Tools.GetSha1Hash(string.Empty));
+            Assert.AreEqual("da39a3ee5e6b4b0d3255bfef95601890afd80709", Tools.GetSha1Hash(null));
+            Assert.AreEqual("48af14dbae9dd04377e61d02ac07126e7e75e65e", Tools.GetSha1Hash("a little test"));
+        }
+
+        [TestMethod]
+        public void CheckQuotedPrintableTest()
+        {
+            Assert.AreEqual(string.Empty, Tools.EncodeToQuotedPrintable(string.Empty));
+            Assert.AreEqual(string.Empty, Tools.EncodeToQuotedPrintable(null));
+            Assert.AreEqual("a little test", Tools.EncodeToQuotedPrintable("a little test"));
+            Assert.AreEqual("g&#=dc=e4=d6(?%&j8?=e4=f6=fc", Tools.EncodeToQuotedPrintable("g&#ÜäÖ(?%&j8?äöü"));
+
+            Assert.AreEqual("g&#ÜäÖ(?%&j8?äöü", Tools.DecodeFromQuotedPrintable("g&#=dc=e4=d6(?%&j8?=e4=f6=fc"));
+            Assert.AreEqual("a little test", Tools.DecodeFromQuotedPrintable("a little test"));
+            Assert.AreEqual(string.Empty, Tools.DecodeFromQuotedPrintable(null));
+            Assert.AreEqual(string.Empty, Tools.DecodeFromQuotedPrintable(string.Empty));
         }
     }
 }

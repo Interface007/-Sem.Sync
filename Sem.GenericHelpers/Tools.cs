@@ -28,11 +28,26 @@ namespace Sem.GenericHelpers
     public static class Tools
     {
         /// <summary>
+        /// Calculates a SHA1-Checksum
+        /// </summary>
+        private static readonly HashAlgorithm Sha1HashProvider = new SHA1CryptoServiceProvider();
+
+        /// <summary>
+        /// caches the allowed Ascii characters for the quoted printable encoding
+        /// </summary>
+        private static string cachedAllowedAscii = string.Empty;
+
+        /// <summary>
         /// Tests for the existence of the specified path and tries to create the path if it's missing
         /// </summary>
         /// <param name="filePath">The path to check</param>
         public static void EnsurePathExist(string filePath)
         {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
             if (!filePath.EndsWith("\\", StringComparison.Ordinal))
             {
                 filePath += "\\";
@@ -60,6 +75,11 @@ namespace Sem.GenericHelpers
         /// <returns>The encoded string</returns>
         public static string DecodeFromQuotedPrintable(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
             var sb = new StringBuilder();
             for (var i = 0; i < value.Length; i++)
             {
@@ -82,7 +102,7 @@ namespace Sem.GenericHelpers
                         continue;
                     }
 
-                    sb.Append(Encoding.ASCII.GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
+                    sb.Append(Encoding.GetEncoding("iso-8859-2").GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
                     i = i + 2;
                 }
             }
@@ -100,6 +120,11 @@ namespace Sem.GenericHelpers
         /// <returns>The encoded string</returns>
         public static string EncodeToQuotedPrintable(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
             var ascii7Bit = GetAllowedAscii();
             var sb = new StringBuilder();
             foreach (var s in value)
@@ -477,12 +502,12 @@ namespace Sem.GenericHelpers
         /// <returns>the hash value of the text</returns>
         public static string GetSha1Hash(string text)
         {
-            var sha1 = new SHA1CryptoServiceProvider();
+            var sha1 = Sha1HashProvider;
 
             string result = null;
             string temp;
 
-            var arrayData = Encoding.ASCII.GetBytes(text);
+            var arrayData = Encoding.ASCII.GetBytes(text ?? string.Empty);
             var arrayResult = sha1.ComputeHash(arrayData);
             for (var i = 0; i < arrayResult.Length; i++)
             {
@@ -532,13 +557,18 @@ namespace Sem.GenericHelpers
         /// <returns> The allowed ascii characters. </returns>
         private static string GetAllowedAscii()
         {
-            var sb = new StringBuilder(128);
-            for (var i = 0; i < 127; i++)
+            if (string.IsNullOrEmpty(cachedAllowedAscii))
             {
-                sb.Append(Convert.ToChar(i));
+                var sb = new StringBuilder(128);
+                for (var i = 0; i < 127; i++)
+                {
+                    sb.Append(Convert.ToChar(i));
+                }
+
+                cachedAllowedAscii = sb.ToString();
             }
 
-            return sb.ToString();
+            return cachedAllowedAscii;
         }
     }
 }

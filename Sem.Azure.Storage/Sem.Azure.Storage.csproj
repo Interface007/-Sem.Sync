@@ -79,26 +79,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
     <Compile Include="AccessControlHelper.cs" />
     <Compile Include="AzureAccountInfo.cs" />
     <Compile Include="BlobStorage.cs" />
-    <Compile Include="Const\AuthenticationSchemeNames.cs" />
-    <Compile Include="Const\BlobBlockConstants.cs" />
-    <Compile Include="Const\CompConstants.cs" />
-    <Compile Include="Const\ConstChars.cs" />
-    <Compile Include="Const\HeaderNames.cs" />
-    <Compile Include="Const\HeaderValues.cs" />
-    <Compile Include="Const\HttpMethod.cs" />
-    <Compile Include="Const\ListingConstants.cs" />
-    <Compile Include="Const\QueryParams.cs" />
-    <Compile Include="Const\RegularExpressionStrings.cs" />
-    <Compile Include="Const\RequestParams.cs" />
-    <Compile Include="Const\StandardPortalEndpoints.cs" />
-    <Compile Include="Const\XmlElementNames.cs" />
+    <Compile Include="Constants\AuthenticationSchemeNames.cs" />
+    <Compile Include="Constants\BlobBlockConstants.cs" />
+    <Compile Include="Constants\CompConstants.cs" />
+    <Compile Include="Constants\ConstChars.cs" />
+    <Compile Include="Constants\HeaderNames.cs" />
+    <Compile Include="Constants\HeaderValues.cs" />
+    <Compile Include="Constants\HttpMethod.cs" />
+    <Compile Include="Constants\ListingConstants.cs" />
+    <Compile Include="Constants\QueryParams.cs" />
+    <Compile Include="Constants\RegularExpressionStrings.cs" />
+    <Compile Include="Constants\RequestParams.cs" />
+    <Compile Include="Constants\StandardPortalEndpoints.cs" />
+    <Compile Include="Constants\XmlElementNames.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpRequestAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ResourceUriComponents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,7 +4,10 @@
     using System.IdentityModel.Claims;
     using System.ServiceModel;
 
-    public class AccessControlHelper
+    /// <summary>
+    /// generic helper class for azure access control
+    /// </summary>
+    public static class AccessControlHelper
     {
         public static void DemandActionClaim(string claimValue)
         {

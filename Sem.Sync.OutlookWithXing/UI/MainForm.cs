@@ -46,7 +46,11 @@ namespace Sem.Sync.OutlookWithXing.UI
         public MainForm()
         {
             InitializeComponent();
-            new Disclaimer().ShowDialog();
+            
+            // do not show the disclaimer any more, the software has been tested
+            // so many times with Outlook and Xing that we hope to not do any harm 
+            // to the users data.
+            ////new Disclaimer().ShowDialog();
         }
 
         /// <summary>

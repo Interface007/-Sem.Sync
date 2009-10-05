@@ -48,7 +48,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            throw new NotImplementedException();
+            return result;
         }
 
         /// <summary>
@@ -60,7 +60,17 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            throw new NotImplementedException();
+
+            using (var con = new System.Data.SqlClient.SqlConnection(clientFolderName))
+            {
+                con.Open();
+
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "CREATE DATABASE 'Address'";
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+            }
         }
     }
 }

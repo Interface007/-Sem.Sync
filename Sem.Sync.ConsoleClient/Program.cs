@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { "A Copy from MeinVZ.SyncList" };
+                args = new[] { "A Copy to SQLServer.SyncList" };
             }
 #endif
 
