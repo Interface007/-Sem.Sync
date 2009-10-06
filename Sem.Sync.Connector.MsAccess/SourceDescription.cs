@@ -1,6 +1,8 @@
 ﻿namespace Sem.Sync.Connector.MsAccess
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
 
     public class SourceDescription
     {
@@ -10,58 +12,50 @@
 
         public SourceDescription()
         {
-            this.DatabasePath = "C:\\Documents and Settings\\EH2MAIK\\Desktop\\Copy of Project_Employees_Eva_Tom.mdb";
-            this.MainTable = "Commerzbank_Employee_Tracking_Eva_Tom";
+            this.DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "AccessDatabaseSample.mdb");
+            this.MainTable = "ContactInformation";
             this.Mappings = new List<Mapping>
                 {
                     new Mapping
                     {
-                        PropertyPath = "PersonalProfileIdentifiers.MicrosoftAccessId",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
-                        FieldName = "Id",
-                        IsPrimaryKey = true,
-                        IsAutoValue = true,
-                    },
+                        PropertyPath = "PersonalProfileIdentifiers.MicrosoftAccessId", 
+                        FieldName = "Id", 
+                        IsPrimaryKey = true, 
+                        IsAutoValue = true, 
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "Name.FirstName",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "Name.FirstName", 
                         FieldName = "Vorname"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "Name.LastName",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "Name.LastName", 
                         FieldName = "Nachname"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "DateOfBirth",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "DateOfBirth", 
                         FieldName = "Geburtstag"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "PersonalProfileIdentifiers.ActiveDirectoryId",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "PersonalProfileIdentifiers.ActiveDirectoryId", 
                         FieldName = "ComSi-ID"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "BusinessAddressPrimary.Phone.DenormalizedPhoneNumber",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "BusinessAddressPrimary.Phone.DenormalizedPhoneNumber", 
                         FieldName = "Telefonnummer"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "BusinessEmailPrimary",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "BusinessEmailPrimary", 
                         FieldName = "Mailadresse"
-                    },
+                    }, 
                     new Mapping
                     {
-                        PropertyPath = "BusinessAddressPrimary.Room",
-                        TableName = "Commerzbank_Employee_Tracking_Eva_Tom",
+                        PropertyPath = "BusinessAddressPrimary.Room", 
                         FieldName = "Raum_local"
                     }
                 };

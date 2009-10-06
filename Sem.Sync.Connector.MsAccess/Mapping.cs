@@ -1,7 +1,5 @@
 ﻿namespace Sem.Sync.Connector.MsAccess
 {
-    using System;
-
     public class Mapping
     {
         public string PropertyPath { get; set; }

@@ -12,11 +12,12 @@ namespace Sem.Sync.Connector.MsAccess
     using System;
     using System.Collections.Generic;
     using System.Data.OleDb;
+    using System.IO;
     using System.Linq;
 
-    using Sem.GenericHelpers;
-    using Sem.Sync.SyncBase;
-    using Sem.Sync.SyncBase.Attributes;
+    using GenericHelpers;
+    using SyncBase;
+    using SyncBase.Attributes;
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.
@@ -50,28 +51,32 @@ namespace Sem.Sync.Connector.MsAccess
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var description = Tools.LoadFromFile<SourceDescription>(clientFolderName);
+            var description = this.GetDescription(clientFolderName);
 
             var mappings = description.Mappings;
-            var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath));
-            con.Open();
-            var cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT * FROM " + description.MainTable;
-
-
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
             {
-                var newContact = new StdContact();
-                foreach (var mappingItem in mappings)
+                con.Open();
+                using (var cmd = con.CreateCommand())
                 {
-                    if (mappingItem.TableName == description.MainTable)
+                    cmd.CommandText = "SELECT * FROM " + description.MainTable;
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        Tools.SetPropertyValue(newContact, mappingItem.PropertyPath, reader[mappingItem.FieldName].ToString());
+                        var newContact = new StdContact();
+                        foreach (var mappingItem in mappings)
+                        {
+                            if (string.IsNullOrEmpty(mappingItem.TableName) || mappingItem.TableName == description.MainTable)
+                            {
+                                Tools.SetPropertyValue(
+                                    newContact, mappingItem.PropertyPath, reader[mappingItem.FieldName].ToString());
+                            }
+                        }
+
+                        result.Add(newContact);
                     }
                 }
-
-                result.Add(newContact);
             }
 
             return result;
@@ -86,7 +91,7 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var description = Tools.LoadFromFile<SourceDescription>(clientFolderName);
+            var description = this.GetDescription(clientFolderName);
 
             var mappings = description.Mappings;
             var primaryKeyName = (from x in mappings where x.IsPrimaryKey select x.FieldName).FirstOrDefault();
@@ -139,6 +144,16 @@ namespace Sem.Sync.Connector.MsAccess
                     }
                 }
             }
+        }
+
+        private SourceDescription GetDescription(string clientFolderName)
+        {
+            if (!File.Exists(clientFolderName))
+            {
+                Tools.SaveToFile(new SourceDescription(), clientFolderName);
+            }
+
+            return Tools.LoadFromFile<SourceDescription>(clientFolderName);
         }
 
         private string FormatForDatabase(object p, Mapping mappingItem)

@@ -69,9 +69,13 @@ namespace Sem.Sync.Connector.MsSqlDatabase
 
             using (var con = new System.Data.SqlClient.SqlConnection(clientFolderName))
             {
+                var databaseName = con.Database;
+                con.ConnectionString = con.ConnectionString.Replace(databaseName, "master");
                 con.Open();
 
-                
+                var cmd = con.CreateCommand();
+                cmd.CommandText = string.Format("SELECT 1 FROM Databases WHERE Name = '{0}'", databaseName);
+                var ret = cmd.ExecuteScalar();
 
                 con.Close();
             }

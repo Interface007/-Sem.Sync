@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <!--<SyncDescription Name="Export from MSAccess to file system">
+  <SyncDescription Name="Export from MSAccess to file system">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.Connector.MsAccess.GenericClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Access.config</SourceStorePath>
     <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\Access.xmlcontact</TargetStorePath>
-  </SyncDescription>-->
+  </SyncDescription>
 
-  <SyncDescription Name="Export from MS Access to file system">
+  <!--<SyncDescription Name="Export from MS Access to file system">
     <Command>CopyAll</Command>
     <TargetConnector>Sem.Sync.Connector.MsAccess.GenericClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Access.config</TargetStorePath>
     <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
     <SourceStorePath>{FS:WorkingFolder}\Access.xmlcontact</SourceStorePath>
-  </SyncDescription>
+  </SyncDescription>-->
 
 
 </ArrayOfSyncDescription>
