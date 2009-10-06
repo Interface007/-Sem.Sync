@@ -100,9 +100,6 @@
     <EmbeddedResource Include="UI\mainform.de-DE.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MainForm.de.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,10 +142,6 @@
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
       <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
       <Name>Sem.Sync.Connector.Outlook2003</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
-      <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
-      <Name>Sem.Sync.Connector.Outlook</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>

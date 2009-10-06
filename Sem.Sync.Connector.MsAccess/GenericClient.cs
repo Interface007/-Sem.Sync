@@ -11,9 +11,12 @@ namespace Sem.Sync.Connector.MsAccess
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using SyncBase;
     using SyncBase.Attributes;
+    using System.Data.OleDb;
+    using Sem.GenericHelpers;    
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.
@@ -47,7 +50,31 @@ namespace Sem.Sync.Connector.MsAccess
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            throw new NotImplementedException();
+            var description = new SourceDescription();
+
+            var mappings = description.Mappings;
+            var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath));
+            con.Open();
+            var cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM " + description.MainTable;
+            
+
+            var reader = cmd.ExecuteReader();
+            while(reader.Read())
+            {
+                var newContact = new StdContact();
+                foreach (var mappingItem in mappings)
+                {
+                    if (mappingItem.TableName == description.MainTable)
+                    {
+                        Tools.SetPropertyValue(newContact, mappingItem.PropertyPath, reader[mappingItem.FieldName].ToString());
+                    }
+                }
+
+                result.Add(newContact);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -59,7 +86,54 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            throw new NotImplementedException();
+            var description = new SourceDescription();
+
+            var mappings = description.Mappings;
+            var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath));
+            con.Open();
+
+            var pkName = (from x in mappings where x.IsPrimaryKey == true select x.FieldName).FirstOrDefault();
+            var insertColumns = (from x in mappings where x.IsAutoValue == false select x.FieldName);
+
+            var cmd = con.CreateCommand();
+            foreach (StdContact item in elements)
+            {
+                var id = item.PersonalProfileIdentifiers.MicrosoftAccessId;
+
+                var txt = string.Format(
+                    "SELECT Count(*) AS X FROM {0} WHERE ((({0}.[{2}])={1}));",
+                    description.MainTable,
+                    id,
+                    pkName);
+
+                cmd.CommandText = txt;
+                if (int.Parse(cmd.ExecuteScalar().ToString()) == 0)
+                {
+                    var values = (from x in mappings where x.IsAutoValue == false select Tools.GetPropertyValue(item, x.PropertyPath).ToString());
+
+                    cmd.CommandText = string.Format(
+                    "INSERT INTO {0} ({1}) VALUES ({2})",
+                    description.MainTable,
+                    "[" + insertColumns.ConcatElementsToString("],[") + "]",
+                    "'" + values.ConcatElementsToString("','") + "'");
+                }
+
+                mappings.Where(x => !x.IsAutoValue).ForEach( 
+                    mappingItem =>
+                    {
+
+                        cmd.CommandText = string.Format(
+                            "UPDATE {2} SET [{0}] = '{1}' WHERE {4} = {3}",
+                            mappingItem.FieldName,
+                            Tools.GetPropertyValue(item, mappingItem.PropertyPath),
+                            description.MainTable,
+                            id,
+                            pkName);
+
+                        cmd.ExecuteNonQuery();
+                    });
+            }
+            cmd.Dispose();
         }
     }
 }

@@ -53,7 +53,12 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Google Mail, Google Contacts, Google Calendar ...
         /// </summary>
-        Google
+        Google,
+
+        /// <summary>
+        /// Microsoft Access Database
+        /// </summary>
+        MicrosoftAccessId,
     }
 
     /// <summary>
@@ -82,6 +87,10 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     this.ActiveDirectoryId = profileId;
+                    break;
+
+                case ProfileIdentifierType.MicrosoftAccessId:
+                    this.MicrosoftAccessId = profileId;
                     break;
 
                 case ProfileIdentifierType.FacebookProfileId:
@@ -136,6 +145,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public string ActiveDirectoryId { get; set; }
 
         /// <summary>
+        /// Gets or sets a full qualified active directory user name (including the domain)
+        /// </summary>
+        public string MicrosoftAccessId { get; set; }
+
+        /// <summary>
         /// Gets or sets the url at the social network side Wer-Kennt-Wen.de
         /// </summary>
         public string WerKenntWenUrl { get; set; }
@@ -166,6 +180,9 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     return this.ActiveDirectoryId;
+
+                case ProfileIdentifierType.MicrosoftAccessId:
+                    return this.MicrosoftAccessId;
 
                 case ProfileIdentifierType.FacebookProfileId:
                     return this.FacebookProfileId;
@@ -201,6 +218,10 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     this.ActiveDirectoryId = newValue;
+                    break;
+
+                case ProfileIdentifierType.MicrosoftAccessId:
+                    this.MicrosoftAccessId = newValue;
                     break;
 
                 case ProfileIdentifierType.FacebookProfileId:
@@ -245,6 +266,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 ? false
                 : (!string.IsNullOrEmpty(this.XingProfileId) && this.XingProfileId == other.XingProfileId) ||
                   (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
+                  (!string.IsNullOrEmpty(this.MicrosoftAccessId) && this.MicrosoftAccessId == other.MicrosoftAccessId) ||
                   (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
                   (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
@@ -309,6 +331,7 @@ namespace Sem.Sync.SyncBase.DetailData
             var result = new StringBuilder();
             result.Append((this.FacebookProfileId ?? string.Empty) + " - ");
             result.Append((this.ActiveDirectoryId ?? string.Empty) + " - ");
+            result.Append((this.MicrosoftAccessId ?? string.Empty) + " - ");
             result.Append((this.WerKenntWenUrl ?? string.Empty) + " - ");
             result.Append((this.MeinVZPersonId ?? string.Empty) + " - ");
             result.Append((this.StayFriendsPersonId ?? string.Empty) + " - ");

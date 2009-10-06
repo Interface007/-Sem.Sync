@@ -19,6 +19,12 @@ namespace Sem.Sync.SyncBase.DetailData
     [Serializable]
     public class PhoneNumber
     {
+        static public implicit operator PhoneNumber(string phoneNumber)
+        {
+            return new PhoneNumber(phoneNumber);
+        }
+        
+
         /// <summary>
         /// stores the denormalized phone number
         /// </summary>

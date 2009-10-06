@@ -172,61 +172,21 @@
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
-      <Project>{11F37589-CA3B-4B92-B87C-9B48073E4546}</Project>
-      <Name>Sem.Sync.Connector.CloudStorage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj">
-      <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
-      <Name>Sem.Sync.Connector.Facebook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj">
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
       <Name>Sem.Sync.Connector.Filesystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
-      <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
-      <Name>Sem.Sync.Connector.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
-      <Project>{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}</Project>
-      <Name>Sem.Sync.Connector.LotusNotes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
-      <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
-      <Name>Sem.Sync.Connector.MeinVZ</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Memory\Sem.Sync.Connector.Memory.csproj">
       <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
       <Name>Sem.Sync.Connector.Memory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
-      <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
-      <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
-      <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
-      <Name>Sem.Sync.Connector.OnlineStorage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
       <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
       <Name>Sem.Sync.Connector.Outlook2003</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
-      <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
-      <Name>Sem.Sync.Connector.Outlook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>
       <Name>Sem.Sync.SharedUI.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
-      <Project>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</Project>
-      <Name>Sem.Sync.Connector.Statistic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj">
-      <Project>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</Project>
-      <Name>Sem.Sync.Connector.StayFriends</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
@@ -235,14 +195,6 @@
     <ProjectReference Include="..\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
       <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
       <Name>Sem.Sync.Test.DataGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.WerKenntWen\Sem.Sync.Connector.WerKenntWen.csproj">
-      <Project>{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}</Project>
-      <Name>Sem.Sync.Connector.WerKenntWen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj">
-      <Project>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</Project>
-      <Name>Sem.Sync.Connector.Xing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

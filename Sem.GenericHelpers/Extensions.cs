@@ -21,7 +21,7 @@ namespace Sem.GenericHelpers
         /// <param name="sourceValue">the list of source values in a list of strings</param>
         /// <param name="separator">the seperator to insert between the string items</param>
         /// <returns>one string containing all provided substrings seperated by the specified separator</returns>
-        public static string ConcatElementsToString(this List<string> sourceValue, string separator)
+        public static string ConcatElementsToString(this IEnumerable<string> sourceValue, string separator)
         {
             var result = new StringBuilder();
             var addSeparator = false;
