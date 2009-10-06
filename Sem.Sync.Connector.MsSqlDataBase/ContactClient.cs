@@ -10,7 +10,6 @@
 
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
-    using System;
     using System.Collections.Generic;
 
     using SyncBase;
@@ -60,14 +59,19 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            var mappings = new List<DataMapping>
+                {
+                    new DataMapping
+                        {
+                            ///PathToProperty = ""
+                        }
+                };
 
             using (var con = new System.Data.SqlClient.SqlConnection(clientFolderName))
             {
                 con.Open();
 
-                var cmd = con.CreateCommand();
-                cmd.CommandText = "CREATE DATABASE 'Address'";
-                cmd.ExecuteNonQuery();
+                
 
                 con.Close();
             }

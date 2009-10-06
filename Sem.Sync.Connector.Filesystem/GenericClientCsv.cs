@@ -176,10 +176,17 @@ namespace Sem.Sync.Connector.Filesystem
         /// <returns> the file name of the column definition file</returns>
         private static string GetColumnDefinitionFileName(string clientFolderName)
         {
-            return clientFolderName.Contains("\n") || clientFolderName.Contains("|")
+            var fileName = clientFolderName.Contains("\n") || clientFolderName.Contains("|")
                        ? clientFolderName.Split(
                              new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
                        : string.Empty;
+
+            if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
+            {
+                fileName = Path.Combine(Path.GetDirectoryName(GetFileName(clientFolderName)), fileName);
+            }
+
+            return fileName;
         }
 
         /// <summary>

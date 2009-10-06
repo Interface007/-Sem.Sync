@@ -116,12 +116,14 @@
     <Compile Include="ContactListContainer.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IStorage.cs" />
+    <Compile Include="MessageClassification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultBase.cs" />
     <Compile Include="Storage.svc.cs">
       <DependentUpon>Storage.svc</DependentUpon>
     </Compile>
     <Compile Include="TechnicalMessage.cs" />
+    <Compile Include="TechnicalMessageCodes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.Azure.Storage\Sem.Azure.Storage.csproj">

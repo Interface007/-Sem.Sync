@@ -11,12 +11,12 @@ namespace Sem.Sync.Connector.MsAccess
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.OleDb;
     using System.Linq;
 
-    using SyncBase;
-    using SyncBase.Attributes;
-    using System.Data.OleDb;
-    using Sem.GenericHelpers;    
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.
@@ -50,17 +50,17 @@ namespace Sem.Sync.Connector.MsAccess
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var description = new SourceDescription();
+            var description = Tools.LoadFromFile<SourceDescription>(clientFolderName);
 
             var mappings = description.Mappings;
             var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath));
             con.Open();
             var cmd = con.CreateCommand();
             cmd.CommandText = "SELECT * FROM " + description.MainTable;
-            
+
 
             var reader = cmd.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
                 var newContact = new StdContact();
                 foreach (var mappingItem in mappings)
@@ -86,54 +86,76 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var description = new SourceDescription();
+            var description = Tools.LoadFromFile<SourceDescription>(clientFolderName);
 
             var mappings = description.Mappings;
-            var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath));
-            con.Open();
+            var primaryKeyName = (from x in mappings where x.IsPrimaryKey select x.FieldName).FirstOrDefault();
+            var insertColumns = from x in mappings where !x.IsAutoValue select x.FieldName;
 
-            var pkName = (from x in mappings where x.IsPrimaryKey == true select x.FieldName).FirstOrDefault();
-            var insertColumns = (from x in mappings where x.IsAutoValue == false select x.FieldName);
-
-            var cmd = con.CreateCommand();
-            foreach (StdContact item in elements)
+            using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
             {
-                var id = item.PersonalProfileIdentifiers.MicrosoftAccessId;
+                con.Open();
 
-                var txt = string.Format(
-                    "SELECT Count(*) AS X FROM {0} WHERE ((({0}.[{2}])={1}));",
-                    description.MainTable,
-                    id,
-                    pkName);
-
-                cmd.CommandText = txt;
-                if (int.Parse(cmd.ExecuteScalar().ToString()) == 0)
+                using (var cmd = con.CreateCommand())
                 {
-                    var values = (from x in mappings where x.IsAutoValue == false select Tools.GetPropertyValue(item, x.PropertyPath).ToString());
-
-                    cmd.CommandText = string.Format(
-                    "INSERT INTO {0} ({1}) VALUES ({2})",
-                    description.MainTable,
-                    "[" + insertColumns.ConcatElementsToString("],[") + "]",
-                    "'" + values.ConcatElementsToString("','") + "'");
-                }
-
-                mappings.Where(x => !x.IsAutoValue).ForEach( 
-                    mappingItem =>
+                    foreach (StdContact item in elements)
                     {
+                        var currentItem = item;
+                        var id = currentItem.PersonalProfileIdentifiers.MicrosoftAccessId;
 
-                        cmd.CommandText = string.Format(
-                            "UPDATE {2} SET [{0}] = '{1}' WHERE {4} = {3}",
-                            mappingItem.FieldName,
-                            Tools.GetPropertyValue(item, mappingItem.PropertyPath),
+                        var txt = string.Format(
+                            "SELECT Count(*) AS X FROM {0} WHERE ((({0}.[{2}])={1}));",
                             description.MainTable,
                             id,
-                            pkName);
+                            primaryKeyName);
 
-                        cmd.ExecuteNonQuery();
-                    });
+                        cmd.CommandText = txt;
+                        if (int.Parse(cmd.ExecuteScalar().ToString()) == 0)
+                        {
+                            var values = from x in mappings
+                                         where x.IsAutoValue == false
+                                         select Tools.GetPropertyValue(currentItem, x.PropertyPath).ToString();
+
+                            cmd.CommandText = string.Format(
+                                "INSERT INTO {0} ({1}) VALUES ({2})",
+                                description.MainTable,
+                                "[" + insertColumns.ConcatElementsToString("],[") + "]",
+                                "'" + values.ConcatElementsToString("','") + "'");
+                        }
+
+                        mappings.Where(x => !x.IsAutoValue).ForEach(
+                            mappingItem =>
+                            {
+                                cmd.CommandText = string.Format(
+                                    "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}",
+                                    mappingItem.FieldName,
+                                    FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.PropertyPath), mappingItem),
+                                    description.MainTable,
+                                    id,
+                                    primaryKeyName);
+
+                                cmd.ExecuteNonQuery();
+                            });
+                    }
+                }
             }
-            cmd.Dispose();
+        }
+
+        private string FormatForDatabase(object p, Mapping mappingItem)
+        {
+            if (p == null)
+            {
+                return "NULL";
+            }
+
+            if (mappingItem.NullIfDefault && (p == p.GetType().GetConstructor(new Type[] { })))
+            {
+                return "NULL";
+            }
+
+            var returnValue = "'" + p + "'";
+
+            return returnValue;
         }
     }
 }

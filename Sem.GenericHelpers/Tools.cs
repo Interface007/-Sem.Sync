@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -485,6 +486,15 @@ namespace Sem.GenericHelpers
 
                         case "Guid":
                             propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
+                            break;
+
+                        case "String":
+                            propInfo.SetValue(objectToWriteTo, valueString, null);
+                            break;
+                    
+                        case "List`1":
+                            //var list = propType.GetConstructor(new Type[]()).Invoke(null);
+                            //propInfo.SetValue(objectToWriteTo, list, null);
                             break;
 
                         default:

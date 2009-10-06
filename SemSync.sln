@@ -123,8 +123,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Memory",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.OutlookWithXing", "Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj", "{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.SyncBase", "Sem.Sync.Test.SyncBase\Sem.Sync.Test.SyncBase.csproj", "{D20CFD68-ACD9-4BF3-8D32-B0D26CCC43EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsAccess", "Sem.Sync.Connector.MsAccess\Sem.Sync.Connector.MsAccess.csproj", "{D6AC1146-22A3-48D5-B12F-3B2FA4F87955}"
 EndProject
 Global
@@ -170,6 +168,7 @@ Global
 		SccProjectName9 = Sem.Sync.Documentation
 		SccLocalPath9 = Sem.Sync.Documentation
 		SccProjectUniqueName10 = Sem.Sync.OutlookWithXing.Setup\\Sem.Sync.OutlookWithXing.Setup.wixproj
+		SccProjectTopLevelParentUniqueName10 = SemSync.sln
 		SccProjectName10 = Sem.Sync.OutlookWithXing.Setup
 		SccLocalPath10 = Sem.Sync.OutlookWithXing.Setup
 		SccProjectUniqueName11 = Sem.Sync.ConsoleClient\\Sem.Sync.ConsoleClient.csproj

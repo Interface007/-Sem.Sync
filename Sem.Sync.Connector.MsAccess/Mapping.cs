@@ -1,5 +1,7 @@
 ﻿namespace Sem.Sync.Connector.MsAccess
 {
+    using System;
+
     public class Mapping
     {
         public string PropertyPath { get; set; }
@@ -9,5 +11,7 @@
 
         public bool IsPrimaryKey { get; set; }
         public bool IsAutoValue { get; set; }
+
+        public bool NullIfDefault { get; set; }
     }
 }
