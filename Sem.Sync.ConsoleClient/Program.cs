@@ -79,6 +79,7 @@ namespace Sem.Sync.ConsoleClient
 
 #if (DEBUG)
             // wait for user input if in debug build
+            Console.WriteLine("Finished - Press ENTER to close the window");
             Console.ReadLine();
 #endif
         }

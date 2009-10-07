@@ -54,9 +54,9 @@ namespace Sem.Sync.ConsoleClient
         {
             Console.WriteLine(messageForUser);
             
-            client.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain");
-            client.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name");
-            client.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password");
+            client.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain", false);
+            client.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name", false);
+            client.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password", true);
             
             return client.LogOnPassword.Length > 0;
         }
@@ -127,12 +127,24 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="defaultValue"> The default value of this information - the user will only be asked, if this value is an empty string. </param>
         /// <param name="message"> The messagedisplayed to the user. </param>
         /// <returns> The value entered by the user or the default value </returns>
-        private static string GetInfoWithDefault(string defaultValue, string message)
+        private static string GetInfoWithDefault(string defaultValue, string message, bool hideInput)
         {
             if (string.IsNullOrEmpty(defaultValue))
             {
                 Console.WriteLine(message);
+                
+                var foregroundColor = Console.ForegroundColor;
+                if (hideInput)
+                {
+                    Console.ForegroundColor = Console.BackgroundColor;
+                }
+
                 defaultValue = Console.ReadLine();
+
+                if (hideInput)
+                {
+                    Console.ForegroundColor = foregroundColor;
+                }
             }
 
             return defaultValue;

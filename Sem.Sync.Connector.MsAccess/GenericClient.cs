@@ -152,9 +152,14 @@ namespace Sem.Sync.Connector.MsAccess
 
         private string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping idMapping, StdContact contact)
         {
+            var value = FormatForDatabase(Tools.GetPropertyValue(contact, idMapping.PropertyPath), idMapping);
+            if (value == "NULL")
+            {
+                return null;
+            }
+
             using (var cmd = connection.CreateCommand())
             {
-                
                 var text = string.Format(
                    "SELECT [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));",
                    description.GetPrimaryKeyName(),
