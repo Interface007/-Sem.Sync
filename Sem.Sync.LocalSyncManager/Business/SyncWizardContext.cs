@@ -46,19 +46,19 @@ namespace Sem.Sync.LocalSyncManager.Business
     public class SyncWizardContext : INotifyPropertyChanged
     {
         /// <summary>
+        /// The file extension for data files.
+        /// </summary>
+        public const string SyncListDataFileExtension = ".DSyncList";
+
+        /// <summary>
         /// The working folder for data files (need to be writable).
         /// </summary>
-        private static readonly string WorkingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
+        public static readonly string WorkingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
 
         /// <summary>
         /// The working folder for template files.
         /// </summary>
         private static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
-
-        /// <summary>
-        /// The file extension for data files.
-        /// </summary>
-        private const string SyncListDataFileExtension = ".DSyncList";
 
         /// <summary>
         /// The file extension for template files.
@@ -216,13 +216,12 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <summary>
         /// Saves the current workflow data of this object into a file.
         /// </summary>
-        /// <param name="fileNameWithoutExtension"> The file name to save to without the file name extension. </param>
-        /// <param name="name"> The name to be saved into the file. </param>
-        public void SaveTo(string fileNameWithoutExtension, string name)
+        /// <param name="fileNameWithout">The file name to save. </param>
+        public void SaveTo(string fileNameWithout)
         {
-            if (fileNameWithoutExtension == "(new)")
+            if (fileNameWithout == "(new)")
             {
-                fileNameWithoutExtension = Tools.ReplaceInvalidFileCharacters(
+                fileNameWithout = Tools.ReplaceInvalidFileCharacters(
                     string.Format(
                             CultureInfo.CurrentCulture,
                             "from {0} to {1} ({2})",
@@ -233,13 +232,18 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             var workFlow = new SyncWorkFlow
                 {
-                    Name = name,
+                    Name = Path.GetFileNameWithoutExtension(fileNameWithout),
                     Source = this.Source,
                     Target = this.Target,
                     Template = this.CurrentSyncWorkflowTemplate
                 };
 
-            var fileName = Path.Combine(WorkingFolderData, fileNameWithoutExtension) + SyncListDataFileExtension;
+            var fileName = Path.Combine(WorkingFolderData, fileNameWithout);
+            if (!fileName.EndsWith(SyncListDataFileExtension, StringComparison.OrdinalIgnoreCase))
+            {
+                fileName = fileName + SyncListDataFileExtension;
+            }
+
             Tools.SaveToFile(
                 workFlow,
                 fileName,

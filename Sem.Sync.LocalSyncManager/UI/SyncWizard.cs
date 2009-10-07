@@ -66,7 +66,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             // setup the click handling
             this.btnCancel.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.cboWorkFlowData.Text, this.cboWorkFlowData.Text);
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile());
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
             
@@ -97,6 +97,19 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.DataContext.PropertyChanged += this.ReadFromContext;
             this.ReadFromContext(null, new PropertyChangedEventArgs(string.Empty));
+        }
+
+        private string AskForDestinationFile()
+        {
+            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.AddExtension = true;
+            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
+            if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                return this.saveFileDialog1.FileName;
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
