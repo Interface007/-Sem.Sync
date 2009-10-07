@@ -219,6 +219,11 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <param name="fileNameWithout">The file name to save. </param>
         public void SaveTo(string fileNameWithout)
         {
+            if (string.IsNullOrEmpty(fileNameWithout))
+            {
+                return;
+            }
+
             if (fileNameWithout == "(new)")
             {
                 fileNameWithout = Tools.ReplaceInvalidFileCharacters(

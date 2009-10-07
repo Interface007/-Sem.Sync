@@ -99,9 +99,14 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.ReadFromContext(null, new PropertyChangedEventArgs(string.Empty));
         }
 
+        /// <summary>
+        /// UI-Action to get a file path
+        /// </summary>
+        /// <returns>the user entered path to a file</returns>
         private string AskForDestinationFile()
         {
             this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
             if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
