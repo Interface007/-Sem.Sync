@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { @"C:\Users\matzensv\AppData\Roaming\SemSyncManager\Work\SyncLists\Outlook to CSV.DSyncList" };
+                args = new[] { @"..\SemSyncManager\Work\SyncLists\Outlook to CSV.DSyncList" };
             }
 #endif
 
@@ -45,32 +45,39 @@ namespace Sem.Sync.ConsoleClient
                 try
                 {
                     var filename = args[0];
-                    
-                    // load the list of commands
-                    Console.WriteLine("loading command list: {0}", filename);
-                    var syncCommands = SyncCollection.LoadSyncList(filename);
 
-                    var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
-                    Console.WriteLine("working folder: {0}", defaultBaseFolder);
+                    if (!File.Exists(filename))
+                    {
+                        Console.WriteLine("File not found: " + filename);
+                    }
+                    else
+                    {
+                        // load the list of commands
+                        Console.WriteLine("loading command list: {0}", filename);
+                        var syncCommands = SyncCollection.LoadSyncList(filename);
 
-                    // setup the sync engine
-                    var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
+                        var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
+                        Console.WriteLine("working folder: {0}", defaultBaseFolder);
 
-                    // feed dispatcher with credentials if specified by the command line
-                    ((UiDispatcher)engine.UiProvider).UserDomain = args.Length > 1 ? args[1] : string.Empty;
-                    ((UiDispatcher)engine.UiProvider).UserName = args.Length > 2 ? args[2] : string.Empty;
-                    ((UiDispatcher)engine.UiProvider).UserPassword = args.Length > 3 ? args[3] : string.Empty;
+                        // setup the sync engine
+                        var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
 
-                    // connect to events
-                    engine.ProcessingEvent += ProcessingEvent;
-                    engine.ProgressEvent += ProgressEvent;
-            
-                    // execute commands
-                    success = engine.Execute(syncCommands);
+                        // feed dispatcher with credentials if specified by the command line
+                        ((UiDispatcher)engine.UiProvider).UserDomain = args.Length > 1 ? args[1] : string.Empty;
+                        ((UiDispatcher)engine.UiProvider).UserName = args.Length > 2 ? args[2] : string.Empty;
+                        ((UiDispatcher)engine.UiProvider).UserPassword = args.Length > 3 ? args[3] : string.Empty;
 
-                    // disconnect from events
-                    engine.ProcessingEvent -= ProcessingEvent;
-                    engine.ProgressEvent -= ProgressEvent;
+                        // connect to events
+                        engine.ProcessingEvent += ProcessingEvent;
+                        engine.ProgressEvent += ProgressEvent;
+
+                        // execute commands
+                        success = engine.Execute(syncCommands);
+
+                        // disconnect from events
+                        engine.ProcessingEvent -= ProcessingEvent;
+                        engine.ProgressEvent -= ProgressEvent;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -100,7 +107,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the message to be logged. </param>
         private static void ProcessingEvent(object sender, ProcessingEventArgs e)
         {
-            Console.WriteLine(e.Message + " " + e.Item.NewIfNull()); 
+            Console.WriteLine(e.Message + " " + e.Item.NewIfNull());
         }
 
         /// <summary>
@@ -110,7 +117,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the percentageof work done. </param>
         private static void ProgressEvent(object sender, ProgressEventArgs e)
         {
-            Console.WriteLine("{0}% done...", e.PercentageDone); 
+            Console.WriteLine("{0}% done...", e.PercentageDone);
         }
     }
 }

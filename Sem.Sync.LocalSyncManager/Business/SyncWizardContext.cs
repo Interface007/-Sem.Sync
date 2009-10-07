@@ -35,7 +35,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
     using Tools;
 
-    using SyncWorkFlow = Entities.SyncWorkFlow;
+    using SyncWorkFlow = SyncBase.DetailData.SyncWorkFlow;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 

@@ -141,7 +141,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DetailData\ConnectorInformation.cs" />
-    <Compile Include="DetailData\SyncWorkFlow.cs" />
+    <Compile Include="DetailData\SyncWorkFlow.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />

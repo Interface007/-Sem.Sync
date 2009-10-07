@@ -92,7 +92,6 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="Entities\SyncWorkFlow.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">
