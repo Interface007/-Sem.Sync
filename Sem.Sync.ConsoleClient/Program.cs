@@ -12,8 +12,8 @@ namespace Sem.Sync.ConsoleClient
     using System;
     using System.IO;
     using System.Reflection;
-    using System.Xml.Serialization;
 
+    using GenericHelpers;
     using GenericHelpers.EventArgs;
 
     using SyncBase;
@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { "A Copy fromAccess.SyncList" };
+                args = new[] { @"C:\Users\matzensv\AppData\Roaming\SemSyncManager\Work\SyncLists\Outlook to CSV.DSyncList" };
             }
 #endif
 
@@ -44,22 +44,31 @@ namespace Sem.Sync.ConsoleClient
                 var success = false;
                 try
                 {
-                    Console.WriteLine("loading command list: {0}", args[0]);
-                    var syncCommands = LoadSyncList(args[0]);
+                    var filename = args[0];
+                    
+                    // load the list of commands
+                    Console.WriteLine("loading command list: {0}", filename);
+                    var syncCommands = SyncCollection.LoadSyncList(filename);
 
-                    var defaultBaseFolder =
-                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
-
+                    var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
                     Console.WriteLine("working folder: {0}", defaultBaseFolder);
 
+                    // setup the sync engine
                     var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
+
+                    // feed dispatcher with credentials if specified by the command line
                     ((UiDispatcher)engine.UiProvider).UserDomain = args.Length > 1 ? args[1] : string.Empty;
                     ((UiDispatcher)engine.UiProvider).UserName = args.Length > 2 ? args[2] : string.Empty;
                     ((UiDispatcher)engine.UiProvider).UserPassword = args.Length > 3 ? args[3] : string.Empty;
+
+                    // connect to events
                     engine.ProcessingEvent += ProcessingEvent;
                     engine.ProgressEvent += ProgressEvent;
             
+                    // execute commands
                     success = engine.Execute(syncCommands);
+
+                    // disconnect from events
                     engine.ProcessingEvent -= ProcessingEvent;
                     engine.ProgressEvent -= ProgressEvent;
                 }
@@ -91,7 +100,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the message to be logged. </param>
         private static void ProcessingEvent(object sender, ProcessingEventArgs e)
         {
-            Console.WriteLine(e.Message); 
+            Console.WriteLine(e.Message + " " + e.Item.NewIfNull()); 
         }
 
         /// <summary>
@@ -102,20 +111,6 @@ namespace Sem.Sync.ConsoleClient
         private static void ProgressEvent(object sender, ProgressEventArgs e)
         {
             Console.WriteLine("{0}% done...", e.PercentageDone); 
-        }
-
-        /// <summary>
-        /// Loads the list of serialized commands.
-        /// </summary>
-        /// <param name="pathToFile"> The path to the file to be read. </param>
-        /// <returns>the deserialized list of sync commands.</returns>
-        private static SyncCollection LoadSyncList(string pathToFile)
-        {
-            var formatter = new XmlSerializer(typeof(SyncCollection));
-            using (var file = new FileStream(pathToFile, FileMode.Open))
-            {
-                return (SyncCollection)formatter.Deserialize(file);
-            }
         }
     }
 }

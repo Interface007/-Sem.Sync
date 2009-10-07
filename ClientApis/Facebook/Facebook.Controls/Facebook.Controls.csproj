@@ -199,7 +199,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Facebook\Facebook.csproj">
       <Project>{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}</Project>
-      <Name>Facebook %28ClientApis\Facebook\Facebook%29</Name>
+      <Name>Facebook %28Api\Facebook\Facebook%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

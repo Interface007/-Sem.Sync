@@ -12,13 +12,13 @@ namespace Sem.Sync.Connector.MsAccess
     using System;
     using System.Collections.Generic;
     using System.Data.OleDb;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
 
     using GenericHelpers;
     using SyncBase;
     using SyncBase.Attributes;
-    using System.Globalization;
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.
@@ -120,7 +120,7 @@ namespace Sem.Sync.Connector.MsAccess
                     foreach (StdContact item in elements)
                     {
                         var currentItem = item;
-                        var id = (from l in lookupColumns select this.GetPrimaryKeyForEntity(con, description, l, currentItem)).Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
+                        var id = (from l in lookupColumns select GetPrimaryKeyForEntity(con, description, l, currentItem)).Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
 
                         if (string.IsNullOrEmpty(id))
                         {
@@ -162,9 +162,17 @@ namespace Sem.Sync.Connector.MsAccess
             }
         }
 
-        private string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping idMapping, StdContact contact)
+        /// <summary>
+        /// Performs a lookup for the PK value of a given entity by querying the table using a specific field mapping
+        /// </summary>
+        /// <param name="connection"> The database connection to the microsoft access database file. </param>
+        /// <param name="description"> The source description including the table name to be used. </param>
+        /// <param name="fieldMapping"> The field mapping. </param>
+        /// <param name="contact"> The contact for find. </param>
+        /// <returns> the primary key value of the entity or null if not in database </returns>
+        private static string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping fieldMapping, StdContact contact)
         {
-            var value = FormatForDatabase(Tools.GetPropertyValue(contact, idMapping.PropertyPath), idMapping);
+            var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.PropertyPath), fieldMapping);
             if (value == "NULL")
             {
                 return null;
@@ -176,8 +184,8 @@ namespace Sem.Sync.Connector.MsAccess
                    "SELECT [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));",
                    description.GetPrimaryKeyName(),
                    description.MainTable,
-                   idMapping.FieldName,
-                   FormatForDatabase(Tools.GetPropertyValue(contact, idMapping.PropertyPath), idMapping));
+                   fieldMapping.FieldName,
+                   FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.PropertyPath), fieldMapping));
 
                 cmd.CommandText = text;
                 var result = cmd.ExecuteScalar();

@@ -19,8 +19,6 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.Linq;
     using System.Reflection;
 
-    using Entities;
-
     using GenericHelpers;
     using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
@@ -36,6 +34,8 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.Interfaces;
 
     using Tools;
+
+    using SyncWorkFlow = Entities.SyncWorkFlow;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 
@@ -438,7 +438,7 @@ namespace Sem.Sync.LocalSyncManager.Business
         }
 
         /// <summary>
-        /// replecaes some internal token to insert the workflow data into a workflow template.
+        /// replaces some internal token to insert the workflow data into a workflow template.a
         /// </summary>
         /// <param name="value"> The value that may contain tokens. </param>
         /// <returns> The value with replaced tokens. </returns>

@@ -14,6 +14,10 @@ namespace Sem.Sync.SyncBase.Binding
     using System.IO;
     using System.Xml.Serialization;
 
+    using DetailData;
+
+    using GenericHelpers;
+
     /// <summary>
     /// implements a binding list for the SyncDescription class
     /// </summary>
@@ -26,14 +30,41 @@ namespace Sem.Sync.SyncBase.Binding
         /// <returns>a SyncCollection loaded from the disk</returns>
         public static SyncCollection LoadSyncList(string pathToFile)
         {
-            SyncCollection returnValue;
-            var formatter = new XmlSerializer(typeof(SyncCollection));
-            using (var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
+            if (Path.GetExtension(pathToFile).ToUpperInvariant() == ".DSYNCLIST")
             {
-                returnValue = (SyncCollection)formatter.Deserialize(file);
+                var workFlow = Tools.LoadFromFile<SyncWorkFlow>(pathToFile);
+
+                var commands = LoadSyncList(workFlow.Template);
+
+                if (commands == null)
+                {
+                    return null;
+                }
+
+                foreach (var command in commands)
+                {
+                    command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{source}") ? workFlow.Source.LogonCredentials : command.SourceCredentials;
+                    command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{target}") ? workFlow.Target.LogonCredentials : command.SourceCredentials;
+                    command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{source}") ? workFlow.Source.LogonCredentials : command.TargetCredentials;
+                    command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{target}") ? workFlow.Target.LogonCredentials : command.TargetCredentials;
+
+                    command.SourceConnector = workFlow.ReplaceToken(command.SourceConnector);
+                    command.TargetConnector = workFlow.ReplaceToken(command.TargetConnector);
+                    command.SourceStorePath = workFlow.ReplaceToken(command.SourceStorePath);
+                    command.TargetStorePath = workFlow.ReplaceToken(command.TargetStorePath);
+                    command.CommandParameter = workFlow.ReplaceToken(command.CommandParameter);
+                }
+
+                return commands;
             }
 
-            return returnValue;
+            using (var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
+            {
+                var formatter = new XmlSerializer(typeof(SyncCollection));
+                var result = (SyncCollection)formatter.Deserialize(file);
+
+                return result;
+            }
         }
 
         /// <summary>
