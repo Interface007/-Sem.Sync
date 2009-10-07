@@ -222,7 +222,7 @@ namespace Sem.Sync.Connector.MsAccess
 
             if (mappingItem.TransformationToDatabase != null)
             {
-                returnValue = mappingItem.TransformationToDatabase.Compile()(mappingItem, returnValue);
+                returnValue = mappingItem.TransformationToDatabase.Compile()(mappingItem, toBeFormatted);
             }
 
             return returnValue;

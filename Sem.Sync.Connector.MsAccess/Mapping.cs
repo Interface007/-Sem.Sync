@@ -30,7 +30,7 @@
         [XmlIgnore]
         public Expression<Func<Mapping, object, object>> TransformationFromDatabase { get; set; }
 
-        public string TransformationToDatabaseSyntax
+        public XElement TransformationToDatabaseSyntax
         {
             get
             {
@@ -40,21 +40,21 @@
                 }
 
                 XElement addXml = this._serializer.Serialize(this.TransformationToDatabase);
-                return addXml.ToString();
+                return addXml;
             }
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (value == null)
                 {
                     return;
                 }
 
-                XElement addXml = XElement.Parse(value);
+                XElement addXml = value;
                 this.TransformationToDatabase = this._serializer.Deserialize<Func<Mapping, object, string>>(addXml);
             }
         }
 
-        public string TransformationFromDatabaseSyntax
+        public XElement TransformationFromDatabaseSyntax
         {
             get
             {
@@ -64,16 +64,16 @@
                 }
 
                 XElement addXml = this._serializer.Serialize(this.TransformationFromDatabase);
-                return addXml.ToString();
+                return addXml;
             }
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (value == null)
                 {
                     return;
                 }
 
-                XElement addXml = XElement.Parse(value);
+                XElement addXml = value;
                 this.TransformationFromDatabase = this._serializer.Deserialize<Func<Mapping, object, object>>(addXml);
             }
         }
