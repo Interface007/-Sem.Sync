@@ -18,17 +18,16 @@ namespace Sem.Sync.Connector.MsAccess
     using GenericHelpers;
     using SyncBase;
     using SyncBase.Attributes;
-    using System.Globalization;
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.
     /// By adding a <see cref="ConnectorDescriptionAttribute"/> with CanRead = false and CanWrite = false
     /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
     /// </summary>
-    [ConnectorDescription(DisplayName = "MicrosoftAcess-Client",
+    [ConnectorDescription(DisplayName = "Data Entity Framework Client",
         CanReadContacts = true,
         CanWriteContacts = true)]
-    public class GenericClient : StdClient
+    public class EFClient : StdClient
     {
         /// <summary>
         /// Gets the user readable name of the client implementation. This name should
@@ -38,7 +37,7 @@ namespace Sem.Sync.Connector.MsAccess
         {
             get
             {
-                return "Microsoft Access Generic Connector";
+                return "Data Entity Framework Connector";
             }
         }
 
@@ -52,7 +51,7 @@ namespace Sem.Sync.Connector.MsAccess
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var description = GetDescription(clientFolderName);
+            var description = this.GetDescription(clientFolderName);
 
             var mappings = description.Mappings;
             using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
@@ -92,11 +91,10 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var description = GetDescription(clientFolderName);
+            var description = this.GetDescription(clientFolderName);
 
             var mappings = description.Mappings;
-            var primaryKeyName = description.GetPrimaryKeyName();
-            var lookupColumns = from x in mappings where x.IsLookupValue || x.IsPrimaryKey select x;
+            var primaryKeyName = (from x in mappings where x.IsPrimaryKey select x.FieldName).FirstOrDefault();
             var insertColumns = from x in mappings where !x.IsAutoValue select x.FieldName;
 
             using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
@@ -108,28 +106,26 @@ namespace Sem.Sync.Connector.MsAccess
                     foreach (StdContact item in elements)
                     {
                         var currentItem = item;
-                        var id = (from l in lookupColumns select this.GetPrimaryKeyForEntity(con, description, l, currentItem)).Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
+                        var id = currentItem.PersonalProfileIdentifiers.MicrosoftAccessId;
 
-                        if (string.IsNullOrEmpty(id))
+                        var txt = string.Format(
+                            "SELECT Count(*) AS X FROM {0} WHERE ((({0}.[{2}])={1}));",
+                            description.MainTable,
+                            id,
+                            primaryKeyName);
+
+                        cmd.CommandText = txt;
+                        if (int.Parse(cmd.ExecuteScalar().ToString()) == 0)
                         {
                             var values = from x in mappings
                                          where x.IsAutoValue == false
-                                         select FormatForDatabase(Tools.GetPropertyValue(currentItem, x.PropertyPath), x);
+                                         select Tools.GetPropertyValue(currentItem, x.PropertyPath).ToString();
 
                             cmd.CommandText = string.Format(
                                 "INSERT INTO {0} ({1}) VALUES ({2})",
                                 description.MainTable,
                                 "[" + insertColumns.ConcatElementsToString("],[") + "]",
-                                values.ConcatElementsToString(","));
-                            try
-                            {
-                                cmd.ExecuteNonQuery();
-                                continue;
-                            }
-                            catch (OleDbException ex)
-                            {
-                                this.LogProcessingEvent(currentItem, "error writing element: " + ex.Message);
-                            }
+                                "'" + values.ConcatElementsToString("','") + "'");
                         }
 
                         mappings.Where(x => !x.IsAutoValue).ForEach(
@@ -150,58 +146,34 @@ namespace Sem.Sync.Connector.MsAccess
             }
         }
 
-        private string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping idMapping, StdContact contact)
-        {
-            using (var cmd = connection.CreateCommand())
-            {
-                
-                var text = string.Format(
-                   "SELECT [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));",
-                   description.GetPrimaryKeyName(),
-                   description.MainTable,
-                   idMapping.FieldName,
-                   FormatForDatabase(Tools.GetPropertyValue(contact, idMapping.PropertyPath), idMapping));
-
-                cmd.CommandText = text;
-                var result = cmd.ExecuteScalar();
-                return (result ?? string.Empty).ToString();
-            }
-        }
-
         /// <summary>
         /// Read mapping description from file - create a sample file if it does not exist
         /// </summary>
         /// <param name="clientFolderName"> The file that does contain the database mapping description </param>
         /// <returns> a deserialized mapping description </returns>
-        private static SourceDescription GetDescription(string clientFolderName)
+        private SourceDescription GetDescription(string clientFolderName)
         {
             if (!File.Exists(clientFolderName))
             {
-                Tools.SaveToFile(SourceDescription.GetDefaultSourceDescription(), clientFolderName);
+                Tools.SaveToFile(new SourceDescription(), clientFolderName);
             }
 
             return Tools.LoadFromFile<SourceDescription>(clientFolderName);
         }
 
-        /// <summary>
-        /// Formats an object for database operations to SQL synthax
-        /// </summary>
-        /// <param name="toBeFormatted"> The object to be formatted. </param>
-        /// <param name="mappingItem"> The mapping item for this object. </param>
-        /// <returns> A SQL formatted object. </returns>
-        private static string FormatForDatabase(object toBeFormatted, Mapping mappingItem)
+        private string FormatForDatabase(object p, Mapping mappingItem)
         {
-            if (toBeFormatted == null)
+            if (p == null)
             {
                 return "NULL";
             }
 
-            if (mappingItem.NullIfDefault && (toBeFormatted == toBeFormatted.GetType().GetConstructor(new Type[] { })))
+            if (mappingItem.NullIfDefault && (p == p.GetType().GetConstructor(new Type[] { })))
             {
                 return "NULL";
             }
 
-            var returnValue = mappingItem.IsNumericValue ? string.Format(CultureInfo.InvariantCulture, "{0}", toBeFormatted) : "'" + toBeFormatted.ToString().Replace("'", "''") + "'";
+            var returnValue = "'" + p + "'";
 
             return returnValue;
         }

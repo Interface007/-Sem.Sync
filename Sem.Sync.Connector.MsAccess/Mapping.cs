@@ -9,6 +9,8 @@
 
         public bool IsPrimaryKey { get; set; }
         public bool IsAutoValue { get; set; }
+        public bool IsLookupValue { get; set; }
+        public bool IsNumericValue { get; set; }
 
         public bool NullIfDefault { get; set; }
     }
