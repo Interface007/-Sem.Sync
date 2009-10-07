@@ -68,11 +68,23 @@ namespace Sem.Sync.Connector.MsAccess
                         var newContact = new StdContact();
                         foreach (var mappingItem in mappings)
                         {
-                            if (string.IsNullOrEmpty(mappingItem.TableName) || mappingItem.TableName == description.MainTable)
+                            if (!string.IsNullOrEmpty(mappingItem.TableName) &&
+                                mappingItem.TableName != description.MainTable)
                             {
-                                Tools.SetPropertyValue(
-                                    newContact, mappingItem.PropertyPath, reader[mappingItem.FieldName].ToString());
+                                continue;
                             }
+
+                            var value = reader[mappingItem.FieldName].ToString();
+
+                            if (mappingItem.TransformationFromDatabase != null)
+                            {
+                                value = mappingItem.TransformationFromDatabase.Compile()(mappingItem, value).ToString();
+                            }
+
+                            Tools.SetPropertyValue(
+                                newContact, 
+                                mappingItem.PropertyPath, 
+                                value);
                         }
 
                         result.Add(newContact);
@@ -207,6 +219,11 @@ namespace Sem.Sync.Connector.MsAccess
             }
 
             var returnValue = mappingItem.IsNumericValue ? string.Format(CultureInfo.InvariantCulture, "{0}", toBeFormatted) : "'" + toBeFormatted.ToString().Replace("'", "''") + "'";
+
+            if (mappingItem.TransformationToDatabase != null)
+            {
+                returnValue = mappingItem.TransformationToDatabase.Compile()(mappingItem, returnValue);
+            }
 
             return returnValue;
         }

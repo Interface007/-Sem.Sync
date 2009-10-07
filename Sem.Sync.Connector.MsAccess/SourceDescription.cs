@@ -5,6 +5,8 @@
     using System.IO;
     using System.Linq;
 
+    using SyncBase.DetailData;
+
     public class SourceDescription
     {
         public string DatabasePath { get; set; }
@@ -44,7 +46,22 @@
                                         FieldName = "Telefonnummer",
                                     },
                                 new Mapping { PropertyPath = "BusinessEmailPrimary", FieldName = "Mailadresse" },
-                                new Mapping { PropertyPath = "BusinessAddressPrimary.Room", FieldName = "Raum_local" }
+                                new Mapping { PropertyPath = "BusinessAddressPrimary.Room", FieldName = "Raum_local" },
+                                new Mapping
+                                    {
+                                        PropertyPath = "PersonGender", 
+                                        FieldName = "Geschlecht",
+                                        TransformationToDatabase = 
+                                        (mapping, value) => 
+                                            ((Gender)value) == Gender.Male 
+                                            ? "'m'" 
+                                            : ((Gender)value) == Gender.Female ? "'f'" : "NULL",
+                                        TransformationFromDatabase = 
+                                        (mapping, value) => 
+                                            ((string)value) == "m" 
+                                            ? Gender.Male 
+                                            : ((string)value) == "f" ? Gender.Female : Gender.Unspecified,
+                                    },
                             }
                 };
 
