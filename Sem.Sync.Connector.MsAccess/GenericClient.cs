@@ -68,23 +68,30 @@ namespace Sem.Sync.Connector.MsAccess
                         var newContact = new StdContact();
                         foreach (var mappingItem in mappings)
                         {
-                            if (!string.IsNullOrEmpty(mappingItem.TableName) &&
-                                mappingItem.TableName != description.MainTable)
+                            try
                             {
-                                continue;
+                                if (!string.IsNullOrEmpty(mappingItem.TableName) &&
+                                    mappingItem.TableName != description.MainTable)
+                                {
+                                    continue;
+                                }
+
+                                var value = reader[mappingItem.FieldName].ToString();
+
+                                if (mappingItem.TransformationFromDatabase != null)
+                                {
+                                    value = mappingItem.TransformationFromDatabase.Compile()(mappingItem, value).ToString();
+                                }
+
+                                Tools.SetPropertyValue(
+                                    newContact,
+                                    mappingItem.PropertyPath,
+                                    value);
                             }
-
-                            var value = reader[mappingItem.FieldName].ToString();
-
-                            if (mappingItem.TransformationFromDatabase != null)
+                            catch (Exception ex)
                             {
-                                value = mappingItem.TransformationFromDatabase.Compile()(mappingItem, value).ToString();
+                                this.LogProcessingEvent(ex.Message);
                             }
-
-                            Tools.SetPropertyValue(
-                                newContact, 
-                                mappingItem.PropertyPath, 
-                                value);
                         }
 
                         result.Add(newContact);
@@ -109,54 +116,47 @@ namespace Sem.Sync.Connector.MsAccess
             var mappings = description.Mappings;
             var primaryKeyName = description.GetPrimaryKeyName();
             var lookupColumns = from x in mappings where x.IsLookupValue || x.IsPrimaryKey select x;
-            var insertColumns = from x in mappings where !x.IsAutoValue select x.FieldName;
 
             using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
             {
                 con.Open();
 
-                using (var cmd = con.CreateCommand())
+                foreach (StdContact item in elements)
                 {
-                    foreach (StdContact item in elements)
+                    try
                     {
                         var currentItem = item;
-                        var id = (from l in lookupColumns select GetPrimaryKeyForEntity(con, description, l, currentItem)).Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
+                        var id = (from l in lookupColumns 
+                                  select GetPrimaryKeyForEntity(con, description, l, currentItem))
+                                  .Where(x => !string.IsNullOrEmpty(x))
+                                  .FirstOrDefault();
 
                         if (string.IsNullOrEmpty(id))
                         {
-                            var values = from x in mappings
-                                         where x.IsAutoValue == false
-                                         select FormatForDatabase(Tools.GetPropertyValue(currentItem, x.PropertyPath), x);
-
-                            cmd.CommandText = string.Format(
-                                "INSERT INTO {0} ({1}) VALUES ({2})",
-                                description.MainTable,
-                                "[" + insertColumns.ConcatElementsToString("],[") + "]",
-                                values.ConcatElementsToString(","));
-                            try
-                            {
-                                cmd.ExecuteNonQuery();
-                                continue;
-                            }
-                            catch (OleDbException ex)
-                            {
-                                this.LogProcessingEvent(currentItem, "error writing element: " + ex.Message);
-                            }
+                            this.InsertNewItemToDatabase(con, description, currentItem);
+                            continue;
                         }
 
                         mappings.Where(x => !x.IsAutoValue).ForEach(
                             mappingItem =>
                             {
-                                cmd.CommandText = string.Format(
-                                    "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}",
-                                    mappingItem.FieldName,
-                                    FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.PropertyPath), mappingItem),
-                                    description.MainTable,
-                                    id,
-                                    primaryKeyName);
+                                using (var cmd = con.CreateCommand())
+                                {
+                                    cmd.CommandText = string.Format(
+                                        "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}",
+                                        mappingItem.FieldName,
+                                        FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.PropertyPath), mappingItem),
+                                        description.MainTable,
+                                        id,
+                                        primaryKeyName);
 
-                                cmd.ExecuteNonQuery();
+                                    cmd.ExecuteNonQuery();
+                                }
                             });
+                    }
+                    catch (Exception ex)
+                    {
+                        this.LogProcessingEvent(item, ex.Message);
                     }
                 }
             }
@@ -234,6 +234,38 @@ namespace Sem.Sync.Connector.MsAccess
             }
 
             return returnValue;
+        }
+
+        /// <summary>
+        /// Inserts a new item into the database
+        /// </summary>
+        /// <param name="con"> The database connection. </param>
+        /// <param name="description"> The source description. </param>
+        /// <param name="currentItem"> The item to be inserted. </param>
+        private void InsertNewItemToDatabase(OleDbConnection con, SourceDescription description, StdContact currentItem)
+        {
+            var insertColumns = from x in description.Mappings where !x.IsAutoValue select x.FieldName;
+
+            var values = from x in description.Mappings
+                         where x.IsAutoValue == false
+                         select FormatForDatabase(Tools.GetPropertyValue(currentItem, x.PropertyPath), x);
+
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = string.Format(
+                    "INSERT INTO {0} ({1}) VALUES ({2})",
+                    description.MainTable,
+                    "[" + insertColumns.ConcatElementsToString("],[") + "]",
+                    values.ConcatElementsToString(","));
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (OleDbException ex)
+                {
+                    this.LogProcessingEvent(currentItem, "error writing element: " + ex.Message);
+                }
+            }
         }
     }
 }

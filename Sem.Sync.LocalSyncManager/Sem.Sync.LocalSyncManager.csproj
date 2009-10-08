@@ -163,10 +163,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContactViewer\ContactViewer.csproj">
-      <Project>{AF01B376-4A94-4A1E-A469-E4DCC30811F9}</Project>
-      <Name>ContactViewer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>

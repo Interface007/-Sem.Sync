@@ -47,6 +47,11 @@ namespace Sem.Sync.SyncBase.Attributes
         public bool NeedsCredentials { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the connector should be hidden from the user interface.
+        /// </summary>
+        public bool Internal { get; set; }
+
+        /// <summary>
         /// Gets or sets the display name for gui implementations.
         /// </summary>
         public string DisplayName { get; set; }

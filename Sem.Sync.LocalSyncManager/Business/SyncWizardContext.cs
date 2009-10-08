@@ -370,7 +370,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                         ? (attribute.DisplayName ?? fullName) + " of StdContact"
                         : attribute.DisplayName ?? fullName;
 
-                    if (attribute.CanReadContacts || attribute.CanWriteContacts)
+                    if (!attribute.Internal && (attribute.CanReadContacts || attribute.CanWriteContacts))
                     {
                         yield return
                             new Triple<string, string, int>

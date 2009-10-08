@@ -21,8 +21,9 @@ namespace Sem.Sync.Connector.Memory
     /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
     /// </summary>
     [ConnectorDescription(DisplayName = "Generic-Memory-Client",
-        CanReadContacts = false,
-        CanWriteContacts = false)]
+        CanReadContacts = true,
+        CanWriteContacts = true,
+        Internal = true)]
     public class GenericClient : StdClient
     {
         /// <summary>

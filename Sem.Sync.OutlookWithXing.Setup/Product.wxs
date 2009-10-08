@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Sample Client for Xing to Outlook synchronization"
            Manufacturer="Sven Erik Matzen"
-           Id="{30599CB7-E906-4631-8045-124A3E3C0128}"
+           Id="{52E811A5-8FFE-4f1e-A32A-9B6C5953576D}"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
            Language="1033" Version="1.0.0.0" >
 
@@ -77,7 +77,6 @@
                               Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
                               Type='string' Value='true' />
               
-              <File Id='Sem.Sync.HelpFile'                    Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' />
               <File Id='Sem.Sync.MappingXls'                  Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
               <File Id='Sem.Sync.Description'                 Name='SemSync.docx'               Source='..\SemSync.docx' />
             </Component>
