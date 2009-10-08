@@ -163,6 +163,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContactViewer\ContactViewer.csproj">
+      <Project>{AF01B376-4A94-4A1E-A469-E4DCC30811F9}</Project>
+      <Name>ContactViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
@@ -170,10 +174,6 @@
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
-      <Project>{11F37589-CA3B-4B92-B87C-9B48073E4546}</Project>
-      <Name>Sem.Sync.Connector.CloudStorage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj">
       <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
@@ -187,10 +187,6 @@
       <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
       <Name>Sem.Sync.Connector.Google</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
-      <Project>{BA85E4F7-B3B4-4537-B4B5-F642D3E0A191}</Project>
-      <Name>Sem.Sync.Connector.LotusNotes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
       <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
       <Name>Sem.Sync.Connector.MeinVZ</Name>
@@ -199,9 +195,9 @@
       <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
       <Name>Sem.Sync.Connector.Memory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
-      <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
-      <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsAccess\Sem.Sync.Connector.MsAccess.csproj">
+      <Project>{D6AC1146-22A3-48D5-B12F-3B2FA4F87955}</Project>
+      <Name>Sem.Sync.Connector.MsAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>

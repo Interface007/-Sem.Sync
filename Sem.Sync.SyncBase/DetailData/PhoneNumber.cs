@@ -19,16 +19,20 @@ namespace Sem.Sync.SyncBase.DetailData
     [Serializable]
     public class PhoneNumber
     {
-        static public implicit operator PhoneNumber(string phoneNumber)
-        {
-            return new PhoneNumber(phoneNumber);
-        }
-        
-
         /// <summary>
         /// stores the denormalized phone number
         /// </summary>
         private string denormalizedPhoneNumber = string.Empty;
+
+        /// <summary>
+        /// converts a string to a PhoneNumber instance
+        /// </summary>
+        /// <param name="phoneNumber">The phone number as a string.</param>
+        /// <returns>a phone number instance</returns>
+        public static implicit operator PhoneNumber(string phoneNumber)
+        {
+            return new PhoneNumber(phoneNumber);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PhoneNumber"/> class without any pre-initialized values

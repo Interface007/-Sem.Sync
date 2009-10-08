@@ -55,25 +55,28 @@
 
             <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary"                     Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
-              <RegistryValue
-                        Id='HelperLibrarySettings' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
-                        Type='string' Value='true' />
+              
+              <RegistryValue  Id='HelperLibrarySettings' KeyPath='yes' Action='write'
+                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
+                              Type='string' Value='true' />
+              
               <File Id='Sem.Sync.SyncBase'                    Name='Sem.Sync.SyncBase.dll'                />
               <File Id='Sem.Sync.SharedUI.WinForms'           Name='Sem.Sync.SharedUI.WinForms.dll'       />
-              <File Id='Sem.Sync.Connector.Outlook'           Name='Sem.Sync.Connector.Outlook.dll'        />
-              <File Id='Sem.Sync.Connector.Outlook2003'       Name='Sem.Sync.Connector.Outlook2003.dll'    />
-              <File Id='Sem.Sync.Connector.Xing'              Name='Sem.Sync.Connector.Xing.dll'           />
-              <File Id='Sem.Sync.Connector.Filesystem'        Name='Sem.Sync.Connector.Filesystem.dll'     />
+              <File Id='Sem.Sync.Connector.Filesystem'        Name='Sem.Sync.Connector.Filesystem.dll'    />
+              <File Id='Sem.Sync.Connector.Outlook'           Name='Sem.Sync.Connector.Outlook.dll'       />
+              <File Id='Sem.Sync.Connector.Outlook2003'       Name='Sem.Sync.Connector.Outlook2003.dll'   />
+              <File Id='Sem.Sync.Connector.Xing'              Name='Sem.Sync.Connector.Xing.dll'          />
               <File Id='Sem.GenericHelpers'                   Name='Sem.GenericHelpers.dll'               />
+              
             </Component>
 
             <!-- the help files are optional -->
             <Component Id="Documentation"                     Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
-              <RegistryValue
-                        Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
-                        Type='string' Value='true' />
+              
+              <RegistryValue  Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
+                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
+                              Type='string' Value='true' />
+              
               <File Id='Sem.Sync.HelpFile'                    Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' />
               <File Id='Sem.Sync.MappingXls'                  Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
               <File Id='Sem.Sync.Description'                 Name='SemSync.docx'               Source='..\SemSync.docx' />
