@@ -10,7 +10,6 @@
 namespace Sem.GenericHelpers.Entities
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Security.Cryptography;
     using System.Text;
     using System.Xml.Serialization;
@@ -25,18 +24,20 @@ namespace Sem.GenericHelpers.Entities
     public class Credentials : ICredentialAware
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Credentials"/> class.
+        /// Initializes static members of the <see cref="Credentials"/> class. 
         /// </summary>
-        public Credentials()
+        static Credentials()
         {
-            this.Entropy = Encoding.UTF8.GetBytes("Sem.Sync");
+            Credentials.Entropy = Encoding.UTF8.GetBytes("Sem.Sync");
         }
 
         /// <summary>
         /// Gets or sets some entropy to not share the encryption with other local programs.
+        /// This is not serialized when using the XmlSerializer, so it needs to be known by the 
+        /// process ("Sem.Sync" is the standard value for the entropy).
         /// </summary>
         [XmlIgnore]
-        public byte[] Entropy { get; set; }
+        public static byte[] Entropy { get; set; }
 
         /// <summary>
         /// Gets or sets an identifier that groups user names in one authentication system. In windows
@@ -69,7 +70,7 @@ namespace Sem.GenericHelpers.Entities
                 if (this.LogOnPassword != null)
                 {
                     var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
-                    protectedString = ProtectedData.Protect(bytes, this.Entropy, DataProtectionScope.CurrentUser);
+                    protectedString = ProtectedData.Protect(bytes, Credentials.Entropy, DataProtectionScope.CurrentUser);
                 }
 
                 return protectedString;
@@ -77,7 +78,7 @@ namespace Sem.GenericHelpers.Entities
 
             set
             {
-                var unprotectedString = ProtectedData.Unprotect(value, this.Entropy, DataProtectionScope.CurrentUser);
+                var unprotectedString = ProtectedData.Unprotect(value, Credentials.Entropy, DataProtectionScope.CurrentUser);
                 var dataString = Encoding.UTF8.GetString(unprotectedString);
                 this.LogOnPassword = dataString;
             }

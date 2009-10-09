@@ -21,7 +21,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// base url for the version check
         /// </summary>
-        private const string VersionBaseUrl = "http://svenerikmatzen.info";
+        private const string VersionBaseUrl = "http://www.svenerikmatzen.info";
 
         /// <summary>
         /// location of the version file relative to the base url
@@ -133,6 +133,20 @@ namespace Sem.GenericHelpers
                 // catch simply all - if there's a problem, we will check next time
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Creates a string version number
+        /// </summary>
+        /// <returns> a string representing the version number </returns>
+        public override string ToString()
+        {
+            return 
+                this.Major + "." +
+                this.Minor + "." +
+                this.MajorRevision + "." +
+                this.MinorRevision + "." +
+                this.Build;
         }
     }
 }
