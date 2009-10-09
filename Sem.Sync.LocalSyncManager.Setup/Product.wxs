@@ -15,7 +15,7 @@
 
     <Package InstallerVersion="200" Compressed="yes"
              Description="Synchronization client for synchronizing Contacts with Xing, Outlook, Filesystem (Xml, CSV, vCards), Wer-Kennt-Wen.de, ..."
-             Comments="This client does provide a generic UI to use Sem.Sync-connectors to synchronize contacts."
+             Comments="This client does provide a generic UI to use various Sem.Sync-connectors to synchronize contacts."
              Manufacturer="Sven Erik Matzen"/>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />

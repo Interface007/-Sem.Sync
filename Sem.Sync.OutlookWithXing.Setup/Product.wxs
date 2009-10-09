@@ -7,7 +7,7 @@
   If we get more files we will split the file into sub files for the features for the
   setup.
   -->
-  <Product Name="Sem.Sync Sample Client for Xing to Outlook synchronization"
+  <Product Name="Sem.Sync Client for Xing to Outlook Sync"
            Manufacturer="Sven Erik Matzen"
            Id="{52E811A5-8FFE-4f1e-A32A-9B6C5953576D}"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
@@ -15,7 +15,7 @@
 
     <Package InstallerVersion="200" Compressed="yes"
              Description="Synchronization client for synchronizing Contacts Xing to Outlook"
-             Comments="This client is a sample application to show the capabilities of the synchronization library Sem.Sync"
+             Comments="This client performs an import of Xing contacts into Outlook."
              Manufacturer="Sven Erik Matzen"/>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />

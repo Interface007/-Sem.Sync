@@ -31,6 +31,31 @@ namespace Sem.Sync.Connector.MsAccess
     public class GenericClient : StdClient
     {
         /// <summary>
+        /// The update statement for database uperations
+        /// </summary>
+        private const string SqlStatementUpdate = "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}";
+
+        /// <summary>
+        /// The select statement for the database selecting all columns and all rows
+        /// </summary>
+        private const string SqlStatementSelectAll = "SELECT * FROM [{0}]";
+
+        /// <summary>
+        /// The select statement for selecting the primary key value of a specific row
+        /// </summary>
+        private const string SqlStatementSelectPk = "SELECT TOP 1 [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));";
+
+        /// <summary>
+        /// The value string for a NULL value in the database sql dialect
+        /// </summary>
+        private const string SqlDatabaseNullString = "NULL";
+
+        /// <summary>
+        /// The insert statement for inserting a new row into the database
+        /// </summary>
+        private const string SqlStatementInsertRow = "INSERT INTO {0} ({1}) VALUES ({2})";
+
+        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
@@ -55,12 +80,12 @@ namespace Sem.Sync.Connector.MsAccess
             var description = GetDescription(clientFolderName);
 
             var mappings = description.Mappings;
-            using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
+            using (var con = new OleDbConnection(this.GetConnectionString(description)))
             {
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM " + description.MainTable;
+                    cmd.CommandText = string.Format(SqlStatementSelectAll, description.MainTable);
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -117,7 +142,7 @@ namespace Sem.Sync.Connector.MsAccess
             var primaryKeyName = description.GetPrimaryKeyName();
             var lookupColumns = from x in mappings where x.IsLookupValue || x.IsPrimaryKey select x;
 
-            using (var con = new OleDbConnection(string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", description.DatabasePath)))
+            using (var con = new OleDbConnection(this.GetConnectionString(description)))
             {
                 con.Open();
 
@@ -143,7 +168,7 @@ namespace Sem.Sync.Connector.MsAccess
                                 using (var cmd = con.CreateCommand())
                                 {
                                     cmd.CommandText = string.Format(
-                                        "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}",
+                                        SqlStatementUpdate,
                                         mappingItem.FieldName,
                                         FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.PropertyPath), mappingItem),
                                         description.MainTable,
@@ -173,7 +198,7 @@ namespace Sem.Sync.Connector.MsAccess
         private static string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping fieldMapping, StdContact contact)
         {
             var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.PropertyPath), fieldMapping);
-            if (value == "NULL")
+            if (value == SqlDatabaseNullString)
             {
                 return null;
             }
@@ -181,7 +206,7 @@ namespace Sem.Sync.Connector.MsAccess
             using (var cmd = connection.CreateCommand())
             {
                 var text = string.Format(
-                   "SELECT [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));",
+                   SqlStatementSelectPk,
                    description.GetPrimaryKeyName(),
                    description.MainTable,
                    fieldMapping.FieldName,
@@ -218,12 +243,12 @@ namespace Sem.Sync.Connector.MsAccess
         {
             if (toBeFormatted == null)
             {
-                return "NULL";
+                return SqlDatabaseNullString;
             }
 
             if (mappingItem.NullIfDefault && (toBeFormatted == toBeFormatted.GetType().GetConstructor(new Type[] { })))
             {
-                return "NULL";
+                return SqlDatabaseNullString;
             }
 
             var returnValue = mappingItem.IsNumericValue ? string.Format(CultureInfo.InvariantCulture, "{0}", toBeFormatted) : "'" + toBeFormatted.ToString().Replace("'", "''") + "'";
@@ -253,7 +278,7 @@ namespace Sem.Sync.Connector.MsAccess
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = string.Format(
-                    "INSERT INTO {0} ({1}) VALUES ({2})",
+                    SqlStatementInsertRow,
                     description.MainTable,
                     "[" + insertColumns.ConcatElementsToString("],[") + "]",
                     values.ConcatElementsToString(","));
@@ -266,6 +291,25 @@ namespace Sem.Sync.Connector.MsAccess
                     this.LogProcessingEvent(currentItem, "error writing element: " + ex.Message);
                 }
             }
+        }
+
+        /// <summary>
+        /// parses the database path and checks if it's already a complete connection string or just a file name.
+        /// If the database path does not contain a "=" character it's identified as an OLEDB connection string.
+        /// In case of being just a database file name, it's interpreted as a path to a Microsoft Access database file.
+        /// </summary>
+        /// <param name="description"> The source description containing the database path. </param>
+        /// <returns> a connection string to open the database </returns>
+        private string GetConnectionString(SourceDescription description)
+        {
+            if (!description.DatabasePath.Contains("="))
+            {
+                return string.Format(
+                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False",
+                    description.DatabasePath);
+            }
+
+            return description.DatabasePath;
         }
     }
 }
