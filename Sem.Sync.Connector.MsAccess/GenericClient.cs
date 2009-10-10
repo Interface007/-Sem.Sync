@@ -17,6 +17,8 @@ namespace Sem.Sync.Connector.MsAccess
     using System.Linq;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
+
     using SyncBase;
     using SyncBase.Attributes;
 
@@ -25,9 +27,13 @@ namespace Sem.Sync.Connector.MsAccess
     /// By adding a <see cref="ConnectorDescriptionAttribute"/> with CanRead = false and CanWrite = false
     /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
     /// </summary>
-    [ConnectorDescription(DisplayName = "MicrosoftAcess-Client",
+    [ConnectorDescription(DisplayName = "Microsoft Acess Database",
         CanReadContacts = true,
         CanWriteContacts = true)]
+    [ClientStoragePathDescriptionAttribute(
+        Mandatory = true,
+        Default = "{FS:WorkingFolder}\\sample.config",
+        ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class GenericClient : StdClient
     {
         /// <summary>
@@ -79,8 +85,8 @@ namespace Sem.Sync.Connector.MsAccess
         {
             var description = GetDescription(clientFolderName);
 
-            var mappings = description.Mappings;
-            using (var con = new OleDbConnection(this.GetConnectionString(description)))
+            var mappings = description.ColumnDefinitions;
+            using (var con = new OleDbConnection(GetConnectionString(description)))
             {
                 con.Open();
                 using (var cmd = con.CreateCommand())
@@ -95,13 +101,7 @@ namespace Sem.Sync.Connector.MsAccess
                         {
                             try
                             {
-                                if (!string.IsNullOrEmpty(mappingItem.TableName) &&
-                                    mappingItem.TableName != description.MainTable)
-                                {
-                                    continue;
-                                }
-
-                                var value = reader[mappingItem.FieldName].ToString();
+                                var value = reader[mappingItem.Title].ToString();
 
                                 if (mappingItem.TransformationFromDatabase != null)
                                 {
@@ -110,7 +110,7 @@ namespace Sem.Sync.Connector.MsAccess
 
                                 Tools.SetPropertyValue(
                                     newContact,
-                                    mappingItem.PropertyPath,
+                                    mappingItem.Selector,
                                     value);
                             }
                             catch (Exception ex)
@@ -138,11 +138,11 @@ namespace Sem.Sync.Connector.MsAccess
         {
             var description = GetDescription(clientFolderName);
 
-            var mappings = description.Mappings;
+            var columns = description.ColumnDefinitions;
             var primaryKeyName = description.GetPrimaryKeyName();
-            var lookupColumns = from x in mappings where x.IsLookupValue || x.IsPrimaryKey select x;
+            var lookupColumns = from x in columns where x.IsLookupValue || x.IsPrimaryKey select x;
 
-            using (var con = new OleDbConnection(this.GetConnectionString(description)))
+            using (var con = new OleDbConnection(GetConnectionString(description)))
             {
                 con.Open();
 
@@ -162,15 +162,15 @@ namespace Sem.Sync.Connector.MsAccess
                             continue;
                         }
 
-                        mappings.Where(x => !x.IsAutoValue).ForEach(
+                        columns.Where(x => !x.IsAutoValue).ForEach(
                             mappingItem =>
                             {
                                 using (var cmd = con.CreateCommand())
                                 {
                                     cmd.CommandText = string.Format(
                                         SqlStatementUpdate,
-                                        mappingItem.FieldName,
-                                        FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.PropertyPath), mappingItem),
+                                        mappingItem.Title,
+                                        FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.Selector), mappingItem),
                                         description.MainTable,
                                         id,
                                         primaryKeyName);
@@ -195,9 +195,9 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="fieldMapping"> The field mapping. </param>
         /// <param name="contact"> The contact for find. </param>
         /// <returns> the primary key value of the entity or null if not in database </returns>
-        private static string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, Mapping fieldMapping, StdContact contact)
+        private static string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, ColumnDefinition fieldMapping, StdContact contact)
         {
-            var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.PropertyPath), fieldMapping);
+            var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping);
             if (value == SqlDatabaseNullString)
             {
                 return null;
@@ -209,8 +209,8 @@ namespace Sem.Sync.Connector.MsAccess
                    SqlStatementSelectPk,
                    description.GetPrimaryKeyName(),
                    description.MainTable,
-                   fieldMapping.FieldName,
-                   FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.PropertyPath), fieldMapping));
+                   fieldMapping.Title,
+                   FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping));
 
                 cmd.CommandText = text;
                 var result = cmd.ExecuteScalar();
@@ -239,7 +239,7 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="toBeFormatted"> The object to be formatted. </param>
         /// <param name="mappingItem"> The mapping item for this object. </param>
         /// <returns> A SQL formatted object. </returns>
-        private static string FormatForDatabase(object toBeFormatted, Mapping mappingItem)
+        private static string FormatForDatabase(object toBeFormatted, ColumnDefinition mappingItem)
         {
             if (toBeFormatted == null)
             {
@@ -262,6 +262,25 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
+        /// parses the database path and checks if it's already a complete connection string or just a file name.
+        /// If the database path does not contain a "=" character it's identified as an OLEDB connection string.
+        /// In case of being just a database file name, it's interpreted as a path to a Microsoft Access database file.
+        /// </summary>
+        /// <param name="description"> The source description containing the database path. </param>
+        /// <returns> a connection string to open the database </returns>
+        private static string GetConnectionString(SourceDescription description)
+        {
+            if (!description.DatabasePath.Contains("="))
+            {
+                return string.Format(
+                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False",
+                    description.DatabasePath);
+            }
+
+            return description.DatabasePath;
+        }
+
+        /// <summary>
         /// Inserts a new item into the database
         /// </summary>
         /// <param name="con"> The database connection. </param>
@@ -269,11 +288,11 @@ namespace Sem.Sync.Connector.MsAccess
         /// <param name="currentItem"> The item to be inserted. </param>
         private void InsertNewItemToDatabase(OleDbConnection con, SourceDescription description, StdContact currentItem)
         {
-            var insertColumns = from x in description.Mappings where !x.IsAutoValue select x.FieldName;
+            var insertColumns = from x in description.ColumnDefinitions where !x.IsAutoValue select x.Title;
 
-            var values = from x in description.Mappings
+            var values = from x in description.ColumnDefinitions
                          where x.IsAutoValue == false
-                         select FormatForDatabase(Tools.GetPropertyValue(currentItem, x.PropertyPath), x);
+                         select FormatForDatabase(Tools.GetPropertyValue(currentItem, x.Selector), x);
 
             using (var cmd = con.CreateCommand())
             {
@@ -291,25 +310,6 @@ namespace Sem.Sync.Connector.MsAccess
                     this.LogProcessingEvent(currentItem, "error writing element: " + ex.Message);
                 }
             }
-        }
-
-        /// <summary>
-        /// parses the database path and checks if it's already a complete connection string or just a file name.
-        /// If the database path does not contain a "=" character it's identified as an OLEDB connection string.
-        /// In case of being just a database file name, it's interpreted as a path to a Microsoft Access database file.
-        /// </summary>
-        /// <param name="description"> The source description containing the database path. </param>
-        /// <returns> a connection string to open the database </returns>
-        private string GetConnectionString(SourceDescription description)
-        {
-            if (!description.DatabasePath.Contains("="))
-            {
-                return string.Format(
-                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False",
-                    description.DatabasePath);
-            }
-
-            return description.DatabasePath;
         }
     }
 }

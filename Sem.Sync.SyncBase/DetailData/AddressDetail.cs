@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Text.RegularExpressions;
 
@@ -109,6 +110,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Gets or sets the number of the house in the street
         /// </summary>
+        [DefaultValue(0)]
         public int StreetNumber { get; set; }
 
         /// <summary>

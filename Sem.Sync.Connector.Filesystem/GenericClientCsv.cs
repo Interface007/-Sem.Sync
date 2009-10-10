@@ -20,6 +20,7 @@ namespace Sem.Sync.Connector.Filesystem
 
     using GenericHelpers;
     using GenericHelpers.Attributes;
+    using GenericHelpers.Entities;
 
     using SyncBase;
     using SyncBase.Attributes;

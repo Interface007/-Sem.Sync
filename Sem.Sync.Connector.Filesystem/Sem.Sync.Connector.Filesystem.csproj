@@ -87,7 +87,6 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="ColumnDefinition.cs" />
     <Compile Include="ContactClient.cs" />
     <Compile Include="GenericClientCsv.cs">
       <SubType>Code</SubType>

@@ -1,18 +1,48 @@
-﻿namespace Sem.Sync.Connector.MsAccess
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceDescription.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   Defines the SourceDescription type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.MsAccess
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
+    using GenericHelpers.Entities;
+
     using SyncBase.DetailData;
 
+    /// <summary>
+    /// Defines a database source
+    /// </summary>
     public class SourceDescription
     {
+        /// <summary>
+        /// Gets or sets the path to the Access database file or an OLEDB connection string.
+        /// </summary>
         public string DatabasePath { get; set; }
-        public string MainTable { get; set; }
-        public List<Mapping> Mappings { get; set; }
 
+        /// <summary>
+        /// Gets or sets the table to use.
+        /// </summary>
+        public string MainTable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the column definitions.
+        /// </summary>
+        public List<ColumnDefinition> ColumnDefinitions { get; set; }
+
+        /// <summary>
+        /// Generates a standard sample for looking up the correct XML syntax
+        /// </summary>
+        /// <returns> a sample mapping definition file </returns>
         public static SourceDescription GetDefaultSourceDescription()
         {
             var returnValue = new SourceDescription
@@ -21,43 +51,43 @@
                         Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "AccessDatabaseSample.mdb"),
                     MainTable = "ContactInformation",
-                    Mappings =
-                        new List<Mapping>
+                    ColumnDefinitions =
+                        new List<ColumnDefinition>
                             {
-                                new Mapping
+                                new ColumnDefinition
                                     {
-                                        PropertyPath = "PersonalProfileIdentifiers.MicrosoftAccessId",
-                                        FieldName = "Id",
+                                        Selector = "PersonalProfileIdentifiers.MicrosoftAccessId",
+                                        Title = "Id",
                                         IsPrimaryKey = true,
                                         IsAutoValue = true,
                                     },
-                                new Mapping { PropertyPath = "Name.FirstName", FieldName = "Vorname" },
-                                new Mapping { PropertyPath = "Name.LastName", FieldName = "Nachname" },
-                                new Mapping { PropertyPath = "DateOfBirth", FieldName = "Geburtstag" },
-                                new Mapping
+                                new ColumnDefinition { Selector = "Name.FirstName", Title = "Vorname" },
+                                new ColumnDefinition { Selector = "Name.LastName", Title = "Nachname" },
+                                new ColumnDefinition { Selector = "DateOfBirth", Title = "Geburtstag" },
+                                new ColumnDefinition
                                     {
-                                        PropertyPath = "PersonalProfileIdentifiers.ActiveDirectoryId",
-                                        FieldName = "ComSi-ID",
+                                        Selector = "PersonalProfileIdentifiers.ActiveDirectoryId",
+                                        Title = "Some-ID",
                                         IsLookupValue = true,
                                     },
-                                new Mapping
+                                new ColumnDefinition
                                     {
-                                        PropertyPath = "BusinessAddressPrimary.Phone.DenormalizedPhoneNumber",
-                                        FieldName = "Telefonnummer",
+                                        Selector = "BusinessAddressPrimary.Phone.DenormalizedPhoneNumber",
+                                        Title = "Telefonnummer",
                                     },
-                                new Mapping { PropertyPath = "BusinessEmailPrimary", FieldName = "Mailadresse" },
-                                new Mapping { PropertyPath = "BusinessAddressPrimary.Room", FieldName = "Raum_local" },
-                                new Mapping
+                                new ColumnDefinition { Selector = "BusinessEmailPrimary", Title = "Mailadresse" },
+                                new ColumnDefinition { Selector = "BusinessAddressPrimary.Room", Title = "Raum_local" },
+                                new ColumnDefinition
                                     {
-                                        PropertyPath = "PersonGender", 
-                                        FieldName = "Geschlecht",
+                                        Selector = "PersonGender", 
+                                        Title = "Geschlecht",
                                         TransformationToDatabase = 
-                                        (mapping, value) => 
+                                        (ColumnDefinition, value) => 
                                             ((Gender)value) == Gender.Male 
                                             ? "'m'" 
                                             : ((Gender)value) == Gender.Female ? "'f'" : "NULL",
                                         TransformationFromDatabase = 
-                                        (mapping, value) => 
+                                        (ColumnDefinition, value) => 
                                             ((string)value) == "m" 
                                             ? Gender.Male 
                                             : ((string)value) == "f" ? Gender.Female : Gender.Unspecified,
@@ -68,9 +98,13 @@
             return returnValue;
         }
 
+        /// <summary>
+        /// Determines the PK name
+        /// </summary>
+        /// <returns> the PK name of this definition </returns>
         public string GetPrimaryKeyName()
         {
-            return (from x in this.Mappings where x.IsPrimaryKey select x.FieldName).FirstOrDefault();
+            return (from x in this.ColumnDefinitions where x.IsPrimaryKey select x.Title).FirstOrDefault();
         }
     }
 }

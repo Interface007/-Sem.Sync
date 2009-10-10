@@ -100,24 +100,6 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         /// <summary>
-        /// UI-Action to get a file path
-        /// </summary>
-        /// <returns>the user entered path to a file</returns>
-        private string AskForDestinationFile()
-        {
-            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
-            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
-            this.saveFileDialog1.AddExtension = true;
-            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
-            if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                return this.saveFileDialog1.FileName;
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
         /// Handels the processing events
         /// </summary>
         /// <param name="entity"> The entity. </param>
@@ -240,6 +222,23 @@ namespace Sem.Sync.LocalSyncManager.UI
         }
 
         /// <summary>
+        /// UI-Action to get a file path
+        /// </summary>
+        /// <returns>the user entered path to a file</returns>
+        private string AskForDestinationFile()
+        {
+            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.AddExtension = true;
+            this.saveFileDialog1.FileName = string.Empty;
+            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
+            return 
+                this.saveFileDialog1.ShowDialog() == DialogResult.OK 
+                ? this.saveFileDialog1.FileName 
+                : string.Empty;
+        }
+
+        /// <summary>
         /// Show the folder browse dialog for a specified textbox
         /// </summary>
         /// <param name="textBox"> The text box that should be updated with the path. </param>
@@ -259,6 +258,10 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             if (useSave)
             {
+                this.saveFileDialog1.DefaultExt = string.Empty;
+                this.saveFileDialog1.Filter = "all files|*.*";
+                this.saveFileDialog1.AddExtension = true;
+                this.saveFileDialog1.FileName = textBox.Text;
                 if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.saveFileDialog1.FileName;

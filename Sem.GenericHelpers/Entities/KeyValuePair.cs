@@ -11,7 +11,9 @@
 
 namespace Sem.GenericHelpers.Entities
 {
+    using System.ComponentModel;
     using System.Globalization;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// A key value pair with string type for both members.
@@ -42,12 +44,14 @@ namespace Sem.GenericHelpers.Entities
         /// Gets or sets the "Key" of the entry - there's no funcational difference to the value
         /// member of this type
         /// </summary>
+        [XmlAttribute, DefaultValue("")]
         public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the "Value" of the entry - there's no funcational difference to the key
         /// member of this type
         /// </summary>
+        [XmlAttribute, DefaultValue("")]
         public string Value { get; set; }
 
         /// <summary>
