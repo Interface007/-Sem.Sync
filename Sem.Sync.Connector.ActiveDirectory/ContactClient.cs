@@ -110,7 +110,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                     ? new DirectoryEntry("LDAP://" + domainController)
                     : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
-                AddContactsFromADFilter(clientFolderName, result, entry);
+                this.AddContactsFromAdFilter(clientFolderName, result, entry);
             }
             catch (Exception ex)
             {
@@ -118,83 +118,6 @@ namespace Sem.Sync.Connector.ActiveDirectory
             }
 
             return result;
-        }
-
-        private void AddContactsFromADFilter(string clientFolderName, List<StdElement> result, DirectoryEntry entry)
-        {
-            var search = new DirectorySearcher(entry)
-            {
-                Filter = clientFolderName,
-                SearchScope = SearchScope.Subtree,
-            };
-
-            this.LogProcessingEvent("receiving data ...");
-            var resultList = search.FindAll();
-
-            foreach (SearchResult searchItem in resultList)
-            {
-                if (searchItem.Properties["objectclass"].Contains("user"))
-                {
-                    AddContactFromSearchResult(result, searchItem);
-                }
-                else
-                {
-                    if (searchItem.Properties["objectclass"].Contains("group"))
-                    {
-                        AddContactsFromADFilter("memberof=" + searchItem.Properties["distinguishedname"][0], result, entry);
-                    }
-                }
-            }
-        }
-
-        private void AddContactFromSearchResult(List<StdElement> result, SearchResult searchItem)
-        {
-            var newContact = ConvertToContact(searchItem);
-
-            if (!string.IsNullOrEmpty(newContact.ToStringSimple()))
-            {
-                var existing =
-                    from x in result
-                    where ((StdContact)x).PersonalProfileIdentifiers.ActiveDirectoryId ==
-                    newContact.PersonalProfileIdentifiers.ActiveDirectoryId
-                    select x;
-
-                if (existing.Count() == 0)
-                {
-                    if (!string.IsNullOrEmpty(this.DumpPath))
-                    {
-                        DumpUserInformation(
-                            searchItem,
-                            Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
-                    }
-
-                    this.LogProcessingEvent(newContact, "adding new element");
-                    result.Add(newContact);
-                }
-            }
-        }
-
-        /// <summary>
-        /// lookup the list of domain controllers for the specified domain
-        /// </summary>
-        /// <param name="domainName">
-        /// The domain Name to get the DC for.
-        /// </param>
-        /// <returns>
-        /// The list of DCs in this domain.
-        /// </returns>
-        private static List<string> GetDCs(string domainName)
-        {
-            var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
-            var domain = Domain.GetDomain(context);
-            var domainControllerList = new List<string>();
-
-            foreach (DomainController server in domain.DomainControllers)
-            {
-                domainControllerList.Add(server.Name);
-            }
-
-            return domainControllerList;
         }
 
         /// <summary>
@@ -322,6 +245,98 @@ namespace Sem.Sync.Connector.ActiveDirectory
             }
 
             File.WriteAllText(path, content.ToString());
+        }
+
+        /// <summary>
+        /// lookup the list of domain controllers for the specified domain
+        /// </summary>
+        /// <param name="domainName">
+        /// The domain Name to get the DC for.
+        /// </param>
+        /// <returns>
+        /// The list of DCs in this domain.
+        /// </returns>
+        private static List<string> GetDCs(string domainName)
+        {
+            var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
+            var domain = Domain.GetDomain(context);
+            var domainControllerList = new List<string>();
+
+            foreach (DomainController server in domain.DomainControllers)
+            {
+                domainControllerList.Add(server.Name);
+            }
+
+            return domainControllerList;
+        }
+
+        /// <summary>
+        /// Searches a directory entry recursively for users
+        /// </summary>
+        /// <param name="query"> The AD filter query. </param>
+        /// <param name="result"> The result list of entries that will be extended. </param>
+        /// <param name="entry"> The AD entry that is the base of the query. </param>
+        private void AddContactsFromAdFilter(string query, List<StdElement> result, DirectoryEntry entry)
+        {
+            var search = new DirectorySearcher(entry)
+            {
+                Filter = query,
+                SearchScope = SearchScope.Subtree,
+            };
+
+            this.LogProcessingEvent("receiving data ...");
+            var resultList = search.FindAll();
+
+            foreach (SearchResult searchItem in resultList)
+            {
+                if (searchItem.Properties["objectclass"].Contains("user"))
+                {
+                    this.AddContactFromSearchResult(result, searchItem);
+                }
+                else
+                {
+                    if (searchItem.Properties["objectclass"].Contains("group"))
+                    {
+                        this.AddContactsFromAdFilter("memberof=" + searchItem.Properties["distinguishedname"][0], result, entry);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a new AD serach result entry to a list of StdElement
+        /// </summary>
+        /// <param name="result"> The result list that should get this entry. </param>
+        /// <param name="searchItem"> The search result item. </param>
+        private void AddContactFromSearchResult(ICollection<StdElement> result, SearchResult searchItem)
+        {
+            var newContact = ConvertToContact(searchItem);
+
+            if (string.IsNullOrEmpty(newContact.ToStringSimple()))
+            {
+                return;
+            }
+
+            var existing =
+                from x in result
+                where ((StdContact)x).PersonalProfileIdentifiers.ActiveDirectoryId ==
+                      newContact.PersonalProfileIdentifiers.ActiveDirectoryId
+                select x;
+
+            if (existing.Count() != 0)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(this.DumpPath))
+            {
+                DumpUserInformation(
+                    searchItem,
+                    Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
+            }
+
+            this.LogProcessingEvent(newContact, "adding new element");
+            result.Add(newContact);
         }
 
         /// <summary>
