@@ -10,7 +10,6 @@
 namespace Sem.GenericHelpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -493,8 +492,9 @@ namespace Sem.GenericHelpers
                             break;
                     
                         case "List`1":
-                            //var list = propType.GetConstructor(new Type[]()).Invoke(null);
-                            //propInfo.SetValue(objectToWriteTo, list, null);
+                            // TODO: implementing a valid set-operator for lists
+                            ////var list = propType.GetConstructor(new Type[]()).Invoke(null);
+                            ////propInfo.SetValue(objectToWriteTo, list, null);
                             break;
 
                         default:

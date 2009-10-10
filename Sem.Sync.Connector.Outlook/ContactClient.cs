@@ -28,6 +28,7 @@ namespace Sem.Sync.Connector.Outlook
     /// This class is the client class for handling outlook contacts
     /// </summary>
     [ConnectorDescription(DisplayName = "Microsoft Outlook 2007")]
+    [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
     {
         /// <summary>

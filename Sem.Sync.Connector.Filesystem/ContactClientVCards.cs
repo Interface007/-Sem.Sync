@@ -146,14 +146,16 @@ namespace Sem.Sync.Connector.Filesystem
             Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements.ToContacts())
             {
-                if (element.Name != null)
+                if (element.Name == null)
                 {
-                    var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
-                    File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
-                    if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
-                    {
-                        File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
-                    }
+                    continue;
+                }
+
+                var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
+                File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
+                if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
+                {
+                    File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);
                 }
             }
         }
