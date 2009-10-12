@@ -658,7 +658,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
                     // extract the file name
                     pictureName = attachement.FileName;
-                    var bytes = new byte[]{};
+                    var bytes = new byte[] { };
 
                     // save the picture in the temp path
                     var fullName = Path.GetTempFileName();
@@ -685,9 +685,7 @@ namespace Sem.Sync.Connector.Outlook2003
                         // clean up the temp file
                         File.Delete(fullName);
                     }
-// ReSharper disable EmptyGeneralCatchClause
-                    catch (System.Exception)
-// ReSharper restore EmptyGeneralCatchClause
+                    catch (System.Runtime.InteropServices.COMException)
                     {
                         // TODO: log this error
                     }
