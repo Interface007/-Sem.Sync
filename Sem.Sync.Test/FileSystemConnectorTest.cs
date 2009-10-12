@@ -91,7 +91,7 @@ namespace Sem.Sync.Test
             Assert.AreEqual(2090, listWithTwoContacts.GetContactById(ContactWithPicture).PictureData.Length);
             Assert.AreEqual("Sven", listWithTwoContacts.GetContactById(ContactWithPicture).Name.FirstName);
             Assert.AreEqual(Gender.Male, listWithTwoContacts.GetContactById(ContactWithPicture).PersonGender);
-            Assert.AreEqual(Gender.Unspecified, listWithTwoContacts.GetContactById(ContactWithoutPicture).PersonGender);
+            Assert.AreEqual(Gender.Female, listWithTwoContacts.GetContactById(ContactWithoutPicture).PersonGender);
         }
 
         /// <summary>
