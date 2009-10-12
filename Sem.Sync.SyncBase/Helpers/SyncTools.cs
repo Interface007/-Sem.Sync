@@ -341,6 +341,24 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "List`1":
+                        var sourceList = (container.SourceProperty == null ? null : item.GetValue(container.SourceProperty, null)) as List<string>;
+                        var targetList = (container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null)) as List<string>;
+                        var baselineList = (container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null)) as List<string>;
+
+                        sourceString = sourceList == null ? string.Empty : sourceList.ConcatElementsToString(",");
+                        targetString = targetList == null ? string.Empty : targetList.ConcatElementsToString(",");
+                        baselineString = baselineList == null ? string.Empty : baselineList.ConcatElementsToString(",");
+
+                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
+                            sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
+
+                        if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
+                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflict.BothChangedIdentically;
+
+                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.SourceChanged;
+                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
+                        break;
+
                     case "Byte[]":
                         break;
 

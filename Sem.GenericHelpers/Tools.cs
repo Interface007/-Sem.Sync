@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -310,6 +311,7 @@ namespace Sem.GenericHelpers
                     }
                 }
 
+
                 var propertyInfo = type.GetProperty(propName);
                 var value =
                     propertyInfo == null
@@ -401,7 +403,13 @@ namespace Sem.GenericHelpers
         /// <returns>the value of the property rendered as a string</returns>
         public static string GetPropertyValueString<T>(T objectToReadFrom, string pathToProperty)
         {
-            return (GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty).ToString();
+            var value = GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty;
+            if (value.GetType() == typeof(List<string>))
+            {
+                value = ((List<string>)value).ConcatElementsToString("|");
+            }
+
+            return value.ToString();
         }
 
         /// <summary>
@@ -475,8 +483,17 @@ namespace Sem.GenericHelpers
                             break;
 
                         case "Int32":
-                            propInfo.SetValue(
-                                objectToWriteTo, Int32.Parse(valueString, CultureInfo.CurrentCulture), null);
+                            int theValue;
+                            if (int.TryParse(valueString, NumberStyles.Any, CultureInfo.CurrentCulture, out theValue))
+                            {
+                                propInfo.SetValue(
+                                    objectToWriteTo, theValue, null);
+                            }
+                            else
+                            {
+                                Console.WriteLine(string.Format("non-parsable int: {0}", valueString));
+                            }
+
                             break;
 
                         case "Enum":
@@ -492,9 +509,14 @@ namespace Sem.GenericHelpers
                             break;
                     
                         case "List`1":
-                            // TODO: implementing a valid set-operator for lists
-                            ////var list = propType.GetConstructor(new Type[]()).Invoke(null);
-                            ////propInfo.SetValue(objectToWriteTo, list, null);
+
+                            var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
+                            if (list != null)
+                            {
+                                list.AddRange(valueString.Split('|'));
+                                propInfo.SetValue(objectToWriteTo, list, null);
+                            }
+
                             break;
 
                         default:

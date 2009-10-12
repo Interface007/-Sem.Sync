@@ -1,11 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Sem.Sync.Test
+﻿namespace Sem.Sync.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using SyncBase.DetailData;
 
     /// <summary>
@@ -14,13 +10,6 @@ namespace Sem.Sync.Test
     [TestClass]
     public class AddressClassTest
     {
-        public AddressClassTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
         private TestContext testContextInstance;
 
         /// <summary>
