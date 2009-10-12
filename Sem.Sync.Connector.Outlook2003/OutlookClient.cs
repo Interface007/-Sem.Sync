@@ -659,29 +659,39 @@ namespace Sem.Sync.Connector.Outlook2003
 
                     // extract the file name
                     pictureName = attachement.FileName;
+                    var bytes = new byte[]{};
 
                     // save the picture in the temp path
                     var fullName = Path.GetTempFileName();
                     try
                     {
-                        attachement.SaveAsFile(fullName);
-                        GCRelevantCall();
+                        try
+                        {
+                            attachement.SaveAsFile(fullName);
+                            GCRelevantCall();
+                        }
+                        catch (System.Runtime.InteropServices.COMException)
+                        {
+                            // we may have a problem if there are too many pictures saved in this session
+                            // then we need to clean up the outlook temp path (which is difficult to determine)
+                            CleanupTempFolder();
+
+                            // try again
+                            attachement.SaveAsFile(fullName);
+                        }
+
+                        // read all bytes from the temp file
+                        bytes = File.ReadAllBytes(fullName);
+
+                        // clean up the temp file
+                        File.Delete(fullName);
                     }
-                    catch (System.Runtime.InteropServices.COMException)
+// ReSharper disable EmptyGeneralCatchClause
+                    catch (System.Exception)
+// ReSharper restore EmptyGeneralCatchClause
                     {
-                        // we may have a problem if there are too many pictures saved in this session
-                        // then we need to clean up the outlook temp path (which is difficult to determine)
-                        CleanupTempFolder();
-
-                        // try again
-                        attachement.SaveAsFile(fullName);
+                        // TODO: log this error
                     }
-
-                    // read all bytes from the temp file
-                    var bytes = File.ReadAllBytes(fullName);
-
-                    // clean up the temp file
-                    File.Delete(fullName);
 
                     // that's it
                     return bytes;
