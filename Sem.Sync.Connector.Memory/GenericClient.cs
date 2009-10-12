@@ -84,13 +84,12 @@ namespace Sem.Sync.Connector.Memory
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Reads a list of <see cref="StdElement"/> from an internal dictionary.
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="clientFolderName">The key of the dictionary that is assigned to the list</param>
         /// <param name="result">The list of elements that should get the elements. The elements should be added to
         /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
+        /// <returns>The list provided with the parameter <paramref name="result"/></returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             if (!Content.ContainsKey(clientFolderName))
@@ -102,12 +101,11 @@ namespace Sem.Sync.Connector.Memory
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Writes the contact list into a dictionary of contact lists.
         /// </summary>
         /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        /// <param name="clientFolderName">The key of the dictionary the list is written to.</param>
+        /// <param name="skipIfExisting">This parameter is not used in this implementation.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (Content.ContainsKey(clientFolderName))

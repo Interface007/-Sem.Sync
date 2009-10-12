@@ -340,6 +340,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
                         break;
 
+                    case "List`1":
                     case "Byte[]":
                         break;
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WebScapingClient.cs" company="Sven Erik Matzen">
+// <copyright file="WebScrapingClient.cs" company="Sven Erik Matzen">
 //     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
@@ -19,10 +19,23 @@ namespace Sem.Sync.Connector.Facebook
     /// WebScaping implementation of a FaceBook StdClient
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
+#if DEBUG
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "Facebook (WS)", MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
+#else
+    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, NeedsCredentials = true,
+        DisplayName = "Facebook (WS)", MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
+#endif
     public class WebScrapingClient : WebScrapingBaseClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebScrapingClient"/> class.
+        /// </summary>
+        public WebScrapingClient()
+            : base("http://www.facebook.com/")
+        {
+        }
+
         protected override string HttpDetectionStringLogOnNeeded
         {
             get { return @"action=""https://login.facebook.com/login.php?login_attempt=1"" id=""login_form"""; }
@@ -75,17 +88,6 @@ namespace Sem.Sync.Connector.Facebook
             get
             {
                 return "no such string available";
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the base address to communicate with the site
-        /// </summary>
-        protected override string HttpUrlBaseAddress
-        {
-            get
-            {
-                return "http://www.facebook.com/";
             }
         }
 

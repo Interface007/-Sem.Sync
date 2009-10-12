@@ -23,9 +23,14 @@ namespace Sem.Sync.Connector.MsAccess
     using SyncBase.Attributes;
 
     /// <summary>
-    /// Class that provides a memory only connector to speed up operations.
-    /// By adding a <see cref="ConnectorDescriptionAttribute"/> with CanRead = false and CanWrite = false
-    /// it's invisible to the client GUI. This attribute is not respected by the engine - only by the GUI.
+    /// Class that provides a connector to Microsoft Access Database files. The connector
+    /// accepts a configuration file in the "clientFolderName" of the <see cref="ReadFullList"/>
+    /// and the <see cref="WriteFullList"/> methods. This configuration holds the 
+    /// path of the database file and the field mapping. Microsoft Access workgroup files are
+    /// currently not directly supported.
+    /// In the current state the mapper does only support a single table and maps the properties
+    /// to the type <see cref="StdContact"/> using property selectors. See the documentation 
+    /// for a sample how to configure this.
     /// </summary>
     [ConnectorDescription(DisplayName = "Microsoft Acess Database",
         CanReadContacts = true,
@@ -74,12 +79,13 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Reads all data from the configured table and maps it to the <see cref="StdContact"/> entity.
+        /// This method does use an unconditional SELECT * FROM ..., so it might affect performance
+        /// in case of large result sets.
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
+        /// <param name="clientFolderName">the configuration file for the data source</param>
+        /// <param name="result">The list of elements that should get the elements. The elements 
+        /// will be added to the list instead of replacing it.</param>
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
@@ -128,12 +134,13 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Writes the information from the <see cref="StdContact"/> entities back to the database table.
+        /// This method has not been optimized yet and does produce a high amount of update statements!
+        /// TODO: Optimize the method to only use one UPDATE statement per row.
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        /// <param name="elements">the list of elements that will be written to the target system.</param>
+        /// <param name="clientFolderName">configiguration file for the target database and mapping</param>
+        /// <param name="skipIfExisting">this implementation does ignore the skipIfExisting parameter</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var description = GetDescription(clientFolderName);

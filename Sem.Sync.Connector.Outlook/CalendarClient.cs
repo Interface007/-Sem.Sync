@@ -74,8 +74,9 @@ namespace Sem.Sync.Connector.Outlook
 
                         if (lastItem.Subject == item.Subject
                             && lastItem.Start == item.Start
-                            && lastItem.Body == item.Body
-                            && item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase))
+                            && lastItem.Body == item.Body &&
+                            (item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase) ||
+                             item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
                         {
                             LogProcessingEvent(stdItem, "removing ...");
 

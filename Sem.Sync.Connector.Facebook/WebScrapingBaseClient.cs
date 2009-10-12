@@ -33,6 +33,7 @@ namespace Sem.Sync.Connector.Facebook
         ReferenceType = ClientPathType.Undefined)]
     //// specifying the connector description as no-read and no-write will hide it from the GUI
     [ConnectorDescription(DisplayName = "WebScraping-Base-Client",
+        Internal = true,
         CanReadContacts = false,
         CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.Default,
@@ -63,8 +64,10 @@ namespace Sem.Sync.Connector.Facebook
         /// the config file. Use the parametrized constructor to provide a "ready-to-use"
         /// http-requester.
         /// </summary>
-        protected WebScrapingBaseClient()
+        /// <param name="httpUrlBaseAddress"> The http Base Address of this connector. </param>
+        protected WebScrapingBaseClient(string httpUrlBaseAddress)
         {
+            this.HttpUrlBaseAddress = httpUrlBaseAddress;
             this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
             {
                 UseCache = this.GetConfigValueBoolean("UseCache"),
@@ -133,7 +136,7 @@ namespace Sem.Sync.Connector.Facebook
         /// <summary>
         /// Gets the base address to communicate with the site
         /// </summary>
-        protected abstract string HttpUrlBaseAddress { get; }
+        protected string HttpUrlBaseAddress { get; private set; }
 
         /// <summary>
         /// Gets the base address to communicate with the site

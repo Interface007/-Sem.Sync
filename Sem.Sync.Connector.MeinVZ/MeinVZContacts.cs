@@ -18,7 +18,8 @@ namespace Sem.Sync.Connector.MeinVZ
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling contacts persisted to the file system
+    /// This class is the client class for handling contacts persisted to the MeinVZ part of the
+    /// social network providing the sited MeinVZ and StudiVZ.
     /// </summary>
     [ClientStoragePathDescription(
         Irrelevant = true,

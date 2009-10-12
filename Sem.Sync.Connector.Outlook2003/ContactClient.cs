@@ -28,10 +28,9 @@ namespace Sem.Sync.Connector.Outlook2003
     /// This class is the client class for handling outlook contacts
     /// </summary>
     [ConnectorDescription(DisplayName = "Microsoft Outlook 2003")]
+    [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
     {
-        #region interface IClientBase
-
         /// <summary>
         /// Gets the ui friendly name of this connector
         /// </summary>
@@ -143,6 +142,31 @@ namespace Sem.Sync.Connector.Outlook2003
         }
 
         /// <summary>
+        /// Deletes a contact entry.
+        /// </summary>
+        /// <param name="elementsToDelete"> The elements to delete. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
+        {
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var outlookFolder = OutlookClient.GetOutlookMapiFolder(
+                outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+
+            elementsToDelete.ForEach(
+                x =>
+                {
+                    // todo: the filter needs to be corrected!
+                    var contact = outlookFolder.Items.Find(x.Id.ToString()) as ContactItem;
+                    if (contact != null)
+                    {
+                        contact.Delete();
+                    }
+                });
+
+            outlookNamespace.Logoff();
+        }
+
+        /// <summary>
         /// Overrides the method to read the full list of data.
         /// </summary>
         /// <param name="clientFolderName">the name of the outlook folder that does contain the contacts that will be read.</param>
@@ -171,9 +195,10 @@ namespace Sem.Sync.Connector.Outlook2003
                 {
                     // get all the Contacts from the Contacts Folder 
                     var contactItems = outlookFolder.Items;
+                    var itemsToDo = contactItems.Count;
 
                     // iterate through the contacts
-                    for (var itemIndex = 1; itemIndex <= contactItems.Count; itemIndex++)
+                    for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
                     {
                         // in case of problems with a single item, we will continue with the next
                         try
@@ -181,11 +206,12 @@ namespace Sem.Sync.Connector.Outlook2003
                             var contactItem = contactItems[itemIndex] as ContactItem;
                             if (contactItem != null)
                             {
-                                currentElementName = contactItem.LastName + contactItem.FirstName;
+                                currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                LogProcessingEvent(Resources.uiReadingContact, currentElementName);
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem);
+                                result.Add(newContact);
 
-                                result.Add(OutlookClient.ConvertToStandardContact(contactItem));
+                                LogProcessingEvent(newContact, Resources.uiReadingContact);
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
@@ -200,6 +226,8 @@ namespace Sem.Sync.Connector.Outlook2003
                                 throw;
                             }
                         }
+
+                        UpdateProgress(itemIndex * 100 / itemsToDo);
                     }
                 }
             }
@@ -247,6 +275,5 @@ namespace Sem.Sync.Connector.Outlook2003
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
         }
-        #endregion
     }
 }

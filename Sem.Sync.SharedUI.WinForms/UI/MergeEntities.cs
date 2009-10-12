@@ -114,6 +114,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                     memberToSet.SetValue(propObject, DateTime.Parse(newValue, CultureInfo.CurrentCulture), null);
                     break;
 
+                case "List`1":
+                    // TODO: Implement setting of List<> from string
+                    break;
+
                 case "Int32":
                     memberToSet.SetValue(propObject, Int32.Parse(newValue, CultureInfo.CurrentCulture), null);
                     break;

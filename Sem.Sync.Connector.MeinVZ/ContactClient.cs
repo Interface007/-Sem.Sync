@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   This class is the client class for handling contacts
+//   This class is the client base class for handling contacts of the MeinVZ/StudiVZ social network.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +26,9 @@ namespace Sem.Sync.Connector.MeinVZ
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling contacts persisted to the file system
+    /// This class is the client base class for handling contacts of the MeinVZ/StudiVZ social network.
+    /// See the classes <see cref="MeinVZContacts"/> and <see cref="StudiVzContacts"/> for concrete 
+    /// implementation of the <see cref="StdClient"/>.
     /// </summary>
     [ClientStoragePathDescription(
         Irrelevant = true,
@@ -37,7 +39,7 @@ namespace Sem.Sync.Connector.MeinVZ
         CanWriteContacts = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
-    public class ContactClient : StdClient
+    public abstract class ContactClient : StdClient
     {
         #region string resources for processing the pages
 

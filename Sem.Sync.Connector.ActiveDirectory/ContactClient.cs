@@ -26,7 +26,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
     using SyncBase.Helpers;
 
     /// <summary>
-    /// connector to Active Directory via LDAP
+    /// connector to Active Directory via LDAP. Use the clientFolderName parameter of the <see cref="ReadFullList"/> method
+    /// to specify an LDAP query that contains the users to be read (writing is notg implemented).
     /// </summary>
     [ClientStoragePathDescription(ReferenceType = ClientPathType.Undefined, Mandatory = true)]
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
@@ -81,7 +82,11 @@ namespace Sem.Sync.Connector.ActiveDirectory
         }
 
         /// <summary>
-        /// Reads a full list depending on the clientFolderName parameter.
+        /// Reads a full list depending on the <paramref name="clientFolderName"/> parameter. The parameter
+        /// should contain a valid LDAP query that returns users or groups with users. The following sample
+        /// selects all users that are directly or indirectly member of the AD group MyGroupName inside the 
+        /// OU Unit of domain company.de
+        /// <code>(memberOf=CN=MyGroupName,OU=Unit,DC=company,DC=de)</code>
         /// </summary>
         /// <param name="clientFolderName">a filter expression for the active directory query</param>
         /// <param name="result">a list to add the resulting contacts</param>

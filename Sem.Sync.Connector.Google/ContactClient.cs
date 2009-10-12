@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   This class is the client class for handling contacts
+//   This class is the client class for handling contacts via the Google Data API
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,9 @@ namespace Sem.Sync.Connector.Google
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling contacts persisted to the file system
+    /// This class is the client class for handling contacts from the Google Data API. The implementation does
+    /// support read and write of contact elements. Currently there's no support for a "clientFolderName" to
+    /// filter some data.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanReadContacts = true, CanWriteContacts = true,
@@ -118,9 +120,10 @@ namespace Sem.Sync.Connector.Google
         }
 
         /// <summary>
-        /// Overrides the method to read the full list of data.
+        /// Overrides the method to read the full list of data. This will read ALL data from the Google Contacts
+        /// account, even if it has already been downloaded in the past.
         /// </summary>
-        /// <param name="clientFolderName">the full name including path of the file that does contain the contacts.</param>
+        /// <param name="clientFolderName">the parameter clientFolderName is ignored by this connector implementation</param>
         /// <param name="result">A list of StdElements that will get the new imported entries.</param>
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
@@ -184,8 +187,8 @@ namespace Sem.Sync.Connector.Google
         /// Overrides the method to write the full list of data.
         /// </summary>
         /// <param name="elements"> The elements to be exported. </param>
-        /// <param name="clientFolderName">the full name including path of the file that will get the contacts while exporting data.</param>
-        /// <param name="skipIfExisting">this value is not used in this client.</param>
+        /// <param name="clientFolderName">The parameter clientFolderName is ignored in this connector implementation.</param>
+        /// <param name="skipIfExisting">The parameter skipIfExisting is ignored in this connector implementation.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             GoogleContactMappingExtensions.GenericUIResponder = this.UiDispatcher;

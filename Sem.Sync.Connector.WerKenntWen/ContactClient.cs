@@ -128,12 +128,10 @@ namespace Sem.Sync.Connector.WerKenntWen
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Reads all contacts from WkW.
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
+        /// <param name="clientFolderName">The parameter clientFolderName is ignored in this implementation.</param>
+        /// <param name="result">The list of elements that should get the elements.</param>
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
@@ -152,12 +150,11 @@ namespace Sem.Sync.Connector.WerKenntWen
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Wrtire access is not implemented in this connector
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        /// <param name="elements">The elements parameter is not used.</param>
+        /// <param name="clientFolderName">The clientFolderPath is not used.</param>
+        /// <param name="skipIfExisting">The skipIfExisting parameter is not used.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             throw new NotImplementedException();

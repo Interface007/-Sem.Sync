@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ContactClient type.
+//   Defines the ContactClient type to interact with Facebook via the Facebook official API.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +26,10 @@ namespace Sem.Sync.Connector.Facebook
 
     /// <summary>
     /// Implements a reading client for the Facebook api. Unfortunately Facebook is not
-    /// publishing too much data about friends.
+    /// publishing too much data about friends. Also the API enforces the use of a "secret"
+    /// and an application key - both must not be distributed with the application, so
+    /// that any potential user of this connector must accquire its own key and secret
+    /// from Facebook. A web-scraping client is under construction.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,

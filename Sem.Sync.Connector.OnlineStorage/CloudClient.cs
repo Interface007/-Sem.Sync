@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ContactClient type.
+//   Defines the ContactClient type accessing the Microsoft Azure implementation of an information store.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,17 +12,15 @@ namespace Sem.Sync.Connector.OnlineStorage
 {
     using System.Collections.Generic;
     using System.ServiceModel;
+    using System.Text.RegularExpressions;
 
     using Cloud;
-
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.Helpers;
-    using System;
-    using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Implements a sample client for the sample online storage (accessed via WCF).
+    /// Implements a sample client for the sample cloud storage (accessed via WCF).
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = false)]
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = true, NeedsCredentials = true, DisplayName = "Cloud Connector")]
@@ -45,7 +43,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         }
 
         /// <summary>
-        /// Reads the full list of contacts from the online storage
+        /// Reads the full list of contacts from the cloud storage
         /// </summary>
         /// <param name="clientFolderName">represents a path to the data</param>
         /// <param name="result">the list that will be filled with the contacts</param>
@@ -66,7 +64,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         }
 
         /// <summary>
-        /// Writes the elements to the sample online store.
+        /// Writes the elements to the sample cloud store.
         /// </summary>
         /// <param name="elements"> The elements to be written. </param>
         /// <param name="clientFolderName"> represents a path to the data </param>
@@ -98,7 +96,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         }
 
         /// <summary>
-        /// Creates a new storage client - does regard the <see cref="BindingAddress"/>.
+        /// Creates a new storage client - does regard the <see cref="BindingAddress"/> property of this class.
         /// </summary>
         /// <returns> a new client for accessing the storage </returns>
         private StorageClient GetClient()

@@ -58,9 +58,11 @@ namespace Sem.Sync.Connector.Outlook2003
                 var contactItem = item as ContactItem;
                 if (contactItem == null)
                 {
-                    contactsList.Add(new ContactsItemContainer { Item = contactItem });
-                    GCRelevantCall();
+                    continue;
                 }
+
+                contactsList.Add(new ContactsItemContainer { Item = contactItem });
+                GCRelevantCall();
             }
 
             return contactsList;
