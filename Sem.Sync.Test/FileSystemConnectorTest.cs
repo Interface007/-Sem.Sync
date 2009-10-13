@@ -13,11 +13,11 @@ namespace Sem.Sync.Test
     using System.IO;
     using System.Text;
 
-    using Connector.Filesystem;
-    using DataGenerator;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using Connector.Filesystem;
+    using DataGenerator;
+    using GenericHelpers;
     using SyncBase;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
@@ -42,11 +42,6 @@ namespace Sem.Sync.Test
         /////// contact element id with null values
         /////// </summary>
         ////private const string ContactWithNulls = "21C3586A-BB96-4a3a-9B05-D40F1125BFB9";
-
-        // public FileSystemConnectorTest()
-        // {
-        //    // TODO: Add constructor logic here
-        // }
 
         /// <summary>
         /// Gets or sets the test context which provides
@@ -109,18 +104,38 @@ namespace Sem.Sync.Test
             var path1 = Path.Combine(tempFolder, "vCards");
 
             var originalList = connector.GetAll(file1);
-            originalList.Add(new StdContact()); 
+            originalList.Add(new StdContact());
             vcardConnector.WriteRange(originalList, path1);
             var copyList = vcardConnector.GetAll(path1);
             copyList.Add(new StdContact());
             connector.WriteRange(copyList, file2);
 
-            AssertOriginalAndCopyCompare(originalList, copyList);
+            AssertOriginalAndCopyCompare(originalList, copyList, false);
 
             vcardConnector = new ContactClientVCards(true);
             vcardConnector.WriteRange(originalList, path1);
 
             Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetContactById(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
+        }
+
+        [TestMethod]
+        public void CopyTestsCSV()
+        {
+            var connector = new ContactClient();
+            var csvConnector = new GenericClientCsv<StdContact>();
+            var tempFolder = PrepareFolder(false);
+            var file1 = Path.Combine(tempFolder, "file1");
+            var file2 = Path.Combine(tempFolder, "file2");
+            var path1 = Path.Combine(tempFolder, "csv.csv");
+
+            var originalList = connector.GetAll(file1);
+            originalList.Add(new StdContact());
+            csvConnector.WriteRange(originalList, path1);
+            var copyList = csvConnector.GetAll(path1);
+            copyList.Add(new StdContact());
+            connector.WriteRange(copyList, file2);
+
+            AssertOriginalAndCopyCompare(originalList, copyList, true);
         }
 
         /// <summary>
@@ -142,7 +157,7 @@ namespace Sem.Sync.Test
             var copyList = vcardConnector.GetAll(path1);
             connector.WriteRange(copyList, file2);
 
-            AssertOriginalAndCopyCompare(originalList, copyList);
+            AssertOriginalAndCopyCompare(originalList, copyList, false);
 
             vcardConnector = new ContactClientVCards(true);
             vcardConnector.WriteRange(originalList, path1);
@@ -173,6 +188,30 @@ namespace Sem.Sync.Test
             Assert.AreEqual(content1, content2);
         }
 
+        [TestMethod]
+        public void TestCategorySelectorRead()
+        {
+            var contact = new StdContact { Categories = new List<string> { "cat1", "category 1", "!important!" } };
+
+            Assert.AreEqual("cat1", Tools.GetPropertyValueString(contact, "Categories[0]"));
+            Assert.AreEqual("category 1", Tools.GetPropertyValueString(contact, "Categories[1]"));
+            Assert.AreEqual("!important!", Tools.GetPropertyValueString(contact, "Categories[2]"));
+            Assert.AreEqual("cat1|category 1|!important!", Tools.GetPropertyValueString(contact, "Categories"));
+        }
+
+        [TestMethod]
+        public void TestCategorySelectorWrite()
+        {
+            var contact = new StdContact();
+            Tools.SetPropertyValue(contact, "Categories", "cat1|category 1|!important!");
+
+            Assert.AreEqual("cat1|category 1|!important!", Tools.GetPropertyValueString(contact, "Categories"));
+            Assert.AreEqual("cat1", contact.Categories[0]);
+            Assert.AreEqual("category 1", contact.Categories[1]);
+            Assert.AreEqual("!important!", contact.Categories[2]);
+            
+        }
+
         /// <summary>
         /// Performs a copy from one file system store to another. This executes read and write.
         /// Then both files will be compared to validate that all data has been copied.
@@ -194,7 +233,7 @@ namespace Sem.Sync.Test
             copyList.Add(new StdContact());
             connector.WriteRange(copyList, file2);
 
-            AssertOriginalAndCopyCompare(originalList, copyList);
+            AssertOriginalAndCopyCompare(originalList, copyList, false);
         }
 
         /// <summary>
@@ -218,9 +257,9 @@ namespace Sem.Sync.Test
             copyList.Add(new StdContact());
             connector.WriteRange(copyList, file2);
 
-            AssertOriginalAndCopyCompare(originalList, copyList);
+            AssertOriginalAndCopyCompare(originalList, copyList, false);
         }
-        
+
         /// <summary>
         /// Prepares a folder with files for the tests.
         /// </summary>
@@ -258,7 +297,7 @@ namespace Sem.Sync.Test
         /// </summary>
         /// <param name="originalList"> The original list. </param>
         /// <param name="copyList"> The copy list. </param>
-        private static void AssertOriginalAndCopyCompare(List<StdElement> originalList, List<StdElement> copyList)
+        private static void AssertOriginalAndCopyCompare(List<StdElement> originalList, List<StdElement> copyList, bool skipPicture)
         {
             var withoutPictureOriginal = originalList.GetContactById("9c8a9b29-2fda-44f3-8324-62b983468a7e");
             var withoutPictureCopy = copyList.GetContactById("9c8a9b29-2fda-44f3-8324-62b983468a7e");
@@ -275,8 +314,17 @@ namespace Sem.Sync.Test
             Assert.AreEqual(withPictureOriginal.Name.FirstName, withPictureCopy.Name.FirstName);
             Assert.AreEqual(withPictureOriginal.Name.LastName, withPictureCopy.Name.LastName);
             Assert.AreEqual(withPictureOriginal.Name.MiddleName, withPictureCopy.Name.MiddleName);
-            Assert.AreEqual(withPictureOriginal.PictureData.Length, withPictureCopy.PictureData.Length);
             Assert.AreEqual(withPictureOriginal.PersonalPhoneMobile.Number, withPictureCopy.PersonalPhoneMobile.Number);
+
+            Assert.AreEqual(withPictureOriginal.Categories.NewIfNull(0), withPictureCopy.Categories.NewIfNull(0));
+            Assert.AreEqual(withPictureOriginal.Categories.NewIfNull(1), withPictureCopy.Categories.NewIfNull(1));
+            Assert.AreEqual(withPictureOriginal.Categories.NewIfNull(2), withPictureCopy.Categories.NewIfNull(2));
+            Assert.AreEqual(withPictureOriginal.Categories.NewIfNull(3), withPictureCopy.Categories.NewIfNull(3));
+
+            if (!skipPicture)
+            {
+                Assert.AreEqual(withPictureOriginal.PictureData.Length, withPictureCopy.PictureData.Length);
+            }
         }
     }
 }

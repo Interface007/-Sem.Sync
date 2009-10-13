@@ -107,7 +107,23 @@ namespace Sem.GenericHelpers
         /// <param name="index"> The index. </param>
         /// <typeparam name="T"> The type of elements inside the collection </typeparam>
         /// <returns> the existing element or a new element, if the element does not exist  </returns>
-        public static T NewIfNull<T>(this List<T> testObject, int index) 
+        public static string NewIfNull(this List<string> testObject, int index)
+        {
+            var x = testObject ?? new List<string>();
+            return x.Count > index ? x[index] : string.Empty;
+        }
+
+        /// <summary>
+        /// Tests a an List of values for being NULL or not containing the desired index 
+        /// and returns a new object of the element type of the List if either the List
+        /// is null or the element does not exist.
+        /// Returns the List element if it does exist.
+        /// </summary>
+        /// <param name="testObject"> The List of elements.  </param>
+        /// <param name="index"> The index. </param>
+        /// <typeparam name="T"> The type of elements inside the collection </typeparam>
+        /// <returns> the existing element or a new element, if the element does not exist  </returns>
+        public static T NewIfNull<T>(this List<T> testObject, int index)
             where T : class, new()
         {
             var x = testObject ?? new List<T>();
