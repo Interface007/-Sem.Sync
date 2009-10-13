@@ -28,11 +28,16 @@ namespace Sem.GenericHelpers.EventArgs
         {
             this.Message = message;
         }
-        
+
         /// <summary>
         /// Gets or sets the item that is related to the current work.
         /// </summary>
         public object Item { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the engine should cancel current execution.
+        /// </summary>
+        public bool Cancel { get; set; }
 
         /// <summary>
         /// Gets or sets the message describing the event.

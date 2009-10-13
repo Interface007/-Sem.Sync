@@ -173,6 +173,8 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </summary>
         public Action<ProgressEventArgs> ProgressEvent { get; set; }
 
+        public bool Cancel { get; set; }
+
         /// <summary>
         /// Opens the current working folder using the explorer
         /// </summary>

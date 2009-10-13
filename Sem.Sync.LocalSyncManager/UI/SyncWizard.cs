@@ -64,12 +64,13 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
 
             // setup the click handling
-            this.btnCancel.Click += (s, ev) => this.Close();
+            this.btnClose.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
+            this.btnCancel.Click += (s, ev) => this.DataContext.Cancel = true;
             this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile());
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
-            
+
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
@@ -84,9 +85,14 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
                 {
-                    this.SyncProgress.Value = eventArgs.PercentageDone;
-                    this.SyncProgress.Refresh();
-                    return;
+                    this.Invoke(
+                        new MethodInvoker(
+                            () =>
+                                {
+                                    this.SyncProgress.Value = eventArgs.PercentageDone;
+                                    this.SyncProgress.Refresh();
+                                    return;
+                                }));
                 };
 
             // initialize the gui
@@ -105,35 +111,41 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="eventArgs"> The event args. </param>
         private void ProcessingEventHandler(object entity, ProcessingEventArgs eventArgs)
         {
-            var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
-            var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
-            this.lblProgressStatus.Text = message;
-            this.LogList.Items.Add(message);
-            this.LogList.TopIndex = this.LogList.Items.Count > 10 ? this.LogList.Items.Count - 10 : 0;
-            this.lblProgressStatus.Refresh();
-            if (currentContact != null)
-            {
-                // update image, if there is one and image display is switched on.
-                if (this.chkShowImage.CheckState == CheckState.Checked && currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+            this.Invoke(new MethodInvoker(() => 
                 {
-                    using (var imageStream = new MemoryStream(currentContact.PictureData))
+                    var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
+                    var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
+
+                    eventArgs.Cancel = this.DataContext.Cancel;
+
+                    this.lblProgressStatus.Text = message;
+                    this.LogList.Items.Add(message);
+                    this.LogList.TopIndex = this.LogList.Items.Count > 10 ? this.LogList.Items.Count - 10 : 0;
+                    this.lblProgressStatus.Refresh();
+                    if (currentContact != null)
                     {
-                        this.currentPersonImage.Image = new Bitmap(imageStream);
+                        // update image, if there is one and image display is switched on.
+                        if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                        {
+                            using (var imageStream = new MemoryStream(currentContact.PictureData))
+                            {
+                                this.currentPersonImage.Image = new Bitmap(imageStream);
+                            }
+
+                            this.currentPersonImage.Visible = true;
+                            this.currentPersonImage.Refresh();
+
+                            // !!! HERE WE EXIT THE METHOD !!!
+                            return;
+                        }
                     }
 
-                    this.currentPersonImage.Visible = true;
-                    this.currentPersonImage.Refresh();
-
-                    // !!! HERE WE EXIT THE METHOD !!!
-                    return;
-                }
-            }
-
-            // hide the image if we need to.
-            if (this.currentPersonImage.Visible)
-            {
-                this.currentPersonImage.Visible = false;
-            }
+                    // hide the image if we need to.
+                    if (this.currentPersonImage.Visible)
+                    {
+                        this.currentPersonImage.Visible = false;
+                    }
+            }));
         }
 
         /// <summary>
@@ -146,9 +158,16 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.LogList.Items.Clear();
             this.pnlProgress.Visible = true;
-            this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
-            this.pnlProgress.Visible = false;
-            this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
+
+            var bw = new BackgroundWorker();
+            bw.DoWork += (sender, e) => this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
+            bw.RunWorkerCompleted += (sender, e) =>
+                {
+                    this.pnlProgress.Visible = false;
+                    this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
+                };
+
+            bw.RunWorkerAsync();
         }
 
         /// <summary>
@@ -193,10 +212,10 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 this.contextDataWorkflowData.DataSource = null;
                 this.contextDataWorkflowData.DataMember = string.Empty;
-                
+
                 this.contextDataWorkflowData.DataSource = this.DataContext;
                 this.contextDataWorkflowData.DataMember = "SyncWorkflowData";
-            
+
                 this.contextDataWorkflowData.ResetBindings(false);
             }
         }
@@ -231,9 +250,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.FileName = string.Empty;
             this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
-            return 
-                this.saveFileDialog1.ShowDialog() == DialogResult.OK 
-                ? this.saveFileDialog1.FileName 
+            return
+                this.saveFileDialog1.ShowDialog() == DialogResult.OK
+                ? this.saveFileDialog1.FileName
                 : string.Empty;
         }
 

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncWizard));
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.txtPasswordSource = new System.Windows.Forms.TextBox();
             this.txtUidSource = new System.Windows.Forms.TextBox();
@@ -48,7 +48,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblDialogStatus = new System.Windows.Forms.Label();
             this.pnlProgress = new System.Windows.Forms.Panel();
-            this.chkShowImage = new System.Windows.Forms.CheckBox();
             this.currentPersonImage = new System.Windows.Forms.PictureBox();
             this.lblProgressStatus = new System.Windows.Forms.Label();
             this.SyncProgress = new System.Windows.Forms.ProgressBar();
@@ -88,6 +87,7 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -98,11 +98,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.contextDataWorkflowData)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnCancel
+            // btnClose
             // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.btnClose, "btnClose");
+            this.btnClose.Name = "btnClose";
+            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // btnRun
             // 
@@ -197,21 +197,13 @@
             // 
             // pnlProgress
             // 
-            this.pnlProgress.Controls.Add(this.chkShowImage);
+            this.pnlProgress.Controls.Add(this.btnCancel);
             this.pnlProgress.Controls.Add(this.currentPersonImage);
             this.pnlProgress.Controls.Add(this.lblProgressStatus);
             this.pnlProgress.Controls.Add(this.SyncProgress);
             this.pnlProgress.Controls.Add(this.label3);
             resources.ApplyResources(this.pnlProgress, "pnlProgress");
             this.pnlProgress.Name = "pnlProgress";
-            // 
-            // chkShowImage
-            // 
-            resources.ApplyResources(this.chkShowImage, "chkShowImage");
-            this.chkShowImage.Checked = true;
-            this.chkShowImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowImage.Name = "chkShowImage";
-            this.chkShowImage.UseVisualStyleBackColor = true;
             // 
             // currentPersonImage
             // 
@@ -426,6 +418,12 @@
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
             // 
+            // btnCancel
+            // 
+            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
@@ -459,7 +457,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnRun);
-            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblDialogStatus);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
@@ -483,7 +481,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.TextBox txtPasswordSource;
         private System.Windows.Forms.TextBox txtUidSource;
@@ -532,7 +530,6 @@
         private System.Windows.Forms.ToolStripMenuItem removeDuplettesToolStripMenuItem;
         private System.Windows.Forms.PictureBox currentPersonImage;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox chkShowImage;
         private System.Windows.Forms.ToolStripMenuItem generateSampleProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
@@ -541,5 +538,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem starteSynchronisationToolStripMenuItem;
         private System.Windows.Forms.ListBox LogList;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
