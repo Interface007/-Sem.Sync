@@ -91,6 +91,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="percentage">Specifies the percentage of work already done.</param>
         protected void UpdateProgress(int percentage)
         {
+            // var eventArgument = 
             this.UpdateProgress(this, new ProgressEventArgs { PercentageDone = percentage });
         }
 

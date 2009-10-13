@@ -93,6 +93,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Business\ProcessCanceledException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">

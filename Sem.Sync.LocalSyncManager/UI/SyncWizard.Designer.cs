@@ -48,6 +48,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblDialogStatus = new System.Windows.Forms.Label();
             this.pnlProgress = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.currentPersonImage = new System.Windows.Forms.PictureBox();
             this.lblProgressStatus = new System.Windows.Forms.Label();
             this.SyncProgress = new System.Windows.Forms.ProgressBar();
@@ -87,7 +88,6 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
-            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -204,6 +204,12 @@
             this.pnlProgress.Controls.Add(this.label3);
             resources.ApplyResources(this.pnlProgress, "pnlProgress");
             this.pnlProgress.Name = "pnlProgress";
+            // 
+            // btnCancel
+            // 
+            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // currentPersonImage
             // 
@@ -417,12 +423,6 @@
             resources.ApplyResources(this.LogList, "LogList");
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
-            // 
-            // btnCancel
-            // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // SyncWizard
             // 

@@ -88,7 +88,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                                  where (x.Value3 & 1) == 1
                                  orderby x.Value2
                                  select new KeyValuePair<string, string>(x.Value1, x.Value2);
-            
+
             this.ClientsTarget = from x in fileInfo
                                  where (x.Value3 & 2) == 2
                                  orderby x.Value2
@@ -173,7 +173,20 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </summary>
         public Action<ProgressEventArgs> ProgressEvent { get; set; }
 
+        /// <summary>
+        /// Gets or sets the event reporting progress when executing commands has been finished or aborted.
+        /// </summary>
+        public Action<ProgressEventArgs> FinishedEvent { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a Cancel operation has been requested.
+        /// </summary>
         public bool Cancel { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the execution of a template is locked.
+        /// </summary>
+        public bool Locked { get; set; }
 
         /// <summary>
         /// Opens the current working folder using the explorer
@@ -303,13 +316,35 @@ namespace Sem.Sync.LocalSyncManager.Business
                     UiProvider = new UiDispatcher(),
                 };
 
-            engine.ProcessingEvent += (s, e) => this.ProcessingEvent(s, e);
+            engine.ProcessingEvent += (s, e) =>
+            {
+                if (this.Cancel)
+                {
+                    this.ProcessingEvent(this, new ProcessingEventArgs("Process aborted"));
+                    this.Cancel = false;
+                    throw new ProcessCanceledException();
+                }
+
+                this.ProcessingEvent(s, e);
+            };
+
             engine.ProgressEvent += (s, e) => this.ProgressEvent(e);
 
-            engine.Execute(commands);
+            try
+            {
+                engine.Execute(commands);
+            }
+            catch (ProcessCanceledException)
+            {
+            }
 
             engine.ProcessingEvent -= (s, e) => this.ProcessingEvent(s, e);
             engine.ProgressEvent -= (s, e) => this.ProgressEvent(e);
+
+            if (this.FinishedEvent != null)
+            {
+                this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 }); 
+            }
         }
 
         /// <summary>

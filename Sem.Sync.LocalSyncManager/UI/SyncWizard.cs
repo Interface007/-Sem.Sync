@@ -77,7 +77,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
             this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
             this.openNetworksViewToolStripMenuItem.Click += (s, ev) => new Networks().Show();
-            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() } .Show();
+            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() }.Show();
             this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
             // setup event handling
@@ -88,12 +88,22 @@ namespace Sem.Sync.LocalSyncManager.UI
                     this.Invoke(
                         new MethodInvoker(
                             () =>
-                                {
-                                    this.SyncProgress.Value = eventArgs.PercentageDone;
-                                    this.SyncProgress.Refresh();
-                                    return;
-                                }));
+                            {
+                                this.SyncProgress.Value = eventArgs.PercentageDone;
+                                this.SyncProgress.Refresh();
+                                return;
+                            }));
                 };
+
+            this.DataContext.FinishedEvent += s => this.Invoke(
+                                                       new MethodInvoker(
+                                                       () =>
+                                                           {
+                                                               this.DataContext.Cancel = false;
+                                                               this.pnlProgress.Visible = false;
+                                                               this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
+                                                               this.DataContext.Locked = false;
+                                                           }));
 
             // initialize the gui
             this.cboSource.SelectedIndex = -1;
@@ -111,12 +121,10 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="eventArgs"> The event args. </param>
         private void ProcessingEventHandler(object entity, ProcessingEventArgs eventArgs)
         {
-            this.Invoke(new MethodInvoker(() => 
+            this.Invoke(new MethodInvoker(() =>
                 {
                     var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
                     var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
-
-                    eventArgs.Cancel = this.DataContext.Cancel;
 
                     this.lblProgressStatus.Text = message;
                     this.LogList.Items.Add(message);
@@ -145,7 +153,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                     {
                         this.currentPersonImage.Visible = false;
                     }
-            }));
+                }));
         }
 
         /// <summary>
@@ -154,6 +162,13 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// </summary>
         private void RunCommands()
         {
+            if (this.DataContext.Locked)
+            {
+                MessageBox.Show("There is currently a process running - please wait until that process is finished or cancel the process.");
+                return;
+            }
+
+            this.DataContext.Locked = true;
             Config.LastUsedSyncTemplateData = this.cboWorkFlowData.SelectedValue.ToString();
 
             this.LogList.Items.Clear();
@@ -161,12 +176,6 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             var bw = new BackgroundWorker();
             bw.DoWork += (sender, e) => this.DataContext.Run(this.DataContext.CurrentSyncWorkflowTemplate);
-            bw.RunWorkerCompleted += (sender, e) =>
-                {
-                    this.pnlProgress.Visible = false;
-                    this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
-                };
-
             bw.RunWorkerAsync();
         }
 
