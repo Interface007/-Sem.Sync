@@ -77,7 +77,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
             this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
             this.openNetworksViewToolStripMenuItem.Click += (s, ev) => new Networks().Show();
-            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() }.Show();
+            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() } .Show();
             this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
             // setup event handling
