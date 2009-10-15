@@ -18,7 +18,7 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Normalizes content by using lookup tables and removes unneeded whitespace
     /// </summary>
-    public class NormalizeContent : ISyncCommand
+    public class NormalizeContent : SyncComponent, ISyncCommand
     {
         /// <summary>
         /// Gets or sets UiProvider.
@@ -52,6 +52,7 @@ namespace Sem.Sync.SyncBase.Commands
             
             foreach (var element in elements)
             {
+                this.LogProcessingEvent(element, "normalizing ... ");
                 element.NormalizeContent();
             }
 

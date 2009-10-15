@@ -119,7 +119,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
             }
             catch (Exception ex)
             {
-                this.LogProcessingEvent(ex.Message);
+                this.LogException(ex);
             }
 
             return result;

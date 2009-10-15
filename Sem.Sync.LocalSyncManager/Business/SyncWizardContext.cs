@@ -22,6 +22,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using GenericHelpers;
     using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Exceptions;
 
     using Properties;
 
@@ -322,7 +323,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 {
                     this.ProcessingEvent(this, new ProcessingEventArgs("Process aborted"));
                     this.Cancel = false;
-                    throw new ProcessCanceledException();
+                    throw new ProcessAbortException();
                 }
 
                 this.ProcessingEvent(s, e);
@@ -334,7 +335,7 @@ namespace Sem.Sync.LocalSyncManager.Business
             {
                 engine.Execute(commands);
             }
-            catch (ProcessCanceledException)
+            catch (ProcessAbortException)
             {
             }
 

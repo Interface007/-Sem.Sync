@@ -80,7 +80,6 @@
             this.removeDuplettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateSampleProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.openNetworksViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openCommandsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.starteSynchronisationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +87,7 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
+            this.chkShowImage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -197,6 +197,7 @@
             // 
             // pnlProgress
             // 
+            this.pnlProgress.Controls.Add(this.chkShowImage);
             this.pnlProgress.Controls.Add(this.btnCancel);
             this.pnlProgress.Controls.Add(this.currentPersonImage);
             this.pnlProgress.Controls.Add(this.lblProgressStatus);
@@ -207,6 +208,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -364,7 +366,6 @@
             this.removeDuplettesToolStripMenuItem,
             this.generateSampleProfilesToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.openNetworksViewToolStripMenuItem,
             this.openCommandsViewToolStripMenuItem,
             this.toolStripMenuItem2,
             this.starteSynchronisationToolStripMenuItem});
@@ -385,11 +386,6 @@
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-            // 
-            // openNetworksViewToolStripMenuItem
-            // 
-            this.openNetworksViewToolStripMenuItem.Name = "openNetworksViewToolStripMenuItem";
-            resources.ApplyResources(this.openNetworksViewToolStripMenuItem, "openNetworksViewToolStripMenuItem");
             // 
             // openCommandsViewToolStripMenuItem
             // 
@@ -424,10 +420,19 @@
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
             // 
+            // chkShowImage
+            // 
+            resources.ApplyResources(this.chkShowImage, "chkShowImage");
+            this.chkShowImage.Checked = true;
+            this.chkShowImage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowImage.Name = "chkShowImage";
+            this.chkShowImage.UseVisualStyleBackColor = true;
+            // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.Controls.Add(this.LogList);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlProgress);
@@ -533,11 +538,11 @@
         private System.Windows.Forms.ToolStripMenuItem generateSampleProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem openNetworksViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openCommandsViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem starteSynchronisationToolStripMenuItem;
         private System.Windows.Forms.ListBox LogList;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckBox chkShowImage;
     }
 }

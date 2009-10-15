@@ -23,6 +23,7 @@ namespace Sem.Sync.SyncBase
 
     using Interfaces;
     using Properties;
+    using Sem.GenericHelpers.Exceptions;
 
     /// <summary>
     /// The sync engine is the heart of the library. This engine does coordinate the work in
@@ -57,7 +58,7 @@ namespace Sem.Sync.SyncBase
         /// the number of commands in the sequence
         /// </summary>
         private int numberOfCommandsInSequence;
-        
+
         /// <summary>
         /// the percentage of work already done
         /// </summary>
@@ -172,7 +173,7 @@ namespace Sem.Sync.SyncBase
             }
             catch (Exception ex)
             {
-                this.LogProcessingEvent("Error while executing client: {0}", ex.Message);
+                this.LogException(ex);
             }
             finally
             {
@@ -200,7 +201,7 @@ namespace Sem.Sync.SyncBase
                 client.LogOnPassword = credentials.LogOnPassword;
                 client.LogOnDomain = credentials.LogOnDomain;
             }
-            
+
             return client;
         }
 
@@ -222,13 +223,13 @@ namespace Sem.Sync.SyncBase
             if (addEvent)
             {
                 component.ProcessingEvent += this.LogProcessingEvent;
-                component.ProgressEvent += 
+                component.ProgressEvent +=
                     (s, e) => this.UpdateProgress(
-                                  this.percentageOfSequenceDone 
+                                  this.percentageOfSequenceDone
                                   + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
 
                 if (clientBase != null)
-                { 
+                {
                     clientBase.UiDispatcher = this.UiProvider;
                 }
 
@@ -240,7 +241,7 @@ namespace Sem.Sync.SyncBase
             else
             {
                 component.ProcessingEvent -= this.LogProcessingEvent;
-                
+
                 if (client != null)
                 {
                     client.QueryForLogonCredentialsEvent -= this.QueryForLogOnCredentialsEvent;

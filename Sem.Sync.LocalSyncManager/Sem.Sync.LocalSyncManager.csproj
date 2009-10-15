@@ -93,7 +93,6 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="Business\ProcessCanceledException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">
@@ -117,12 +116,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Networks.resx">
-      <DependentUpon>Networks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SyncDetails.resx">
-      <DependentUpon>SyncDetails.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SyncWizard.de.resx">
       <DependentUpon>SyncWizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,18 +137,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="UI\Networks.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Networks.Designer.cs">
-      <DependentUpon>Networks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SyncDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SyncDetails.Designer.cs">
-      <DependentUpon>SyncDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SyncWizard.cs">
       <SubType>Form</SubType>
@@ -245,6 +226,7 @@
     <Content Include="dictionary.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\1.png" />
     <None Include="SyncLists\A Copy of Calendar to FS.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

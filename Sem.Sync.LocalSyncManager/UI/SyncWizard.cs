@@ -76,7 +76,6 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
             this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
-            this.openNetworksViewToolStripMenuItem.Click += (s, ev) => new Networks().Show();
             this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() } .Show();
             this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
@@ -133,7 +132,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                     if (currentContact != null)
                     {
                         // update image, if there is one and image display is switched on.
-                        if (currentContact.PictureData != null && currentContact.PictureData.Length > 10)
+                        if (chkShowImage.Checked && currentContact.PictureData != null && currentContact.PictureData.Length > 10)
                         {
                             using (var imageStream = new MemoryStream(currentContact.PictureData))
                             {

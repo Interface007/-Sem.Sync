@@ -18,7 +18,7 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Inserts only missing elements, existing elements will not be altered
     /// </summary>
-    public class MergeMissing : ISyncCommand
+    public class MergeMissing : SyncComponent, ISyncCommand
     {
         /// <summary>
         /// Gets or sets UiProvider.

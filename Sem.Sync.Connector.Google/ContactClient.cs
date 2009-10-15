@@ -116,7 +116,7 @@ namespace Sem.Sync.Connector.Google
             }
 
             Console.WriteLine(exception + " : " + message);
-            this.LogProcessingEvent("Error while executing client: {0}", message);
+            this.LogException(exception);
         }
 
         /// <summary>

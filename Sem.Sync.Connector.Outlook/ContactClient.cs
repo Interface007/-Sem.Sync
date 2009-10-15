@@ -16,6 +16,8 @@ namespace Sem.Sync.Connector.Outlook
     using System.Globalization;
     using System.Linq;
 
+    using GenericHelpers.Exceptions;
+
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
@@ -231,9 +233,9 @@ namespace Sem.Sync.Connector.Outlook
                     }
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception exception)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
+                this.LogException(exception, Resources.uiErrorAtName, currentElementName);
             }
             finally
             {

@@ -18,7 +18,7 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Performs a shell execute to open the document specified as the command parameter
     /// </summary>
-    public class OpenDocument : ISyncCommand
+    public class OpenDocument : SyncComponent, ISyncCommand
     {
         /// <summary>
         /// Gets or sets UiProvider.
@@ -40,6 +40,7 @@ namespace Sem.Sync.SyncBase.Commands
         {
             if (!string.IsNullOrEmpty(commandParameter))
             {
+                this.LogProcessingEvent("starting process: " + commandParameter);
                 Process.Start(new ProcessStartInfo(commandParameter));
             }
 

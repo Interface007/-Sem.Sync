@@ -121,7 +121,7 @@ namespace Sem.Sync.Connector.MsAccess
                             }
                             catch (Exception ex)
                             {
-                                this.LogProcessingEvent(ex.Message);
+                                this.LogException(ex);
                             }
                         }
 
@@ -188,7 +188,7 @@ namespace Sem.Sync.Connector.MsAccess
                     }
                     catch (Exception ex)
                     {
-                        this.LogProcessingEvent(item, ex.Message);
+                        this.LogException(ex);
                     }
                 }
             }

@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="btnCancel.Text" xml:space="preserve">
-    <value>E&amp;nde</value>
+  <data name="btnClose.Text" xml:space="preserve">
+    <value>s&amp;chliessen</value>
   </data>
   <data name="btnRun.Text" xml:space="preserve">
     <value>Sta&amp;rt [F5]</value>
@@ -163,6 +163,9 @@
   <data name="lblDialogStatus.Text" xml:space="preserve">
     <value>Bitte wählen Sie eine Quelle und ein Ziel für die Synchronisation. Je nach Quelle/Ziel muss eventuell auch ein Pfad, ein Benutzer-Name und/oder ein Passwort angegeben werden.</value>
   </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>&amp;abbrechen</value>
+  </data>
   <data name="lblProgressStatus.Text" xml:space="preserve">
     <value>bitte warten ...</value>
   </data>
@@ -179,7 +182,7 @@
     <value>P&amp;fad:</value>
   </data>
   <data name="btnSave.Text" xml:space="preserve">
-    <value>&amp;Speichern ...</value>
+    <value>&amp;speichern ...</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 13</value>
@@ -234,12 +237,6 @@
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>291, 6</value>
-  </data>
-  <data name="openNetworksViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 22</value>
-  </data>
-  <data name="openNetworksViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>öffne "&amp;Networks"-Ansicht</value>
   </data>
   <data name="openCommandsViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 22</value>

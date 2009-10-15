@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Sem.Sync.SyncBase.Attributes.ClientStoragePathDescriptionAttribute" Collapsed="true">
+    <Position X="13" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Attributes\ClientStoragePathDescriptionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Attributes.CommandDescriptionAttribute" Collapsed="true">
+    <Position X="10" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\CommandDescriptionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Attributes.ConnectorDescriptionAttribute" Collapsed="true">
+    <Position X="8.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAACAIAAAAAABQAAAACEAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\ConnectorDescriptionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Binding.SyncCollection" Collapsed="true">
+    <Position X="14.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Binding\SyncCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.AskForContinue" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AskForContinue.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.CopyAll" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CopyAll.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.DeleteElements" Collapsed="true">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\DeleteElements.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.DeletePattern" Collapsed="true">
+    <Position X="4.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\DeletePattern.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.DetectConflicts" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\DetectConflicts.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MatchByName" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\MatchByName.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MatchByProfileId" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAABAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\MatchByProfileId.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MatchManually" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\MatchManually.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MergeExternal" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAQAAAAgA=</HashCode>
+      <FileName>Commands\MergeExternal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MergeHighEvidence" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\MergeHighEvidence.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.MergeMissing" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\MergeMissing.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.NormalizeContent" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\NormalizeContent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.OpenDocument" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\OpenDocument.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.RemoveDuplicatesOnTarget" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\RemoveDuplicatesOnTarget.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Commands.UpdateTestData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\UpdateTestData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.AddressDetail" Collapsed="true">
+    <Position X="18.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAIAAIAAAAACEIBAIAAACAAAAAAAAAAAAIAEAAAA=</HashCode>
+      <FileName>DetailData\AddressDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.CalendarIdentifier" Collapsed="true">
+    <Position X="20.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>DetailData\CalendarIdentifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ConnectorInformation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAACAAAgAAIQABACAAQAgAAEAAAAAAAACACAAAA=</HashCode>
+      <FileName>DetailData\ConnectorInformation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.InstantMessengerAddresses" Collapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAgAAQAABAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\InstantMessengerAddresses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.MatchingEntry" Collapsed="true">
+    <Position X="17.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAAAgAA=</HashCode>
+      <FileName>DetailData\MatchingEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.PersonName" Collapsed="true">
+    <Position X="20.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEAAAQAAAAAAAAAgAAACAAAAAIAAg=</HashCode>
+      <FileName>DetailData\PersonName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.PhoneNumber" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQAAgAAAAAAEAEAAAAAEAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\PhoneNumber.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ProfileIdentifiers" Collapsed="true">
+    <Position X="18.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAIAAAAABAAEhAgIEAAAACQAAYAAAAAAgACAAAA=</HashCode>
+      <FileName>DetailData\ProfileIdentifiers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ReplacementLists" Collapsed="true">
+    <Position X="11.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\ReplacementLists.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.SyncData" Collapsed="true">
+    <Position X="18.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\SyncData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.SyncWorkFlow" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAkAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\SyncWorkFlow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Helpers.Extensions" Collapsed="true">
+    <Position X="11.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAEAAAAIAAAJAACAAAAAABAAAAAAAIAAACA=</HashCode>
+      <FileName>Helpers\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Helpers.SyncTools" Collapsed="true">
+    <Position X="11.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAAgEAAAAAAAEAAAAAAAAAIAAAAAAAAAAAAAAIAE=</HashCode>
+      <FileName>Helpers\SyncTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Helpers.VCardConverter" Collapsed="true">
+    <Position X="14.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECAAAAAAAAAAAAAAAgIhAAIACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\vCardConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Merging.MergeConflict" Collapsed="true">
+    <Position X="10" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEGAAEAAAAAAAAAAACYAAACAgAAAABAAA=</HashCode>
+      <FileName>Merging\Conflict.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Merging.ConflictTestContainer" Collapsed="true">
+    <Position X="10" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAUAAAAAAAAAAAAIAAAAFACAABACAA=</HashCode>
+      <FileName>Merging\ConflictTestContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.Properties.Resources" Collapsed="true">
+    <Position X="13" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAQAAUAAQAAAAABABEAAAAQQIAAQAwQAAEgAECoA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.StdCalendarItem" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAcAgAAAICIAAAgEAIIJAEQAQEAIcAAACAAAAAAAAwA=</HashCode>
+      <FileName>StdCalendarItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.StdClient" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAAAAAAAQAAEEAEkAAAAAAEgCAECQYAAhAAAABsBEA=</HashCode>
+      <FileName>StdClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.StdContact" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAiAAhgAYAkEBAUAmAgAASAARAQMAApIACAAAAAEAg=</HashCode>
+      <FileName>StdContact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.StdElement" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAIAAAAQAAAAAAAAAAAAAJAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StdElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.StdProfileInformationClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAABAAAAAIAAA=</HashCode>
+      <FileName>StdProfileInformationClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.SyncComponent" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAAQAACAAQ=</HashCode>
+      <FileName>SyncComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.SyncDescription" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAIAAAAAAIAAABAJAUAAQgAAAAACAAAAgAAAAA=</HashCode>
+      <FileName>SyncDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.SyncEngine" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAAQAAAQACACAABAAAAgACIAAAABAAgA=</HashCode>
+      <FileName>SyncEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Sem.Sync.SyncBase.Interfaces.IClientBase" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAAAAAAAAAAAAAAgAAAAAAAgAAAAQAAAgAAAABGBEA=</HashCode>
+      <FileName>Interfaces\IClientBase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Sem.Sync.SyncBase.Interfaces.ISyncCommand">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ISyncCommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Sem.Sync.SyncBase.Interfaces.IUiSyncInteraction" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUiSyncInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Sem.GenericHelpers.Interfaces.ICredentialAware" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Sem.GenericHelpers.Interfaces.IUiInteraction" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="Sem.Sync.SyncBase.Attributes.ClientPathType" Collapsed="true">
+    <Position X="17.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgIAQAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Attributes\ClientStoragePathDescriptionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.AddressFormatting" Collapsed="true">
+    <Position X="17.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\AddressDetail.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.CalendarIdentifierType" Collapsed="true">
+    <Position X="20.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\CalendarIdentifier.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.CountryCode" Collapsed="true">
+    <Position X="19" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>i3NxbLfTpzt3m/mA3ZW/1sd6thg+f/jcE3f2v9Xg3b4=</HashCode>
+      <FileName>DetailData\CountryCode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.Gender" Collapsed="true">
+    <Position X="20.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>DetailData\Genders.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.ProfileIdentifierType" Collapsed="true">
+    <Position X="20.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAIAAAAAEAAAAAAIIAgAACQAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\ProfileIdentifiers.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.Merging.MergePropertyConflict" Collapsed="true">
+    <Position X="19" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAIAAAEBAAAAAAAAAAAAAACEAAAA=</HashCode>
+      <FileName>Merging\Conflict.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.Merging.MergePropertyAction" Collapsed="true">
+    <Position X="17.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAACAAAAAAAAAAAAIAAAIAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Merging\Conflict.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.BusyStatus" Collapsed="true">
+    <Position X="19" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAACI=</HashCode>
+      <FileName>StdCalendarItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.ResponseStatus" Collapsed="true">
+    <Position X="19" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAIAAAAAAAAAAAIAIAAAEAAAAAAAAACA=</HashCode>
+      <FileName>StdCalendarItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.RecurrenceState" Collapsed="true">
+    <Position X="17.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAACAAAAACAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>StdCalendarItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.SyncCommand" Collapsed="true">
+    <Position X="20.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAABQBAEEAAAAEEAQAAAAAEACAIAAAAAAAAAAAAQA=</HashCode>
+      <FileName>SyncDescription.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -10,6 +10,7 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
 
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Exceptions;
 
     /// <summary>
     /// Base class for Sync classes that do provide UI feedback like logging and progress.
@@ -85,14 +86,60 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// log an exception.
+        /// use this overload if you don't have any context information
+        /// </summary>
+        /// <param name="exception"> The exception. </param>
+        protected void LogException(Exception exception)
+        {
+            this.LogException(exception, "Error while executing client: {0}");
+        }
+
+        /// <summary>
+        /// log an exception.
+        /// use this overload to use a defined message with parameters
+        /// </summary>
+        /// <param name="exception"> The exception.  </param>
+        /// <param name="message"> The message. </param>
+        /// <param name="parameterStrings"> The parameter Strings. </param>
+        protected void LogException(Exception exception, string message, params string[] parameterStrings)
+        {
+            // throw an exception if this one is a ProcessAbortException
+            ThrowOnException(exception as ProcessAbortException);
+
+            // combine the specified parameters with the message of the exception to 
+            // build a param array for the format function
+            var parameters = new string[parameterStrings.Length + 1];
+            parameters[0] = message;
+            for (var i = 0; i < parameterStrings.Length - 1; i++)
+            {
+                parameters[i + 1] = parameterStrings[i];
+            }
+            
+            this.LogProcessingEvent(message, parameters);
+        }
+
+        /// <summary>
         /// Informs the subscriber of the <see cref="ProgressEvent"/> about the percentage of the current 
         /// execution. This percentage is relative to the complete method call.
         /// </summary>
         /// <param name="percentage">Specifies the percentage of work already done.</param>
         protected void UpdateProgress(int percentage)
         {
-            // var eventArgument = 
             this.UpdateProgress(this, new ProgressEventArgs { PercentageDone = percentage });
+        }
+
+        /// <summary>
+        /// Throws an <see cref="Exception"/> if one is specified
+        /// </summary>
+        /// <param name="exception"> The process abort exception to be thrown. </param>
+        /// <exception cref="ProcessAbortException"> if the parameter is not null </exception>
+        private static void ThrowOnException(Exception exception)
+        {
+            if (exception != null)
+            {
+                throw exception;
+            }
         }
 
         /// <summary>

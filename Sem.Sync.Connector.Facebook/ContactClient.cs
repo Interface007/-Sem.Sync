@@ -118,54 +118,56 @@ namespace Sem.Sync.Connector.Facebook
                 }
                 catch (Exception ex)
                 {
-                    LogProcessingEvent("Exception: " + ex.Message);
+                    this.LogException(ex);
                 }
 
-                if (userData != null)
+                if (userData == null)
                 {
-                    var pictureBytes =
-                        userData.PictureBigBytes ??
-                        userData.PictureBytes ??
-                        userData.PictureSmallBytes ??
-                        userData.PictureSquareBytes;
-
-                    resultList.Add(
-                        new StdContact
-                            {
-                                Id = Guid.NewGuid(),
-
-                                InternalSyncData = new SyncData { DateOfLastChange = userData.ProfileUpdateDate },
-
-                                PersonGender =
-                                    (userData.Sex == global::Facebook.Entity.Gender.Female)
-                                        ? Gender.Female
-                                        :
-                                            (userData.Sex == global::Facebook.Entity.Gender.Male)
-                                                ? Gender.Male
-                                                :
-                                                    Gender.Unspecified,
-
-                                Name = new PersonName
-                                           {
-                                               LastName = userData.LastName,
-                                               FirstName = userData.FirstName,
-                                           },
-
-                                DateOfBirth = userData.Birthday ?? new DateTime(),
-
-                                PersonalAddressPrimary = new AddressDetail
-                                                             {
-                                                                 CountryName = userData.HometownLocation.Country.ToString(),
-                                                                 StateName = userData.HometownLocation.State.ToString(),
-                                                                 CityName = userData.HometownLocation.City,
-                                                                 PostalCode = userData.HometownLocation.ZipCode,
-                                                             },
-
-                                PictureName = (pictureBytes == null) ? null : "Facebook.jpg",
-                                PictureData = pictureBytes,
-                                PersonalProfileIdentifiers = new ProfileIdentifiers { FacebookProfileId = userData.UserId }
-                            });
+                    continue;
                 }
+
+                var pictureBytes =
+                    userData.PictureBigBytes ??
+                    userData.PictureBytes ??
+                    userData.PictureSmallBytes ??
+                    userData.PictureSquareBytes;
+
+                resultList.Add(
+                    new StdContact
+                        {
+                            Id = Guid.NewGuid(),
+
+                            InternalSyncData = new SyncData { DateOfLastChange = userData.ProfileUpdateDate },
+
+                            PersonGender =
+                                (userData.Sex == global::Facebook.Entity.Gender.Female)
+                                    ? Gender.Female
+                                    :
+                                        (userData.Sex == global::Facebook.Entity.Gender.Male)
+                                            ? Gender.Male
+                                            :
+                                                Gender.Unspecified,
+
+                            Name = new PersonName
+                                {
+                                    LastName = userData.LastName,
+                                    FirstName = userData.FirstName,
+                                },
+
+                            DateOfBirth = userData.Birthday ?? new DateTime(),
+
+                            PersonalAddressPrimary = new AddressDetail
+                                {
+                                    CountryName = userData.HometownLocation.Country.ToString(),
+                                    StateName = userData.HometownLocation.State.ToString(),
+                                    CityName = userData.HometownLocation.City,
+                                    PostalCode = userData.HometownLocation.ZipCode,
+                                },
+
+                            PictureName = (pictureBytes == null) ? null : "Facebook.jpg",
+                            PictureData = pictureBytes,
+                            PersonalProfileIdentifiers = new ProfileIdentifiers { FacebookProfileId = userData.UserId }
+                        });
             }
 
             return resultList;

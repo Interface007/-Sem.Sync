@@ -104,7 +104,6 @@ namespace Sem.Sync.LocalSyncManager.UI
             // setup the commands
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
-            this.simpleSyncToolStripMenuItem.Click += (s, ev) => new SyncWizard().ShowDialog();
             this.runSelected.Click += (s, ev) => this.RunSelectedRow();
         }
 
