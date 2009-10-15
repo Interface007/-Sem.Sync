@@ -12,22 +12,14 @@ namespace Sem.Sync.SyncBase.Commands
     using System;
 
     using Attributes;
-
-    using GenericHelpers.Interfaces;
-
     using Interfaces;
 
     /// <summary>
     /// This command copies all data from the source connector to the target connector
     /// </summary>
     [CommandDescription(DebugOnly = true)]
-    public class UpdateTestData : ISyncCommand
+    public class UpdateTestData : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-
         /// <summary>
         /// Updates test data inside a storage.
         /// Overwrite existing entries
@@ -39,7 +31,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             if (targetClient == null)

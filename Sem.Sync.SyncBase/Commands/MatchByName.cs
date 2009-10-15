@@ -13,20 +13,13 @@ namespace Sem.Sync.SyncBase.Commands
     using System.Collections.Generic;
     using System.Linq;
 
-    using GenericHelpers.Interfaces;
-
     using Interfaces;
 
     /// <summary>
     /// Match internally without user interaction by comparing the names
     /// </summary>
-    public class MatchByName : ISyncCommand
+    public class MatchByName : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-        
         /// <summary>
         /// Match internally without user interaction by comparing the names
         /// </summary>
@@ -37,7 +30,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             if (targetClient == null)
@@ -61,7 +54,7 @@ namespace Sem.Sync.SyncBase.Commands
             }
             
             targetClient.WriteRange(
-                MatchThisByName(
+                this.MatchThisByName(
                     sourceClient.GetAll(sourceStorePath),
                     targetClient.GetAll(targetStorePath)),
                 targetStorePath);
@@ -78,7 +71,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="target">the list of <see cref="StdElement"/> that contains the target 
         /// (here the <see cref="StdElement.Id"/> will be changed if a match is found in the source)</param>
         /// <returns>the modified list of elements from the <paramref name="target"/></returns>
-        private static List<StdElement> MatchThisByName(IEnumerable<StdElement> source, List<StdElement> target)
+        private List<StdElement> MatchThisByName(IEnumerable<StdElement> source, List<StdElement> target)
         {
             // ReSharper disable AccessToModifiedClosure
             foreach (var item in target)
@@ -105,6 +98,7 @@ namespace Sem.Sync.SyncBase.Commands
                 // if we did find the name, we match using the Id
                 if (corresponding != null)
                 {
+                    this.LogProcessingEvent(item, "Match found.");
                     item.Id = corresponding.Id;
                 }
             }

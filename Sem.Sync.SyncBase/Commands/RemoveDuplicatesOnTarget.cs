@@ -11,20 +11,13 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
-    using GenericHelpers.Interfaces;
-
     using Interfaces;
 
     /// <summary>
     /// Removes duplicates from the list of entities
     /// </summary>
-    public class RemoveDuplicatesOnTarget : ISyncCommand
+    public class RemoveDuplicatesOnTarget : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-
         /// <summary>
         /// Removes duplicate entries. Calendar-Entries will be compared different to Contact entries.
         /// </summary>
@@ -35,7 +28,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             if (targetClient == null)

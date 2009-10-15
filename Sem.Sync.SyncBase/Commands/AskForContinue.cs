@@ -15,13 +15,8 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Sync command that uses the <see cref="UiProvider"/> to ask the user if the process should continue.
     /// </summary>
-    public class AskForContinue : ISyncCommand
+    public class AskForContinue : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets the UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-
         /// <summary>
         /// This command that uses the <see cref="UiProvider"/> to ask the user if the process should continue.
         /// </summary>
@@ -32,7 +27,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             return this.UiProvider == null

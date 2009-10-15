@@ -11,6 +11,7 @@ namespace Sem.Sync.SyncBase
 
     using GenericHelpers.EventArgs;
     using GenericHelpers.Exceptions;
+    using GenericHelpers.Interfaces;
 
     /// <summary>
     /// Base class for Sync classes that do provide UI feedback like logging and progress.
@@ -29,6 +30,11 @@ namespace Sem.Sync.SyncBase
         /// for 1 minute left.
         /// </summary>
         public event EventHandler<ProgressEventArgs> ProgressEvent;
+
+        /// <summary>
+        /// Gets or sets UiProvider.
+        /// </summary>
+        public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// logs an event by specifying the current element that is related to the event and a message about the current event

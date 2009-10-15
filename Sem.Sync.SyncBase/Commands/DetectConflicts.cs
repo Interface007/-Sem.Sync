@@ -19,13 +19,8 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Detects merge conflicts and resolves them using user interaction
     /// </summary>
-    public class DetectConflicts : ISyncCommand
+    public class DetectConflicts : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-
         /// <summary>
         /// Detects merge conflicts and resolves them using user interaction
         /// </summary>
@@ -36,7 +31,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             // todo: this is currently specific to StdContact-elements, so we need to generalize it.

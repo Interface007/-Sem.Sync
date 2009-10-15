@@ -20,17 +20,12 @@ namespace Sem.Sync.SyncBase.Commands
     /// <summary>
     /// Merge entities (e.g. Contacts, Calendar-Items) using an external tool
     /// </summary>
-    public class MergeExternal : ISyncCommand
+    public class MergeExternal : SyncComponent, ISyncCommand
     {
         /// <summary>
         /// Determines the registry path to the value that holds the path to BeyondCompare
         /// </summary>
         private const string BeyondComparePath = "Software\\Scooter Software\\Beyond Compare 3";
-
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Gets the file system path to the external program BeyondCompare
@@ -66,7 +61,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             var pathValue = PathToBeyondCompare;

@@ -28,13 +28,8 @@ namespace Sem.Sync.SyncBase.Commands
     /// - the target byte[] is of length = 0
     /// for complex types each property will be merged individually
     /// </summary>
-    public class MergeHighEvidence : ISyncCommand
+    public class MergeHighEvidence : SyncComponent, ISyncCommand
     {
-        /// <summary>
-        /// Gets or sets UiProvider.
-        /// </summary>
-        public IUiInteraction UiProvider { get; set; }
-
         /// <summary>
         /// Merge properties of entities from source to target if there is a very high propability that the
         /// source property is "better" than the target property 
@@ -46,7 +41,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <param name="targetStorePath">The target storage path.</param>
         /// <param name="baselineStorePath">The baseline storage path.</param>
         /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="UiProvider"/> is "continue" </returns>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
             if (targetClient == null)
