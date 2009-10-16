@@ -18,6 +18,7 @@ namespace Sem.Sync.Connector.MsAccess
     using GenericHelpers.Entities;
 
     using SyncBase.DetailData;
+    using Sem.Sync.SyncBase;
 
     /// <summary>
     /// Defines a database source
@@ -92,6 +93,26 @@ namespace Sem.Sync.Connector.MsAccess
                                             ? Gender.Male 
                                             : ((string)value) == "f" ? Gender.Female : Gender.Unspecified,
                                     },
+                                new TableLink 
+                                { 
+                                    TableName = "Firma",
+                                    JoinBy = new List<KeyValuePair>{ new KeyValuePair {Key = "Firma", Value = "Id"}},                                    
+
+                                    ColumnDefinitions = new List<ColumnDefinition>
+                                    {
+                                        new ColumnDefinition {Title = "Firmenname", Selector = "BusinessCompanyName",}                                        
+                                    }
+                                },
+                                new TableLink 
+                                { 
+                                    TableName = "Rolle",
+                                    JoinBy = new List<KeyValuePair>{ new KeyValuePair {Key = "Rolle", Value = "RolleId"}},                                    
+
+                                    ColumnDefinitions = new List<ColumnDefinition>
+                                    {
+                                        new ColumnDefinition {Title = "Rollenname", Selector = "BusinessPosition",}                                        
+                                    }
+                                },
                             }
                 };
 

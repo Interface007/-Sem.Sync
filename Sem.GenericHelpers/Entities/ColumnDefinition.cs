@@ -23,6 +23,7 @@ namespace Sem.GenericHelpers.Entities
     /// be used to select the property of the exported object that will be stored inside the 
     /// column and the title text of the column
     /// </summary>
+    [XmlInclude(typeof(TableLink))]
     public class ColumnDefinition
     {
         /// <summary>

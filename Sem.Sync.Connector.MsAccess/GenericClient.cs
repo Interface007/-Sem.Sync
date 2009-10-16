@@ -21,6 +21,7 @@ namespace Sem.Sync.Connector.MsAccess
 
     using SyncBase;
     using SyncBase.Attributes;
+    using System.Text;
 
     /// <summary>
     /// Class that provides a connector to Microsoft Access Database files. The connector
@@ -97,7 +98,7 @@ namespace Sem.Sync.Connector.MsAccess
                 con.Open();
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = string.Format(SqlStatementSelectAll, description.MainTable);
+                    cmd.CommandText = GenerateSelectStatement(description);
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -131,6 +132,33 @@ namespace Sem.Sync.Connector.MsAccess
             }
 
             return result;
+        }
+
+        private static string GenerateSelectStatement(SourceDescription description)
+        {
+            var addComma = false;
+            var sqlBuilder = new StringBuilder(1024);
+            sqlBuilder.Append("SELECT ");
+            foreach (var item in description.ColumnDefinitions)
+            {
+                var tableLink = item as TableLink;
+                if (tableLink == null)
+                {
+                    if (addComma)
+                    {
+                        sqlBuilder.Append(",");
+                    }
+                    else
+                    {
+                        addComma = true;
+                    }
+
+                    sqlBuilder.Append("[").Append(item.Title).Append("]");
+                }
+            }
+
+            sqlBuilder.Append(" FROM ").Append(description.MainTable);
+            return sqlBuilder.ToString();
         }
 
         /// <summary>
