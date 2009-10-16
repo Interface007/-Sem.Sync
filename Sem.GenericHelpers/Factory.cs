@@ -97,6 +97,13 @@ namespace Sem.GenericHelpers
                         // to outlook 2003 if the standard one cannot be created.
                         className = "Sem.Sync.Connector.Outlook2003.CalendarClient";
                         break;
+
+                    case "Sem.Sync.Connector.Outlook.ContactClient":
+                        // the standard connector for outlook is for outlook 2008 - that
+                        // one is not compatible with outlook 2003, so we do fall back
+                        // to outlook 2003 if the standard one cannot be created.
+                        className = "Sem.Sync.Connector.Outlook2003.ContactClient";
+                        break;
                 }
 
                 // we do only have one try, so this one will throw an exception ;-)

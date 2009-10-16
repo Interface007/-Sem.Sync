@@ -12,17 +12,15 @@ namespace Sem.Sync.OutlookWithXing.UI
     using System;
     using System.IO;
     using System.Windows.Forms;
-    using System.Xml.Serialization;
 
+    using GenericHelpers;
     using GenericHelpers.EventArgs;
     using Properties;
     
     using SharedUI.WinForms.Tools;
-    using SharedUI.WinForms.UI;
     
     using SyncBase;
     using SyncBase.Binding;
-    using SyncBase.Interfaces;
 
     /// <summary>
     /// the simple user interface for executing the sync
@@ -46,37 +44,6 @@ namespace Sem.Sync.OutlookWithXing.UI
         public MainForm()
         {
             InitializeComponent();
-            
-            // do not show the disclaimer any more, the software has been tested
-            // so many times with Outlook and Xing that we hope to not do any harm 
-            // to the users data.
-            ////new Disclaimer().ShowDialog();
-        }
-
-        /// <summary>
-        /// handels the event of needed log on credentials
-        /// </summary>
-        /// <param name="s"> The sender of this event. </param>
-        /// <param name="eargs"> The <see cref="QueryForLogOnCredentialsEventArgs"/> containing the message and preset user information. </param>
-        private static void AskForLogon(object s, QueryForLogOnCredentialsEventArgs eargs)
-        {
-            new LogOn().SetLogonCredentials((IClientBase)s, eargs);
-        }
-
-        /// <summary>
-        /// Loads the commands to be executed from a file
-        /// </summary>
-        /// <param name="p"> The path of the file to load. </param>
-        /// <returns> a collection of <see cref="SyncDescription"/> containing the commands to execute </returns>
-        private static SyncCollection LoadSyncList(string p)
-        {
-            var formatter = new XmlSerializer(typeof(SyncCollection));
-
-            // opening readonly will enable using a config file in the programs folder
-            using (var file = new FileStream(p, FileMode.Open, FileAccess.Read))
-            {
-                return (SyncCollection)formatter.Deserialize(file);
-            }
         }
 
         /// <summary>
@@ -88,16 +55,14 @@ namespace Sem.Sync.OutlookWithXing.UI
         {
             this.engine.ProcessingEvent += this.LogThis;
             this.engine.ProgressEvent += this.UpdateProgress;
-            this.engine.QueryForLogOnCredentialsEvent += AskForLogon;
 
-            var list = LoadSyncList("commands.xml");
+            var list = SyncCollection.LoadSyncList("commands.xml");
             this.engine.Execute(list);
 
             this.engine.ProcessingEvent -= this.LogThis;
             this.engine.ProgressEvent -= this.UpdateProgress;
-            this.engine.QueryForLogOnCredentialsEvent -= AskForLogon;
 
-            MessageBox.Show(Resources.messageFinished);
+            MessageBox.Show(Resources.messageFinished, this.Text);
         }
 
         /// <summary>
@@ -118,7 +83,7 @@ namespace Sem.Sync.OutlookWithXing.UI
         /// <param name="e"> The <see cref="ProcessingEventArgs"/> containing event information about the current processing step. </param>
         private void LogThis(object sender, ProcessingEventArgs e)
         {
-            this.listLog.Items.Add(e.Message + (e.Item != null ? ((StdContact)e.Item).GetFullName() : string.Empty));
+            this.listLog.Items.Add(e.Message + ((StdContact)e.Item).NewIfNull().GetFullName());
             this.listLog.TopIndex = this.listLog.Items.Count - 1;
         }
     }
