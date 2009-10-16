@@ -172,7 +172,7 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// <summary>
         /// Gets or sets the event reporting progress while executing commands.
         /// </summary>
-        public Action<ProgressEventArgs> ProgressEvent { get; set; }
+        public EventHandler<ProgressEventArgs> ProgressEvent { get; set; }
 
         /// <summary>
         /// Gets or sets the event reporting progress when executing commands has been finished or aborted.
@@ -317,19 +317,8 @@ namespace Sem.Sync.LocalSyncManager.Business
                     UiProvider = new UiDispatcher(),
                 };
 
-            engine.ProcessingEvent += (s, e) =>
-            {
-                if (this.Cancel)
-                {
-                    this.ProcessingEvent(this, new ProcessingEventArgs("Process aborted"));
-                    this.Cancel = false;
-                    throw new ProcessAbortException();
-                }
-
-                this.ProcessingEvent(s, e);
-            };
-
-            engine.ProgressEvent += (s, e) => this.ProgressEvent(e);
+            engine.ProcessingEvent += this.HandleProcessingEvent;
+            engine.ProgressEvent += (s, e) => this.ProgressEvent(s, e);
 
             try
             {
@@ -339,8 +328,8 @@ namespace Sem.Sync.LocalSyncManager.Business
             {
             }
 
-            engine.ProcessingEvent -= (s, e) => this.ProcessingEvent(s, e);
-            engine.ProgressEvent -= (s, e) => this.ProgressEvent(e);
+            engine.ProcessingEvent -= this.HandleProcessingEvent;
+            engine.ProgressEvent -= (s, e) => this.ProgressEvent(s, e);
 
             if (this.FinishedEvent != null)
             {
@@ -412,14 +401,32 @@ namespace Sem.Sync.LocalSyncManager.Business
                     {
                         yield return
                             new Triple<string, string, int>
-                                {
-                                    Value1 = fullName,
-                                    Value2 = nameToUse,
-                                    Value3 = attribute.CanReadContacts ? (attribute.CanWriteContacts ? 3 : 1) : 2
-                                };
+                            {
+                                Value1 = fullName,
+                                Value2 = nameToUse,
+                                Value3 = attribute.CanReadContacts ? (attribute.CanWriteContacts ? 3 : 1) : 2
+                            };
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Handels the processing events.
+        /// </summary>
+        /// <param name="s"> The sender of this event. </param>
+        /// <param name="e"> The <see cref="ProcessingEventArgs"/> of this event. </param>
+        /// <exception cref="ProcessAbortException"> if the property <see cref="Cancel"/> is true </exception>
+        private void HandleProcessingEvent(object s, ProcessingEventArgs e)
+        {
+            if (this.Cancel)
+            {
+                this.ProcessingEvent(this, new ProcessingEventArgs("Process aborted"));
+                this.Cancel = false;
+                throw new ProcessAbortException();
+            }
+
+            this.ProcessingEvent(s, e);
         }
 
         /// <summary>

@@ -28,7 +28,11 @@ namespace Sem.Sync.OutlookWithXing.UI
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Instance of the sync engine to work with
+        /// Instance of the sync engine to work with. In this case we do use
+        /// and instance with a default winforms <see cref="UiDispatcher"/> 
+        /// and provide a working folder that points to the application data
+        /// folder. Assuming Windows 7 as an OS this will be:
+        /// C:\Users\{username}\AppData\Roaming\SemSyncXing2Outlook
         /// </summary>
         private readonly SyncEngine engine = new SyncEngine
                                                  {
@@ -53,27 +57,28 @@ namespace Sem.Sync.OutlookWithXing.UI
         /// <param name="e"> The empty event args for event handling system. </param>
         private void ButtonSyncWithXing_Click(object sender, EventArgs e)
         {
+            // using a lambda here is much less code
+            EventHandler<ProgressEventArgs> progress = (s, evnt) => this.progressBar.Value = evnt.PercentageDone; 
+            
+            // first attach to the events to update the progress bar and the
+            // log list for the user.
             this.engine.ProcessingEvent += this.LogThis;
-            this.engine.ProgressEvent += this.UpdateProgress;
+            this.engine.ProgressEvent += progress;
 
+            // load a SyncCollection from the xml file (this can be 
+            // modified in order to change behavior)
             var list = SyncCollection.LoadSyncList("commands.xml");
+
+            // now execute the list of commands
             this.engine.Execute(list);
 
+            // detach from the events - there's nothing we should get from there
+            // any more.
             this.engine.ProcessingEvent -= this.LogThis;
-            this.engine.ProgressEvent -= this.UpdateProgress;
+            this.engine.ProgressEvent -= progress;
 
+            // tell the user we have finished
             MessageBox.Show(Resources.messageFinished, this.Text);
-        }
-
-        /// <summary>
-        /// handels the update of the gui for a progress event
-        /// </summary>
-        /// <param name="sender"> The sender of this event. </param>
-        /// <param name="e"> The <see cref="ProgressEventArgs"/> containing the percentage done. </param>
-        private void UpdateProgress(object sender, ProgressEventArgs e)
-        {
-            this.progressBar.Value = e.PercentageDone;
-            this.progressBar.Maximum = 100;
         }
 
         /// <summary>

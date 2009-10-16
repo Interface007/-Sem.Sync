@@ -46,13 +46,15 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> empty event arguments </param>
         private void SyncWizard_Load(object sender, EventArgs e)
         {
+            // we don't need to detach this event, so it's ok to use the lambdas directly
+
             // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");
             this.SetupBind(this.contextDataTarget, "ClientsTarget", this.cboTarget, "Target.Name");
             this.SetupBind(this.contextDataWorkflows, "SyncWorkflowsTemplates", this.cboWorkFlowTemplates, "CurrentSyncWorkflowTemplate");
             this.SetupBind(this.contextDataWorkflowData, "SyncWorkflowData", this.cboWorkFlowData, "CurrentSyncWorkflowData");
 
-            // setup data propagation from control to business object
+            // setup data propagation from control to business object 
             // todo: this needs to be changed to be included into databinding setup
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
             this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };
@@ -71,6 +73,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
+            // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
@@ -81,8 +84,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             // setup event handling
             this.DataContext.ProcessingEvent = this.ProcessingEventHandler;
-
-            this.DataContext.ProgressEvent = (ProgressEventArgs eventArgs) =>
+            this.DataContext.ProgressEvent = (object s, ProgressEventArgs eventArgs) =>
                 {
                     this.Invoke(
                         new MethodInvoker(
@@ -205,6 +207,11 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
                 this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+
+                this.lblPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
+                this.lblUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.lblDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.lblPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
             }
 
             if (this.DataContext.Target.ConnectorDescription != null)
@@ -214,6 +221,11 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
                 this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+
+                this.lblPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant;
+                this.lblUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.lblDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.lblPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
             }
 
             if (e.PropertyName != "CurrentSyncWorkflowData")

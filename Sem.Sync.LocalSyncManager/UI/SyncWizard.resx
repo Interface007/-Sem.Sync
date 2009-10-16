@@ -212,58 +212,58 @@
   <data name="&gt;&gt;txtUidSource.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblPasswordSource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblPasswordSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 210</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPasswordSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 13</value>
   </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblPasswordSource.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
+  <data name="lblPasswordSource.Text" xml:space="preserve">
     <value>&amp;password:</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;lblPasswordSource.Name" xml:space="preserve">
+    <value>lblPasswordSource</value>
   </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordSource.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordSource.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblUidSource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblUidSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 183</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblUidSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 13</value>
   </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblUidSource.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
+  <data name="lblUidSource.Text" xml:space="preserve">
     <value>&amp;user id / name:</value>
   </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
+  <data name="&gt;&gt;lblUidSource.Name" xml:space="preserve">
+    <value>lblUidSource</value>
   </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblUidSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblUidSource.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblUidSource.ZOrder" xml:space="preserve">
     <value>24</value>
   </data>
   <metadata name="contextDataSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -362,58 +362,58 @@
   <data name="&gt;&gt;txtUidTarget.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblPasswordTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblPasswordTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 345</value>
   </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPasswordTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 13</value>
   </data>
-  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblPasswordTarget.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
   </data>
-  <data name="label10.Text" xml:space="preserve">
+  <data name="lblPasswordTarget.Text" xml:space="preserve">
     <value>p&amp;assword:</value>
   </data>
-  <data name="&gt;&gt;label10.Name" xml:space="preserve">
-    <value>label10</value>
+  <data name="&gt;&gt;lblPasswordTarget.Name" xml:space="preserve">
+    <value>lblPasswordTarget</value>
   </data>
-  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordTarget.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblPasswordTarget.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblUidTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblUidTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 318</value>
   </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblUidTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 13</value>
   </data>
-  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblUidTarget.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
-  <data name="label11.Text" xml:space="preserve">
+  <data name="lblUidTarget.Text" xml:space="preserve">
     <value>user id / &amp;name:</value>
   </data>
-  <data name="&gt;&gt;label11.Name" xml:space="preserve">
-    <value>label11</value>
+  <data name="&gt;&gt;lblUidTarget.Name" xml:space="preserve">
+    <value>lblUidTarget</value>
   </data>
-  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblUidTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblUidTarget.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblUidTarget.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
   <metadata name="contextDataTarget.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -666,58 +666,58 @@
   <data name="&gt;&gt;pnlProgress.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblPathSource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblPathSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 225</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPathSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblPathSource.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="lblPathSource.Text" xml:space="preserve">
     <value>pat&amp;h:</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="&gt;&gt;lblPathSource.Name" xml:space="preserve">
+    <value>lblPathSource</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblPathSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblPathSource.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblPathSource.ZOrder" xml:space="preserve">
     <value>26</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblPathTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblPathTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 360</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPathTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblPathTarget.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
+  <data name="lblPathTarget.Text" xml:space="preserve">
     <value>pat&amp;h:</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="&gt;&gt;lblPathTarget.Name" xml:space="preserve">
+    <value>lblPathTarget</value>
   </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblPathTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblPathTarget.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblPathTarget.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
   <data name="txtPathSource.Location" type="System.Drawing.Point, System.Drawing">
@@ -837,31 +837,31 @@
   <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblDomainSource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblDomainSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 236</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblDomainSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 13</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblDomainSource.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
+  <data name="lblDomainSource.Text" xml:space="preserve">
     <value>&amp;domain</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;lblDomainSource.Name" xml:space="preserve">
+    <value>lblDomainSource</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainSource.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainSource.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
   <data name="txtDomainSource.Location" type="System.Drawing.Point, System.Drawing">
@@ -885,31 +885,31 @@
   <data name="&gt;&gt;txtDomainSource.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblDomainTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblDomainTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>321, 371</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblDomainTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
   </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblDomainTarget.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
+  <data name="lblDomainTarget.Text" xml:space="preserve">
     <value>do&amp;main:</value>
   </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
+  <data name="&gt;&gt;lblDomainTarget.Name" xml:space="preserve">
+    <value>lblDomainTarget</value>
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainTarget.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblDomainTarget.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
   <data name="txtDomainTarget.Location" type="System.Drawing.Point, System.Drawing">

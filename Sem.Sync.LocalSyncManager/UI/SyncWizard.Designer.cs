@@ -34,36 +34,37 @@
             this.btnRun = new System.Windows.Forms.Button();
             this.txtPasswordSource = new System.Windows.Forms.TextBox();
             this.txtUidSource = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblPasswordSource = new System.Windows.Forms.Label();
+            this.lblUidSource = new System.Windows.Forms.Label();
             this.cboSource = new System.Windows.Forms.ComboBox();
             this.contextDataSource = new System.Windows.Forms.BindingSource(this.components);
             this.label9 = new System.Windows.Forms.Label();
             this.txtPasswordTarget = new System.Windows.Forms.TextBox();
             this.txtUidTarget = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lblPasswordTarget = new System.Windows.Forms.Label();
+            this.lblUidTarget = new System.Windows.Forms.Label();
             this.cboTarget = new System.Windows.Forms.ComboBox();
             this.contextDataTarget = new System.Windows.Forms.BindingSource(this.components);
             this.label12 = new System.Windows.Forms.Label();
             this.lblDialogStatus = new System.Windows.Forms.Label();
             this.pnlProgress = new System.Windows.Forms.Panel();
+            this.chkShowImage = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.currentPersonImage = new System.Windows.Forms.PictureBox();
             this.lblProgressStatus = new System.Windows.Forms.Label();
             this.SyncProgress = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblPathSource = new System.Windows.Forms.Label();
+            this.lblPathTarget = new System.Windows.Forms.Label();
             this.txtPathSource = new System.Windows.Forms.TextBox();
             this.txtPathTarget = new System.Windows.Forms.TextBox();
             this.btnPathTarget = new System.Windows.Forms.Button();
             this.btnPathSource = new System.Windows.Forms.Button();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblDomainSource = new System.Windows.Forms.Label();
             this.txtDomainSource = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblDomainTarget = new System.Windows.Forms.Label();
             this.txtDomainTarget = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -87,7 +88,6 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
-            this.chkShowImage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -120,17 +120,17 @@
             resources.ApplyResources(this.txtUidSource, "txtUidSource");
             this.txtUidSource.Name = "txtUidSource";
             // 
-            // label7
+            // lblPasswordSource
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.lblPasswordSource, "lblPasswordSource");
+            this.lblPasswordSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPasswordSource.Name = "lblPasswordSource";
             // 
-            // label8
+            // lblUidSource
             // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label8.Name = "label8";
+            resources.ApplyResources(this.lblUidSource, "lblUidSource");
+            this.lblUidSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblUidSource.Name = "lblUidSource";
             // 
             // cboSource
             // 
@@ -160,17 +160,17 @@
             resources.ApplyResources(this.txtUidTarget, "txtUidTarget");
             this.txtUidTarget.Name = "txtUidTarget";
             // 
-            // label10
+            // lblPasswordTarget
             // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label10.Name = "label10";
+            resources.ApplyResources(this.lblPasswordTarget, "lblPasswordTarget");
+            this.lblPasswordTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPasswordTarget.Name = "lblPasswordTarget";
             // 
-            // label11
+            // lblUidTarget
             // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label11.Name = "label11";
+            resources.ApplyResources(this.lblUidTarget, "lblUidTarget");
+            this.lblUidTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblUidTarget.Name = "lblUidTarget";
             // 
             // cboTarget
             // 
@@ -206,6 +206,14 @@
             resources.ApplyResources(this.pnlProgress, "pnlProgress");
             this.pnlProgress.Name = "pnlProgress";
             // 
+            // chkShowImage
+            // 
+            resources.ApplyResources(this.chkShowImage, "chkShowImage");
+            this.chkShowImage.Checked = true;
+            this.chkShowImage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowImage.Name = "chkShowImage";
+            this.chkShowImage.UseVisualStyleBackColor = true;
+            // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -234,17 +242,17 @@
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // label2
+            // lblPathSource
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.lblPathSource, "lblPathSource");
+            this.lblPathSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPathSource.Name = "lblPathSource";
             // 
-            // label4
+            // lblPathTarget
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.lblPathTarget, "lblPathTarget");
+            this.lblPathTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPathTarget.Name = "lblPathTarget";
             // 
             // txtPathSource
             // 
@@ -278,22 +286,22 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // lblDomainSource
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label5.Name = "label5";
+            resources.ApplyResources(this.lblDomainSource, "lblDomainSource");
+            this.lblDomainSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblDomainSource.Name = "lblDomainSource";
             // 
             // txtDomainSource
             // 
             resources.ApplyResources(this.txtDomainSource, "txtDomainSource");
             this.txtDomainSource.Name = "txtDomainSource";
             // 
-            // label6
+            // lblDomainTarget
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label6.Name = "label6";
+            resources.ApplyResources(this.lblDomainTarget, "lblDomainTarget");
+            this.lblDomainTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblDomainTarget.Name = "lblDomainTarget";
             // 
             // txtDomainTarget
             // 
@@ -420,14 +428,6 @@
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
             // 
-            // chkShowImage
-            // 
-            resources.ApplyResources(this.chkShowImage, "chkShowImage");
-            this.chkShowImage.Checked = true;
-            this.chkShowImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowImage.Name = "chkShowImage";
-            this.chkShowImage.UseVisualStyleBackColor = true;
-            // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
@@ -445,21 +445,21 @@
             this.Controls.Add(this.txtPathSource);
             this.Controls.Add(this.txtDomainTarget);
             this.Controls.Add(this.txtPasswordTarget);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblDomainTarget);
             this.Controls.Add(this.txtUidTarget);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label11);
+            this.Controls.Add(this.lblPasswordTarget);
+            this.Controls.Add(this.lblUidTarget);
             this.Controls.Add(this.cboTarget);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblPathTarget);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.txtDomainSource);
             this.Controls.Add(this.txtPasswordSource);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblDomainSource);
             this.Controls.Add(this.txtUidSource);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblPasswordSource);
+            this.Controls.Add(this.lblUidSource);
             this.Controls.Add(this.cboSource);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblPathSource);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.btnClose);
@@ -490,14 +490,14 @@
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.TextBox txtPasswordSource;
         private System.Windows.Forms.TextBox txtUidSource;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblPasswordSource;
+        private System.Windows.Forms.Label lblUidSource;
         private System.Windows.Forms.ComboBox cboSource;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtPasswordTarget;
         private System.Windows.Forms.TextBox txtUidTarget;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblPasswordTarget;
+        private System.Windows.Forms.Label lblUidTarget;
         private System.Windows.Forms.ComboBox cboTarget;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblDialogStatus;
@@ -505,8 +505,8 @@
         private System.Windows.Forms.Label lblProgressStatus;
         private System.Windows.Forms.ProgressBar SyncProgress;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblPathSource;
+        private System.Windows.Forms.Label lblPathTarget;
         private System.Windows.Forms.TextBox txtPathSource;
         private System.Windows.Forms.TextBox txtPathTarget;
         private System.Windows.Forms.BindingSource contextDataSource;
@@ -515,9 +515,9 @@
         private System.Windows.Forms.Button btnPathSource;
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblDomainSource;
         private System.Windows.Forms.TextBox txtDomainSource;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblDomainTarget;
         private System.Windows.Forms.TextBox txtDomainTarget;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;

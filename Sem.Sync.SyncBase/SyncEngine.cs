@@ -73,11 +73,6 @@ namespace Sem.Sync.SyncBase
         #endregion
 
         /// <summary>
-        /// Gets or sets the object that will be responsible for routing UI interaction requests from connectors
-        /// </summary>
-        public IUiSyncInteraction UiProvider { get; set; }
-
-        /// <summary>
         /// Gets or sets a value that represents the file system working folder. Use 
         /// {FS:WorkingFolder} inside the source or target path to access this directory.
         /// The user of this class is responsible to use specify a usefull working folder.

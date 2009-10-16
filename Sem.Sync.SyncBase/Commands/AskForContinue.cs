@@ -8,17 +8,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.Commands
 {
-    using GenericHelpers.Interfaces;
-
     using Interfaces;
 
     /// <summary>
-    /// Sync command that uses the <see cref="UiProvider"/> to ask the user if the process should continue.
+    /// Sync command that uses the <see cref="SyncComponent.UiProvider"/> to ask the user if the process should continue.
     /// </summary>
     public class AskForContinue : SyncComponent, ISyncCommand
     {
         /// <summary>
-        /// This command that uses the <see cref="UiProvider"/> to ask the user if the process should continue.
+        /// This command that uses the <see cref="SyncComponent.UiProvider"/> to ask the user if the process should continue.
         /// </summary>
         /// <param name="sourceClient">The source client.</param>
         /// <param name="targetClient">The target client.</param>
