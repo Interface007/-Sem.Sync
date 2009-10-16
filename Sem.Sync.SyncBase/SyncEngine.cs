@@ -23,7 +23,6 @@ namespace Sem.Sync.SyncBase
 
     using Interfaces;
     using Properties;
-    using Sem.GenericHelpers.Exceptions;
 
     /// <summary>
     /// The sync engine is the heart of the library. This engine does coordinate the work in
@@ -218,10 +217,7 @@ namespace Sem.Sync.SyncBase
             if (addEvent)
             {
                 component.ProcessingEvent += this.LogProcessingEvent;
-                component.ProgressEvent +=
-                    (s, e) => this.UpdateProgress(
-                                  this.percentageOfSequenceDone
-                                  + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+                component.ProgressEvent += this.HandleProgressEvent;
 
                 if (clientBase != null)
                 {
@@ -236,12 +232,25 @@ namespace Sem.Sync.SyncBase
             else
             {
                 component.ProcessingEvent -= this.LogProcessingEvent;
+                component.ProgressEvent -= this.HandleProgressEvent;
 
                 if (client != null)
                 {
                     client.QueryForLogonCredentialsEvent -= this.QueryForLogOnCredentialsEvent;
                 }
             }
+        }
+
+        /// <summary>
+        /// Handels the <see cref="SyncComponent.ProgressEvent"/>.
+        /// </summary>
+        /// <param name="sender"> The sender object. </param>
+        /// <param name="e"> The event argument. </param>
+        private void HandleProgressEvent(object sender, ProgressEventArgs e)
+        {
+            this.UpdateProgress(
+                                  this.percentageOfSequenceDone
+                                  + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
         }
 
         /// <summary>

@@ -140,10 +140,7 @@
     <Compile Include="Commands\UpdateTestData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DetailData\Relation.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
-    <Compile Include="DetailData\RelationClassification.cs" />
-    <Compile Include="DetailData\RelationDistance.cs" />
     <Compile Include="DetailData\SyncWorkFlow.cs">
       <SubType>Code</SubType>
     </Compile>

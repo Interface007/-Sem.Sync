@@ -318,7 +318,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 };
 
             engine.ProcessingEvent += this.HandleProcessingEvent;
-            engine.ProgressEvent += (s, e) => this.ProgressEvent(s, e);
+            engine.ProgressEvent += this.ProgressEvent;
 
             try
             {
@@ -329,7 +329,7 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
 
             engine.ProcessingEvent -= this.HandleProcessingEvent;
-            engine.ProgressEvent -= (s, e) => this.ProgressEvent(s, e);
+            engine.ProgressEvent -= this.ProgressEvent;
 
             if (this.FinishedEvent != null)
             {
@@ -454,26 +454,36 @@ namespace Sem.Sync.LocalSyncManager.Business
             {
                 if (this.Source != null)
                 {
-                    this.Source.PropertyChanged += (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                    this.Source.PropertyChanged += this.HandlePropertyChangedEvent; 
                 }
 
                 if (this.Target != null)
                 {
-                    this.Target.PropertyChanged += (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                    this.Target.PropertyChanged += this.HandlePropertyChangedEvent;
                 }
             }
             else
             {
                 if (this.Source != null)
                 {
-                    this.Source.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Source." + e.PropertyName);
+                    this.Source.PropertyChanged -= this.HandlePropertyChangedEvent;
                 }
 
                 if (this.Target != null)
                 {
-                    this.Target.PropertyChanged -= (s, e) => this.RaisePropertyChanged("Target." + e.PropertyName);
+                    this.Target.PropertyChanged -= this.HandlePropertyChangedEvent;
                 }
             }
+        }
+
+        /// <summary>
+        /// Handels property change events vy forwarding them
+        /// </summary>
+        /// <param name="sender"> The sender object ("Source" or "Target"). </param>
+        /// <param name="e"> The event argument. </param>
+        private void HandlePropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            this.RaisePropertyChanged((sender == this.Source ? "Source." : "Target.") + e.PropertyName);
         }
 
         /// <summary>

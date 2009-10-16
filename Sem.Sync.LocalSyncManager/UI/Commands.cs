@@ -55,6 +55,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             // route the events
             this.DataContext.ProcessingEvent += this.LogMessage;
             this.DataContext.ProgressEvent += this.OnProgressEvent;
+            
+            // we can use a lambda, because we will never need to detach
             this.DataContext.QueryForLogOnCredentials += (s, eargs) => new LogOn().SetLogonCredentials((IClientBase)s, eargs);
 
             // get the data for the combo box from the file system paths
