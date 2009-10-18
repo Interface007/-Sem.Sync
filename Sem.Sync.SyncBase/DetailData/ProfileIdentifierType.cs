@@ -56,5 +56,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Microsoft Access Database
         /// </summary>
         MicrosoftAccessId,
+
+        /// <summary>
+        /// The social network LinkedIn
+        /// </summary>
+        LinkedInId,
     }
 }

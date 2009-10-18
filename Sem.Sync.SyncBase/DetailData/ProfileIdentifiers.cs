@@ -7,10 +7,7 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
-    using System.Collections.Generic;
     using System.Text;
-
-    using GenericHelpers;
 
     /// <summary>
     /// This class implements a set of profile identifiers. One assumption is that each entity does 
@@ -58,6 +55,10 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.StayFriendsPersonId:
                     this.StayFriendsPersonId = profileId;
+                    break;
+
+                case ProfileIdentifierType.LinkedInId:
+                    this.LinkedInId = profileId;
                     break;
 
                 case ProfileIdentifierType.MeinVZ:
@@ -113,6 +114,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Gets or sets the url at the social network side StayFriends.de
         /// </summary>
+        public string LinkedInId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the url at the social network side StayFriends.de
+        /// </summary>
         public string MeinVZPersonId { get; set; }
 
         /// <summary>
@@ -146,6 +152,9 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.StayFriendsPersonId:
                     return this.StayFriendsPersonId;
+
+                case ProfileIdentifierType.LinkedInId:
+                    return this.LinkedInId;
 
                 case ProfileIdentifierType.MeinVZ:
                     return this.MeinVZPersonId;
@@ -191,6 +200,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.StayFriendsPersonId = newValue;
                     break;
 
+                case ProfileIdentifierType.LinkedInId:
+                    this.LinkedInId = newValue;
+                    break;
+
                 case ProfileIdentifierType.MeinVZ:
                     this.MeinVZPersonId = newValue;
                     break;
@@ -222,6 +235,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
                   (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId) ||
+                  (!string.IsNullOrEmpty(this.LinkedInId) && this.LinkedInId == other.LinkedInId) ||
                   (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
                   (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
@@ -286,6 +300,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.WerKenntWenUrl ?? string.Empty) + " - ");
             result.Append((this.MeinVZPersonId ?? string.Empty) + " - ");
             result.Append((this.StayFriendsPersonId ?? string.Empty) + " - ");
+            result.Append((this.LinkedInId ?? string.Empty) + " - ");
             result.Append((this.GoogleId ?? string.Empty) + " - ");
             result.Append((this.XingProfileId ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
