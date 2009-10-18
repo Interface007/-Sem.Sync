@@ -105,7 +105,6 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="testObject"> The List of elements.  </param>
         /// <param name="index"> The index. </param>
-        /// <typeparam name="T"> The type of elements inside the collection </typeparam>
         /// <returns> the existing element or a new element, if the element does not exist  </returns>
         public static string NewIfNull(this List<string> testObject, int index)
         {

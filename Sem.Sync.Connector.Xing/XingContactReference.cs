@@ -22,6 +22,11 @@ namespace Sem.Sync.Connector.Xing
         public string Url { get; set; }
 
         /// <summary>
+        /// Gets or sets Url to download the vCard.
+        /// </summary>
+        public string ProfileUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets a string containing the Tags seperated by a character sequence ", ".
         /// </summary>
         public string Tags { get; set; }

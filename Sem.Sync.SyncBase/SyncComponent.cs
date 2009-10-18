@@ -116,7 +116,7 @@ namespace Sem.Sync.SyncBase
             // combine the specified parameters with the message of the exception to 
             // build a param array for the format function
             var parameters = new string[parameterStrings.Length + 1];
-            parameters[0] = message;
+            parameters[0] = exception.Message;
             for (var i = 0; i < parameterStrings.Length - 1; i++)
             {
                 parameters[i + 1] = parameterStrings[i];

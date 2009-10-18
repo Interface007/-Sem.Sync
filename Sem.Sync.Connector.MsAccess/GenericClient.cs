@@ -15,13 +15,12 @@ namespace Sem.Sync.Connector.MsAccess
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
 
     using GenericHelpers;
     using GenericHelpers.Entities;
-
     using SyncBase;
     using SyncBase.Attributes;
-    using System.Text;
 
     /// <summary>
     /// Class that provides a connector to Microsoft Access Database files. The connector
@@ -46,11 +45,6 @@ namespace Sem.Sync.Connector.MsAccess
         /// The update statement for database uperations
         /// </summary>
         private const string SqlStatementUpdate = "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}";
-
-        /// <summary>
-        /// The select statement for the database selecting all columns and all rows
-        /// </summary>
-        private const string SqlStatementSelectAll = "SELECT * FROM [{0}]";
 
         /// <summary>
         /// The select statement for selecting the primary key value of a specific row
@@ -134,33 +128,6 @@ namespace Sem.Sync.Connector.MsAccess
             return result;
         }
 
-        private static string GenerateSelectStatement(SourceDescription description)
-        {
-            var addComma = false;
-            var sqlBuilder = new StringBuilder(1024);
-            sqlBuilder.Append("SELECT ");
-            foreach (var item in description.ColumnDefinitions)
-            {
-                var tableLink = item as TableLink;
-                if (tableLink == null)
-                {
-                    if (addComma)
-                    {
-                        sqlBuilder.Append(",");
-                    }
-                    else
-                    {
-                        addComma = true;
-                    }
-
-                    sqlBuilder.Append("[").Append(item.Title).Append("]");
-                }
-            }
-
-            sqlBuilder.Append(" FROM ").Append(description.MainTable);
-            return sqlBuilder.ToString();
-        }
-
         /// <summary>
         /// Writes the information from the <see cref="StdContact"/> entities back to the database table.
         /// This method has not been optimized yet and does produce a high amount of update statements!
@@ -220,6 +187,38 @@ namespace Sem.Sync.Connector.MsAccess
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Generates a SQL statement from the table and column description
+        /// </summary>
+        /// <param name="description"> The description of the source. </param>
+        /// <returns> a SQL statement string </returns>
+        private static string GenerateSelectStatement(SourceDescription description)
+        {
+            var addComma = false;
+            var sqlBuilder = new StringBuilder(1024);
+            sqlBuilder.Append("SELECT ");
+            foreach (var item in description.ColumnDefinitions)
+            {
+                var tableLink = item as TableLink;
+                if (tableLink == null)
+                {
+                    if (addComma)
+                    {
+                        sqlBuilder.Append(",");
+                    }
+                    else
+                    {
+                        addComma = true;
+                    }
+
+                    sqlBuilder.Append("[").Append(item.Title).Append("]");
+                }
+            }
+
+            sqlBuilder.Append(" FROM ").Append(description.MainTable);
+            return sqlBuilder.ToString();
         }
 
         /// <summary>

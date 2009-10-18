@@ -69,7 +69,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnClose.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnCancel.Click += (s, ev) => this.DataContext.Cancel = true;
-            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile());
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile(Path.GetFileNameWithoutExtension(this.DataContext.CurrentSyncWorkflowData)));
             this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
@@ -263,12 +263,13 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// UI-Action to get a file path
         /// </summary>
         /// <returns>the user entered path to a file</returns>
-        private string AskForDestinationFile()
+        private string AskForDestinationFile(string currentFileName)
         {
             this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
             this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.FilterIndex = 0;
             this.saveFileDialog1.AddExtension = true;
-            this.saveFileDialog1.FileName = string.Empty;
+            this.saveFileDialog1.FileName = currentFileName;
             this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
             return
                 this.saveFileDialog1.ShowDialog() == DialogResult.OK

@@ -18,6 +18,7 @@ namespace Sem.Sync.Connector.Xing
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -38,12 +39,12 @@ namespace Sem.Sync.Connector.Xing
     /// of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true, 
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "Xing", MatchingIdentifier = ProfileIdentifierType.XingProfileId)]
-    public class ContactClient : StdClient
+    public class ContactClient : StdClient, IExtendedReader
     {
         #region string resources for processing xing pages
-        
+
         /// <summary>
         /// Detection string to parse the content of a request if we need to logon
         /// </summary>
@@ -68,21 +69,39 @@ namespace Sem.Sync.Connector.Xing
         /// relative URL to query contact links to vCards
         /// </summary>
         private const string HttpUrlListContent = "/app/contact?notags_filter=0;card_mode=0;search_filter=;tags_filter=;offset={0}";
-        
+
+        /// <summary>
+        /// URL to query the profile
+        /// </summary>
+        private const string HttpUrlProfile = "/profile/{0}";
+
+        /// <summary>
+        /// URL to query the contacts of another named contact
+        /// </summary>
+        private const string HttpUrlProfileContacts = "/app/profile?op=contacts;name={0};offset={1}";
+
         /// <summary>
         /// data string to be posted to logon into Xing
         /// </summary>
         private const string HttpDataLogonRequest = "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}";
 
         /// <summary>
+        /// Extracts the ID and the user profile name from a contacts page
+        /// </summary>
+        private const string PatternGetContactContacts = 
+            @"img src=""/img/users/./././.*?.(?<id>\d*)_.*?class=""user-name"" href=""/profile/(?<name>.*?)/";
+
+        /// <summary>
         /// regular expression to extract the URLs for the vCards
         /// </summary>
-        private const string PatternGetVCardUrls = "(.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
+        private const string PatternGetVCardUrls = 
+            @"class=""user-name"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?inputField_[0-9]*"" value=""(?<tags>[\w ,]*)""";
+            ////"(.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
 
         #endregion
 
         #region private fields
-        
+
         /// <summary>
         /// http requester object that will read the data from xing
         /// </summary>
@@ -92,10 +111,11 @@ namespace Sem.Sync.Connector.Xing
         /// converter for the vCards downloaded from Xing
         /// </summary>
         private readonly VCardConverter vCardConverter;
-        
+
         #endregion
 
         #region ctors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class. 
         /// The default constructor will create and configure a new http-requester by reading 
@@ -105,11 +125,11 @@ namespace Sem.Sync.Connector.Xing
         public ContactClient()
         {
             this.xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
-            {
-                UseCache = this.GetConfigValueBoolean("UseCache"),
-                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
-            };
+                                     {
+                                         UseCache = this.GetConfigValueBoolean("UseCache"),
+                                         SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                                         UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
+                                     };
 
             this.vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
         }
@@ -141,6 +161,61 @@ namespace Sem.Sync.Connector.Xing
         }
 
         /// <summary>
+        /// Implements the interface to get more information - in this case the 
+        /// related contacts from the profile
+        /// </summary>
+        /// <param name="contactToFill"> The contact to fill.  </param>
+        /// <param name="baseline"> The baseline. </param>
+        /// <returns> the contact with more information  </returns>
+        public StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline)
+        {
+            var contact = contactToFill as StdContact;
+            if (contact != null && contact.PersonalProfileIdentifiers.XingProfileId != null)
+            {
+                var url = string.Format(HttpUrlProfile, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId);
+                var offset = 0;
+
+                while (true)
+                {
+                    url = string.Format(HttpUrlProfileContacts, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId, offset);
+                    var profileContent = this.GetTextContent(url);
+
+                    var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
+
+                    if (extracts.Count == 0)
+                    {
+                        break;
+                    }
+
+                    foreach (Match extract in extracts)
+                    {
+                        var xingId = extract.Groups["id"].ToString();
+                        var stdId = (from x in baseline where x.ProfileId.XingProfileId == xingId select x.Id).FirstOrDefault();
+                        
+                        if (stdId == default(Guid))
+                        {
+                            stdId = Guid.NewGuid();
+                            baseline.Add(
+                                new MatchingEntry
+                                    {
+                                        Id = stdId,
+                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, xingId)
+                                    });
+                        }
+
+                        contact.Contacts.Add(new ContactReference { IsBusinessContact = true, Source = contact.Id });
+                    }
+
+                    offset += 10;
+                }
+
+                Console.WriteLine(contact);
+            }
+
+            return contactToFill;
+        }
+        
+        /// <summary>
         /// Reads the full list of contacts from Xing
         /// </summary>
         /// <param name="clientFolderName">this parameter is not used in this client implementation</param>
@@ -161,11 +236,11 @@ namespace Sem.Sync.Connector.Xing
                 var contact = this.DownloadContact(item.Url, item.Url.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
-                    contact.Categories =
-                        new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
+                    contact.PersonalProfileIdentifiers.XingProfileId = item.ProfileUrl;
+                    contact.Categories = new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }
-                
+
                 UpdateProgress(itemIndex++ / itemsToDo * 100);
             }
 
@@ -206,6 +281,48 @@ namespace Sem.Sync.Connector.Xing
             return contact;
         }
 
+        private string GetTextContent(string url)
+        {
+            string contactListContent;
+
+            while (true)
+            {
+                // optimistically we try to read the content without explicit logon
+                // this will succeed if we have a valid cookie
+                contactListContent = this.xingRequester.GetContent(url);
+
+                // if we don't find the logon form any more, we did succeed
+                if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
+                {
+                    return contactListContent;
+                }
+
+                if (string.IsNullOrEmpty(this.LogOnPassword))
+                {
+                    QueryForLogOnCredentials(Resources.uiXingNeedsCredentials);
+                }
+
+                // tell the user that we need to log on
+                LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
+
+                // prepare the post data for log on
+                var postData = HttpHelper.PreparePostData(HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword);
+
+                // post to get the cookies
+                var logInResponse = this.xingRequester.GetContentPost(
+                    HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
+
+                if (logInResponse.Contains(HttpDetectionStringLogonFailed))
+                {
+                    LogProcessingEvent(Resources.uiLogInFailed, this.LogOnUserId);
+                    return string.Empty;
+                }
+
+                // we did succeed to log on - tell the user and try reading the data again.
+                LogProcessingEvent(Resources.uiLogInSucceeded, this.LogOnUserId);
+            }
+        }
+
         /// <summary>
         /// Ready a list of vCard locations - this will also establish the logon
         /// </summary>
@@ -227,9 +344,10 @@ namespace Sem.Sync.Connector.Xing
                 {
                     // optimistically we try to read the content without explicit logon
                     // this will succeed if we have a valid cookie
-                    contactListContent = this.xingRequester.GetContent(
-                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
-                        "UrlList" + offsetIndex);
+                    contactListContent =
+                        this.xingRequester.GetContent(
+                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
+                            "UrlList" + offsetIndex);
 
                     // if we don't find the logon form any more, we did succeed
                     if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
@@ -247,12 +365,11 @@ namespace Sem.Sync.Connector.Xing
 
                     // prepare the post data for log on
                     var postData = HttpHelper.PreparePostData(
-                        HttpDataLogonRequest,
-                        this.LogOnUserId,
-                        this.LogOnPassword);
+                        HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
+                    var logInResponse = this.xingRequester.GetContentPost(
+                        HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
 
                     if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
@@ -282,8 +399,9 @@ namespace Sem.Sync.Connector.Xing
                     result.Add(
                         new XingContactReference
                             {
-                                Url = match.Groups[1].ToString(),
-                                Tags = match.Groups[2].ToString(),
+                                Url = match.Groups["vcardurl"].ToString(), 
+                                Tags = match.Groups["tags"].ToString(),
+                                ProfileUrl = match.Groups["uname"].ToString()
                             });
                 }
 

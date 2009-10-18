@@ -9,7 +9,6 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Runtime.Serialization;
     using System.Text;
     using System.Xml.Serialization;
 
@@ -184,6 +183,11 @@ namespace Sem.Sync.SyncBase
         /// Gets or sets unstructured text data
         /// </summary>
         public string AdditionalTextData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the known contacts of this contact
+        /// </summary>
+        public List<ContactReference> Contacts { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the image file that is stored inside this contact.

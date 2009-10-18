@@ -541,7 +541,7 @@ namespace Sem.Sync.Connector.Outlook
                     (stdOldContact.Categories == null ||
                     stdNewContact.Categories.Count != stdOldContact.Categories.Count))
                 {
-                    outlookContact.Categories = stdNewContact.Categories.MergeListOfStrings(stdOldContact.Categories).ConcatElementsToString(";");
+                    outlookContact.Categories = stdNewContact.Categories.MergeList(stdOldContact.Categories).ConcatElementsToString(";");
                     dirty = true;
                 }
 

@@ -96,10 +96,9 @@ namespace Sem.Sync.LocalSyncManager.Business
                                  select new KeyValuePair<string, string>(x.Value1, x.Value2);
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
-            foreach (var file in Directory.GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension))
-            {
-                this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file));
-            }
+            Directory
+                .GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension)
+                .ForEach(file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file)));
 
             this.ReloadWorkflowDataList();
         }
@@ -265,12 +264,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 fileName = fileName + SyncListDataFileExtension;
             }
 
-            Tools.SaveToFile(
-                workFlow,
-                fileName,
-                typeof(SyncWorkFlow),
-                typeof(Credentials),
-                typeof(KeyValuePair<string, string>));
+            Tools.SaveToFile(workFlow, fileName);
 
             this.ReloadWorkflowDataList();
             this.CurrentSyncWorkflowData = fileName;

@@ -3,7 +3,6 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the CopyAll type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,16 +10,16 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
+    using Helpers;
+
     using Interfaces;
+    using Sem.GenericHelpers;
 
     /// <summary>
-    /// This command copies all data from the source connector to the target connector
     /// </summary>
-    public class CopyAll : SyncComponent, ISyncCommand
+    public class GetContactRelation : SyncComponent, ISyncCommand
     {
         /// <summary>
-        /// Copy all entries from the source client to the destination client;
-        /// Overwrite existing entries
         /// </summary>
         /// <param name="sourceClient">The source client.</param>
         /// <param name="targetClient">The target client.</param>
@@ -42,9 +41,37 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("item.sourceClient is null");
             }
 
-            targetClient.AddRange(
-                sourceClient.GetAll(sourceStorePath),
-                targetStorePath);
+            if (baseliClient == null)
+            {
+                throw new InvalidOperationException("item.baseliClient is null");
+            }
+
+            var extendedClient = new Factory().GetNewObject(commandParameter) as IExtendedReader;
+            
+            if (extendedClient == null)
+            {
+                throw new InvalidOperationException("extendedClient is null or not an IExtendedReader");
+            }
+
+            // get the baseline 
+            var baseline = baseliClient.GetAll(baselineStorePath);
+
+            // get all source elements
+            var elements = sourceClient.GetAll(sourceStorePath);
+
+            // add the matching profile ids from the baseline as StdContact - 
+            // .ToContacts().ToStdElement() will convert each MatchingEntry 
+            // of the list into a StdContact
+            elements.MergeHighEvidence(baseline.ToContacts().ToStdElement());
+
+            ((StdClient)extendedClient).UiDispatcher = this.UiProvider;
+            
+            // fill the extended contact information
+            elements.ForEach(e => extendedClient.FillContacts(e, baseline.ToMatchingEntries()));
+
+            // copy to the target connector
+            targetClient.AddRange(elements, targetStorePath);
+            baseliClient.WriteRange(baseline, baselineStorePath);
 
             return true;
         }

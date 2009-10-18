@@ -94,7 +94,7 @@ namespace Sem.Sync.SyncBase.Helpers
             foreach (var item in members)
             {
                 var setValue = false;
-                if (Equals(source, default(T)) 
+                if (Equals(source, default(T))
                     || item.GetValue(source, null) == null)
                 {
                     continue;
@@ -145,7 +145,8 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
 
                         case "List`1":
-                            ((List<string>)sourceValue).MergeListOfStrings((List<string>)targetValue);
+                            (sourceValue as List<string>).MergeList(targetValue as List<string>);
+                            (sourceValue as List<KeyValuePair<string, ProfileIdInformation>>).MergeList(targetValue as List<KeyValuePair<string, ProfileIdInformation>>);
                             break;
 
                         case "SyncData":
@@ -178,7 +179,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="targetValue">the list into which should be merged (will be modified!)</param>
         /// <param name="sourceValue">the list with items to be inserted (will not be modified)</param>
         /// <returns>the <paramref name="targetValue"/></returns>
-        public static List<string> MergeListOfStrings(this List<string> targetValue, List<string> sourceValue)
+        public static List<string> MergeList(this List<string> targetValue, List<string> sourceValue)
         {
             if (targetValue == null)
             {
@@ -188,13 +189,41 @@ namespace Sem.Sync.SyncBase.Helpers
             if (sourceValue != null)
             {
                 foreach (var sourceString in sourceValue)
-            {
-                var currentString = sourceString;
-                if (!targetValue.Exists(x => x.Equals(currentString, StringComparison.OrdinalIgnoreCase)))
                 {
-                    targetValue.Add(currentString);
+                    var currentString = sourceString;
+                    if (!targetValue.Exists(x => x.Equals(currentString, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        targetValue.Add(currentString);
+                    }
                 }
             }
+
+            return targetValue;
+        }
+
+        /// <summary>
+        /// merges two lists of strings by omitting the strings that are already present in the target list
+        /// </summary>
+        /// <param name="targetValue">the list into which should be merged (will be modified!)</param>
+        /// <param name="sourceValue">the list with items to be inserted (will not be modified)</param>
+        /// <returns>the <paramref name="targetValue"/></returns>
+        public static List<KeyValuePair<string, ProfileIdInformation>> MergeList(this List<KeyValuePair<string, ProfileIdInformation>> targetValue, List<KeyValuePair<string, ProfileIdInformation>> sourceValue)
+        {
+            if (targetValue == null)
+            {
+                targetValue = new List<KeyValuePair<string, ProfileIdInformation>>();
+            }
+
+            if (sourceValue != null)
+            {
+                foreach (var sourceItem in sourceValue)
+                {
+                    var currentItem = sourceItem;
+                    if (!targetValue.Exists(x => x.Key == currentItem.Key && x.Value == currentItem.Value))
+                    {
+                        targetValue.Add(currentItem);
+                    }
+                }
             }
 
             return targetValue;
@@ -270,6 +299,20 @@ namespace Sem.Sync.SyncBase.Helpers
             foreach (var element in list)
             {
                 var e = element as StdContact;
+
+                if (e == null)
+                {
+                    var m = element as MatchingEntry;
+                    if (m != null)
+                    {
+                        e = new StdContact
+                            {
+                                Id = element.Id,
+                                PersonalProfileIdentifiers = m.ProfileId
+                            };
+                    }
+                }
+
                 if (e != null)
                 {
                     result.Add(e);

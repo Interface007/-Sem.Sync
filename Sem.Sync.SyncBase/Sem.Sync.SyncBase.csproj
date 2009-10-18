@@ -123,6 +123,7 @@
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="Commands\AskForContinue.cs" />
+    <Compile Include="Commands\GetContactRelation.cs" />
     <Compile Include="Commands\CopyAll.cs" />
     <Compile Include="Commands\DeleteElements.cs">
       <SubType>Code</SubType>
@@ -141,9 +142,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DetailData\ConnectorInformation.cs" />
+    <Compile Include="DetailData\ContactReference.cs" />
+    <Compile Include="DetailData\ProfileIdentifierType.cs" />
+    <Compile Include="DetailData\ProfileIdInformation.cs" />
     <Compile Include="DetailData\SyncWorkFlow.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\IExtendedReader.cs" />
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />

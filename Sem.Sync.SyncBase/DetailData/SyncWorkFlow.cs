@@ -10,10 +10,16 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+
+    using GenericHelpers.Entities;
 
     /// <summary>
     /// Defines a concrete workflow based on a template.
     /// </summary>
+    [XmlInclude(typeof(Credentials))]
+    [XmlInclude(typeof(KeyValuePair<string, string>))]
     public class SyncWorkFlow
     {
         /// <summary>

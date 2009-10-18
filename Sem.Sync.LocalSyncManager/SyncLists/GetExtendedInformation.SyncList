@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Get extended properties">
+    
+    <Command>GetContactRelation</Command>
+    <CommandParameter>Sem.Sync.Connector.Xing.ContactClient</CommandParameter>
+
+    <SourceConnector>Sem.Sync.Connector.Xing.ContactClient</SourceConnector>
+
+    <!--<SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Elements.xml</SourceStorePath>-->
+    
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\Elements.xml</TargetStorePath>
+
+    <BaselineConnector>Sem.Sync.Connector.Filesystem.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
+
+  </SyncDescription>
+
+</ArrayOfSyncDescription>
