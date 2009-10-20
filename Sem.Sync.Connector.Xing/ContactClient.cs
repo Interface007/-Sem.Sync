@@ -199,7 +199,7 @@ namespace Sem.Sync.Connector.Xing
                         var stdId = (from x in baseline where x.ProfileId.XingProfileId == xingId select x.Id).FirstOrDefault();
 
                         // we ignore contacts we donn't know
-                        if (stdId != default(Guid))
+                        if (stdId == default(Guid))
                         {
                             continue;
                         }
