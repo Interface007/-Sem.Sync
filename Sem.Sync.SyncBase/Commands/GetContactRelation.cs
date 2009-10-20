@@ -67,7 +67,8 @@ namespace Sem.Sync.SyncBase.Commands
             ((StdClient)extendedClient).UiDispatcher = this.UiProvider;
             
             // fill the extended contact information
-            elements.ForEach(e => extendedClient.FillContacts(e, baseline.ToMatchingEntries()));
+            var matchEntities = baseline.ToMatchingEntries();
+            elements.ForEach(e => extendedClient.FillContacts(e, matchEntities));
 
             // copy to the target connector
             targetClient.AddRange(elements, targetStorePath);

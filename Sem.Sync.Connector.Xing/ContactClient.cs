@@ -172,44 +172,58 @@ namespace Sem.Sync.Connector.Xing
             var contact = contactToFill as StdContact;
             if (contact != null && contact.PersonalProfileIdentifiers.XingProfileId != null)
             {
-                var url = string.Format(HttpUrlProfile, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId);
                 var offset = 0;
-
+                var added = 0;
                 while (true)
                 {
-                    url = string.Format(HttpUrlProfileContacts, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId, offset);
+                    this.LogProcessingEvent("reading contacts ({0})", offset); 
+
+                    // get the contact list
+                    var url = string.Format(HttpUrlProfileContacts, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId, offset);
                     var profileContent = this.GetTextContent(url);
 
                     var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
 
+                    // if there is no contact in list, we did reach the end
                     if (extracts.Count == 0)
                     {
                         break;
                     }
 
+                    // create a new instance of a list of references if there is none
+                    contact.Contacts = contact.Contacts ?? new List<ContactReference>(extracts.Count);
+
                     foreach (Match extract in extracts)
                     {
-                        var xingId = extract.Groups["id"].ToString();
+                        var xingId = extract.Groups["name"].ToString();
                         var stdId = (from x in baseline where x.ProfileId.XingProfileId == xingId select x.Id).FirstOrDefault();
-                        
-                        if (stdId == default(Guid))
+
+                        // we ignore contacts we donn't know
+                        if (stdId != default(Guid))
                         {
-                            stdId = Guid.NewGuid();
-                            baseline.Add(
-                                new MatchingEntry
-                                    {
-                                        Id = stdId,
-                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, xingId)
-                                    });
+                            continue;
                         }
 
-                        contact.Contacts.Add(new ContactReference { IsBusinessContact = true, Source = contact.Id });
+                        // lookup an existing entry in this contacts contact-list
+                        var contactInList = (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
+
+                        if (contactInList == null)
+                        {
+                            // add a new one if no existing entry has been found
+                            contact.Contacts.Add(new ContactReference { IsBusinessContact = true, Target = stdId });
+                            added++;
+                        }
+                        else
+                        {
+                            // update the flag that this entry is a business contact
+                            contactInList.IsBusinessContact = true;
+                        }
                     }
 
-                    offset += 10;
+                    offset += extracts.Count;
                 }
 
-                Console.WriteLine(contact);
+                this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
             }
 
             return contactToFill;
