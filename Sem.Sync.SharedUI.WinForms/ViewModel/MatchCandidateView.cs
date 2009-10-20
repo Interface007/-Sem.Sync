@@ -26,5 +26,10 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// Gets or sets the contact element.
         /// </summary>
         public StdContact Element { get; set; }
+
+        public override string ToString()
+        {
+            return ContactName + " - profiles: " + Element.PersonalProfileIdentifiers;
+        }
     }
 }

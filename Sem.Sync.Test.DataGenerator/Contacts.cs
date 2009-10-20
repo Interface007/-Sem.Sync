@@ -247,7 +247,6 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine(@"      <string>enemy</string>");
             content.AppendLine(@"    </Categories>");
             content.AppendLine(@"  </StdContact>");
-
         }
 
         /// <summary>
@@ -409,6 +408,54 @@ namespace Sem.Sync.Test.DataGenerator
         private static string OneOf(params string[] candidates)
         {
             return candidates[Rnd.Next(candidates.Length)];
+        }
+
+        public static List<StdContact> GetMatchingSource()
+        {
+            return new List<StdContact>
+                 {
+                     CreateIdOnlyContact("Unmatched"),
+                     CreateIdOnlyContact("Matched"),
+                     CreateIdOnlyContact("New"),
+                 };
+        }
+
+        public static List<StdContact> GetMatchingTarget()
+        {
+            return new List<StdContact>
+                       {
+                            CreateIdOnlyContact("Unmatched", "{1048893D-6550-494f-A696-41849103174B}"),
+                            CreateIdOnlyContact("Matched", "{03652E94-05F4-4410-95C6-BAF38925A368}"),
+                            CreateIdOnlyContact("TargetOrphan", "{CA3585EC-A110-4eaf-932B-BB155B2430D1}"),
+                       };
+        }
+
+        public static List<MatchingEntry> GetMatchingBaseline()
+        {
+            return new List<MatchingEntry>
+                       {
+                            new MatchingEntry
+                                {
+                                    Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"),
+                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, "Matched")
+                                }  
+                       };
+        }
+
+        private static StdContact CreateIdOnlyContact(string profileId)
+        {
+            return CreateIdOnlyContact(profileId, Guid.NewGuid().ToString());
+        }
+
+        private static StdContact CreateIdOnlyContact(string profileId, string id)
+        {
+            return new StdContact
+                       {
+                           // matched female
+                           Name = new PersonName(profileId),
+                           Id = new Guid(id),
+                           PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, profileId)
+                       };
         }
     }
 }

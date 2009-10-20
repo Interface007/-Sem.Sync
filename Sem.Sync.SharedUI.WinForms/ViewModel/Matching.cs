@@ -18,6 +18,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     using SyncBase;
     using SyncBase.DetailData;
 
+    /// <summary>
+    /// this might be better hosted in a more generic library
+    /// </summary>
     public class Matching
     {
         public List<StdContact> Source { get; set; }
@@ -117,7 +120,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             return GetPropertyList(this.currentTargetElement);
         }
 
-        internal List<MatchCandidateView> SourceAsList()
+        public List<MatchCandidateView> SourceAsList()
         {
             return this.FilterMatchedEntries
                 ? (from s in this.Source
@@ -140,7 +143,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                        }).ToList();
         }
 
-        internal List<MatchCandidateView> TargetAsList()
+        public List<MatchCandidateView> TargetAsList()
         {
             return this.FilterMatchedEntries
                 ? (from x in this.Target
@@ -164,7 +167,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                        }).ToList();
         }
 
-        internal List<MatchView> BaselineAsList()
+        public List<MatchView> BaselineAsList()
         {
             // filtering out entries without matching information is not needed, but helpful for debugging ;-)
             var list = from x in this.BaseLine
