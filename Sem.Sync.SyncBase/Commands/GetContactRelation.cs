@@ -53,6 +53,8 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("extendedClient is null or not an IExtendedReader");
             }
 
+            ((SyncComponent)extendedClient).ProcessingEvent += this.LogProcessingEvent;
+
             // get the baseline 
             var baseline = baseliClient.GetAll(baselineStorePath);
 
@@ -74,6 +76,7 @@ namespace Sem.Sync.SyncBase.Commands
             targetClient.AddRange(elements, targetStorePath);
             baseliClient.WriteRange(baseline, baselineStorePath);
 
+            ((SyncComponent)extendedClient).ProcessingEvent -= this.LogProcessingEvent;
             return true;
         }
     }
