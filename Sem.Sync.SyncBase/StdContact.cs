@@ -209,6 +209,11 @@ namespace Sem.Sync.SyncBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "without a setter this cannot be serialized using the xml serializer")]
         public List<string> Categories { get; set; }
 
+        public List<BusinessHistoryEntry> BusinessHistoryEntries { get; set; }
+        public List<BusinessCertificate> BusinessCertificates { get; set; }
+        public List<LanguageKnowledge> LanguageKnowledges { get; set; }
+        public List<ImageEntry> ImageEntries { get; set; }
+
         /// <summary>
         /// Loads a standard contact from the file system.
         /// </summary>

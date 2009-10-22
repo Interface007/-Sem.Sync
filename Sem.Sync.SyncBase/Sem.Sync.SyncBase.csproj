@@ -141,13 +141,18 @@
     <Compile Include="Commands\UpdateTestData.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DetailData\BusinessCertificate.cs" />
+    <Compile Include="DetailData\BusinessHistoryEntry.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
     <Compile Include="DetailData\ContactReference.cs" />
+    <Compile Include="DetailData\EducationEntry.cs" />
+    <Compile Include="DetailData\KnowledgeLevel.cs" />
     <Compile Include="DetailData\ProfileIdentifierType.cs" />
     <Compile Include="DetailData\ProfileIdInformation.cs" />
     <Compile Include="DetailData\SyncWorkFlow.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DetailData\ImageEntry.cs" />
     <Compile Include="Interfaces\IExtendedReader.cs" />
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />
@@ -159,6 +164,7 @@
     <Compile Include="Helpers\SyncTools.cs" />
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Interfaces\IUiSyncInteraction.cs" />
+    <Compile Include="DetailData\LanguageKnowledge.cs" />
     <Compile Include="StdProfileInformationClient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
