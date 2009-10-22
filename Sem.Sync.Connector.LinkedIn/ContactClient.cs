@@ -26,13 +26,8 @@ namespace Sem.Sync.Connector.LinkedIn
     [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "LinkedIn", MatchingIdentifier = ProfileIdentifierType.LinkedInId)]
 #endif
-    public class ContactClient : StdClient, IExtendedReader
+    public class ContactClient : WebScrapingBaseClient
     {
-        /// <summary>
-        /// Base address to communicate with Xing
-        /// </summary>
-        private const string HttpUrlBaseAddress = "http://www.linkedin.com/";
-
         /// <summary>
         /// relative URL to query contact links to contact pages
         /// </summary>
@@ -44,10 +39,40 @@ namespace Sem.Sync.Connector.LinkedIn
         private const string HttpUrlProfile = "/profile?goback=%2Econ&viewProfile=&key=46590581&jsstate=";
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        /// </summary>
+        public ContactClient()
+            : base("http://www.linkedin.com/")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        /// </summary>
+        /// <param name="httpUrlBaseAddress">
+        /// The http url base address.
+        /// </param>
+        public ContactClient(string httpUrlBaseAddress)
+            : base(httpUrlBaseAddress)
+        {
+        }
+
+        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public override string FriendlyClientName
+        {
+            get
+            {
+                return "LinkedIn";
+            }
+        }
+
+        /// <summary>
+        /// Gets the detection string to parse the content of a request if we need to logon
+        /// </summary>
+        protected override string HttpDetectionStringLogOnNeeded
         {
             get
             {
@@ -56,33 +81,102 @@ namespace Sem.Sync.Connector.LinkedIn
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Gets the data string to be posted to logon into the site
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        protected override string HttpDataLogOnRequest
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Gets the regex to extract the form key for the log on
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override string ExtractorFormKey
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline)
+        /// <summary>
+        /// Gets the regex to extract the iv for the log on
+        /// </summary>
+        protected override string ExtractorIv
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the regex to extract the iv for the log on
+        /// </summary>
+        protected override string ExtractorFriendUrls
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the regex to extract additional information
+        /// </summary>
+        protected override string ContactContentSelector
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the extraction string for the image.
+        /// </summary>
+        protected override string ContactImageSelector
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the detection string to detect if we did fail to logon
+        /// </summary>
+        protected override string HttpDetectionStringLogOnFailed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the base address to communicate with the site
+        /// </summary>
+        protected override string HttpUrlFriendList
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the relative url to log on
+        /// </summary>
+        protected override string HttpUrlLogOnRequest
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

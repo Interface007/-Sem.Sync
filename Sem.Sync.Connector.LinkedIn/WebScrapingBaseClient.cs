@@ -8,12 +8,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Facebook
+namespace Sem.Sync.Connector.LinkedIn
 {
-    #region usings
-
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -21,8 +20,6 @@ namespace Sem.Sync.Connector.Facebook
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-
-    #endregion usings
 
     /// <summary>
     /// This class is the base client class for handling contacts using web scraping technology
@@ -44,6 +41,7 @@ namespace Sem.Sync.Connector.Facebook
         /// </summary>
         private readonly HttpHelper httpRequester;
 
+        #region ctors
         /// <summary>
         /// Initializes a new instance of the <see cref="WebScrapingBaseClient"/> class. 
         /// This parametrized constructore does accept a "ready to use" http-requester. 
@@ -67,29 +65,16 @@ namespace Sem.Sync.Connector.Facebook
         {
             this.HttpUrlBaseAddress = httpUrlBaseAddress;
             this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
-            {
-                UseCache = this.GetConfigValueBoolean("UseCache"),
-                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
-            };
+                                     {
+                                         UseCache = this.GetConfigValueBoolean("UseCache"),
+                                         SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                                         UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
+                                     };
         }
 
-        protected abstract string HttpUrlHome { get; }
+        #endregion
 
-        protected abstract string HttpUrlContactDownload { get; }
-
-        protected abstract ProfileIdentifierType ProfileIdentifierType { get; }
-        
-        /// <summary>
-        /// Gets the HttpRequester.
-        /// </summary>
-        protected HttpHelper HttpRequester
-        {
-            get
-            {
-                return this.httpRequester;
-            }
-        }
+        #region string resources for processing the pages
 
         /// <summary>
         /// Gets the detection string to parse the content of a request if we need to logon
@@ -121,6 +106,19 @@ namespace Sem.Sync.Connector.Facebook
         /// </summary>
         protected abstract string ContactContentSelector { get; }
 
+        #endregion
+
+        /// <summary>
+        /// Gets the HttpRequester.
+        /// </summary>
+        protected HttpHelper HttpRequester
+        {
+            get
+            {
+                return this.httpRequester;
+            }
+        }
+
         /// <summary>
         /// Gets the extraction string for the image.
         /// </summary>
@@ -147,14 +145,6 @@ namespace Sem.Sync.Connector.Facebook
         protected abstract string HttpUrlLogOnRequest { get; }
 
         /// <summary>
-        /// Converts downloaded data into a StdContact structure.
-        /// </summary>
-        /// <param name="contactUrl"> The contact url. </param>
-        /// <param name="content"> The content. </param>
-        /// <returns> a new StdClient created from the data provided </returns>
-        protected abstract StdContact ConvertToStdContact(string contactUrl, string content);
-        
-        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
@@ -169,7 +159,7 @@ namespace Sem.Sync.Connector.Facebook
 
             foreach (var contactUrl in contactUrls)
             {
-                result.Add(this.DownloadContact(string.Format(this.HttpUrlContactDownload, contactUrl)));
+                result.Add(this.DownloadContact(string.Format("http://www.facebook.com/profile.php?id={0}", contactUrl)));
             }
 
             result.Sort();
@@ -189,14 +179,139 @@ namespace Sem.Sync.Connector.Facebook
         }
 
         /// <summary>
-        /// Convert contact url to <see cref="StdContact"/>
+        /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>
         /// <param name="contactUrl"> The contact url. </param>
         /// <returns> the downloaded information inserted into a <see cref="StdContact"/> </returns>
         private StdContact DownloadContact(string contactUrl)
         {
+            var result = new StdContact();
+
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
-            return this.ConvertToStdContact(contactUrl, content);
+
+            var redirectUrl = Regex.Match(content, @"<script>window.location.replace(""([^""].)"");</script>");
+            if (redirectUrl.Groups.Count > 0 && redirectUrl.Groups[0].Captures.Count > 0)
+            {
+                contactUrl = redirectUrl.Groups[0].Captures[0].ToString();
+                content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
+            }
+
+            ////var imageUrl = Regex.Match(content, this.ContactImageSelector, RegexOptions.Singleline);
+            ////if (imageUrl != null)
+            ////{
+            ////    var url = imageUrl.Groups[1].ToString();
+            ////    result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
+            ////    result.PictureData = this.httpRequester.GetContentBinary(url, url);
+            ////}
+
+            foreach (Match match in Regex.Matches(content, @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>[^<]*)</dd></div>", RegexOptions.Singleline))
+            {
+                var key = match.Groups[1].ToString();
+                var value = match.Groups[2].ToString();
+                if (value.Contains(">"))
+                {
+                    value = value.Substring(value.IndexOf('>') + 1);
+                }
+
+                if (value.Contains("<"))
+                {
+                    value = value.Substring(0, value.IndexOf('<'));
+                }
+
+                result.InternalSyncData = new SyncData();
+
+                switch (key)
+                {
+                    case "Name:":
+                        result.Name = new PersonName(value);
+                        break;
+
+                    case "Mitglied seit:":
+                        result.InternalSyncData.DateOfCreation = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        break;
+
+                    case "Letztes Update:":
+                        result.InternalSyncData.DateOfLastChange = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        break;
+
+                    case "Geschlecht:":
+                        result.PersonGender = value == "männlich" ? Gender.Male : Gender.Female;
+                        break;
+
+                    case "birthday":
+                        result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        break;
+
+                    case "Skype:":
+                        result.PersonalInstantMessengerAddresses = result.PersonalInstantMessengerAddresses ?? new InstantMessengerAddresses();
+                        result.PersonalInstantMessengerAddresses.Skype = value.Replace("&nbsp;", " ");
+                        break;
+
+                    case "Handy:":
+                        result.PersonalPhoneMobile = new PhoneNumber(value);
+                        break;
+
+                    case "Telefon:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.Phone = new PhoneNumber(value);
+                        break;
+
+                    case "Anschrift:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.StreetName = value;
+                        break;
+
+                    case "hometown":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        while (value.Contains("  "))
+                        {
+                            value = value.Replace("  ", " ");
+                        }
+
+                        if (Regex.IsMatch(value, "^[0-9]+ "))
+                        {
+                            result.PersonalAddressPrimary.PostalCode = value.Split(' ')[0];
+                            result.PersonalAddressPrimary.CityName = value.Split(' ')[1];
+                        }
+                        else
+                        {
+                            result.PersonalAddressPrimary.CityName = value;
+                        }
+
+                        break;
+
+                    case "Land:":
+                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                        result.PersonalAddressPrimary.CountryName = value;
+                        break;
+
+                    case "Webseite:":
+                        result.PersonalHomepage = value;
+                        break;
+
+                    case "Auf der Suche nach:":
+                        break;
+
+                    case "Firma:":
+                        result.BusinessCompanyName = value;
+                        break;
+
+                    case "Position:":
+                        result.BusinessPosition = value;
+                        break;
+
+                    case "relationship_status":
+                        break;
+
+                    default:
+                        Console.WriteLine("new content: " + key + " => " + value);
+                        break;
+                }
+            }
+
+            result.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+
+            return result;
         }
 
         /// <summary>
@@ -214,7 +329,7 @@ namespace Sem.Sync.Connector.Facebook
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
                 var theContact = this.httpRequester.GetContent(string.Format(this.HttpUrlFriendList, 0));
-                var friendIds = Regex.Match(theContact, this.ExtractorFriendUrls);
+                var friendIds = Regex.Match(theContact, @"""members"":\[((?<id>\d*)[,\]])*");
 
                 if (friendIds.Groups.Count >= 2)
                 {
@@ -228,7 +343,7 @@ namespace Sem.Sync.Connector.Facebook
 
                 if (string.IsNullOrEmpty(this.LogOnPassword))
                 {
-                    QueryForLogOnCredentials("needs some credentials");
+                    this.QueryForLogOnCredentials("needs some credentials");
                 }
 
                 // prepare the post data for log on
@@ -239,6 +354,11 @@ namespace Sem.Sync.Connector.Facebook
 
                 // post to get the cookies
                 var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
+                if (logInResponse.Contains(@"<meta http-equiv=""refresh"" content=""0;url=http://www.facebook.com/home.php?"" />"))
+                {
+                    logInResponse = this.httpRequester.GetContent("http://www.facebook.com/home.php?", string.Empty);
+                }
+
                 if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
                 {
                     return result;

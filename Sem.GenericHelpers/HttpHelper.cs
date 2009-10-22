@@ -385,7 +385,7 @@ namespace Sem.GenericHelpers
         /// <returns>the text result of the request</returns>
         public string GetContent(string url, string name, string referer)
         {
-            Uri uri = this.CreateUri(url);
+            var uri = this.CreateUri(url);
             var fileName = this.CachePathName(name, uri, string.Empty);
             string result;
 
@@ -400,6 +400,28 @@ namespace Sem.GenericHelpers
                 using (var receiveStream = this.GetResponseStream(uri, referer, out encoding))
                 {
                     result = ReadStreamToString(receiveStream, encoding);
+
+                    var redirectUrl = string.Empty;
+                    var redirectExtractors = new[] 
+                    { 
+                        @"<script>window.location.replace\(""(.*)""\);</script>",
+                        @"<meta http-equiv=""refresh"" content=""0;url=(.*?)"" />"
+                    };
+
+                    foreach (var extractor in redirectExtractors)
+                    {
+                        var redirectMatch = Regex.Match(result, extractor);
+                        if (redirectMatch.Groups.Count > 1)
+                        {
+                            redirectUrl = redirectMatch.Groups[1].ToString().Replace(@"\/", "/");
+                            break;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(redirectUrl))
+                    {
+                        result = this.GetContent(redirectUrl, name, referer);
+                    }
                 }
 
                 this.WriteToCache(fileName, result, uri);
