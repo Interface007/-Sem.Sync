@@ -221,6 +221,7 @@ namespace Sem.Sync.Connector.Facebook
                                 result.RelationshipStatus = RelationshipStatus.Single;
                                 break;
 
+                            case "In einer Beziehung mit ":
                             case "In einer Beziehung":
                                 result.RelationshipStatus = RelationshipStatus.InARelationship;
                                 break;

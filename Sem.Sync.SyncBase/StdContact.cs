@@ -357,6 +357,21 @@ namespace Sem.Sync.SyncBase
                 }
             }
 
+            if (this.Categories != null)
+            {
+                var newCategories = new List<string>(this.Categories.Count);
+                foreach (var category in this.Categories)
+                {
+                    var newCategory = category.Trim();
+                    if (!newCategories.Contains(newCategory))
+                    {
+                        newCategories.Add(newCategory);
+                    }
+                }
+
+                this.Categories = newCategories;
+            }
+
             if (this.DateOfBirth.Year < 1900 || this.DateOfBirth.Year > 2200)
             {
                 this.DateOfBirth = new DateTime(1900, 1, 1);
