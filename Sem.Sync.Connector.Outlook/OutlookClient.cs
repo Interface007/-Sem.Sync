@@ -385,11 +385,13 @@ namespace Sem.Sync.Connector.Outlook
         private static void GCRelevantCall()
         {
             garbageCollectionRelevantCalls++;
-            if (garbageCollectionRelevantCalls > 100)
+            if (garbageCollectionRelevantCalls <= 100)
             {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                return;
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>

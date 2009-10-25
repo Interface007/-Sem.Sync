@@ -325,7 +325,6 @@ namespace Sem.Sync.SyncBase.Helpers
                         switch (useIndetifierAs)
                         {
                             case ProfileIdentifierType.XingProfileId:
-                                uid = value.Substring(13);
                                 contact.PersonalProfileIdentifiers.XingProfileId = value;
                                 break;
 
@@ -334,7 +333,6 @@ namespace Sem.Sync.SyncBase.Helpers
                                 break;
 
                             default:
-                                uid = value;
                                 break;
                         }
 
@@ -361,21 +359,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
             }
 
-            if (uid.Length == 32)
-            {
-                contact.Id = new Guid(
-                    uid.Substring(0, 8) + "-" +
-                    uid.Substring(8, 4) + "-" +
-                    uid.Substring(12, 4) + "-" +
-                    uid.Substring(16, 4) + "-" +
-                    uid.Substring(20, 12));
-            }
-            else
-            {
-                contact.Id = uid.Length > 0
-                    ? new Guid(int.Parse(uid, CultureInfo.InvariantCulture), 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
-                    : Guid.NewGuid();
-            }
+            contact.Id = Guid.NewGuid();
 
             return contact;
         }

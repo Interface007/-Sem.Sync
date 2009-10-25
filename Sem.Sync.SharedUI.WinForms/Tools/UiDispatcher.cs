@@ -9,7 +9,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Forms;

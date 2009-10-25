@@ -16,20 +16,26 @@ namespace Sem.Sync.Connector.Outlook
     using System.Globalization;
     using System.Linq;
 
-    using GenericHelpers.Exceptions;
-
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
     using SyncBase;
     using SyncBase.Attributes;
+    using SyncBase.DetailData;
 
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling outlook contacts
+    /// This class is the client class for handling outlook contacts. The outlook connector does use the
+    /// ProfileIdentifierType.Default, which is idential to the <see cref="StdContact.Id"/>.
     /// </summary>
-    [ConnectorDescription(DisplayName = "Microsoft Outlook 2007")]
+    [ConnectorDescription(
+        DisplayName = "Microsoft Outlook 2007",
+        CanReadContacts = true,
+        CanWriteContacts = true,
+        Internal = false, 
+        IsGeneric = false, 
+        MatchingIdentifier = ProfileIdentifierType.Default)]
     [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
     {

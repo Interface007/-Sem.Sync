@@ -115,14 +115,13 @@ namespace Sem.Sync.SyncBase.Helpers
             // we iterate through the source list and check for each element
             foreach (var sourceItem in source)
             {
+                var sourceId = sourceItem.Id;
+
                 // find the corresponding target element
-                // ReSharper disable AccessToModifiedClosure
                 var targetItem =
                     (from x in target
-                     where sourceItem.Id == x.Id
+                     where x.Id == sourceId
                      select x).FirstOrDefault();
-                
-                // ReSharper restore AccessToModifiedClosure
 
                 // if we have no target element, we (by definition) do not have a conflict - 
                 // in this case the source element can simply be copied to the target list
@@ -132,13 +131,10 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
 
                 // lookup the base element if we have one
-                // ReSharper disable AccessToModifiedClosure
                 var baselineItem = (baseline == null) ? null :
                                                                  (from x in baseline
-                                                                  where sourceItem.Id == x.Id
+                                                                  where x.Id == sourceId
                                                                   select x).FirstOrDefault();
-
-                // ReSharper restore AccessToModifiedClosure
                 
                 // add the matched entries to the list of potential conflicts
                 resultList.Add(new ConflictTestContainer
@@ -326,9 +322,9 @@ namespace Sem.Sync.SyncBase.Helpers
                         var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
                         var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);
 
-                        sourceString = sourceValue == null ? string.Empty : sourceValue.ToString();
-                        targetString = targetValue == null ? string.Empty : targetValue.ToString();
-                        baselineString = baselineValue == null ? string.Empty : baselineValue.ToString();
+                        sourceString = sourceValue == null ? string.Empty : sourceValue.ToString().Replace("\r\n", "\n").Replace("\n", "\r\n");
+                        targetString = targetValue == null ? string.Empty : targetValue.ToString().Replace("\r\n", "\n").Replace("\n", "\r\n");
+                        baselineString = baselineValue == null ? string.Empty : baselineValue.ToString().Replace("\r\n", "\n").Replace("\n", "\r\n");
 
                         if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
                             sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
