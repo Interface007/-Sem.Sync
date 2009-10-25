@@ -74,10 +74,21 @@ namespace Sem.Sync.Connector.Facebook
             };
         }
 
-        protected abstract string HttpUrlHome { get; }
+        /// <summary>
+        /// Gets the deterministin part of the placeholder url - the url to a placeholder must match this regex, while
+        /// all others must not.
+        /// </summary>
+        protected abstract string ImagePlaceholderUrl { get; }
 
+        /// <summary>
+        /// Gets the url pointing to the contact data to be downloaded - contains a single parameter {0} with the ID from the 
+        /// profile ids for the contact to be processed.
+        /// </summary>
         protected abstract string HttpUrlContactDownload { get; }
 
+        /// <summary>
+        /// Gets the <see cref="ProfileIdentifierType"/> of this source.
+        /// </summary>
         protected abstract ProfileIdentifierType ProfileIdentifierType { get; }
         
         /// <summary>
@@ -85,10 +96,7 @@ namespace Sem.Sync.Connector.Facebook
         /// </summary>
         protected HttpHelper HttpRequester
         {
-            get
-            {
-                return this.httpRequester;
-            }
+            get { return this.httpRequester; }
         }
 
         /// <summary>
@@ -120,16 +128,6 @@ namespace Sem.Sync.Connector.Facebook
         /// Gets the regex to extract the picture url from the profile content
         /// </summary>
         protected abstract string ExtractorProfilePictureUrl { get; }
-
-        /// <summary>
-        /// Gets the regex to extract additional information
-        /// </summary>
-        protected abstract string ContactContentSelector { get; }
-
-        /// <summary>
-        /// Gets the extraction string for the image.
-        /// </summary>
-        protected abstract string ContactImageSelector { get; }
 
         /// <summary>
         /// Gets the detection string to detect if we did fail to logon
@@ -208,7 +206,7 @@ namespace Sem.Sync.Connector.Facebook
                 if (pictureUrl.Groups.Count > 1)
                 {
                     var pictureUrlString = pictureUrl.Groups[1].ToString();
-                    if (!pictureUrlString.EndsWith("silhouette.gif"))
+                    if (!pictureUrlString.EndsWith(this.ImagePlaceholderUrl))
                     {
                         result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
                     }
@@ -232,7 +230,7 @@ namespace Sem.Sync.Connector.Facebook
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                var theContact = this.httpRequester.GetContent(string.Format(this.HttpUrlFriendList, 0));
+                var theContact = this.httpRequester.GetContent(string.Format(this.HttpUrlFriendList, 0), "HttpUrlFriendList");
                 var friendIds = Regex.Match(theContact, this.ExtractorFriendUrls);
 
                 if (friendIds.Groups.Count >= 2)

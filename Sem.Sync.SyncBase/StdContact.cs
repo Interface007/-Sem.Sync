@@ -214,6 +214,8 @@ namespace Sem.Sync.SyncBase
         public List<LanguageKnowledge> LanguageKnowledges { get; set; }
         public List<ImageEntry> ImageEntries { get; set; }
 
+        public RelationshipStatus RelationshipStatus { get; set; }
+
         /// <summary>
         /// Loads a standard contact from the file system.
         /// </summary>

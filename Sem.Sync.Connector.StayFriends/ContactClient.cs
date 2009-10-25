@@ -304,7 +304,28 @@ namespace Sem.Sync.Connector.StayFriends
                     case "Hobbys":
                     case "Fax, privat":
                     case "Messenger, AIM":
+                        break;
+
                     case "Familienstand":
+                        switch (value.ToString())
+                        {
+                            case "ledig":
+                                contact.RelationshipStatus = RelationshipStatus.Single;
+                                break;
+
+                            case "verheiratet":
+                                contact.RelationshipStatus = RelationshipStatus.Married;
+                                break;
+
+                            case "zusammenlebend":
+                                contact.RelationshipStatus = RelationshipStatus.Engaged;
+                                break;
+
+                            default:
+                                Console.WriteLine(contact + " : " + key + " = " + value);
+                                break;
+                        } 
+                        
                         break;
 
                     case "Skype":
@@ -379,6 +400,11 @@ namespace Sem.Sync.Connector.StayFriends
 
             dataExtractor = new Regex(PersonPictureUrlPattern, RegexOptions.Singleline);
             var pictureUrlResult = dataExtractor.Matches(data);
+
+            if (pictureUrlResult.Count == 0)
+            {
+                pictureUrlResult = Regex.Matches(data, "img src=\"(?<image>http://images.stayfriends.de/img1/([0-9a-z]*).jpg)\"");
+            }
 
             if (pictureUrlResult.Count == 1)
             {

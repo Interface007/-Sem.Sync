@@ -100,7 +100,15 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
                 var member = propType.GetProperty(propName);
                 propType = member.PropertyType;
-                propObject = member.GetValue(propObject, null);
+
+                var destinObject = member.GetValue(propObject, null);
+                if (destinObject == null)
+                {
+                    destinObject = propType.GetConstructor(new Type[0]).Invoke(null);
+                    member.SetValue(propObject, destinObject, null);
+                }
+
+                propObject = destinObject;
             }
 
             var memberToSet = propType.GetProperty(pathToProperty);
@@ -110,6 +118,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             var destinationType = memberToSet.PropertyType.Name;
             switch (destinationType)
             {
+                case "CountryCode":
+                case "Gender":
+                    memberToSet.SetValue(propObject, Enum.Parse(memberToSet.PropertyType, newValue, true), null);
+                    break;
+
                 case "DateTime":
                     memberToSet.SetValue(propObject, DateTime.Parse(newValue, CultureInfo.CurrentCulture), null);
                     break;

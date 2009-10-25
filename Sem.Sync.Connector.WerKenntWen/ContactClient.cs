@@ -23,7 +23,7 @@ namespace Sem.Sync.Connector.WerKenntWen
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-    
+
     #endregion usings
 
     /// <summary>
@@ -111,7 +111,7 @@ namespace Sem.Sync.Connector.WerKenntWen
             {
                 UseCache = this.GetConfigValueBoolean("UseCache"),
                 SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
             };
         }
 
@@ -169,59 +169,59 @@ namespace Sem.Sync.Connector.WerKenntWen
             var result = new List<string>();
 
             string contactListContent;
-            
+
             while (true)
+            {
+                // optimistically we try to read the content without explicit logon
+                // this will succeed if we have a valid cookie
+                contactListContent = this.wkwRequester.GetContent(
+                    string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
+                    "UrlList" + CacheHintRefresh);
+
+                // if we don't find the logon form any more, we did succeed
+                if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
                 {
-                    // optimistically we try to read the content without explicit logon
-                    // this will succeed if we have a valid cookie
-                    contactListContent = this.wkwRequester.GetContent(
-                        string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
-                        "UrlList" + CacheHintRefresh);
-
-                    // if we don't find the logon form any more, we did succeed
-                    if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
-                    {
-                        break;
-                    }
-
-                    if (string.IsNullOrEmpty(this.LogOnPassword))
-                    {
-                        QueryForLogOnCredentials("Wer kennt wen benötigt die Log-In-Daten.");
-                    }
-
-                    // tell the user that we need to log on
-                    LogProcessingEvent("Wer kennt wen benötigt die Log-In-Daten.", this.LogOnUserId);
-
-                    // prepare the post data for log on
-                    var postData = HttpHelper.PreparePostData(
-                        HttpDataLogonRequest,
-                        this.LogOnUserId,
-                        this.LogOnPassword);
-
-                    // post to get the cookies
-                    var logInResponse = this.wkwRequester.GetContentPost(HttpUrlLogonRequest, CacheHintNoCache, postData);
-
-                    if (logInResponse.Contains(HttpDetectionStringLogonFailed))
-                    {
-                        LogProcessingEvent("Log-In ist fehlgeschlagen.", this.LogOnUserId);
-                        return result;
-                    }
-
-                    // we did succeed to log on - tell the user and try reading the data again.
-                    LogProcessingEvent("Login erfolgreich", this.LogOnUserId);
+                    break;
                 }
 
-                // we use regular expressions to extract the urls to the vCards
-                var urlExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
-                var matches = urlExtractor.Matches(contactListContent);
-
-                LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
-
-                // add the matches to the result
-                foreach (Match match in matches)
+                if (string.IsNullOrEmpty(this.LogOnPassword))
                 {
-                    result.Add(match.Groups[1].ToString());
+                    QueryForLogOnCredentials("Wer kennt wen benötigt die Log-In-Daten.");
                 }
+
+                // tell the user that we need to log on
+                LogProcessingEvent("Wer kennt wen benötigt die Log-In-Daten.", this.LogOnUserId);
+
+                // prepare the post data for log on
+                var postData = HttpHelper.PreparePostData(
+                    HttpDataLogonRequest,
+                    this.LogOnUserId,
+                    this.LogOnPassword);
+
+                // post to get the cookies
+                var logInResponse = this.wkwRequester.GetContentPost(HttpUrlLogonRequest, CacheHintNoCache, postData);
+
+                if (logInResponse.Contains(HttpDetectionStringLogonFailed))
+                {
+                    LogProcessingEvent("Log-In ist fehlgeschlagen.", this.LogOnUserId);
+                    return result;
+                }
+
+                // we did succeed to log on - tell the user and try reading the data again.
+                LogProcessingEvent("Login erfolgreich", this.LogOnUserId);
+            }
+
+            // we use regular expressions to extract the urls to the vCards
+            var urlExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
+            var matches = urlExtractor.Matches(contactListContent);
+
+            LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
+
+            // add the matches to the result
+            foreach (Match match in matches)
+            {
+                result.Add(match.Groups[1].ToString());
+            }
 
             return result;
         }
@@ -247,7 +247,7 @@ namespace Sem.Sync.Connector.WerKenntWen
             var contact = new StdContact
                 {
                     Id = Guid.NewGuid(),
-                    PersonalAddressPrimary = new AddressDetail(), 
+                    PersonalAddressPrimary = new AddressDetail(),
                     Name = new PersonName(),
                 };
 
@@ -257,7 +257,7 @@ namespace Sem.Sync.Connector.WerKenntWen
             foreach (Match match in matches)
             {
                 var key = match.Groups[1].ToString();
-                
+
                 // the encoding needs to be set to get the correct special chars
                 var value = HttpUtility.UrlDecode(match.Groups[2].ToString(), Encoding.GetEncoding("iso8859-1"));
                 switch (key)
@@ -274,25 +274,50 @@ namespace Sem.Sync.Connector.WerKenntWen
                     case "placesVisited":
                     case "books":
                     case "jobclass":
+                        break;
+
+                    case "birthName":
+                        contact.Name.FormerName = value;
+                        break;
+
                     case "partnership":
+                        switch (value)
+                        {
+                            case "1":
+                                contact.RelationshipStatus = RelationshipStatus.InARelationship;
+                                break;
+
+                            case "4":
+                                contact.RelationshipStatus = RelationshipStatus.Single;
+                                break;
+
+                            case "5":
+                                contact.RelationshipStatus = RelationshipStatus.Married;
+                                break;
+
+                            default:
+                                Console.WriteLine(contact + " : " + key + " = " + value);
+                                break;
+                        }
+
                         break;
 
                     case "firstName":
                         contact.Name.FirstName = value;
                         break;
-                    
+
                     case "lastName":
                         contact.Name.LastName = value;
                         break;
-                    
+
                     case "city":
                         contact.PersonalAddressPrimary.CityName = value;
                         break;
-                    
+
                     case "zipCode":
                         contact.PersonalAddressPrimary.PostalCode = value;
                         break;
-                    
+
                     case "gender":
                         contact.PersonGender = match.Groups[2].ToString() == "1" ? Gender.Female : Gender.Male;
                         break;

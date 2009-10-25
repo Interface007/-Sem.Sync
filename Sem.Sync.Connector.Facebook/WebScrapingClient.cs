@@ -41,41 +41,75 @@ namespace Sem.Sync.Connector.Facebook
         {
         }
 
-        protected override string HttpUrlHome
+        /// <summary>
+        /// Gets the friendly name of this class.
+        /// </summary>
+        public override string FriendlyClientName
         {
-            get { return "http://www.facebook.com/home.php?"; }
+            get { return "Facebook-WebScaping-Connector"; }
         }
 
+        /// <summary>
+        /// Gets the deterministin part of the placeholder url - the url to a placeholder must match this regex, while
+        /// all others must not.
+        /// </summary>
+        protected override string ImagePlaceholderUrl
+        {
+            get { return "silhouette.gif"; }
+        }
+
+        /// <summary>
+        /// Gets the url pointing to the contact data to be downloaded - contains a single parameter {0} with the ID from the 
+        /// profile ids for the contact to be processed.
+        /// </summary>
         protected override string HttpUrlContactDownload
         {
             get { return "http://www.facebook.com/profile.php?id={0}"; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ProfileIdentifierType"/> of this source.
+        /// </summary>
         protected override ProfileIdentifierType ProfileIdentifierType
         {
             get { return ProfileIdentifierType.FacebookProfileId; }
         }
 
+        /// <summary>
+        /// Gets a string to detect that we need to authenticate
+        /// </summary>
         protected override string HttpDetectionStringLogOnNeeded
         {
             get { return @"""errorSummary"":""Not Logged In"""; }
         }
 
+        /// <summary>
+        /// Gets the data for the log on request. This does contain two parameters {0} and {1} for the logon userid {0} and the password {1}.
+        /// </summary>
         protected override string HttpDataLogOnRequest
         {
             get { return "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&login_ab_group=0&email={0}&pass={1}&pass_placeholder=Passwort&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=WTu8R"; }
         }
 
+        /// <summary>
+        /// Gets the extractor regular expression. for the form key to communicate with the server
+        /// </summary>
         protected override string ExtractorFormKey
         {
             get { return string.Empty; }
         }
 
+        /// <summary>
+        /// Gets the extractor regular expression for the "IV" of the form (needed by some web sites).
+        /// </summary>
         protected override string ExtractorIv
         {
-            get { throw new NotImplementedException(); }
+            get { return string.Empty; }
         }
 
+        /// <summary>
+        /// Gets the extractor for the urls that do point to the contact profiles.
+        /// </summary>
         protected override string ExtractorFriendUrls
         {
             get { return @"""members"":\[((?<id>\d*)[,\]])*"; }
@@ -89,21 +123,8 @@ namespace Sem.Sync.Connector.Facebook
             get { return @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic"""; }
         }
 
-        protected override string ContactContentSelector
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         /// <summary>
-        /// Gets the extraction string for the image.
-        /// </summary>
-        protected override string ContactImageSelector
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
-        /// Gets the detection string to detect if we did fail to logon
+        /// Gets a string to detect that the logon attempt was not successfull - in this case we must reauthenticate.
         /// </summary>
         protected override string HttpDetectionStringLogOnFailed
         {
@@ -194,7 +215,26 @@ namespace Sem.Sync.Connector.Facebook
                         break;
 
                     case "relationship_status":
-                        // TODO: add this to the StdContact object model
+                        switch (value)
+                        {
+                            case "Single":
+                                result.RelationshipStatus = RelationshipStatus.Single;
+                                break;
+
+                            case "In einer Beziehung":
+                                result.RelationshipStatus = RelationshipStatus.InARelationship;
+                                break;
+
+                            case "Verheiratet mit ":
+                            case "Verheiratet":
+                                result.RelationshipStatus = RelationshipStatus.Married;
+                                break;
+                                
+                            default:
+                                Console.WriteLine(key + " = " + value);
+                                break;
+                        }
+
                         break;
 
                     case "networks":
@@ -224,11 +264,6 @@ namespace Sem.Sync.Connector.Facebook
 
             result.PersonalProfileIdentifiers = new ProfileIdentifiers(this.ProfileIdentifierType, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
             return result;
-        }
-
-        public override string FriendlyClientName
-        {
-            get { return "Facebook-WebScaping"; }
         }
     }
 }

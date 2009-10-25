@@ -58,6 +58,15 @@ namespace Sem.GenericHelpers
         private static readonly string CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager\\Cache");
 
         /// <summary>
+        /// Regular expressions to detect redirect content
+        /// </summary>
+        private static readonly Regex[] RedirectExtractors = new[] 
+                    { 
+                        new Regex(@"<script>window.location.replace\(""(.*)""\);</script>"),
+                        new Regex(@"<meta http-equiv=""refresh"" content=""0;url=(.*?)"" />")
+                    };
+
+        /// <summary>
         /// Private cookie store when not using IE cookies
         /// </summary>
         private readonly CookieContainer sessionCookies = new CookieContainer();
@@ -402,20 +411,16 @@ namespace Sem.GenericHelpers
                     result = ReadStreamToString(receiveStream, encoding);
 
                     var redirectUrl = string.Empty;
-                    var redirectExtractors = new[] 
-                    { 
-                        @"<script>window.location.replace\(""(.*)""\);</script>",
-                        @"<meta http-equiv=""refresh"" content=""0;url=(.*?)"" />"
-                    };
-
-                    foreach (var extractor in redirectExtractors)
+                    foreach (var extractor in RedirectExtractors)
                     {
-                        var redirectMatch = Regex.Match(result, extractor);
-                        if (redirectMatch.Groups.Count > 1)
+                        var redirectMatch = extractor.Match(result);
+                        if (redirectMatch.Groups.Count <= 1)
                         {
-                            redirectUrl = redirectMatch.Groups[1].ToString().Replace(@"\/", "/");
-                            break;
+                            continue;
                         }
+
+                        redirectUrl = redirectMatch.Groups[1].ToString().Replace(@"\/", "/");
+                        break;
                     }
 
                     if (!string.IsNullOrEmpty(redirectUrl))
@@ -619,7 +624,8 @@ namespace Sem.GenericHelpers
         /// <returns> the path if successfull, empty string if no cache should be used </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
-            if (name == null
+            if (!this.UseCache
+                || name == null
                 || string.IsNullOrEmpty(name)
                 || name.Contains(CacheHintNoCache))
             {
@@ -635,7 +641,7 @@ namespace Sem.GenericHelpers
             var hash = Tools.GetSha1Hash(sessionData);
 
             var result = Tools.ReplaceInvalidFileCharacters(name + "$$" + this.BaseUrl + "$$" + hash);
-            result = Path.Combine(CachePath, result);
+            result = Path.Combine(CachePath, result + ".cacheitem");
 
             return result;
         }
@@ -841,18 +847,22 @@ namespace Sem.GenericHelpers
             ResponseCacheItem cacheItem;
 
             Tools.EnsurePathExist(CachePath);
-            using (var file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            if (File.Exists(fileName))
             {
-                cacheItem = (ResponseCacheItem)new XmlSerializer(
-                    typeof(ResponseCacheItem)).Deserialize(file);
+                using (var file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    cacheItem = (ResponseCacheItem)new XmlSerializer(
+                        typeof(ResponseCacheItem)).Deserialize(file);
+                }
+
+                foreach (var cookie in cacheItem.Cookies)
+                {
+                    this.sessionCookies.Add(uri, new Cookie(cookie.Key, cookie.Value));
+                }
+
+                result = Encoding.UTF32.GetString(cacheItem.Content);
             }
 
-            foreach (var cookie in cacheItem.Cookies)
-            {
-                this.sessionCookies.Add(uri, new Cookie(cookie.Key, cookie.Value));
-            }
-
-            result = Encoding.UTF32.GetString(cacheItem.Content);
             return true;
         }
 
@@ -877,8 +887,7 @@ namespace Sem.GenericHelpers
             using (var file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 cacheItem = (ResponseCacheItem)new XmlSerializer(
-                    typeof(ResponseCacheItem),
-                    new[] { typeof(CookieCollection) }).Deserialize(file);
+                    typeof(ResponseCacheItem)).Deserialize(file);
             }
 
             foreach (var cookie in cacheItem.Cookies)
@@ -909,7 +918,7 @@ namespace Sem.GenericHelpers
         /// <param name="url">the url to write the content for</param>
         private void WriteToCache(string fileName, byte[] result, Uri url)
         {
-            if (string.IsNullOrEmpty(fileName))
+            if (!this.UseCache || string.IsNullOrEmpty(fileName))
             {
                 return;
             }

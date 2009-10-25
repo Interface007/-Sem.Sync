@@ -149,6 +149,7 @@
     <Compile Include="DetailData\KnowledgeLevel.cs" />
     <Compile Include="DetailData\ProfileIdentifierType.cs" />
     <Compile Include="DetailData\ProfileIdInformation.cs" />
+    <Compile Include="DetailData\RelationshipStatus.cs" />
     <Compile Include="DetailData\SyncWorkFlow.cs">
       <SubType>Code</SubType>
     </Compile>
