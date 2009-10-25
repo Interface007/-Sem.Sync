@@ -125,7 +125,6 @@ namespace Sem.Sync.SyncBase.Helpers
             var vCardUTF8 = Encoding.UTF8.GetString(vCard);
             var vCardIso8859 = Encoding.UTF8.GetString(Encoding.Convert(Encoding.GetEncoding("iso8859-1"), Encoding.UTF8, vCard));
 
-            var uid = string.Empty;
             contact.Name = new PersonName();
 
             var linesUtf8 = vCardUTF8.Split('\n');
