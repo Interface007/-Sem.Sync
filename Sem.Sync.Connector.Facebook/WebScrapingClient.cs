@@ -21,14 +21,16 @@ namespace Sem.Sync.Connector.Facebook
     /// <summary>
     /// WebScaping implementation of a FaceBook StdClient
     /// </summary>
-    [ClientStoragePathDescription(Irrelevant = true)]
-#if DEBUG
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
-        DisplayName = "Facebook (WS)", MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
-#else
-    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, NeedsCredentials = true,
-        DisplayName = "Facebook (WS)", MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
-#endif
+    [ClientStoragePathDescription(
+        Irrelevant = true,
+        ReferenceType = ClientPathType.Undefined)]
+    [ConnectorDescription(
+        DisplayName = "Facebook (WS)",
+        Internal = false, 
+        CanReadContacts = true, 
+        CanWriteContacts = false, 
+        NeedsCredentials = true,
+        MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class WebScrapingClient : WebScrapingBaseClient
     {
         /// <summary>
@@ -77,6 +79,14 @@ namespace Sem.Sync.Connector.Facebook
         protected override string ExtractorFriendUrls
         {
             get { return @"""members"":\[((?<id>\d*)[,\]])*"; }
+        }
+
+        /// <summary>
+        /// Gets the regex to extract the picture url from the profile content
+        /// </summary>
+        protected override string ExtractorProfilePictureUrl
+        {
+            get { return @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic"""; }
         }
 
         protected override string ContactContentSelector

@@ -30,13 +30,13 @@ namespace Sem.Sync.Connector.Facebook
     [ClientStoragePathDescription(
         Irrelevant = true,
         ReferenceType = ClientPathType.Undefined)]
-    //// specifying the connector description as no-read and no-write will hide it from the GUI
-    [ConnectorDescription(DisplayName = "WebScraping-Base-Client",
+    [ConnectorDescription(
+        DisplayName = "WebScraping-Base-Client",
         Internal = true,
         CanReadContacts = false,
         CanWriteContacts = false,
-        MatchingIdentifier = ProfileIdentifierType.Default,
-        NeedsCredentials = true)]
+        NeedsCredentials = true,
+        MatchingIdentifier = ProfileIdentifierType.Default)]
     public abstract class WebScrapingBaseClient : StdClient
     {
         /// <summary>
@@ -115,6 +115,11 @@ namespace Sem.Sync.Connector.Facebook
         /// Gets the regex to extract the iv for the log on
         /// </summary>
         protected abstract string ExtractorFriendUrls { get; }
+
+        /// <summary>
+        /// Gets the regex to extract the picture url from the profile content
+        /// </summary>
+        protected abstract string ExtractorProfilePictureUrl { get; }
 
         /// <summary>
         /// Gets the regex to extract additional information
@@ -196,7 +201,21 @@ namespace Sem.Sync.Connector.Facebook
         private StdContact DownloadContact(string contactUrl)
         {
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
-            return this.ConvertToStdContact(contactUrl, content);
+            var result = this.ConvertToStdContact(contactUrl, content);
+            if (!string.IsNullOrEmpty(this.ExtractorProfilePictureUrl))
+            {
+                var pictureUrl = Regex.Match(content, this.ExtractorProfilePictureUrl);
+                if (pictureUrl.Groups.Count > 1)
+                {
+                    var pictureUrlString = pictureUrl.Groups[1].ToString();
+                    if (!pictureUrlString.EndsWith("silhouette.gif"))
+                    {
+                        result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
