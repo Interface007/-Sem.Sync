@@ -108,6 +108,10 @@
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
       <Name>Sem.Sync.SyncBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
+      <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
+      <Name>Sem.Sync.Test.DataGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
