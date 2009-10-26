@@ -262,7 +262,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// UI-Action to get a file path
         /// </summary>
-        /// <returns>the user entered path to a file</returns>
+        /// <param name="currentFileName"> The current File Name to be displayed. </param>
+        /// <returns> the user entered path to a file </returns>
         private string AskForDestinationFile(string currentFileName)
         {
             this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
