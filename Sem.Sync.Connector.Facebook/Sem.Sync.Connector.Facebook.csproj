@@ -87,17 +87,12 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="ContactClient.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebScrapingClient.cs" />
     <Compile Include="WebScrapingBaseClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientApis\Facebook\Facebook\Facebook.csproj">
-      <Project>{2CA46CD1-7165-4ED6-8918-C8E8D71A1EFA}</Project>
-      <Name>Facebook %28Api\Facebook\Facebook%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
