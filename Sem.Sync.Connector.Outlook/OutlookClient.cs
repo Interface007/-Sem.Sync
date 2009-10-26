@@ -123,7 +123,7 @@ namespace Sem.Sync.Connector.Outlook
         /// <param name="outlookContact"> The outlook contact to be converted. </param>
         /// <returns> a new standard contact </returns>
         /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
-        public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
+        public static StdContact ConvertToStandardContact(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -131,7 +131,7 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             // generate the new id this contact will get in case there is no contact id in outlook
-            var newId = GetStandardId(outlookContact);
+            var newId = GetStandardId(outlookContact, contactList);
 
             // read the picture data and name of this contact
             string pictureName;
@@ -415,7 +415,7 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             var dirty = false;
-            var stdOldContact = ConvertToStandardContact(outlookContact);
+            var stdOldContact = ConvertToStandardContact(outlookContact, null);
             var gender = stdNewContact.PersonGender ==
                                         Gender.Unspecified ?
                                         OlGender.olUnspecified :
@@ -820,7 +820,7 @@ namespace Sem.Sync.Connector.Outlook
         /// </summary>
         /// <param name="outlookContact">the outlook contact to handle</param>
         /// <returns>the corresponding Guid</returns>
-        private static Guid GetStandardId(_ContactItem outlookContact)
+        private static Guid GetStandardId(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -852,6 +852,11 @@ namespace Sem.Sync.Connector.Outlook
             catch (UnauthorizedAccessException)
             {
                 // if we are not authorized to write back the id, we will assume a new id
+            }
+
+            if (contactList != null && (from x in contactList where x.Id == newId select x).Count() > 0)
+            {
+                newId = Guid.NewGuid();
             }
 
             return newId;

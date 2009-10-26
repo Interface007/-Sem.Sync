@@ -229,7 +229,16 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 default:
                     // check if we have a new type for that we need to identify the default value
-                    if (!typeName.IsOneOf("SyncData", "PhoneNumber", "AddressDetail", "PersonName", "StdContact", "ProfileIdentifiers", "ProfileIdInformation"))
+                    if (
+                        !typeName.IsOneOf(
+                             "SyncData",
+                             "PhoneNumber",
+                             "AddressDetail",
+                             "PersonName",
+                             "StdContact",
+                             "ProfileIdentifiers",
+                             "ProfileIdInformation",
+                             "InstantMessengerAddresses"))
                     {
                         Console.WriteLine("type name not explicitly supported in ClearNulls: " + typeName);
                     }

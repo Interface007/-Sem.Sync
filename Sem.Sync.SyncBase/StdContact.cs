@@ -8,6 +8,7 @@ namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.IO;
     using System.Text;
     using System.Xml.Serialization;
@@ -214,6 +215,7 @@ namespace Sem.Sync.SyncBase
         public List<LanguageKnowledge> LanguageKnowledges { get; set; }
         public List<ImageEntry> ImageEntries { get; set; }
 
+        [DefaultValue(RelationshipStatus.Undefined)]
         public RelationshipStatus RelationshipStatus { get; set; }
 
         /// <summary>

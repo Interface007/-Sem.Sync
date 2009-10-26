@@ -33,6 +33,16 @@ namespace Sem.Sync.SyncBase.DetailData
     [Serializable]
     public class AddressDetail
     {
+        private static readonly Regex RegCityPre = new Regex("^[a-zA-Z -.ßäöüÄÖÜ]+");
+
+        private static readonly Regex RegPlzCityPre = new Regex("^[0-9]+");
+ 
+        private static readonly Regex RegPlzCity = new Regex("(?<plz>^[0-9]+)(?<city>[^0-9]+.+)?");
+
+        private static readonly Regex RegStreetNumberExtensionPre = new Regex("^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+");
+
+        private static readonly Regex RegStreetNumberExtension = new Regex("(?<name>^[a-zA-Z -.ßäöüÄÖÜ]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AddressDetail"/> class. 
         /// </summary>
@@ -55,24 +65,24 @@ namespace Sem.Sync.SyncBase.DetailData
                     .Replace("\n", string.Empty)
                     .Trim();
 
-                if (Regex.IsMatch(line, "^[0-9]+"))
+                if (RegPlzCityPre.IsMatch(line))
                 {
-                    var lineParts = Regex.Matches(line, "(?<plz>^[0-9]+)(?<city>[^0-9]+.+)?");
+                    var lineParts = RegPlzCity.Matches(line);
                     this.PostalCode = GetMatchGroupWithDefault(lineParts, "plz", string.Empty);
                     this.CityName = GetMatchGroupWithDefault(lineParts, "city", string.Empty);
                     continue;
                 }
 
-                if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+"))
+                if (RegStreetNumberExtensionPre.IsMatch(line))
                 {
-                    var lineParts = Regex.Matches(line, "(?<name>^[a-zA-Z -.ßäöüÄÖÜ]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
+                    var lineParts = RegStreetNumberExtension.Matches(line);
                     this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
                     this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"), CultureInfo.InvariantCulture);
                     this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
                     continue;
                 }
 
-                if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+"))
+                if (RegCityPre.IsMatch(line))
                 {
                     this.CountryName += line;
                     continue;

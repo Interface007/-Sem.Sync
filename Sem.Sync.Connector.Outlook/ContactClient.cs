@@ -22,6 +22,7 @@ namespace Sem.Sync.Connector.Outlook
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
+    using SyncBase.Helpers;
 
     #endregion usings
 
@@ -70,13 +71,15 @@ namespace Sem.Sync.Connector.Outlook
                                       select a;
 
                 _ContactItem lastItem = null;
+                var contactList = new List<StdContact>(300);
                 foreach (var item in outlookItemList)
                 {
                     currentElementName = item.LastName + ", " + item.FirstName;
 
                     if (lastItem != null)
                     {
-                        var stdItem = OutlookClient.ConvertToStandardContact(item);
+                        var stdItem = OutlookClient.ConvertToStandardContact(item, contactList);
+                        contactList.Add(stdItem);
                         LogProcessingEvent(stdItem, Resources.uiComparing);
 
                         if (lastItem.LastName == item.LastName
@@ -183,7 +186,7 @@ namespace Sem.Sync.Connector.Outlook
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
-
+            
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
             var outlookNamespace = OutlookClient.GetNamespace();
@@ -216,7 +219,7 @@ namespace Sem.Sync.Connector.Outlook
                             {
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                var newContact = OutlookClient.ConvertToStandardContact(contactItem);
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
                                 result.Add(newContact);
 
                                 LogProcessingEvent(newContact, Resources.uiReadingContact);
