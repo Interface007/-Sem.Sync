@@ -54,16 +54,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientApis\Facebook\Facebook.Controls\Facebook.Controls.csproj">
-      <Name>Facebook.Controls</Name>
-      <Project>{8f4b9954-1ba5-4664-bbce-b79519fee120}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ClientApis\Facebook\Facebook\Facebook.csproj">
-      <Name>Facebook (ClientApis\Facebook\Facebook)</Name>
-      <Project>{2ca46cd1-7165-4ed6-8918-c8e8d71a1efa}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Name>Sem.GenericHelpers</Name>
       <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
