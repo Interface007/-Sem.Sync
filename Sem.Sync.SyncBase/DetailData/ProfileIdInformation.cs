@@ -15,6 +15,26 @@
             return value == null ? null : value.Id;
         }
 
+        public static bool operator ==(ProfileIdInformation value1, ProfileIdInformation value2)
+        {
+            return value1.CompareTo(value2) == 0;
+        }
+
+        public static bool operator !=(ProfileIdInformation value1, ProfileIdInformation value2)
+        {
+            return value1.CompareTo(value2) != 0;
+        }
+
+        public static bool operator <(ProfileIdInformation value1, ProfileIdInformation value2)
+        {
+            return value1.CompareTo(value2) < 0;
+        }
+
+        public static bool operator >(ProfileIdInformation value1, ProfileIdInformation value2)
+        {
+            return value1.CompareTo(value2) > 0;
+        }
+
         [XmlText]
         public string Id { get; set; }
 
@@ -31,6 +51,16 @@
             }
 
             return string.Compare(this.Id, other.Id, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.CompareTo(obj as ProfileIdInformation) == 0;
+        }
+
+        public override int GetHashCode()
+        {
+            return -1;
         }
 
         #endregion
