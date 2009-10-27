@@ -14,6 +14,7 @@ namespace Sem.Sync.Connector.Outlook2003
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.InteropServices;
 
     using GenericHelpers;
 
@@ -120,10 +121,11 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Converts an outlook contact to a standard contact.
         /// </summary>
-        /// <param name="outlookContact"> The outlook contact to be converted. </param>
-        /// <returns> a new standard contact </returns>
-        /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
-        public static StdContact ConvertToStandardContact(_ContactItem outlookContact)
+        /// <param name="outlookContact"> The outlook contact to be converted.  </param>
+        /// <param name="contactList"> The contact List to lookup duplicates. </param>
+        /// <returns> a new standard contact  </returns>
+        /// <exception cref="ArgumentNullException"> if the outlook contact is null  </exception>
+        public static StdContact ConvertToStandardContact(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -131,80 +133,94 @@ namespace Sem.Sync.Connector.Outlook2003
             }
 
             // generate the new id this contact will get in case there is no contact id in outlook
-            var newId = GetStandardId(outlookContact);
+            var newId = GetStandardId(outlookContact, contactList);
 
             // read the picture data and name of this contact
             string pictureName;
             var pictureData = SaveOutlookContactPicture(outlookContact, out pictureName);
 
-            // create a new contact and assign the corresponding values from the outlook contact
-            var returnValue = new StdContact
+            StdContact returnValue;
+
+            try
             {
-                Id = newId,
-                InternalSyncData = new SyncData
+                // create a new contact and assign the corresponding values from the outlook contact
+                returnValue = new StdContact
                 {
-                    DateOfLastChange = outlookContact.LastModificationTime,
-                    DateOfCreation = outlookContact.CreationTime
-                },
-                PersonGender =
-                    (outlookContact.Gender == OlGender.olMale)
-                        ? Gender.Male
-                        : (outlookContact.Gender == OlGender.olFemale)
-                                ? Gender.Female
-                                : SyncTools.GenderByText(outlookContact.Title),
+                    Id = newId,
+                    InternalSyncData = new SyncData
+                    {
+                        DateOfLastChange = outlookContact.LastModificationTime,
+                        DateOfCreation = outlookContact.CreationTime
+                    },
+                    PersonGender =
+                        (outlookContact.Gender == OlGender.olMale)
+                            ? Gender.Male
+                            : (outlookContact.Gender == OlGender.olFemale)
+                                    ? Gender.Female
+                                    : SyncTools.GenderByText(outlookContact.Title),
 
-                DateOfBirth = outlookContact.Birthday,
+                    DateOfBirth = outlookContact.Birthday,
 
-                Name = new PersonName
+                    Name = new PersonName
+                    {
+                        FirstName = outlookContact.FirstName,
+                        LastName = outlookContact.LastName,
+                        MiddleName = outlookContact.MiddleName,
+                        AcademicTitle =
+                           outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
+                           outlookContact.Title,
+                    },
+
+                    PersonalAddressPrimary = new AddressDetail
+                    {
+                        Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
+                        CountryName = outlookContact.HomeAddressCountry,
+                        PostalCode = outlookContact.HomeAddressPostalCode,
+                        CityName = outlookContact.HomeAddressCity,
+                        StateName = outlookContact.HomeAddressState,
+                        StreetName = outlookContact.HomeAddressStreet,
+                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
+                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
+                    },
+
+                    PersonalHomepage = outlookContact.PersonalHomePage,
+                    PersonalEmailPrimary = outlookContact.Email1Address,
+                    PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
+                    PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
+
+                    BusinessCompanyName = outlookContact.CompanyName,
+                    BusinessPosition = outlookContact.JobTitle,
+
+                    BusinessAddressPrimary = new AddressDetail
+                    {
+                        Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
+                        CountryName = outlookContact.BusinessAddressCountry,
+                        PostalCode = outlookContact.BusinessAddressPostalCode,
+                        CityName = outlookContact.BusinessAddressCity,
+                        StateName = outlookContact.BusinessAddressState,
+                        StreetName = outlookContact.BusinessAddressStreet,
+                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
+                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
+                    },
+
+                    BusinessHomepage = outlookContact.BusinessHomePage,
+                    BusinessEmailPrimary = outlookContact.Email2Address,
+                    BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
+
+                    AdditionalTextData = outlookContact.Body,
+                    PictureName = pictureName,
+                    PictureData = pictureData
+                };
+            }
+            catch (COMException ex)
+            {
+                if (ex.ErrorCode == -2147467260)
                 {
-                    FirstName = outlookContact.FirstName,
-                    LastName = outlookContact.LastName,
-                    MiddleName = outlookContact.MiddleName,
-                    AcademicTitle =
-                       outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
-                       outlookContact.Title,
-                },
-
-                PersonalAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
-                    CountryName = outlookContact.HomeAddressCountry,
-                    PostalCode = outlookContact.HomeAddressPostalCode,
-                    CityName = outlookContact.HomeAddressCity,
-                    StateName = outlookContact.HomeAddressState,
-                    StreetName = outlookContact.HomeAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
-                },
-
-                PersonalHomepage = outlookContact.PersonalHomePage,
-                PersonalEmailPrimary = outlookContact.Email1Address,
-                PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
-                PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
-
-                BusinessCompanyName = outlookContact.CompanyName,
-                BusinessPosition = outlookContact.JobTitle,
-
-                BusinessAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
-                    CountryName = outlookContact.BusinessAddressCountry,
-                    PostalCode = outlookContact.BusinessAddressPostalCode,
-                    CityName = outlookContact.BusinessAddressCity,
-                    StateName = outlookContact.BusinessAddressState,
-                    StreetName = outlookContact.BusinessAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
-                },
-
-                BusinessHomepage = outlookContact.BusinessHomePage,
-                BusinessEmailPrimary = outlookContact.Email2Address,
-                BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
-
-                AdditionalTextData = outlookContact.Body,
-                PictureName = pictureName,
-                PictureData = pictureData
-            };
+                    return null;
+                }
+                    
+                throw;
+            }
 
             if (!string.IsNullOrEmpty(outlookContact.Categories))
             {
@@ -385,11 +401,13 @@ namespace Sem.Sync.Connector.Outlook2003
         private static void GCRelevantCall()
         {
             garbageCollectionRelevantCalls++;
-            if (garbageCollectionRelevantCalls > 100)
+            if (garbageCollectionRelevantCalls <= 100)
             {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                return;
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>
@@ -413,7 +431,7 @@ namespace Sem.Sync.Connector.Outlook2003
             }
 
             var dirty = false;
-            var stdOldContact = ConvertToStandardContact(outlookContact);
+            var stdOldContact = ConvertToStandardContact(outlookContact, null);
             var gender = stdNewContact.PersonGender ==
                                         Gender.Unspecified ?
                                         OlGender.olUnspecified :
@@ -796,7 +814,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// </summary>
         /// <param name="outlookContact">the outlook contact to handle</param>
         /// <returns>the corresponding Guid</returns>
-        private static Guid GetStandardId(_ContactItem outlookContact)
+        private static Guid GetStandardId(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -828,6 +846,11 @@ namespace Sem.Sync.Connector.Outlook2003
             catch (UnauthorizedAccessException)
             {
                 // if we are not authorized to write back the id, we will assume a new id
+            }
+
+            if (contactList != null && (from x in contactList where x.Id == newId select x).Count() > 0)
+            {
+                newId = Guid.NewGuid();
             }
 
             return newId;

@@ -54,10 +54,10 @@
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>TRUE</RunCodeAnalysis>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
-    <RunCodeAnalysis>TRUE</RunCodeAnalysis>
     <Optimize>TRUE</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">

@@ -120,9 +120,10 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// Converts an outlook contact to a standard contact.
         /// </summary>
-        /// <param name="outlookContact"> The outlook contact to be converted. </param>
-        /// <returns> a new standard contact </returns>
-        /// <exception cref="ArgumentNullException"> if the outlook contact is null </exception>
+        /// <param name="outlookContact"> The outlook contact to be converted.  </param>
+        /// <param name="contactList"> The contact List to lookup duplicates. </param>
+        /// <returns> a new standard contact  </returns>
+        /// <exception cref="ArgumentNullException"> if the outlook contact is null  </exception>
         public static StdContact ConvertToStandardContact(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)
@@ -137,74 +138,88 @@ namespace Sem.Sync.Connector.Outlook
             string pictureName;
             var pictureData = SaveOutlookContactPicture(outlookContact, out pictureName);
 
-            // create a new contact and assign the corresponding values from the outlook contact
-            var returnValue = new StdContact
+            StdContact returnValue;
+
+            try
             {
-                Id = newId,
-                InternalSyncData = new SyncData
+                // create a new contact and assign the corresponding values from the outlook contact
+                returnValue = new StdContact
                 {
-                    DateOfLastChange = outlookContact.LastModificationTime,
-                    DateOfCreation = outlookContact.CreationTime
-                },
-                PersonGender =
-                    (outlookContact.Gender == OlGender.olMale)
-                        ? Gender.Male
-                        : (outlookContact.Gender == OlGender.olFemale)
-                                ? Gender.Female
-                                : SyncTools.GenderByText(outlookContact.Title),
+                    Id = newId,
+                    InternalSyncData = new SyncData
+                    {
+                        DateOfLastChange = outlookContact.LastModificationTime,
+                        DateOfCreation = outlookContact.CreationTime
+                    },
+                    PersonGender =
+                        (outlookContact.Gender == OlGender.olMale)
+                            ? Gender.Male
+                            : (outlookContact.Gender == OlGender.olFemale)
+                                    ? Gender.Female
+                                    : SyncTools.GenderByText(outlookContact.Title),
 
-                DateOfBirth = outlookContact.Birthday,
+                    DateOfBirth = outlookContact.Birthday,
 
-                Name = new PersonName
+                    Name = new PersonName
+                    {
+                        FirstName = outlookContact.FirstName,
+                        LastName = outlookContact.LastName,
+                        MiddleName = outlookContact.MiddleName,
+                        AcademicTitle =
+                           outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
+                           outlookContact.Title,
+                    },
+
+                    PersonalAddressPrimary = new AddressDetail
+                    {
+                        Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
+                        CountryName = outlookContact.HomeAddressCountry,
+                        PostalCode = outlookContact.HomeAddressPostalCode,
+                        CityName = outlookContact.HomeAddressCity,
+                        StateName = outlookContact.HomeAddressState,
+                        StreetName = outlookContact.HomeAddressStreet,
+                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
+                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
+                    },
+
+                    PersonalHomepage = outlookContact.PersonalHomePage,
+                    PersonalEmailPrimary = outlookContact.Email1Address,
+                    PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
+                    PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
+
+                    BusinessCompanyName = outlookContact.CompanyName,
+                    BusinessPosition = outlookContact.JobTitle,
+
+                    BusinessAddressPrimary = new AddressDetail
+                    {
+                        Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
+                        CountryName = outlookContact.BusinessAddressCountry,
+                        PostalCode = outlookContact.BusinessAddressPostalCode,
+                        CityName = outlookContact.BusinessAddressCity,
+                        StateName = outlookContact.BusinessAddressState,
+                        StreetName = outlookContact.BusinessAddressStreet,
+                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
+                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
+                    },
+
+                    BusinessHomepage = outlookContact.BusinessHomePage,
+                    BusinessEmailPrimary = outlookContact.Email2Address,
+                    BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
+
+                    AdditionalTextData = outlookContact.Body,
+                    PictureName = pictureName,
+                    PictureData = pictureData
+                };
+            }
+            catch (COMException ex)
+            {
+                if (ex.ErrorCode == -2147467260)
                 {
-                    FirstName = outlookContact.FirstName,
-                    LastName = outlookContact.LastName,
-                    MiddleName = outlookContact.MiddleName,
-                    AcademicTitle =
-                       outlookContact.Title.IsOneOf("Herr", "Mr.", "Frau", "Mrs.") ? null :
-                       outlookContact.Title,
-                },
-
-                PersonalAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.HomeTelephoneNumber)) ? new PhoneNumber(outlookContact.HomeTelephoneNumber) : null,
-                    CountryName = outlookContact.HomeAddressCountry,
-                    PostalCode = outlookContact.HomeAddressPostalCode,
-                    CityName = outlookContact.HomeAddressCity,
-                    StateName = outlookContact.HomeAddressState,
-                    StreetName = outlookContact.HomeAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
-                },
-
-                PersonalHomepage = outlookContact.PersonalHomePage,
-                PersonalEmailPrimary = outlookContact.Email1Address,
-                PersonalInstantMessengerAddresses = string.IsNullOrEmpty(outlookContact.IMAddress) ? null : new InstantMessengerAddresses(outlookContact.IMAddress),
-                PersonalPhoneMobile = (!string.IsNullOrEmpty(outlookContact.MobileTelephoneNumber)) ? new PhoneNumber(outlookContact.MobileTelephoneNumber) : null,
-
-                BusinessCompanyName = outlookContact.CompanyName,
-                BusinessPosition = outlookContact.JobTitle,
-
-                BusinessAddressPrimary = new AddressDetail
-                {
-                    Phone = (!string.IsNullOrEmpty(outlookContact.BusinessTelephoneNumber)) ? new PhoneNumber(outlookContact.BusinessTelephoneNumber) : null,
-                    CountryName = outlookContact.BusinessAddressCountry,
-                    PostalCode = outlookContact.BusinessAddressPostalCode,
-                    CityName = outlookContact.BusinessAddressCity,
-                    StateName = outlookContact.BusinessAddressState,
-                    StreetName = outlookContact.BusinessAddressStreet,
-                    StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                    StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
-                },
-
-                BusinessHomepage = outlookContact.BusinessHomePage,
-                BusinessEmailPrimary = outlookContact.Email2Address,
-                BusinessPhoneMobile = (!string.IsNullOrEmpty(outlookContact.Business2TelephoneNumber)) ? new PhoneNumber(outlookContact.Business2TelephoneNumber) : null,
-
-                AdditionalTextData = outlookContact.Body,
-                PictureName = pictureName,
-                PictureData = pictureData
-            };
+                    return null;
+                }
+                    
+                throw;
+            }
 
             if (!string.IsNullOrEmpty(outlookContact.Categories))
             {
@@ -690,29 +705,37 @@ namespace Sem.Sync.Connector.Outlook
 
                     // extract the file name
                     pictureName = attachement.FileName;
+                    var bytes = new byte[] { };
 
                     // save the picture in the temp path
                     var fullName = Path.GetTempFileName();
                     try
                     {
-                        attachement.SaveAsFile(fullName);
-                        GCRelevantCall();
+                        try
+                        {
+                            attachement.SaveAsFile(fullName);
+                            GCRelevantCall();
+                        }
+                        catch (System.Runtime.InteropServices.COMException)
+                        {
+                            // we may have a problem if there are too many pictures saved in this session
+                            // then we need to clean up the outlook temp path (which is difficult to determine)
+                            CleanupTempFolder();
+
+                            // try again
+                            attachement.SaveAsFile(fullName);
+                        }
+
+                        // read all bytes from the temp file
+                        bytes = File.ReadAllBytes(fullName);
+
+                        // clean up the temp file
+                        File.Delete(fullName);
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
-                        // we may have a problem if there are too many pictures saved in this session
-                        // then we need to clean up the outlook temp path (which is difficult to determine)
-                        CleanupTempFolder();
-
-                        // try again
-                        attachement.SaveAsFile(fullName);
+                        // TODO: log this error
                     }
-
-                    // read all bytes from the temp file
-                    var bytes = File.ReadAllBytes(fullName);
-
-                    // clean up the temp file
-                    File.Delete(fullName);
 
                     // that's it
                     return bytes;

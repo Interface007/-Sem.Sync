@@ -220,9 +220,11 @@ namespace Sem.Sync.Connector.Outlook
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
                                 var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
-                                result.Add(newContact);
-
-                                LogProcessingEvent(newContact, Resources.uiReadingContact);
+                                if (newContact != null)
+                                {
+                                    result.Add(newContact);
+                                    LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
+                                }
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
@@ -242,9 +244,9 @@ namespace Sem.Sync.Connector.Outlook
                     }
                 }
             }
-            catch (System.Exception exception)
+            catch (System.Exception ex)
             {
-                this.LogException(exception, Resources.uiErrorAtName, currentElementName);
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
             }
             finally
             {

@@ -15,19 +15,27 @@ namespace Sem.Sync.Connector.Outlook2003
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    
+
     using Microsoft.Office.Interop.Outlook;
 
     using Properties;
     using SyncBase;
     using SyncBase.Attributes;
+    using SyncBase.DetailData;
+    using SyncBase.Helpers;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling outlook contacts
     /// </summary>
-    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003")]
+    [ConnectorDescription(
+        DisplayName = "Microsoft Outlook 2003",
+        CanReadContacts = true,
+        CanWriteContacts = true,
+        Internal = false, 
+        IsGeneric = false, 
+        MatchingIdentifier = ProfileIdentifierType.Default)]
     [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
     {
@@ -58,21 +66,23 @@ namespace Sem.Sync.Connector.Outlook2003
 
                 LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
-                                       orderby a.LastName, a.FirstName
-                                       select a;
+                                      orderby a.LastName, a.FirstName
+                                      select a;
 
                 _ContactItem lastItem = null;
+                var contactList = new List<StdContact>(300);
                 foreach (var item in outlookItemList)
                 {
                     currentElementName = item.LastName + ", " + item.FirstName;
 
                     if (lastItem != null)
                     {
-                        var stdItem = OutlookClient.ConvertToStandardContact(item);
+                        var stdItem = OutlookClient.ConvertToStandardContact(item, contactList);
+                        contactList.Add(stdItem);
                         LogProcessingEvent(stdItem, Resources.uiComparing);
 
                         if (lastItem.LastName == item.LastName
-                            && lastItem.FirstName == item.FirstName 
+                            && lastItem.FirstName == item.FirstName
                             && lastItem.MiddleName == item.MiddleName)
                         {
                             LogProcessingEvent(stdItem, Resources.uiRemoving);
@@ -175,7 +185,7 @@ namespace Sem.Sync.Connector.Outlook2003
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
-
+            
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
             var outlookNamespace = OutlookClient.GetNamespace();
@@ -208,10 +218,12 @@ namespace Sem.Sync.Connector.Outlook2003
                             {
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                var newContact = OutlookClient.ConvertToStandardContact(contactItem);
-                                result.Add(newContact);
-
-                                LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
+                                if (newContact != null)
+                                {
+                                    result.Add(newContact);
+                                    LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
+                                }
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
