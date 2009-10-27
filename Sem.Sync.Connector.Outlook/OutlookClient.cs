@@ -439,6 +439,9 @@ namespace Sem.Sync.Connector.Outlook
                                             OlGender.olMale :
                                             OlGender.olFemale);
 
+            SyncTools.ClearNulls(stdNewContact, typeof(StdContact));
+            SyncTools.ClearNulls(stdOldContact, typeof(StdContact));
+
             if (stdOldContact.DateOfBirth != stdNewContact.DateOfBirth && stdNewContact.DateOfBirth > new DateTime(1900, 1, 2))
             {
                 outlookContact.Birthday = stdNewContact.DateOfBirth;
@@ -717,7 +720,7 @@ namespace Sem.Sync.Connector.Outlook
                             attachement.SaveAsFile(fullName);
                             GCRelevantCall();
                         }
-                        catch (System.Runtime.InteropServices.COMException)
+                        catch (COMException)
                         {
                             // we may have a problem if there are too many pictures saved in this session
                             // then we need to clean up the outlook temp path (which is difficult to determine)
@@ -842,8 +845,9 @@ namespace Sem.Sync.Connector.Outlook
         /// created and saved to outlook. If saving the contact does fail because of authorization, NO exception 
         /// will be thrown.
         /// </summary>
-        /// <param name="outlookContact">the outlook contact to handle</param>
-        /// <returns>the corresponding Guid</returns>
+        /// <param name="outlookContact"> the outlook contact to handle </param>
+        /// <param name="contactList"> The contact List to lookup duplicates. </param>
+        /// <returns> the corresponding Guid </returns>
         private static Guid GetStandardId(_ContactItem outlookContact, List<StdContact> contactList)
         {
             if (outlookContact == null)

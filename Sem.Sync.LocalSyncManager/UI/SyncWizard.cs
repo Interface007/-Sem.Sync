@@ -124,8 +124,9 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             this.Invoke(new MethodInvoker(() =>
                 {
-                    var currentContact = (entity as StdContact) ?? (eventArgs.Item as StdContact);
-                    var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentContact.ToString());
+                    var currentObject = entity ?? eventArgs.Item;
+                    var currentContact = entity as StdContact ?? eventArgs.Item as StdContact;
+                    var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentObject.ToString());
 
                     this.lblProgressStatus.Text = message;
                     this.LogList.Items.Add(message);

@@ -13,17 +13,10 @@ namespace Sem.Sync.Connector.LinkedIn
     #region usings
 
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-
-    using GenericHelpers;
 
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-    using SyncBase.Helpers;
 
     #endregion usings
 
