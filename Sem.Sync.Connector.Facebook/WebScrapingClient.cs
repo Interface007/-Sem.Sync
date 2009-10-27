@@ -64,7 +64,7 @@ namespace Sem.Sync.Connector.Facebook
         /// </summary>
         protected override string HttpUrlContactDownload
         {
-            get { return "http://www.facebook.com/profile.php?id={0}"; }
+            get { return "/profile.php?id={0}"; }
         }
 
         /// <summary>
@@ -255,6 +255,8 @@ namespace Sem.Sync.Connector.Facebook
                         break;
 
                     case "current_city":
+                        // this describes the city the person is currently located (different to the home town) - 
+                        // we might find a usefull way to deal with it.
                         break;
 
                     default:

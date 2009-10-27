@@ -1,8 +1,27 @@
-﻿namespace Sem.Sync.SyncBase.DetailData
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProfileIdInformation.cs" company="Sven Erik Matzen">
+//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <author>Sven Erik Matzen</author>
+// <summary>
+//   This class describes a profile link. It contains a profile Id which identifies the
+//   person in a specific data context (e.g. the user name inside an active directory domain).
+//   It also contains a resource locator which is additional information to access the
+//   contact information inside the target system.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// This class describes a profile link. It contains a profile Id which identifies the 
+    /// person in a specific data context (e.g. the user name inside an active directory domain).
+    /// It also contains a resource locator which is additional information to access the
+    /// contact information inside the target system.
+    /// </summary>
     public class ProfileIdInformation : IComparable<ProfileIdInformation>
     {
         public static implicit operator ProfileIdInformation(string value)

@@ -29,6 +29,7 @@ namespace Sem.Sync.Connector.Xing
     using SyncBase.Attributes;
     using SyncBase.DetailData;
     using SyncBase.Helpers;
+    using SyncBase.Interfaces;
 
     #endregion usings
 

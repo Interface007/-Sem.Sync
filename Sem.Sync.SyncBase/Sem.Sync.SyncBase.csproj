@@ -145,6 +145,7 @@
     <Compile Include="DetailData\BusinessHistoryEntry.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
     <Compile Include="DetailData\ContactReference.cs" />
+    <Compile Include="DetailData\EducationalCertificateType.cs" />
     <Compile Include="DetailData\EducationEntry.cs" />
     <Compile Include="DetailData\KnowledgeLevel.cs" />
     <Compile Include="DetailData\ProfileIdentifierType.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="StdContact.cs" />
     <Compile Include="DetailData\SyncData.cs" />
     <Compile Include="SyncDescription.cs" />
+    <Compile Include="WebScrapingBaseClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

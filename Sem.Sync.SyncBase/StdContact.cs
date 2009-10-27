@@ -210,11 +210,29 @@ namespace Sem.Sync.SyncBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "without a setter this cannot be serialized using the xml serializer")]
         public List<string> Categories { get; set; }
 
+        /// <summary>
+        /// Gets or sets the business history (e.g. employment).
+        /// </summary>
         public List<BusinessHistoryEntry> BusinessHistoryEntries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the earned business certificates.
+        /// </summary>
         public List<BusinessCertificate> BusinessCertificates { get; set; }
+
+        /// <summary>
+        /// Gets or sets the knowledge levels for different languages.
+        /// </summary>
         public List<LanguageKnowledge> LanguageKnowledges { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of image data for this contact.
+        /// </summary>
         public List<ImageEntry> ImageEntries { get; set; }
 
+        /// <summary>
+        /// Gets or sets the personal relationship status of the contact (married/single...).
+        /// </summary>
         [DefaultValue(RelationshipStatus.Undefined)]
         public RelationshipStatus RelationshipStatus { get; set; }
 
