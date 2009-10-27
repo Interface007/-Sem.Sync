@@ -11,6 +11,7 @@
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
     using System.Collections.Generic;
+    using System.Globalization;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -74,7 +75,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
                 con.Open();
 
                 var cmd = con.CreateCommand();
-                cmd.CommandText = string.Format("SELECT 1 FROM Databases WHERE Name = '{0}'", databaseName);
+                cmd.CommandText = string.Format(CultureInfo.InvariantCulture, "SELECT 1 FROM Databases WHERE Name = '{0}'", databaseName);
                 var ret = cmd.ExecuteScalar();
 
                 con.Close();

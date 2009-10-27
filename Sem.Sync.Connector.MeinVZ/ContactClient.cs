@@ -93,7 +93,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// default/config-file properties.
         /// </summary>
         /// <param name="preconfiguredHttpHelper">the preconfigured http-helper class</param>
-        public ContactClient(HttpHelper preconfiguredHttpHelper)
+        protected ContactClient(HttpHelper preconfiguredHttpHelper)
         {
             this.httpRequester = preconfiguredHttpHelper;
         }

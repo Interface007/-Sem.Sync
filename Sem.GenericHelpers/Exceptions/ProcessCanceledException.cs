@@ -9,6 +9,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.GenericHelpers.Exceptions
 {
+    using System;
+    using System.Runtime.Serialization;
+
     using Sync.LocalSyncManager.Business;
 
     /// <summary>
@@ -16,5 +19,20 @@ namespace Sem.GenericHelpers.Exceptions
     /// </summary>
     public class ProcessAbortException : TechnicalException
     {
+        public ProcessAbortException()
+        {
+        }
+
+        public ProcessAbortException(string message) : base(message)
+        {
+        }
+
+        public ProcessAbortException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ProcessAbortException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

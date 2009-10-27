@@ -14,6 +14,7 @@ namespace Sem.Sync.Connector.Facebook
 
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -172,7 +173,7 @@ namespace Sem.Sync.Connector.Facebook
 
             foreach (var contactUrl in contactUrls)
             {
-                result.Add(this.DownloadContact(string.Format(this.HttpUrlContactDownload, contactUrl)));
+                result.Add(this.DownloadContact(string.Format(CultureInfo.InvariantCulture, this.HttpUrlContactDownload, contactUrl)));
             }
 
             result.Sort();
@@ -206,7 +207,7 @@ namespace Sem.Sync.Connector.Facebook
                 if (pictureUrl.Groups.Count > 1)
                 {
                     var pictureUrlString = pictureUrl.Groups[1].ToString();
-                    if (!pictureUrlString.EndsWith(this.ImagePlaceholderUrl))
+                    if (!pictureUrlString.EndsWith(this.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
                     {
                         result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
                     }
@@ -230,7 +231,7 @@ namespace Sem.Sync.Connector.Facebook
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                var theContact = this.httpRequester.GetContent(string.Format(this.HttpUrlFriendList, 0), "HttpUrlFriendList");
+                var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.HttpUrlFriendList, 0), "HttpUrlFriendList");
                 var friendIds = Regex.Match(theContact, this.ExtractorFriendUrls);
 
                 if (friendIds.Groups.Count >= 2)

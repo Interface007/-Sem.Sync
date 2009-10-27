@@ -491,7 +491,7 @@ namespace Sem.GenericHelpers
                             }
                             else
                             {
-                                Console.WriteLine(string.Format("non-parsable int: {0}", valueString));
+                                Console.WriteLine(string.Format(CultureInfo.CurrentCulture, "non-parsable int: {0}", valueString));
                             }
 
                             break;

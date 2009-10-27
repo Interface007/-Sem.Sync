@@ -179,7 +179,7 @@ namespace Sem.Sync.Connector.Xing
                     this.LogProcessingEvent("reading contacts ({0})", offset); 
 
                     // get the contact list
-                    var url = string.Format(HttpUrlProfileContacts, ((StdContact)contactToFill).PersonalProfileIdentifiers.XingProfileId, offset);
+                    var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.PersonalProfileIdentifiers.XingProfileId, offset);
                     var profileContent = this.GetTextContent(url);
 
                     var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
