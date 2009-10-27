@@ -83,7 +83,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             this.SetupPropertyChanged(true);
 
-            var fileInfo = ScanFiles(Directory.GetCurrentDirectory());
+            var fileInfo = this.ScanFiles(Directory.GetCurrentDirectory());
 
             this.ClientsSource = from x in fileInfo
                                  where (x.Value3 & 1) == 1
@@ -361,13 +361,23 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </summary>
         /// <param name="path"> The path to scan. </param>
         /// <returns> The IEnumerable with the information. </returns>
-        private static IEnumerable<Triple<string, string, int>> ScanFiles(string path)
+        private IEnumerable<Triple<string, string, int>> ScanFiles(string path)
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))
             {
                 // todo: check if the dll is a loadable assembly
                 var assembly = Assembly.LoadFile(file);
-                foreach (var exportedType in assembly.GetExportedTypes())
+                var types = new Type[0];
+                try
+                {
+                    types = assembly.GetExportedTypes();
+                }
+                catch (FileNotFoundException ex)
+                {
+                    this.HandleProcessingEvent(this, new ProcessingEventArgs(ex.Message));
+                }
+
+                foreach (var exportedType in types)
                 {
                     if (exportedType.GetInterface("IClientBase") == null ||
                         exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
@@ -420,7 +430,10 @@ namespace Sem.Sync.LocalSyncManager.Business
                 throw new ProcessAbortException();
             }
 
-            this.ProcessingEvent(s, e);
+            if (this.ProcessingEvent != null)
+            {
+                this.ProcessingEvent(s, e);
+            }
         }
 
         /// <summary>

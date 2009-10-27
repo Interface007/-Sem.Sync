@@ -35,7 +35,7 @@ namespace Sem.Sync.Connector.LinkedIn
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "LinkedIn", MatchingIdentifier = ProfileIdentifierType.LinkedInId)]
 #else
-    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, NeedsCredentials = true,
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "LinkedIn", MatchingIdentifier = ProfileIdentifierType.LinkedInId, Internal = true)]
 #endif
     public class ContactClient : WebScrapingBaseClient
@@ -97,10 +97,7 @@ namespace Sem.Sync.Connector.LinkedIn
         /// </summary>
         protected override ProfileIdentifierType ProfileIdentifierType
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return ProfileIdentifierType.LinkedInId; }
         }
 
         /// <summary>
@@ -110,7 +107,7 @@ namespace Sem.Sync.Connector.LinkedIn
         {
             get
             {
-                throw new NotImplementedException();
+                return "login";
             }
         }
 
