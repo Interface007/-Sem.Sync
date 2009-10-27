@@ -205,7 +205,7 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine(@"    </PersonalInstantMessengerAddresses>");
             content.AppendLine(@"    <PersonalProfileIdentifiers>");
             content.AppendLine(@"      <DefaultProfileId>{67a5163c-de74-447f-83ca-c64b8ff372f2}</DefaultProfileId>");
-            content.AppendLine(@"      <XingProfileId>xingprofid</XingProfileId>");
+            content.AppendLine(@"      <XingNameProfileId>xingprofid</XingNameProfileId>");
             content.AppendLine(@"      <FacebookProfileId>faceprofid</FacebookProfileId>");
             content.AppendLine(@"      <ActiveDirectoryId>adprofid</ActiveDirectoryId>");
             content.AppendLine(@"      <MicrosoftAccessId>msaccprofid</MicrosoftAccessId>");
@@ -437,7 +437,7 @@ namespace Sem.Sync.Test.DataGenerator
                             new MatchingEntry
                                 {
                                     Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"),
-                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, "Matched")
+                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "Matched")
                                 }  
                        };
         }
@@ -454,7 +454,7 @@ namespace Sem.Sync.Test.DataGenerator
                            // matched female
                            Name = new PersonName(profileId),
                            Id = new Guid(id),
-                           PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingProfileId, profileId)
+                           PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId)
                        };
         }
     }

@@ -6,6 +6,8 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+
     /// <summary>
     /// Identifies the target system for the profile identifier
     /// </summary>
@@ -18,9 +20,15 @@ namespace Sem.Sync.SyncBase.DetailData
         Default = 0,
 
         /// <summary>
+        /// obsolete identifier
+        /// </summary>
+        [Obsolete]
+        XingProfileId,
+        
+        /// <summary>
         /// target system: www.xing.com
         /// </summary>
-        XingProfileId,
+        XingNameProfileId,
 
         /// <summary>
         /// target system: www.facebook.com

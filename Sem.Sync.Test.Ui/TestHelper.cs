@@ -21,21 +21,21 @@ namespace Sem.Sync.Test.Ui
         public static bool Exist(this List<MatchCandidateView> list, string xingId)
         {
             return (from x in list
-                 where x.Element.PersonalProfileIdentifiers.XingProfileId == xingId
+                 where x.Element.PersonalProfileIdentifiers.XingNameProfileId == xingId
                  select x).Count() == 1;
         }
 
         public static MatchCandidateView GetByXingId(this List<MatchCandidateView> list, string xingId)
         {
             return (from x in list
-                    where x.Element.PersonalProfileIdentifiers.XingProfileId == xingId
+                    where x.Element.PersonalProfileIdentifiers.XingNameProfileId == xingId
                     select x).FirstOrDefault();
         }
 
         public static StdContact GetByXingId(this List<StdContact> list, string xingId)
         {
             return (from x in list
-                    where x.PersonalProfileIdentifiers.XingProfileId == xingId
+                    where x.PersonalProfileIdentifiers.XingNameProfileId == xingId
                     select x).FirstOrDefault();
         }
     }

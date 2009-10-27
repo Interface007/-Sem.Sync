@@ -45,8 +45,8 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.FacebookProfileId = profileId;
                     break;
 
-                case ProfileIdentifierType.XingProfileId:
-                    this.XingProfileId = profileId;
+                case ProfileIdentifierType.XingNameProfileId:
+                    this.XingNameProfileId = profileId;
                     break;
 
                 case ProfileIdentifierType.WerKenntWenUrl:
@@ -82,9 +82,16 @@ namespace Sem.Sync.SyncBase.DetailData
         public string DefaultProfileId { get; set; }
 
         /// <summary>
-        /// Gets or sets the profile id of the persons xing membership.
+        /// Gets or sets the profile id of the persons xing membership. This property is
+        /// obsolete now, because the ID is not stable/unique.
         /// </summary>
+        [Obsolete]
         public string XingProfileId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the profile name of the persons xing membership.
+        /// </summary>
+        public string XingNameProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the persons Facebook profile.
@@ -144,8 +151,8 @@ namespace Sem.Sync.SyncBase.DetailData
                 case ProfileIdentifierType.FacebookProfileId:
                     return this.FacebookProfileId;
 
-                case ProfileIdentifierType.XingProfileId:
-                    return this.XingProfileId;
+                case ProfileIdentifierType.XingNameProfileId:
+                    return this.XingNameProfileId;
                 
                 case ProfileIdentifierType.WerKenntWenUrl:
                     return this.WerKenntWenUrl;
@@ -188,8 +195,8 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.FacebookProfileId = newValue;
                     break;
 
-                case ProfileIdentifierType.XingProfileId:
-                    this.XingProfileId = newValue;
+                case ProfileIdentifierType.XingNameProfileId:
+                    this.XingNameProfileId = newValue;
                     break;
 
                 case ProfileIdentifierType.WerKenntWenUrl:
@@ -228,7 +235,7 @@ namespace Sem.Sync.SyncBase.DetailData
         {
             return (other == null)
                 ? false
-                : (!string.IsNullOrEmpty(this.XingProfileId) && this.XingProfileId == other.XingProfileId) ||
+                : (!string.IsNullOrEmpty(this.XingNameProfileId) && this.XingNameProfileId == other.XingNameProfileId) ||
                   (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
                   (!string.IsNullOrEmpty(this.MicrosoftAccessId) && this.MicrosoftAccessId == other.MicrosoftAccessId) ||
                   (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
@@ -302,7 +309,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.StayFriendsPersonId ?? string.Empty) + " - ");
             result.Append((this.LinkedInId ?? string.Empty) + " - ");
             result.Append((this.GoogleId ?? string.Empty) + " - ");
-            result.Append((this.XingProfileId ?? string.Empty) + " - ");
+            result.Append((this.XingNameProfileId ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
             return result.ToString();
         }

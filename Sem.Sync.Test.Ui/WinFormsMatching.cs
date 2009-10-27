@@ -33,7 +33,7 @@
                                    Target = Contacts.GetMatchingTarget(),
                                    BaseLine = Contacts.GetMatchingBaseline(),
                                    FilterMatchedEntries = true,
-                                   Profile = ProfileIdentifierType.XingProfileId,
+                                   Profile = ProfileIdentifierType.XingNameProfileId,
                                };
 
             Assert.IsFalse(business.SourceAsList().Exist("Matched"));
