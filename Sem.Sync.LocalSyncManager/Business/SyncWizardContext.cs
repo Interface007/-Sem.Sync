@@ -32,6 +32,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using SyncBase.Attributes;
     using SyncBase.Binding;
     using SyncBase.DetailData;
+    using SyncBase.Helpers;
     using SyncBase.Interfaces;
 
     using Tools;
@@ -365,9 +366,15 @@ namespace Sem.Sync.LocalSyncManager.Business
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))
             {
+                if (Path.GetFileName(file).ToUpperInvariant().IsOneOf("CONTACTVIEWER.DLL"))
+                {
+                    continue;
+                }
+
                 // todo: check if the dll is a loadable assembly
                 var assembly = Assembly.LoadFile(file);
                 var types = new Type[0];
+
                 try
                 {
                     types = assembly.GetExportedTypes();

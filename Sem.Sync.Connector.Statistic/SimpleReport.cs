@@ -27,34 +27,19 @@ namespace Sem.Sync.Connector.Statistic
     /// This client is a write only client that aggregates the information to some statistical information.
     /// </summary>
     [ConnectorDescription(CanReadContacts = false, CanWriteContacts = true, NeedsCredentials = false, DisplayName = "Simple Report")]
-    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
+    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemPath)]
     public class SimpleReport : StdClient
     {
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        /// Writes a range of elements to the standard connector.
         /// </summary>
-        public override string FriendlyClientName
+        /// <param name="elements"> The elements. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
         {
-            get
-            {
-                return "Simple Statistic";
-            }
+            this.WriteFullList(elements, clientFolderName, true);
         }
-
-        /// <summary>
-        /// This client is a write only client, so reading is not supported
-        /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
-        {
-            return result;
-        }
-
+        
         /// <summary>
         /// Writing will write a simple XML with some statistical information.
         /// </summary>

@@ -12,7 +12,7 @@ namespace Sem.Sync.SyncBase.Commands
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    
+
     using DetailData;
 
     using Interfaces;
@@ -49,16 +49,30 @@ namespace Sem.Sync.SyncBase.Commands
             {
                 throw new InvalidOperationException("sourceStorePath is null");
             }
-            
+
             if (targetStorePath == null)
             {
                 throw new InvalidOperationException("targetStorePath is null");
             }
-            
+
+            var baseline = baseliClient.GetAll(baselineStorePath);
+            ////var todelete = new List<StdElement>();
+            ////foreach (var item in baseline)
+            ////{
+            ////    var entry = item as MatchingEntry;
+            ////    if (entry != null)
+            ////    {
+            ////        if ((from x in baseline where entry.ProfileId.DefaultProfileId == x.Id select x).Count() > 1)
+            ////        {
+            ////            todelete.Add(item);
+            ////        }
+            ////    }
+            ////}
+
             targetClient.WriteRange(
                 MatchThisByProfileId(
                     sourceClient.GetAll(sourceStorePath),
-                    baseliClient.GetAll(baselineStorePath)),
+                    baseline),
                 targetStorePath);
             return true;
         }

@@ -302,6 +302,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
                 }
 
+                if (((StdContact)container.SourceObject).Name.NewIfNull().LastName.DefaultIfNullOrEmpty(string.Empty).Contains("Baranowski"))
+                {
+                    Console.WriteLine(container.PropertyName);
+                }
+
                 var conflict = MergePropertyConflict.None;
                 var sourceString = string.Empty;
                 var targetString = string.Empty;

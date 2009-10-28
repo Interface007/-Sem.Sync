@@ -10,8 +10,10 @@
 
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Globalization;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -19,8 +21,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using SyncBase.Merging;
 
     using ViewModel;
-    using System.Globalization;
-    using System;
 
     public partial class MergeEntities : Form
     {

@@ -12,6 +12,8 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.Linq;
 
+    using Attributes;
+
     using GenericHelpers.EventArgs;
     using GenericHelpers.Interfaces;
 
@@ -66,9 +68,24 @@ namespace Sem.Sync.SyncBase
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
-        public abstract string FriendlyClientName
+        public virtual string FriendlyClientName
         {
-            get;
+            get
+            {
+                var attributes = this.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false) as ConnectorDescriptionAttribute[];
+                if (attributes != null && attributes.Length > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (!string.IsNullOrEmpty(attribute.DisplayName))
+                        {
+                            return attribute.DisplayName;
+                        }
+                    }
+                }
+
+                throw new MissingMemberException(this.GetType().Name, "FriendlyClientName");
+            }
         }
         
         /// <summary>
@@ -316,26 +333,32 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Virtual read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         /// <param name="result">The list of elements that should get the elements. The elements should be added to
         /// the list instead of replacing it.</param>
         /// <returns>The list with the newly added elements</returns>
-        protected abstract List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result);
+        protected virtual List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        {
+            throw new NotImplementedException("Reading contacts has not been implemented for this connector.");
+        }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Virtual write method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="elements">the list of elements that should be written to the target system.</param>
         /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected abstract void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting);
+        protected virtual void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            throw new NotImplementedException("Writing contacts has not been implemented for this connector.");
+        }
 
         /// <summary>
-        /// virtual method that will be called just before accessing the target/source systems storage path. This
+        /// Virtual method that will be called just before accessing the target/source systems storage path. This
         /// enables concrete client implementations to do checks and preparations needed to access the target system
         /// </summary>
         /// <param name="clientFolderName">the information where inside the source the elements reside - 

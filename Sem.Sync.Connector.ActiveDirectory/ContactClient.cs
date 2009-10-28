@@ -71,17 +71,6 @@ namespace Sem.Sync.Connector.ActiveDirectory
         private string DumpPath { get; set; }
 
         /// <summary>
-        /// writes a list of contacts to the active directory
-        /// </summary>
-        /// <param name="elements">the list of stdcontact elements</param>
-        /// <param name="clientFolderName">not used in this implementation</param>
-        /// <param name="skipIfExisting">determines whether existing entries should be overwritten or only new entries will be cretated</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Reads a full list depending on the <paramref name="clientFolderName"/> parameter. The parameter
         /// should contain a valid LDAP query that returns users or groups with users. The following sample
         /// selects all users that are directly or indirectly member of the AD group MyGroupName inside the 

@@ -848,7 +848,7 @@ namespace Sem.Sync.Connector.Outlook
         /// <param name="outlookContact"> the outlook contact to handle </param>
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> the corresponding Guid </returns>
-        private static Guid GetStandardId(_ContactItem outlookContact, List<StdContact> contactList)
+        private static Guid GetStandardId(_ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
