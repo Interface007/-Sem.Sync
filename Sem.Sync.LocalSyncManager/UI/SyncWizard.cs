@@ -126,7 +126,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                 {
                     var currentObject = entity ?? eventArgs.Item;
                     var currentContact = entity as StdContact ?? eventArgs.Item as StdContact;
-                    var message = eventArgs.Message + " " + (currentContact == null ? string.Empty : currentObject.ToString());
+                    var message = eventArgs.Message + " " + (currentObject == null ? string.Empty : currentObject.ToString());
 
                     this.lblProgressStatus.Text = message;
                     this.LogList.Items.Add(message);
@@ -166,7 +166,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (this.DataContext.Locked)
             {
-                MessageBox.Show("There is currently a process running - please wait until that process is finished or cancel the process.");
+                MessageBox.Show(Resources.ProcessRunningMessage);
                 return;
             }
 
