@@ -624,9 +624,13 @@ namespace Sem.GenericHelpers
         /// <returns> the path if successfull, empty string if no cache should be used </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("name not specified for http-request (=> non-cachable): " + url.AbsoluteUri);
+            }
+
             if (!this.UseCache
                 || name == null
-                || string.IsNullOrEmpty(name)
                 || name.Contains(CacheHintNoCache))
             {
                 return string.Empty;
