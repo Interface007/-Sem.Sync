@@ -68,6 +68,7 @@ namespace Sem.Sync.Cloud
         /// <returns> True if the operation was successful </returns>
         public BooleanResultContainer WriteFullList(ContactListContainer elements, string blobId, bool skipIfExisting)
         {
+            AccessControlHelper.DemandActionClaim("Contacts.WriteAll");
             try
             {
                 // this can be replaced by any class inheriting from StdClient
@@ -97,13 +98,15 @@ namespace Sem.Sync.Cloud
         }
 
         /// <summary>
-        /// Deletes a blob (= list of contacts)
+        /// Deletes a blob (= list of contacts). This method is currently not implemented, so it
+        /// does return a technical message "Method not implemented".
         /// </summary>
-        /// <param name="blobId"> The blob id. </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <param name="blobId"> The blob id.  </param>
+        /// <returns> A value indicating wherther the delete process was successfull. This result container 
+        /// may also contain technical messages. </returns>
         public BooleanResultContainer DeleteBlob(string blobId)
         {
+            AccessControlHelper.DemandActionClaim("Contacts.DeleteAll");
             return new BooleanResultContainer
                 {
                     Messages = new List<TechnicalMessage>

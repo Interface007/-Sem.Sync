@@ -124,9 +124,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.LinkedIn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.Ui", "Sem.Sync.Test.Ui\Sem.Sync.Test.Ui.csproj", "{D382C555-7547-4CED-AC82-C76043E80126}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Console", "Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj", "{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 43
+		SccNumberOfProjects = 44
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -299,6 +301,10 @@ Global
 		SccProjectTopLevelParentUniqueName42 = SemSync.sln
 		SccProjectName42 = Sem.Sync.Test.Ui
 		SccLocalPath42 = Sem.Sync.Test.Ui
+		SccProjectUniqueName43 = Sem.Sync.Connector.Console\\Sem.Sync.Connector.Console.csproj
+		SccProjectTopLevelParentUniqueName43 = SemSync.sln
+		SccProjectName43 = Sem.Sync.Connector.Console
+		SccLocalPath43 = Sem.Sync.Connector.Console
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -1273,6 +1279,31 @@ Global
 		{D382C555-7547-4CED-AC82-C76043E80126}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D382C555-7547-4CED-AC82-C76043E80126}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D382C555-7547-4CED-AC82-C76043E80126}.Release|x86.ActiveCfg = Release|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug (Code Analysis)|Any CPU.Build.0 = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug (Code Analysis)|x86.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Development MeinVZ|Any CPU.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Development MeinVZ|Any CPU.Build.0 = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Development MeinVZ|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Development MeinVZ|x86.ActiveCfg = Debug (Code Analysis)|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Exclude Non-Standard-Projects|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Exclude Non-Standard-Projects|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Exclude Non-Standard-Projects|x86.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1296,6 +1327,7 @@ Global
 		{1F1C8AFD-703C-48BD-9398-02AA97CD6432} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{D6AC1146-22A3-48D5-B12F-3B2FA4F87955} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{292139B0-E1A3-4C02-A72D-D8EDD3ABE320} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}

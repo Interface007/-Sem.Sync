@@ -223,7 +223,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
                         }
 
-                        Console.WriteLine("!!Unhandled email address !!");
+                        Tools.DebugWriteLine("!!Unhandled email address !!");
                         break;
 
                     case "URL":
@@ -345,7 +345,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     default:
-                        Console.WriteLine("unhandled: " + line.Replace("\r", string.Empty));
+                        Tools.DebugWriteLine("unhandled: " + line.Replace("\r", string.Empty));
                         break;
                 }
             }
@@ -405,7 +405,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 default:
-                    Console.WriteLine("unhandled encoding: " + encoding);
+                    Tools.DebugWriteLine("unhandled encoding: " + encoding);
                     break;
             }
         }

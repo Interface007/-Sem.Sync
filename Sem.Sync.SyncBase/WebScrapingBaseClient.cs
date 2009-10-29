@@ -64,8 +64,8 @@ namespace Sem.Sync.SyncBase
         /// <param name="httpUrlBaseAddress"> The http Base Address of this connector. </param>
         protected WebScrapingBaseClient(string httpUrlBaseAddress)
         {
-            this.HttpUrlBaseAddress = httpUrlBaseAddress;
-            this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
+            this.WebSideParameters.HttpUrlBaseAddress = httpUrlBaseAddress;
+            this.httpRequester = new HttpHelper(this.WebSideParameters.HttpUrlBaseAddress, true)
                 {
                     UseCache = this.GetConfigValueBoolean("UseCache"),
                     SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
@@ -74,21 +74,9 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Gets the deterministin part of the placeholder url - the url to a placeholder must match this regex, while
-        /// all others must not.
+        /// Gets the WebSideParameters which defines how to deal with the site.
         /// </summary>
-        protected abstract string ImagePlaceholderUrl { get; }
-
-        /// <summary>
-        /// Gets the url pointing to the contact data to be downloaded - contains a single parameter {0} with the ID from the 
-        /// profile ids for the contact to be processed.
-        /// </summary>
-        protected abstract string HttpUrlContactDownload { get; }
-
-        /// <summary>
-        /// Gets the <see cref="ProfileIdentifierType"/> of this source.
-        /// </summary>
-        protected abstract ProfileIdentifierType ProfileIdentifierType { get; }
+        protected abstract WebSideParameters WebSideParameters { get; }
 
         /// <summary>
         /// Gets the HttpRequester.
@@ -97,56 +85,6 @@ namespace Sem.Sync.SyncBase
         {
             get { return this.httpRequester; }
         }
-
-        /// <summary>
-        /// Gets the detection string to parse the content of a request if we need to logon
-        /// </summary>
-        protected abstract string HttpDetectionStringLogOnNeeded { get; }
-
-        /// <summary>
-        /// Gets the data string to be posted to logon into the site
-        /// </summary>
-        protected abstract string HttpDataLogOnRequest { get; }
-
-        /// <summary>
-        /// Gets the regex to extract the form key for the log on
-        /// </summary>
-        protected abstract string ExtractorFormKey { get; }
-
-        /// <summary>
-        /// Gets the regex to extract the iv for the log on
-        /// </summary>
-        protected abstract string ExtractorIv { get; }
-
-        /// <summary>
-        /// Gets the regex to extract the iv for the log on
-        /// </summary>
-        protected abstract string ExtractorFriendUrls { get; }
-
-        /// <summary>
-        /// Gets the regex to extract the picture url from the profile content
-        /// </summary>
-        protected abstract string ExtractorProfilePictureUrl { get; }
-
-        /// <summary>
-        /// Gets the detection string to detect if we did fail to logon
-        /// </summary>
-        protected abstract string HttpDetectionStringLogOnFailed { get; }
-
-        /// <summary>
-        /// Gets the base address to communicate with the site
-        /// </summary>
-        protected string HttpUrlBaseAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the base address to communicate with the site
-        /// </summary>
-        protected abstract string HttpUrlFriendList { get; }
-
-        /// <summary>
-        /// Gets the relative url to log on
-        /// </summary>
-        protected abstract string HttpUrlLogOnRequest { get; }
 
         /// <summary>
         /// Converts downloaded data into a StdContact structure.
@@ -171,7 +109,7 @@ namespace Sem.Sync.SyncBase
 
             foreach (var contactUrl in contactUrls)
             {
-                result.Add(this.DownloadContact(string.Format(CultureInfo.InvariantCulture, this.HttpUrlContactDownload, contactUrl)));
+                result.Add(this.DownloadContact(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlContactDownload, contactUrl)));
             }
 
             result.Sort();
@@ -199,13 +137,13 @@ namespace Sem.Sync.SyncBase
         {
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
             var result = this.ConvertToStdContact(contactUrl, content);
-            if (!string.IsNullOrEmpty(this.ExtractorProfilePictureUrl))
+            if (!string.IsNullOrEmpty(this.WebSideParameters.ExtractorProfilePictureUrl))
             {
-                var pictureUrl = Regex.Match(content, this.ExtractorProfilePictureUrl);
+                var pictureUrl = Regex.Match(content, this.WebSideParameters.ExtractorProfilePictureUrl);
                 if (pictureUrl.Groups.Count > 1)
                 {
                     var pictureUrlString = pictureUrl.Groups[1].ToString();
-                    if (!pictureUrlString.EndsWith(this.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
+                    if (!pictureUrlString.EndsWith(this.WebSideParameters.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
                     {
                         result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
                     }
@@ -225,12 +163,12 @@ namespace Sem.Sync.SyncBase
 
             while (true)
             {
-                this.httpRequester.LogOnFormDetectionString = this.HttpDetectionStringLogOnNeeded;
+                this.httpRequester.LogOnFormDetectionString = this.WebSideParameters.HttpDetectionStringLogOnNeeded;
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.HttpUrlFriendList, 0), "HttpUrlFriendList");
-                var friendIds = Regex.Match(theContact, this.ExtractorFriendUrls);
+                var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlFriendList, 0), "HttpUrlFriendList");
+                var friendIds = Regex.Match(theContact, this.WebSideParameters.ExtractorFriendUrls);
 
                 if (friendIds.Groups.Count >= 2)
                 {
@@ -249,13 +187,13 @@ namespace Sem.Sync.SyncBase
 
                 // prepare the post data for log on
                 var postData = HttpHelper.PreparePostData(
-                    this.HttpDataLogOnRequest,
+                    this.WebSideParameters.HttpDataLogOnRequest,
                     this.LogOnUserId,
                     this.LogOnPassword);
 
                 // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
-                if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
+                var logInResponse = this.httpRequester.GetContentPost(this.WebSideParameters.HttpUrlLogOnRequest, "logOn", postData);
+                if (logInResponse.Contains(this.WebSideParameters.HttpDetectionStringLogOnFailed))
                 {
                     return result;
                 }

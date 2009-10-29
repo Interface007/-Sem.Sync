@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.DetailData
     using System.Globalization;
     using System.Text.RegularExpressions;
 
+    using GenericHelpers;
+
     /// <summary>
     /// Enumeration of address formatting styles
     /// </summary>
@@ -88,7 +90,7 @@ namespace Sem.Sync.SyncBase.DetailData
                     continue;
                 }
 
-                Console.WriteLine("??? : " + line);
+                Tools.DebugWriteLine("??? : " + line);
             }
         }
 

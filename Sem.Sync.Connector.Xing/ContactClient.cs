@@ -72,11 +72,6 @@ namespace Sem.Sync.Connector.Xing
         private const string HttpUrlListContent = "/app/contact?notags_filter=0;card_mode=0;search_filter=;tags_filter=;offset={0}";
 
         /// <summary>
-        /// URL to query the profile
-        /// </summary>
-        private const string HttpUrlProfile = "/profile/{0}";
-
-        /// <summary>
         /// URL to query the contacts of another named contact
         /// </summary>
         private const string HttpUrlProfileContacts = "/app/profile?op=contacts;name={0};offset={1}";
@@ -181,7 +176,7 @@ namespace Sem.Sync.Connector.Xing
 
                     // get the contact list
                     var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.PersonalProfileIdentifiers.XingNameProfileId, offset);
-                    var profileContent = this.GetTextContent(url);
+                    var profileContent = this.GetTextContent(url, string.Format(CultureInfo.InvariantCulture, "XingContent-{0}", offset));
 
                     var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
 
@@ -248,7 +243,7 @@ namespace Sem.Sync.Connector.Xing
             foreach (var item in xing)
             {
                 // https://www.xing.com/app/vcard?op=vcard;scr_id=369754.ab12f8
-                var contact = this.DownloadContact(item.Url, item.Url.Replace("/", "_").Replace("?", "_"));
+                var contact = this.DownloadContact(item.vCardUrl, item.vCardUrl.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
                     contact.PersonalProfileIdentifiers.XingNameProfileId = item.ProfileUrl;
@@ -261,21 +256,7 @@ namespace Sem.Sync.Connector.Xing
 
             return result;
         }
-
-        /// <summary>
-        /// Because Xing is a read only source, writing the list is not implemented.
-        /// This method will throw a NotImplementedException
-        /// </summary>
-        /// <param name="elements">the method is not implemented - the elements parameter is not used.</param>
-        /// <param name="clientFolderName">the method is not implemented - the clientFolderName parameter is not used.</param>
-        /// <param name="skipIfExisting">the method is not implemented - the skipIfExisting parameter is not used.</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException(Resources.uiNoAlteringImplemented);
-        }
-
-        #region private implementation
-
+        
         /// <summary>
         /// downloads a contact (vcard) from xing and converts the data into a standard contact
         /// </summary>
@@ -296,20 +277,26 @@ namespace Sem.Sync.Connector.Xing
             return contact;
         }
 
-        private string GetTextContent(string url)
+        /// <summary>
+        /// Gets the textual content of a URL - this does test for the <see cref="HttpDetectionStringLogonNeeded"/> value
+        /// and asks for credentials. It performs a login request using the provided information and the
+        /// <see cref="HttpUrlLogonRequest"/>.
+        /// </summary>
+        /// <param name="url"> The url to get the content.  </param>
+        /// <param name="name"> A name of the content requested. </param>
+        /// <returns> the content of the url  </returns>
+        private string GetTextContent(string url, string name)
         {
-            string contactListContent;
-
             while (true)
             {
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                contactListContent = this.xingRequester.GetContent(url);
+                var content = this.xingRequester.GetContent(url, name);
 
                 // if we don't find the logon form any more, we did succeed
-                if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
+                if (!content.Contains(HttpDetectionStringLogonNeeded))
                 {
-                    return contactListContent;
+                    return content;
                 }
 
                 if (string.IsNullOrEmpty(this.LogOnPassword))
@@ -414,7 +401,7 @@ namespace Sem.Sync.Connector.Xing
                     result.Add(
                         new XingContactReference
                             {
-                                Url = match.Groups["vcardurl"].ToString(), 
+                                vCardUrl = match.Groups["vcardurl"].ToString(), 
                                 Tags = match.Groups["tags"].ToString(),
                                 ProfileUrl = match.Groups["uname"].ToString()
                             });
@@ -426,7 +413,5 @@ namespace Sem.Sync.Connector.Xing
 
             return result;
         }
-
-        #endregion
     }
 }

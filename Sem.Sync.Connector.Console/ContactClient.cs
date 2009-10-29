@@ -50,17 +50,6 @@ namespace Sem.Sync.Connector.Console
         }
 
         /// <summary>
-        /// Overrides the method to read the full list of data.
-        /// </summary>
-        /// <param name="clientFolderName">the full name of the path that does contain the contact files.</param>
-        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
-        /// <returns>The list with the added contacts</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
-        {
-            throw new NotImplementedException("Reading from the command line id not implemented.");
-        }
-
-        /// <summary>
         /// Overrides the method to write the full list of data.
         /// </summary>
         /// <param name="elements"> The elements to be exported. </param>

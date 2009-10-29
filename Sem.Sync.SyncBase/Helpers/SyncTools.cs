@@ -229,6 +229,7 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 default:
                     // check if we have a new type for that we need to identify the default value
+#if DEBUG
                     if (
                         !typeName.IsOneOf(
                              "SyncData",
@@ -240,8 +241,9 @@ namespace Sem.Sync.SyncBase.Helpers
                              "ProfileIdInformation",
                              "InstantMessengerAddresses"))
                     {
-                        Console.WriteLine("type name not explicitly supported in ClearNulls: " + typeName);
+                        Tools.DebugWriteLine("type name not explicitly supported in ClearNulls: " + typeName);
                     }
+#endif
 
                     var members = testType.GetProperties();
 
@@ -300,11 +302,6 @@ namespace Sem.Sync.SyncBase.Helpers
                 if (comparison.SkipMerge)
                 {
                     break;
-                }
-
-                if (((StdContact)container.SourceObject).Name.NewIfNull().LastName.DefaultIfNullOrEmpty(string.Empty).Contains("Baranowski"))
-                {
-                    Console.WriteLine(container.PropertyName);
                 }
 
                 var conflict = MergePropertyConflict.None;

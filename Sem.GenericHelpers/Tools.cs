@@ -11,6 +11,7 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -19,9 +20,9 @@ namespace Sem.GenericHelpers
     using System.Text;
     using System.Xml.Serialization;
 
-    using Entities;
-
     using Microsoft.Win32;
+
+    using Sem.GenericHelpers.Entities;
 
     /// <summary>
     /// This class contains some "misc" tools
@@ -199,7 +200,7 @@ namespace Sem.GenericHelpers
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Tools.DebugWriteLine(ex.Message);
                     }
                 }
             }
@@ -292,25 +293,14 @@ namespace Sem.GenericHelpers
                     if (string.IsNullOrEmpty(parameter))
                     {
                         var method = (from x in methods where x.GetParameters().Length == 0 && x.Name == propName select x).FirstOrDefault();
-                        if (method == null)
-                        {
-                            return null;
-                        }
-
-                        return method.Invoke(objectToReadFrom, null);
+                        return method == null ? null : method.Invoke(objectToReadFrom, null);
                     }
                     else
                     {
                         var method = (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).FirstOrDefault();
-                        if (method == null)
-                        {
-                            return null;
-                        }
-
-                        return method.Invoke(objectToReadFrom, new[] { parameter });
+                        return method == null ? null : method.Invoke(objectToReadFrom, new[] { parameter });
                     }
                 }
-
 
                 var propertyInfo = type.GetProperty(propName);
                 var value =
@@ -491,7 +481,7 @@ namespace Sem.GenericHelpers
                             }
                             else
                             {
-                                Console.WriteLine(string.Format(CultureInfo.CurrentCulture, "non-parsable int: {0}", valueString));
+                                DebugWriteLine(string.Format(CultureInfo.CurrentCulture, "non-parsable int: {0}", valueString));
                             }
 
                             break;
@@ -553,6 +543,27 @@ namespace Sem.GenericHelpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="message"> The message to be logged.  </param>
+        /// <param name="parameters"> The parameters. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(string message, params object[] parameters)
+        {
+            Console.WriteLine(string.Format(message, parameters));
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="message"> The message to be logged. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(string message)
+        {
+            Console.WriteLine(message);
         }
 
         /// <summary>

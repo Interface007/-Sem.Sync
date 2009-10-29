@@ -193,6 +193,7 @@
     <Compile Include="DetailData\SyncData.cs" />
     <Compile Include="SyncDescription.cs" />
     <Compile Include="WebScrapingBaseClient.cs" />
+    <Compile Include="WebSideParameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

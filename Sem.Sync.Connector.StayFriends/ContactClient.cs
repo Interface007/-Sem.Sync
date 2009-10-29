@@ -322,7 +322,7 @@ namespace Sem.Sync.Connector.StayFriends
                                 break;
 
                             default:
-                                Console.WriteLine(contact + " : " + key + " = " + value);
+                                Tools.DebugWriteLine(contact + " : " + key + " = " + value);
                                 break;
                         } 
                         
@@ -367,31 +367,31 @@ namespace Sem.Sync.Connector.StayFriends
                             {
                                 contact.PersonalAddressPrimary.PostalCode = DecodeResultString(line.Split(' ')[0]);
                                 contact.PersonalAddressPrimary.CityName = DecodeResultString(line.Split(' ')[1]);
-                                Console.WriteLine("PLZ Stadt : " + line);
+                                Tools.DebugWriteLine("PLZ Stadt : " + line);
                                 continue;
                             }
 
                             if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+"))
                             {
                                 contact.PersonalAddressPrimary.StreetName = DecodeResultString(line);
-                                Console.WriteLine("Straße : " + line);
+                                Tools.DebugWriteLine("Straße : " + line);
                                 continue;
                             }
 
                             if (Regex.IsMatch(line, "^[a-zA-Z -.ßäöüÄÖÜ]+"))
                             {
                                 contact.PersonalAddressPrimary.CountryName += DecodeResultString(line);
-                                Console.WriteLine("Land : " + line);
+                                Tools.DebugWriteLine("Land : " + line);
                                 continue;
                             }
 
-                            Console.WriteLine("??? : " + line);
+                            Tools.DebugWriteLine("unknown address line pattern: " + line);
                         }
 
                         break;
 
                     default:
-                        Console.WriteLine("unknown attribute: " + key + " - " + value);
+                        Tools.DebugWriteLine("unknown attribute: " + key + " - " + value);
                         break;
                 }
             }

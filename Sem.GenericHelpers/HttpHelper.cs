@@ -626,11 +626,11 @@ namespace Sem.GenericHelpers
         {
             if (string.IsNullOrEmpty(name))
             {
-                Console.WriteLine("name not specified for http-request (=> non-cachable): " + url.AbsoluteUri);
+                Tools.DebugWriteLine("name not specified for http-request (=> non-cachable): " + url.AbsoluteUri);
+                return string.Empty;
             }
 
             if (!this.UseCache
-                || name == null
                 || name.Contains(CacheHintNoCache))
             {
                 return string.Empty;

@@ -115,7 +115,7 @@ namespace Sem.Sync.Connector.Google
                 message = gex.ResponseString;
             }
 
-            Console.WriteLine(exception + " : " + message);
+            Tools.DebugWriteLine(exception + " : " + message);
             this.LogException(exception);
         }
 
@@ -214,7 +214,7 @@ namespace Sem.Sync.Connector.Google
                             googleId = string.Empty;
                             if (ex.ResponseString != "Contact not found.")
                             {
-                                Console.WriteLine(ex.Message);
+                                Tools.DebugWriteLine(ex.Message);
                                 throw;
                             }
                         }

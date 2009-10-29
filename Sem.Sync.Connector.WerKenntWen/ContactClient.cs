@@ -296,7 +296,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                                 break;
 
                             default:
-                                Console.WriteLine(contact + " : " + key + " = " + value);
+                                Tools.DebugWriteLine(contact + " : " + key + " = " + value);
                                 break;
                         }
 
@@ -331,7 +331,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                         break;
 
                     default:
-                        Console.WriteLine("unknown attribute: " + key + " - " + value);
+                        Tools.DebugWriteLine("unknown attribute: " + key + " - " + value);
                         break;
                 }
             }

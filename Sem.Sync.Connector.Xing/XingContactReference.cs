@@ -19,7 +19,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         /// Gets or sets Url to download the vCard.
         /// </summary>
-        public string Url { get; set; }
+        public string vCardUrl { get; set; }
 
         /// <summary>
         /// Gets or sets Url to download the vCard.

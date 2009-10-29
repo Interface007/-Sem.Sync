@@ -304,7 +304,7 @@ namespace Sem.Sync.Connector.LinkedIn
                         break;
 
                     default:
-                        Console.WriteLine("new content: " + key + " => " + value);
+                        Tools.DebugWriteLine("new content: " + key + " => " + value);
                         break;
                 }
             }
