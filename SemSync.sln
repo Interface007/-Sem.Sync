@@ -128,9 +128,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Console"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.SonyEricsson", "Sem.Sync.Connector.SonyEricsson\Sem.Sync.Connector.SonyEricsson.csproj", "{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.OracleCrmOnDemand", "Sem.Sync.Connector.OracleCrmOnDemand\Sem.Sync.Connector.OracleCrmOnDemand.csproj", "{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 45
+		SccNumberOfProjects = 46
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -311,6 +313,10 @@ Global
 		SccProjectTopLevelParentUniqueName44 = SemSync.sln
 		SccProjectName44 = Sem.Sync.Connector.SonyEricsson
 		SccLocalPath44 = Sem.Sync.Connector.SonyEricsson
+		SccProjectUniqueName45 = Sem.Sync.Connector.OracleCrmOnDemand\\Sem.Sync.Connector.OracleCrmOnDemand.csproj
+		SccProjectTopLevelParentUniqueName45 = SemSync.sln
+		SccProjectName45 = Sem.Sync.Connector.OracleCrmOnDemand
+		SccLocalPath45 = Sem.Sync.Connector.OracleCrmOnDemand
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -1335,6 +1341,31 @@ Global
 		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|x86.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1360,6 +1391,7 @@ Global
 		{292139B0-E1A3-4C02-A72D-D8EDD3ABE320} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{4725C93E-55A0-42A5-9C61-61DC498A4308} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}

@@ -69,5 +69,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// The social network LinkedIn
         /// </summary>
         LinkedInId,
+
+        /// <summary>
+        /// The social network LinkedIn
+        /// </summary>
+        LotusNotesId,
     }
 }

@@ -26,19 +26,7 @@ namespace Sem.Sync.Connector.LotusNotes
     public class ContactClient : StdClient
     {
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
-        /// </summary>
-        public override string FriendlyClientName
-        {
-            get
-            {
-                return "LotusNotes-Connector";
-            }
-        }
-
-        /// <summary>
-        /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Overrides virtual read method for full list of elements 
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
@@ -47,11 +35,12 @@ namespace Sem.Sync.Connector.LotusNotes
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            // TODO: implement reading from the Lotus Notes server and map the entities to StdContact instances
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Overrides virtual write method for full list of elements 
         /// </summary>
         /// <param name="elements">the list of elements that should be written to the target system.</param>
         /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
@@ -59,6 +48,12 @@ namespace Sem.Sync.Connector.LotusNotes
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            // TODO: implement writing to the Lotus Notes server
+            // HINT: To follow best practice, you should try to read each item by using 
+            //       the property path PersonalProfileIdentifiers.LotusNotesId as a filter
+            //       to query the Notes server, then update the fields and write back the
+            //       entry. You should NEVER delete entries to perform an update, because
+            //       you would loose properties not covered by StdContact.
             throw new NotImplementedException();
         }
     }

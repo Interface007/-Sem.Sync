@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.SonyEricsson
+namespace Sem.Sync.Connector.OracleCrmOnDemand
 {
     using System.Collections.Generic;
 
@@ -16,14 +16,14 @@ namespace Sem.Sync.Connector.SonyEricsson
     using SyncBase.Attributes;
 
     /// <summary>
-    /// This class is the client class for handling contacts persisted to the file system
+    /// Implements a read/write connector to "Oracle CRM on Demand"
     /// </summary>
 #if DEBUG
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(DisplayName = "Sony Ericsson W810i")]
+    [ConnectorDescription(DisplayName = "Oracle CRM On Demand")]
 #else
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(DisplayName = "Sony Ericsson W810i", Internal = true)]
+    [ConnectorDescription(DisplayName = "Oracle CRM On Demand", Internal = true)]
 #endif
     public class ContactClient : StdClient
     {
@@ -47,7 +47,6 @@ namespace Sem.Sync.Connector.SonyEricsson
         /// <param name="skipIfExisting"> A value indicating if existing entries should be skipped while writing. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            
         }
     }
 }

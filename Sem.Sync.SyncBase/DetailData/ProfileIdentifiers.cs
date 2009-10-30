@@ -69,6 +69,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.GoogleId = profileId;
                     break;
 
+                case ProfileIdentifierType.LotusNotesId:
+                    this.LotusNotesId = profileId;
+                    break;
+
                 default:
                     this.DefaultProfileId = profileId;
                     break;
@@ -92,6 +96,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets the profile name of the persons xing membership.
         /// </summary>
         public string XingNameProfileId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the profile name of the persons xing membership.
+        /// </summary>
+        public string LotusNotesId { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the persons Facebook profile.
@@ -153,7 +162,10 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.XingNameProfileId:
                     return this.XingNameProfileId;
-                
+
+                case ProfileIdentifierType.LotusNotesId:
+                    return this.LotusNotesId;
+
                 case ProfileIdentifierType.WerKenntWenUrl:
                     return this.WerKenntWenUrl;
 
@@ -219,6 +231,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.GoogleId = newValue;
                     break;
 
+                case ProfileIdentifierType.LotusNotesId:
+                    this.LotusNotesId = newValue;
+                    break;
+
                 default:
                     this.DefaultProfileId = newValue;
                     break;
@@ -244,6 +260,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId) ||
                   (!string.IsNullOrEmpty(this.LinkedInId) && this.LinkedInId == other.LinkedInId) ||
                   (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
+                  (!string.IsNullOrEmpty(this.LotusNotesId) && this.LotusNotesId == other.LotusNotesId) ||
                   (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
 
@@ -310,6 +327,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.LinkedInId ?? string.Empty) + " - ");
             result.Append((this.GoogleId ?? string.Empty) + " - ");
             result.Append((this.XingNameProfileId ?? string.Empty) + " - ");
+            result.Append((this.LotusNotesId ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
             return result.ToString();
         }
