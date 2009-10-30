@@ -82,11 +82,17 @@
     <DebugType>full</DebugType>
     <RunCodeAnalysis>TRUE</RunCodeAnalysis>
     <Optimize>TRUE</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
     <DebugSymbols>TRUE</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
 </Project>

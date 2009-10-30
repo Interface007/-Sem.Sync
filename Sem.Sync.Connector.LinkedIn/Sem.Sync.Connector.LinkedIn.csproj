@@ -89,5 +89,9 @@
     <DebugType>full</DebugType>
     <RunCodeAnalysis>TRUE</RunCodeAnalysis>
     <Optimize>TRUE</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
 </Project>

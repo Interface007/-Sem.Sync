@@ -49,7 +49,8 @@ namespace ContactViewer
                 Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
             }
         }
-        private void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
+        
+        private static void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
         {
             try
             {

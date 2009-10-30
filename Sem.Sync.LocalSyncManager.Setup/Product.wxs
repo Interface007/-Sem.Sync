@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Local Sync Manager"
            Manufacturer="Sven Erik Matzen"
-           Id="{1A409075-008E-4980-A97B-4A43F9D0C209}"
+           Id="{A1148DF6-8550-4130-87B4-4D085F5B4E7F}"
            UpgradeCode="{7DBC91F2-890F-40c6-9B27-D0CE94DD467A}"
            Language="1033" Version="1.0.0.0" >
 
@@ -29,7 +29,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="SemFolder" Name="Sven Erik Matzen">
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
-          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\Sem.Sync.LocalSyncManager\bin\Release">
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
             <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
               <Component Id="SyncLists"                       Guid="{C9C9BA56-9E25-4adb-9B74-FC1D5B18CAA2}">
                 <File Id='SyncLists.SimpleCopy'               Name='Template SimpleCopy.TSyncList' />
@@ -49,54 +49,55 @@
               <!-- the main executable -->
               <File Id='Sem.Sync.LocalSyncManager'            Name='Sem.Sync.LocalSyncManager.exe'         >
                 <Shortcut
-                    Id="MainExecutableIcon" Name="Sem.Sync Local Sync Manager"
+                    Id="MainExecutableIcon"                   Name="Sem.Sync Local Sync Manager"
                     Directory="ProgramMenuDir" 
                     WorkingDirectory="INSTALLLOCATION"
-                    Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0"  />
+                    Icon="Sem.Sync.LocalSyncManager.exe"      IconIndex="0"  />
               </File>
 
-              <!-- the console program -->
-              <!--<File Id='Sem.Sync.ConsoleClient'               Name='Sem.Sync.ConsoleClient.exe'     Source='Sem.Sync.ConsoleClient.exe' />-->
-
               <!-- some configuration files -->
+              
               <File Id='Sem.Sync.LocalSyncManager.exe.config' Name='Sem.Sync.LocalSyncManager.exe.config' />
             </Component>
 
             <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary"                     Guid="{66C26CA7-CD99-4022-84E8-D72B0F49A7D8}">
-              <RegistryValue
-                        Id='HelperLibrarySettings' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncHelperLibraryIsInstalled'
-                        Type='string' Value='true' />
               
-              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                />
-              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                 />
-              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'        />
+              <RegistryValue  Id='HelperLibrarySettings' KeyPath='yes' Action='write'
+                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\LocalSyncManager' 
+                              Name='SemSyncHelperLibraryIsInstalled'
+                              Type='string' Value='true' />
+              
+              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                 />
+              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                  />
+              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'         />
 
-              <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll'/>
-              <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'       />
-              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'     />
-              <File Id='Sem.Sync.Connector.Google'              Name='Sem.Sync.Connector.Google.dll'         />
-              <File Id='Sem.Sync.Connector.MeinVZ'              Name='Sem.Sync.Connector.MeinVZ.dll'         />
-              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'         />
-              <File Id='Sem.Sync.Connector.MsAccess'            Name='Sem.Sync.Connector.MsAccess.dll'       />
-              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'        />
-              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'    />
-              <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'      />
-              <File Id='Sem.Sync.Connector.StayFriends'         Name='Sem.Sync.Connector.StayFriends.dll'    />
-              <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'    />
-              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'           />
+              <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll' />
+              <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'        />
+              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'      />
+              <File Id='Sem.Sync.Connector.Google'              Name='Sem.Sync.Connector.Google.dll'          />
+              <File Id='Sem.Sync.Connector.MeinVZ'              Name='Sem.Sync.Connector.MeinVZ.dll'          />
+              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'          />
+              <File Id='Sem.Sync.Connector.MsAccess'            Name='Sem.Sync.Connector.MsAccess.dll'        />
+              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'         />
+              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'     />
+              <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'       />
+              <File Id='Sem.Sync.Connector.StayFriends'         Name='Sem.Sync.Connector.StayFriends.dll'     />
+              <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'     />
+              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'            />
             </Component>
 
             <!-- the help files are optional -->
             <Component Id="Documentation"                     Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}" >
-              <RegistryValue
-                        Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='DocumentationIsInstalled'
-                        Type='string' Value='true' />
+              
+              <RegistryValue  Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
+                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\LocalSyncManager' 
+                              Name='DocumentationIsInstalled'
+                              Type='string' Value='true' />
               <File Id='Sem.Sync.HelpFile'                      Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' />
               <File Id='Sem.Sync.MappingXls'                    Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
               <File Id='Sem.Sync.Description'                   Name='SemSync.docx'               Source='..\SemSync.docx' />
+              <File Id='Sem.Sync.DescriptionPdf'                Name='SemSync.pdf'                Source='..\SemSync.pdf' />
             </Component>
 
           </Directory>

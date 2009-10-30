@@ -64,8 +64,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="httpUrlBaseAddress"> The http Base Address of this connector. </param>
         protected WebScrapingBaseClient(string httpUrlBaseAddress)
         {
-            this.WebSideParameters.HttpUrlBaseAddress = httpUrlBaseAddress;
-            this.httpRequester = new HttpHelper(this.WebSideParameters.HttpUrlBaseAddress, true)
+            this.httpRequester = new HttpHelper(httpUrlBaseAddress, true)
                 {
                     UseCache = this.GetConfigValueBoolean("UseCache"),
                     SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),

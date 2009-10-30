@@ -553,7 +553,7 @@ namespace Sem.GenericHelpers
         [Conditional("DEBUG")]
         public static void DebugWriteLine(string message, params object[] parameters)
         {
-            Console.WriteLine(string.Format(message, parameters));
+            Console.WriteLine(string.Format(CultureInfo.InvariantCulture, message, parameters));
         }
 
         /// <summary>

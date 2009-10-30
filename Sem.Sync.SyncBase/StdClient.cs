@@ -84,7 +84,7 @@ namespace Sem.Sync.SyncBase
                     }
                 }
 
-                throw new MissingMemberException(this.GetType().Name, "FriendlyClientName");
+                return this.GetType().Name;
             }
         }
         

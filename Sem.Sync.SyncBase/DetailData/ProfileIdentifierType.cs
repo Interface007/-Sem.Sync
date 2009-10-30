@@ -22,7 +22,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// obsolete identifier
         /// </summary>
-        [Obsolete]
+        [Obsolete("This property did host the ID that is included inside the vCards exported from Xing. This ID seem to be not unique. Use XingNameProfileId instead.")]
         XingProfileId,
         
         /// <summary>

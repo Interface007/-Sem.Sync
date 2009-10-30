@@ -3,6 +3,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System;
     using System.Runtime.Serialization;
 
+    [Serializable]
     public class TechnicalException : Exception
     {
         public TechnicalException()

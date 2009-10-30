@@ -85,7 +85,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets the profile id of the persons xing membership. This property is
         /// obsolete now, because the ID is not stable/unique.
         /// </summary>
-        [Obsolete]
+        [Obsolete("This property did host the ID that is included inside the vCards exported from Xing. This ID seem to be not unique. Use XingNameProfileId instead.")]
         public string XingProfileId { get; set; }
 
         /// <summary>
