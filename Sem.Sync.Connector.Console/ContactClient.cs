@@ -50,6 +50,16 @@ namespace Sem.Sync.Connector.Console
         }
 
         /// <summary>
+        /// Writes a range of elements to the standard connector.
+        /// </summary>
+        /// <param name="elements"> The elements. </param>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+        
+        /// <summary>
         /// Overrides the method to write the full list of data.
         /// </summary>
         /// <param name="elements"> The elements to be exported. </param>
@@ -57,9 +67,9 @@ namespace Sem.Sync.Connector.Console
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements)
             {
+                this.LogProcessingEvent(element, "writing ...");
                 ContactListFormatter.Serialize(Console.Out, element);
             }
         }
