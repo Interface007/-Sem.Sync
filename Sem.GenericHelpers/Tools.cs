@@ -495,6 +495,12 @@ namespace Sem.GenericHelpers
                             break;
 
                         case "String":
+                            if (valueString == "{emptystring}")
+                            {
+                                propInfo.SetValue(objectToWriteTo, string.Empty, null);
+                                break;                                
+                            }
+
                             propInfo.SetValue(objectToWriteTo, valueString, null);
                             break;
                     

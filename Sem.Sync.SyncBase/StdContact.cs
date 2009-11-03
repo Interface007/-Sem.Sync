@@ -63,6 +63,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>
+        [DefaultValue(Gender.Unspecified)]
         public Gender PersonGender { get; set; }
 
         /// <summary>

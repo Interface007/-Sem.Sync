@@ -74,5 +74,6 @@ namespace Sem.Sync.SyncBase.DetailData
         /// The social network LinkedIn
         /// </summary>
         LotusNotesId,
+        OracleCrmOnDemandId
     }
 }

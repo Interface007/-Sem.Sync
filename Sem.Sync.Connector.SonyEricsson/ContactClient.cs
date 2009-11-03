@@ -35,6 +35,9 @@ namespace Sem.Sync.Connector.SonyEricsson
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+
+
+            
             CleanUpEntities(result);
             return result;
         }

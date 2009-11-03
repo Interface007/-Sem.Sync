@@ -37,6 +37,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.ActiveDirectoryId = profileId;
                     break;
 
+                case ProfileIdentifierType.OracleCrmOnDemandId:
+                    this.OracleCrmOnDemandId = profileId;
+                    break;
+
                 case ProfileIdentifierType.MicrosoftAccessId:
                     this.MicrosoftAccessId = profileId;
                     break;
@@ -113,6 +117,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public string ActiveDirectoryId { get; set; }
 
         /// <summary>
+        /// Gets or sets an id for Oracle Crm on Demand
+        /// </summary>
+        public string OracleCrmOnDemandId { get; set; }
+
+        /// <summary>
         /// Gets or sets a full qualified active directory user name (including the domain)
         /// </summary>
         public string MicrosoftAccessId { get; set; }
@@ -153,6 +162,9 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     return this.ActiveDirectoryId;
+
+                case ProfileIdentifierType.OracleCrmOnDemandId:
+                    return this.OracleCrmOnDemandId;
 
                 case ProfileIdentifierType.MicrosoftAccessId:
                     return this.MicrosoftAccessId;
@@ -197,6 +209,10 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
                     this.ActiveDirectoryId = newValue;
+                    break;
+
+                case ProfileIdentifierType.OracleCrmOnDemandId:
+                    this.OracleCrmOnDemandId = newValue;
                     break;
 
                 case ProfileIdentifierType.MicrosoftAccessId:
@@ -261,6 +277,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.LinkedInId) && this.LinkedInId == other.LinkedInId) ||
                   (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
                   (!string.IsNullOrEmpty(this.LotusNotesId) && this.LotusNotesId == other.LotusNotesId) ||
+                  (!string.IsNullOrEmpty(this.OracleCrmOnDemandId) && this.OracleCrmOnDemandId == other.OracleCrmOnDemandId) ||
                   (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
 
@@ -328,6 +345,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.GoogleId ?? string.Empty) + " - ");
             result.Append((this.XingNameProfileId ?? string.Empty) + " - ");
             result.Append((this.LotusNotesId ?? string.Empty) + " - ");
+            result.Append((this.OracleCrmOnDemandId ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
             return result.ToString();
         }
