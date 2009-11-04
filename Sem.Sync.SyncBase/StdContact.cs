@@ -123,6 +123,11 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
+        /////// <summary>
+        /////// Gets or sets ProfileIdentifier.
+        /////// </summary>
+        ////public Dictionary<string, string> ProfileIdentifier { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the company this contact is associated with
         /// </summary>

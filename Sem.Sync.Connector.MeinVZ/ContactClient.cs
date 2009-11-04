@@ -185,19 +185,7 @@ namespace Sem.Sync.Connector.MeinVZ
             result.Sort();
             return result;
         }
-
-        /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
-        /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
-
+    
         /// <summary>
         /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>

@@ -10,9 +10,15 @@
 namespace Sem.Sync.SyncBase.Commands
 {
     using System;
+    using System.Linq;
 
     using Attributes;
     using DetailData;
+
+    using GenericHelpers;
+
+    using Helpers;
+
     using Interfaces;
 
     /// <summary>
@@ -73,15 +79,16 @@ namespace Sem.Sync.SyncBase.Commands
                                             : ProfileIdentifierType.Default;
 
             var targetMatchList = targetClient.GetAll(targetStorePath);
+            var sourceMatchList = sourceClient.GetAll(sourceStorePath);
             var matchResultList =
                 ((IUiSyncInteraction)this.UiProvider).PerformEntityMerge(
-                    sourceClient.GetAll(sourceStorePath),
+                    sourceMatchList,
                     targetMatchList,
                     baseliClient.GetAll(baselineStorePath),
                     identifierToUse);
 
             // only write to target if we did get a merge result
-            if (targetMatchList != null)
+            if (targetMatchList != null && matchResultList != null)
             {
                 targetClient.WriteRange(targetMatchList, targetStorePath);
             }
@@ -89,6 +96,28 @@ namespace Sem.Sync.SyncBase.Commands
             // only write to target if we did get a merge result
             if (matchResultList != null)
             {
+                var sourceContactList = sourceMatchList.ToContacts();
+                var matchingEntryList = matchResultList.ToMatchingEntries();
+
+                // Check for new (not matched) contacts and generate new matching entries for such new entries.
+                var orphanSource = from x in sourceContactList
+                                   join matchEntry in matchingEntryList on
+                                       x.PersonalProfileIdentifiers equals
+                                       matchEntry.ProfileId
+                                       into matchGroup
+                                   from y in matchGroup.DefaultIfEmpty()
+                                   where y == null && !string.IsNullOrEmpty(x.PersonalProfileIdentifiers.GetProfileId(identifierToUse))
+                                   select
+                                       new MatchingEntry
+                                           {
+                                               Id = x.Id, 
+                                               ProfileId = x.PersonalProfileIdentifiers 
+                                           };
+
+                // add all new contacts matching entries to the base line
+                orphanSource.ForEach(matchResultList.Add);
+
+                // write baseline to base line connector
                 baseliClient.WriteRange(matchResultList, baselineStorePath);
             }
 

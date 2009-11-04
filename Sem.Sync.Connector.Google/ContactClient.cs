@@ -207,7 +207,7 @@ namespace Sem.Sync.Connector.Google
                         try
                         {
                             // we need to replace the "base" inside the url with a "full" to get the correct "projection" for extended properties
-                            googleContact = this.requester.Retrieve<Contact>(new Uri(googleId.Replace(@"/base/", @"/full/")));
+                            googleContact = this.requester.Retrieve<Contact>(new Uri(((string)googleId).Replace(@"/base/", @"/full/")));
                         }
                         catch (GDataRequestException ex)
                         {

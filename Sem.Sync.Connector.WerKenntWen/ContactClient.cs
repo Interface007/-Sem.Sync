@@ -150,17 +150,6 @@ namespace Sem.Sync.Connector.WerKenntWen
         }
 
         /// <summary>
-        /// Wrtire access is not implemented in this connector
-        /// </summary>
-        /// <param name="elements">The elements parameter is not used.</param>
-        /// <param name="clientFolderName">The clientFolderPath is not used.</param>
-        /// <param name="skipIfExisting">The skipIfExisting parameter is not used.</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Ready a list of html locations of the person data - this will also establish the logon
         /// </summary>
         /// <returns>a list of urls for the data to be downloaded</returns>

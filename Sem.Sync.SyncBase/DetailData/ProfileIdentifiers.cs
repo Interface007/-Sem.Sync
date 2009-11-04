@@ -87,69 +87,69 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets the profile id of the persons xing membership.
         /// This defaults to the contact elements interlan Id (a Guid)
         /// </summary>
-        public string DefaultProfileId { get; set; }
+        public ProfileIdInformation DefaultProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets the profile id of the persons xing membership. This property is
         /// obsolete now, because the ID is not stable/unique.
         /// </summary>
         [Obsolete("This property did host the ID that is included inside the vCards exported from Xing. This ID seem to be not unique. Use XingNameProfileId instead.")]
-        public string XingProfileId { get; set; }
+        public ProfileIdInformation XingProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets the profile name of the persons xing membership.
         /// </summary>
-        public string XingNameProfileId { get; set; }
+        public ProfileIdInformation XingNameProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets the profile name of the persons xing membership.
         /// </summary>
-        public string LotusNotesId { get; set; }
+        public ProfileIdInformation LotusNotesId { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the persons Facebook profile.
         /// </summary>
-        public string FacebookProfileId { get; set; }
+        public ProfileIdInformation FacebookProfileId { get; set; }
 
         /// <summary>
         /// Gets or sets a full qualified active directory user name (including the domain)
         /// </summary>
-        public string ActiveDirectoryId { get; set; }
+        public ProfileIdInformation ActiveDirectoryId { get; set; }
 
         /// <summary>
         /// Gets or sets an id for Oracle Crm on Demand
         /// </summary>
-        public string OracleCrmOnDemandId { get; set; }
+        public ProfileIdInformation OracleCrmOnDemandId { get; set; }
 
         /// <summary>
         /// Gets or sets a full qualified active directory user name (including the domain)
         /// </summary>
-        public string MicrosoftAccessId { get; set; }
+        public ProfileIdInformation MicrosoftAccessId { get; set; }
 
         /// <summary>
         /// Gets or sets the url at the social network side Wer-Kennt-Wen.de
         /// </summary>
-        public string WerKenntWenUrl { get; set; }
+        public ProfileIdInformation WerKenntWenUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the url at the social network side StayFriends.de
         /// </summary>
-        public string StayFriendsPersonId { get; set; }
+        public ProfileIdInformation StayFriendsPersonId { get; set; }
 
         /// <summary>
         /// Gets or sets the url at the social network side StayFriends.de
         /// </summary>
-        public string LinkedInId { get; set; }
+        public ProfileIdInformation LinkedInId { get; set; }
 
         /// <summary>
         /// Gets or sets the url at the social network side StayFriends.de
         /// </summary>
-        public string MeinVZPersonId { get; set; }
+        public ProfileIdInformation MeinVZPersonId { get; set; }
 
         /// <summary>
         /// Gets or sets the google user id
         /// </summary>
-        public string GoogleId { get; set; }
+        public ProfileIdInformation GoogleId { get; set; }
 
         /// <summary>
         /// Gets a specific identifier by the type.
@@ -158,44 +158,60 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns>the value of the identifier</returns>
         public string GetProfileId(ProfileIdentifierType type)
         {
+            string result;
+
             switch (type)
             {
                 case ProfileIdentifierType.ActiveDirectoryId:
-                    return this.ActiveDirectoryId;
+                    result = this.ActiveDirectoryId;
+                    break;
 
                 case ProfileIdentifierType.OracleCrmOnDemandId:
-                    return this.OracleCrmOnDemandId;
+                    result = this.OracleCrmOnDemandId;
+                    break;
 
                 case ProfileIdentifierType.MicrosoftAccessId:
-                    return this.MicrosoftAccessId;
+                    result = this.MicrosoftAccessId;
+                    break;
 
                 case ProfileIdentifierType.FacebookProfileId:
-                    return this.FacebookProfileId;
+                    result = this.FacebookProfileId;
+                    break;
 
                 case ProfileIdentifierType.XingNameProfileId:
-                    return this.XingNameProfileId;
+                    result = this.XingNameProfileId;
+                    break;
 
                 case ProfileIdentifierType.LotusNotesId:
-                    return this.LotusNotesId;
+                    result = this.LotusNotesId;
+                    break;
 
                 case ProfileIdentifierType.WerKenntWenUrl:
-                    return this.WerKenntWenUrl;
+                    result = this.WerKenntWenUrl;
+                    break;
 
                 case ProfileIdentifierType.StayFriendsPersonId:
-                    return this.StayFriendsPersonId;
+                    result = this.StayFriendsPersonId;
+                    break;
 
                 case ProfileIdentifierType.LinkedInId:
-                    return this.LinkedInId;
+                    result = this.LinkedInId;
+                    break;
 
                 case ProfileIdentifierType.MeinVZ:
-                    return this.MeinVZPersonId;
+                    result = this.MeinVZPersonId;
+                    break;
 
                 case ProfileIdentifierType.Google:
-                    return this.GoogleId;
+                    result = this.GoogleId;
+                    break;
 
                 default:
-                    return this.DefaultProfileId;
+                    result = this.DefaultProfileId;
+                    break;
             }
+
+            return result;
         }
 
         /// <summary>

@@ -151,17 +151,6 @@ namespace Sem.Sync.Connector.StayFriends
         }
 
         /// <summary>
-        /// Wrtire access is not implemented in this connector
-        /// </summary>
-        /// <param name="elements">The elements parameter is not used.</param>
-        /// <param name="clientFolderName">The clientFolderPath is not used.</param>
-        /// <param name="skipIfExisting">The skipIfExisting parameter is not used.</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Removes the URL encoding assuming "iso8859-1" and removes \t and \n from the text.
         /// </summary>
         /// <param name="toDecode"> The text data to decode. </param>

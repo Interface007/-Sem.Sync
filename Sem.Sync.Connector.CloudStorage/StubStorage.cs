@@ -73,17 +73,5 @@ namespace Sem.Sync.Connector.CloudStorage
             
             return result;
         }
-
-        /// <summary>
-        /// Throws the exception <see cref="NotImplementedException"/>, because this stub does not provide writing capability
-        /// </summary>
-        /// <param name="elements"> The elements. </param>
-        /// <param name="clientFolderName"> The client folder name. </param>
-        /// <param name="skipIfExisting"> The skip if existing. </param>
-        /// <exception cref="NotImplementedException"></exception>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
