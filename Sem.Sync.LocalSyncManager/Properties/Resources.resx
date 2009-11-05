@@ -130,4 +130,7 @@
   <data name="ProcessRunningMessage" xml:space="preserve">
     <value>There is currently a process running - please wait until that process is finished or cancel the process.</value>
   </data>
+  <data name="AllFilesFileFilter" xml:space="preserve">
+    <value>all files|*.*</value>
+  </data>
 </root>

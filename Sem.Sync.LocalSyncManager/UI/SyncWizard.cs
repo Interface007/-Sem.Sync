@@ -126,7 +126,12 @@ namespace Sem.Sync.LocalSyncManager.UI
                 {
                     var currentObject = entity ?? eventArgs.Item;
                     var currentContact = entity as StdContact ?? eventArgs.Item as StdContact;
-                    var message = eventArgs.Message + " " + (currentObject == null ? string.Empty : currentObject.ToString());
+                    var message = eventArgs.Message + " " + 
+                        (currentObject == null
+                        || currentObject.GetType() == typeof(SyncEngine)
+                        || currentObject as StdClient != null 
+                        ? string.Empty 
+                        : currentObject.ToString());
 
                     this.lblProgressStatus.Text = message;
                     this.LogList.Items.Add(message);
@@ -289,6 +294,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
+                this.folderBrowser.SelectedPath = this.DataContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.folderBrowser.SelectedPath;
@@ -300,7 +306,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             if (useSave)
             {
                 this.saveFileDialog1.DefaultExt = string.Empty;
-                this.saveFileDialog1.Filter = "all files|*.*";
+                this.saveFileDialog1.Filter = Resources.AllFilesFileFilter;
                 this.saveFileDialog1.AddExtension = true;
                 this.saveFileDialog1.FileName = textBox.Text;
                 if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)

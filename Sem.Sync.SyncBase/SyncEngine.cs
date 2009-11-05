@@ -109,6 +109,19 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Replaces known string token like the token {FS:WorkingFolder} that represents the
+        /// current working folder for the file system
+        /// </summary>
+        /// <param name="path">the string that might contain token</param>
+        /// <returns>the processed string containing the token values instead of the token</returns>
+        public string ReplacePathToken(string path)
+        {
+            return (path ?? string.Empty)
+                .Replace("{FS:WorkingFolder}", this.WorkingFolder)
+                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
+        }
+
+        /// <summary>
         /// Executes a command that (mostly) have a source and a target - see the documentations 
         /// of SyncCommand enumeration
         /// </summary>
@@ -251,19 +264,6 @@ namespace Sem.Sync.SyncBase
             this.UpdateProgress(
                                   this.percentageOfSequenceDone
                                   + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
-        }
-
-        /// <summary>
-        /// Replaces known string token like the token {FS:WorkingFolder} that represents the
-        /// current working folder for the file system
-        /// </summary>
-        /// <param name="path">the string that might contain token</param>
-        /// <returns>the processed string containing the token values instead of the token</returns>
-        private string ReplacePathToken(string path)
-        {
-            return (path ?? string.Empty)
-                .Replace("{FS:WorkingFolder}", this.WorkingFolder)
-                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
         }
     }
 }

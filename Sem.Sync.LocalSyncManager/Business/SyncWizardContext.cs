@@ -195,16 +195,31 @@ namespace Sem.Sync.LocalSyncManager.Business
         public static void OpenWorkingFolder()
         {
             var engine = new SyncEngine
+            {
+                WorkingFolder = Config.WorkingFolder
+            };
+
+            engine.Execute(
+                new SyncDescription
+                {
+                    Command = SyncCommand.OpenDocument.ToString(),
+                    CommandParameter = "{FS:WorkingFolder}"
+                });
+        }
+
+        /// <summary>
+        /// Resolves path tokens like application folder and working folder.
+        /// </summary>
+        /// <param name="path"> The path containing token. </param>
+        /// <returns> the valid resolved path </returns>
+        public string ResolvePath(string path)
+        {
+            var engine = new SyncEngine
                 {
                     WorkingFolder = Config.WorkingFolder
                 };
 
-            engine.Execute(
-                new SyncDescription
-                    {
-                        Command = SyncCommand.OpenDocument.ToString(),
-                        CommandParameter = "{FS:WorkingFolder}"
-                    });
+            return engine.ReplacePathToken(path);
         }
 
         /// <summary>

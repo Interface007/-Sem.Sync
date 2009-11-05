@@ -147,6 +147,9 @@
   <data name="uiNormalizing" xml:space="preserve">
     <value>normalizing ...</value>
   </data>
+  <data name="uiOutOfDateVersion" xml:space="preserve">
+    <value>Version of sync engine is outdated - please update!</value>
+  </data>
   <data name="uiProcessingCanceled" xml:space="preserve">
     <value>processing canceled.</value>
   </data>
