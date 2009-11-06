@@ -118,6 +118,16 @@ namespace Sem.Sync.SyncBase.DetailData
         public string FormerName { get; set; }
 
         /// <summary>
+        /// converts a string implicit ro a PersonName
+        /// </summary>
+        /// <param name="newName"> The new name. </param>
+        /// <returns> the new initialized person name class </returns>
+        public static implicit operator PersonName(string newName)
+        {
+            return new PersonName(newName);
+        }
+        
+        /// <summary>
         /// Overrides the inherited ToString method from object to represent a meaningful name
         /// </summary>
         /// <returns>the full name of the person</returns>

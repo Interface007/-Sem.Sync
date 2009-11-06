@@ -56,19 +56,7 @@ namespace Sem.Sync.SyncBase.Commands
             }
 
             var baseline = baseliClient.GetAll(baselineStorePath);
-            ////var todelete = new List<StdElement>();
-            ////foreach (var item in baseline)
-            ////{
-            ////    var entry = item as MatchingEntry;
-            ////    if (entry != null)
-            ////    {
-            ////        if ((from x in baseline where entry.ProfileId.DefaultProfileId == x.Id select x).Count() > 1)
-            ////        {
-            ////            todelete.Add(item);
-            ////        }
-            ////    }
-            ////}
-
+            
             targetClient.WriteRange(
                 MatchThisByProfileId(
                     sourceClient.GetAll(sourceStorePath),

@@ -34,6 +34,8 @@ namespace Sem.Sync.Test.DataGenerator
         /// </summary>
         private static readonly Random Rnd = new Random();
 
+        private static List<StdElement> MatchingTarget = new List<StdElement>();
+        
         /// <summary>
         /// Gets a list of variable contacts. Some do have a constant name, some have a constant Id, some oave a constant DefaultProfileId
         /// </summary>
@@ -380,10 +382,62 @@ namespace Sem.Sync.Test.DataGenerator
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            if (VariableContactList != null)
+            switch (clientFolderName)
             {
-                result = VariableContactList.ToStdElement();
-                result.AddRange(GetStandardContactList(false).ToStdElement());
+                case "matchingtestsource":
+                    result.AddRange(
+                        new List<StdElement>
+                            {
+                                new StdContact
+                                    {
+                                        Name = "matchable1",
+                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                    },
+                                new StdContact
+                                    {
+                                        Name = "matchable2",
+                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                    },
+                                new StdContact
+                                    {
+                                        Name = "unmatchable",
+                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
+                                    },
+                            });
+                    break;
+
+                case "matchingtesttarget":
+                    return MatchingTarget;
+
+                case "matchingtestbaseline":
+                    result.AddRange(
+                        new List<StdElement>
+                            {
+                                new MatchingEntry()
+                                    {
+                                        Id = new Guid("{A1445F74-6C24-47a3-97E9-9A3E2FA35B17}"),
+                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
+                                    },
+                                new MatchingEntry()
+                                    {
+                                        Id = new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"),
+                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                    },
+                                new MatchingEntry()
+                                    {
+                                        Id = new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"),
+                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                    }
+                            });
+                    break;
+
+                default:
+                    if (VariableContactList != null)
+                    {
+                        result = VariableContactList.ToStdElement();
+                        result.AddRange(GetStandardContactList(false).ToStdElement());
+                    }
+                    break;
             }
 
             return result;
@@ -398,6 +452,12 @@ namespace Sem.Sync.Test.DataGenerator
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            switch (clientFolderName)
+            {
+                case "matchingtesttarget":
+                    MatchingTarget = elements;
+                    return;
+            }
         }
 
         /// <summary>

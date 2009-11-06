@@ -122,13 +122,13 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Overview.cd" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ExternalAssemblies\ExpressionSerialization\ExpressionSerialization.csproj">
       <Project>{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560}</Project>
       <Name>ExpressionSerialization</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Overview.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

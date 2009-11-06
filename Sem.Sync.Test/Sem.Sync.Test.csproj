@@ -88,6 +88,7 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="AddressClassTest.cs" />
+    <Compile Include="CommandMatchByProfileTest.cs" />
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
