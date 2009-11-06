@@ -121,7 +121,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <returns>a standard contact entity</returns>
         private static StdContact ConvertToContact(SearchResult searchItem)
         {
-            return new StdContact
+            var result = new StdContact
             {
                 Id = Guid.NewGuid(),
                 InternalSyncData = new SyncData
@@ -157,10 +157,12 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 PersonGender =
                     SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
 
-                AdditionalTextData = GetPropString(searchItem.Properties, "info"),
-
-                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"))
+                AdditionalTextData = GetPropString(searchItem.Properties, "info"),               
             };
+
+            result.PersonalProfileIdentifiers.ActiveDirectoryId = GetPropString(searchItem.Properties, "CN");
+
+            return result;
         }
 
         /// <summary>

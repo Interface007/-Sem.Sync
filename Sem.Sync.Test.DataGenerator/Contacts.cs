@@ -509,13 +509,14 @@ namespace Sem.Sync.Test.DataGenerator
 
         private static StdContact CreateIdOnlyContact(string profileId, string id)
         {
-            return new StdContact
-                       {
-                           // matched female
-                           Name = new PersonName(profileId),
-                           Id = new Guid(id),
-                           PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId)
-                       };
+            var result = new StdContact
+                             {
+                                 // matched female
+                                 Name = new PersonName(profileId),
+                                 Id = new Guid(id),
+                                 PersonalProfileIdentifiers = { XingNameProfileId = profileId },
+                             };
+            return result;
         }
     }
 }

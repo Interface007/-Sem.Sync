@@ -317,11 +317,6 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "UID":
-                        if (contact.PersonalProfileIdentifiers == null)
-                        {
-                            contact.PersonalProfileIdentifiers = new ProfileIdentifiers();
-                        }
-
                         contact.PersonalProfileIdentifiers.SetProfileId(useIndetifierAs, value);
                         break;
 

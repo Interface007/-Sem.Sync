@@ -185,7 +185,7 @@ namespace Sem.Sync.Connector.Facebook
             }
 
             // TODO: find a better way to extract the identifier from the content, so that we don't need to provide te url inside the method signature
-            result.PersonalProfileIdentifiers = new ProfileIdentifiers(
+            result.PersonalProfileIdentifiers.SetProfileId(
                 this.WebSideParameters.ProfileIdentifierType, 
                 contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 

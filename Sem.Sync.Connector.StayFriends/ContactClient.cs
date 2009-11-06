@@ -385,7 +385,7 @@ namespace Sem.Sync.Connector.StayFriends
                 }
             }
 
-            contact.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.StayFriendsPersonId, Regex.Match(downloadUrl, "persid=([0-9]*)&").Groups[1].ToString());
+            contact.PersonalProfileIdentifiers.StayFriendsPersonId = Regex.Match(downloadUrl, "persid=([0-9]*)&").Groups[1].ToString();
 
             dataExtractor = new Regex(PersonPictureUrlPattern, RegexOptions.Singleline);
             var pictureUrlResult = dataExtractor.Matches(data);
