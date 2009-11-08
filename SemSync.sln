@@ -132,7 +132,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdx.Sync.Connector.OracleCr
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 46
+		SccNumberOfProjects = 45
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -313,10 +313,6 @@ Global
 		SccProjectTopLevelParentUniqueName44 = SemSync.sln
 		SccProjectName44 = Sem.Sync.Connector.SonyEricsson
 		SccLocalPath44 = Sem.Sync.Connector.SonyEricsson
-		SccProjectUniqueName45 = Sdx.Sync.Connector.OracleCrmOnDemand\\Sdx.Sync.Connector.OracleCrmOnDemand.csproj
-		SccProjectTopLevelParentUniqueName45 = SemSync.sln
-		SccProjectName45 = Sdx.Sync.Connector.OracleCrmOnDemand
-		SccLocalPath45 = Sdx.Sync.Connector.OracleCrmOnDemand
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -1416,5 +1412,8 @@ Global
 		{D2903196-B5F9-43CC-9B43-85CDFF0D6268} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{C6F30C10-E1C2-4327-BB6B-3160B479CCA1} = {9ADB93A1-9E87-4FA3-829A-2A6EF061558A}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
+	EndGlobalSection
+	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
+		SpecExplorer.ActivityCompletionStatus = 
 	EndGlobalSection
 EndGlobal
