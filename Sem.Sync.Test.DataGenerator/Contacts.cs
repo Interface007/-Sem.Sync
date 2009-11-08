@@ -203,7 +203,7 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine(@"      <GoogleTalk>google@svenerikmatzen.info</GoogleTalk>");
             content.AppendLine(@"      <YahooMessenger>yahoo@svenerikmatzen.info</YahooMessenger>");
             content.AppendLine(@"      <Skype>skype@svenerikmatzen.info</Skype>");
-            content.AppendLine(@"      <ICQ>icq@svenerikmatzen.info</ICQ>");
+            content.AppendLine(@"      <Icq>icq@svenerikmatzen.info</Icq>");
             content.AppendLine(@"    </PersonalInstantMessengerAddresses>");
             content.AppendLine(@"    <PersonalProfileIdentifiers>");
             content.AppendLine(@"      <DefaultProfileId>{67a5163c-de74-447f-83ca-c64b8ff372f2}</DefaultProfileId>");
@@ -239,7 +239,7 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine(@"      <GoogleTalk>busimgoogle</GoogleTalk>");
             content.AppendLine(@"      <YahooMessenger>busimyahoo</YahooMessenger>");
             content.AppendLine(@"      <Skype>busimskype</Skype>");
-            content.AppendLine(@"      <ICQ>busimicq</ICQ>");
+            content.AppendLine(@"      <Icq>busimicq</Icq>");
             content.AppendLine(@"    </BusinessInstantMessengerAddresses>");
             content.AppendLine(@"    <AdditionalTextData>additional text</AdditionalTextData>");
             content.AppendLine(@"    <PictureData />");

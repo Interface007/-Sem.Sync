@@ -74,6 +74,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// The social network LinkedIn
         /// </summary>
         LotusNotesId,
+
+        /// <summary>
+        /// The web service based interface of "Oracle CRM on Demand"
+        /// </summary>
         OracleCrmOnDemandId
     }
 }

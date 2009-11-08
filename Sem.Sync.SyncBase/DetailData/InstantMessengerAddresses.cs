@@ -58,8 +58,8 @@ namespace Sem.Sync.SyncBase.DetailData
         public string Skype { get; set; }
 
         /// <summary>
-        /// Gets or sets the Skype name.
+        /// Gets or sets the ICQ name.
         /// </summary>
-        public string ICQ { get; set; }
+        public string Icq { get; set; }
     }
 }

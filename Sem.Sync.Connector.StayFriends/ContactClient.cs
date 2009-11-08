@@ -326,7 +326,7 @@ namespace Sem.Sync.Connector.StayFriends
                         break;
                     
                     case "Messenger, ICQ":
-                        contact.PersonalInstantMessengerAddresses.ICQ = DecodeResultString(value.ToString());
+                        contact.PersonalInstantMessengerAddresses.Icq = DecodeResultString(value.ToString());
                         break;
                     
                     case "Beruf":
