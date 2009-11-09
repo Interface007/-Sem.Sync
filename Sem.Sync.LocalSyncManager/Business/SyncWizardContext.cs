@@ -212,7 +212,7 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </summary>
         /// <param name="path"> The path containing token. </param>
         /// <returns> the valid resolved path </returns>
-        public string ResolvePath(string path)
+        public static string ResolvePath(string path)
         {
             var engine = new SyncEngine
                 {

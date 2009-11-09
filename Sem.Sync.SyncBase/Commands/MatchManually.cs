@@ -39,35 +39,7 @@ namespace Sem.Sync.SyncBase.Commands
         /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
-            if (targetClient == null)
-            {
-                throw new InvalidOperationException("item.targetClient is null");
-            }
-
-            if (sourceClient == null)
-            {
-                throw new InvalidOperationException("item.sourceClient is null");
-            }
-
-            if (baseliClient == null)
-            {
-                throw new InvalidOperationException("item.baseliClient is null");
-            }
-
-            if (baselineStorePath == null)
-            {
-                throw new InvalidOperationException("sourceStorePath is null");
-            }
-
-            if (sourceStorePath == null)
-            {
-                throw new InvalidOperationException("sourceStorePath is null");
-            }
-
-            if (targetStorePath == null)
-            {
-                throw new InvalidOperationException("targetStorePath is null");
-            }
+            CheckParameters(targetClient, sourceClient, baseliClient, baselineStorePath, sourceStorePath, targetStorePath);
 
             var sourceTypeAttributes = sourceClient.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
             var identifierToUse = (!string.IsNullOrEmpty(commandParameter))
@@ -122,6 +94,50 @@ namespace Sem.Sync.SyncBase.Commands
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Performs a check for null parameters.
+        /// </summary>
+        /// <param name="targetClient">The target client.</param>
+        /// <param name="sourceClient">The source client.</param>
+        /// <param name="baseliClient">The baseline client.</param>
+        /// <param name="baselineStorePath">The baseline storage path.</param>
+        /// <param name="sourceStorePath">The source storage path.</param>
+        /// <param name="targetStorePath">The target storage path.</param>
+        /// <exception cref="InvalidOperationException">
+        /// </exception>
+        private static void CheckParameters(IClientBase targetClient, IClientBase sourceClient, IClientBase baseliClient, string baselineStorePath, string sourceStorePath, string targetStorePath)
+        {
+            if (targetClient == null)
+            {
+                throw new InvalidOperationException("item.targetClient is null");
+            }
+
+            if (sourceClient == null)
+            {
+                throw new InvalidOperationException("item.sourceClient is null");
+            }
+
+            if (baseliClient == null)
+            {
+                throw new InvalidOperationException("item.baseliClient is null");
+            }
+
+            if (baselineStorePath == null)
+            {
+                throw new InvalidOperationException("sourceStorePath is null");
+            }
+
+            if (sourceStorePath == null)
+            {
+                throw new InvalidOperationException("sourceStorePath is null");
+            }
+
+            if (targetStorePath == null)
+            {
+                throw new InvalidOperationException("targetStorePath is null");
+            }
         }
     }
 }

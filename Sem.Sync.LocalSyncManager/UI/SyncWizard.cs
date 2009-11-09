@@ -294,7 +294,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
-                this.folderBrowser.SelectedPath = this.DataContext.ResolvePath(textBox.Text);
+                this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.folderBrowser.SelectedPath;
