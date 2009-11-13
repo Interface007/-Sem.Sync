@@ -19,17 +19,18 @@ namespace Sem.Sync.SharedUI.Common
     using System.Linq;
     using System.Reflection;
     
-    using Sem.GenericHelpers;
-    using Sem.GenericHelpers.Entities;
-    using Sem.GenericHelpers.EventArgs;
-    using Sem.GenericHelpers.Exceptions;
-    using Sem.Sync.SyncBase;
-    using Sem.Sync.SyncBase.Attributes;
-    using Sem.Sync.SyncBase.Binding;
-    using Sem.Sync.SyncBase.DetailData;
-    using Sem.Sync.SyncBase.Helpers;
-    using Sem.Sync.SyncBase.Interfaces;
-    using Sem.Sync.SyncBase.Properties;
+    using GenericHelpers;
+    using GenericHelpers.Entities;
+    using GenericHelpers.EventArgs;
+    using GenericHelpers.Exceptions;
+    using GenericHelpers.Interfaces;
+
+    using SyncBase;
+    using SyncBase.Attributes;
+    using SyncBase.Binding;
+    using SyncBase.DetailData;
+    using SyncBase.Helpers;
+    using SyncBase.Interfaces;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 
@@ -37,7 +38,8 @@ namespace Sem.Sync.SharedUI.Common
     /// and target as well as  the paths inside the storage and  the credentials
     /// to authenticate.
     /// </summary>
-    public class SyncWizardContext : INotifyPropertyChanged
+    /// <typeparam name="TUiProvider"> The type of the UI provider to use </typeparam>
+    public class SyncWizardContext<TUiProvider> : INotifyPropertyChanged where TUiProvider : IUiInteraction, new()
     {
         /// <summary>
         /// The file extension for data files.
@@ -65,7 +67,7 @@ namespace Sem.Sync.SharedUI.Common
         private string currentSyncWorkflowData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SyncWizardContext"/> class.
+        /// Initializes a new instance of the <see cref="SyncWizardContext{TUiProvider}"/> class. 
         /// </summary>
         public SyncWizardContext()
         {
@@ -93,7 +95,6 @@ namespace Sem.Sync.SharedUI.Common
             Directory
                 .GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension)
                 .ForEach(file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file)));
-
 
             this.ReloadWorkflowDataList();
         }
@@ -290,7 +291,7 @@ namespace Sem.Sync.SharedUI.Common
         {
             if (!File.Exists(templateScriptPath))
             {
-                this.ProcessingEvent(this, new ProcessingEventArgs(string.Format(CultureInfo.CurrentCulture, "InstalledFileNotFound", templateScriptPath)));
+                this.ProcessingEvent(this, new ProcessingEventArgs(string.Format(CultureInfo.CurrentCulture, Properties.Resources.InstalledFileNotFound, templateScriptPath)));
                 return;
             }
 
@@ -318,7 +319,7 @@ namespace Sem.Sync.SharedUI.Common
             var engine = new SyncEngine
                              {
                                  WorkingFolder = Config.WorkingFolder,
-                                 //// todo: UiProvider = new UiDispatcher(),
+                                 UiProvider = new TUiProvider(),
                              };
 
             engine.ProcessingEvent += this.HandleProcessingEvent;
@@ -345,7 +346,7 @@ namespace Sem.Sync.SharedUI.Common
         /// Generates sample data - not yet completed
         /// TODO: Create workflow data files.
         /// </summary>
-        internal void GenerateSamples()
+        public void GenerateSamples()
         {
             Tools.EnsurePathExist(WorkingFolderData);
             this.ReloadWorkflowDataList();
@@ -357,7 +358,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <param name="path">
         /// The path to be deleted.
         /// </param>
-        internal void DeleteWorkflowData(string path)
+        public void DeleteWorkflowData(string path)
         {
             File.Delete(path);
             this.ReloadWorkflowDataList();

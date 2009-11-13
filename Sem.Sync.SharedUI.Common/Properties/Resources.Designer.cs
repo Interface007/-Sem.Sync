@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sem.Sync.LocalSyncManager.Properties {
+namespace Sem.Sync.SharedUI.Common.Properties {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace Sem.Sync.LocalSyncManager.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace Sem.Sync.LocalSyncManager.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sem.Sync.LocalSyncManager.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sem.Sync.SharedUI.Common.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Sem.Sync.LocalSyncManager.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -60,37 +60,12 @@ namespace Sem.Sync.LocalSyncManager.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap _1 {
-            get {
-                object obj = ResourceManager.GetObject("1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
-        ///   Looks up a localized string similar to all files|*.*.
+        ///   Looks up a localized string similar to File {0} was not found - please ensure the installations is complete..
         /// </summary>
-        internal static string AllFilesFileFilter {
+        public static string InstalledFileNotFound {
             get {
-                return ResourceManager.GetString("AllFilesFileFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The process you&apos;ve selected has now been finished. You might select another process or close the synchronization window..
-        /// </summary>
-        internal static string ProcessFinishedMessage {
-            get {
-                return ResourceManager.GetString("ProcessFinishedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is currently a process running - please wait until that process is finished or cancel the process..
-        /// </summary>
-        internal static string ProcessRunningMessage {
-            get {
-                return ResourceManager.GetString("ProcessRunningMessage", resourceCulture);
+                return ResourceManager.GetString("InstalledFileNotFound", resourceCulture);
             }
         }
     }

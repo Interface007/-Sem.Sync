@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Local Sync Manager"
            Manufacturer="Sven Erik Matzen"
-           Id="{A1148DF6-8550-4130-87B4-4D085F5B4E7F}"
+           Id="*"
            UpgradeCode="{7DBC91F2-890F-40c6-9B27-D0CE94DD467A}"
            Language="1033" Version="1.0.0.0" >
 
@@ -31,75 +31,75 @@
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
             <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
-              <Component Id="SyncLists"                       Guid="{C9C9BA56-9E25-4adb-9B74-FC1D5B18CAA2}">
-                <File Id='SyncLists.SimpleCopy'               Name='Template SimpleCopy.TSyncList' />
-                <File Id='SyncLists.Syncronize'               Name='Template Syncronize.TSyncList' />
+              <Component Id="SyncLists"                         Guid="{C9C9BA56-9E25-4adb-9B74-FC1D5B18CAA2}">
+                <File Id='SyncLists.SimpleCopy'                 Name='Template SimpleCopy.TSyncList' />
+                <File Id='SyncLists.Syncronize'                 Name='Template Syncronize.TSyncList' />
               </Component>
             </Directory>
 
-            <Component Id="MainExecutable"                    Guid="{7F3569D2-598D-462a-A537-9D6531FCD7E0}">
+            <Component Id="MainExecutable"                      Guid="{7F3569D2-598D-462a-A537-9D6531FCD7E0}">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
-              <!-- Because we have a user dependent shortcut, we need to use a user dependent key item - in
-                   this case a registry key. -->
-              <RegistryValue
-                        Id='MainExecutableSettings' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='Sem.Sync.LocalSyncManager.Installed'
-                        Type='string' Value='true' />
-
+              
               <!-- the main executable -->
-              <File Id='Sem.Sync.LocalSyncManager'            Name='Sem.Sync.LocalSyncManager.exe'         >
+              <File Id='Sem.Sync.LocalSyncManager'              Name='Sem.Sync.LocalSyncManager.exe'        KeyPath='yes'>
                 <Shortcut
-                    Id="MainExecutableIcon"                   Name="Sem.Sync Local Sync Manager"
-                    Directory="ProgramMenuDir" 
+                    Id="MainExecutableIcon"                     Name="Sem.Sync Local Sync Manager"
+                    Directory="ProgramMenuDir"                  Advertise="yes"
                     WorkingDirectory="INSTALLLOCATION"
-                    Icon="Sem.Sync.LocalSyncManager.exe"      IconIndex="0"  />
+                    Icon="Sem.Sync.LocalSyncManager.exe"        IconIndex="0"  />
               </File>
 
               <!-- some configuration files -->
               
-              <File Id='Sem.Sync.LocalSyncManager.exe.config' Name='Sem.Sync.LocalSyncManager.exe.config' />
+              <File Id='Sem.Sync.LocalSyncManager.exe.config'   Name='Sem.Sync.LocalSyncManager.exe.config' />
             </Component>
 
             <!-- we also should install the dependencies ;-) -->
-            <Component Id="HelperLibrary"                     Guid="{66C26CA7-CD99-4022-84E8-D72B0F49A7D8}">
-              
-              <RegistryValue  Id='HelperLibrarySettings' KeyPath='yes' Action='write'
-                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\LocalSyncManager' 
-                              Name='SemSyncHelperLibraryIsInstalled'
-                              Type='string' Value='true' />
-              
-              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                 />
-              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                  />
-              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'         />
+            <Component Id="HelperLibrary"                       Guid="{66C26CA7-CD99-4022-84E8-D72B0F49A7D8}">
+              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                   KeyPath='yes'/>
+              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                    />
+              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'           />
 
-              <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll' />
-              <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'        />
-              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'      />
-              <File Id='Sem.Sync.Connector.Google'              Name='Sem.Sync.Connector.Google.dll'          />
-              <File Id='Sem.Sync.Connector.MeinVZ'              Name='Sem.Sync.Connector.MeinVZ.dll'          />
-              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'          />
-              <File Id='Sem.Sync.Connector.MsAccess'            Name='Sem.Sync.Connector.MsAccess.dll'        />
-              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'         />
-              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'     />
-              <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'       />
-              <File Id='Sem.Sync.Connector.StayFriends'         Name='Sem.Sync.Connector.StayFriends.dll'     />
-              <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'     />
-              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'            />
+              <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll'   />
+              <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'          />
+              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'        />
+              <File Id='Sem.Sync.Connector.Google'              Name='Sem.Sync.Connector.Google.dll'            />
+              <File Id='Sem.Sync.Connector.MeinVZ'              Name='Sem.Sync.Connector.MeinVZ.dll'            />
+              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'            />
+              <File Id='Sem.Sync.Connector.MsAccess'            Name='Sem.Sync.Connector.MsAccess.dll'          />
+              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'           />
+              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'       />
+              <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'         />
+              <File Id='Sem.Sync.Connector.StayFriends'         Name='Sem.Sync.Connector.StayFriends.dll'       />
+              <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'       />
+              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'              />
             </Component>
 
             <!-- the help files are optional -->
-            <Component Id="Documentation"                     Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}" >
-              
-              <RegistryValue  Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
-                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\LocalSyncManager' 
-                              Name='DocumentationIsInstalled'
-                              Type='string' Value='true' />
-              <File Id='Sem.Sync.HelpFile'                      Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' />
-              <File Id='Sem.Sync.MappingXls'                    Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
-              <File Id='Sem.Sync.Description'                   Name='SemSync.docx'               Source='..\SemSync.docx' />
-              <File Id='Sem.Sync.DescriptionPdf'                Name='SemSync.pdf'                Source='..\SemSync.pdf' />
+            <Component Id="Documentation"                       Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}" >
+              <File Id='Sem.Sync.HelpFile'                      Name='Sem_Sync_Documentation.chm'                             Source='..\Sem_Sync_Documentation.chm' KeyPath='yes'/>
             </Component>
 
+            <!-- the description file is optional -->
+            <Component Id="Description"                         Guid="{D449F541-25EE-4DC5-88A3-AD7B61BD10BF}" >
+              <File Id='Sem.Sync.DescriptionPdf'                Name='SemSync.pdf'                                            Source='..\SemSync.pdf' KeyPath='yes'>
+                <Shortcut
+                    Id="DescriptionIcon"                        Name="Sem.Sync Description"
+                    Directory="ProgramMenuDir"                  Advertise="yes"
+                    WorkingDirectory="INSTALLLOCATION" />
+              </File>
+            </Component>
+
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
           </Directory>
         </Directory>
       </Directory>
@@ -113,12 +113,14 @@
     <Feature Id="ProductFeature" Title="Synchronization Manager" Level="1"
              Description="This is the executable (the application) together with the needed libraries.">
       <ComponentRef Id="MainExecutable" />
-      <ComponentRef Id="SyncLists"/>
+      <ComponentRef Id="SyncLists"      />
       <ComponentRef Id="HelperLibrary"  />
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Documentation" Level="1">
-      <ComponentRef Id="Documentation"  />
+      <ComponentRef Id="Documentation"      />
+      <ComponentRef Id="Description"        />
+    
     </Feature>
 
     <UIRef Id="WixUI_Mondo" />

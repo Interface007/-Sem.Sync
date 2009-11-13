@@ -94,7 +94,6 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Business\SyncWizardContext.cs" />
     <Compile Include="UI\Commands.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +148,10 @@
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.Common\Sem.Sync.SharedUI.Common.csproj">
+      <Project>{B0AD009D-21C5-4BB6-A795-4DDEBC47F4D2}</Project>
+      <Name>Sem.Sync.SharedUI.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>

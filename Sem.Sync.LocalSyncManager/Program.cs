@@ -8,6 +8,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SharedUI.Common;
+using Sem.Sync.SharedUI.WinForms.Tools;
+
 namespace Sem.Sync.LocalSyncManager
 {
     using System;
@@ -31,7 +34,11 @@ namespace Sem.Sync.LocalSyncManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Application.Run(new SyncWizard { DataContext = new SyncWizardContext() });
+            Application.Run(
+                new SyncWizard
+                    {
+                        DataContext = new SyncWizardContext<UiDispatcher>()
+                    });
         }
     }
 }

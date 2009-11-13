@@ -1,16 +1,26 @@
-﻿namespace Sem.Sync.Starter
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProcessSelection.xaml.cs" company="Sven Erik Matzen">
+//   Sven Erik Matzen
+// </copyright>
+// <summary>
+//   Interaction logic for Window1.xaml
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Starter
 {
     using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
     
-    using Sem.Sync.SharedUI.Common;
+    using SharedUI.Common;
+    using SharedUI.WinForms.Tools;
 
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class ProcessSelection
     {
         /// <summary>
         /// The height of the buttons for the connectors
@@ -22,29 +32,30 @@
         /// </summary>
         private const int ButtonHeightConnectors = 60;
 
-        public Window1()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessSelection"/> class.
+        /// </summary>
+        public ProcessSelection()
         {
             InitializeComponent();
+            this.DataContext = new SyncWizardContext<UiDispatcher>();
 
             this.Network = new List<Button>();
-            this.DataContext = new SyncWizardContext();
-
-            foreach (var source in ((SyncWizardContext)this.DataContext).ClientsSource)
+            foreach (var source in ((SyncWizardContext<UiDispatcher>)this.DataContext).SyncWorkflowData)
             {
                 var button = new Button
                 {
                     Width = ButtonWidthConnectors,
                     Height = ButtonHeightConnectors,
                     Content = source.Value,
+                    Tag = source,
                 };
 
-                button.Click += ButtonClickHandler;
+                button.Click += this.ButtonClickHandler;
 
                 this.Network.Add(button);
                 LayoutRoot.Children.Add(button);
             }
-
-            this.ArrangeElements();
         }
 
         /// <summary>
@@ -53,24 +64,39 @@
         private List<Button> Network { get; set; }
 
         /// <summary>
+        /// arranges the buttons on resizing the window
+        /// </summary>
+        /// <param name="sizeInfo"> The size info. </param>
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            this.ArrangeElements();
+            base.OnRenderSizeChanged(sizeInfo);
+        }
+
+        /// <summary>
         /// Handels the click event for the buttons
         /// </summary>
         /// <param name="sender"> The sender object. </param>
         /// <param name="e"> The event arguments. </param>
-        private static void ButtonClickHandler(object sender, EventArgs e)
+        private void ButtonClickHandler(object sender, EventArgs e)
         {
           var clicked = (Button) sender;
-          MessageBox.Show("Button's name is: " + clicked.Name);
+          var process = (KeyValuePair<string, string>) clicked.Tag;
+          if (MessageBox.Show("Starting process: " + process.Value, "Sync-Process", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+          {
+              ((SyncWizardContext<UiDispatcher>)this.DataContext).Run(process.Key);
+          }
         }
-        
+
         /// <summary>
         /// Arranges element around the local store
         /// </summary>
         private void ArrangeElements()
         {
             // ReSharper disable PossibleLossOfFraction
-            var midX = (int)(((this.Width - ButtonWidthConnectors) / 2) * 0.8);
-            var midY = (int)(((this.Height - ButtonHeightConnectors) / 2) * 0.8);
+            var midX = (int)((this.LayoutRoot.ActualWidth - ButtonWidthConnectors) / 1.3);
+            var midY = (int)((this.LayoutRoot.ActualHeight - ButtonHeightConnectors) / 1.3);
+
             var count = this.Network.Count;
 
             // ReSharper restore PossibleLossOfFraction
@@ -80,13 +106,11 @@
                 var index = 360 * i * Math.PI / 180 / count;
                 button.Margin = new Thickness
                 {
-                    Left = (int)((midX * 1.2) + (midX * Math.Cos(index))),
-                    Top = (int)((midY * 1.2) + (midY * Math.Sin(index))),
+                    Left = (int)(midX * Math.Cos(index)),
+                    Top = (int)(midY * Math.Sin(index)),
                 };
                 i++;
             }
-
-            ////btnLocalStore.Location = new Point((this.Width - btnLocalStore.Width) / 2, (this.Height - btnLocalStore.Height) / 2);
         }
     }
 }

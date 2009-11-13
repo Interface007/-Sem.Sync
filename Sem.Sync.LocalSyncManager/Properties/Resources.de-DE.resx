@@ -120,9 +120,6 @@
   <data name="AllFilesFileFilter" xml:space="preserve">
     <value>Alle Dateien|*.*</value>
   </data>
-  <data name="InstalledFileNotFound" xml:space="preserve">
-    <value>Die Datei {0} konnte nicht gefunden werden. Bitte stellen Sie sicher, dass die Installation komplett ist.</value>
-  </data>
   <data name="ProcessFinishedMessage" xml:space="preserve">
     <value>Der gewählte Prozess wurde abgeschlossen. Sie können das Programm jetzt schließen, oder einen neuen Prozess wählen.</value>
   </data>

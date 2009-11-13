@@ -28,7 +28,7 @@ namespace Sem.GenericHelpers.Entities
         /// </summary>
         static Credentials()
         {
-            Credentials.Entropy = Encoding.UTF8.GetBytes("Sem.Sync");
+            Entropy = Encoding.UTF8.GetBytes("Sem.Sync");
         }
 
         /// <summary>

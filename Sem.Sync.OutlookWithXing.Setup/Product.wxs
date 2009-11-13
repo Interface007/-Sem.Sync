@@ -37,69 +37,69 @@
             
             
             
-            <Component Id="MainExecutable"                    Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
+            <Component Id="MainExecutable"                      Guid="1AA081B5-F2BE-48CA-8A83-E0C61D890142">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
-              <!-- Because we have a user dependent shortcut, we need to use a user dependent key item - in
-                   this case a registry key. -->
-              <RegistryValue
-                        Id='MainExecutableSettings' KeyPath='yes' Action='write'
-                        Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync' Name='SemSyncOutlookWithXingIsInstalled'
-                        Type='string' Value='true' />
 
               <!-- the main executable -->
-              <File Id='SemSyncOutlookWithXing'               Name='Sem.Sync.OutlookWithXing.exe'          >
+              <File Id='SemSyncOutlookWithXing'                 Name='Sem.Sync.OutlookWithXing.exe'         KeyPath='yes'>
                 <Shortcut
-                    Id="SemSyncOutlookWithXingIcon"           Name="Sem.Sync Xing to Outlook"
-                    Directory="ProgramMenuDir" 
+                    Id="SemSyncOutlookWithXingIcon"             Name="Sem.Sync Xing to Outlook"
+                    Directory="ProgramMenuDir"                  Advertise="yes"
                     WorkingDirectory="INSTALLLOCATION"
-                    Icon="Sem.Sync.OutlookWithXing.exe"       IconIndex="0"  />
+                    Icon="Sem.Sync.OutlookWithXing.exe"         IconIndex="0"  />
               </File>
 
               <!-- some configuration files -->
-              <File Id='commands.xml'                         Name='commands.xml'                         />
-              <File Id='Sem.Sync.OutlookWithXing.exe.config'  Name='Sem.Sync.OutlookWithXing.exe.config'  />
+              <File Id='commands.xml'                           Name='commands.xml'                         />
+              <File Id='Sem.Sync.OutlookWithXing.exe.config'    Name='Sem.Sync.OutlookWithXing.exe.config'  />
             </Component>
 
             <!-- we also should install the dependencies ;-) -->
-            <Component Id="HelperLibrary"                     Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
+            <Component Id="HelperLibrary"                       Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
+              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                   KeyPath='yes'/>
+              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                    />
+              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'           />
               
-              <RegistryValue  Id='HelperLibrarySettings' KeyPath='yes' Action='write'
-                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\OutlookWithXing' 
-                              Name='SemSyncHelperLibraryIsInstalled'
-                              Type='string' Value='true' />
+              
+              
+              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'        />
 
-              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                 />
-              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                  />
-              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'         />
+              
+              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'            />
+
+              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'           />
+              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'       />
               
               
               
-              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'      />
-              
-              
-              
-              
-              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'         />
-              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'     />
-              
-              
-              
-              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'            />
+              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'              />
             </Component>
 
+            
+            
+            
+            
+            
             <!-- the help files are optional -->
-            <Component Id="Documentation"                     Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
-              
-              <RegistryValue  Id='HelperLibraryDocumentation' KeyPath='yes' Action='write'
-                              Root='HKCU' Key='Software\Sven Erik Matzen\Sem.Sync\OutlookWithXing' 
-                              Name='DocumentationIsInstalled'
-                              Type='string' Value='true' />
-              
-              <File Id='Sem.Sync.MappingXls'                    Name='SemSync-Mapping.xlsx'       Source='..\SemSync-Mapping.xlsx' />
-              <File Id='Sem.Sync.Description'                   Name='SemSync.docx'               Source='..\SemSync.docx' />
-              <File Id='Sem.Sync.DescriptionPdf'                Name='SemSync.pdf'                Source='..\SemSync.pdf' />
+            <Component Id="Description"                         Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
+              <File Id='Sem.Sync.DescriptionPdf'                Name='SemSync.pdf'                                            Source='..\SemSync.pdf' KeyPath='yes'>
+                <Shortcut
+                    Id="DescriptionIcon"                        Name="Sem.Sync Description"
+                    Directory="ProgramMenuDir"                  Advertise="yes"
+                    WorkingDirectory="INSTALLLOCATION" />
+              </File>
             </Component>
 
+         
+          
+          
+          
+          
+          
+          
+          
+          
+          
           </Directory>
         </Directory>
       </Directory>
@@ -118,7 +118,9 @@
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
-      <ComponentRef Id="Documentation"  />
+      <ComponentRef Id="Documentation"      />
+      <ComponentRef Id="Description"        />
+
     </Feature>
 
     <UIRef Id="WixUI_Mondo" />

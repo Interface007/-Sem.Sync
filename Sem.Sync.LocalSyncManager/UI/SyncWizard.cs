@@ -15,11 +15,13 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.IO;
     using System.Windows.Forms;
 
-    using Business;
-    using GenericHelpers.EventArgs;
-    using Properties;
-    using SyncBase;
-    using Tools;
+    using Sem.GenericHelpers.EventArgs;
+    using Sem.Sync.LocalSyncManager.Business;
+    using Sem.Sync.LocalSyncManager.Properties;
+    using Sem.Sync.LocalSyncManager.Tools;
+    using Sem.Sync.SharedUI.Common;
+    using Sem.Sync.SharedUI.WinForms.Tools;
+    using Sem.Sync.SyncBase;
 
     /// <summary>
     /// User interface for wizard-like interaction
@@ -37,7 +39,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Gets or sets the data context.
         /// </summary>
-        public SyncWizardContext DataContext { get; set; }
+        public SyncWizardContext<UiDispatcher> DataContext { get; set; }
 
         /// <summary>
         /// Setup of the event handler routing and "databinding"
@@ -74,7 +76,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
-            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenWorkingFolder();
+            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext<UiDispatcher>.OpenWorkingFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
@@ -272,12 +274,12 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <returns> the user entered path to a file </returns>
         private string AskForDestinationFile(string currentFileName)
         {
-            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
-            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.DefaultExt = SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
             this.saveFileDialog1.FilterIndex = 0;
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.FileName = currentFileName;
-            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
+            this.saveFileDialog1.InitialDirectory = SyncWizardContext<UiDispatcher>.WorkingFolderData;
             return
                 this.saveFileDialog1.ShowDialog() == DialogResult.OK
                 ? this.saveFileDialog1.FileName
@@ -294,7 +296,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
-                this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
+                this.folderBrowser.SelectedPath = SyncWizardContext<UiDispatcher>.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.folderBrowser.SelectedPath;
