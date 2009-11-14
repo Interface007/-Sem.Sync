@@ -448,25 +448,25 @@ namespace Sem.Sync.Connector.Outlook
                 dirty = true;
             }
 
-            if (stdOldContact.Name.FirstName != stdNewContact.Name.FirstName)
+            if (stdOldContact.Name == null || stdOldContact.Name.FirstName != stdNewContact.Name.FirstName)
             {
                 outlookContact.FirstName = stdNewContact.Name.FirstName;
                 dirty = true;
             }
 
-            if (stdOldContact.Name.MiddleName != stdNewContact.Name.MiddleName)
+            if (stdOldContact.Name == null || stdOldContact.Name.MiddleName != stdNewContact.Name.MiddleName)
             {
                 outlookContact.MiddleName = stdNewContact.Name.MiddleName;
                 dirty = true;
             }
 
-            if (stdOldContact.Name.LastName != stdNewContact.Name.LastName)
+            if (stdOldContact.Name == null || stdOldContact.Name.LastName != stdNewContact.Name.LastName)
             {
                 outlookContact.LastName = stdNewContact.Name.LastName;
                 dirty = true;
             }
 
-            if (stdOldContact.Name.AcademicTitle != stdNewContact.Name.AcademicTitle)
+            if (stdOldContact.Name == null || stdOldContact.Name.AcademicTitle != stdNewContact.Name.AcademicTitle)
             {
                 outlookContact.Title = stdNewContact.Name.AcademicTitle;
                 dirty = true;
