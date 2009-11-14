@@ -459,6 +459,24 @@ namespace Sem.GenericHelpers
                 using (var receiveStream = this.PostResponseStream(uri, postData, out encoding))
                 {
                     result = ReadStreamToString(receiveStream, encoding);
+
+                    var redirectUrl = string.Empty;
+                    foreach (var extractor in RedirectExtractors)
+                    {
+                        var redirectMatch = extractor.Match(result);
+                        if (redirectMatch.Groups.Count <= 1)
+                        {
+                            continue;
+                        }
+
+                        redirectUrl = redirectMatch.Groups[1].ToString().Replace(@"\/", "/");
+                        break;
+                    }
+
+                    if (!string.IsNullOrEmpty(redirectUrl))
+                    {
+                        result = this.GetContent(redirectUrl, name, url);
+                    }
                 }
 
                 this.WriteToCache(fileName, result, uri);

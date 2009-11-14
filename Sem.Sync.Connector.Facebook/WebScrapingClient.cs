@@ -36,11 +36,18 @@ namespace Sem.Sync.Connector.Facebook
     public class WebScrapingClient : WebScrapingBaseClient
     {
         /// <summary>
+        /// magic secret for facebook
+        /// </summary>
+        private readonly string facebookLsd;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebScrapingClient"/> class.
         /// </summary>
         public WebScrapingClient()
             : base("http://www.facebook.com/")
         {
+            var content = this.HttpRequester.GetContent(string.Empty);
+            this.facebookLsd = Regex.Match(content, @"name=""lsd"" value=""(?<lsd>.*?)"" autocomplete=""off""").Groups["lsd"].ToString();
         }
 
         /// <summary>
@@ -60,8 +67,8 @@ namespace Sem.Sync.Connector.Facebook
                         HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1",
                         HttpDetectionStringLogOnFailed = "no such string available",
                         ExtractorProfilePictureUrl = @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""",
-                        ExtractorFriendUrls = @"""members"":\[((?<id>\d*)[,\]])*",
-                        HttpDataLogOnRequest = "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&login_ab_group=0&email={0}&pass={1}&pass_placeholder=Passwort&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=WTu8R",
+                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*",
+                        HttpDataLogOnRequest = "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" + this.facebookLsd,
                     };
             }
         }

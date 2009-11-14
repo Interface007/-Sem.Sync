@@ -71,7 +71,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// regex to extract the iv for the log on
         /// </summary>
-        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-z0-9]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
+        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-zA-Z0-9]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
 
         /// <summary>
         /// regex to extract additional information
@@ -239,7 +239,7 @@ namespace Sem.Sync.Connector.MeinVZ
                         break;
 
                     case "Geburtstag:":
-                        result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
                         break;
 
                     case "Skype:":
@@ -328,7 +328,7 @@ namespace Sem.Sync.Connector.MeinVZ
                 // this will succeed if we have a valid cookie
                 if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
                 {
-                    if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-z]*)\"", out result))
+                    if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-zA-Z]*)\"", out result))
                     {
                         break;
                     }

@@ -14,14 +14,17 @@ namespace Sem.Sync.LocalSyncManager.UI
     using System.Drawing;
     using System.IO;
     using System.Windows.Forms;
+    
+    using Business;
+    using GenericHelpers.EventArgs;
 
-    using Sem.GenericHelpers.EventArgs;
-    using Sem.Sync.LocalSyncManager.Business;
-    using Sem.Sync.LocalSyncManager.Properties;
-    using Sem.Sync.LocalSyncManager.Tools;
-    using Sem.Sync.SharedUI.Common;
-    using Sem.Sync.SharedUI.WinForms.Tools;
-    using Sem.Sync.SyncBase;
+    using Properties;
+
+    using SharedUI.Common;
+    using SharedUI.WinForms.Tools;
+    using SyncBase;
+    
+    using Tools;
 
     /// <summary>
     /// User interface for wizard-like interaction
@@ -146,7 +149,13 @@ namespace Sem.Sync.LocalSyncManager.UI
                         {
                             using (var imageStream = new MemoryStream(currentContact.PictureData))
                             {
-                                this.currentPersonImage.Image = new Bitmap(imageStream);
+                                try
+                                {
+                                    this.currentPersonImage.Image = new Bitmap(imageStream);
+                                }
+                                catch (ArgumentException)
+                                {
+                                }
                             }
 
                             this.currentPersonImage.Visible = true;
