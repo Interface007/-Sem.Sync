@@ -102,6 +102,11 @@
       <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
+      <Name>Sem.Sync.OutlookWithXing</Name>
+      <Project>{ab6d712c-8e4b-46f9-8ac8-bf65f3da1b79}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Name>Sem.Sync.SharedUI.WinForms</Name>
       <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>

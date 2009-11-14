@@ -118,7 +118,7 @@
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
-      <ComponentRef Id="Documentation"      />
+      <ComponentRef Id="HelperLibrary"      />
       <ComponentRef Id="Description"        />
 
     </Feature>
