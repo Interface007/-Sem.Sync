@@ -128,7 +128,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SharedUI.Common", 
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 43
+		SccNumberOfProjects = 45
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -301,6 +301,14 @@ Global
 		SccProjectTopLevelParentUniqueName42 = SemSync.sln
 		SccProjectName42 = Sem.Sync.Connector.SonyEricsson
 		SccLocalPath42 = Sem.Sync.Connector.SonyEricsson
+		SccProjectUniqueName43 = Sem.Sync.SharedUI.Common\\Sem.Sync.SharedUI.Common.csproj
+		SccProjectTopLevelParentUniqueName43 = SemSync.sln
+		SccProjectName43 = Sem.Sync.SharedUI.Common
+		SccLocalPath43 = Sem.Sync.SharedUI.Common
+		SccProjectUniqueName44 = Sem.Sync.Starter\\Sem.Sync.Starter.csproj
+		SccProjectTopLevelParentUniqueName44 = SemSync.sln
+		SccProjectName44 = Sem.Sync.Starter
+		SccLocalPath44 = Sem.Sync.Starter
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
