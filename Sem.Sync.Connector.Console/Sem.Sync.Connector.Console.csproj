@@ -18,7 +18,7 @@
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>FALSE</Optimize>
     <OutputPath>..\bin</OutputPath>
@@ -37,7 +37,7 @@
     <DocumentationFile>bin\Release\Sem.Sync.Connector.Console.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
@@ -83,7 +83,7 @@
   </Target>
   -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>

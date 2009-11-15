@@ -20,7 +20,7 @@
     </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>FALSE</Optimize>
     <OutputPath>..\bin</OutputPath>
@@ -56,7 +56,7 @@ oft.Reliability#CA2004;+!Microsoft.Reliability#CA2006;+!Microsoft.Security#CA211
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\Debug\ExpressionSerialization.XML</DocumentationFile>
@@ -71,7 +71,7 @@ oft.Reliability#CA2004;+!Microsoft.Reliability#CA2006;+!Microsoft.Security#CA211
     <Optimize>TRUE</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
-    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\Debug\ExpressionSerialization.XML</DocumentationFile>
