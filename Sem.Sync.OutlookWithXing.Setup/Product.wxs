@@ -128,7 +128,7 @@
 
     <WixVariable Id="WixUILicenseRtf" Value="UI-Elements\License.rtf" />
 
-    <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\Sem.Sync.OutlookWithXing\bin\Release\Sem.Sync.OutlookWithXing.exe" />
+    <Icon Id="Sem.Sync.OutlookWithXing.exe" SourceFile="..\bin\Sem.Sync.OutlookWithXing.exe" />
 
   </Product>
 </Wix>

@@ -98,16 +98,7 @@ namespace Sem.Sync.Connector.Facebook
             foreach (Match match in values)
             {
                 var key = match.Groups[1].ToString();
-                var value = match.Groups[2].ToString();
-                if (value.Contains(">"))
-                {
-                    value = value.Substring(value.IndexOf('>') + 1);
-                }
-
-                if (value.Contains("<"))
-                {
-                    value = value.Substring(0, value.IndexOf('<'));
-                }
+                string value = GetValue(match);
 
                 result.InternalSyncData = new SyncData();
 
@@ -141,27 +132,7 @@ namespace Sem.Sync.Connector.Facebook
                         break;
 
                     case "relationship_status":
-                        switch (value)
-                        {
-                            case "Single":
-                                result.RelationshipStatus = RelationshipStatus.Single;
-                                break;
-
-                            case "In einer Beziehung mit ":
-                            case "In einer Beziehung":
-                                result.RelationshipStatus = RelationshipStatus.InARelationship;
-                                break;
-
-                            case "Verheiratet mit ":
-                            case "Verheiratet":
-                                result.RelationshipStatus = RelationshipStatus.Married;
-                                break;
-
-                            default:
-                                Tools.DebugWriteLine(key + " = " + value);
-                                break;
-                        }
-
+                        result.RelationshipStatus = GetRelationshipStatus(key, value);
                         break;
 
                     case "networks":
@@ -198,6 +169,60 @@ namespace Sem.Sync.Connector.Facebook
 
             // TODO: download the image of the contact [update documentation chapter Facebook]
             return result;
+        }
+
+        /// <summary>
+        /// Determines the ralationship status by interpreting the value from facebook
+        /// </summary>
+        /// <param name="key"> The key of the status. </param>
+        /// <param name="value"> The value of the status. </param>
+        /// <returns> the relationship status </returns>
+        private static RelationshipStatus GetRelationshipStatus(string key, string value)
+        {
+            var status = RelationshipStatus.Undefined;
+            switch (value)
+            {
+                case "Single":
+                    status = RelationshipStatus.Single;
+                    break;
+
+                case "In einer Beziehung mit ":
+                case "In einer Beziehung":
+                    status = RelationshipStatus.InARelationship;
+                    break;
+
+                case "Verheiratet mit ":
+                case "Verheiratet":
+                    status = RelationshipStatus.Married;
+                    break;
+
+                default:
+                    Tools.DebugWriteLine(key + " = " + value);
+                    break;
+            }
+
+            return status;
+        }
+
+        /// <summary>
+        /// Extracts the value from a match.
+        /// </summary>
+        /// <param name="match"> The match containing the value. </param>
+        /// <returns> the extracted value </returns>
+        private static string GetValue(Match match)
+        {
+            var value = match.Groups[2].ToString();
+            if (value.Contains(">"))
+            {
+                value = value.Substring(value.IndexOf('>') + 1);
+            }
+
+            if (value.Contains("<"))
+            {
+                value = value.Substring(0, value.IndexOf('<'));
+            }
+
+            return value;
         }
     }
 }

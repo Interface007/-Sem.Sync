@@ -12,7 +12,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
     using System.Collections.Generic;
     using System.IO;
 
-    using Microsoft.Samples.ServiceHosting.StorageClient;
+    using Microsoft.WindowsAzure.StorageClient;
 
     using SyncBase;
 
@@ -35,7 +35,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
         /// <summary>
         /// The BlobContainer
         /// </summary>
-        private readonly BlobContainer blobContainer;
+        private readonly CloudBlobContainer blobContainer;
         #endregion
 
         #region Constructor
@@ -45,7 +45,7 @@ namespace Sem.Sync.Connector.CloudStorage.Helper
         /// <param name="containerName">Name of the container.</param>
         public BlobStorageManager(string containerName)
         {
-            this.accountInfo = StorageAccountInfo.GetDefaultBlobStorageAccountFromConfiguration();
+            this.accountInfo = Microsoft.WindowsAzure.CloudStorageAccount.FromConfigurationSetting("Default");
             this.blobStorage = BlobStorage.Create(this.accountInfo);
 
             this.blobContainer = this.blobStorage.GetBlobContainer(containerName);

@@ -128,7 +128,7 @@
 
     <WixVariable Id="WixUILicenseRtf" Value="UI-Elements\License.rtf" />
 
-    <Icon Id="Sem.Sync.LocalSyncManager.exe" SourceFile="..\Sem.Sync.LocalSyncManager\bin\Release\Sem.Sync.LocalSyncManager.exe" />
+    <Icon Id="Sem.Sync.LocalSyncManager.exe" SourceFile="..\bin\Sem.Sync.LocalSyncManager.exe" />
 
   </Product>
 </Wix>

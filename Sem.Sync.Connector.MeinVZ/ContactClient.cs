@@ -61,17 +61,22 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// regex to extract the form key for the log on
         /// </summary>
-        private const string ExtractorFormKey = "<input type=\"hidden\" name=\"formkey\" value=\"([0-9a-z]*)\" />";
+        private const string ExtractorFormKey = "<input type=\"hidden\" name=\"formkey\" value=\"([a-zA-Z0-9_-]*)\" />";
 
         /// <summary>
         /// regex to extract the iv for the log on
         /// </summary>
-        private const string ExtractorIv = "<input type=\"hidden\" name=\"iv\" value=\"([0-9a-z]*)\" />";
+        private const string ExtractorIv = "<input type=\"hidden\" name=\"iv\" value=\"([a-zA-Z0-9_-]*)\" />";
 
         /// <summary>
-        /// regex to extract the iv for the log on
+        /// regex to extract the url to the "Friends List"
         /// </summary>
-        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-zA-Z0-9]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
+        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-zA-Z0-9_-]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
+
+        /// <summary>
+        /// regex to extract the urls to the friends profiles
+        /// </summary>
+        private const string ExtractorProfileUrls = "<a href=\"(/Profile/[a-zA-Z0-9_-]*)\"";
 
         /// <summary>
         /// regex to extract additional information
@@ -328,7 +333,7 @@ namespace Sem.Sync.Connector.MeinVZ
                 // this will succeed if we have a valid cookie
                 if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
                 {
-                    if (this.httpRequester.GetExtract(extractedData[0], "<a href=\"(/Profile/[0-9a-zA-Z]*)\"", out result))
+                    if (this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
                     {
                         break;
                     }

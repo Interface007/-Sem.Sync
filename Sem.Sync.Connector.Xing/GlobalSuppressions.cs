@@ -18,3 +18,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "vCards", Scope = "resource", Target = "Sem.Sync.Connector.Xing.Properties.Resources.resources")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Scope = "member", Target = "Sem.Sync.Connector.Xing.XingContactReference.#ProfileUrl")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Scope = "member", Target = "Sem.Sync.Connector.Xing.XingContactReference.#vCardUrl")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "vCard", Scope = "member", Target = "Sem.Sync.Connector.Xing.XingContactReference.#vCardUrl")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "v", Scope = "member", Target = "Sem.Sync.Connector.Xing.XingContactReference.#vCardUrl")]
