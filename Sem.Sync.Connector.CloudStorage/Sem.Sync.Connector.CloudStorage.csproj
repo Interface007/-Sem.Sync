@@ -69,6 +69,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StorageClient, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sem.Sync.Cloud\Bin\StorageClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -90,7 +94,7 @@
     <Compile Include="Helper\BlobStorageManager.cs" />
     <Compile Include="Helper\Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BlobStorage.cs" />
+    <Compile Include="BlobStorageStdClient.cs" />
     <Compile Include="QueueStorage.cs" />
     <Compile Include="StubStorage.cs" />
     <Compile Include="TableStorage.cs" />
@@ -99,10 +103,6 @@
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Cloud.Storage\StorageClientApi\StorageClient.csproj">
-      <Project>{C6F30C10-E1C2-4327-BB6B-3160B479CCA1}</Project>
-      <Name>StorageClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>

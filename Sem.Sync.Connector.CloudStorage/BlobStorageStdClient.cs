@@ -22,7 +22,7 @@ namespace Sem.Sync.Connector.CloudStorage
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = false)]
     [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, DisplayName = "Azure Cloud Blob Storage")]
-    public class BlobStorage : StdClient
+    public class BlobStorageStdClient : StdClient
     {
         /// <summary>
         /// Blob container name

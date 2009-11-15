@@ -93,7 +93,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
+      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -288,17 +288,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sem.Azure.Storage\Sem.Azure.Storage.csproj">
-      <Project>{D2903196-B5F9-43CC-9B43-85CDFF0D6268}</Project>
-      <Name>Sem.Azure.Storage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Cloud.Storage\StorageClientApi\StorageClient.csproj">
-      <Project>{C6F30C10-E1C2-4327-BB6B-3160B479CCA1}</Project>
-      <Name>StorageClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>

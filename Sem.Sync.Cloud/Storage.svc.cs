@@ -12,12 +12,10 @@ namespace Sem.Sync.Cloud
     using System;
     using System.Collections.Generic;
 
-    using Azure.Storage;
+    using Connector.CloudStorage;
 
     using SyncBase;
     using SyncBase.Helpers;
-
-    using BlobStorage = Connector.CloudStorage.BlobStorage;
 
     /// <summary>
     /// Implements the service to read/write contacts to/from the blob storage
@@ -31,11 +29,10 @@ namespace Sem.Sync.Cloud
         /// <returns> a list of <see cref="StdContact"/> </returns>
         public ContactListContainer GetAll(string blobId)
         {
-            AccessControlHelper.DemandActionClaim("Contacts.GetAll");
             try
             {
                 // this can be replaced by any class inheriting from StdClient
-                var client = new BlobStorage();
+                var client = new BlobStorageStdClient();
                 var stdContacts = new ContactListContainer
                 {
                     ContactList = client.GetAll(blobId ?? "default").ToContacts()
@@ -68,11 +65,10 @@ namespace Sem.Sync.Cloud
         /// <returns> True if the operation was successful </returns>
         public BooleanResultContainer WriteFullList(ContactListContainer elements, string blobId, bool skipIfExisting)
         {
-            AccessControlHelper.DemandActionClaim("Contacts.WriteAll");
             try
             {
                 // this can be replaced by any class inheriting from StdClient
-                var client = new BlobStorage();
+                var client = new BlobStorageStdClient();
                 client.WriteRange(elements.ContactList.ToStdElement(), blobId ?? "default");
             }
             catch (Exception ex)
@@ -106,7 +102,6 @@ namespace Sem.Sync.Cloud
         /// may also contain technical messages. </returns>
         public BooleanResultContainer DeleteBlob(string blobId)
         {
-            AccessControlHelper.DemandActionClaim("Contacts.DeleteAll");
             return new BooleanResultContainer
                 {
                     Messages = new List<TechnicalMessage>
