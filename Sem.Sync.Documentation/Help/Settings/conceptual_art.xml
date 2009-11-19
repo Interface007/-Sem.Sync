@@ -25,5 +25,9 @@
   - The altText element is optional.
   -->
 <root>
-  <!-- insert <item> elements here -->
+  <item id="SemSyncImage">
+    <image file="SemSync-2a.png">
+      <altText>SemSync</altText>
+    </image>
+  </item>
 </root>

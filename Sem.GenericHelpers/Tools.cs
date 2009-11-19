@@ -22,6 +22,7 @@ namespace Sem.GenericHelpers
 
     using Microsoft.Win32;
 
+    using Sem.GenericHelpers.Attributes;
     using Sem.GenericHelpers.Entities;
 
     /// <summary>
@@ -200,7 +201,7 @@ namespace Sem.GenericHelpers
                     }
                     catch (Exception ex)
                     {
-                        Tools.DebugWriteLine(ex.Message);
+                        DebugWriteLine(ex.Message);
                     }
                 }
             }
@@ -338,7 +339,7 @@ namespace Sem.GenericHelpers
                     else
                     {
                         var indexerName = ((DefaultMemberAttribute)indexerObject[0]).MemberName;
-                        PropertyInfo indexerPropertyInfo = valueType.GetProperty(indexerName);
+                        var indexerPropertyInfo = valueType.GetProperty(indexerName);
 
                         if (valueType.Name == "Dictionary`2")
                         {
@@ -442,84 +443,94 @@ namespace Sem.GenericHelpers
             }
 
             var propInfo = type.GetProperty(propName);
-            if (propInfo != null)
+            if (propInfo == null)
             {
-                if (pathToProperty.Contains('.'))
-                {
-                    if (propInfo.GetValue(objectToWriteTo, null) == null)
-                    {
-                        propInfo.SetValue(objectToWriteTo, propInfo.PropertyType.GetConstructor(new Type[] { }).Invoke(null), null);
-                    }
+                return;
+            }
 
-                    SetPropertyValue(
-                        propInfo.GetValue(objectToWriteTo, null),
-                        pathToProperty.Substring(pathToProperty.IndexOf('.') + 1),
-                        valueString);
-                    return;
+            if (pathToProperty.Contains('.'))
+            {
+                if (propInfo.GetValue(objectToWriteTo, null) == null)
+                {
+                    var constructor = propInfo.PropertyType.GetConstructor(new Type[] { });
+                    if (constructor == null)
+                    {
+                        return;
+                    }
+                        
+                    propInfo.SetValue(objectToWriteTo, constructor.Invoke(null), null);
                 }
 
-                // we have to deal with special type data (int, datetime) that need to be
-                // converted back from string - there is no automated cast in SetValue.
-                if (!string.IsNullOrEmpty(valueString))
-                {
-                    var propType = propInfo.PropertyType;
-                    var destinationType = (propType.BaseType == typeof(Enum)) ? "Enum" : propInfo.PropertyType.Name;
+                SetPropertyValue(
+                    propInfo.GetValue(objectToWriteTo, null),
+                    pathToProperty.Substring(pathToProperty.IndexOf('.') + 1),
+                    valueString);
+                return;
+            }
 
-                    switch (destinationType)
+            // we have to deal with special type data (int, datetime) that need to be
+            // converted back from string - there is no automated cast in SetValue.
+            if (string.IsNullOrEmpty(valueString))
+            {
+                return;
+            }
+
+            var propType = propInfo.PropertyType;
+            var destinationType = (propType.BaseType == typeof(Enum)) ? "Enum" : propInfo.PropertyType.Name;
+
+            switch (destinationType)
+            {
+                case "DateTime":
+                    propInfo.SetValue(
+                        objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
+                    break;
+
+                case "Int32":
+                    int theValue;
+                    if (int.TryParse(valueString, NumberStyles.Any, CultureInfo.CurrentCulture, out theValue))
                     {
-                        case "DateTime":
-                            propInfo.SetValue(
-                                objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
-                            break;
+                        propInfo.SetValue(
+                            objectToWriteTo, theValue, null);
+                    }
+                    else
+                    {
+                        DebugWriteLine(string.Format(CultureInfo.CurrentCulture, "non-parsable int: {0}", valueString));
+                    }
 
-                        case "Int32":
-                            int theValue;
-                            if (int.TryParse(valueString, NumberStyles.Any, CultureInfo.CurrentCulture, out theValue))
-                            {
-                                propInfo.SetValue(
-                                    objectToWriteTo, theValue, null);
-                            }
-                            else
-                            {
-                                DebugWriteLine(string.Format(CultureInfo.CurrentCulture, "non-parsable int: {0}", valueString));
-                            }
+                    break;
 
-                            break;
+                case "Enum":
+                    propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                    break;
 
-                        case "Enum":
-                            propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
-                            break;
+                case "Guid":
+                    propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
+                    break;
 
-                        case "Guid":
-                            propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
-                            break;
+                case "String":
+                    if (valueString == "{emptystring}")
+                    {
+                        propInfo.SetValue(objectToWriteTo, string.Empty, null);
+                        break;                                
+                    }
 
-                        case "String":
-                            if (valueString == "{emptystring}")
-                            {
-                                propInfo.SetValue(objectToWriteTo, string.Empty, null);
-                                break;                                
-                            }
-
-                            propInfo.SetValue(objectToWriteTo, valueString, null);
-                            break;
+                    propInfo.SetValue(objectToWriteTo, valueString, null);
+                    break;
                     
-                        case "List`1":
+                case "List`1":
 
-                            var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
-                            if (list != null)
-                            {
-                                list.AddRange(valueString.Split('|'));
-                                propInfo.SetValue(objectToWriteTo, list, null);
-                            }
-
-                            break;
-
-                        default:
-                            propInfo.SetValue(objectToWriteTo, valueString, null);
-                            break;
+                    var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
+                    if (list != null)
+                    {
+                        list.AddRange(valueString.Split('|'));
+                        propInfo.SetValue(objectToWriteTo, list, null);
                     }
-                }
+
+                    break;
+
+                default:
+                    propInfo.SetValue(objectToWriteTo, valueString, null);
+                    break;
             }
         }
 
@@ -569,7 +580,89 @@ namespace Sem.GenericHelpers
         [Conditional("DEBUG")]
         public static void DebugWriteLine(string message)
         {
-            Console.WriteLine(message);
+            DebugWriteLine(true, message);
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="condition"> The condition (must be true in order to write the line). </param>
+        /// <param name="message"> The message to be logged.  </param>
+        /// <param name="parameters"> The parameters to be inserted into the message. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(bool condition, string message, params object[] parameters)
+        {
+            if (condition)
+            {
+                DebugWriteLine(message, parameters);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
+        /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
+        /// </summary>
+        /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
+        /// <param name="type">the type to be inspected</param>
+        /// <returns>a list of strings with the paths of properties detected</returns>
+        public static List<string> GetPropertyList(string parentName, Type type)
+        {
+            if (parentName == null)
+            {
+                throw new ArgumentNullException("parentName");
+            }
+
+            if (parentName.Length > 0)
+            {
+                parentName += ".";
+            }
+
+            var resultList = new List<string>();
+
+            var methodsToAdd =
+                from x in type.GetMethods()
+                where
+                x.GetParameters().Length == 0
+                && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
+                select parentName + x.Name + "()";
+
+            resultList.AddRange(methodsToAdd.ToList());
+
+            var members = type.GetProperties();
+
+            foreach (var item in members)
+            {
+                var typeName = item.PropertyType.Name;
+                if (item.PropertyType.BaseType != null && item.PropertyType.BaseType.FullName == "System.Enum")
+                {
+                    typeName = "Enum";
+                }
+
+                switch (typeName)
+                {
+                    case "Enum":
+                    case "Guid":
+                    case "String":
+                    case "DateTime":
+                    case "Int32":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
+                    case "Byte[]":
+                        // we don't want to save byte arrays to the CSV file (may be some time)
+                        break;
+
+                    case "List`1":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
+                    default:
+                        resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
+                        break;
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>

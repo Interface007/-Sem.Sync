@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="c85e1a79-1a46-4902-b2f7-6b68baf511a1" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The Sem.Sync Library has been used to implement some “sample” applications. These Applications might be more attractive to you than the base library, because the base library is for programmers (a minor group in the internet) while the applications are useful for users (a major group of the internet users). So the first few chapters on this document are for users, while the later chapters are for programmers.
+      </para>
+      <para>
+        Please feel free to use the applications and the library as described in the license. You also might mail me to tell about your ideas what else to implement – also hints on how to do things better are welcome.
+      </para>
+      <para>
+        ATTENTION:
+        Please be aware that social networks or owners of other information provider do have contracts on how to use the data provided by them. This may include a prohibition on automatic data collection from those sources. I do explicitly NOT research for such policies of the information provider. You are responsible to check the information providers policies whether it is legal to use the functionality of Sem.Sync or not.
+      </para>
+      <mediaLink>
+        <image xlink:href="SemSyncImage" />
+      </mediaLink>
+    </introduction>
+    </developerConceptualDocument>
+</topic>

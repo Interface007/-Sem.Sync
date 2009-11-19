@@ -123,6 +123,7 @@
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="Commands\AskForContinue.cs" />
+    <Compile Include="Commands\MatchByEMail.cs" />
     <Compile Include="Commands\GetContactRelation.cs" />
     <Compile Include="Commands\CopyAll.cs" />
     <Compile Include="Commands\DeleteElements.cs">
@@ -167,6 +168,7 @@
     <Compile Include="Helpers\vCardConverter.cs" />
     <Compile Include="Interfaces\IUiSyncInteraction.cs" />
     <Compile Include="DetailData\LanguageKnowledge.cs" />
+    <Compile Include="SourceSpecificAttribute.cs" />
     <Compile Include="StdProfileInformationClient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

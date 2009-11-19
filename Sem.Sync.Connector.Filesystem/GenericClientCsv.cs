@@ -205,77 +205,10 @@ namespace Sem.Sync.Connector.Filesystem
 
             return fileName;
         }
-
-        /// <summary>
-        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
-        /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
-        /// </summary>
-        /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
-        /// <param name="type">the type to be inspected</param>
-        /// <returns>a list of strings with the paths of properties detected</returns>
-        private static List<string> GetPropertyList(string parentName, Type type)
-        {
-            if (parentName == null)
-            {
-                throw new ArgumentNullException("parentName");
-            }
-
-            if (parentName.Length > 0)
-            {
-                parentName += ".";
-            }
-
-            var resultList = new List<string>();
-
-            var methodsToAdd =
-                from x in type.GetMethods()
-                where
-                x.GetParameters().Length == 0
-                && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
-                select parentName + x.Name + "()";
-
-            resultList.AddRange(methodsToAdd.ToList());
-
-            var members = type.GetProperties();
-
-            foreach (var item in members)
-            {
-                var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType.FullName == "System.Enum")
-                {
-                    typeName = "Enum";
-                }
-
-                switch (typeName)
-                {
-                    case "Enum":
-                    case "Guid":
-                    case "String":
-                    case "DateTime":
-                    case "Int32":
-                        resultList.Add(parentName + item.Name);
-                        break;
-
-                    case "Byte[]":
-                        // we don't want to save byte arrays to the CSV file (may be some time)
-                        break;
-
-                    case "List`1":
-                        resultList.Add(parentName + item.Name);
-                        break;
-
-                    default:
-                        resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
-                        break;
-                }
-            }
-
-            return resultList;
-        }
-
+        
         /// <summary>
         /// Read the column definition from the column definition file specified with the
-        /// poarameter <paramref name="columnDefinitionFile"/>. If there is no such file 
+        /// parameter <paramref name="columnDefinitionFile"/>. If there is no such file 
         /// specified, a list of such entries will be created by searching the object 
         /// recursively for properties.
         /// </summary>
@@ -300,7 +233,7 @@ namespace Sem.Sync.Connector.Filesystem
             }
 
             this.LogProcessingEvent("building column definition from type {0}...", typeof(T).Name);
-            result = (from x in GetPropertyList(string.Empty, typeof(T)) select new ColumnDefinition(x)).ToList();
+            result = (from x in Tools.GetPropertyList(string.Empty, typeof(T)) select new ColumnDefinition(x)).ToList();
 
             if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
             {

@@ -82,6 +82,18 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Tests a value for being NULL and returns a new object of the same type if it is null.
+        /// Returns the tested object if it was not null.
+        /// </summary>
+        /// <param name="testObject"> The test object. </param>
+        /// <typeparam name="T"> The type to test and return </typeparam>
+        /// <returns> the non-null value or a new object if the original value was null </returns>
+        public static KeyValuePair<T1, T2> NewIfNull<T1, T2>(this KeyValuePair<T1, T2> testObject)
+        {
+            return testObject;
+        }
+
+        /// <summary>
         /// Tests a an array of values for being NULL or not containing the desired index 
         /// and returns a new object of the element type of the array if either the array
         /// is null or the element does not exist.
