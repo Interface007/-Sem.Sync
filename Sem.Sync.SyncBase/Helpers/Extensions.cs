@@ -256,11 +256,27 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Expands the methods of a List my adding a serialization to disk
+        /// Expands the methods of a List my adding a serialization to a string
         /// </summary>
         /// <typeparam name="T">the type of elements in this list</typeparam>
         /// <param name="elementList">the list instance that should be sezialized</param>
-        /// <param name="sourceFile">the target file for the serialization</param>
+        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <returns>The saved list as a string.</returns>
+        public static string SaveToString<T>(this List<T> elementList, params Type[] extraTypes)
+        {
+            // the xml serializer needs the additional type of the element
+            var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
+            var writer = new StringWriter();
+            formatter.Serialize(writer, elementList);
+            return writer.ToString();
+        }
+
+        /// <summary>
+        /// Expands the methods of a List by adding a de-serialization to disk
+        /// </summary>
+        /// <typeparam name="T">the type of elements in this list</typeparam>
+        /// <param name="elementList">the list instance that should be deserialized to</param>
+        /// <param name="sourceFile">the source file for the de-serialization</param>
         /// <param name="extraTypes">you need to add types that are used in the list here</param>
         /// <returns>The list loaded from the file system.</returns>
         public static List<T> LoadFrom<T>(this List<T> elementList, string sourceFile, Type[] extraTypes)
@@ -288,6 +304,29 @@ namespace Sem.Sync.SyncBase.Helpers
             return elementList;
         }
 
+        /// <summary>
+        /// Expands the methods of a List by adding a de-serialization from string
+        /// </summary>
+        /// <typeparam name="T">the type of elements in this list</typeparam>
+        /// <param name="elementList">the list instance that should be deserialized to</param>
+        /// <param name="sourceString">the source string for the de-serialization</param>
+        /// <param name="extraTypes">you need to add types that are used in the list here</param>
+        /// <returns>The list loaded from the string.</returns>
+        public static List<T> LoadFromString<T>(this List<T> elementList, string sourceString, params Type[] extraTypes)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                throw new ArgumentNullException("sourceString");
+            }
+
+            // the xml serializer needs the additional type of the element
+            var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
+            var reader = new StringReader(sourceString);
+            elementList = (List<T>)formatter.Deserialize(reader);
+            
+            return elementList;
+        }
+        
         /// <summary>
         /// Converts a list of standard contacts to a list of standard elements
         /// </summary>

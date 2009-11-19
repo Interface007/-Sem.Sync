@@ -6,5 +6,8 @@
       <InputEndpoint name="HttpIn" protocol="http" port="8080" />
     </InputEndpoints>
     <ConfigurationSettings />
+    <LocalResources>
+      <LocalStorage name="SemSync" cleanOnRoleRecycle="false" sizeInMB="32" />
+    </LocalResources>
   </WebRole>
 </ServiceDefinition>

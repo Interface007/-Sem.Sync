@@ -13,6 +13,9 @@ namespace Sem.Sync.Connector.CloudStorage
 
     using Helper;
 
+    using Microsoft.WindowsAzure;
+    using Microsoft.WindowsAzure.StorageClient;
+
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.Helpers;
@@ -51,8 +54,13 @@ namespace Sem.Sync.Connector.CloudStorage
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var mgr = new BlobStorageManager(ContainerName);
-            return mgr.GetEntitiesFromBlob<StdContact>(clientFolderName).ToStdElement();
+            var accountInfo = CloudStorageAccount.FromConfigurationSetting("SemSync");
+            var client = accountInfo.CreateCloudBlobClient();
+            var blob = client.GetBlockBlob(clientFolderName);
+            result = new List<StdElement>();
+            var blobText = blob.DownloadText();
+            result.LoadFromString(blobText);
+            return result;
         }
 
         /// <summary>
@@ -64,8 +72,13 @@ namespace Sem.Sync.Connector.CloudStorage
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var mgr = new BlobStorageManager(ContainerName);
-            mgr.AddOrUpdateBlob(elements.ToContacts(), clientFolderName);
+            var accountInfo = CloudStorageAccount.FromConfigurationSetting("SemSync");
+            var client = accountInfo.CreateCloudBlobClient();
+            var blob = client.GetBlockBlob(clientFolderName);
+
+            var blobText = elements.SaveToString();
+
+            blob.UploadText(blobText);
         }
     }
 }
