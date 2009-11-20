@@ -528,6 +528,11 @@ namespace Sem.GenericHelpers
 
                     break;
 
+                case "ProfileIdInformation":
+                    var myObject = propType.GetConstructor(new[] { typeof(string) }).Invoke(new[] { valueString });
+                    propInfo.SetValue(objectToWriteTo, myObject, null);
+                    break;
+
                 default:
                     propInfo.SetValue(objectToWriteTo, valueString, null);
                     break;
@@ -665,19 +670,22 @@ namespace Sem.GenericHelpers
             return resultList;
         }
 
-        public static List<string> CombineNonEmpty(params string[] elements)
+        /// <summary>
+        /// Returns an enumeration of all elements that are provided and are not null or empty
+        /// </summary>
+        /// <param name="elements"> The elements to combine as an enumeration. </param>
+        /// <returns> the enumeration of elements </returns>
+        public static IEnumerable<string> CombineNonEmpty(params string[] elements)
         {
-            var result = new List<string>(elements.Length);
             foreach (var element in elements)
             {
                 if (!string.IsNullOrEmpty(element))
                 {
-                    result.Add(element);
+                    yield return element;
                 }
             }
-
-            return result;
         }
+
         /// <summary>
         /// Gets the next path of the invocation path - will cut off this part from the path.
         /// </summary>

@@ -78,9 +78,17 @@ namespace Sem.GenericHelpers.Entities
 
             set
             {
-                var unprotectedString = ProtectedData.Unprotect(value, Credentials.Entropy, DataProtectionScope.CurrentUser);
-                var dataString = Encoding.UTF8.GetString(unprotectedString);
-                this.LogOnPassword = dataString;
+                try
+                {
+                    var unprotectedString = ProtectedData.Unprotect(value, Credentials.Entropy, DataProtectionScope.CurrentUser);
+                    var dataString = Encoding.UTF8.GetString(unprotectedString);
+                    this.LogOnPassword = dataString;
+                }
+                catch (CryptographicException)
+                {
+                    // eating the crypto-exception and resetting the password
+                    this.LogOnPassword = string.Empty;
+                }
             }
         }
     }

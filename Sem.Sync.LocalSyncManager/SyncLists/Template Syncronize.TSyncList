@@ -15,7 +15,7 @@
     <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
   </SyncDescription>
 
-  <SyncDescription Name="Delete memory storage for source">
+  <SyncDescription Name="Delete memory storage for target">
     <Command>DeleteElements</Command>
     <TargetConnector>Sem.Sync.Connector.Memory.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>

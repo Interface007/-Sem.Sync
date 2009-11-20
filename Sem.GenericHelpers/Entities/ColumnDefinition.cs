@@ -174,5 +174,10 @@ namespace Sem.GenericHelpers.Entities
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return this.Title + " : " + this.Selector;
+        }
     }
 }

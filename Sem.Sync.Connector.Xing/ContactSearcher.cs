@@ -7,11 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using Sem.GenericHelpers;
-
 namespace Sem.Sync.Connector.Xing
 {
+    using System.Collections.Generic;
+
+    using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
 
     /// <summary>
@@ -41,16 +41,28 @@ namespace Sem.Sync.Connector.Xing
         /// <param name="clientFolderName"> The client folder name for the memory connector. </param>
         /// <param name="result"> The result list of contacts. </param>
         /// <returns> the search results </returns>
-        protected override System.Collections.Generic.List<StdElement> ReadFullList(string clientFolderName, System.Collections.Generic.List<StdElement> result)
+        protected override System.Collections.Generic.List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var connector = new Memory.GenericClient();
             var listToScan = connector.GetAll(clientFolderName);
+            xingRequester.UiDispatcher = this.UiDispatcher;
 
             foreach (StdContact element in listToScan)
             {
-                foreach (var email in Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary))
+                var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
+                var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
+                var searchResult = this.xingRequester.GetContent(query);
+
+                var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
+
+                foreach (System.Text.RegularExpressions.Match match in matches)
                 {
-                    var searchResult = this.xingRequester.GetContent("");
+                    var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
+                }
+                
+                foreach (var email in eMailAddresses)
+                {
+                    
                 }
             }
 

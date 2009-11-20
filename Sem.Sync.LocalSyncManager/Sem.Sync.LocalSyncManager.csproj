@@ -184,6 +184,9 @@
     <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SyncLists\Template QueryXing.TSyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SyncLists\GetExtendedInformation.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

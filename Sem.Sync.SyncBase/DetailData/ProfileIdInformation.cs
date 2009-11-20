@@ -30,6 +30,24 @@ namespace Sem.Sync.SyncBase.DetailData
         [XmlText]
         public string Id { get; set; }
 
+        public ProfileIdInformation()
+        {
+            
+        }
+
+        public ProfileIdInformation(string value)
+        {
+            var parts = value.Split(new[] { "[@]" }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2)
+            {
+                this.Id = value;
+                return;
+            }
+
+            this.Id = value;
+            this.ResourceLocator = parts[1];
+        }
+
         /// <summary>
         /// Gets or sets the ResourceLocator - for social networks this may be an empty string or null if the
         /// assumption is valid that all ids are unique for the connector.

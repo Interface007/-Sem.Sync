@@ -320,9 +320,16 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.saveFileDialog1.Filter = Resources.AllFilesFileFilter;
                 this.saveFileDialog1.AddExtension = true;
                 this.saveFileDialog1.FileName = textBox.Text;
-                if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
+                try
                 {
-                    textBox.Text = this.saveFileDialog1.FileName;
+                    if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        textBox.Text = this.saveFileDialog1.FileName;
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    this.ProcessingEventHandler(null, new ProcessingEventArgs { Message = ex.Message });
                 }
 
                 return;
