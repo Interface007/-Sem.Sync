@@ -225,18 +225,29 @@ namespace Sem.Sync.SharedUI.Common
         {
             var workFlow = Tools.LoadFromFile<SyncWorkFlow>(path);
 
-            if (workFlow != null)
+            if (workFlow == null)
             {
-                this.SetupPropertyChanged(false);
-
-                this.Source = workFlow.Source;
-                this.Target = workFlow.Target;
-
-                this.CurrentSyncWorkflowTemplate = workFlow.Template;
-                this.RaisePropertyChanged("CurrentSyncWorkflowData");
-
-                this.SetupPropertyChanged(true);
+                return;
             }
+
+            this.SetupPropertyChanged(false);
+
+            this.Source = workFlow.Source;
+            this.Target = workFlow.Target;
+
+            if (!this.SyncWorkflowsTemplates.ContainsValue(workFlow.Template))
+            {
+                var candidates = Directory.GetFiles(WorkingFolderTemplates, Path.GetFileName(workFlow.Template));
+                if (candidates.Count() == 1)
+                {
+                    workFlow.Template = candidates[0];
+                }
+            }
+
+            this.CurrentSyncWorkflowTemplate = workFlow.Template;
+            this.RaisePropertyChanged("CurrentSyncWorkflowData");
+
+            this.SetupPropertyChanged(true);
         }
 
         /// <summary>

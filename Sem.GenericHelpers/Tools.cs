@@ -665,6 +665,19 @@ namespace Sem.GenericHelpers
             return resultList;
         }
 
+        public static List<string> CombineNonEmpty(params string[] elements)
+        {
+            var result = new List<string>(elements.Length);
+            foreach (var element in elements)
+            {
+                if (!string.IsNullOrEmpty(element))
+                {
+                    result.Add(element);
+                }
+            }
+
+            return result;
+        }
         /// <summary>
         /// Gets the next path of the invocation path - will cut off this part from the path.
         /// </summary>
