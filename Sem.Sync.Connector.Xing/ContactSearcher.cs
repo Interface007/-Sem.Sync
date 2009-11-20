@@ -54,33 +54,35 @@ namespace Sem.Sync.Connector.Xing
 
             foreach (StdContact element in listToScan)
             {
-                if (string.IsNullOrEmpty(element.PersonalProfileIdentifiers.XingNameProfileId))
+                if (!string.IsNullOrEmpty(element.PersonalProfileIdentifiers.XingNameProfileId))
                 {
-                    var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
-                    query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost("Matzen, Sven"));
-                    var searchResult = this.xingRequester.GetContent(query);
+                    continue;
+                }
 
-                    var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
+                var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
+                query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost("Matzen, Sven"));
+                var searchResult = this.xingRequester.GetContent(query);
 
-                    foreach (Match match in matches)
+                var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
+
+                foreach (Match match in matches)
+                {
+                    var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
+
+                    var informationName = Regex.Matches(publicProfile, "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<", RegexOptions.Singleline);
+                    var informationZip = Regex.Matches(publicProfile, "zip_code=\\%22(?<zip>[^%]*)\\%22", RegexOptions.Singleline);
+                    var informationBusinessPosition = Regex.Matches(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</", RegexOptions.Singleline);
+
+                    var newContact = new StdContact();
+                    newContact.Name = new PersonName(informationName[0].Groups["name"].ToString());
+                    newContact.BusinessPosition = informationBusinessPosition[0].Groups["bustitle"].ToString();
+                    newContact.BusinessAddressPrimary.PostalCode = informationZip[0].Groups["zip"].ToString();
+
+
+                    var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
+                    foreach (var email in eMailAddresses)
                     {
-                        var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
 
-                        var informationName = Regex.Matches(publicProfile, "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<", RegexOptions.Singleline);
-                        var informationZip = Regex.Matches(publicProfile, "zip_code=\\%22(?<zip>[^%]*)\\%22", RegexOptions.Singleline);
-                        var informationBusinessPosition = Regex.Matches(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</", RegexOptions.Singleline);
-
-                        var newContact = new StdContact();
-                        newContact.Name = new PersonName(informationName[0].Groups["name"].ToString());
-                        newContact.BusinessPosition = informationBusinessPosition[0].Groups["bustitle"].ToString();
-                        newContact.BusinessAddressPrimary.PostalCode = informationZip[0].Groups["zip"].ToString();
-
-
-                        var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
-                        foreach (var email in eMailAddresses)
-                        {
-
-                        }
                     }
                 }
             }
