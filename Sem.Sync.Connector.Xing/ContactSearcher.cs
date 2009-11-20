@@ -66,18 +66,14 @@ namespace Sem.Sync.Connector.Xing
                     {
                         var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
 
-                        var information = Regex.Matches(publicProfile, 
-                            ""
-                            + "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<.*?"
-                            //// + "zip_code=\\%22(?<zip>[^%]*)\\%22"
-                            + "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</.*?"
-                            
-                            , RegexOptions.Singleline);
+                        var informationName = Regex.Matches(publicProfile, "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<", RegexOptions.Singleline);
+                        var informationZip = Regex.Matches(publicProfile, "zip_code=\\%22(?<zip>[^%]*)\\%22", RegexOptions.Singleline);
+                        var informationBusinessPosition = Regex.Matches(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</", RegexOptions.Singleline);
 
                         var newContact = new StdContact();
-                        newContact.Name = new PersonName(information[0].Groups["name"].ToString());
-                        newContact.BusinessPosition = information[0].Groups["bustitle"].ToString();
-                        newContact.BusinessAddressPrimary.PostalCode = information[0].Groups["zip"].ToString();
+                        newContact.Name = new PersonName(informationName[0].Groups["name"].ToString());
+                        newContact.BusinessPosition = informationBusinessPosition[0].Groups["bustitle"].ToString();
+                        newContact.BusinessAddressPrimary.PostalCode = informationZip[0].Groups["zip"].ToString();
 
 
                         var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
