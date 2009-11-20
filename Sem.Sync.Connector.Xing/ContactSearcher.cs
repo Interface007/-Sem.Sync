@@ -10,9 +10,12 @@
 namespace Sem.Sync.Connector.Xing
 {
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
+
+    using SyncBase.DetailData;
 
     /// <summary>
     /// performs lookups for contacts in Xing based on a list of contacts stored inside the memory connector
@@ -45,24 +48,44 @@ namespace Sem.Sync.Connector.Xing
         {
             var connector = new Memory.GenericClient();
             var listToScan = connector.GetAll(clientFolderName);
-            xingRequester.UiDispatcher = this.UiDispatcher;
+            this.xingRequester.UiDispatcher = this.UiDispatcher;
+
+            result = new List<StdElement>();
 
             foreach (StdContact element in listToScan)
             {
-                var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
-                var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
-                var searchResult = this.xingRequester.GetContent(query);
-
-                var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
-
-                foreach (System.Text.RegularExpressions.Match match in matches)
+                if (string.IsNullOrEmpty(element.PersonalProfileIdentifiers.XingNameProfileId))
                 {
-                    var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
-                }
-                
-                foreach (var email in eMailAddresses)
-                {
-                    
+                    var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
+                    query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost("Matzen, Sven"));
+                    var searchResult = this.xingRequester.GetContent(query);
+
+                    var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
+
+                    foreach (Match match in matches)
+                    {
+                        var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
+
+                        var information = Regex.Matches(publicProfile, 
+                            ""
+                            + "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<.*?"
+                            //// + "zip_code=\\%22(?<zip>[^%]*)\\%22"
+                            + "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</.*?"
+                            
+                            , RegexOptions.Singleline);
+
+                        var newContact = new StdContact();
+                        newContact.Name = new PersonName(information[0].Groups["name"].ToString());
+                        newContact.BusinessPosition = information[0].Groups["bustitle"].ToString();
+                        newContact.BusinessAddressPrimary.PostalCode = information[0].Groups["zip"].ToString();
+
+
+                        var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
+                        foreach (var email in eMailAddresses)
+                        {
+
+                        }
+                    }
                 }
             }
 
