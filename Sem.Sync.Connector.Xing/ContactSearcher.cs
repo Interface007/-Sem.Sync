@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Sem.Sync.Connector.Xing
 {
     using System.Collections.Generic;
@@ -40,6 +42,9 @@ namespace Sem.Sync.Connector.Xing
         }
 
         /// <summary>
+        /// <para>Reads a list of potential contact matches from Xing. Because of limited information exposed to the
+        /// public profile, this information can only be used to identify matching profiles - you will have to 
+        /// add the matching profiles to your contact list in order to get more information.</para>
         /// </summary>
         /// <param name="clientFolderName"> The client folder name for the memory connector. </param>
         /// <param name="result"> The result list of contacts. </param>
@@ -59,33 +64,59 @@ namespace Sem.Sync.Connector.Xing
                     continue;
                 }
 
-                var query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
-                query = string.Format("http://www.google.de/search?q=site%3Awww.xing.com+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost("Matzen, Sven"));
-                var searchResult = this.xingRequester.GetContent(query);
+                var profileIds = GuessProfileIds(element);
 
-                var matches = System.Text.RegularExpressions.Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
-
-                foreach (Match match in matches)
+                foreach (var publicProfileId in profileIds)
                 {
-                    var publicProfile = this.xingRequester.GetContent(match.Groups[1].ToString());
-
-                    var informationName = Regex.Matches(publicProfile, "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<", RegexOptions.Singleline);
-                    var informationZip = Regex.Matches(publicProfile, "zip_code=\\%22(?<zip>[^%]*)\\%22", RegexOptions.Singleline);
-                    var informationBusinessPosition = Regex.Matches(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</", RegexOptions.Singleline);
-
-                    var newContact = new StdContact();
-                    newContact.Name = new PersonName(informationName[0].Groups["name"].ToString());
-                    newContact.BusinessPosition = informationBusinessPosition[0].Groups["bustitle"].ToString();
-                    newContact.BusinessAddressPrimary.PostalCode = informationZip[0].Groups["zip"].ToString();
-
-
-                    var eMailAddresses = Tools.CombineNonEmpty(element.PersonalEmailPrimary, element.PersonalEmailSecondary, element.BusinessEmailPrimary, element.BusinessEmailSecondary);
-                    foreach (var email in eMailAddresses)
+                    for (var i = 0; i < 200; i++)
                     {
+                        var publicProfile = this.xingRequester.GetContent(publicProfileId + (i == 0 ? string.Empty : i.ToString()));
+                        
+                        // todo: check for nonexisting profile
+                        if (string.IsNullOrEmpty(publicProfile))
+                        {
+                            break;
+                        }
 
+                        var informationName = Regex.Matches(publicProfile, "\\<h1 class=\"name\"\\>.(?<name>[^<]*)\\<", RegexOptions.Singleline);
+                        var informationZip = Regex.Matches(publicProfile, "zip_code=\\%22(?<zip>[^%]*)\\%22", RegexOptions.Singleline);
+                        var informationBusinessPosition = Regex.Matches(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<bustitle>[^<]*)\\</", RegexOptions.Singleline);
+
+                        var newContact = new StdContact();
+                        newContact.Name = new PersonName(informationName[0].Groups["name"].ToString());
+                        newContact.BusinessPosition = informationBusinessPosition[0].Groups["bustitle"].ToString();
+                        newContact.BusinessAddressPrimary.PostalCode = informationZip[0].Groups["zip"].ToString();
+
+                        result.Add(newContact);
                     }
                 }
+                break;
             }
+
+            return result;
+        }
+
+        private static List<string> GuessProfileIds(StdContact contact)
+        {
+            var result = new List<string>();
+            if (contact.Name == null
+                || string.IsNullOrEmpty(contact.Name.FirstName)
+                || string.IsNullOrEmpty(contact.Name.LastName))
+            {
+                return result;
+            }
+
+            const string Xing = "http://www.xing.com/profile/";
+
+            result.Add(Xing + string.Format("{0}_{1}", contact.Name.FirstName, contact.Name.LastName));
+
+            if (string.IsNullOrEmpty(contact.Name.MiddleName))
+            {
+                return result;
+            }
+
+            result.Add(Xing + string.Format("{0}{1}_{2}", contact.Name.FirstName, contact.Name.MiddleName, contact.Name.LastName));
+            result.Add(Xing + string.Format("{0}_{1}{2}", contact.Name.FirstName, contact.Name.MiddleName, contact.Name.LastName));
 
             return result;
         }

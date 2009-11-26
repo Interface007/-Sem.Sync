@@ -1,11 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BlobStorage.cs" company="Sven Erik Matzen">
+// <copyright file="BlobStorageStdClient.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   implements a &lt;see cref="StdClient" /&gt; accessing the Azure blob storage.
+//   implements a <see cref="StdClient" /> accessing the Azure blob storage.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Sem.Sync.Connector.CloudStorage
 {
@@ -55,8 +57,16 @@ namespace Sem.Sync.Connector.CloudStorage
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var accountInfo = CloudStorageAccount.FromConfigurationSetting("SemSync");
+            
             var client = accountInfo.CreateCloudBlobClient();
-            var blob = client.GetBlockBlob(clientFolderName);
+            var container = client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("ContainerName"));
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+
+            var blob = container.GetBlockBlobReference(clientFolderName);
+            
             result = new List<StdElement>();
             var blobText = blob.DownloadText();
             result.LoadFromString(blobText);
