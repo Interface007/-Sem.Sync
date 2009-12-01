@@ -7,20 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.ServiceRuntime;
-
 namespace Sem.Sync.Connector.CloudStorage
 {
+    using System;
     using System.Collections.Generic;
-
-    using Helper;
-
+    using System.IO;
+    using System.Xml.Serialization;
+    
     using Microsoft.WindowsAzure;
+    using Microsoft.WindowsAzure.ServiceRuntime;
     using Microsoft.WindowsAzure.StorageClient;
-
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.Helpers;
+    
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// implements a <see cref="StdClient"/> accessing the Azure blob storage.
@@ -56,8 +56,8 @@ namespace Sem.Sync.Connector.CloudStorage
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var accountInfo = CloudStorageAccount.FromConfigurationSetting("SemSync");
-            
+            var accountInfo = CloudStorageAccount.FromConfigurationSetting("semsync");
+
             var client = accountInfo.CreateCloudBlobClient();
             var container = client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("ContainerName"));
             container.CreateIfNotExist();
@@ -66,11 +66,31 @@ namespace Sem.Sync.Connector.CloudStorage
             container.SetPermissions(permissions);
 
             var blob = container.GetBlockBlobReference(clientFolderName);
-            
             result = new List<StdElement>();
-            var blobText = blob.DownloadText();
-            result.LoadFromString(blobText);
-            return result;
+
+            try
+            {
+                var blobText = blob.DownloadText();
+                var formatter = new XmlSerializer(typeof(List<StdElement>), new[] { typeof(List<StdContact>) });
+                var reader = new StringReader(blobText);
+                result = (List<StdElement>)formatter.Deserialize(reader);
+                ////result.LoadFromString(
+                ////    blobText,
+                ////    new[] { typeof(StdContact) });
+
+                return result;
+            }
+            catch (StorageClientException ex)
+            {
+                if (ex.ErrorCode == StorageErrorCode.BlobNotFound)
+                {
+                    return result;
+                }
+
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
         }
 
         /// <summary>
@@ -82,11 +102,22 @@ namespace Sem.Sync.Connector.CloudStorage
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var accountInfo = CloudStorageAccount.FromConfigurationSetting("SemSync");
-            var client = accountInfo.CreateCloudBlobClient();
-            var blob = client.GetBlockBlob(clientFolderName);
+            var accountInfo = CloudStorageAccount.FromConfigurationSetting("semsync");
 
-            var blobText = elements.SaveToString();
+            var client = accountInfo.CreateCloudBlobClient();
+            var container = client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("ContainerName"));
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+
+            var blob = container.GetBlockBlobReference(clientFolderName);
+
+            var blobText = elements.SaveToString(
+                new[]
+                    {
+                        typeof(StdContact)
+                    });
 
             blob.UploadText(blobText);
         }
