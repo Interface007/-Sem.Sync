@@ -295,8 +295,9 @@ namespace Sem.Sync.Test
         /// <summary>
         /// Compares the original with the copy
         /// </summary>
-        /// <param name="originalList"> The original list. </param>
-        /// <param name="copyList"> The copy list. </param>
+        /// <param name="originalList"> The original list.  </param>
+        /// <param name="copyList"> The copy list.  </param>
+        /// <param name="skipPicture"> A value specifying whether to skip the picture comparison or not. </param>
         private static void AssertOriginalAndCopyCompare(List<StdElement> originalList, List<StdElement> copyList, bool skipPicture)
         {
             var withoutPictureOriginal = originalList.GetContactById("9c8a9b29-2fda-44f3-8324-62b983468a7e");

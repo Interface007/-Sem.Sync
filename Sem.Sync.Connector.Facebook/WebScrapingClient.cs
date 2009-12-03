@@ -94,7 +94,10 @@ namespace Sem.Sync.Connector.Facebook
                 this.LogProcessingEvent("no name found for this contact");
             }
 
-            values = Regex.Matches(content, @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>", RegexOptions.Singleline);
+            values = Regex.Matches(
+                content,
+                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
+                RegexOptions.Singleline);
             foreach (Match match in values)
             {
                 var key = match.Groups[1].ToString();
