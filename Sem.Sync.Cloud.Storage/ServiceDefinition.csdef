@@ -5,9 +5,12 @@
       <!-- Must use port 80 for http and port 443 for https when running in the cloud -->
       <InputEndpoint name="HttpIn" protocol="http" port="8080" />
     </InputEndpoints>
-    <ConfigurationSettings />
+    <ConfigurationSettings>
+      <Setting name="DiagnosticsConnectionString" />
+      <Setting name="semsync" />
+      <Setting name="ContainerName" />
+    </ConfigurationSettings>
     <LocalResources>
-      <LocalStorage name="SemSync" cleanOnRoleRecycle="false" sizeInMB="32" />
     </LocalResources>
   </WebRole>
 </ServiceDefinition>

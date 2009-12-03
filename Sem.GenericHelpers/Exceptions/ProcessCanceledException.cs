@@ -12,8 +12,6 @@ namespace Sem.GenericHelpers.Exceptions
     using System;
     using System.Runtime.Serialization;
 
-    using Sync.LocalSyncManager.Business;
-
     /// <summary>
     /// signals the cancelation of the process through all layers and components
     /// </summary>

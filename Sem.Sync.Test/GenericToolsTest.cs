@@ -12,7 +12,11 @@ namespace Sem.Sync.Test
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Net;
+
+    using GenericHelpers.Entities;
+    using GenericHelpers.Exceptions;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -204,6 +208,62 @@ namespace Sem.Sync.Test
             Assert.AreEqual("a little test", Tools.DecodeFromQuotedPrintable("a little test"));
             Assert.AreEqual(string.Empty, Tools.DecodeFromQuotedPrintable(null));
             Assert.AreEqual(string.Empty, Tools.DecodeFromQuotedPrintable(string.Empty));
+        }
+
+        [TestMethod]
+        public void SimpleExceptionTest()
+        {
+            try
+            {
+                File.WriteAllText("invalid Path:\\\\\\\\::?!", "test");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
+        }
+
+        [TestMethod]
+        public void TechnicalExceptionTest()
+        {
+            var myValueToLog = new Triple<string, string, string>
+                {
+                    Value1 = "hello", 
+                    Value2 = "world", 
+                    Value3 = "!" 
+                };
+
+            var exceptionText = string.Empty;
+
+            try
+            {
+                try
+                {
+                    File.WriteAllText("invalid Path:\\\\\\\\::?!", "test");
+                }
+                catch (Exception ex)
+                {
+                    throw new TechnicalException(
+                        "bad file name",
+                        ex,
+                        new KeyValuePair<string, object>("myTriple", myValueToLog),
+                        new KeyValuePair<string, object>("myString", "hello world"),
+                        new KeyValuePair<string, object>("myInt", 49));
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptionText = ExceptionHandler.HandleException(ex);
+            }
+
+            Assert.IsTrue(exceptionText.Contains("<string name=\"myString\">hello world</string>"));
+            Assert.IsTrue(exceptionText.Contains("<int name=\"myInt\">49</int>"));
+            Assert.IsTrue(exceptionText.Contains("<TripleOfStringStringString xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" name=\"myTriple\">"));
+            Assert.IsTrue(exceptionText.Contains("<Value1>hello</Value1>"));
+            Assert.IsTrue(exceptionText.Contains("<Timestamp>" + DateTime.Now.Year));
+            Assert.IsTrue(exceptionText.Contains("vstesthost.exe</ExecutingMainModule>"));
+            Assert.IsTrue(exceptionText.Contains("<SpecificInformation>Sem.GenericHelpers.Exceptions.TechnicalException: bad file name"));
+            Assert.IsTrue(exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegales Zeichen im Pfad."));
         }
     }
 }

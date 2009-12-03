@@ -8,17 +8,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Sem.Sync.SharedUI.Common;
-using Sem.Sync.SharedUI.WinForms.Tools;
-
 namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Windows.Forms;
 
-    using Business;
+    using GenericHelpers;
+    using GenericHelpers.Exceptions;
 
-    using UI;
+    using Sem.Sync.LocalSyncManager.UI;
+    using Sem.Sync.SharedUI.Common;
+    using Sem.Sync.SharedUI.WinForms.Tools;
 
     /// <summary>
     /// main program execution class
@@ -33,12 +33,19 @@ namespace Sem.Sync.LocalSyncManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            Application.Run(
-                new SyncWizard
+
+            try
+            {
+                Application.Run(
+                    new SyncWizard
                     {
                         DataContext = new SyncWizardContext<UiDispatcher>()
                     });
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
         }
     }
 }

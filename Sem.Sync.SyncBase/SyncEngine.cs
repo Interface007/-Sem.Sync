@@ -11,6 +11,7 @@
 namespace Sem.Sync.SyncBase
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -19,6 +20,7 @@ namespace Sem.Sync.SyncBase
 
     using GenericHelpers;
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Exceptions;
     using GenericHelpers.Interfaces;
 
     using Interfaces;
@@ -180,6 +182,11 @@ namespace Sem.Sync.SyncBase
             }
             catch (Exception ex)
             {
+                ExceptionHandler.HandleException(
+                    new TechnicalException(
+                        "exception while processing SyncDescription",
+                        ex,
+                        new KeyValuePair<string, object>("SyncDescription", item)));
                 this.LogException(ex);
             }
             finally

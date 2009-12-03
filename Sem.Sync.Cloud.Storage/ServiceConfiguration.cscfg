@@ -2,6 +2,10 @@
 <ServiceConfiguration serviceName="Sem.Sync.Cloud.Storage" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration">
   <Role name="Sem.Sync.Cloud">
     <Instances count="1" />
-    <ConfigurationSettings />
+    <ConfigurationSettings>
+      <Setting name="DiagnosticsConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="semsync" value="UseDevelopmentStorage=true" />
+      <Setting name="ContainerName" value="semsyncstd" />
+    </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

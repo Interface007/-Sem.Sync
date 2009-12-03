@@ -200,7 +200,7 @@ namespace Sem.GenericHelpers
         {
             var encodedValues = new string[values.Length];
 
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
             {
                 encodedValues[i] = EncodeForPost(values[i]);
             }
@@ -219,7 +219,7 @@ namespace Sem.GenericHelpers
         {
             var encodedValues = new string[values.Length];
 
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
             {
                 encodedValues[i] = EncodeForPost(values[i].ToString());
             }

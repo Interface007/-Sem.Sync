@@ -113,6 +113,8 @@ namespace Sem.Sync.SyncBase
             // throw an exception if this one is a ProcessAbortException
             ThrowOnException(exception as ProcessAbortException);
 
+            ExceptionHandler.HandleException(new TechnicalException(string.Format(message, parameterStrings), exception));
+
             // combine the specified parameters with the message of the exception to 
             // build a param array for the format function
             var parameters = new string[parameterStrings.Length + 1];
