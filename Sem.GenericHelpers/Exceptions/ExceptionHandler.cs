@@ -138,6 +138,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// </summary>
         public void Clean()
         {
+            Tools.EnsurePathExist(this.Destination);
             Directory.GetFiles(this.Destination, "*...*...*.xml").ForEach(File.Delete);
         }
 
@@ -192,15 +193,18 @@ namespace Sem.GenericHelpers.Exceptions
             }
             
             var result = new XElement("RelatedEntities");
-            foreach (var entity in ex.RelatedEntities)
+            if (ex.RelatedEntities != null)
             {
-                try
+                foreach (var entity in ex.RelatedEntities)
                 {
-                    result.Add(SerializeToXElement(entity.Value, entity.Key));
-                }
-                catch (Exception)
-                {
-                    result.Add(new XElement(entity.Key, entity.Value));
+                    try
+                    {
+                        result.Add(SerializeToXElement(entity.Value, entity.Key));
+                    }
+                    catch (Exception)
+                    {
+                        result.Add(new XElement(entity.Key, entity.Value));
+                    }
                 }
             }
 

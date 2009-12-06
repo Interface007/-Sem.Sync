@@ -392,15 +392,19 @@ namespace Sem.Sync.SharedUI.Common
                     continue;
                 }
 
-                // todo: check if the dll is a loadable assembly
-                var assembly = Assembly.LoadFile(file);
                 var types = new Type[0];
-
+                
                 try
                 {
+                    // todo: check if the dll is a loadable assembly
+                    var assembly = Assembly.LoadFile(file);
                     types = assembly.GetExportedTypes();
                 }
                 catch (FileNotFoundException ex)
+                {
+                    this.HandleProcessingEvent(this, new ProcessingEventArgs(ex.Message));
+                }
+                catch (BadImageFormatException ex)
                 {
                     this.HandleProcessingEvent(this, new ProcessingEventArgs(ex.Message));
                 }
