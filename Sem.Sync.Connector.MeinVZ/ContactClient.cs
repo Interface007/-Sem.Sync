@@ -18,6 +18,7 @@ namespace Sem.Sync.Connector.MeinVZ
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
+    using GenericHelpers.Exceptions;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -192,6 +193,105 @@ namespace Sem.Sync.Connector.MeinVZ
         }
 
         /// <summary>
+        /// Maps a key value pair extracted from the web page to the <see cref="StdContact"/>.
+        /// </summary>
+        /// <param name="result"> The resulting <see cref="StdContact"/>. </param>
+        /// <param name="value"> The value part of the pair. </param>
+        /// <param name="key"> The key part of the pair. </param>
+        private static void MapKeyValuePair(StdContact result, string value, string key)
+        {
+            switch (key)
+            {
+                case "Name:":
+                    result.Name = new PersonName(value);
+                    break;
+
+                case "Mitglied seit:":
+                    result.InternalSyncData.DateOfCreation = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                    break;
+
+                case "Letztes Update:":
+                    result.InternalSyncData.DateOfLastChange = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                    break;
+
+                case "Geschlecht:":
+                    result.PersonGender = value == "männlich" ? Gender.Male : Gender.Female;
+                    break;
+
+                case "Geburtstag:":
+                    if (value.Length > 9)
+                    {
+                        result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
+                    }
+
+                    break;
+
+                case "Skype:":
+                    result.PersonalInstantMessengerAddresses = result.PersonalInstantMessengerAddresses ??
+                                                               new InstantMessengerAddresses();
+                    result.PersonalInstantMessengerAddresses.Skype = value.Replace("&nbsp;", " ");
+                    break;
+
+                case "Handy:":
+                    result.PersonalPhoneMobile = new PhoneNumber(value);
+                    break;
+
+                case "Telefon:":
+                    result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                    result.PersonalAddressPrimary.Phone = new PhoneNumber(value);
+                    break;
+
+                case "Anschrift:":
+                    result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                    result.PersonalAddressPrimary.StreetName = value;
+                    break;
+
+                case "Ort:":
+                    result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                    while (value.Contains("  "))
+                    {
+                        value = value.Replace("  ", " ");
+                    }
+
+                    if (Regex.IsMatch(value, "^[0-9]+ "))
+                    {
+                        result.PersonalAddressPrimary.PostalCode = value.Split(' ')[0];
+                        result.PersonalAddressPrimary.CityName = value.Split(' ')[1];
+                    }
+                    else
+                    {
+                        result.PersonalAddressPrimary.CityName = value;
+                    }
+
+                    break;
+
+                case "Land:":
+                    result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
+                    result.PersonalAddressPrimary.CountryName = value;
+                    break;
+
+                case "Webseite:":
+                    result.PersonalHomepage = value;
+                    break;
+
+                case "Auf der Suche nach:":
+                    break;
+
+                case "Firma:":
+                    result.BusinessCompanyName = value;
+                    break;
+
+                case "Position:":
+                    result.BusinessPosition = value;
+                    break;
+
+                default:
+                    Tools.DebugWriteLine("new content: " + key + " => " + value);
+                    break;
+            }
+        }
+    
+        /// <summary>
         /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>
         /// <param name="contactUrl"> The contact url. </param>
@@ -213,104 +313,29 @@ namespace Sem.Sync.Connector.MeinVZ
             {
                 var key = match.Groups[1].ToString();
                 var value = match.Groups[2].ToString();
-                if (value.Contains(">"))
+                try
                 {
-                    value = value.Substring(value.IndexOf('>') + 1);
+                    if (value.Contains(">"))
+                    {
+                        value = value.Substring(value.IndexOf('>') + 1);
+                    }
+
+                    if (value.Contains("<"))
+                    {
+                        value = value.Substring(0, value.IndexOf('<'));
+                    }
+
+                    result.InternalSyncData = new SyncData();
+
+                    MapKeyValuePair(result, value, key);
                 }
-
-                if (value.Contains("<"))
+                catch (Exception ex)
                 {
-                    value = value.Substring(0, value.IndexOf('<'));
-                }
-
-                result.InternalSyncData = new SyncData();
-
-                switch (key)
-                {
-                    case "Name:":
-                        result.Name = new PersonName(value);
-                        break;
-
-                    case "Mitglied seit:":
-                        result.InternalSyncData.DateOfCreation = DateTime.Parse(value, CultureInfo.CurrentCulture);
-                        break;
-
-                    case "Letztes Update:":
-                        result.InternalSyncData.DateOfLastChange = DateTime.Parse(value, CultureInfo.CurrentCulture);
-                        break;
-
-                    case "Geschlecht:":
-                        result.PersonGender = value == "männlich" ? Gender.Male : Gender.Female;
-                        break;
-
-                    case "Geburtstag:":
-                        if (value.Length > 9)
-                        {
-                            result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
-                        }
-                        break;
-
-                    case "Skype:":
-                        result.PersonalInstantMessengerAddresses = result.PersonalInstantMessengerAddresses ?? new InstantMessengerAddresses();
-                        result.PersonalInstantMessengerAddresses.Skype = value.Replace("&nbsp;", " ");
-                        break;
-
-                    case "Handy:":
-                        result.PersonalPhoneMobile = new PhoneNumber(value);
-                        break;
-
-                    case "Telefon:":
-                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
-                        result.PersonalAddressPrimary.Phone = new PhoneNumber(value);
-                        break;
-
-                    case "Anschrift:":
-                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
-                        result.PersonalAddressPrimary.StreetName = value;
-                        break;
-
-                    case "Ort:":
-                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
-                        while (value.Contains("  "))
-                        {
-                            value = value.Replace("  ", " ");
-                        }
-
-                        if (Regex.IsMatch(value, "^[0-9]+ "))
-                        {
-                            result.PersonalAddressPrimary.PostalCode = value.Split(' ')[0];
-                            result.PersonalAddressPrimary.CityName = value.Split(' ')[1];
-                        }
-                        else
-                        {
-                            result.PersonalAddressPrimary.CityName = value;
-                        }
-
-                        break;
-
-                    case "Land:":
-                        result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
-                        result.PersonalAddressPrimary.CountryName = value;
-                        break;
-
-                    case "Webseite:":
-                        result.PersonalHomepage = value;
-                        break;
-
-                    case "Auf der Suche nach:":
-                        break;
-
-                    case "Firma:":
-                        result.BusinessCompanyName = value;
-                        break;
-
-                    case "Position:":
-                        result.BusinessPosition = value;
-                        break;
-
-                    default:
-                        Tools.DebugWriteLine("new content: " + key + " => " + value);
-                        break;
+                    throw new TechnicalException(
+                        "Problem mapping key value pair from web page.", 
+                        ex,
+                        new KeyValuePair<string, object>("key", key),
+                        new KeyValuePair<string, object>("value", value));
                 }
             }
 
