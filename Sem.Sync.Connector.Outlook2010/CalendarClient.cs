@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Outlook
+namespace Sem.Sync.Connector.Outlook2010
 {
     #region usings
 

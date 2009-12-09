@@ -62,6 +62,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns> a new profile id information from a string representation </returns>
         public static implicit operator ProfileIdInformation(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+
             var parts = value.Split(new[] { "[@]" }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2)
             {

@@ -61,44 +61,74 @@ namespace Sem.Sync.Connector.Xing
                     continue;
                 }
 
-                var query = string.Format("http://www.google.de/search?q=site%3Axing.com%2Fprofile+{0}&btnG=Suche&meta=&aq=f&oq=", HttpHelper.EncodeForPost(element.Name.ToString()));
-                var searchResult = this.xingRequester.GetContent(query);
-
-                var matches = Regex.Matches(searchResult, "<a href=\"(http://www.xing.com/profile/.*?)\" class=l onmousedown");
-
-                foreach (Match match in matches)
+                var guesses = this.GuessProfileUrls(element.Name);
+                foreach (var guess in guesses)
                 {
-                    var profileUrl = match.Groups[1].ToString();
-                    if (!profileUrl.Contains(element.Name.LastName))
+                    for (var i = 0; i < 9; i++)
                     {
-                        continue;
-                    }
+                        var profileUrl = "http://www.xing.com/profile/" + guess + ((i > 0) ? i.ToString() : string.Empty);
+                        var publicProfile = this.xingRequester.GetContent(profileUrl);
 
-                    var publicProfile = this.xingRequester.GetContent(profileUrl);
+                        if (publicProfile.Contains("Die gesuchte Seite konnte nicht gefunden werden."))
+                        {
+                            break;
+                        }
 
-                    var imageUrl = this.MapRegexToProperty(
-                        publicProfile,
-                        @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo""");
-                    var newContact = new StdContact
-                    {
-                        Name = this.MapRegexToProperty(publicProfile, "\\<h1 class=\"name\"\\>.(?<info>[^<]*)\\<"),
-                        BusinessPosition = this.MapRegexToProperty(publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<info>[^<]*)\\</"),
-                        BusinessAddressPrimary = new AddressDetail
+                        var imageUrl = this.MapRegexToProperty(
+                            publicProfile,
+                            @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo""");
+                        var newContact = new StdContact
                             {
-                                PostalCode = this.MapRegexToProperty(publicProfile, "zip_code=\\%22(?<info>[^%]*)\\%22"),
-                                CityName = this.MapRegexToProperty(publicProfile, "search&amp;city=%22(?<info>[^%]*)%22")
-                            },
-                        PictureData =
-                            string.IsNullOrEmpty(imageUrl)
-                            ? null
-                            : this.xingRequester.GetContentBinary(
-                                this.MapRegexToProperty(publicProfile, @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo"""))
-                    };
+                                Name =
+                                    this.MapRegexToProperty(
+                                    publicProfile, "\\<meta name=\"author\" content=\"(?<info>[^\"]*)\""),
+                                BusinessPosition =
+                                    this.MapRegexToProperty(
+                                    publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<info>[^<]*)\\</"),
+                                BusinessAddressPrimary =
+                                    new AddressDetail
+                                        {
+                                            PostalCode =
+                                                this.MapRegexToProperty(
+                                                publicProfile, "zip_code=\\%22(?<info>[^%]*)\\%22"),
+                                            CityName =
+                                                this.MapRegexToProperty(
+                                                publicProfile, "search&amp;city=%22(?<info>[^%]*)%22")
+                                        },
+                                PictureData =
+                                    string.IsNullOrEmpty(imageUrl)
+                                        ? null
+                                        : this.xingRequester.GetContentBinary(
+                                              this.MapRegexToProperty(
+                                              publicProfile,
+                                              @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo"""))
+                            };
 
-                    this.LogProcessingEvent(newContact, "adding new contact candidate");
+                        if (string.IsNullOrEmpty(newContact.Name.ToString()))
+                        {
+                            continue;
+                        }
 
-                    result.Add(newContact);
+                        this.LogProcessingEvent(newContact, "adding new contact candidate");
+
+                        result.Add(newContact);
+                    }
                 }
+            }
+
+            return result;
+        }
+
+        private List<string> GuessProfileUrls(PersonName name)
+        {
+            var result = new List<string>
+                {
+                    name.FirstName + "_" + name.LastName
+                };
+
+            if (!string.IsNullOrEmpty(name.MiddleName))
+            {
+                result.Add(name.FirstName + name.MiddleName.Replace(".", string.Empty).Replace("-", string.Empty) + "_" + name.LastName);
             }
 
             return result;

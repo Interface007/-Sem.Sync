@@ -30,11 +30,6 @@ namespace Sem.Sync.Connector.CloudStorage
     public class BlobStorageStdClient : StdClient
     {
         /// <summary>
-        /// Blob container name
-        /// </summary>
-        private const string ContainerName = "contactcontainer";
-
-        /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.
         /// </summary>
@@ -74,9 +69,6 @@ namespace Sem.Sync.Connector.CloudStorage
                 var formatter = new XmlSerializer(typeof(List<StdElement>), new[] { typeof(List<StdContact>) });
                 var reader = new StringReader(blobText);
                 result = (List<StdElement>)formatter.Deserialize(reader);
-                ////result.LoadFromString(
-                ////    blobText,
-                ////    new[] { typeof(StdContact) });
 
                 return result;
             }
@@ -90,7 +82,6 @@ namespace Sem.Sync.Connector.CloudStorage
                 Console.WriteLine(ex.Message);
                 throw;
             }
-
         }
 
         /// <summary>

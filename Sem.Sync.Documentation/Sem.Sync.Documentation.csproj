@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -92,7 +92,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" />
+      <UserProperties ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -334,14 +334,6 @@
     <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
       <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
       <Name>Sem.Sync.Connector.OnlineStorage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
-      <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
-      <Name>Sem.Sync.Connector.Outlook2003</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
-      <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
-      <Name>Sem.Sync.Connector.Outlook</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj">
       <Project>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</Project>

@@ -6,107 +6,11 @@
 //-----------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
-// The complete class is currently undecomuented, because the structure of the internal calendar
-// item format is not clear at the memoment and will definitely change in the near future.
-#pragma warning disable 1591
     using System;
     using System.Collections.Generic;
     using System.Globalization;
 
     using DetailData;
-
-    /// <summary>
-    /// status of a calendar entry or a person
-    /// </summary>
-    public enum BusyStatus
-    {
-        /// <summary>
-        /// the status is not known
-        /// </summary>
-        Undefined = 0,
-
-        /// <summary>
-        /// the calendar item is not blocking other activities
-        /// </summary>
-        Free = 1,
-
-        /// <summary>
-        /// the calendar item is tentative
-        /// </summary>
-        Tentative = 2,
-
-        /// <summary>
-        /// the person is blocked from other activities
-        /// </summary>
-        Busy = 3,
-
-        /// <summary>
-        /// the person is out of office
-        /// </summary>
-        OutOfOffice = 4,
-    }
-
-    /// <summary>
-    /// response status of a calendar item
-    /// </summary>
-    public enum ResponseStatus
-    {
-        /// <summary>
-        /// there is no defined status - the status is undefined
-        /// </summary>
-        Undefined = 0,
-
-        /// <summary>
-        /// the person did not respond
-        /// </summary>
-        NotResponded = 1,
-
-        /// <summary>
-        /// the person did accept the appointment
-        /// </summary>
-        Accepted = 2,
-
-        /// <summary>
-        /// the person is not sure if the person can join the appointment, but it wants to join
-        /// </summary>
-        Tentative = 3,
-        
-        /// <summary>
-        /// the person does not want to join the appointment
-        /// </summary>
-        Declined = 4,
-
-        /// <summary>
-        /// the person is the organizer of the appointment
-        /// </summary>
-        Organized = 5,
-    }
-
-    /// <summary>
-    /// defines the way of reoccurance of the appointment
-    /// </summary>
-    public enum RecurrenceState
-    {
-        /// <summary>
-        /// one time only event
-        /// </summary>
-        Onetime = 0,
-
-        /// <summary>
-        /// starting point of a series of events
-        /// </summary>
-        Master = 1,
-
-        /// <summary>
-        /// single occurance of a series of events, that does inherit all from the master
-        /// </summary>
-        Occurrence = 2,
-
-        /// <summary>
-        /// exceptional event of a series of events
-        /// </summary>
-        Exception = 3,
-    }
 
     /// <summary>
     /// defines a calendar entry which exists at a certain point in time
@@ -121,50 +25,80 @@ namespace Sem.Sync.SyncBase
             this.ExternalIdentifier = new List<CalendarIdentifier>();
         }
 
-        public string EntryId { get; set; }
-        
-        public string GlobalAppointmentId { get; set; }
-        
-        public DateTime LastModificationTime { get; set; }
-        
+        /// <summary>
+        /// Gets or sets the <see cref="RecurrenceState"/> describing whether this particular
+        /// "event" is a single "stand alone" event or a master/detail event of a series of event.
+        /// </summary>
         public RecurrenceState RecurrenceState { get; set; }
-        
-        public BusyStatus BusyStatus { get; set; }
-
-        public DateTime Start { get; set; }
-        
-        public DateTime End { get; set; }
-        
-        public string TimeZone { get; set; }
-        
-        public bool ResponseRequested { get; set; }
-        
-        public ResponseStatus ResponseStatus { get; set; }
-
-        public string Subject { get; set; }
-        
-        public string Location { get; set; }
-        
-        public string Body { get; set; }
-        
-        public string Categories { get; set; }
-        
-        public string Links { get; set; }
-        
-        public string RequiredAttendees { get; set; }
-        
-        public string OptionalAttendees { get; set; }
-        
-        public string Resources { get; set; }
-        
-        public string Organizer { get; set; }
-        
-        public string Recipients { get; set; }
-        
-        public int ReminderMinutesBeforeStart { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of ExternalIdentifier.
+        /// Gets or sets the <see cref="BusyStatus"/> of the owner/related person.
+        /// </summary>
+        public BusyStatus BusyStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start date and time in UTC.
+        /// </summary>
+        public DateTime Start { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end date and time in UCT.
+        /// </summary>
+        public DateTime End { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a response is requested or not.
+        /// In case of a request to response, the <see cref="ResponseStatus"/> should be different to <see cref="SyncBase.ResponseStatus.Undefined"/>
+        /// </summary>
+        public bool ResponseRequested { get; set; }
+
+        /// <summary>
+        /// Gets or sets ResponseStatus.
+        /// </summary>
+        public ResponseStatus ResponseStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets a "subject" or "title" describing the event.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location name of the event.
+        /// </summary>
+        public string Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the body description (usually more text and more details than <see cref="Title"/>).
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ids of the required attendees - a list of contacts that MUST attend.
+        /// </summary>
+        public IEnumerable<MatchingEntry> RequiredAttendees { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ids of the attendees - a list of contacts that MIGHT attend.
+        /// </summary>
+        public IEnumerable<MatchingEntry> OptionalAttendees { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resources needed for this event.
+        /// </summary>
+        public IEnumerable<string> Resources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Organizer of this event - the person who will get the response status.
+        /// </summary>
+        public MatchingEntry Organizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timespan when a riminder should be shown to the user.
+        /// </summary>
+        public TimeSpan ReminderBeforeStart { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
         public List<CalendarIdentifier> ExternalIdentifier { get; set; }
@@ -175,13 +109,18 @@ namespace Sem.Sync.SyncBase
         /// <returns>a meaningful string representation for this object</returns>
         public override string ToString()
         {
-            return this.Start.ToString("yyyy-MM-dd hh:mm:ss - ", CultureInfo.InvariantCulture) + this.Subject;
+            return this.Start.ToString("yyyy-MM-dd hh:mm:ss - ", CultureInfo.InvariantCulture) + this.Title;
         }
 
+        /// <summary>
+        /// normalizes the content of this entity in order to exclude leading/tailing spaces in strings etc.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         public override void NormalizeContent()
         {
-            throw new NotImplementedException();
+            this.Description = this.Description.Trim();
+            this.Title = this.Title.Trim();
         }
     }
-#pragma warning restore 1591
 }

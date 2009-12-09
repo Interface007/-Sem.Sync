@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Outlook2003
+namespace Sem.Sync.Connector.Outlook2010
 {
     using System;
     using System.Collections.Generic;
@@ -259,11 +259,25 @@ namespace Sem.Sync.Connector.Outlook2003
                     Id = Guid.NewGuid(),
                     Title = outlookItem.Subject,
                     Description = outlookItem.Body,
-                    Start = outlookItem.Start,
-                    End = outlookItem.End,
+                    Start = outlookItem.StartUTC,
+                    End = outlookItem.EndUTC,
+                    BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
+                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    Location = outlookItem.Location,
+                    ExternalIdentifier = new List<CalendarIdentifier>
+                        {
+                            new CalendarIdentifier
+                            { 
+                                Identifier = outlookItem.GlobalAppointmentID, 
+                                IdentifierType = CalendarIdentifierType.Outlook, 
+                            }
+                        },
+                    RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
+                    ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
+                    ResponseRequested = outlookItem.ResponseRequested,
+                    ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus(),
                 };
 
-            // TODO: this is a very "incomplete" version of the method
             return result;
         }
 
@@ -439,34 +453,40 @@ namespace Sem.Sync.Connector.Outlook2003
                                             OlGender.olMale :
                                             OlGender.olFemale);
 
+            SyncTools.ClearNulls(stdNewContact, typeof(StdContact));
+            SyncTools.ClearNulls(stdOldContact, typeof(StdContact));
+
             if (stdOldContact.DateOfBirth != stdNewContact.DateOfBirth && stdNewContact.DateOfBirth > new DateTime(1900, 1, 2))
             {
                 outlookContact.Birthday = stdNewContact.DateOfBirth;
                 dirty = true;
             }
 
-            if (stdOldContact.Name.FirstName != stdNewContact.Name.FirstName)
+            if (stdNewContact.Name != null)
             {
-                outlookContact.FirstName = stdNewContact.Name.FirstName;
-                dirty = true;
-            }
+                if (stdOldContact.Name == null || stdOldContact.Name.FirstName != stdNewContact.Name.FirstName)
+                {
+                    outlookContact.FirstName = stdNewContact.Name.FirstName;
+                    dirty = true;
+                }
 
-            if (stdOldContact.Name.MiddleName != stdNewContact.Name.MiddleName)
-            {
-                outlookContact.MiddleName = stdNewContact.Name.MiddleName;
-                dirty = true;
-            }
+                if (stdOldContact.Name == null || stdOldContact.Name.MiddleName != stdNewContact.Name.MiddleName)
+                {
+                    outlookContact.MiddleName = stdNewContact.Name.MiddleName;
+                    dirty = true;
+                }
 
-            if (stdOldContact.Name.LastName != stdNewContact.Name.LastName)
-            {
-                outlookContact.LastName = stdNewContact.Name.LastName;
-                dirty = true;
-            }
+                if (stdOldContact.Name == null || stdOldContact.Name.LastName != stdNewContact.Name.LastName)
+                {
+                    outlookContact.LastName = stdNewContact.Name.LastName;
+                    dirty = true;
+                }
 
-            if (stdOldContact.Name.AcademicTitle != stdNewContact.Name.AcademicTitle)
-            {
-                outlookContact.Title = stdNewContact.Name.AcademicTitle;
-                dirty = true;
+                if (stdOldContact.Name == null || stdOldContact.Name.AcademicTitle != stdNewContact.Name.AcademicTitle)
+                {
+                    outlookContact.Title = stdNewContact.Name.AcademicTitle;
+                    dirty = true;
+                }
             }
 
             if (stdOldContact.PersonGender != stdNewContact.PersonGender)
@@ -520,7 +540,55 @@ namespace Sem.Sync.Connector.Outlook2003
 
             if (stdOldContact.BusinessAddressPrimary != null && stdNewContact.BusinessAddressPrimary != null)
             {
-                dirty = CompareAddress(outlookContact, stdNewContact.BusinessAddressPrimary, stdOldContact.BusinessAddressPrimary, "Business", dirty);
+                if (stdOldContact.BusinessAddressPrimary.CityName != stdNewContact.BusinessAddressPrimary.CityName)
+                {
+                    outlookContact.BusinessAddressCity = stdNewContact.BusinessAddressPrimary.CityName;
+                    dirty = true;
+                }
+
+                if (stdOldContact.BusinessAddressPrimary.CountryName !=
+                    stdNewContact.BusinessAddressPrimary.CountryName)
+                {
+                    outlookContact.BusinessAddressCountry = stdNewContact.BusinessAddressPrimary.CountryName;
+                    dirty = true;
+                }
+
+                if (stdOldContact.BusinessAddressPrimary.PostalCode !=
+                    stdNewContact.BusinessAddressPrimary.PostalCode)
+                {
+                    outlookContact.BusinessAddressPostalCode = stdNewContact.BusinessAddressPrimary.PostalCode;
+                    dirty = true;
+                }
+
+                if (stdOldContact.BusinessAddressPrimary.StateName != stdNewContact.BusinessAddressPrimary.StateName)
+                {
+                    outlookContact.BusinessAddressState = stdNewContact.BusinessAddressPrimary.StateName;
+                    dirty = true;
+                }
+
+                if (stdNewContact.BusinessAddressPrimary.Phone != null &&
+                    (stdOldContact.BusinessAddressPrimary.Phone == null ||
+                     stdOldContact.BusinessAddressPrimary.Phone.ToString() !=
+                     stdNewContact.BusinessAddressPrimary.Phone.ToString()))
+                {
+                    outlookContact.BusinessTelephoneNumber = stdNewContact.BusinessAddressPrimary.Phone.ToString();
+                    dirty = true;
+                }
+
+                if (stdNewContact.Categories != null &&
+                    (stdOldContact.Categories == null ||
+                    stdNewContact.Categories.Count != stdOldContact.Categories.Count))
+                {
+                    outlookContact.Categories = stdNewContact.Categories.MergeList(stdOldContact.Categories).ConcatElementsToString(";");
+                    dirty = true;
+                }
+
+                if ((stdOldContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                    != (stdNewContact.BusinessAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
+                {
+                    outlookContact.BusinessAddressStreet = stdNewContact.BusinessAddressPrimary.StreetName;
+                    dirty = true;
+                }
             }
 
             // if we do not have a business personal in the old address, we simply copy from the new one
@@ -532,25 +600,74 @@ namespace Sem.Sync.Connector.Outlook2003
 
             if (stdOldContact.PersonalAddressPrimary != null && stdNewContact.PersonalAddressPrimary != null)
             {
-                dirty = CompareAddress(outlookContact, stdNewContact.PersonalAddressPrimary, stdOldContact.PersonalAddressPrimary, "Home", dirty);
+                if (stdOldContact.PersonalAddressPrimary.CityName !=
+                    stdNewContact.PersonalAddressPrimary.CityName)
+                {
+                    outlookContact.HomeAddressCity = stdNewContact.PersonalAddressPrimary.CityName;
+                    dirty = true;
+                }
+
+                if (stdOldContact.PersonalAddressPrimary.CountryName !=
+                    stdNewContact.PersonalAddressPrimary.CountryName)
+                {
+                    outlookContact.HomeAddressCountry = stdNewContact.PersonalAddressPrimary.CountryName;
+                    dirty = true;
+                }
+
+                if (stdOldContact.PersonalAddressPrimary.PostalCode !=
+                    stdNewContact.PersonalAddressPrimary.PostalCode)
+                {
+                    outlookContact.HomeAddressPostalCode = stdNewContact.PersonalAddressPrimary.PostalCode;
+                    dirty = true;
+                }
+
+                if (stdOldContact.PersonalAddressPrimary.StateName !=
+                    stdNewContact.PersonalAddressPrimary.StateName)
+                {
+                    outlookContact.HomeAddressState = stdNewContact.PersonalAddressPrimary.StateName;
+                    dirty = true;
+                }
+
+                if (stdOldContact.PersonalAddressPrimary.StreetName !=
+                    stdNewContact.PersonalAddressPrimary.StreetName)
+                {
+                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
+                    dirty = true;
+                }
+
+                if (stdNewContact.PersonalAddressPrimary.Phone != null &&
+                    (stdOldContact.PersonalAddressPrimary.Phone == null ||
+                    stdOldContact.PersonalAddressPrimary.Phone.ToString() != stdNewContact.PersonalAddressPrimary.Phone.ToString()))
+                {
+                    outlookContact.HomeTelephoneNumber = stdNewContact.PersonalAddressPrimary.Phone.ToString();
+                    dirty = true;
+                }
+
+                if ((stdOldContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
+                    != (stdNewContact.PersonalAddressPrimary.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
+                {
+                    outlookContact.HomeAddressStreet = stdNewContact.PersonalAddressPrimary.StreetName;
+                    dirty = true;
+                }
             }
 
             if ((stdOldContact.PersonalPhoneMobile == null && stdNewContact.PersonalPhoneMobile != null)
-                || (stdNewContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile.ToString() != stdNewContact.PersonalPhoneMobile.ToString()))
+                || (stdNewContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile.ToString() != stdNewContact.PersonalPhoneMobile.ToString()))
             {
                 outlookContact.MobileTelephoneNumber = (stdNewContact.PersonalPhoneMobile == null) ? null : stdNewContact.PersonalPhoneMobile.ToString();
                 dirty = true;
             }
 
             if ((stdOldContact.BusinessPhoneMobile == null && stdNewContact.BusinessPhoneMobile != null)
-                || (stdNewContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile.ToString() != stdNewContact.BusinessPhoneMobile.ToString()))
+                || (stdNewContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile.ToString() != stdNewContact.BusinessPhoneMobile.ToString()))
             {
                 outlookContact.Business2TelephoneNumber = (stdNewContact.BusinessPhoneMobile == null) ? null : stdNewContact.BusinessPhoneMobile.ToString();
                 dirty = true;
             }
 
             if ((stdOldContact.PersonalInstantMessengerAddresses == null && stdNewContact.PersonalInstantMessengerAddresses != null)
-                || (stdNewContact.PersonalInstantMessengerAddresses != null && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger))
+                || (stdNewContact.PersonalInstantMessengerAddresses != null
+                    && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger))
             {
                 outlookContact.IMAddress = (stdNewContact.PersonalInstantMessengerAddresses == null) ? null : stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger;
                 dirty = true;
@@ -580,73 +697,6 @@ namespace Sem.Sync.Connector.Outlook2003
                 File.WriteAllBytes(fullName, stdNewContact.PictureData);
                 outlookContact.AddPicture(fullName);
                 File.Delete(fullName);
-                dirty = true;
-            }
-
-            return dirty;
-        }
-
-        /// <summary>
-        /// Compares an address of a new contact against an old contact. If the information differs, the outlook 
-        /// contact will be updated with the information from the new contact.
-        /// </summary>
-        /// <param name="outlookContact"> The outlook contact. </param>
-        /// <param name="stdNewContactAddress"> The std new contact address. </param>
-        /// <param name="stdOldContactAddress"> The std old contact address. </param>
-        /// <param name="prefix"> The prefix like "Home" or "Business". </param>
-        /// <param name="dirty"> A value that indicates if the outlook contact has already been changed. </param>
-        /// <returns>
-        /// A value that indicates if the outlook contact has been changed.
-        /// </returns>
-        private static bool CompareAddress(_ContactItem outlookContact, AddressDetail stdNewContactAddress, AddressDetail stdOldContactAddress, string prefix, bool dirty)
-        {
-            if (stdOldContactAddress.CityName !=
-                stdNewContactAddress.CityName)
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressCity", stdNewContactAddress.CityName);
-                dirty = true;
-            }
-
-            if (stdOldContactAddress.CountryName !=
-                stdNewContactAddress.CountryName)
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressCountry", stdNewContactAddress.CountryName);
-                dirty = true;
-            }
-
-            if (stdOldContactAddress.PostalCode !=
-                stdNewContactAddress.PostalCode)
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressPostalCode", stdNewContactAddress.PostalCode);
-                dirty = true;
-            }
-
-            if (stdOldContactAddress.StateName !=
-                stdNewContactAddress.StateName)
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressState", stdNewContactAddress.StateName);
-                dirty = true;
-            }
-
-            if (stdOldContactAddress.StreetName !=
-                stdNewContactAddress.StreetName)
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressStreet", stdNewContactAddress.StreetName);
-                dirty = true;
-            }
-
-            if (stdNewContactAddress.Phone != null &&
-                (stdOldContactAddress.Phone == null ||
-                 stdOldContactAddress.Phone.ToString() != stdNewContactAddress.Phone.ToString()))
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "TelephoneNumber", stdNewContactAddress.Phone.ToString());
-                dirty = true;
-            }
-
-            if ((stdOldContactAddress.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty)
-                != (stdNewContactAddress.StreetName ?? string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty))
-            {
-                Tools.SetPropertyValue(outlookContact, prefix + "AddressStreet", stdNewContactAddress.StreetName);
                 dirty = true;
             }
 
@@ -687,7 +737,7 @@ namespace Sem.Sync.Connector.Outlook2003
                             attachement.SaveAsFile(fullName);
                             GCRelevantCall();
                         }
-                        catch (System.Runtime.InteropServices.COMException)
+                        catch (COMException)
                         {
                             // we may have a problem if there are too many pictures saved in this session
                             // then we need to clean up the outlook temp path (which is difficult to determine)
@@ -812,9 +862,10 @@ namespace Sem.Sync.Connector.Outlook2003
         /// created and saved to outlook. If saving the contact does fail because of authorization, NO exception 
         /// will be thrown.
         /// </summary>
-        /// <param name="outlookContact">the outlook contact to handle</param>
-        /// <returns>the corresponding Guid</returns>
-        private static Guid GetStandardId(_ContactItem outlookContact, List<StdContact> contactList)
+        /// <param name="outlookContact"> the outlook contact to handle </param>
+        /// <param name="contactList"> The contact List to lookup duplicates. </param>
+        /// <returns> the corresponding Guid </returns>
+        private static Guid GetStandardId(_ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -848,7 +899,8 @@ namespace Sem.Sync.Connector.Outlook2003
                 // if we are not authorized to write back the id, we will assume a new id
             }
 
-            if (contactList != null && (from x in contactList where x.Id == newId select x).Count() > 0)
+            var guid = newId;
+            if (contactList != null && contactList.Where(x => x.Id == guid).Count() > 0)
             {
                 newId = Guid.NewGuid();
             }

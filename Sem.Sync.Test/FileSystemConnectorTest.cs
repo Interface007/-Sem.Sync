@@ -15,12 +15,12 @@ namespace Sem.Sync.Test
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Connector.Filesystem;
-    using DataGenerator;
-    using GenericHelpers;
-    using SyncBase;
-    using SyncBase.DetailData;
-    using SyncBase.Helpers;
+    using Sem.GenericHelpers;
+    using Sem.Sync.Connector.Filesystem;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
     /// Test class for the file system connector

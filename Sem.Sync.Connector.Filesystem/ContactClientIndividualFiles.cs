@@ -98,10 +98,18 @@ namespace Sem.Sync.Connector.Filesystem
         /// <param name="skipIfExisting">this value is not used in this client.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            var useGuid = clientFolderName.Contains("{id}");
+            clientFolderName = clientFolderName.Replace("{id}", string.Empty);
+
             Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements)
             {
-                using (var file = new FileStream(Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()) + ".xmlcontact"), FileMode.Create))
+                var fileName =
+                    useGuid
+                    ? element.Id.ToString("D")
+                    : SyncTools.NormalizeFileName(element.ToStringSimple()) + ".xmlcontact";
+
+                using (var file = new FileStream(Path.Combine(clientFolderName, fileName), FileMode.Create))
                 {
                     ContactListFormatter.Serialize(file, element);
                 }

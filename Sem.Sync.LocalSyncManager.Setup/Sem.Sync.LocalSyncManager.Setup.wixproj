@@ -128,16 +128,6 @@
       <Project>{da88047a-8ba7-492b-bb71-eb87472817a5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
-      <Name>Sem.Sync.Connector.Outlook2003</Name>
-      <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
-      <Name>Sem.Sync.Connector.Outlook</Name>
-      <Project>{809277c4-f27e-47b6-ac9f-e5ee54ae1399}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
       <Name>Sem.Sync.Connector.Statistic</Name>
       <Project>{1068fba6-60f2-4a39-9941-ccd6447313e8}</Project>

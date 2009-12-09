@@ -11,8 +11,8 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Sem.Sync.Test.Ui")]
+[assembly: AssemblyTitle("Sem.Sync.Connector.Outlook2010")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 
-[assembly: Guid("3a45e5fe-fcd2-453e-8364-bca739664d0c")]
+[assembly: Guid("f45db860-6212-41ee-a619-18b8a9e761d7")]

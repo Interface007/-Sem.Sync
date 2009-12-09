@@ -257,13 +257,27 @@ namespace Sem.Sync.Connector.Outlook
             var result = new StdCalendarItem
                 {
                     Id = Guid.NewGuid(),
-                    Subject = outlookItem.Subject,
-                    Body = outlookItem.Body,
-                    Start = outlookItem.Start,
-                    End = outlookItem.End,
+                    Title = outlookItem.Subject,
+                    Description = outlookItem.Body,
+                    Start = outlookItem.StartUTC,
+                    End = outlookItem.EndUTC,
+                    BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
+                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    Location = outlookItem.Location,
+                    ExternalIdentifier = new List<CalendarIdentifier>
+                        {
+                            new CalendarIdentifier
+                            { 
+                                Identifier = outlookItem.GlobalAppointmentID, 
+                                IdentifierType = CalendarIdentifierType.Outlook, 
+                            }
+                        },
+                    RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
+                    ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
+                    ResponseRequested = outlookItem.ResponseRequested,
+                    ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus(),
                 };
 
-            // TODO: this is a very "incomplete" version of the method
             return result;
         }
 

@@ -73,23 +73,47 @@ namespace Sem.Sync.SyncBase.Commands
         /// <returns> the modified list of elements from the <paramref name="target"/> </returns>
         private static List<StdElement> MatchThisByProfileId(List<StdElement> target, IEnumerable<StdElement> baseline)
         {
-            // ReSharper disable AccessToModifiedClosure
             foreach (var item in target)
             {
+                var localItem = (StdContact)item;
                 var corresponding = (from element in baseline
-                                     where ((MatchingEntry)element).ProfileId.MatchesAny(((StdContact)item).PersonalProfileIdentifiers)
+                                     where ((MatchingEntry)element).ProfileId.MatchesAny(localItem.PersonalProfileIdentifiers)
                                      select element).FirstOrDefault();
 
                 // if there is one with a matching profile id, 
                 // we overwrite the id
-                if (corresponding != null)
+                if (corresponding == null)
                 {
-                    item.Id = corresponding.Id;
+                    continue;
                 }
+
+                var sourceId = ((MatchingEntry)corresponding).ProfileId;
+                var targetId = localItem.PersonalProfileIdentifiers;
+
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.ActiveDirectoryId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.FacebookProfileId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.Google);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.LinkedInId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.LotusNotesId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.MeinVZ);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.MicrosoftAccessId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.OracleCrmOnDemandId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.StayFriendsPersonId);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.WerKenntWenUrl);
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.XingNameProfileId);
+                    
+                item.Id = corresponding.Id;
             }
 
-            // ReSharper restore AccessToModifiedClosure
             return target;
+        }
+
+        private static void CopyIfDestinationIsNull(ProfileIdentifiers source, ProfileIdentifiers target, ProfileIdentifierType id)
+        {
+            if (string.IsNullOrEmpty(target.GetProfileId(id)))
+            {
+                target.SetProfileId(id, source.GetProfileId(id));
+            }
         }
     }
 }

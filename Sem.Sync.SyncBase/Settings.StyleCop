@@ -8,5 +8,11 @@
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
+    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+      <AnalyzerSettings>
+        <StringProperty Name="CompanyName">Sven Erik Matzen</StringProperty>
+        <StringProperty Name="Copyright">Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.</StringProperty>
+      </AnalyzerSettings>
+    </Analyzer>
   </Analyzers>
 </StyleCopSettings>

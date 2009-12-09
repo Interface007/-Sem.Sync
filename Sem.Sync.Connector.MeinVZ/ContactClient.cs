@@ -22,7 +22,7 @@ namespace Sem.Sync.Connector.MeinVZ
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
-    
+
     #endregion usings
 
     /// <summary>
@@ -152,7 +152,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Gets or sets the extraction string for the image.
         /// </summary>
-        protected string ContactImageSelector { get; set; } 
+        protected string ContactImageSelector { get; set; }
 
         /// <summary>
         /// Gets or sets the detection string to detect if we did fail to logon
@@ -182,15 +182,15 @@ namespace Sem.Sync.Connector.MeinVZ
             this.httpRequester.UiDispatcher = this.UiDispatcher;
             var contactUrls = this.GetUrlList();
 
-            foreach (string contactUrl in contactUrls)
+            foreach (var contactUrl in contactUrls)
             {
                 result.Add(this.DownloadContact(contactUrl));
             }
-            
+
             result.Sort();
             return result;
         }
-    
+
         /// <summary>
         /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>
@@ -320,9 +320,9 @@ namespace Sem.Sync.Connector.MeinVZ
         }
 
         /// <summary>
-        /// Ready a list of vCard locations - this will also establish the logon
+        /// Ready a list of data locations - this will also establish the logon
         /// </summary>
-        /// <returns>a list of urls for the vCards to be downloaded</returns>
+        /// <returns>a list of urls for the data to be downloaded</returns>
         private List<string> GetUrlList()
         {
             var result = new List<string>();

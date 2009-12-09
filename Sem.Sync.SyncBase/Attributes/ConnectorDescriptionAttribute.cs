@@ -32,14 +32,24 @@ namespace Sem.Sync.SyncBase.Attributes
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the connector can read data.
+        /// Gets or sets a value indicating whether the connector can read contact data.
         /// </summary>
         public bool CanReadContacts { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the connector can write data.
+        /// Gets or sets a value indicating whether the connector can write contact data.
         /// </summary>
         public bool CanWriteContacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the connector can read calendar data.
+        /// </summary>
+        public bool CanReadCalendarEntries { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the connector can write calendar data.
+        /// </summary>
+        public bool CanWriteCalendarEntries { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the connector needs credentials.

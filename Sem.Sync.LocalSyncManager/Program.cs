@@ -13,7 +13,6 @@ namespace Sem.Sync.LocalSyncManager
     using System;
     using System.Windows.Forms;
 
-    using GenericHelpers;
     using GenericHelpers.Exceptions;
 
     using Sem.Sync.LocalSyncManager.UI;
@@ -33,6 +32,8 @@ namespace Sem.Sync.LocalSyncManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
+            ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
 
             try
             {

@@ -73,16 +73,6 @@
       <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
-      <Name>Sem.Sync.Connector.Outlook2003</Name>
-      <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
-      <Name>Sem.Sync.Connector.Outlook</Name>
-      <Project>{809277c4-f27e-47b6-ac9f-e5ee54ae1399}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj">
       <Name>Sem.Sync.Connector.Xing</Name>
       <Project>{2b1ec971-9055-4156-9fff-0f2b3c7697f4}</Project>

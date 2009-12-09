@@ -175,6 +175,31 @@ namespace Sem.GenericHelpers
             }
         }
 
+        private static string SaveToString<T>(T source) where T : class
+        {
+            var formatter = new XmlSerializer(typeof(T));
+            var result = new StringBuilder();
+            if (source != null)
+            {
+                try
+                {
+                    var writer = new StringWriter(result);
+                    formatter.Serialize(writer, source);
+                    writer.Flush();
+                    writer.Close();
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    DebugWriteLine(ex.Message);
+                }
+            }
+
+            return result.ToString();
+        }
+
         /// <summary>
         /// Loads an entity from the file system.
         /// </summary>
@@ -203,6 +228,32 @@ namespace Sem.GenericHelpers
                     {
                         DebugWriteLine(ex.Message);
                     }
+                }
+            }
+
+            return result;
+        }
+
+        private static T LoadFromString<T>(string serialized)
+        {
+            var formatter = new XmlSerializer(typeof(T));
+            var result = default(T);
+            if (!string.IsNullOrEmpty(serialized))
+            {
+                try
+                {
+                    var reader = new StringReader(serialized);
+                    result = (T)formatter.Deserialize(reader);
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    DebugWriteLine(ex.Message);
                 }
             }
 
@@ -239,6 +290,12 @@ namespace Sem.GenericHelpers
 
                 return string.Empty;
             }
+        }
+
+        public static Credentials GetCredentials(string name)
+        {
+            var serialized = GetRegValue("Software\\Sem.Sync\\Credentials", name, string.Empty);
+            return Tools.LoadFromString<Credentials>(serialized);
         }
 
         /// <summary>
@@ -321,11 +378,11 @@ namespace Sem.GenericHelpers
                     int numIndex;
                     var checkIndex = false;
                     if (parameter.EndsWith("?", StringComparison.Ordinal))
-                    { 
+                    {
                         parameter = parameter.Substring(0, parameter.Length - 1);
                         checkIndex = true;
                     }
-     
+
                     var indexerObject = valueType.GetCustomAttributes(typeof(DefaultMemberAttribute), true);
                     if (indexerObject.Length == 0)
                     {
@@ -360,7 +417,7 @@ namespace Sem.GenericHelpers
                             {
                                 return null;
                             }
-                            
+
                             if (checkIndex)
                             {
                                 var maxIndex = ((int)GetPropertyValue(value, "Count")) - 1;
@@ -457,7 +514,7 @@ namespace Sem.GenericHelpers
                     {
                         return;
                     }
-                        
+
                     propInfo.SetValue(objectToWriteTo, constructor.Invoke(null), null);
                 }
 
@@ -511,12 +568,12 @@ namespace Sem.GenericHelpers
                     if (valueString == "{emptystring}")
                     {
                         propInfo.SetValue(objectToWriteTo, string.Empty, null);
-                        break;                                
+                        break;
                     }
 
                     propInfo.SetValue(objectToWriteTo, valueString, null);
                     break;
-                    
+
                 case "List`1":
 
                     var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
