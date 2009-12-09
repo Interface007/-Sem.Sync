@@ -569,5 +569,10 @@ namespace Sem.Sync.SharedUI.Common
 
             return returnvalue;
         }
+
+        public static void OpenExceptionFolder()
+        {
+            System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
+        }
     }
 }

@@ -88,6 +88,7 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
+            this.openExceptionFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -342,6 +343,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openWorkingFolderToolStripMenuItem,
+            this.openExceptionFolderToolStripMenuItem,
             this.deleteCurrentProfileToolStripMenuItem,
             this.seperatorStripMenuItem1,
             this.exitToolStripMenuItem});
@@ -427,6 +429,11 @@
             resources.ApplyResources(this.LogList, "LogList");
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
+            // 
+            // openExceptionFolderToolStripMenuItem
+            // 
+            this.openExceptionFolderToolStripMenuItem.Name = "openExceptionFolderToolStripMenuItem";
+            resources.ApplyResources(this.openExceptionFolderToolStripMenuItem, "openExceptionFolderToolStripMenuItem");
             // 
             // SyncWizard
             // 
@@ -544,5 +551,6 @@
         private System.Windows.Forms.ListBox LogList;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkShowImage;
+        private System.Windows.Forms.ToolStripMenuItem openExceptionFolderToolStripMenuItem;
     }
 }
