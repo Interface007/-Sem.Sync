@@ -244,7 +244,10 @@ namespace Sem.Sync.Connector.MeinVZ
                         break;
 
                     case "Geburtstag:":
-                        result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
+                        if (value.Length > 9)
+                        {
+                            result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
+                        }
                         break;
 
                     case "Skype:":
