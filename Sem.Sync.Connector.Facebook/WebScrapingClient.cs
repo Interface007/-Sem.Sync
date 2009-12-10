@@ -82,11 +82,11 @@ namespace Sem.Sync.Connector.Facebook
         protected override StdContact ConvertToStdContact(string contactUrl, string content)
         {
             var result = new StdContact();
-            var values = Regex.Matches(content, @"<h1 id=""profile_name"">(.*?)</h1>", RegexOptions.Singleline);
+            var values = Regex.Matches(content, @"\<h1 id=\\""profile_name\\"">(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
 
             if (values.Count > 0 && values[0].Groups.Count > 1)
             {
-                result.Name = new PersonName(values[0].Groups[1].ToString());
+                result.Name = new PersonName(GetValue(values[0]));
                 this.LogProcessingEvent("processing " + result.Name);
             }
             else
@@ -98,10 +98,19 @@ namespace Sem.Sync.Connector.Facebook
                 content,
                 @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
                 RegexOptions.Singleline);
+
+            if (values.Count == 0)
+            {
+                values = Regex.Matches(
+                    content,
+                    @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>",
+                    RegexOptions.Singleline);
+            }
+
             foreach (Match match in values)
             {
-                var key = match.Groups[1].ToString();
-                string value = GetValue(match);
+                var key = match.Groups["key"].ToString();
+                var value = GetValue(match);
 
                 result.InternalSyncData = new SyncData();
 
@@ -170,7 +179,16 @@ namespace Sem.Sync.Connector.Facebook
                 this.WebSideParameters.ProfileIdentifierType, 
                 contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
-            // TODO: download the image of the contact [update documentation chapter Facebook]
+            var imageurl = Regex.Match(content, @"<img src=\\""(?<url>.*?)\\"" alt=\\""[^""]*"" id=\\""profile_pic\\""");
+            if (imageurl.Groups["url"] != null)
+            {
+                var imageUrl = imageurl.Groups["url"].ToString().Replace(@"\/", @"/");
+                if (!string.IsNullOrEmpty(imageUrl))
+                {
+                    result.PictureData = this.HttpRequester.GetContentBinary(imageUrl);
+                }
+            }
+
             return result;
         }
 
@@ -214,7 +232,7 @@ namespace Sem.Sync.Connector.Facebook
         /// <returns> the extracted value </returns>
         private static string GetValue(Match match)
         {
-            var value = match.Groups[2].ToString();
+            var value = match.Groups["value"].ToString();
             if (value.Contains(">"))
             {
                 value = value.Substring(value.IndexOf('>') + 1);
@@ -223,6 +241,17 @@ namespace Sem.Sync.Connector.Facebook
             if (value.Contains("<"))
             {
                 value = value.Substring(0, value.IndexOf('<'));
+            }
+
+            value = value.Replace("\\/", "/");
+            
+            if (value.Contains("\\u"))
+            {
+                var code = value.Substring(value.IndexOf("\\u") + 2, 4);
+                var charValue = int.Parse(code, NumberStyles.HexNumber);
+                var character = char.ConvertFromUtf32(charValue);
+
+                value = value.Replace("\\u" + code, character);
             }
 
             return value;

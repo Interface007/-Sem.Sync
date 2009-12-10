@@ -17,7 +17,6 @@ namespace Sem.Sync.LocalSyncManager.UI
     
     using Business;
 
-    using GenericHelpers;
     using GenericHelpers.EventArgs;
     using GenericHelpers.Exceptions;
 

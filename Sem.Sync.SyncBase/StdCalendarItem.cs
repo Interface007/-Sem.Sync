@@ -75,17 +75,17 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the ids of the required attendees - a list of contacts that MUST attend.
         /// </summary>
-        public IEnumerable<MatchingEntry> RequiredAttendees { get; set; }
+        public List<MatchingEntry> RequiredAttendees { get; set; }
 
         /// <summary>
         /// Gets or sets the ids of the attendees - a list of contacts that MIGHT attend.
         /// </summary>
-        public IEnumerable<MatchingEntry> OptionalAttendees { get; set; }
+        public List<MatchingEntry> OptionalAttendees { get; set; }
 
         /// <summary>
         /// Gets or sets the resources needed for this event.
         /// </summary>
-        public IEnumerable<string> Resources { get; set; }
+        public List<string> Resources { get; set; }
 
         /// <summary>
         /// Gets or sets the Organizer of this event - the person who will get the response status.
