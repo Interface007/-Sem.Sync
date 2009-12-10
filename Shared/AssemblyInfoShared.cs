@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 
 [assembly: CLSCompliant(false)]
 
-[assembly: AssemblyVersion("2009.1209.*")]
+[assembly: AssemblyVersion("2009.1210.*")]
 
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
 
