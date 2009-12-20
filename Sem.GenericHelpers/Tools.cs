@@ -234,32 +234,6 @@ namespace Sem.GenericHelpers
             return result;
         }
 
-        private static T LoadFromString<T>(string serialized)
-        {
-            var formatter = new XmlSerializer(typeof(T));
-            var result = default(T);
-            if (!string.IsNullOrEmpty(serialized))
-            {
-                try
-                {
-                    var reader = new StringReader(serialized);
-                    result = (T)formatter.Deserialize(reader);
-                }
-                catch (InvalidOperationException)
-                {
-                }
-                catch (IOException)
-                {
-                }
-                catch (Exception ex)
-                {
-                    DebugWriteLine(ex.Message);
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Reads a value from the registry and also ensures that the registry key does exist
         /// </summary>
@@ -491,22 +465,27 @@ namespace Sem.GenericHelpers
                 pathToProperty = pathToProperty.Substring(1);
             }
 
-            var type = objectToWriteTo.GetType();
-            var propName = pathToProperty.Contains('.') ? pathToProperty.Substring(0, pathToProperty.IndexOf('.')) : pathToProperty;
+            var propName = GetInvokePartFromPath(ref pathToProperty);
 
-            if (propName.EndsWith("()", StringComparison.Ordinal))
+            if (propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("("))
             {
                 return;
             }
 
+            var type = objectToWriteTo.GetType();
             var propInfo = type.GetProperty(propName);
             if (propInfo == null)
             {
                 return;
             }
 
+            var isIndexed = pathToProperty.StartsWith("[", StringComparison.Ordinal) && pathToProperty.Contains("]");
+            var parameter = GetParameterForInvoke(ref pathToProperty);
+
+            // if we need to navigate down the object path
             if (pathToProperty.Contains('.'))
             {
+                // generate a new instance for this property in case of NULL
                 if (propInfo.GetValue(objectToWriteTo, null) == null)
                 {
                     var constructor = propInfo.PropertyType.GetConstructor(new Type[] { });
@@ -518,6 +497,7 @@ namespace Sem.GenericHelpers
                     propInfo.SetValue(objectToWriteTo, constructor.Invoke(null), null);
                 }
 
+                // recursively call this method
                 SetPropertyValue(
                     propInfo.GetValue(objectToWriteTo, null),
                     pathToProperty.Substring(pathToProperty.IndexOf('.') + 1),
@@ -591,9 +571,74 @@ namespace Sem.GenericHelpers
                     break;
 
                 default:
-                    propInfo.SetValue(objectToWriteTo, valueString, null);
+                    if (isIndexed)
+                    {
+                        propInfo.SetValue(objectToWriteTo, valueString, CreateIndexerValue(parameter));                        
+                    }
+                    else
+                    {
+                        propInfo.SetValue(objectToWriteTo, valueString, null);                        
+                    }
+
                     break;
             }
+        }
+
+        private static T LoadFromString<T>(string serialized)
+        {
+            var formatter = new XmlSerializer(typeof(T));
+            var result = default(T);
+            if (!string.IsNullOrEmpty(serialized))
+            {
+                try
+                {
+                    var reader = new StringReader(serialized);
+                    result = (T)formatter.Deserialize(reader);
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    DebugWriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        private static string GetParameterForInvoke(ref string propName)
+        {
+            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
+            var parameter = parameterStart > -1 ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2) : string.Empty;
+            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
+            return parameter;
+        }
+
+        private static object[] CreateIndexerValue(string parameter)
+        {
+            int integerIndexer;
+            if (int.TryParse(parameter, out integerIndexer))
+            {
+                return new object[] { integerIndexer };
+            }
+
+            if (parameter.StartsWith(@"""") && parameter.EndsWith(@""""))
+            {
+                return new object[] { parameter.Substring(1, parameter.Length - 2) };
+            }
+
+            var lastDot = parameter.LastIndexOf('.');
+            var type = Type.GetType(new Factory().EnrichClassName(parameter.Substring(0, lastDot)), false, true);
+            if (type != null && type.BaseType == typeof(Enum))
+            {
+                return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
+            }
+        
+            return null;
         }
 
         /// <summary>

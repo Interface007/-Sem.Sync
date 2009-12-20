@@ -101,7 +101,8 @@ namespace Sem.Sync.SyncBase.Commands
                 CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.StayFriendsPersonId);
                 CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.WerKenntWenUrl);
                 CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.XingNameProfileId);
-                    
+                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.ExchangeWs);
+                
                 item.Id = corresponding.Id;
             }
 

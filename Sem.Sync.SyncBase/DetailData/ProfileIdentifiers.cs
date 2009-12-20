@@ -77,6 +77,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.LotusNotesId = profileId;
                     break;
 
+                case ProfileIdentifierType.ExchangeWs:
+                    this.ExchangeWs = profileId;
+                    break;
+
                 default:
                     this.DefaultProfileId = profileId;
                     break;
@@ -152,6 +156,11 @@ namespace Sem.Sync.SyncBase.DetailData
         public ProfileIdInformation GoogleId { get; set; }
 
         /// <summary>
+        /// Gets or sets the echnage web services id
+        /// </summary>
+        public ProfileIdInformation ExchangeWs { get; set; }
+
+        /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
         /// <param name="type">the type of identifier to read</param>
@@ -204,6 +213,10 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 case ProfileIdentifierType.Google:
                     result = this.GoogleId;
+                    break;
+
+                case ProfileIdentifierType.ExchangeWs:
+                    result = this.ExchangeWs;
                     break;
 
                 default:
@@ -267,6 +280,10 @@ namespace Sem.Sync.SyncBase.DetailData
                     this.LotusNotesId = newValue;
                     break;
 
+                case ProfileIdentifierType.ExchangeWs:
+                    this.ExchangeWs = newValue;
+                    break;
+
                 default:
                     this.DefaultProfileId = newValue;
                     break;
@@ -294,6 +311,7 @@ namespace Sem.Sync.SyncBase.DetailData
                   (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
                   (!string.IsNullOrEmpty(this.LotusNotesId) && this.LotusNotesId == other.LotusNotesId) ||
                   (!string.IsNullOrEmpty(this.OracleCrmOnDemandId) && this.OracleCrmOnDemandId == other.OracleCrmOnDemandId) ||
+                  (!string.IsNullOrEmpty(this.ExchangeWs) && this.ExchangeWs == other.ExchangeWs) ||
                   (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
         }
 
@@ -362,6 +380,7 @@ namespace Sem.Sync.SyncBase.DetailData
             result.Append((this.XingNameProfileId ?? string.Empty) + " - ");
             result.Append((this.LotusNotesId ?? string.Empty) + " - ");
             result.Append((this.OracleCrmOnDemandId ?? string.Empty) + " - ");
+            result.Append((this.ExchangeWs ?? string.Empty) + " - ");
             result.Append((this.DefaultProfileId ?? string.Empty));
             return result.ToString();
         }

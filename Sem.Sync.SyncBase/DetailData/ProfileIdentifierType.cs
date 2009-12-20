@@ -78,6 +78,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// The web service based interface of "Oracle CRM on Demand"
         /// </summary>
-        OracleCrmOnDemandId
+        OracleCrmOnDemandId,
+
+        /// <summary>
+        /// Exchange Web Services
+        /// </summary>
+        ExchangeWs,
     }
 }
