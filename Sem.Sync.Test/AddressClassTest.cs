@@ -10,23 +10,11 @@
     [TestClass]
     public class AddressClassTest
     {
-        private TestContext testContextInstance;
-
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
         //
@@ -104,6 +92,34 @@
         public void AddressToStringTest01()
         {
             Assert.AreEqual("Birkenweg 21 a / 35586 Wetzlar Germany", new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany").ToString());
+        }
+
+        [TestMethod]
+        public void AddressEqualTest()
+        {
+            Assert.AreEqual(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweg 21\n35586 Wetzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweg 22a\n35586 Wetzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweck 21a\n35586 Wetzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweg 21a\n34586 Wetzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweg 21a\n35586 Wätzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.AreNotEqual(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nSpain"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+
+            Assert.IsTrue(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweg 21\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweg 22a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweck 21a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweg 21a\n34586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wätzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nSpain") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+
+            Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweg 21\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweg 22a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweck 21a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweg 21a\n34586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweg 21a\n35586 Wätzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            Assert.IsTrue(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nSpain") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
         }
 
         private static void CheckConstructorCountry(string checkThis, string countryName)

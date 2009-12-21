@@ -158,13 +158,13 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             exchangeContact.SetAddress(PhysicalAddressKey.Home, contact.PersonalAddressPrimary);
             exchangeContact.SetAddress(PhysicalAddressKey.Other, contact.PersonalAddressSecondary);
 
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone, contact.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().DenormalizedPhoneNumber);
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone2, contact.PersonalAddressSecondary.NewIfNull().Phone.NewIfNull().DenormalizedPhoneNumber);
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone, contact.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().DenormalizedPhoneNumber);
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone2, contact.BusinessAddressSecondary.NewIfNull().Phone.NewIfNull().DenormalizedPhoneNumber);
-            
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.MobilePhone, contact.BusinessPhoneMobile.NewIfNull().DenormalizedPhoneNumber);
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.OtherTelephone, contact.PersonalPhoneMobile.NewIfNull().DenormalizedPhoneNumber);
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone, contact.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone2, contact.PersonalAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone, contact.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone2, contact.BusinessAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
+
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.MobilePhone, contact.BusinessPhoneMobile.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.OtherTelephone, contact.PersonalPhoneMobile.NewIfNull().ToString());
 
             exchangeContact.SetImAddress(ImAddressKey.ImAddress1, contact.BusinessInstantMessengerAddresses.NewIfNull().MsnMessenger);
             exchangeContact.SetImAddress(ImAddressKey.ImAddress2, contact.PersonalInstantMessengerAddresses.NewIfNull().MsnMessenger);

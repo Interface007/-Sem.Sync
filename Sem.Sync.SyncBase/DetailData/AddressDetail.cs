@@ -150,6 +150,24 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
+        /// Implements a comparison against an object with the same type
+        /// based on the <see cref="ToString()"/> method.
+        /// </summary>
+        /// <param name="obj"> The other object. </param>
+        /// <returns> true in case of equal content </returns>
+        public override bool Equals(object obj)
+        {
+            var other = obj as AddressDetail;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.ToString().Equals(other.ToString());
+        }
+
+        /// <summary>
         /// Builds up a string representation of the information inside this object.
         /// </summary>
         /// <param name="format"> The format to use for the address formatting (<see cref="AddressFormatting"/>). </param>
@@ -208,6 +226,53 @@ namespace Sem.Sync.SyncBase.DetailData
             }
 
             return lineParts[0].Groups[groupName].ToString().Trim();
+        }
+
+        /// <summary>
+        /// Compares the content of this address instance to another based on the <see cref="ToString()"/> method.
+        /// </summary>
+        /// <param name="other"> The other instance. </param>
+        /// <returns> true in case of equal content </returns>
+        public bool Equals(AddressDetail other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.ToString() == this.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = this.CountryName != null ? this.CountryName.GetHashCode() : 0;
+                result = (result * 397) ^ (this.StateName != null ? this.StateName.GetHashCode() : 0);
+                result = (result * 397) ^ (this.PostalCode != null ? this.PostalCode.GetHashCode() : 0);
+                result = (result * 397) ^ (this.CityName != null ? this.CityName.GetHashCode() : 0);
+                result = (result * 397) ^ (this.StreetName != null ? this.StreetName.GetHashCode() : 0);
+                result = (result * 397) ^ this.StreetNumber;
+                result = (result * 397) ^ (this.Room != null ? this.Room.GetHashCode() : 0);
+                result = (result * 397) ^ (this.StreetNumberExtension != null ? this.StreetNumberExtension.GetHashCode() : 0);
+                result = (result * 397) ^ (this.Phone != null ? this.Phone.GetHashCode() : 0);
+                return result;
+            }
+        }
+
+        public static bool operator ==(AddressDetail left, AddressDetail right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(AddressDetail left, AddressDetail right)
+        {
+            return !Equals(left, right);
         }
     }
 }

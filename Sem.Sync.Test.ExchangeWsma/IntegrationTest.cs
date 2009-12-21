@@ -69,8 +69,8 @@ namespace Sem.Sync.Test.ExchangeWsma
             connector.LogOnPassword = workFlow.Target.LogonCredentials.LogOnPassword;
             connector.LogOnUserId = workFlow.Target.LogonCredentials.LogOnUserId;
 
-            connector.WriteRange(contacts.ToStdElement(), "TestFolder");
-            var contactsRead = connector.GetAll("TestFolder").ToContacts();
+            connector.WriteRange(contacts.ToStdElement(), workFlow.Target.Path);
+            var contactsRead = connector.GetAll(workFlow.Target.Path).ToContacts();
 
             var contactWritten = (from x in contacts where x.Name.LastName == "Matzen" select x).FirstOrDefault();
             var contactRead = (from x in contactsRead where x.Name.LastName == "Matzen" select x).FirstOrDefault();
@@ -89,11 +89,11 @@ namespace Sem.Sync.Test.ExchangeWsma
             Assert.AreEqual(contactWritten.BusinessDepartment, contactRead.BusinessDepartment);
             Assert.AreEqual(contactWritten.BusinessPosition, contactRead.BusinessPosition);
             Assert.AreEqual(contactWritten.BusinessHomepage, contactRead.BusinessHomepage);
-            
-            Assert.AreEqual(contactWritten.BusinessAddressPrimary, contactRead.BusinessAddressPrimary);
-            Assert.AreEqual(contactWritten.PersonalAddressPrimary, contactRead.PersonalAddressPrimary);
-            Assert.AreEqual(contactWritten.BusinessAddressSecondary, contactRead.BusinessAddressSecondary);
-            Assert.AreEqual(contactWritten.BusinessAddressPrimary, contactRead.BusinessAddressPrimary);
+
+            Assert.AreEqual(contactWritten.BusinessAddressPrimary.ToString(), contactRead.BusinessAddressPrimary.ToString());
+            Assert.AreEqual(contactWritten.PersonalAddressPrimary.ToString(), contactRead.PersonalAddressPrimary.ToString());
+            Assert.AreEqual(contactWritten.BusinessAddressSecondary.ToString(), contactRead.BusinessAddressSecondary.ToString());
+            Assert.AreEqual(contactWritten.BusinessAddressPrimary.ToString(), contactRead.BusinessAddressPrimary.ToString());
 
             Assert.AreEqual(contactWritten.BusinessPhoneMobile, contactRead.BusinessPhoneMobile);
             Assert.AreEqual(contactWritten.PersonalPhoneMobile, contactRead.PersonalPhoneMobile);
