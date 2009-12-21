@@ -219,6 +219,7 @@ namespace Sem.Sync.Connector.Outlook2003
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
                                 var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
+                                
                                 if (newContact != null)
                                 {
                                     result.Add(newContact);

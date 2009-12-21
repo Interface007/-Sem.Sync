@@ -35,14 +35,29 @@ namespace Sem.Sync.SyncBase.DetailData
     [Serializable]
     public class AddressDetail
     {
+        /// <summary>
+        /// detects that there is some text to get (the country)
+        /// </summary>
         private static readonly Regex RegCityPre = new Regex("^[a-zA-Z -.ßäöüÄÖÜ]+");
 
+        /// <summary>
+        /// detects that there are postal code and city
+        /// </summary>
         private static readonly Regex RegPlzCityPre = new Regex("^[0-9]+");
  
+        /// <summary>
+        /// extracts the postal code and the city
+        /// </summary>
         private static readonly Regex RegPlzCity = new Regex("(?<plz>^[0-9]+)(?<city>[^0-9]+.+)?");
 
+        /// <summary>
+        /// detects that there is a street number and may be an extension
+        /// </summary>
         private static readonly Regex RegStreetNumberExtensionPre = new Regex("^[a-zA-Z -.ßäöüÄÖÜ]+[0-9]+");
 
+        /// <summary>
+        /// extracts the street number and may be an extension
+        /// </summary>
         private static readonly Regex RegStreetNumberExtension = new Regex("(?<name>^[a-zA-Z -.ßäöüÄÖÜ]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
 
         /// <summary>

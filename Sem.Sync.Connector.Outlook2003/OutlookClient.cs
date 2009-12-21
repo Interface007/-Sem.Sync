@@ -727,7 +727,7 @@ namespace Sem.Sync.Connector.Outlook2003
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\12.0\\Outlook\\Security");
+            var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\11.0\\Outlook\\Security");
             if (reg == null)
             {
                 return;

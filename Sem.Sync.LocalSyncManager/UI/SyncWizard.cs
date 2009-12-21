@@ -298,7 +298,9 @@ namespace Sem.Sync.LocalSyncManager.UI
         private string AskForDestinationFile(string currentFileName)
         {
             this.saveFileDialog1.DefaultExt = SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            // ReSharper disable LocalizableElement
             this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            // ReSharper restore LocalizableElement
             this.saveFileDialog1.FilterIndex = 0;
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.FileName = currentFileName;

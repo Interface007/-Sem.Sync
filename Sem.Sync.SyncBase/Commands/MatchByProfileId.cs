@@ -109,6 +109,12 @@ namespace Sem.Sync.SyncBase.Commands
             return target;
         }
 
+        /// <summary>
+        /// Sets the profile id if the target property is null.
+        /// </summary>
+        /// <param name="source">the source profile identifier container</param>
+        /// <param name="target">the target profile identifier container</param>
+        /// <param name="id">the profile type to copy from source to target</param>
         private static void CopyIfDestinationIsNull(ProfileIdentifiers source, ProfileIdentifiers target, ProfileIdentifierType id)
         {
             if (string.IsNullOrEmpty(target.GetProfileId(id)))

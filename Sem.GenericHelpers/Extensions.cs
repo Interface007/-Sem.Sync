@@ -82,11 +82,12 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Tests a value for being NULL and returns a new object of the same type if it is null.
+        /// Tests a key value pair for being NULL and returns a new key value pair if it is null.
         /// Returns the tested object if it was not null.
         /// </summary>
         /// <param name="testObject"> The test object. </param>
-        /// <typeparam name="T"> The type to test and return </typeparam>
+        /// <typeparam name="T1"> The type to key </typeparam>
+        /// <typeparam name="T2"> The type of the value </typeparam>
         /// <returns> the non-null value or a new object if the original value was null </returns>
         public static KeyValuePair<T1, T2> NewIfNull<T1, T2>(this KeyValuePair<T1, T2> testObject)
         {

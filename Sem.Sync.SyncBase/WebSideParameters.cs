@@ -13,12 +13,12 @@ namespace Sem.Sync.SyncBase
     using DetailData;
 
     /// <summary>
-    /// 
+    /// Defines that valiable parts of a web site tobe grabbed.
     /// </summary>
     public class WebSideParameters
     {
         /// <summary>
-        /// Gets or sets the deterministin part of the placeholder url - the url to a placeholder must match this regex, while
+        /// Gets or sets the deterministing part of the placeholder url - the url to a placeholder must match this regex, while
         /// all others must not.
         /// </summary>
         public string ImagePlaceholderUrl { get; set; }

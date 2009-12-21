@@ -9,6 +9,8 @@
 
 namespace Sem.Sync.Test.ExchangeWsma
 {
+    using System;
+    using System.IO;
     using System.Linq;
     
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,7 +65,8 @@ namespace Sem.Sync.Test.ExchangeWsma
             var connector = new ContactClient();
             var contacts = Contacts.GetStandardContactList(false);
 
-            var workFlow = Tools.LoadFromFile<SyncWorkFlow>(@"C:\Users\matzensv\AppData\Roaming\SemSyncManager\Work\SyncLists\Exchange Write Test.DSyncList");
+            var baseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager");
+            var workFlow = Tools.LoadFromFile<SyncWorkFlow>(Path.Combine(baseFolder, @"Work\SyncLists\Exchange Write Test.DSyncList"));
 
             connector.LogOnDomain = workFlow.Target.LogonCredentials.LogOnDomain;
             connector.LogOnPassword = workFlow.Target.LogonCredentials.LogOnPassword;

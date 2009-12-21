@@ -46,19 +46,19 @@
     <Compile Include="IntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Cloud\Sdx.Sync\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
+    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Cloud\Sdx.Sync\Sem.Sync.Connector.ExchangeWebServiceManagedApi\Sem.Sync.Connector.ExchangeWebServiceManagedApi.csproj">
+    <ProjectReference Include="..\Sem.Sync.Connector.ExchangeWebServiceManagedApi\Sem.Sync.Connector.ExchangeWebServiceManagedApi.csproj">
       <Project>{A3F64060-5F1F-4470-B1AE-71836CFD6DA0}</Project>
       <Name>Sem.Sync.Connector.ExchangeWebServiceManagedApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Cloud\Sdx.Sync\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
       <Name>Sem.Sync.SyncBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Cloud\Sdx.Sync\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
+    <ProjectReference Include="..\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
       <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
       <Name>Sem.Sync.Test.DataGenerator</Name>
     </ProjectReference>
