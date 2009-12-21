@@ -93,7 +93,9 @@
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PersonNameClassTest.cs" />
-    <Compile Include="PhoneClassTest.cs" />
+    <Compile Include="PhoneClassTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemConnectorTest.cs" />
     <Compile Include="UpdateTestData.cs" />
