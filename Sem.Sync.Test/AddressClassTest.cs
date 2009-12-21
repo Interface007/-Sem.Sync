@@ -105,7 +105,10 @@
             Assert.AreNotEqual(new AddressDetail("Birkenweg 21a\n35586 Wätzlar\nGermany"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.AreNotEqual(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nSpain"), new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
 
+            // ReSharper disable EqualExpressionComparison
             Assert.IsTrue(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            
+            // ReSharper restore EqualExpressionComparison
             Assert.IsFalse(new AddressDetail("Birkenweg 21\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.IsFalse(new AddressDetail("Birkenweg 22a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.IsFalse(new AddressDetail("Birkenweck 21a\n35586 Wetzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
@@ -113,7 +116,10 @@
             Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wätzlar\nGermany") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nSpain") == new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
 
+            // ReSharper disable EqualExpressionComparison
             Assert.IsFalse(new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
+            
+            // ReSharper restore EqualExpressionComparison
             Assert.IsTrue(new AddressDetail("Birkenweg 21\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.IsTrue(new AddressDetail("Birkenweg 22a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
             Assert.IsTrue(new AddressDetail("Birkenweck 21a\n35586 Wetzlar\nGermany") != new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany"));
