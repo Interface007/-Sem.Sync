@@ -78,26 +78,30 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             {
                 var contact = (StdContact)element;
 
-                var item = 
-                    contact.PersonalProfileIdentifiers.ExchangeWs != null
-                    ? Contact.Bind(
-                        contactsFolder.Service, 
-                        contact.PersonalProfileIdentifiers.ExchangeWs.Id,
-                        ContactPropertySet)
-                    : null;
+                Extensions.EatException(
+                    () =>
+                        {
+                            var item = contact.PersonalProfileIdentifiers.ExchangeWs != null
+                                       ? Contact.Bind(
+                                             contactsFolder.Service,
+                                             contact.PersonalProfileIdentifiers.ExchangeWs.Id,
+                                             ContactPropertySet)
+                                       : null;
 
-                if (item == null)
-                {
-                    this.LogProcessingEvent(contact, "adding contact");
-                    var exchangeContact = contact.ToExchangeContact(service);
-                    exchangeContact.Save(contactsFolderId);
-                    contact.PersonalProfileIdentifiers.ExchangeWs = exchangeContact.Id.UniqueId;
-                }
-                else
-                {
-                    // todo: currenty we don't touch existing entries, but we should update them
-                    this.LogProcessingEvent(element, "not written, because already existing");
-                }
+                            if (item == null)
+                            {
+                                this.LogProcessingEvent(contact, "adding contact");
+                                var exchangeContact = contact.ToExchangeContact(service);
+                                exchangeContact.Save(contactsFolderId);
+                                contact.PersonalProfileIdentifiers.ExchangeWs = exchangeContact.Id.UniqueId;
+                            }
+                            else
+                            {
+                                // todo: currenty we don't touch existing entries, but we should update them
+                                this.LogProcessingEvent(contact, "not written, because already existing");
+                            }
+                        },
+                        (ServiceResponseException x) => x.ErrorCode == ServiceError.ErrorItemNotFound);
             }
         }
 
@@ -129,8 +133,21 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 
                 foreach (var element in resultList)
                 {
-                    var exchangeContact = Contact.Bind(contactsFolder.Service, element.Id);
-                    var contact = exchangeContact.ToStdContact();
+                    var currentItem = element as Contact;
+                    if (currentItem == null)
+                    {
+                        continue;
+                    }
+
+                    StdContact contact = null;
+                    Extensions.EatException(
+                        () =>
+                            {
+                                var exchangeContact = Contact.Bind(contactsFolder.Service, currentItem.Id);
+                                contact = exchangeContact.ToStdContact();
+                            },
+                        (Exception ex) => true);
+
                     if (contact == null || string.IsNullOrEmpty(contact.Name.ToString()))
                     {
                         continue;
@@ -139,6 +156,8 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     result.Add(contact);
                     this.LogProcessingEvent(contact, "element loaded ...");
                 }
+
+                CleanUpEntities(result);
 
                 this.LogProcessingEvent("{0} elements loaded ...", result.Count);
 

@@ -107,7 +107,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                   Suffix = contact.CompleteName.Suffix
                               };
 
-            EatException(() => { result.DateOfBirth = contact.Birthday ?? new DateTime(); });
+            EatException(
+                () => result.DateOfBirth = contact.Birthday ?? new DateTime(), 
+                (ServiceObjectPropertyException ex) => true);
 
             result.AdditionalTextData = contact.Body;
             result.Categories = contact.Categories == null ? null : new List<string>(contact.Categories);
@@ -175,6 +177,28 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress3, contact.PersonalEmailSecondary);
 
             return exchangeContact;
+        }
+
+        /// <summary>
+        /// Simply suppresses <see cref="NullReferenceException"/> and <see cref="ServiceObjectPropertyException"/> in order to not 
+        /// write this code again and again.
+        /// </summary>
+        /// <typeparam name="T"> the exception to eat </typeparam>
+        /// <param name="code"> The code to be executed.   </param>
+        /// <param name="check"> The check function - when this expression is true, the exception is not thrown.  </param>
+        public static void EatException<T>(Action code, Func<T, bool> check) where T : Exception
+        {
+            try
+            {
+                code.Invoke();
+            }
+            catch (T ex)
+            {
+                if (!check(ex))
+                {
+                    throw;
+                }
+            }
         }
 
         private static void SetAddress(this Contact exchangeContact, PhysicalAddressKey address, AddressDetail value)
@@ -275,31 +299,6 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             return contact.PhoneNumbers.Contains(phoneKey)
                        ? contact.PhoneNumbers[phoneKey]
                        : null;
-        }
-
-        /// <summary>
-        /// Simply suppresses <see cref="NullReferenceException"/> and <see cref="ServiceObjectPropertyException"/> in order to not 
-        /// write this code again and again.
-        /// </summary>
-        /// <param name="code"> The code to be executed. </param>
-        private static void EatException(Action code)
-        {
-            try
-            {
-                code.Invoke();
-            }
-            catch (ServiceObjectPropertyException)
-            {
-                // eat this exception, because we cannot do anything about it
-            }
-            catch (NullReferenceException)
-            {
-                // eat this exception, because we cannot do anything about it
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
         }
     }
 }
