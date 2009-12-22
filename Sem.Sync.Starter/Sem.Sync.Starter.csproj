@@ -99,6 +99,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Settings.StyleCop" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

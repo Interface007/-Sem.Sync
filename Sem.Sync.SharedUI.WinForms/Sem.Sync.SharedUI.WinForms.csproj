@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\Sem.Sync.SharedUI.WinForms.Tools.MatchView.datasource" />
+    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">

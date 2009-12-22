@@ -288,8 +288,9 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine("     <CountryName>Germany</CountryName>");
             content.AppendLine("     <PostalCode>12345</PostalCode>");
             content.AppendLine("     <CityName>Wetzlar, Hessen</CityName>");
-            content.AppendLine("     <StreetName>My Street 12a</StreetName>");
+            content.AppendLine("     <StreetName>My Street</StreetName>");
             content.AppendLine("     <StreetNumber>12</StreetNumber>");
+            content.AppendLine("     <StreetNumberExtension>a</StreetNumberExtension>");
             content.AppendLine("     <Phone>");
             content.AppendLine("       <CountryCode>Germany</CountryCode>");
             content.AppendLine("       <AreaCode>6441</AreaCode>");
@@ -311,7 +312,7 @@ namespace Sem.Sync.Test.DataGenerator
             content.AppendLine("     <CountryName>Deutschland</CountryName>");
             content.AppendLine("     <PostalCode>60388</PostalCode>");
             content.AppendLine("     <CityName>Frankfurt am Main</CityName>");
-            content.AppendLine("     <StreetName>Borsigallee 19</StreetName>");
+            content.AppendLine("     <StreetName>Borsigallee</StreetName>");
             content.AppendLine("     <StreetNumber>19</StreetNumber>");
             content.AppendLine("     <Phone>");
             content.AppendLine("       <CountryCode>Germany</CountryCode>");

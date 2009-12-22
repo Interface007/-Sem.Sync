@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Overview.cd" />
+    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExternalAssemblies\ExpressionSerialization\ExpressionSerialization.csproj">
