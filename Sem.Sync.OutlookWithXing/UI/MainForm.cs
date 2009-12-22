@@ -47,7 +47,7 @@ namespace Sem.Sync.OutlookWithXing.UI
         /// </summary>
         public MainForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>

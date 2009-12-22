@@ -50,9 +50,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         public MatchEntities()
         {
-            InitializeComponent();
-            dataGridTargetCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectTargetRow);
-            dataGridSourceCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectSourceRow);
+            this.InitializeComponent();
+            this.dataGridTargetCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectTargetRow);
+            this.dataGridSourceCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectSourceRow);
         }
 
         /// <summary>
@@ -199,9 +199,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.matching.CurrentTargetElement = element;
             this.TargetCardView.Contact = element;
 
-            dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
-            dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
+            this.dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
             return false;
         }
@@ -212,7 +212,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         private void SetupGui()
         {
             // determine display of already matched entities
-            this.matching.FilterMatchedEntries = chkMatchedOnly.Checked;
+            this.matching.FilterMatchedEntries = this.chkMatchedOnly.Checked;
 
             // rebind grids
             SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());

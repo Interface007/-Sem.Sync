@@ -18,7 +18,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     {
         public LogOn()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public void SetLogonCredentials(ICredentialAware client, QueryForLogOnCredentialsEventArgs arguments)
@@ -34,8 +34,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             if (this.ShowDialog() == DialogResult.OK)
             {
-                client.LogOnUserId = textBoxUserId.Text;
-                client.LogOnPassword = textBoxPassword.Text;
+                client.LogOnUserId = this.textBoxUserId.Text;
+                client.LogOnPassword = this.textBoxPassword.Text;
                 return true;
             }
 

@@ -35,7 +35,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// </summary>
         public Commands()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.StatusLabel.Text = args.Message;
             this.LogList.Items.Add(logEntry.ToString());
-            this.LogList.TopIndex = LogList.Items.Count - 1;
+            this.LogList.TopIndex = this.LogList.Items.Count - 1;
         }
 
         #region eventhandler
@@ -178,7 +178,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (gridRowIndex > -1)
             {
-                this.DataContext.Execute((SyncDescription)dataGridView1.Rows[gridRowIndex].DataBoundItem);
+                this.DataContext.Execute((SyncDescription)this.dataGridView1.Rows[gridRowIndex].DataBoundItem);
             }
         }
         #endregion

@@ -20,12 +20,14 @@ namespace Sem.Sync.LocalSyncManager.Business
     /// </summary>
     public class ContactsFolder : INotifyPropertyChanged
     {
+        private IEnumerable<StdContact> contacts;
+
+        private StdContact currentContact;
+
         public ContactsFolder(IClientBase connector, string clientPath)
         {
             this.Contacts = (IEnumerable<StdContact>)connector.GetAll(clientPath);
         }
-
-        private IEnumerable<StdContact> contacts;
 
         /// <summary>
         /// Gets or sets the list of Contacts.
@@ -43,8 +45,6 @@ namespace Sem.Sync.LocalSyncManager.Business
                 this.RaisePropertyChanged("Contacts");
             }
         }
-
-        private StdContact currentContact;
 
         public StdContact CurrentContact
         {

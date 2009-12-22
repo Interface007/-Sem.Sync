@@ -29,7 +29,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         public override string ToString()
         {
-            return ContactName + " - profiles: " + Element.PersonalProfileIdentifiers;
+            return this.ContactName + " - profiles: " + this.Element.PersonalProfileIdentifiers;
         }
     }
 }

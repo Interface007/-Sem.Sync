@@ -7,16 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 {
     using System;
-    
+    using System.Collections.Generic;
+   
     using Microsoft.Exchange.WebServices.Data;
 
     using Sem.GenericHelpers;
-    using Sem.GenericHelpers.Exceptions;
+    
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 

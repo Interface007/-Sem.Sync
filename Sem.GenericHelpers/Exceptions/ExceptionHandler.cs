@@ -79,10 +79,8 @@ namespace Sem.GenericHelpers.Exceptions
                 new XElement("Exception",
                     new XElement("GenericInfo",
                         new XElement("Timestamp", DateTime.Now),
-                        new XElement("ExecutingMainModule", mainModuleName)
-                        ),
-                    ScanException(ex)
-                    );
+                        new XElement("ExecutingMainModule", mainModuleName)),
+                    ScanException(ex));
 
             var exceptionText = logEntry.ToString(SaveOptions.None);
 

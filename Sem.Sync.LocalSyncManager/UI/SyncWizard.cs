@@ -38,7 +38,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// </summary>
         public SyncWizard()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>

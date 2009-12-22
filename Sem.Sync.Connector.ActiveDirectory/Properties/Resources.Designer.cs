@@ -8,10 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.ActiveDirectory.Properties {
-    using System;
-    
-    
+namespace Sem.Sync.Connector.ActiveDirectory.Properties 
+{
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

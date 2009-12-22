@@ -348,7 +348,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// Ready a list of data locations - this will also establish the logon
         /// </summary>
         /// <returns>a list of urls for the data to be downloaded</returns>
-        private List<string> GetUrlList()
+        private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
 

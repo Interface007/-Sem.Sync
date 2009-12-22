@@ -198,10 +198,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         /// <param name="left">the left side object for the comparison</param>
         /// <param name="right">the right side object for the comparison</param>
-        /// <returns></returns>
+        /// <returns> true if both instances are equal</returns>
         public static bool operator ==(PhoneNumber left, PhoneNumber right)
         {
-            return Equals(left, right);
+            return object.Equals(left, right);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns></returns>
         public static bool operator !=(PhoneNumber left, PhoneNumber right)
         {
-            return !Equals(left, right);
+            return !object.Equals(left, right);
         }
     }
 }

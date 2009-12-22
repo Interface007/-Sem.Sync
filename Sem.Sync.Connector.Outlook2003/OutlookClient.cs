@@ -848,7 +848,8 @@ namespace Sem.Sync.Connector.Outlook2003
                 // if we are not authorized to write back the id, we will assume a new id
             }
 
-            if (contactList != null && (from x in contactList where x.Id == newId select x).Count() > 0)
+            var id = newId;
+            if (contactList != null && (from x in contactList where x.Id == id select x).Count() > 0)
             {
                 newId = Guid.NewGuid();
             }

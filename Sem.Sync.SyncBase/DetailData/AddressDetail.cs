@@ -156,6 +156,28 @@ namespace Sem.Sync.SyncBase.DetailData
         public PhoneNumber Phone { get; set; }
 
         /// <summary>
+        /// Implements the content comparison of two <see cref="AddressDetail"/> entities.
+        /// </summary>
+        /// <param name="left">the left side object for the comparison</param>
+        /// <param name="right">the right side object for the comparison</param>
+        /// <returns>> true if both instances are equal</returns>
+        public static bool operator ==(AddressDetail left, AddressDetail right)
+        {
+            return object.Equals(left, right);
+        }
+
+        /// <summary>
+        /// Implements the content comparison of two <see cref="AddressDetail"/> entities.
+        /// </summary>
+        /// <param name="left">the left side object for the comparison</param>
+        /// <param name="right">the right side object for the comparison</param>
+        /// <returns></returns>
+        public static bool operator !=(AddressDetail left, AddressDetail right)
+        {
+            return !object.Equals(left, right);
+        }
+
+        /// <summary>
         /// Builds up a string representation of the information inside this object.
         /// </summary>
         /// <returns>a well formatted string representation of the data</returns>
@@ -225,25 +247,6 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
-        /// extracts a named match string
-        /// </summary>
-        /// <param name="lineParts"> The line parts. </param>
-        /// <param name="groupName"> The group name. </param>
-        /// <param name="defaultValue"> The default value. </param>
-        /// <returns>
-        /// the default value if there is no such group name match
-        /// </returns>
-        private static string GetMatchGroupWithDefault(MatchCollection lineParts, string groupName, string defaultValue)
-        {
-            if (lineParts.Count < 1 || lineParts[0].Groups[groupName] == null)
-            {
-                return defaultValue;
-            }
-
-            return lineParts[0].Groups[groupName].ToString().Trim();
-        }
-
-        /// <summary>
         /// Compares the content of this address instance to another based on the <see cref="ToString()"/> method.
         /// </summary>
         /// <param name="other"> The other instance. </param>
@@ -263,6 +266,11 @@ namespace Sem.Sync.SyncBase.DetailData
             return other.ToString() == this.ToString();
         }
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns> A hash code for the current <see cref="T:System.Object"/>. </returns>
+        /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             unchecked
@@ -280,14 +288,23 @@ namespace Sem.Sync.SyncBase.DetailData
             }
         }
 
-        public static bool operator ==(AddressDetail left, AddressDetail right)
+        /// <summary>
+        /// extracts a named match string
+        /// </summary>
+        /// <param name="lineParts"> The line parts. </param>
+        /// <param name="groupName"> The group name. </param>
+        /// <param name="defaultValue"> The default value. </param>
+        /// <returns>
+        /// the default value if there is no such group name match
+        /// </returns>
+        private static string GetMatchGroupWithDefault(MatchCollection lineParts, string groupName, string defaultValue)
         {
-            return Equals(left, right);
-        }
+            if (lineParts.Count < 1 || lineParts[0].Groups[groupName] == null)
+            {
+                return defaultValue;
+            }
 
-        public static bool operator !=(AddressDetail left, AddressDetail right)
-        {
-            return !Equals(left, right);
+            return lineParts[0].Groups[groupName].ToString().Trim();
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sem.Sync.Test.Ui
+﻿namespace Sem.Sync.Test.Ui
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using SharedUI.WinForms.ViewModel;
 
     using SyncBase;

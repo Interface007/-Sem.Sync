@@ -54,7 +54,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="e"> empty event-args - checkbox CheckedChanged events do not have arguments. </param>
         private void IDoUnterstand_CheckedChanged(object sender, EventArgs e)
         {
-            yes.Enabled = this.iDoUnterstand.Checked;
+            this.yes.Enabled = this.iDoUnterstand.Checked;
         }
     }
 }

@@ -72,13 +72,6 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             this.CurrentSourceElement = null;
         }
 
-        private MatchingEntry GetBaselineElementById(Guid baseLineId)
-        {
-            return (from x in this.BaseLine
-                    where x.Id == baseLineId
-                    select x).FirstOrDefault();
-        }
-
         public void Match()
         {
             // todo : handling profile identifiers should be more flexible (if there are multiple, we need to match all of them)
@@ -231,6 +224,13 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             }
 
             return resultList;
+        }
+
+        private MatchingEntry GetBaselineElementById(Guid baseLineId)
+        {
+            return (from x in this.BaseLine
+                    where x.Id == baseLineId
+                    select x).FirstOrDefault();
         }
     }
 }

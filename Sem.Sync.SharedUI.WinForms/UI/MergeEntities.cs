@@ -26,7 +26,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     {
         public MergeEntities()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public List<StdElement> PerformMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
@@ -197,7 +197,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         private void MergeEntities_Load(object sender, EventArgs e)
         {
-            conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
+            this.conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
         }
     }
 }

@@ -10,7 +10,7 @@
 
         public ViewContacts()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
