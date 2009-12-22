@@ -24,12 +24,15 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     public class Matching
     {
         public List<StdContact> Source { get; set; }
+
         public List<StdContact> Target { get; set; }
+
         public List<MatchingEntry> BaseLine { get; set; }
 
         public ProfileIdentifierType Profile { get; set; }
 
         private StdContact currentSourceElement;
+
         private StdContact currentTargetElement;
 
         public bool FilterMatchedEntries { get; set; }

@@ -174,7 +174,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 return false;
             }
 
-            return this.ToString().CompareTo(other.ToString()) == 0;
+            return string.Compare(other.ToString(), this.ToString(), StringComparison.Ordinal) == 0;
         }
 
         /// <summary>

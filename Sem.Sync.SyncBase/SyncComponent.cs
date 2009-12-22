@@ -122,7 +122,7 @@ namespace Sem.Sync.SyncBase
                 parameters[i + 1] = parameterStrings[i];
             }
 
-            ExceptionHandler.HandleException(new TechnicalException(string.Format(message, parameters), exception));
+            ExceptionHandler.HandleException(new TechnicalException(string.Format(CultureInfo.CurrentCulture, message, parameters), exception));
 
             this.LogProcessingEvent(message, parameters);
         }

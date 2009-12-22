@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProcessSelection.xaml.cs" company="Sven Erik Matzen">
-//   Sven Erik Matzen
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
 //   Interaction logic for Window1.xaml

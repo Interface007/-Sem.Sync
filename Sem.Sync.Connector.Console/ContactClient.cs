@@ -16,8 +16,6 @@ namespace Sem.Sync.Connector.Console
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    using GenericHelpers;
-
     using SyncBase;
     using SyncBase.Attributes;
 

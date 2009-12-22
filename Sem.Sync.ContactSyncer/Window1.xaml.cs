@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Window1.xaml.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Interaction logic for Window1.xaml
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.ContactSyncer
 {
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Window1 : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window1"/> class.
+        /// </summary>
         public Window1()
         {
             InitializeComponent();

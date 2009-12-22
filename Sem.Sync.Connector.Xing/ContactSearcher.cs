@@ -11,6 +11,7 @@ namespace Sem.Sync.Connector.Xing
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
@@ -45,7 +46,7 @@ namespace Sem.Sync.Connector.Xing
         /// <param name="clientFolderName"> The client folder name for the memory connector. </param>
         /// <param name="result"> The result list of contacts. </param>
         /// <returns> the search results </returns>
-        protected override System.Collections.Generic.List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var connector = new Memory.GenericClient();
             var listToScan = connector.GetAll(clientFolderName);
@@ -61,12 +62,12 @@ namespace Sem.Sync.Connector.Xing
                     continue;
                 }
 
-                var guesses = this.GuessProfileUrls(element.Name);
+                var guesses = GuessProfileUrls(element.Name);
                 foreach (var guess in guesses)
                 {
                     for (var i = 0; i < 9; i++)
                     {
-                        var profileUrl = "http://www.xing.com/profile/" + guess + ((i > 0) ? i.ToString() : string.Empty);
+                        var profileUrl = "http://www.xing.com/profile/" + guess + ((i > 0) ? i.ToString(CultureInfo.InvariantCulture) : string.Empty);
                         var publicProfile = this.xingRequester.GetContent(profileUrl);
 
                         if (publicProfile.Contains("Die gesuchte Seite konnte nicht gefunden werden."))
@@ -74,32 +75,32 @@ namespace Sem.Sync.Connector.Xing
                             break;
                         }
 
-                        var imageUrl = this.MapRegexToProperty(
+                        var imageUrl = MapRegexToProperty(
                             publicProfile,
                             @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo""");
                         var newContact = new StdContact
                             {
                                 Name =
-                                    this.MapRegexToProperty(
+                                    MapRegexToProperty(
                                     publicProfile, "\\<meta name=\"author\" content=\"(?<info>[^\"]*)\""),
                                 BusinessPosition =
-                                    this.MapRegexToProperty(
+                                    MapRegexToProperty(
                                     publicProfile, "\\<p class=\"profile-work-descr\"\\>(\\<[^>]*>)*(?<info>[^<]*)\\</"),
                                 BusinessAddressPrimary =
                                     new AddressDetail
                                         {
                                             PostalCode =
-                                                this.MapRegexToProperty(
+                                                MapRegexToProperty(
                                                 publicProfile, "zip_code=\\%22(?<info>[^%]*)\\%22"),
                                             CityName =
-                                                this.MapRegexToProperty(
+                                                MapRegexToProperty(
                                                 publicProfile, "search&amp;city=%22(?<info>[^%]*)%22")
                                         },
                                 PictureData =
                                     string.IsNullOrEmpty(imageUrl)
                                         ? null
                                         : this.xingRequester.GetContentBinary(
-                                              this.MapRegexToProperty(
+                                              MapRegexToProperty(
                                               publicProfile,
                                               @"id=""photo"" src=""(?<info>/img/users/[^""]/[^""]/[^""]*)"" class=""photo profile-photo"""))
                             };
@@ -119,7 +120,7 @@ namespace Sem.Sync.Connector.Xing
             return result;
         }
 
-        private List<string> GuessProfileUrls(PersonName name)
+        private static List<string> GuessProfileUrls(PersonName name)
         {
             var result = new List<string>
                 {
@@ -134,7 +135,7 @@ namespace Sem.Sync.Connector.Xing
             return result;
         }
 
-        private string MapRegexToProperty(string profile, string regEx)
+        private static string MapRegexToProperty(string profile, string regEx)
         {
             var information = Regex.Matches(profile, regEx, RegexOptions.Singleline);
             return 

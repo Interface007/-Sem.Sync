@@ -247,8 +247,8 @@ namespace Sem.Sync.Connector.Facebook
             
             if (value.Contains("\\u"))
             {
-                var code = value.Substring(value.IndexOf("\\u") + 2, 4);
-                var charValue = int.Parse(code, NumberStyles.HexNumber);
+                var code = value.Substring(value.IndexOf("\\u", StringComparison.OrdinalIgnoreCase) + 2, 4);
+                var charValue = int.Parse(code, NumberStyles.HexNumber, CultureInfo.CurrentCulture);
                 var character = char.ConvertFromUtf32(charValue);
 
                 value = value.Replace("\\u" + code, character);

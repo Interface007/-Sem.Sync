@@ -8,6 +8,7 @@ namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
@@ -266,7 +267,7 @@ namespace Sem.Sync.SyncBase.Helpers
         {
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
-            var writer = new StringWriter();
+            var writer = new StringWriter(CultureInfo.CurrentCulture);
             formatter.Serialize(writer, elementList);
             return writer.ToString();
         }

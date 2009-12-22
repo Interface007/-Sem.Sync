@@ -194,7 +194,7 @@ namespace Sem.GenericHelpers
             {
                 try
                 {
-                    var writer = new StringWriter(result);
+                    var writer = new StringWriter(result, CultureInfo.CurrentCulture);
                     formatter.Serialize(writer, source);
                     writer.Flush();
                     writer.Close();
@@ -653,7 +653,7 @@ namespace Sem.GenericHelpers
                 return new object[] { integerIndexer };
             }
 
-            if (parameter.StartsWith(@"""") && parameter.EndsWith(@""""))
+            if (parameter.StartsWith(@"""", StringComparison.Ordinal) && parameter.EndsWith(@"""", StringComparison.Ordinal))
             {
                 return new object[] { parameter.Substring(1, parameter.Length - 2) };
             }

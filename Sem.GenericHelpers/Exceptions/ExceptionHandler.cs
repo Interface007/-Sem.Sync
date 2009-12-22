@@ -11,6 +11,7 @@ namespace Sem.GenericHelpers.Exceptions
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
@@ -44,11 +45,11 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         /// <summary>
-        /// Gets or sets a list of writers that should get the information about exceptions. If one of the
+        /// Gets a list of writers that should get the information about exceptions. If one of the
         /// writers does throw an exception, it will be removed from the list and the exception will be reported
         /// to the remaining exception writers.
         /// </summary>
-        public static List<IExceptionWriter> ExceptionWriter { get; set; }
+        public static List<IExceptionWriter> ExceptionWriter { get; private set; }
 
         /// <summary>
         /// Gets or sets the Destination path for saving  exception information.
@@ -182,7 +183,7 @@ namespace Sem.GenericHelpers.Exceptions
             {
                 var mainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
                 var mainModuleName = mainModule == null ? "(undefined)" : mainModule.FileName;
-                var logName = string.Format("{1}...{0:yyyy-MM-dd-hh-mm-ss}...{2}.xml", DateTime.Now, mainModuleName, Guid.NewGuid());
+                var logName = string.Format(CultureInfo.CurrentCulture, "{1}...{0:yyyy-MM-dd-hh-mm-ss}...{2}.xml", DateTime.Now, mainModuleName, Guid.NewGuid());
                 var pathToPersist = Path.Combine(this.Destination, Path.GetFileName(logName));
                 Tools.EnsurePathExist(this.Destination);
                 File.WriteAllText(pathToPersist, information.ToString());

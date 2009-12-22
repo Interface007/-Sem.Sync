@@ -15,6 +15,7 @@ namespace Sem.GenericHelpers.Exceptions
     /// <summary>
     /// signals the cancelation of the process through all layers and components
     /// </summary>
+    [Serializable]
     public class ProcessAbortException : TechnicalException
     {
         /// <summary>

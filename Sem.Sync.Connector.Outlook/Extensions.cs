@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sem.Sync.Connector.Outlook
+﻿namespace Sem.Sync.Connector.Outlook
 {
+    using System;
+
     using Microsoft.Office.Interop.Outlook;
 
     using SyncBase;
 
-    public static class Extentions
+    public static class Extensions
     {
         public static BusyStatus ToBusyStatus(this OlBusyStatus status)
         {

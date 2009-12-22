@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="App.xaml.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the App type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ContactViewer
 {
+    using System;
+    using System.Windows;
+
+    /// <summary>
+    /// Main application class
+    /// </summary>
     public partial class App : Application
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
+        /// </summary>
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -24,9 +29,27 @@ namespace ContactViewer
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Error handling method
+        /// </summary>
+        /// <param name="e"> The exception arguments. </param>
+        private static void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                var errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
+                errorMsg = errorMsg.Replace('"', '\'').Replace("\r\n", @"\n");
+
+                System.Windows.Browser.HtmlPage.Window.Eval("throw new Error(\"Unhandled Error in Silverlight 2 Application " + errorMsg + "\");");
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new Page{DataContext = new ViewModel()};
+            this.RootVisual = new Page{ DataContext = new ViewModel() };
         }
 
         private void Application_Exit(object sender, EventArgs e)
@@ -47,20 +70,6 @@ namespace ContactViewer
                 // report the error to the website and stop the application.
                 e.Handled = true;
                 Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
-            }
-        }
-        
-        private static void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
-        {
-            try
-            {
-                string errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
-                errorMsg = errorMsg.Replace('"', '\'').Replace("\r\n", @"\n");
-
-                System.Windows.Browser.HtmlPage.Window.Eval("throw new Error(\"Unhandled Error in Silverlight 2 Application " + errorMsg + "\");");
-            }
-            catch (Exception)
-            {
             }
         }
     }
