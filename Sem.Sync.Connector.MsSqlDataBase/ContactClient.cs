@@ -64,7 +64,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
                 {
                     new DataMapping
                         {
-                            ///PathToProperty = ""
+                            ////PathToProperty = ""
                         }
                 };
 

@@ -12,6 +12,7 @@ namespace Sem.GenericHelpers
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -105,7 +106,9 @@ namespace Sem.GenericHelpers
                         continue;
                     }
 
-                    sb.Append(Encoding.GetEncoding("iso-8859-2").GetString(new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
+                    sb.Append(
+                        Encoding.GetEncoding("iso-8859-2").GetString(
+                            new[] { Convert.ToByte(value.Substring(i + 1, 2), 16) }));
                     i = i + 2;
                 }
             }
@@ -251,8 +254,9 @@ namespace Sem.GenericHelpers
         /// <returns>the string value of the registry key</returns>
         public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
         {
-            using (var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true)
-                   ?? Registry.CurrentUser.CreateSubKey(pathToValue))
+            using (
+                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
+                             Registry.CurrentUser.CreateSubKey(pathToValue))
             {
                 if (regKey != null)
                 {
@@ -274,6 +278,11 @@ namespace Sem.GenericHelpers
             }
         }
 
+        /// <summary>
+        /// Gets serialized credentials from the registry.
+        /// </summary>
+        /// <param name="name"> The name of the credentials. </param>
+        /// <returns> A deserialized <see cref="Credentials"/> object containing a decrypted password </returns>
         public static Credentials GetCredentials(string name)
         {
             var serialized = GetRegValue("Software\\Sem.Sync\\Credentials", name, string.Empty);
@@ -288,8 +297,9 @@ namespace Sem.GenericHelpers
         /// <param name="value">this value will be set</param>
         public static void SetRegValue(string pathToValue, string keyName, string value)
         {
-            using (var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true)
-                   ?? Registry.CurrentUser.CreateSubKey(pathToValue))
+            using (
+                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
+                             Registry.CurrentUser.CreateSubKey(pathToValue))
             {
                 if (regKey != null)
                 {
@@ -318,7 +328,9 @@ namespace Sem.GenericHelpers
                 var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
 
                 var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
-                var parameter = parameterStart > -1 ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2) : string.Empty;
+                var parameter = parameterStart > -1
+                                    ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
+                                    : string.Empty;
                 propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
 
                 // for method invocation parameters are not allowed!
@@ -332,21 +344,22 @@ namespace Sem.GenericHelpers
 
                     if (string.IsNullOrEmpty(parameter))
                     {
-                        var method = (from x in methods where x.GetParameters().Length == 0 && x.Name == propName select x).FirstOrDefault();
+                        var method =
+                            (from x in methods where x.GetParameters().Length == 0 && x.Name == propName select x).
+                                FirstOrDefault();
                         return method == null ? null : method.Invoke(objectToReadFrom, null);
                     }
                     else
                     {
-                        var method = (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).FirstOrDefault();
+                        var method =
+                            (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).
+                                FirstOrDefault();
                         return method == null ? null : method.Invoke(objectToReadFrom, new[] { parameter });
                     }
                 }
 
                 var propertyInfo = type.GetProperty(propName);
-                var value =
-                    propertyInfo == null
-                    ? objectToReadFrom
-                    : propertyInfo.GetValue(objectToReadFrom, null);
+                var value = propertyInfo == null ? objectToReadFrom : propertyInfo.GetValue(objectToReadFrom, null);
 
                 if (value == null)
                 {
@@ -526,16 +539,14 @@ namespace Sem.GenericHelpers
             switch (destinationType)
             {
                 case "DateTime":
-                    propInfo.SetValue(
-                        objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
+                    propInfo.SetValue(objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
                     break;
 
                 case "Int32":
                     int theValue;
                     if (int.TryParse(valueString, NumberStyles.Any, CultureInfo.CurrentCulture, out theValue))
                     {
-                        propInfo.SetValue(
-                            objectToWriteTo, theValue, null);
+                        propInfo.SetValue(objectToWriteTo, theValue, null);
                     }
                     else
                     {
@@ -581,18 +592,24 @@ namespace Sem.GenericHelpers
                 default:
                     if (isIndexed)
                     {
-                        propInfo.SetValue(objectToWriteTo, valueString, CreateIndexerValue(parameter));                        
+                        propInfo.SetValue(objectToWriteTo, valueString, CreateIndexerValue(parameter));
                     }
                     else
                     {
-                        propInfo.SetValue(objectToWriteTo, valueString, null);                        
+                        propInfo.SetValue(objectToWriteTo, valueString, null);
                     }
 
                     break;
             }
         }
 
-        private static T LoadFromString<T>(string serialized)
+        /// <summary>
+        /// Loads a serialized object from a string.
+        /// </summary>
+        /// <param name="serialized"> The serialized object as a string. </param>
+        /// <typeparam name="T"> the type to be deserialized </typeparam>
+        /// <returns> the deserialized object </returns>
+        public static T LoadFromString<T>(string serialized)
         {
             var formatter = new XmlSerializer(typeof(T));
             var result = default(T);
@@ -621,7 +638,9 @@ namespace Sem.GenericHelpers
         private static string GetParameterForInvoke(ref string propName)
         {
             var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
-            var parameter = parameterStart > -1 ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2) : string.Empty;
+            var parameter = parameterStart > -1
+                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
+                                : string.Empty;
             propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
             return parameter;
         }
@@ -645,7 +664,7 @@ namespace Sem.GenericHelpers
             {
                 return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
             }
-        
+
             return null;
         }
 
@@ -734,12 +753,11 @@ namespace Sem.GenericHelpers
 
             var resultList = new List<string>();
 
-            var methodsToAdd =
-                from x in type.GetMethods()
-                where
-                x.GetParameters().Length == 0
-                && x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
-                select parentName + x.Name + "()";
+            var methodsToAdd = from x in type.GetMethods()
+                               where
+                                   x.GetParameters().Length == 0 &&
+                                   x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
+                               select parentName + x.Name + "()";
 
             resultList.AddRange(methodsToAdd.ToList());
 

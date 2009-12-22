@@ -34,7 +34,10 @@ namespace Sem.Sync.Test.DataGenerator
         /// </summary>
         private static readonly Random Rnd = new Random();
 
-        private static List<StdElement> MatchingTarget = new List<StdElement>();
+        /// <summary>
+        /// memory storage for the matching
+        /// </summary>
+        private static List<StdElement> matchingTarget = new List<StdElement>();
         
         /// <summary>
         /// Gets a list of variable contacts. Some do have a constant name, some have a constant Id, some oave a constant DefaultProfileId
@@ -374,6 +377,59 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            switch (clientFolderName)
+            {
+                case "matchingtesttarget":
+                    matchingTarget = elements;
+                    return;
+            }
+        }
+
+        public static List<StdContact> GetMatchingSource()
+        {
+            return new List<StdContact>
+                 {
+                     CreateIdOnlyContact("Unmatched"),
+                     CreateIdOnlyContact("Matched"),
+                     CreateIdOnlyContact("New"),
+                 };
+        }
+
+        public static List<StdContact> GetMatchingTarget()
+        {
+            return new List<StdContact>
+                       {
+                            CreateIdOnlyContact("Unmatched", "{1048893D-6550-494f-A696-41849103174B}"),
+                            CreateIdOnlyContact("Matched", "{03652E94-05F4-4410-95C6-BAF38925A368}"),
+                            CreateIdOnlyContact("TargetOrphan", "{CA3585EC-A110-4eaf-932B-BB155B2430D1}"),
+                       };
+        }
+
+        /// <summary>
+        /// Generates a matching base line with one contact
+        /// </summary>
+        /// <returns> a valid matching entry in a list </returns>
+        public static List<MatchingEntry> GetMatchingBaseline()
+        {
+            return new List<MatchingEntry>
+                       {
+                            new MatchingEntry
+                                {
+                                    Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"),
+                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "Matched")
+                                }  
+                       };
+        }
+
+        /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
@@ -408,7 +464,7 @@ namespace Sem.Sync.Test.DataGenerator
                     break;
 
                 case "matchingtesttarget":
-                    return MatchingTarget;
+                    return matchingTarget;
 
                 case "matchingtestbaseline":
                     result.AddRange(
@@ -445,23 +501,6 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
-        /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            switch (clientFolderName)
-            {
-                case "matchingtesttarget":
-                    MatchingTarget = elements;
-                    return;
-            }
-        }
-
-        /// <summary>
         /// Selects a random string from the params array
         /// </summary>
         /// <param name="candidates"> The string candidates. </param>
@@ -469,38 +508,6 @@ namespace Sem.Sync.Test.DataGenerator
         private static string OneOf(params string[] candidates)
         {
             return candidates[Rnd.Next(candidates.Length)];
-        }
-
-        public static List<StdContact> GetMatchingSource()
-        {
-            return new List<StdContact>
-                 {
-                     CreateIdOnlyContact("Unmatched"),
-                     CreateIdOnlyContact("Matched"),
-                     CreateIdOnlyContact("New"),
-                 };
-        }
-
-        public static List<StdContact> GetMatchingTarget()
-        {
-            return new List<StdContact>
-                       {
-                            CreateIdOnlyContact("Unmatched", "{1048893D-6550-494f-A696-41849103174B}"),
-                            CreateIdOnlyContact("Matched", "{03652E94-05F4-4410-95C6-BAF38925A368}"),
-                            CreateIdOnlyContact("TargetOrphan", "{CA3585EC-A110-4eaf-932B-BB155B2430D1}"),
-                       };
-        }
-
-        public static List<MatchingEntry> GetMatchingBaseline()
-        {
-            return new List<MatchingEntry>
-                       {
-                            new MatchingEntry
-                                {
-                                    Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"),
-                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "Matched")
-                                }  
-                       };
         }
 
         private static StdContact CreateIdOnlyContact(string profileId)

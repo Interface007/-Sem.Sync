@@ -131,7 +131,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
-    <None Include="Settings.StyleCop" />
     <Content Include="A Copy from MeinVZ.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

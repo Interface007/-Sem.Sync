@@ -115,9 +115,6 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Settings.StyleCop" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Helper\" />
     <Folder Include="StorageConnectors\" />
   </ItemGroup>

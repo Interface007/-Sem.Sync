@@ -124,9 +124,10 @@ namespace Sem.Sync.ConsoleClient
         /// <summary>
         /// Queries the user for information, uses the default value, if there is one (this suppresses the user interaction).
         /// </summary>
-        /// <param name="defaultValue"> The default value of this information - the user will only be asked, if this value is an empty string. </param>
-        /// <param name="message"> The messagedisplayed to the user. </param>
-        /// <returns> The value entered by the user or the default value </returns>
+        /// <param name="defaultValue"> The default value of this information - the user will only be asked, if this value is an empty string.  </param>
+        /// <param name="message"> The messagedisplayed to the user.  </param>
+        /// <param name="hideInput"> If true it hides the user input by setting the ForegroundColor to BackgroundColor. </param>
+        /// <returns> The value entered by the user or the default value  </returns>
         private static string GetInfoWithDefault(string defaultValue, string message, bool hideInput)
         {
             if (string.IsNullOrEmpty(defaultValue))
