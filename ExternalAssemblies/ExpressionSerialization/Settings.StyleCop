@@ -1,4 +1,7 @@
 <StyleCopSettings Version="4.3">
+  <GlobalSettings>
+    <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+  </GlobalSettings>
   <Parsers>
     <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
       <ParserSettings>

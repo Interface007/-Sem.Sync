@@ -30,11 +30,19 @@ namespace Sem.Sync.SyncBase.DetailData
         [XmlText]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class. 
+        /// </summary>
         public ProfileIdInformation()
         {
             
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class an initializes 
+        /// the <see cref="Id"/> and <see cref="ResourceLocator"/> properties.
+        /// </summary>
+        /// <param name="value">The id or the id + resource locator </param>
         public ProfileIdInformation(string value)
         {
             var parts = value.Split(new[] { "[@]" }, StringSplitOptions.RemoveEmptyEntries);

@@ -193,11 +193,23 @@ namespace Sem.Sync.SyncBase.DetailData
             }
         }
 
+        /// <summary>
+        /// Implements the content comparison of two <see cref="PhoneNumber"/> entities.
+        /// </summary>
+        /// <param name="left">the left side object for the comparison</param>
+        /// <param name="right">the right side object for the comparison</param>
+        /// <returns></returns>
         public static bool operator ==(PhoneNumber left, PhoneNumber right)
         {
             return Equals(left, right);
         }
 
+        /// <summary>
+        /// Implements the content comparison of two <see cref="PhoneNumber"/> entities.
+        /// </summary>
+        /// <param name="left">the left side object for the comparison</param>
+        /// <param name="right">the right side object for the comparison</param>
+        /// <returns></returns>
         public static bool operator !=(PhoneNumber left, PhoneNumber right)
         {
             return !Equals(left, right);
