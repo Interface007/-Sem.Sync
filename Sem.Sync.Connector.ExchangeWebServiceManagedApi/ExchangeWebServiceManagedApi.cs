@@ -63,6 +63,21 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         }
 
         /// <summary>
+        /// Deletes the items specified.
+        /// </summary>
+        /// <param name="elementsToDelete"> The elements to delete. </param>
+        /// <param name="clientFolderName"> The client folder name of the items to delete. </param>
+        public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
+        {
+            var contactsFolder = this.GetContactsFolder(clientFolderName);
+            foreach (var element in elementsToDelete)
+            {
+                var contact = Contact.Bind(contactsFolder.Service, ((StdContact)element).PersonalProfileIdentifiers.ExchangeWs.Id);
+                contact.Delete(DeleteMode.MoveToDeletedItems);
+            }
+        }
+
+        /// <summary>
         /// Implements the write operation of this connector
         /// </summary>
         /// <param name="elements"> The elements to be written. </param>
@@ -78,30 +93,30 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             {
                 var contact = (StdContact)element;
 
-                Extensions.EatException(
-                    () =>
-                        {
-                            var item = contact.PersonalProfileIdentifiers.ExchangeWs != null
-                                       ? Contact.Bind(
-                                             contactsFolder.Service,
-                                             contact.PersonalProfileIdentifiers.ExchangeWs.Id,
-                                             ContactPropertySet)
-                                       : null;
+                // In case of a EWS-id being present in the contact, we try to load the contact with suppressing
+                // ServiceResponseException where ErrorCode == ErrorItemNotFound - otherwise we assume NULL
+                var item = contact.PersonalProfileIdentifiers.ExchangeWs != null
+                           ? ExceptionHandler.Suppress(
+                                () => Contact.Bind(
+                                    contactsFolder.Service,
+                                    contact.PersonalProfileIdentifiers.ExchangeWs.Id,
+                                    ContactPropertySet),
+                                (ServiceResponseException x) => x.ErrorCode == ServiceError.ErrorItemNotFound)
+                           : null;
 
-                            if (item == null)
-                            {
-                                this.LogProcessingEvent(contact, "adding contact");
-                                var exchangeContact = contact.ToExchangeContact(service);
-                                exchangeContact.Save(contactsFolderId);
-                                contact.PersonalProfileIdentifiers.ExchangeWs = exchangeContact.Id.UniqueId;
-                            }
-                            else
-                            {
-                                // todo: currenty we don't touch existing entries, but we should update them
-                                this.LogProcessingEvent(contact, "not written, because already existing");
-                            }
-                        },
-                        (ServiceResponseException x) => x.ErrorCode == ServiceError.ErrorItemNotFound);
+                // if we have not been able to load a contact, we save it as a new one
+                if (item == null)
+                {
+                    this.LogProcessingEvent(contact, "adding contact");
+                    var exchangeContact = contact.ToExchangeContact(service);
+                    exchangeContact.Save(contactsFolderId);
+                    contact.PersonalProfileIdentifiers.ExchangeWs = exchangeContact.Id.UniqueId;
+                }
+                else
+                {
+                    // todo: currenty we don't touch existing entries, but we should update them
+                    this.LogProcessingEvent(contact, "not written, because already existing");
+                }
             }
         }
 
@@ -140,7 +155,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     }
 
                     StdContact contact = null;
-                    Extensions.EatException(
+                    ExceptionHandler.Suppress(
                         () =>
                             {
                                 var exchangeContact = Contact.Bind(contactsFolder.Service, currentItem.Id);

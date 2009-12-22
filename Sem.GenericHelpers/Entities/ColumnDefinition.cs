@@ -175,6 +175,13 @@ namespace Sem.GenericHelpers.Entities
             }
         }
 
+        /// <summary>
+        /// Overrides the <see cref="object.ToString"/> method with a method compiling 
+        /// a meaningful string from the content of the object
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Title"/> and <see cref="Selector"/> seperated by a colon
+        /// </returns>
         public override string ToString()
         {
             return this.Title + " : " + this.Selector;

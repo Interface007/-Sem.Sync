@@ -218,6 +218,14 @@ namespace Sem.Sync.SharedUI.Common
         }
 
         /// <summary>
+        /// Opens the folder for the exceptrion log files using the standard process for folders (Windows Explorer on most systems).
+        /// </summary>
+        public static void OpenExceptionFolder()
+        {
+            System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
+        }
+
+        /// <summary>
         /// Loads workflow data from a file into this object.
         /// </summary>
         /// <param name="path"> The path to the file containing the workflow </param>
@@ -568,11 +576,6 @@ namespace Sem.Sync.SharedUI.Common
             }
 
             return returnvalue;
-        }
-
-        public static void OpenExceptionFolder()
-        {
-            System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
         }
     }
 }

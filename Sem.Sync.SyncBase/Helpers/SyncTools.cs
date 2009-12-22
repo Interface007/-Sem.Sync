@@ -9,6 +9,7 @@ namespace Sem.Sync.SyncBase.Helpers
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -288,6 +289,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="container"> The container of the attribute description. </param>
         /// <param name="skipIdenticalChanges">Skips identical changes on both sides.</param>
         /// <returns>A list of <see cref="MergeConflict"/> that have been detected.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "the if statements are far more readable in this case")]
         private static List<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
         {
             var result = new List<MergeConflict>();

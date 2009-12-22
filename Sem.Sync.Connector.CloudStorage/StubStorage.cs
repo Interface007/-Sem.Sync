@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Sem.Sync.Test.DataGenerator;
-
 namespace Sem.Sync.Connector.CloudStorage
 {
     using System.Collections.Generic;
@@ -17,9 +15,10 @@ namespace Sem.Sync.Connector.CloudStorage
     using System.Text;
     using System.Xml.Serialization;
 
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.Helpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
     /// This is a simple stub for "some" cloud storage. It does provide some

@@ -12,10 +12,24 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using System;
 
+    /// <summary>
+    /// Binding entity for matches.
+    /// </summary>
     public class MatchView : IComparable<MatchView>
     {
+        /// <summary>
+        /// Gets or sets ContactName of this matches source entity.
+        /// </summary>
         public string ContactName { get; set; }
+
+        /// <summary>
+        /// Gets or sets ContactName of this matches target entity.
+        /// </summary>
         public string ContactNameMatch { get; set; }
+
+        /// <summary>
+        /// Gets or sets the BaselineId (global contact ID of this entity).
+        /// </summary>
         public Guid BaselineId { get; set; }
 
         /// <summary>
@@ -27,13 +41,14 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             return this.ContactName + " is matched to " + this.ContactNameMatch;
         }
 
-        #region IComparable<MatchView> Members
-
+        /// <summary>
+        /// Implements the <see cref="IComparable{T}"/> interface for <see cref="MatchView"/>
+        /// </summary>
+        /// <param name="other"> The other instance to compare to. </param>
+        /// <returns> an integer representing the comparison result (<see cref="IComparable{T}"/>) </returns>
         public int CompareTo(MatchView other)
         {
             return string.CompareOrdinal(this.ToString(), other.ToString());
         }
-
-        #endregion
     }
 }

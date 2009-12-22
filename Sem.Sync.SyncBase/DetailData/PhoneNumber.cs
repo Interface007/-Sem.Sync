@@ -115,6 +115,28 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
+        /// Implements the equal operator using the string representation of this class (<see cref="ToString"/>).
+        /// </summary>
+        /// <param name="left"> The left side object of the comparison. </param>
+        /// <param name="right"> The right side object of the comparison. </param>
+        /// <returns> true if both object do contain the same content </returns>
+        public static bool operator ==(PhoneNumber left, PhoneNumber right)
+        {
+            return object.Equals(left, right);
+        }
+
+        /// <summary>
+        /// Implements the not equal operator using the string representation of this class (<see cref="ToString"/>).
+        /// </summary>
+        /// <param name="left"> The left side object of the comparison. </param>
+        /// <param name="right"> The right side object of the comparison. </param>
+        /// <returns> true if both object do contain the same content </returns>
+        public static bool operator !=(PhoneNumber left, PhoneNumber right)
+        {
+            return !object.Equals(left, right);
+        }
+
+        /// <summary>
         /// Returns a formatted string of the phone number if a qualified representation
         /// of the phone number is available. 
         /// Returns the value of the property <see cref="DenormalizedPhoneNumber"/> if no
@@ -191,28 +213,6 @@ namespace Sem.Sync.SyncBase.DetailData
                 result = (result * 397) ^ (this.denormalizedPhoneNumber != null ? this.denormalizedPhoneNumber.GetHashCode() : 0);
                 return result;
             }
-        }
-
-        /// <summary>
-        /// Implements the content comparison of two <see cref="PhoneNumber"/> entities.
-        /// </summary>
-        /// <param name="left">the left side object for the comparison</param>
-        /// <param name="right">the right side object for the comparison</param>
-        /// <returns> true if both instances are equal</returns>
-        public static bool operator ==(PhoneNumber left, PhoneNumber right)
-        {
-            return object.Equals(left, right);
-        }
-
-        /// <summary>
-        /// Implements the content comparison of two <see cref="PhoneNumber"/> entities.
-        /// </summary>
-        /// <param name="left">the left side object for the comparison</param>
-        /// <param name="right">the right side object for the comparison</param>
-        /// <returns></returns>
-        public static bool operator !=(PhoneNumber left, PhoneNumber right)
-        {
-            return !object.Equals(left, right);
         }
     }
 }

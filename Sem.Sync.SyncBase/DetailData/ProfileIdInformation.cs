@@ -25,24 +25,16 @@ namespace Sem.Sync.SyncBase.DetailData
     public class ProfileIdInformation : IComparable<ProfileIdInformation>
     {
         /// <summary>
-        /// Gets or sets the profile Id, which must be unique for the <see cref="ResourceLocator"/>.
-        /// </summary>
-        [XmlText]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class. 
+        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class without initializing the id.
         /// </summary>
         public ProfileIdInformation()
         {
-            
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class an initializes 
-        /// the <see cref="Id"/> and <see cref="ResourceLocator"/> properties.
+        /// Initializes a new instance of the <see cref="ProfileIdInformation"/> class.
         /// </summary>
-        /// <param name="value">The id or the id + resource locator </param>
+        /// <param name="value"> The id to be set - you might add a resource locator for the target system of this id using the "@"-char. </param>
         public ProfileIdInformation(string value)
         {
             var parts = value.Split(new[] { "[@]" }, StringSplitOptions.RemoveEmptyEntries);
@@ -55,6 +47,12 @@ namespace Sem.Sync.SyncBase.DetailData
             this.Id = value;
             this.ResourceLocator = parts[1];
         }
+
+        /// <summary>
+        /// Gets or sets the profile Id, which must be unique for the <see cref="ResourceLocator"/>.
+        /// </summary>
+        [XmlText]
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the ResourceLocator - for social networks this may be an empty string or null if the

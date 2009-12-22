@@ -17,18 +17,35 @@ namespace Sem.GenericHelpers.Exceptions
     /// </summary>
     public class ProcessAbortException : TechnicalException
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
+        /// </summary>
         public ProcessAbortException()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
+        /// </summary>
+        /// <param name="message"> The message to be shown for the user. </param>
         public ProcessAbortException(string message) : base(message)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
+        /// </summary>
+        /// <param name="message"> The message to be shown to the user. </param>
+        /// <param name="innerException"> The inner exception to be embedded. </param>
         public ProcessAbortException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
+        /// </summary>
+        /// <param name="info"> The serialization information to reconstruct the exception. </param>
+        /// <param name="context"> The streaming context to reconstruct the exception. </param>
         protected ProcessAbortException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }

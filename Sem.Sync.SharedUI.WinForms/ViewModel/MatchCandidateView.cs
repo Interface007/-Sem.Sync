@@ -27,6 +27,12 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// </summary>
         public StdContact Element { get; set; }
 
+        /// <summary>
+        /// Overrides the <see cref="object.ToString"/> by returning a meaningful string representation of the data.
+        /// </summary>
+        /// <returns>
+        /// ContactName + " - profiles: " + PersonalProfileIdentifiers
+        /// </returns>
         public override string ToString()
         {
             return this.ContactName + " - profiles: " + this.Element.PersonalProfileIdentifiers;

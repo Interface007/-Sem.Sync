@@ -10,6 +10,7 @@ namespace Sem.GenericHelpers.Exceptions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
@@ -64,6 +65,8 @@ namespace Sem.GenericHelpers.Exceptions
         /// <returns>
         /// a string containing the xml information written to the <see cref="ExceptionWriter"/> list.
         /// </returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1116:SplitParametersMustStartOnLineAfterDeclaration", Justification = "the XElement class perfectly supports floating interfaces")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1118:ParametersMustNotSpanMultipleLines", Justification = "the XElement class perfectly supports floating interfaces")]
         public static string HandleException(Exception ex)
         {
             // do not write or process abort exceptions
@@ -104,6 +107,68 @@ namespace Sem.GenericHelpers.Exceptions
             return exceptionText;
         }
 
+        /// <summary>
+        /// Simply suppresses all exceptions of type <typeparamref name="TException"/> if the function <paramref name="check"/> returns true.
+        /// </summary>
+        /// <typeparam name="TException"> the exception to suppress  </typeparam>
+        /// <typeparam name="TResult"> The return type of the function. </typeparam>
+        /// <param name="code"> The code to be executed.  </param>
+        /// <param name="check"> The check function - when this expression is true, the exception will be suppressed. </param>
+        /// <returns> The result of the code provided, default of <typeparamref name="TResult"/>. </returns>
+        public static TResult Suppress<TException, TResult>(Func<TResult> code, Func<TException, bool> check) where TException : Exception
+        {
+            try
+            {
+                return code.Invoke();
+            }
+            catch (TException ex)
+            {
+                if (!check(ex))
+                {
+                    throw;
+                }
+            }
+
+            return default(TResult);
+        }
+
+        /// <summary>
+        /// Simply suppresses all exceptions of type <typeparamref name="T"/> if the function <paramref name="check"/> returns true.
+        /// </summary>
+        /// <typeparam name="T"> the exception to suppress </typeparam>
+        /// <param name="code"> The code to be executed. </param>
+        /// <param name="check"> The check function - when this expression is true, the exception will be suppressed.</param>
+        public static void Suppress<T>(Action code, Func<T, bool> check) where T : Exception
+        {
+            try
+            {
+                code.Invoke();
+            }
+            catch (T ex)
+            {
+                if (!check(ex))
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Simply suppresses all exceptions of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T"> the exception to suppress </typeparam>
+        /// <param name="code"> The code to be executed.   </param>
+        public static void Suppress<T>(Action code) where T : Exception
+        {
+            try
+            {
+                code.Invoke();
+            }
+            catch (T)
+            {
+            }
+        }
+        
         /// <summary>
         /// Writes exception information to the files system (<see cref="Destination"/>). Does not throw any exceptions
         /// but may write exception details into the console window.

@@ -3,18 +3,20 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   This class describes attributes that are specific to a given connector.
+//   Implements a data type for Information that is specific to one single connector / source.
+//   E.g. in some CRM systems there are user defined properties that cannot be mapped.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SyncBase
 {
     /// <summary>
-    /// This class describes attributes that are specific to a given connector.
+    /// Implements a data type for Information that is specific to one single connector / source.
+    /// E.g. in some CRM systems there are user defined properties that cannot be mapped.
     /// </summary>
     public class SourceSpecificAttribute
     {
         /// <summary>
-        /// Gets or sets the namespace of the connector this attribute belongs to.
+        /// Gets or sets the full qualified class name of the SourceConnector.
         /// </summary>
         public string SourceConnector { get; set; }
         

@@ -50,6 +50,8 @@ namespace Sem.Sync.Test.ExchangeWsma
             connector.LogOnPassword = workFlow.Target.LogonCredentials.LogOnPassword;
             connector.LogOnUserId = workFlow.Target.LogonCredentials.LogOnUserId;
 
+            connector.DeleteElements(connector.GetAll(workFlow.Target.Path), workFlow.Target.Path);
+
             connector.WriteRange(contacts.ToStdElement(), workFlow.Target.Path);
             var contactsRead = connector.GetAll(workFlow.Target.Path).ToContacts();
 
@@ -79,8 +81,8 @@ namespace Sem.Sync.Test.ExchangeWsma
             Assert.AreEqual(contactWritten.BusinessPhoneMobile, contactRead.BusinessPhoneMobile);
             Assert.AreEqual(contactWritten.PersonalPhoneMobile, contactRead.PersonalPhoneMobile);
 
-            ////Assert.AreEqual(contactWritten.BusinessInstantMessengerAddresses, contactRead.BusinessInstantMessengerAddresses);
-            ////Assert.AreEqual(contactWritten.PersonalInstantMessengerAddresses, contactRead.PersonalInstantMessengerAddresses);
+            Assert.AreEqual(contactWritten.BusinessInstantMessengerAddresses.NewIfNull(), contactRead.BusinessInstantMessengerAddresses.NewIfNull());
+            Assert.AreEqual(contactWritten.PersonalInstantMessengerAddresses.NewIfNull(), contactRead.PersonalInstantMessengerAddresses.NewIfNull());
 
             Assert.AreEqual(contactWritten.BusinessEmailPrimary, contactRead.BusinessEmailPrimary);
             Assert.AreEqual(contactWritten.PersonalEmailPrimary, contactRead.PersonalEmailPrimary);

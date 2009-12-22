@@ -11,7 +11,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 {
     using System;
     using System.Collections.Generic;
-   
+
+    using GenericHelpers.Exceptions;
+
     using Microsoft.Exchange.WebServices.Data;
 
     using Sem.GenericHelpers;
@@ -106,7 +108,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                   Suffix = contact.CompleteName.Suffix
                               };
 
-            EatException(
+            ExceptionHandler.Suppress(
                 () => result.DateOfBirth = contact.Birthday ?? new DateTime(), 
                 (ServiceObjectPropertyException ex) => true);
 
@@ -179,44 +181,26 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         }
 
         /// <summary>
-        /// Simply suppresses <see cref="NullReferenceException"/> and <see cref="ServiceObjectPropertyException"/> in order to not 
-        /// write this code again and again.
+        /// Sets a <see cref="PhysicalAddressEntry"/> inside a <see cref="Contact"/> by getting the data from a <see cref="AddressDetail"/>
         /// </summary>
-        /// <typeparam name="T"> the exception to eat </typeparam>
-        /// <param name="code"> The code to be executed.   </param>
-        /// <param name="check"> The check function - when this expression is true, the exception is not thrown.  </param>
-        public static void EatException<T>(Action code, Func<T, bool> check) where T : Exception
-        {
-            try
-            {
-                code.Invoke();
-            }
-            catch (T ex)
-            {
-                if (!check(ex))
-                {
-                    throw;
-                }
-            }
-        }
-
+        /// <param name="exchangeContact"> The exchange contact that should get the <see cref="PhysicalAddressEntry"/> created with this data. </param>
+        /// <param name="address"> The <see cref="PhysicalAddressKey"/> describing the kind of address to set. </param>
+        /// <param name="value"> The <see cref="AddressDetail"/> to be parsed and set into the <see cref="PhysicalAddressEntry"/>. </param>
         private static void SetAddress(this Contact exchangeContact, PhysicalAddressKey address, AddressDetail value)
         {
-            if (value == null)
+            if (value != null)
             {
-                return;
+                var exchangeAddress = new PhysicalAddressEntry
+                    {
+                        City = value.CityName,
+                        CountryOrRegion = value.CountryName,
+                        PostalCode = value.PostalCode,
+                        State = value.StateName,
+                        Street = value.StreetName
+                    };
+
+                exchangeContact.PhysicalAddresses[address] = exchangeAddress;
             }
-
-            var exchangeAddress = new PhysicalAddressEntry
-                                      {
-                                          City = value.CityName,
-                                          CountryOrRegion = value.CountryName,
-                                          PostalCode = value.PostalCode,
-                                          State = value.StateName,
-                                          Street = value.StreetName
-                                      };
-
-            exchangeContact.PhysicalAddresses[address] = exchangeAddress;
         }
 
         /// <summary>

@@ -10,6 +10,7 @@ namespace Sem.Sync.SyncBase.DetailData
     using System.ComponentModel;
     using System.Globalization;
     using System.Text.RegularExpressions;
+    using System.Xml.Serialization;
 
     using GenericHelpers;
 
@@ -135,6 +136,35 @@ namespace Sem.Sync.SyncBase.DetailData
         public string StreetName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the street
+        /// </summary>
+        [XmlIgnore]
+        public string StreetNameAndNumber
+        {
+            get
+            {
+                return 
+                    this.StreetName + 
+                    ((this.StreetNumber > 0) ? " " + this.StreetNumber : string.Empty) + 
+                    this.StreetNumberExtension ?? string.Empty;
+            }
+
+            set
+            {
+                // check to see if we can interpret the content
+                if (!RegStreetNumberExtensionPre.IsMatch(value))
+                {
+                    return;
+                }
+
+                var lineParts = RegStreetNumberExtension.Matches(value);
+                this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
+                this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"), CultureInfo.InvariantCulture);
+                this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the number of the house in the street
         /// </summary>
         [DefaultValue(0)]
@@ -156,25 +186,67 @@ namespace Sem.Sync.SyncBase.DetailData
         public PhoneNumber Phone { get; set; }
 
         /// <summary>
-        /// Implements the content comparison of two <see cref="AddressDetail"/> entities.
+        /// Implements the equal operator by comparing the <see cref="ToString()"/> result.
         /// </summary>
-        /// <param name="left">the left side object for the comparison</param>
-        /// <param name="right">the right side object for the comparison</param>
-        /// <returns>> true if both instances are equal</returns>
+        /// <param name="left"> The left side object for the comparison. </param>
+        /// <param name="right"> The right side object for the comparison. </param>
+        /// <returns> true in case of both instances containing equal data </returns>
         public static bool operator ==(AddressDetail left, AddressDetail right)
         {
             return object.Equals(left, right);
         }
 
         /// <summary>
-        /// Implements the content comparison of two <see cref="AddressDetail"/> entities.
+        /// Implements the "not equal" operator by comparing the <see cref="ToString()"/> result.
         /// </summary>
-        /// <param name="left">the left side object for the comparison</param>
-        /// <param name="right">the right side object for the comparison</param>
-        /// <returns></returns>
+        /// <param name="left"> The left side object for the comparison. </param>
+        /// <param name="right"> The right side object for the comparison. </param>
+        /// <returns> true in case of both instances containing different data </returns>
         public static bool operator !=(AddressDetail left, AddressDetail right)
         {
             return !object.Equals(left, right);
+        }
+
+        /// <summary>
+        /// Compares the content of this address instance to another based on the <see cref="ToString()"/> method.
+        /// </summary>
+        /// <param name="other"> The other instance. </param>
+        /// <returns> true in case of equal content </returns>
+        public bool Equals(AddressDetail other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.ToString() == this.ToString();
+        }
+
+        /// <summary>
+        /// Overrides the object method <see cref="object.GetHashCode"/> in order to implement comparison
+        /// </summary>
+        /// <returns> A value to distribute different instances of this class in a list. This value will not be unique 
+        /// nor will it be a "strong" cryptographic hash</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = this.CountryName != null ? this.CountryName.GetHashCode() : 0;
+                result = (result * 397) ^ (this.StateName != null ? this.StateName.GetHashCode() : 0);
+                result = (result * 397) ^ (this.PostalCode != null ? this.PostalCode.GetHashCode() : 0);
+                result = (result * 397) ^ (this.CityName != null ? this.CityName.GetHashCode() : 0);
+                result = (result * 397) ^ (this.StreetName != null ? this.StreetName.GetHashCode() : 0);
+                result = (result * 397) ^ this.StreetNumber;
+                result = (result * 397) ^ (this.Room != null ? this.Room.GetHashCode() : 0);
+                result = (result * 397) ^ (this.StreetNumberExtension != null ? this.StreetNumberExtension.GetHashCode() : 0);
+                result = (result * 397) ^ (this.Phone != null ? this.Phone.GetHashCode() : 0);
+                return result;
+            }
         }
 
         /// <summary>
@@ -244,48 +316,6 @@ namespace Sem.Sync.SyncBase.DetailData
             }
             
             return result;
-        }
-
-        /// <summary>
-        /// Compares the content of this address instance to another based on the <see cref="ToString()"/> method.
-        /// </summary>
-        /// <param name="other"> The other instance. </param>
-        /// <returns> true in case of equal content </returns>
-        public bool Equals(AddressDetail other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return other.ToString() == this.ToString();
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns> A hash code for the current <see cref="T:System.Object"/>. </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var result = this.CountryName != null ? this.CountryName.GetHashCode() : 0;
-                result = (result * 397) ^ (this.StateName != null ? this.StateName.GetHashCode() : 0);
-                result = (result * 397) ^ (this.PostalCode != null ? this.PostalCode.GetHashCode() : 0);
-                result = (result * 397) ^ (this.CityName != null ? this.CityName.GetHashCode() : 0);
-                result = (result * 397) ^ (this.StreetName != null ? this.StreetName.GetHashCode() : 0);
-                result = (result * 397) ^ this.StreetNumber;
-                result = (result * 397) ^ (this.Room != null ? this.Room.GetHashCode() : 0);
-                result = (result * 397) ^ (this.StreetNumberExtension != null ? this.StreetNumberExtension.GetHashCode() : 0);
-                result = (result * 397) ^ (this.Phone != null ? this.Phone.GetHashCode() : 0);
-                return result;
-            }
         }
 
         /// <summary>

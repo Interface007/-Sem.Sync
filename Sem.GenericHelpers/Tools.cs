@@ -175,7 +175,15 @@ namespace Sem.GenericHelpers
             }
         }
 
-        private static string SaveToString<T>(T source) where T : class
+        /// <summary>
+        /// Serializes an object to a string
+        /// </summary>
+        /// <param name="source"> The source object to be serialized. </param>
+        /// <typeparam name="T"> The type that will be serialized (automatically detected by type invariance)</typeparam>
+        /// <returns>
+        /// The serialized object as a string
+        /// </returns>
+        public static string SaveToString<T>(T source) where T : class
         {
             var formatter = new XmlSerializer(typeof(T));
             var result = new StringBuilder();
