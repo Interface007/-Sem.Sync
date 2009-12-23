@@ -21,18 +21,18 @@ namespace ContactViewer
 
     public class ViewModel : INotifyPropertyChanged
     {
-        private ViewContact _CurrentContact;
+        private ViewContact currentContact;
 
         public ViewContact CurrentContact
         {
             get
             {
-                return this._CurrentContact;
+                return this.currentContact;
             }
 
             set
             {
-                this._CurrentContact = value;
+                this.currentContact = value;
                 this.RaisePropertyChanged("CurrentContact");
             }
         }
@@ -44,21 +44,6 @@ namespace ContactViewer
             var service = new ContactViewServiceClient();
             service.GetAllCompleted += this.ServiceGetAllCompleted;
             service.GetAllAsync(string.Empty);
-        }
-
-        private void ServiceGetAllCompleted(object sender, GetAllCompletedEventArgs e)
-        {
-            this.ResultList =
-                (from x in e.Result
-                 select new ViewContact
-                            {
-                                FullName = x.FullName,
-                                Street = x.Street,
-                                City = x.City,
-                                Picture = GetBitmapFromBytes(x.Picture),
-                            }).ToList();
-
-            this.RaisePropertyChanged("ResultList");
         }
 
         private static BitmapImage GetBitmapFromBytes(byte[] bytes)
@@ -74,6 +59,21 @@ namespace ContactViewer
             }
          
             return image;
+        }
+        
+        private void ServiceGetAllCompleted(object sender, GetAllCompletedEventArgs e)
+        {
+            this.ResultList =
+                (from x in e.Result
+                 select new ViewContact
+                            {
+                                FullName = x.FullName,
+                                Street = x.Street,
+                                City = x.City,
+                                Picture = GetBitmapFromBytes(x.Picture),
+                            }).ToList();
+
+            this.RaisePropertyChanged("ResultList");
         }
 
         #region INotifyPropertyChanged Members

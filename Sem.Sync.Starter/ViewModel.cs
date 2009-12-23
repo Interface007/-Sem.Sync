@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ViewModel.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the ViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Starter
 {
-    class ViewModel
+    public class ViewModel
     {
     }
 }

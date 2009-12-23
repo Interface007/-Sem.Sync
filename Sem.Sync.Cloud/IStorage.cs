@@ -13,6 +13,5 @@
 
         [OperationContract]
         BooleanResultContainer DeleteBlob(string blobId);
-
     }
 }

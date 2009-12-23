@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TechnicalMessageCodes.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   describes the meaning of the message.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.Cloud
 {
     /// <summary>

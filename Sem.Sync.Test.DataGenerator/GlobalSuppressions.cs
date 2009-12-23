@@ -1,12 +1,11 @@
-// This file is used by Code Analysis to maintain SuppressMessage 
-// attributes that are applied to this project. 
-// Project-level suppressions either have no target or are given 
-// a specific target and scoped to a namespace, type, member, etc. 
-//
-// To add a suppression to this file, right-click the message in the 
-// Error List, point to "Suppress Message(s)", and click 
-// "In Project Suppression File". 
-// You do not need to add suppressions to this file manually. 
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="Sven Erik Matzen" file="GlobalSuppressions.cs">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Test.DataGenerator.Contacts.#GetStandardContactList(System.Boolean)")]

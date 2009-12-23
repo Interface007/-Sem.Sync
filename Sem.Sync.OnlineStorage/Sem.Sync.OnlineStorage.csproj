@@ -118,7 +118,6 @@
     <Compile Include="ContactViewService.svc.cs">
       <DependentUpon>ContactViewService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Ententions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IContact.cs" />
     <Compile Include="IContactViewService.cs" />
