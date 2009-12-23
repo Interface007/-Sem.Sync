@@ -35,8 +35,12 @@ namespace Sem.Sync.Connector.Google
     /// filter some data.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanReadContacts = true, CanWriteContacts = true,
-        MatchingIdentifier = ProfileIdentifierType.Google, NeedsCredentials = true)]
+    [ConnectorDescription(
+        DisplayName = "Google Mail Contacts Client", 
+        CanReadContacts = true, 
+        CanWriteContacts = true,
+        MatchingIdentifier = ProfileIdentifierType.Google, 
+        NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
         #region const

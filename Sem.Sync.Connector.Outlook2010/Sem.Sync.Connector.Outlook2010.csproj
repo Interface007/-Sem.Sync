@@ -56,7 +56,7 @@
     <Compile Include="CalendarClient.cs" />
     <Compile Include="ContactClient.cs" />
     <Compile Include="ContactsItemContainer.cs" />
-    <Compile Include="Extentions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="OutlookClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,8 +9,10 @@
 
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
+    /// <summary>
+    /// Mapping class - might be replaced with a generic one in a base library
+    /// </summary>
     public class DataMapping
     {
-
     }
 }

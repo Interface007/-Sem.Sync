@@ -57,7 +57,7 @@
             this.conflictGrid.MultiSelect = false;
             this.conflictGrid.Name = "conflictGrid";
             this.conflictGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.conflictGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.conflictGrid_CellContentClick);
+            this.conflictGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConflictGrid_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -70,7 +70,7 @@
             resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // btnCancel
             // 
@@ -78,7 +78,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // label1
             // 

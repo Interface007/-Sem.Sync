@@ -1,9 +1,19 @@
-using System;
-using DaveSexton.DocProject;
-using DaveSexton.DocProject.Engine;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BuildProcess.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Hooks into the DocProject build process for the project in which it's defined.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Documentation
 {
+    using System;
+
+    using DaveSexton.DocProject;
+    using DaveSexton.DocProject.Engine;
+
     /// <summary>
     /// Hooks into the DocProject build process for the project in which it's defined.
     /// </summary>
@@ -25,7 +35,15 @@ namespace Sem.Sync.Documentation
     /// </remarks>
     public class BuildProcess : BuildProcessComponent
     {
-        DateTime buildStart, stepStart;
+        /// <summary>
+        /// Start time of the build process
+        /// </summary>
+        private DateTime buildStart;
+
+        /// <summary>
+        /// Start time of the build step
+        /// </summary>
+        private DateTime stepStart;
 
         /// <summary>
         /// Called before the project's help build starts.
@@ -34,9 +52,9 @@ namespace Sem.Sync.Documentation
         public override void BuildStarting(BuildContext context)
         {
             // Uncomment the following line to break into the debugger: 
-            // System.Diagnostics.Debugger.Break();
+            //// System.Diagnostics.Debugger.Break();
 
-            buildStart = DateTime.Now;
+            this.buildStart = DateTime.Now;
         }
 
         /// <summary>
@@ -48,7 +66,7 @@ namespace Sem.Sync.Documentation
         /// <b>false</b> indicates that the process should skip this step.</returns>
         public override bool BeforeExecuteStep(IBuildStep step, BuildContext context)
         {
-            stepStart = DateTime.Now;
+            this.stepStart = DateTime.Now;
 
             return true;
         }
@@ -60,8 +78,8 @@ namespace Sem.Sync.Documentation
         /// <param name="context">Provides information about the build process.</param>
         public override void AfterExecuteStep(IBuildStep step, BuildContext context)
         {
-            TraceLine();
-            TraceLine("Step {0} Time Elapsed: {1}", context.CurrentStepIndex + 1, DateTime.Now - stepStart);
+            this.TraceLine();
+            this.TraceLine("Step {0} Time Elapsed: {1}", context.CurrentStepIndex + 1, DateTime.Now - this.stepStart);
         }
 
         /// <summary>
@@ -85,8 +103,8 @@ namespace Sem.Sync.Documentation
         /// <param name="context">Provides information about the build process.</param>
         public override void BuildCompleted(BuildContext context)
         {
-            TraceLine();
-            TraceLine("Total Time Elapsed: {0}", DateTime.Now - buildStart);
+            this.TraceLine();
+            this.TraceLine("Total Time Elapsed: {0}", DateTime.Now - this.buildStart);
         }
     }
 }

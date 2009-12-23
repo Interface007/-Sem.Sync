@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.Connector.Outlook2010
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Extensions.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the Extensions type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.Outlook2010
 {
     using System;
 
@@ -6,8 +15,19 @@
 
     using Sem.Sync.SyncBase;
 
-    public static class Extentions
+    /// <summary>
+    /// Static helper class to convert entities
+    /// </summary>
+    internal static class Extensions
     {
+        /// <summary>
+        /// Translates a <see cref="OlBusyStatus"/> into a <see cref="BusyStatus"/>.
+        /// </summary>
+        /// <param name="status"> The <see cref="OlBusyStatus"/> to translate into a <see cref="BusyStatus"/>. </param>
+        /// <returns>
+        /// The corresponding <see cref="BusyStatus"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlBusyStatus"/>. </exception>
         public static BusyStatus ToBusyStatus(this OlBusyStatus status)
         {
             switch (status)
@@ -28,6 +48,14 @@
             }
         }
 
+        /// <summary>
+        /// Translates a <see cref="OlRecurrenceState"/> into a <see cref="RecurrenceState"/>.
+        /// </summary>
+        /// <param name="status"> The <see cref="OlRecurrenceState"/> to translate into a <see cref="RecurrenceState"/>. </param>
+        /// <returns>
+        /// The corresponding <see cref="RecurrenceState"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlRecurrenceState"/>. </exception>
         public static RecurrenceState ToRecurrenceState(this OlRecurrenceState status)
         {
             switch (status)
@@ -49,6 +77,14 @@
             }
         }
 
+        /// <summary>
+        /// Translates a <see cref="OlResponseStatus"/> into a <see cref="ResponseStatus"/>.
+        /// </summary>
+        /// <param name="status"> The <see cref="OlResponseStatus"/> to translate into a <see cref="ResponseStatus"/>. </param>
+        /// <returns>
+        /// The corresponding <see cref="ResponseStatus"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlResponseStatus"/>. </exception>
         public static ResponseStatus ToResponseStatus(this OlResponseStatus status)
         {
             switch (status)

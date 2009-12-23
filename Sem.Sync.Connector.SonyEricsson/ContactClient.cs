@@ -35,9 +35,6 @@ namespace Sem.Sync.Connector.SonyEricsson
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-
-
-            
             CleanUpEntities(result);
             return result;
         }
@@ -50,7 +47,6 @@ namespace Sem.Sync.Connector.SonyEricsson
         /// <param name="skipIfExisting"> A value indicating if existing entries should be skipped while writing. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            
         }
     }
 }

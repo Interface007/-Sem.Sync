@@ -45,28 +45,5 @@ namespace Sem.Sync.Connector.Google
             this.myRequester = requester;
             this.myUri = userUri;
         }
-
-        public Group GetGroupByName(string name)
-        {
-            if (!this.cache.ContainsKey(name))
-            {
-                var feed = this.myRequester.GetGroups();
-                foreach (var group in feed.Entries)
-                {
-                    if (!this.cache.ContainsKey(group.Title))
-                    {
-                        this.cache.Add(group.Title, group);
-                    }
-                }
-
-                if (!this.cache.ContainsKey(name))
-                {
-                    var group = this.myRequester.Insert(this.myUri, new Group() { Title = name });
-                    this.cache.Add(group.Title, group);
-                }
-            }
-
-            return this.cache[name];
-        }
     }
 }

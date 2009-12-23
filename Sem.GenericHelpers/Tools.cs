@@ -12,7 +12,6 @@ namespace Sem.GenericHelpers
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -635,39 +634,6 @@ namespace Sem.GenericHelpers
             return result;
         }
 
-        private static string GetParameterForInvoke(ref string propName)
-        {
-            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
-            var parameter = parameterStart > -1
-                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
-                                : string.Empty;
-            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
-            return parameter;
-        }
-
-        private static object[] CreateIndexerValue(string parameter)
-        {
-            int integerIndexer;
-            if (int.TryParse(parameter, out integerIndexer))
-            {
-                return new object[] { integerIndexer };
-            }
-
-            if (parameter.StartsWith(@"""", StringComparison.Ordinal) && parameter.EndsWith(@"""", StringComparison.Ordinal))
-            {
-                return new object[] { parameter.Substring(1, parameter.Length - 2) };
-            }
-
-            var lastDot = parameter.LastIndexOf('.');
-            var type = Type.GetType(new Factory().EnrichClassName(parameter.Substring(0, lastDot)), false, true);
-            if (type != null && type.BaseType == typeof(Enum))
-            {
-                return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Gets the SH a1 hash.
         /// </summary>
@@ -812,6 +778,50 @@ namespace Sem.GenericHelpers
                     yield return element;
                 }
             }
+        }
+
+        /// <summary>
+        /// Extracts parameters for a method invoke.
+        /// </summary>
+        /// <param name="propName"> The property name including the parameters. This will be manipulated
+        /// to not include the parameters after the call. </param>
+        /// <returns>The parameters.</returns>
+        private static string GetParameterForInvoke(ref string propName)
+        {
+            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
+            var parameter = parameterStart > -1
+                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
+                                : string.Empty;
+            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
+            return parameter;
+        }
+
+        /// <summary>
+        /// Assembels an array of indexer parameters for a property get/set invocation.
+        /// </summary>
+        /// <param name="parameter"> The parameter to extract the indexers from. </param>
+        /// <returns> an array of call arguments </returns>
+        private static object[] CreateIndexerValue(string parameter)
+        {
+            int integerIndexer;
+            if (int.TryParse(parameter, out integerIndexer))
+            {
+                return new object[] { integerIndexer };
+            }
+
+            if (parameter.StartsWith(@"""", StringComparison.Ordinal) && parameter.EndsWith(@"""", StringComparison.Ordinal))
+            {
+                return new object[] { parameter.Substring(1, parameter.Length - 2) };
+            }
+
+            var lastDot = parameter.LastIndexOf('.');
+            var type = Type.GetType(new Factory().EnrichClassName(parameter.Substring(0, lastDot)), false, true);
+            if (type != null && type.BaseType == typeof(Enum))
+            {
+                return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
+            }
+
+            return null;
         }
 
         /// <summary>

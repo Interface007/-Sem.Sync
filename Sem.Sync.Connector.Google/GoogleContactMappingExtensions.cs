@@ -31,7 +31,7 @@ namespace Sem.Sync.Connector.Google
     /// <summary>
     /// Mapping class that contains only mapping logic between google contacts and sem.sync contacts
     /// </summary>
-    public static class GoogleContactMappingExtensions
+    internal static class GoogleContactMappingExtensions
     {
         /// <summary>
         /// The schema prefix for the google data api

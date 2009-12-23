@@ -377,22 +377,9 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
-        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// Creates a list of contacts with the ids "Unmatched", "Matched" and "New"
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            switch (clientFolderName)
-            {
-                case "matchingtesttarget":
-                    matchingTarget = elements;
-                    return;
-            }
-        }
-
+        /// <returns> The created list </returns>
         public static List<StdContact> GetMatchingSource()
         {
             return new List<StdContact>
@@ -427,6 +414,23 @@ namespace Sem.Sync.Test.DataGenerator
                                     ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "Matched")
                                 }  
                        };
+        }
+
+        /// <summary>
+        /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">the list of elements that should be written to the target system.</param>
+        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            switch (clientFolderName)
+            {
+                case "matchingtesttarget":
+                    matchingTarget = elements;
+                    return;
+            }
         }
 
         /// <summary>
@@ -494,6 +498,7 @@ namespace Sem.Sync.Test.DataGenerator
                         result = VariableContactList.ToStdElement();
                         result.AddRange(GetStandardContactList(false).ToStdElement());
                     }
+
                     break;
             }
 

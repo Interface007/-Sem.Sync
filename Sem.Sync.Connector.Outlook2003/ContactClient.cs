@@ -27,7 +27,8 @@ namespace Sem.Sync.Connector.Outlook2003
     #endregion usings
 
     /// <summary>
-    /// This class is the client class for handling outlook contacts
+    /// This class is the client class for handling outlook contacts. The outlook connector does use the
+    /// ProfileIdentifierType.Default, which is idential to the <see cref="StdContact.Id"/>.
     /// </summary>
     [ConnectorDescription(
         DisplayName = "Microsoft Outlook 2003",
@@ -219,7 +220,6 @@ namespace Sem.Sync.Connector.Outlook2003
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
                                 var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
-                                
                                 if (newContact != null)
                                 {
                                     result.Add(newContact);
@@ -278,11 +278,13 @@ namespace Sem.Sync.Connector.Outlook2003
             {
                 // find outlook contact with matching id, create new if needed
                 LogProcessingEvent(element, Resources.uiSearching);
-                if (OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
+                if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
                 {
-                    LogProcessingEvent(element, Resources.uiContactUpdated);
-                    added++;
+                    continue;
                 }
+
+                this.LogProcessingEvent(element, Resources.uiContactUpdated);
+                added++;
             }
 
             outlookNamespace.Logoff();

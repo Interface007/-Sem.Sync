@@ -14,7 +14,7 @@ namespace Sem.Sync.Connector.Xing
     /// contact references do contain the tags, so we need a class to hold the url to doenload the
     /// vCard and the string containing the tags
     /// </summary>
-    public class XingContactReference
+    internal class XingContactReference
     {
         /// <summary>
         /// Gets or sets Url to download the vCard.

@@ -54,6 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		SemSync2.vsmdi = SemSync2.vsmdi
+		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Documentation", "Sem.Sync.Documentation\Sem.Sync.Documentation.csproj", "{C59830A8-5F30-4AC1-A862-473D9911B08A}"

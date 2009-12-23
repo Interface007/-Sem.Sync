@@ -9,7 +9,6 @@
 
 namespace Sem.Sync.Connector.Xing
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text.RegularExpressions;
@@ -29,8 +28,14 @@ namespace Sem.Sync.Connector.Xing
         /// </summary>
         private const string HttpUrlBaseAddress = "https://www.xing.com";
 
-        private HttpHelper xingRequester;
+        /// <summary>
+        /// The http-requester for this instance
+        /// </summary>
+        private readonly HttpHelper xingRequester;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactSearcher"/> class.
+        /// </summary>
         public ContactSearcher()
         {
             this.xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
@@ -42,6 +47,7 @@ namespace Sem.Sync.Connector.Xing
         }
 
         /// <summary>
+        /// Implements a read of the full list of contacts for the specifies folder.
         /// </summary>
         /// <param name="clientFolderName"> The client folder name for the memory connector. </param>
         /// <param name="result"> The result list of contacts. </param>
@@ -120,6 +126,11 @@ namespace Sem.Sync.Connector.Xing
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of possible user profile urls for Xing.
+        /// </summary>
+        /// <param name="name"> The name of the person to generate the urls. </param>
+        /// <returns> The list of urls. </returns>
         private static List<string> GuessProfileUrls(PersonName name)
         {
             var result = new List<string>
@@ -135,6 +146,12 @@ namespace Sem.Sync.Connector.Xing
             return result;
         }
 
+        /// <summary>
+        /// Extracts information from a profile.
+        /// </summary>
+        /// <param name="profile"> The profile content. </param>
+        /// <param name="regEx"> The regex to get the information. </param>
+        /// <returns> the information as a string</returns>
         private static string MapRegexToProperty(string profile, string regEx)
         {
             var information = Regex.Matches(profile, regEx, RegexOptions.Singleline);

@@ -20,14 +20,30 @@ namespace Sem.Sync.LocalSyncManager.Business
     /// </summary>
     public class ContactsFolder : INotifyPropertyChanged
     {
+        /// <summary>
+        /// A list of contacts from the folder
+        /// </summary>
         private IEnumerable<StdContact> contacts;
 
+        /// <summary>
+        /// the currectly selected contact
+        /// </summary>
         private StdContact currentContact;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactsFolder"/> class.
+        /// </summary>
+        /// <param name="connector"> The connector to read from. </param>
+        /// <param name="clientPath"> The client path. </param>
         public ContactsFolder(IClientBase connector, string clientPath)
         {
             this.Contacts = (IEnumerable<StdContact>)connector.GetAll(clientPath);
         }
+
+        /// <summary>
+        /// Implements the needed event handler for the interface <see cref="INotifyPropertyChanged"/>
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the list of Contacts.
@@ -46,6 +62,9 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        /// <summary>
+        /// Gets or sets the currently selected contact.
+        /// </summary>
         public StdContact CurrentContact
         {
             get
@@ -72,7 +91,5 @@ namespace Sem.Sync.LocalSyncManager.Business
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
