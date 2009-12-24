@@ -377,7 +377,9 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
-        /// Creates a list of contacts with the ids "Unmatched", "Matched" and "New"
+        /// Creates a list of contacts with the artificial Xing-IDs "Unmatched", "Matched" and "New". 
+        /// The entities can be used together with the lists returned by <see cref="GetMatchingTarget"/> 
+        /// and <see cref="GetMatchingBaseline"/> to simulate matching actions.
         /// </summary>
         /// <returns> The created list </returns>
         public static List<StdContact> GetMatchingSource()
@@ -390,6 +392,12 @@ namespace Sem.Sync.Test.DataGenerator
                  };
         }
 
+        /// <summary>
+        /// Creates a list of contacts with the artificial Xing-IDs "Unmatched", "Matched" and "TargetOrphan". 
+        /// The entities can be used together with the lists returned by <see cref="GetMatchingSource"/> 
+        /// and <see cref="GetMatchingBaseline"/> to simulate matching actions.
+        /// </summary>
+        /// <returns> The created list </returns>
         public static List<StdContact> GetMatchingTarget()
         {
             return new List<StdContact>
@@ -401,9 +409,11 @@ namespace Sem.Sync.Test.DataGenerator
         }
 
         /// <summary>
-        /// Generates a matching base line with one contact
+        /// Creates a list of contacts with one single artificial Xing-ID "Matched". 
+        /// The entity can be used together with the lists returned by <see cref="GetMatchingTarget"/> 
+        /// and <see cref="GetMatchingSource"/> to simulate matching actions.
         /// </summary>
-        /// <returns> a valid matching entry in a list </returns>
+        /// <returns> The created list </returns>
         public static List<MatchingEntry> GetMatchingBaseline()
         {
             return new List<MatchingEntry>
@@ -474,17 +484,17 @@ namespace Sem.Sync.Test.DataGenerator
                     result.AddRange(
                         new List<StdElement>
                             {
-                                new MatchingEntry()
+                                new MatchingEntry
                                     {
                                         Id = new Guid("{A1445F74-6C24-47a3-97E9-9A3E2FA35B17}"),
                                         ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
                                     },
-                                new MatchingEntry()
+                                new MatchingEntry
                                     {
                                         Id = new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"),
                                         ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
                                     },
-                                new MatchingEntry()
+                                new MatchingEntry
                                     {
                                         Id = new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"),
                                         ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
@@ -515,16 +525,27 @@ namespace Sem.Sync.Test.DataGenerator
             return candidates[Rnd.Next(candidates.Length)];
         }
 
+        /// <summary>
+        /// Creates a <see cref="StdContact"/> entity with only the Xing profile ID specified for matching simulation.
+        /// The <see cref="StdContact.Id"/> will be a newly generated Guid.
+        /// </summary>
+        /// <param name="profileId"> The profile id. </param>
+        /// <returns> The entity created with a Xing profile id </returns>
         private static StdContact CreateIdOnlyContact(string profileId)
         {
             return CreateIdOnlyContact(profileId, Guid.NewGuid().ToString());
         }
 
+        /// <summary>
+        /// Creates a <see cref="StdContact"/> entity with only the Xing profile ID specified for matching simulation.
+        /// </summary>
+        /// <param name="profileId"> The profile id.  </param>
+        /// <param name="id"> The <see cref="StdContact.Id"/> . </param>
+        /// <returns> The entity created with a Xing profile id  </returns>
         private static StdContact CreateIdOnlyContact(string profileId, string id)
         {
             var result = new StdContact
                              {
-                                 // matched female
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
                                  PersonalProfileIdentifiers = { XingNameProfileId = profileId },
