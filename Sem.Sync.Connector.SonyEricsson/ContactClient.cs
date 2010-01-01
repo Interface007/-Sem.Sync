@@ -15,10 +15,10 @@ namespace Sem.Sync.Connector.SonyEricsson
     using SyncBase;
     using SyncBase.Attributes;
 
+#if DEBUG
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
-#if DEBUG
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(DisplayName = "Sony Ericsson W810i")]
 #else
