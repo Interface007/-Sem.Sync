@@ -58,8 +58,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComPortConnection.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="Headers\ByteString.cs" />
+    <Compile Include="BinaryElement.cs" />
     <Compile Include="ObexClient.cs" />
+    <Compile Include="Operation\Connect.cs" />
+    <Compile Include="Operation\OpCode.cs" />
+    <Compile Include="Operation\OperationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="ResponseCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

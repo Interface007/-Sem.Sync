@@ -27,40 +27,11 @@ namespace Sem.Obex
     /// </summary>
     public class ObexClient
     {
-        /// <summary>
-        /// enumeration to hold our transmission types
-        /// </summary>
-        public enum TransmissionType
-        {
-            /// <summary>
-            /// Text transport without encoding
-            /// </summary>
-            Text,
-
-            /// <summary>
-            /// Encoding of binary information using hax-formatting
-            /// </summary>
-            Hex
-        }
-
-        /// <summary>
-        /// enumeration to hold our message types
-        /// </summary>
-        public enum MessageType
-        {
-            Incoming,
-            Outgoing,
-            Normal,
-            Warning,
-            Error
-        }
-
         public int BaudRate { get; set; }
         public Parity Parity { get; set; }
         public StopBits StopBits { get; set; }
         public int DataBits { get; set; }
         public string PortName { get; set; }
-        public TransmissionType TransType { get; set; }
 
         private readonly SerialPort _comPort = new SerialPort();
         private ObexClientSession _session;
@@ -182,15 +153,8 @@ namespace Sem.Obex
         /// </summary>
         /// <param name="type">MessageType of the message</param>
         /// <param name="msg">Message to display</param>
-        private static void DisplayData(MessageType type, string msg)
+        private static void DisplayData(string msg)
         {
-            Console.ForegroundColor =
-                type == MessageType.Error ? ConsoleColor.Red :
-                type == MessageType.Warning ? ConsoleColor.Yellow :
-                type == MessageType.Incoming ? ConsoleColor.Cyan :
-                type == MessageType.Outgoing ? ConsoleColor.Green :
-                ConsoleColor.White;
-
             Console.WriteLine(msg);
         }
 
@@ -217,11 +181,11 @@ namespace Sem.Obex
                 this._comPort.Open();
 
                 // display message
-                DisplayData(MessageType.Normal, "Port opened at " + DateTime.Now + "\n");
+                DisplayData("Port opened at " + DateTime.Now + "\n");
             }
             catch (Exception ex)
             {
-                DisplayData(MessageType.Error, ex.Message);
+                DisplayData(ex.Message);
                 return;
             }
         }

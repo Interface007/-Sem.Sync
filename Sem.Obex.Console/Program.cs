@@ -31,7 +31,6 @@ namespace Sem.Obex.Console
                               DataBits = 8,
                               Parity = Parity.None,
                               StopBits = StopBits.One,
-                              TransType = ObexClient.TransmissionType.Text,
                               BaudRate = 57600
                           };
             com.test();
