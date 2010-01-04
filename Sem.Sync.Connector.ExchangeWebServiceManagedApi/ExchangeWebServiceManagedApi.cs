@@ -40,6 +40,8 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         /// </summary>
         private static readonly PropertySet ContactPropertySet;
 
+        private static bool IgnoreCertificateError = true;
+
         /// <summary>
         /// Initializes static members of the <see cref="ContactClient"/> class.
         /// </summary>
@@ -51,7 +53,15 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     {
                         ItemSchema.Categories,
                         ItemSchema.Body,
+                        ContactSchema.FileAs,
                     });
+
+            if (IgnoreCertificateError)
+            {
+                // Hack for debugging purposes to accept Fiddler certificate
+                ServicePointManager.ServerCertificateValidationCallback +=
+                    (sender, cert, chain, errors) => true;
+            }
         }
 
         /// <summary>
