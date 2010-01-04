@@ -46,6 +46,11 @@ namespace Sem.Sync.Test.ExchangeWsma
             var baseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncManager");
             var workFlow = Tools.LoadFromFile<SyncWorkFlow>(Path.Combine(baseFolder, @"Work\SyncLists\Exchange Write Test.DSyncList"));
 
+            if (workFlow == null)
+            {
+                Assert.Inconclusive("There is a missing SyncList, so this test cannot be executed.");
+            }
+
             connector.LogOnDomain = workFlow.Target.LogonCredentials.LogOnDomain;
             connector.LogOnPassword = workFlow.Target.LogonCredentials.LogOnPassword;
             connector.LogOnUserId = workFlow.Target.LogonCredentials.LogOnUserId;

@@ -147,6 +147,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             exchangeContact.GivenName = contact.Name.FirstName;
             exchangeContact.MiddleName = contact.Name.MiddleName;
             exchangeContact.Surname = contact.Name.LastName;
+            exchangeContact.FileAs = contact.Name.ToString();
 
             exchangeContact.Birthday = contact.DateOfBirth;
             exchangeContact.Body = contact.AdditionalTextData;

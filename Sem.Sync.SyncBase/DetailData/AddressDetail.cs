@@ -152,7 +152,7 @@ namespace Sem.Sync.SyncBase.DetailData
             set
             {
                 // check to see if we can interpret the content
-                if (!RegStreetNumberExtensionPre.IsMatch(value))
+                if (value == null || !RegStreetNumberExtensionPre.IsMatch(value))
                 {
                     return;
                 }
