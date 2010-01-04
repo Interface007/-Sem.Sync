@@ -10,7 +10,7 @@
   <Product Name="Sem.Sync Local Sync Manager"
            Manufacturer="Sven Erik Matzen"
            Id="*"
-           UpgradeCode="{7DBC91F2-890F-40c6-9B27-D0CE94DD467A}"
+           UpgradeCode="{7DBC91F2-890F-40C6-9B27-D0CE94DD467A}"
            Language="1033" Version="1.0.0.0" >
 
     <Package InstallerVersion="200" Compressed="yes"
@@ -31,13 +31,28 @@
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
             <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
-              <Component Id="SyncLists"                         Guid="{C9C9BA56-9E25-4adb-9B74-FC1D5B18CAA2}">
-                <File Id='SyncLists.SimpleCopy'                 Name='Template SimpleCopy.TSyncList' />
+              <Component Id="SyncLists"                         Guid="{C9C9BA56-9E25-4ADB-9B74-FC1D5B18CAA2}">
+                <File Id='SyncLists.SimpleCopy'                 Name='Template SimpleCopy.TSyncList' KeyPath='yes' />
                 <File Id='SyncLists.Syncronize'                 Name='Template Syncronize.TSyncList' />
               </Component>
             </Directory>
 
-            <Component Id="MainExecutable"                      Guid="{7F3569D2-598D-462a-A537-9D6531FCD7E0}">
+            <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
+              <Component Id="ResourcesDE"                       Guid="{F54F58EF-A2CB-4695-8B04-39F11CB31046}">
+                <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll' />
+                <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll' />
+                <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
+                <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
+                <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll' />
+                <File Id='LocalSyncManager.resources'           Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes' />
+                <File Id='OutlookWithXing.resources'            Name='Sem.Sync.OutlookWithXing.resources.dll' />
+                <File Id='SharedUI.Common.resources'            Name='Sem.Sync.SharedUI.Common.resources.dll' />
+                <File Id='SharedUI.WinForms.resources'          Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
+                <File Id='SyncBase.resources'                   Name='Sem.Sync.SyncBase.resources.dll' />
+              </Component>
+            </Directory>
+
+            <Component Id="MainExecutable"                      Guid="{7F3569D2-598D-462A-A537-9D6531FCD7E0}">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
               
               <!-- the main executable -->
@@ -119,9 +134,14 @@
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Documentation" Level="1">
-      <ComponentRef Id="Documentation"      />
-      <ComponentRef Id="Description"        />
+      <ComponentRef Id="Documentation"  />
+      <ComponentRef Id="Description"    />
     
+    </Feature>
+
+    <Feature Id="Localized" Title="Localized Resources (DE)" Level="1">
+      <ComponentRef Id="ResourcesDE"    />
+
     </Feature>
 
     <UIRef Id="WixUI_Mondo" />

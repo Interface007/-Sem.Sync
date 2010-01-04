@@ -60,9 +60,15 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL" />
-    <Reference Include="Google.GData.Contacts, Version=1.4.0.2, Culture=neutral, PublicKeyToken=7e065189dd4b982f, processorArchitecture=MSIL" />
-    <Reference Include="Google.GData.Extensions, Version=1.4.0.2, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL" />
+    <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.GData.Contacts, Version=1.4.0.2, Culture=neutral, PublicKeyToken=7e065189dd4b982f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Contacts.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.GData.Extensions, Version=1.4.0.2, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
