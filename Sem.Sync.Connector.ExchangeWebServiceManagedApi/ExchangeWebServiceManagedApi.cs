@@ -40,8 +40,6 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         /// </summary>
         private static readonly PropertySet ContactPropertySet;
 
-        private static bool IgnoreCertificateError = true;
-
         /// <summary>
         /// Initializes static members of the <see cref="ContactClient"/> class.
         /// </summary>
@@ -55,8 +53,16 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                         ItemSchema.Body,
                         ContactSchema.FileAs,
                     });
+        }
 
-            if (IgnoreCertificateError)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        /// </summary>
+        public ContactClient()
+        {
+            // we default to accept certificates without trust because my testing area
+            // does require ssl, but does not have a trusted certificate
+            if (this.GetConfigValueBoolean("IgnoreCertificateErrors", true))
             {
                 // Hack for debugging purposes to accept Fiddler certificate
                 ServicePointManager.ServerCertificateValidationCallback +=

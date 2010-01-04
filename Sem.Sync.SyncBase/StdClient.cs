@@ -322,14 +322,29 @@ namespace Sem.Sync.SyncBase
         /// <returns>the value read from the config file - false, if there is no such value.</returns>
         protected bool GetConfigValueBoolean(string configName)
         {
+            return this.GetConfigValueBoolean(configName, false);
+        }
+
+        /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        /// This does concatenates the specified value name with the FriendlyClientName to make the 
+        /// name unique for this client type.
+        /// </summary>
+        /// <param name="configName">the name of the value</param>
+        /// <param name="defaultValue">the value to be returned if no value is specified in the config file</param>
+        /// <returns>the value read from the config file - false, if there is no such value.</returns>
+        protected bool GetConfigValueBoolean(string configName, bool defaultValue)
+        {
             var value = this.GetConfigValue(configName);
-            bool returnValue;
-            if (bool.TryParse(value, out returnValue))
+            if (string.IsNullOrEmpty(value))
             {
-                return returnValue;
+                return defaultValue;
             }
 
-            return false;
+            // in case of a non-parsable value, TryParse returns "false", so we can simply return
+            // the AND operation of TryParse and the parsed return value (if there is one).
+            bool returnValue;
+            return bool.TryParse(value, out returnValue) && returnValue;
         }
 
         /// <summary>

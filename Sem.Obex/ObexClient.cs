@@ -15,12 +15,12 @@ namespace Sem.Obex
     using System.IO.Ports;
     using System.Windows.Forms;
 
-    using Brecham.Obex;
-    using Brecham.Obex.Objects;
+    ////using Brecham.Obex;
+    ////using Brecham.Obex.Objects;
 
-    using InTheHand;
-    using InTheHand.Net;
-    using InTheHand.Windows.Forms;
+    ////using InTheHand;
+    ////using InTheHand.Net;
+    ////using InTheHand.Windows.Forms;
 
     /// <summary>
     /// Client class for accessing information via Obex
@@ -34,76 +34,76 @@ namespace Sem.Obex
         public string PortName { get; set; }
 
         private readonly SerialPort _comPort = new SerialPort();
-        private ObexClientSession _session;
+        ////private ObexClientSession _session;
         private readonly BackgroundWorker _folderLister = new BackgroundWorker();
         private readonly List<string> _result = new List<string>();
 
         public void test()
         {
-            var dialog = new SelectBluetoothDeviceDialog();
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            ////var dialog = new SelectBluetoothDeviceDialog();
+            ////if (dialog.ShowDialog() != DialogResult.OK)
+            ////{
+            ////    return;
+            ////}
 
-            var device = dialog.SelectedDevice;
-            var uri = new Uri(ObexUri.UriSchemeObexPush + "://" + device.DeviceAddress + "/" + "vcard.vcf");
+            ////var device = dialog.SelectedDevice;
+            ////var uri = new Uri(ObexUri.UriSchemeObexPush + "://" + device.DeviceAddress + "/" + "vcard.vcf");
 
-            var request = new ObexWebRequest(uri);
-            request.ReadFile("vcard.vcf");
+            ////var request = new ObexWebRequest(uri);
+            ////request.ReadFile("vcard.vcf");
 
-            var response = (ObexWebResponse) request.GetResponse();
-            response.Close();
+            ////var response = (ObexWebResponse) request.GetResponse();
+            ////response.Close();
         }
 
         private void FolderListerDoWork(object sender, DoWorkEventArgs e)
         {
-            var old = DateTime.Now;
-            var dr = TimeSpan.FromMilliseconds(200);
+            ////var old = DateTime.Now;
+            ////var dr = TimeSpan.FromMilliseconds(200);
 
-            using (var str = this._session.Get(null, ObexConstant.Type.FolderListing))
-            {
-                var parser = new ObexFolderListingParser(str)
-                                 {
-                                     IgnoreUnknownAttributeNames = true
-                                 };
+            ////using (var str = this._session.Get(null, ObexConstant.Type.FolderListing))
+            ////{
+            ////    var parser = new ObexFolderListingParser(str)
+            ////                     {
+            ////                         IgnoreUnknownAttributeNames = true
+            ////                     };
 
-                ObexFolderListingItem item;
+            ////    ObexFolderListingItem item;
 
-                while ((item = parser.GetNextItem()) != null)
-                {
-                    if (item is ObexParentFolderItem)
-                    {
-                        continue;
-                    }
+            ////    while ((item = parser.GetNextItem()) != null)
+            ////    {
+            ////        if (item is ObexParentFolderItem)
+            ////        {
+            ////            continue;
+            ////        }
 
-                    var filefolderitem = item as ObexFileOrFolderItem;
-                    var isfolder = filefolderitem is ObexFolderItem;
+            ////        var filefolderitem = item as ObexFileOrFolderItem;
+            ////        var isfolder = filefolderitem is ObexFolderItem;
                     
-                    if (filefolderitem == null)
-                    {
-                        continue;
-                    }
+            ////        if (filefolderitem == null)
+            ////        {
+            ////            continue;
+            ////        }
 
-                    var temp = filefolderitem.Name + " - " +
-                               FormatSize(filefolderitem.Size, isfolder) + " - " +
-                               FormatDate(filefolderitem.Modified) + " - " +
-                               FormatDate(filefolderitem.Accessed) + " - " +
-                               FormatDate(filefolderitem.Created);
+            ////        var temp = filefolderitem.Name + " - " +
+            ////                   FormatSize(filefolderitem.Size, isfolder) + " - " +
+            ////                   FormatDate(filefolderitem.Modified) + " - " +
+            ////                   FormatDate(filefolderitem.Accessed) + " - " +
+            ////                   FormatDate(filefolderitem.Created);
 
-                    this._result.Add(temp);
+            ////        this._result.Add(temp);
 
-                    if (old.Add(dr) >= DateTime.Now)
-                    {
-                        continue;
-                    }
+            ////        if (old.Add(dr) >= DateTime.Now)
+            ////        {
+            ////            continue;
+            ////        }
 
-                    old = DateTime.Now;
-                    //// _folderLister.ReportProgress(0, temp);
-                }
+            ////        old = DateTime.Now;
+            ////        //// _folderLister.ReportProgress(0, temp);
+            ////    }
 
-                e.Result = this._result;
-            }
+            ////    e.Result = this._result;
+            ////}
         } 
         
         private static void FolderListerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -131,8 +131,8 @@ namespace Sem.Obex
         public bool Connect()
         {
             this.OpenPort();
-            this._session = new ObexClientSession(this._comPort.BaseStream, UInt16.MaxValue);
-            this._session.Connect(ObexConstant.Target.SyncML);
+            ////this._session = new ObexClientSession(this._comPort.BaseStream, UInt16.MaxValue);
+            ////this._session.Connect(ObexConstant.Target.SyncML);
 
             this._folderLister.DoWork += this.FolderListerDoWork;
             this._folderLister.RunWorkerCompleted += FolderListerCompleted;
