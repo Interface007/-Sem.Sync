@@ -10,6 +10,8 @@
 namespace Sem.Sync.Documentation
 {
     using System;
+    using System.IO;
+    using System.Text;
 
     using DaveSexton.DocProject;
     using DaveSexton.DocProject.Engine;
@@ -52,7 +54,7 @@ namespace Sem.Sync.Documentation
         public override void BuildStarting(BuildContext context)
         {
             // Uncomment the following line to break into the debugger: 
-            //// System.Diagnostics.Debugger.Break();
+            ////System.Diagnostics.Debugger.Break();
 
             this.buildStart = DateTime.Now;
         }
@@ -66,8 +68,16 @@ namespace Sem.Sync.Documentation
         /// <b>false</b> indicates that the process should skip this step.</returns>
         public override bool BeforeExecuteStep(IBuildStep step, BuildContext context)
         {
-            this.stepStart = DateTime.Now;
+            var dir = context.ProjectDirectory;
+            var file = Path.Combine(dir, "Help\\Sem_Sync_Documentation.hhp");
 
+            string fileContent = File.ReadAllText(file);
+            if (String.IsNullOrEmpty(fileContent) == false)
+            {
+                File.WriteAllText(file, fileContent, new UTF8Encoding(false));
+            }
+
+            this.stepStart = DateTime.Now;
             return true;
         }
 
