@@ -87,6 +87,7 @@
               <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'       />
               <File Id='Sem.Sync.Connector.Statistic'           Name='Sem.Sync.Connector.Statistic.dll'         />
               <File Id='Sem.Sync.Connector.StayFriends'         Name='Sem.Sync.Connector.StayFriends.dll'       />
+              <File Id='Sem.Sync.Connector.ExchangeWSMA'        Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.dll' />
               <File Id='Sem.Sync.Connector.WerKenntWen'         Name='Sem.Sync.Connector.WerKenntWen.dll'       />
               <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'              />
             </Component>
