@@ -27,9 +27,11 @@ namespace Sem.Sync.Connector.Outlook2003
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
-    [ConnectorDescription(DisplayName = "Outlook Canlendar Connector",
+    [ConnectorDescription(DisplayName = "Outlook Calendar Connector",
         CanReadContacts = false,
-        CanWriteContacts = false)]
+        CanWriteContacts = false,
+        CanReadCalendarEntries = true,
+        CanWriteCalendarEntries = false)]
     public class CalendarClient : StdClient
     {
         /// <summary>
@@ -37,7 +39,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// </summary>
         public override string FriendlyClientName
         {
-            get { return "Outlook-Canlendar-Connector"; }
+            get { return "Outlook-Calendar-Connector"; }
         }
 
         /// <summary>
