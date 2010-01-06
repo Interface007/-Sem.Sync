@@ -243,7 +243,7 @@ namespace Sem.Sync.Connector.Xing
             foreach (var item in xing)
             {
                 // https://www.xing.com/app/vcard?op=vcard;scr_id=369754.ab12f8
-                var contact = this.DownloadContact(item.vCardUrl, item.vCardUrl.Replace("/", "_").Replace("?", "_"));
+                var contact = this.DownloadContact(item.VCardUrl, item.VCardUrl.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
                     contact.PersonalProfileIdentifiers.XingNameProfileId = item.ProfileUrl;
@@ -401,7 +401,7 @@ namespace Sem.Sync.Connector.Xing
                     result.Add(
                         new XingContactReference
                             {
-                                vCardUrl = match.Groups["vcardurl"].ToString(), 
+                                VCardUrl = match.Groups["vcardurl"].ToString(), 
                                 Tags = match.Groups["tags"].ToString(),
                                 ProfileUrl = match.Groups["uname"].ToString()
                             });
