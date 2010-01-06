@@ -12,6 +12,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.Console")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("eb060686-0af3-40ae-ba83-4a159480b2a2")]

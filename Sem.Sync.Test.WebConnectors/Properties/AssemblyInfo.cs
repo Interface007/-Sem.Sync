@@ -13,6 +13,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Test.WebConnectors")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("84b8c58d-5ac8-4bea-89ba-f247b4d20a97")]

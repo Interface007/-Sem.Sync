@@ -13,6 +13,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.Facebook")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("a33ad7b2-2286-473f-80e6-15cbcea8b528")]

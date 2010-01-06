@@ -12,6 +12,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.GenericHelpers")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("c88831b2-70c8-4c38-9494-93d544939848")]

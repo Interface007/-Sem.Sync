@@ -13,6 +13,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.CloudStorage")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("e39c6068-6b43-4c27-bc30-58fcb137972d")]

@@ -13,6 +13,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.OnlineStorage")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("2f4a6f0d-4984-41fd-a709-9ba873610666")]

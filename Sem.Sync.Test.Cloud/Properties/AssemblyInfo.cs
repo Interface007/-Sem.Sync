@@ -13,6 +13,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Test.Cloud")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("ecdcd655-3646-4ec0-8b9e-8aefe3fc653d")]

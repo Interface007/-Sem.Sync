@@ -12,6 +12,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.MicrosoftExcel2010")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("d6d1ff59-4972-4f42-9944-ae1e5b46a524")]

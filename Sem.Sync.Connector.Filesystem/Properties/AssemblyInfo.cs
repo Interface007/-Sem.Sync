@@ -13,7 +13,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.Filesystem")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("0a07ffa5-dfa1-4584-9b43-7fe782759b04")]
 

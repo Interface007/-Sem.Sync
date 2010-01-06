@@ -12,6 +12,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.WerKenntWen")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("77275dfd-b30a-4cf3-9057-2ccadcb11c8b")]

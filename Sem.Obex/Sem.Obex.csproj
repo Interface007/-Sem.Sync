@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
     <Compile Include="ComPortConnection.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Headers\ByteString.cs" />
@@ -61,6 +64,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseCode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

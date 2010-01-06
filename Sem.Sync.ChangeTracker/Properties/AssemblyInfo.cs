@@ -12,5 +12,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.ChangeTracker")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
 [assembly: Guid("1920fb7f-f3d5-4c3e-9968-04f6cd160c4a")]

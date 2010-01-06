@@ -13,7 +13,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.Sync.Connector.Google")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
 [assembly: Guid("6f4f5f0e-42af-4346-9282-d2cc85c8bfb3")]
 

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("ExpressionSerialization")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ExpressionSerialization")]
 [assembly: AssemblyCopyright("Copyright © MSIT 2007")]
