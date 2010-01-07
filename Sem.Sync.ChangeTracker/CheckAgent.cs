@@ -20,7 +20,6 @@ namespace Sem.Sync.ChangeTracker
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
-    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
     /// <para>The agent encapsulates a thread that does query the source and scans it for 
@@ -35,29 +34,52 @@ namespace Sem.Sync.ChangeTracker
         /// This backgroundworker does provide the threading for scanning the 
         /// source in the background.
         /// </summary>
-        private BackgroundWorker Worker;
+        private readonly BackgroundWorker worker;
 
-        public int MaxEntries { get; set; }
-
-        public ChangeInfo.BindingList DetectedChanges { get; private set; }
-
-        public IEnumerable<ConnectorInformation> Connectors { get; private set; }
-
-        public event EventHandler DataChanged;
-
-        public bool Abort { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckAgent"/> class.
+        /// </summary>
         public CheckAgent()
         {
             this.Connectors = new List<ConnectorInformation>();
             this.DetectedChanges = new ChangeInfo.BindingList();
             this.MaxEntries = 10;
 
-            this.Worker = new BackgroundWorker();
-            this.Worker.DoWork += this.Worker_DoWork;
-            this.Worker.RunWorkerAsync();
+            this.worker = new BackgroundWorker();
+            this.worker.DoWork += this.Worker_DoWork;
+            this.worker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// The event of detecting changes - this will be fired once for a complete scan of a connector.
+        /// </summary>
+        public event EventHandler DataChanged;
+
+        /// <summary>
+        /// Gets or sets the maximum count of elements in the list - the oldest entries will be deleted first.
+        /// </summary>
+        public int MaxEntries { get; set; }
+
+        /// <summary>
+        /// Gets the list of changes that have been detected - this is a <see cref="BindingList{T}"/> for databinding.
+        /// </summary>
+        public ChangeInfo.BindingList DetectedChanges { get; private set; }
+
+        /// <summary>
+        /// Gets the list of connectors that will be queried.
+        /// </summary>
+        public IEnumerable<ConnectorInformation> Connectors { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to abort the workerthread.
+        /// </summary>
+        public bool Abort { get; set; }
+
+        /// <summary>
+        /// Loop for the worker thread to scan the sources for changes.
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The event arguments for this thread. </param>
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             do
@@ -67,16 +89,19 @@ namespace Sem.Sync.ChangeTracker
 
                 if (listOfSources == null)
                 {
-                    listOfSources = new List<SyncDescription>();
-                    listOfSources.Add(
-                        new SyncDescription
+                    listOfSources = new List<SyncDescription>
                         {
-                            SourceConnector = "Sem.Sync.Test.DataGenerator",
-                            BaselineConnector = "Sem.Sync.Test.DataGenerator",
-                        });
+                            new SyncDescription
+                                {
+                                    SourceConnector = "Sem.Sync.Test.DataGenerator.Contacts",
+                                    BaselineConnector = "Sem.Sync.Test.DataGenerator.Contacts",
+                                }
+                        };
+
                     Tools.SaveToFile(listOfSources, "sources.xml");
                 }
 
+                // pause the thread - we don't need to query the connectors too often.
                 Thread.Sleep(2000);
 
                 foreach (var syncDescription in listOfSources)
@@ -86,8 +111,8 @@ namespace Sem.Sync.ChangeTracker
                         syncDescription.SourceCredentials).GetAll(syncDescription.SourceStorePath).ToContacts();
 
                     var targetList = engine.SetupConnector(
-                        syncDescription.TargetConnector,
-                        syncDescription.TargetCredentials).GetAll(syncDescription.TargetStorePath).ToContacts();
+                        syncDescription.BaselineConnector,
+                        syncDescription.BaselineCredentials).GetAll(syncDescription.BaselineStorePath).ToContacts();
 
                     var contactsToCompare = from s in sourceList
                                             join t in targetList
@@ -112,13 +137,18 @@ namespace Sem.Sync.ChangeTracker
             while (!this.Abort);
         }
 
-        private void CompareEntities(StdContact oldContact, StdContact newContact)
+        /// <summary>
+        /// Compares two contact instances and reports the difference.
+        /// </summary>
+        /// <param name="baselineContact"> The contact from the base line (how it has been read last time). </param>
+        /// <param name="currentContact"> The contact currently read from the source. </param>
+        private void CompareEntities(StdContact baselineContact, StdContact currentContact)
         {
             var changes =
                 SyncTools.DetectConflicts(
                     SyncTools.BuildConflictTestContainerList(
-                        new List<StdElement>(new[] { newContact }),
-                        new List<StdElement>(new[] { oldContact }),
+                        new List<StdElement>(new[] { currentContact }),
+                        new List<StdElement>(new[] { baselineContact }),
                         null,
                         typeof(StdContact)),
                     true);
@@ -138,7 +168,7 @@ namespace Sem.Sync.ChangeTracker
                 return;
             }
 
-            changeSet.DisplayName = string.Format("{0} has {1} properties changed.", oldContact.Name, changeSet.ChangedProperties.Count);
+            changeSet.DisplayName = string.Format("{0} has {1} properties changed.", baselineContact.Name, changeSet.ChangedProperties.Count);
             this.DetectedChanges.Add(changeSet);
 
             while (this.DetectedChanges.Count > this.MaxEntries)
