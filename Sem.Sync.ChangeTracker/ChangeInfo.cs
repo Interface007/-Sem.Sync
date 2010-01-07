@@ -10,6 +10,7 @@
 namespace Sem.Sync.ChangeTracker
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
 
     internal class ChangeInfo
     {
@@ -20,5 +21,14 @@ namespace Sem.Sync.ChangeTracker
         public IList<string> ChangedProperties { get; set; }
 
         public byte[] Image { get; set; }
+
+        internal class BindingList : BindingList<ChangeInfo>
+        {
+        }
+
+        public ChangeInfo()
+        {
+            this.ChangedProperties = new List<string>();
+        }
     }
 }

@@ -206,7 +206,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="typeName"> The type name to generate. </param>
         /// <param name="credentials"> The credentials to add to the connector . </param>
         /// <returns> The connector that is set up </returns>
-        private StdClient SetupConnector(string typeName, ICredentialAware credentials)
+        public StdClient SetupConnector(string typeName, ICredentialAware credentials)
         {
             var client = this.factory.GetNewObject<StdClient>(typeName);
             if (client != null && credentials != null)
