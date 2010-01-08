@@ -15,6 +15,8 @@ namespace Sem.Sync.OutlookWithXing.UI
 
     using GenericHelpers;
     using GenericHelpers.EventArgs;
+    using GenericHelpers.Exceptions;
+
     using Properties;
     
     using SharedUI.WinForms.Tools;
@@ -48,6 +50,7 @@ namespace Sem.Sync.OutlookWithXing.UI
         public MainForm()
         {
             this.InitializeComponent();
+            this.DoubleClick += (sender, e) => System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
         }
 
         /// <summary>

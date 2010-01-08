@@ -38,7 +38,7 @@ namespace Sem.Sync.Connector.Filesystem
     /// separated to the destination file by a \n character. The following example shows a possible way
     /// to specify a column definition file. By adding the file extension ".{write}" the file will not
     /// be read, but written with the standard values. After writing such a file, you can modify this file
-    /// and remove the file extensionm ".{write}".
+    /// and remove the file extension ".{write}".
     /// <code>
     /// &lt;TargetStorePath&gt;
     ///     {FS:WorkingFolder}\test.csv

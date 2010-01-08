@@ -11,7 +11,9 @@ namespace Sem.Sync.OutlookWithXing
 {
     using System;
     using System.Windows.Forms;
-    
+
+    using GenericHelpers.Exceptions;
+
     using UI;
 
     /// <summary>
@@ -27,7 +29,17 @@ namespace Sem.Sync.OutlookWithXing
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
+
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
         }
     }
 }

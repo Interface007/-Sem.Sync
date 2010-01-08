@@ -144,6 +144,8 @@ namespace Sem.Sync.Connector.Filesystem
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             Tools.EnsurePathExist(clientFolderName);
+            var use3Char = this.GetConfigValueBoolean("FileExtensionVCF");
+
             foreach (var element in elements.ToContacts())
             {
                 if (element.Name == null)
@@ -152,7 +154,7 @@ namespace Sem.Sync.Connector.Filesystem
                 }
 
                 var fileName = Path.Combine(clientFolderName, SyncTools.NormalizeFileName(element.ToStringSimple()));
-                File.WriteAllBytes(fileName + VCardFilenameExtension, VCardConverter.StdContactToVCard(element));
+                File.WriteAllBytes(fileName + (use3Char ? VCardFilenameExtension2 : VCardFilenameExtension), VCardConverter.StdContactToVCard(element));
                 if (this.savePictureExternal && !string.IsNullOrEmpty(element.PictureName))
                 {
                     File.WriteAllBytes(fileName + "-" + element.PictureName, element.PictureData);

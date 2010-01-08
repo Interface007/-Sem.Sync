@@ -74,6 +74,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWorkingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openExceptionFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteCurrentProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seperatorStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +89,6 @@
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
-            this.openExceptionFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -101,44 +101,70 @@
             // 
             // btnClose
             // 
+            this.btnClose.AccessibleDescription = null;
+            this.btnClose.AccessibleName = null;
             resources.ApplyResources(this.btnClose, "btnClose");
+            this.btnClose.BackgroundImage = null;
+            this.btnClose.Font = null;
             this.btnClose.Name = "btnClose";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
             // btnRun
             // 
+            this.btnRun.AccessibleDescription = null;
+            this.btnRun.AccessibleName = null;
             resources.ApplyResources(this.btnRun, "btnRun");
+            this.btnRun.BackgroundImage = null;
+            this.btnRun.Font = null;
             this.btnRun.Name = "btnRun";
             this.btnRun.UseVisualStyleBackColor = true;
             // 
             // txtPasswordSource
             // 
+            this.txtPasswordSource.AccessibleDescription = null;
+            this.txtPasswordSource.AccessibleName = null;
             resources.ApplyResources(this.txtPasswordSource, "txtPasswordSource");
+            this.txtPasswordSource.BackgroundImage = null;
+            this.txtPasswordSource.Font = null;
             this.txtPasswordSource.Name = "txtPasswordSource";
             // 
             // txtUidSource
             // 
+            this.txtUidSource.AccessibleDescription = null;
+            this.txtUidSource.AccessibleName = null;
             resources.ApplyResources(this.txtUidSource, "txtUidSource");
+            this.txtUidSource.BackgroundImage = null;
+            this.txtUidSource.Font = null;
             this.txtUidSource.Name = "txtUidSource";
             // 
             // lblPasswordSource
             // 
+            this.lblPasswordSource.AccessibleDescription = null;
+            this.lblPasswordSource.AccessibleName = null;
             resources.ApplyResources(this.lblPasswordSource, "lblPasswordSource");
             this.lblPasswordSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPasswordSource.Font = null;
             this.lblPasswordSource.Name = "lblPasswordSource";
             // 
             // lblUidSource
             // 
+            this.lblUidSource.AccessibleDescription = null;
+            this.lblUidSource.AccessibleName = null;
             resources.ApplyResources(this.lblUidSource, "lblUidSource");
             this.lblUidSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblUidSource.Font = null;
             this.lblUidSource.Name = "lblUidSource";
             // 
             // cboSource
             // 
+            this.cboSource.AccessibleDescription = null;
+            this.cboSource.AccessibleName = null;
+            resources.ApplyResources(this.cboSource, "cboSource");
+            this.cboSource.BackgroundImage = null;
             this.cboSource.DataSource = this.contextDataSource;
             this.cboSource.DisplayMember = "Source";
+            this.cboSource.Font = null;
             this.cboSource.FormattingEnabled = true;
-            resources.ApplyResources(this.cboSource, "cboSource");
             this.cboSource.Name = "cboSource";
             // 
             // contextDataSource
@@ -147,38 +173,59 @@
             // 
             // label9
             // 
+            this.label9.AccessibleDescription = null;
+            this.label9.AccessibleName = null;
             resources.ApplyResources(this.label9, "label9");
             this.label9.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.label9.Font = null;
             this.label9.Name = "label9";
             // 
             // txtPasswordTarget
             // 
+            this.txtPasswordTarget.AccessibleDescription = null;
+            this.txtPasswordTarget.AccessibleName = null;
             resources.ApplyResources(this.txtPasswordTarget, "txtPasswordTarget");
+            this.txtPasswordTarget.BackgroundImage = null;
+            this.txtPasswordTarget.Font = null;
             this.txtPasswordTarget.Name = "txtPasswordTarget";
             // 
             // txtUidTarget
             // 
+            this.txtUidTarget.AccessibleDescription = null;
+            this.txtUidTarget.AccessibleName = null;
             resources.ApplyResources(this.txtUidTarget, "txtUidTarget");
+            this.txtUidTarget.BackgroundImage = null;
+            this.txtUidTarget.Font = null;
             this.txtUidTarget.Name = "txtUidTarget";
             // 
             // lblPasswordTarget
             // 
+            this.lblPasswordTarget.AccessibleDescription = null;
+            this.lblPasswordTarget.AccessibleName = null;
             resources.ApplyResources(this.lblPasswordTarget, "lblPasswordTarget");
             this.lblPasswordTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPasswordTarget.Font = null;
             this.lblPasswordTarget.Name = "lblPasswordTarget";
             // 
             // lblUidTarget
             // 
+            this.lblUidTarget.AccessibleDescription = null;
+            this.lblUidTarget.AccessibleName = null;
             resources.ApplyResources(this.lblUidTarget, "lblUidTarget");
             this.lblUidTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblUidTarget.Font = null;
             this.lblUidTarget.Name = "lblUidTarget";
             // 
             // cboTarget
             // 
+            this.cboTarget.AccessibleDescription = null;
+            this.cboTarget.AccessibleName = null;
+            resources.ApplyResources(this.cboTarget, "cboTarget");
+            this.cboTarget.BackgroundImage = null;
             this.cboTarget.DataSource = this.contextDataTarget;
             this.cboTarget.DisplayMember = "Target";
+            this.cboTarget.Font = null;
             this.cboTarget.FormattingEnabled = true;
-            resources.ApplyResources(this.cboTarget, "cboTarget");
             this.cboTarget.Name = "cboTarget";
             // 
             // contextDataTarget
@@ -187,137 +234,220 @@
             // 
             // label12
             // 
+            this.label12.AccessibleDescription = null;
+            this.label12.AccessibleName = null;
             resources.ApplyResources(this.label12, "label12");
             this.label12.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.label12.Font = null;
             this.label12.Name = "label12";
             // 
             // lblDialogStatus
             // 
+            this.lblDialogStatus.AccessibleDescription = null;
+            this.lblDialogStatus.AccessibleName = null;
             resources.ApplyResources(this.lblDialogStatus, "lblDialogStatus");
+            this.lblDialogStatus.Font = null;
             this.lblDialogStatus.Name = "lblDialogStatus";
             // 
             // pnlProgress
             // 
+            this.pnlProgress.AccessibleDescription = null;
+            this.pnlProgress.AccessibleName = null;
+            resources.ApplyResources(this.pnlProgress, "pnlProgress");
+            this.pnlProgress.BackgroundImage = null;
             this.pnlProgress.Controls.Add(this.chkShowImage);
             this.pnlProgress.Controls.Add(this.btnCancel);
             this.pnlProgress.Controls.Add(this.currentPersonImage);
             this.pnlProgress.Controls.Add(this.lblProgressStatus);
             this.pnlProgress.Controls.Add(this.SyncProgress);
             this.pnlProgress.Controls.Add(this.label3);
-            resources.ApplyResources(this.pnlProgress, "pnlProgress");
+            this.pnlProgress.Font = null;
             this.pnlProgress.Name = "pnlProgress";
             // 
             // chkShowImage
             // 
+            this.chkShowImage.AccessibleDescription = null;
+            this.chkShowImage.AccessibleName = null;
             resources.ApplyResources(this.chkShowImage, "chkShowImage");
+            this.chkShowImage.BackgroundImage = null;
             this.chkShowImage.Checked = true;
             this.chkShowImage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowImage.Font = null;
             this.chkShowImage.Name = "chkShowImage";
             this.chkShowImage.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.AccessibleDescription = null;
+            this.btnCancel.AccessibleName = null;
             resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.BackgroundImage = null;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Font = null;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // currentPersonImage
             // 
+            this.currentPersonImage.AccessibleDescription = null;
+            this.currentPersonImage.AccessibleName = null;
             resources.ApplyResources(this.currentPersonImage, "currentPersonImage");
+            this.currentPersonImage.BackgroundImage = null;
+            this.currentPersonImage.Font = null;
+            this.currentPersonImage.ImageLocation = null;
             this.currentPersonImage.Name = "currentPersonImage";
             this.currentPersonImage.TabStop = false;
             // 
             // lblProgressStatus
             // 
+            this.lblProgressStatus.AccessibleDescription = null;
+            this.lblProgressStatus.AccessibleName = null;
             resources.ApplyResources(this.lblProgressStatus, "lblProgressStatus");
+            this.lblProgressStatus.Font = null;
             this.lblProgressStatus.Name = "lblProgressStatus";
             // 
             // SyncProgress
             // 
+            this.SyncProgress.AccessibleDescription = null;
+            this.SyncProgress.AccessibleName = null;
             resources.ApplyResources(this.SyncProgress, "SyncProgress");
+            this.SyncProgress.BackgroundImage = null;
+            this.SyncProgress.Font = null;
             this.SyncProgress.Name = "SyncProgress";
             // 
             // label3
             // 
+            this.label3.AccessibleDescription = null;
+            this.label3.AccessibleName = null;
             resources.ApplyResources(this.label3, "label3");
+            this.label3.Font = null;
             this.label3.Name = "label3";
             // 
             // lblPathSource
             // 
+            this.lblPathSource.AccessibleDescription = null;
+            this.lblPathSource.AccessibleName = null;
             resources.ApplyResources(this.lblPathSource, "lblPathSource");
             this.lblPathSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPathSource.Font = null;
             this.lblPathSource.Name = "lblPathSource";
             // 
             // lblPathTarget
             // 
+            this.lblPathTarget.AccessibleDescription = null;
+            this.lblPathTarget.AccessibleName = null;
             resources.ApplyResources(this.lblPathTarget, "lblPathTarget");
             this.lblPathTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblPathTarget.Font = null;
             this.lblPathTarget.Name = "lblPathTarget";
             // 
             // txtPathSource
             // 
+            this.txtPathSource.AccessibleDescription = null;
+            this.txtPathSource.AccessibleName = null;
             resources.ApplyResources(this.txtPathSource, "txtPathSource");
+            this.txtPathSource.BackgroundImage = null;
+            this.txtPathSource.Font = null;
             this.txtPathSource.Name = "txtPathSource";
             // 
             // txtPathTarget
             // 
+            this.txtPathTarget.AccessibleDescription = null;
+            this.txtPathTarget.AccessibleName = null;
             resources.ApplyResources(this.txtPathTarget, "txtPathTarget");
+            this.txtPathTarget.BackgroundImage = null;
+            this.txtPathTarget.Font = null;
             this.txtPathTarget.Name = "txtPathTarget";
             // 
             // btnPathTarget
             // 
+            this.btnPathTarget.AccessibleDescription = null;
+            this.btnPathTarget.AccessibleName = null;
             resources.ApplyResources(this.btnPathTarget, "btnPathTarget");
+            this.btnPathTarget.BackgroundImage = null;
+            this.btnPathTarget.Font = null;
             this.btnPathTarget.Name = "btnPathTarget";
             this.btnPathTarget.UseVisualStyleBackColor = true;
             // 
             // btnPathSource
             // 
+            this.btnPathSource.AccessibleDescription = null;
+            this.btnPathSource.AccessibleName = null;
             resources.ApplyResources(this.btnPathSource, "btnPathSource");
+            this.btnPathSource.BackgroundImage = null;
+            this.btnPathSource.Font = null;
             this.btnPathSource.Name = "btnPathSource";
             this.btnPathSource.UseVisualStyleBackColor = true;
             // 
             // folderBrowser
             // 
+            resources.ApplyResources(this.folderBrowser, "folderBrowser");
             this.folderBrowser.ShowNewFolderButton = false;
             // 
             // btnSave
             // 
+            this.btnSave.AccessibleDescription = null;
+            this.btnSave.AccessibleName = null;
             resources.ApplyResources(this.btnSave, "btnSave");
+            this.btnSave.BackgroundImage = null;
+            this.btnSave.Font = null;
             this.btnSave.Name = "btnSave";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
             // lblDomainSource
             // 
+            this.lblDomainSource.AccessibleDescription = null;
+            this.lblDomainSource.AccessibleName = null;
             resources.ApplyResources(this.lblDomainSource, "lblDomainSource");
             this.lblDomainSource.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblDomainSource.Font = null;
             this.lblDomainSource.Name = "lblDomainSource";
             // 
             // txtDomainSource
             // 
+            this.txtDomainSource.AccessibleDescription = null;
+            this.txtDomainSource.AccessibleName = null;
             resources.ApplyResources(this.txtDomainSource, "txtDomainSource");
+            this.txtDomainSource.BackgroundImage = null;
+            this.txtDomainSource.Font = null;
             this.txtDomainSource.Name = "txtDomainSource";
             // 
             // lblDomainTarget
             // 
+            this.lblDomainTarget.AccessibleDescription = null;
+            this.lblDomainTarget.AccessibleName = null;
             resources.ApplyResources(this.lblDomainTarget, "lblDomainTarget");
             this.lblDomainTarget.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.lblDomainTarget.Font = null;
             this.lblDomainTarget.Name = "lblDomainTarget";
             // 
             // txtDomainTarget
             // 
+            this.txtDomainTarget.AccessibleDescription = null;
+            this.txtDomainTarget.AccessibleName = null;
             resources.ApplyResources(this.txtDomainTarget, "txtDomainTarget");
+            this.txtDomainTarget.BackgroundImage = null;
+            this.txtDomainTarget.Font = null;
             this.txtDomainTarget.Name = "txtDomainTarget";
+            // 
+            // saveFileDialog1
+            // 
+            resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
             // 
             // cboWorkFlowTemplates
             // 
-            this.cboWorkFlowTemplates.DataSource = this.contextDataWorkflows;
-            this.cboWorkFlowTemplates.FormattingEnabled = true;
+            this.cboWorkFlowTemplates.AccessibleDescription = null;
+            this.cboWorkFlowTemplates.AccessibleName = null;
             resources.ApplyResources(this.cboWorkFlowTemplates, "cboWorkFlowTemplates");
+            this.cboWorkFlowTemplates.BackgroundImage = null;
+            this.cboWorkFlowTemplates.DataSource = this.contextDataWorkflows;
+            this.cboWorkFlowTemplates.Font = null;
+            this.cboWorkFlowTemplates.FormattingEnabled = true;
             this.cboWorkFlowTemplates.Name = "cboWorkFlowTemplates";
             // 
             // contextDataWorkflows
@@ -326,21 +456,34 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Sem.Sync.LocalSyncManager.Properties.Resources._1;
+            this.pictureBox1.AccessibleDescription = null;
+            this.pictureBox1.AccessibleName = null;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.BackgroundImage = null;
+            this.pictureBox1.Font = null;
+            this.pictureBox1.Image = global::Sem.Sync.LocalSyncManager.Properties.Resources._1;
+            this.pictureBox1.ImageLocation = null;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.AccessibleDescription = null;
+            this.menuStrip1.AccessibleName = null;
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
+            this.menuStrip1.BackgroundImage = null;
+            this.menuStrip1.Font = null;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem});
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.AccessibleDescription = null;
+            this.fileToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
+            this.fileToolStripMenuItem.BackgroundImage = null;
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openWorkingFolderToolStripMenuItem,
             this.openExceptionFolderToolStripMenuItem,
@@ -348,30 +491,57 @@
             this.seperatorStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
+            this.fileToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // openWorkingFolderToolStripMenuItem
             // 
-            this.openWorkingFolderToolStripMenuItem.Name = "openWorkingFolderToolStripMenuItem";
+            this.openWorkingFolderToolStripMenuItem.AccessibleDescription = null;
+            this.openWorkingFolderToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.openWorkingFolderToolStripMenuItem, "openWorkingFolderToolStripMenuItem");
+            this.openWorkingFolderToolStripMenuItem.BackgroundImage = null;
+            this.openWorkingFolderToolStripMenuItem.Name = "openWorkingFolderToolStripMenuItem";
+            this.openWorkingFolderToolStripMenuItem.ShortcutKeyDisplayString = null;
+            // 
+            // openExceptionFolderToolStripMenuItem
+            // 
+            this.openExceptionFolderToolStripMenuItem.AccessibleDescription = null;
+            this.openExceptionFolderToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.openExceptionFolderToolStripMenuItem, "openExceptionFolderToolStripMenuItem");
+            this.openExceptionFolderToolStripMenuItem.BackgroundImage = null;
+            this.openExceptionFolderToolStripMenuItem.Name = "openExceptionFolderToolStripMenuItem";
+            this.openExceptionFolderToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // deleteCurrentProfileToolStripMenuItem
             // 
-            this.deleteCurrentProfileToolStripMenuItem.Name = "deleteCurrentProfileToolStripMenuItem";
+            this.deleteCurrentProfileToolStripMenuItem.AccessibleDescription = null;
+            this.deleteCurrentProfileToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.deleteCurrentProfileToolStripMenuItem, "deleteCurrentProfileToolStripMenuItem");
+            this.deleteCurrentProfileToolStripMenuItem.BackgroundImage = null;
+            this.deleteCurrentProfileToolStripMenuItem.Name = "deleteCurrentProfileToolStripMenuItem";
+            this.deleteCurrentProfileToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // seperatorStripMenuItem1
             // 
-            this.seperatorStripMenuItem1.Name = "seperatorStripMenuItem1";
+            this.seperatorStripMenuItem1.AccessibleDescription = null;
+            this.seperatorStripMenuItem1.AccessibleName = null;
             resources.ApplyResources(this.seperatorStripMenuItem1, "seperatorStripMenuItem1");
+            this.seperatorStripMenuItem1.Name = "seperatorStripMenuItem1";
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.AccessibleDescription = null;
+            this.exitToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            this.exitToolStripMenuItem.BackgroundImage = null;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // toolsToolStripMenuItem
             // 
+            this.toolsToolStripMenuItem.AccessibleDescription = null;
+            this.toolsToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            this.toolsToolStripMenuItem.BackgroundImage = null;
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDuplettesToolStripMenuItem,
             this.generateSampleProfilesToolStripMenuItem,
@@ -380,65 +550,94 @@
             this.toolStripMenuItem2,
             this.starteSynchronisationToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            this.toolsToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // removeDuplettesToolStripMenuItem
             // 
-            this.removeDuplettesToolStripMenuItem.Name = "removeDuplettesToolStripMenuItem";
+            this.removeDuplettesToolStripMenuItem.AccessibleDescription = null;
+            this.removeDuplettesToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.removeDuplettesToolStripMenuItem, "removeDuplettesToolStripMenuItem");
+            this.removeDuplettesToolStripMenuItem.BackgroundImage = null;
+            this.removeDuplettesToolStripMenuItem.Name = "removeDuplettesToolStripMenuItem";
+            this.removeDuplettesToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // generateSampleProfilesToolStripMenuItem
             // 
-            this.generateSampleProfilesToolStripMenuItem.Name = "generateSampleProfilesToolStripMenuItem";
+            this.generateSampleProfilesToolStripMenuItem.AccessibleDescription = null;
+            this.generateSampleProfilesToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.generateSampleProfilesToolStripMenuItem, "generateSampleProfilesToolStripMenuItem");
+            this.generateSampleProfilesToolStripMenuItem.BackgroundImage = null;
+            this.generateSampleProfilesToolStripMenuItem.Name = "generateSampleProfilesToolStripMenuItem";
+            this.generateSampleProfilesToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // toolStripMenuItem1
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.AccessibleDescription = null;
+            this.toolStripMenuItem1.AccessibleName = null;
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             // 
             // openCommandsViewToolStripMenuItem
             // 
-            this.openCommandsViewToolStripMenuItem.Name = "openCommandsViewToolStripMenuItem";
+            this.openCommandsViewToolStripMenuItem.AccessibleDescription = null;
+            this.openCommandsViewToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.openCommandsViewToolStripMenuItem, "openCommandsViewToolStripMenuItem");
+            this.openCommandsViewToolStripMenuItem.BackgroundImage = null;
+            this.openCommandsViewToolStripMenuItem.Name = "openCommandsViewToolStripMenuItem";
+            this.openCommandsViewToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.AccessibleDescription = null;
+            this.toolStripMenuItem2.AccessibleName = null;
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             // 
             // starteSynchronisationToolStripMenuItem
             // 
-            this.starteSynchronisationToolStripMenuItem.Name = "starteSynchronisationToolStripMenuItem";
+            this.starteSynchronisationToolStripMenuItem.AccessibleDescription = null;
+            this.starteSynchronisationToolStripMenuItem.AccessibleName = null;
             resources.ApplyResources(this.starteSynchronisationToolStripMenuItem, "starteSynchronisationToolStripMenuItem");
+            this.starteSynchronisationToolStripMenuItem.BackgroundImage = null;
+            this.starteSynchronisationToolStripMenuItem.Name = "starteSynchronisationToolStripMenuItem";
+            this.starteSynchronisationToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // cboWorkFlowData
             // 
-            this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
-            this.cboWorkFlowData.FormattingEnabled = true;
+            this.cboWorkFlowData.AccessibleDescription = null;
+            this.cboWorkFlowData.AccessibleName = null;
             resources.ApplyResources(this.cboWorkFlowData, "cboWorkFlowData");
+            this.cboWorkFlowData.BackgroundImage = null;
+            this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
+            this.cboWorkFlowData.Font = null;
+            this.cboWorkFlowData.FormattingEnabled = true;
             this.cboWorkFlowData.Name = "cboWorkFlowData";
             // 
             // label1
             // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
+            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // LogList
             // 
+            this.LogList.AccessibleDescription = null;
+            this.LogList.AccessibleName = null;
             resources.ApplyResources(this.LogList, "LogList");
+            this.LogList.BackgroundImage = null;
+            this.LogList.Font = null;
             this.LogList.FormattingEnabled = true;
             this.LogList.Name = "LogList";
             // 
-            // openExceptionFolderToolStripMenuItem
-            // 
-            this.openExceptionFolderToolStripMenuItem.Name = "openExceptionFolderToolStripMenuItem";
-            resources.ApplyResources(this.openExceptionFolderToolStripMenuItem, "openExceptionFolderToolStripMenuItem");
-            // 
             // SyncWizard
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = null;
             this.CancelButton = this.btnCancel;
             this.Controls.Add(this.LogList);
             this.Controls.Add(this.label1);
@@ -473,6 +672,8 @@
             this.Controls.Add(this.lblDialogStatus);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Font = null;
+            this.Icon = null;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SyncWizard";
             this.Load += new System.EventHandler(this.SyncWizard_Load);

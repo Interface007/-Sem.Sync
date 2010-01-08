@@ -124,17 +124,17 @@
     <value>Sta&amp;rt [F5]</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPasswordSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
-  <data name="lblPasswordTarget.Text" xml:space="preserve">
-    <value>Passwor&amp;t:</value>
+  <data name="lblPasswordSource.Text" xml:space="preserve">
+    <value>Pass&amp;wort:</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblUidSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
   </data>
-  <data name="lblUidTarget.Text" xml:space="preserve">
-    <value>&amp;Benutzer:</value>
+  <data name="lblUidSource.Text" xml:space="preserve">
+    <value>B&amp;enutzer:</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 13</value>
@@ -142,17 +142,17 @@
   <data name="label9.Text" xml:space="preserve">
     <value>&amp;Quelle:</value>
   </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPasswordTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
-  <data name="lblPasswordSource.Text" xml:space="preserve">
-    <value>Pass&amp;wort:</value>
+  <data name="lblPasswordTarget.Text" xml:space="preserve">
+    <value>Passwor&amp;t:</value>
   </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblUidTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
   </data>
-  <data name="lblUidSource.Text" xml:space="preserve">
-    <value>B&amp;enutzer:</value>
+  <data name="lblUidTarget.Text" xml:space="preserve">
+    <value>&amp;Benutzer:</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -169,13 +169,13 @@
   <data name="lblProgressStatus.Text" xml:space="preserve">
     <value>bitte warten ...</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPathSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
   </data>
   <data name="lblPathSource.Text" xml:space="preserve">
     <value>&amp;Pfad:</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblPathTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
   </data>
   <data name="lblPathTarget.Text" xml:space="preserve">
@@ -184,13 +184,13 @@
   <data name="btnSave.Text" xml:space="preserve">
     <value>&amp;speichern ...</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblDomainSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 13</value>
   </data>
   <data name="lblDomainSource.Text" xml:space="preserve">
     <value>&amp;Domäne</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblDomainTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
   <data name="lblDomainTarget.Text" xml:space="preserve">
@@ -201,6 +201,12 @@
   </data>
   <data name="openWorkingFolderToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Arbeitsverzeichnis öffnen</value>
+  </data>
+  <data name="openExceptionFolderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 22</value>
+  </data>
+  <data name="openExceptionFolderToolStripMenuItem.Text" xml:space="preserve">
+    <value>Protokoll-Ordner öffnen</value>
   </data>
   <data name="deleteCurrentProfileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>226, 22</value>

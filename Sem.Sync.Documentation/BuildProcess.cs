@@ -53,16 +53,13 @@ namespace Sem.Sync.Documentation
         /// <param name="context">Provides information about the build process.</param>
         public override void BuildStarting(BuildContext context)
         {
-            // Uncomment the following line to break into the debugger: 
-            ////System.Diagnostics.Debugger.Break();
-
             var dir = context.ProjectDirectory;
             var folder = Path.Combine(dir, "buildhelp");
 
-            foreach (var item in Directory.GetFiles(folder, "*.*"))
-            {
-                File.SetAttributes(item, File.GetAttributes(item) & !FileAttributes.ReadOnly);
-            }
+            ////foreach (var item in Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories))
+            ////{
+            ////    File.SetAttributes(item, File.GetAttributes(item) & ~FileAttributes.ReadOnly);
+            ////}
 
             this.buildStart = DateTime.Now;
         }
