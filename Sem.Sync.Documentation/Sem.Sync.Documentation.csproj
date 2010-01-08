@@ -234,6 +234,7 @@
     <Content Include="Help\Settings\metadata.xml" />
     <Content Include="Help\Settings\Projects\help2x.xslt" />
     <Content Include="Help\Settings\tokens.xml" />
+    <Content Include="Help\Settings\topics.xml" />
     <Content Include="Help\Styles\Presentation.css" />
     <Content Include="Help\Styles\TopicDesigner.css" />
     <Content Include="Help\Styles\Whidbey\presentation.css" />
