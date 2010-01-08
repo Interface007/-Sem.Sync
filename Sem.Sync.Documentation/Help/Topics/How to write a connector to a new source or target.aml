@@ -9,7 +9,7 @@
       <para>Writing a new connector is very simple: just inherit from <codeEntityReference>T:Sem.Sync.SyncBase.StdClient</codeEntityReference> and override the two abstract methods. The complexity might come with implementing these two methods, because you will need to provide a conversion from your “native” data to the StdContact class. Depending on the type of data you read/write this might be easy or complex.</para>
       <para>If your “native” system does support access using vCards, this would ease the development substantially, because there is already a vCard connector using the file system. This connector does use the class VCardConverter from the namespace Sem.Sync.SyncBase.Helpers. You should have a look if that converter already matches your needs.</para>
       <para>For communication with an XML based system, you might use XSLT to simply transform the XML data from your system to the serialization format of the class StdContact. That way you can easily fill a list of StdContact and return it from the connector to the engine.</para>
-      <para>The connectors are instantiated by a class factory. In the scripts just use the full qualified class name (include the assembly name if that is different to the namespace) and the engine will do the rest. You can even use generic classes as connectors (see GenericClientCsv) – this might be helpful when synchronizing different types of entities (like calendar items).</para>
+      <para>The connectors are instantiated by a class factory. In the scripts just use the full qualified class name (include the assembly name if that is different to the namespace) and the engine will do the rest. You can even use generic classes as connectors (see <codeEntityReference>T:Sem.Sync.Connector.Filesystem.GenericClientCsv`1</codeEntityReference>) – this might be helpful when synchronizing different types of entities (like calendar items).</para>
     </introduction>
 
     <procedure>
@@ -37,13 +37,11 @@
           <content>
             <para>The <codeEntityReference>T:Sem.Sync.SyncBase.Attributes.ClientStoragePathDescriptionAttribute</codeEntityReference> attribute 
             describes capabilities of the connector. The defaults of the settings are:</para>
-            <code language="c#">
-              CanReadContacts = true,
-              CanWriteContacts = true,
-              NeedsCredentials = false,
-              IsGeneric = false,
-              MatchingIdentifier = ProfileIdentifierType.Default
-            </code>
+            <code language="c#">CanReadContacts = true,
+CanWriteContacts = true,
+NeedsCredentials = false,
+IsGeneric = false,
+MatchingIdentifier = ProfileIdentifierType.Default</code>
             <para>As shown in the defaults, the connector might be a generic class and does have a fixed matching 
             identifier. By default all connectors tell the UI that they are capable for reading and writing, but 
             our example connector (the console connector) does only support writing to the console, not reading.</para>
@@ -67,10 +65,7 @@
               The console connector does print the contact serialized as xml to the console, so we need an instance of the 
               XmlSerializer to build the xml.
             </para>
-            <code language="c#">
-              private static readonly XmlSerializer ContactListFormatter
-              = new XmlSerializer(typeof(StdContact));
-            </code>
+            <code language="c#">private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(StdContact));</code>
           </content>
         </step>
         <step>
@@ -79,10 +74,13 @@
               Overriding this virtual property is optional, because the base class property does return the name configured 
               inside the ConnectorDescription class attribute.
             </para>
-            <code language="c#">
-              public override string FriendlyClientName
-              { get { return "Console output Connector for individual contacts"; }}
-            </code>
+            <code language="c#">public override string FriendlyClientName
+{ 
+  get 
+    { 
+      return "Console output Connector for individual contacts"; 
+    }
+}</code>
           </content>
         </step>
         <step>
@@ -91,10 +89,10 @@
               Overriding this method suppresses the read operation from the base class while adding new elements which 
               is not implemented in our case and would lead to an exception.
             </para>
-            <code language="c#">
-              public override void AddRange(List&lt;StdElement&gt; elements, string clientFolderName)
-              { this.WriteFullList(elements, clientFolderName, true); }
-            </code>
+            <code language="c#">public override void AddRange(List&lt;StdElement&gt; elements, string clientFolderName)
+{ 
+  this.WriteFullList(elements, clientFolderName, true); 
+}</code>
           </content>
         </step>
         <step>
@@ -102,17 +100,16 @@
             <para>
               This is the working horse method – this is the part where things may become complex (in this case they don’t).
             </para>
-            <code language="c#">
-              protected override void WriteFullList(List&lt;StdElement&gt; elements, 
-                                      string clientFolderName, 
-                                      bool skipIfExisting)
-              {
-                  foreach (var element in elements)
-                  {
-                      ContactListFormatter.Serialize(Console.Out, element);
-                  }
-              }
-            </code>
+            <code language="c#">protected override void WriteFullList(
+    List&lt;StdElement&gt; elements, 
+    string clientFolderName, 
+    bool skipIfExisting)
+{
+  foreach (var element in elements)
+  {
+    ContactListFormatter.Serialize(Console.Out, element);
+  }
+}</code>
           </content>
         </step>
         <step>

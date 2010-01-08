@@ -101,9 +101,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Exchange
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.ExchangeWsma", "Sem.Sync.Test.ExchangeWsma\Sem.Sync.Test.ExchangeWsma.csproj", "{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ChangeTracker", "Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj", "{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 36
+		SccNumberOfProjects = 37
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -247,6 +249,10 @@ Global
 		SccProjectTopLevelParentUniqueName35 = SemSync-Standard-Documentation.sln
 		SccProjectName35 = Sem.Sync.Test.WebConnectors
 		SccLocalPath35 = Sem.Sync.Test.WebConnectors
+		SccProjectUniqueName36 = Sem.Sync.ChangeTracker\\Sem.Sync.ChangeTracker.csproj
+		SccProjectTopLevelParentUniqueName36 = SemSync-Standard-Documentation.sln
+		SccProjectName36 = Sem.Sync.ChangeTracker
+		SccLocalPath36 = Sem.Sync.ChangeTracker
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync2.vsmdi
@@ -1105,6 +1111,31 @@ Global
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1117,6 +1148,7 @@ Global
 		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{9165EBDB-D528-4D2A-BD36-A0D986E609FA} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{F0A26B2B-02CA-4095-AD20-013D0110ABB3} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{DA88047A-8BA7-492B-BB71-EB87472817A5} = {36822C45-2766-42EF-A4A7-543D24FAAD37}

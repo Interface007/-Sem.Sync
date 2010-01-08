@@ -56,6 +56,14 @@ namespace Sem.Sync.Documentation
             // Uncomment the following line to break into the debugger: 
             ////System.Diagnostics.Debugger.Break();
 
+            var dir = context.ProjectDirectory;
+            var folder = Path.Combine(dir, "buildhelp");
+
+            foreach (var item in Directory.GetFiles(folder, "*.*"))
+            {
+                File.SetAttributes(item, File.GetAttributes(item) & !FileAttributes.ReadOnly);
+            }
+
             this.buildStart = DateTime.Now;
         }
 
