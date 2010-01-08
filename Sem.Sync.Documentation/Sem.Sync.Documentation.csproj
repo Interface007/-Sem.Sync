@@ -91,7 +91,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Sandcastle_ShowEntireBuildComponentStack="False" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" DocumentationScope="PublicOnly" />
+      <UserProperties DocumentationScope="PublicOnly" DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" Sandcastle_ShowEntireBuildComponentStack="False" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -279,6 +279,9 @@
     <None Include="Help\Schemas\structureTable.xsd" />
     <None Include="Help\Schemas\xlink.xsd" />
     <None Include="Help\Schemas\__internal.xsd" />
+    <None Include="Help\Sem_Sync_Documentation.hhc" />
+    <None Include="Help\Sem_Sync_Documentation.hhk" />
+    <None Include="Help\Sem_Sync_Documentation.hhp" />
     <None Include="Help\Settings\Projects\help1x.config" />
     <None Include="Help\Topics\How to write a connector to a new source or target.aml" />
     <None Include="Help\Topics\How to write a connector to a new source or target.cmp">

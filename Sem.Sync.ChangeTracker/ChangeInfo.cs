@@ -15,7 +15,7 @@ namespace Sem.Sync.ChangeTracker
     /// <summary>
     /// Information that describes the changes that have been detected for a contact.
     /// </summary>
-    internal class ChangeInfo
+    public class ChangeInfo
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeInfo"/> class.

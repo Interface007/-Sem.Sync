@@ -21,7 +21,7 @@
             matching the namespace name in order to ease the configuration. Addressing the connector class inside the configuration 
             is made using the full qualified class name, but you can omit the namespace and the assembly name if they do match 
             this convention.</para>
-            <code>namespace Sem.Sync.Connector.Console</code>
+            <code language="c#">namespace Sem.Sync.Connector.Console</code>
           </content>
         </step>
         <step>
@@ -30,14 +30,14 @@
                   path parameter while reading/writing data. 
                   In our very simple sample this attribute contain the information that this path is irrelevant, so the UI can 
                   hide the input elements to not confuse the user.</para>
-            <code>[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
+            <code language="c#">[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
           </content>
         </step>
         <step>
           <content>
             <para>The <codeEntityReference>T:Sem.Sync.SyncBase.Attributes.ClientStoragePathDescriptionAttribute</codeEntityReference> attribute 
             describes capabilities of the connector. The defaults of the settings are:</para>
-            <code>
+            <code language="c#">
               CanReadContacts = true,
               CanWriteContacts = true,
               NeedsCredentials = false,
@@ -47,7 +47,7 @@
             <para>As shown in the defaults, the connector might be a generic class and does have a fixed matching 
             identifier. By default all connectors tell the UI that they are capable for reading and writing, but 
             our example connector (the console connector) does only support writing to the console, not reading.</para>
-            <code>[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
+            <code language="c#">[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
           </content>
         </step>
         <step>
@@ -58,7 +58,7 @@
               StdClient – this class does provide things like password handling with the sync engine virtual methods 
               to add provider specific things for read/write, event handling etc.
             </para>
-            <code>public class ContactClient : StdClient</code>
+            <code language="c#">public class ContactClient : StdClient</code>
           </content>
         </step>
         <step>
@@ -67,7 +67,7 @@
               The console connector does print the contact serialized as xml to the console, so we need an instance of the 
               XmlSerializer to build the xml.
             </para>
-            <code>
+            <code language="c#">
               private static readonly XmlSerializer ContactListFormatter
               = new XmlSerializer(typeof(StdContact));
             </code>
@@ -79,7 +79,7 @@
               Overriding this virtual property is optional, because the base class property does return the name configured 
               inside the ConnectorDescription class attribute.
             </para>
-            <code>
+            <code language="c#">
               public override string FriendlyClientName
               { get { return "Console output Connector for individual contacts"; }}
             </code>
@@ -91,7 +91,7 @@
               Overriding this method suppresses the read operation from the base class while adding new elements which 
               is not implemented in our case and would lead to an exception.
             </para>
-            <code>
+            <code language="c#">
               public override void AddRange(List&lt;StdElement&gt; elements, string clientFolderName)
               { this.WriteFullList(elements, clientFolderName, true); }
             </code>
@@ -102,7 +102,7 @@
             <para>
               This is the working horse method – this is the part where things may become complex (in this case they don’t).
             </para>
-            <code>
+            <code language="c#">
               protected override void WriteFullList(List&lt;StdElement&gt; elements, 
                                       string clientFolderName, 
                                       bool skipIfExisting)
