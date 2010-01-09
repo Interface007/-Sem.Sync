@@ -22,6 +22,9 @@ namespace Sem.Sync.Connector.SonyEricsson
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(DisplayName = "Sony Ericsson W810i")]
 #else
+    /// <summary>
+    /// This class is the client class for handling contacts persisted to the file system
+    /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(DisplayName = "Sony Ericsson W810i", Internal = true)]
 #endif

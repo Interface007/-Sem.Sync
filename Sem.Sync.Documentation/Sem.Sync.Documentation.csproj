@@ -91,7 +91,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties DocumentationScope="PublicOnly" DefaultApplyToAll="True" DoNotAskIncludeOutputInProject="True" ExternalSources="" Sandcastle_ProduceHelp1x="True" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_Version="2.4.10520.1" BuildEngineProviderName="Sandcastle" DocProjectVersion="1.11.0.0" IsDocProject="true" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" Sandcastle_ShowEntireBuildComponentStack="False" />
+      <UserProperties Sandcastle_ShowEntireBuildComponentStack="False" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" DocumentationScope="PublicOnly" />
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
@@ -299,9 +299,17 @@
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj">
+      <Project>{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}</Project>
+      <Name>Sem.Sync.ChangeTracker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
+      <Project>{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}</Project>
+      <Name>Sem.Sync.Connector.Console</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.ExchangeWebServiceManagedApi\Sem.Sync.Connector.ExchangeWebServiceManagedApi.csproj">
       <Project>{A3F64060-5F1F-4470-B1AE-71836CFD6DA0}</Project>
@@ -315,6 +323,10 @@
       <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
       <Name>Sem.Sync.Connector.Filesystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
+      <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
+      <Name>Sem.Sync.Connector.Google</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
       <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
       <Name>Sem.Sync.Connector.MeinVZ</Name>
@@ -327,17 +339,13 @@
       <Project>{D6AC1146-22A3-48D5-B12F-3B2FA4F87955}</Project>
       <Name>Sem.Sync.Connector.MsAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
-      <Project>{A454EA6D-1B59-44AF-8EF2-72F66924279A}</Project>
-      <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
-      <Project>{DA88047A-8BA7-492B-BB71-EB87472817A5}</Project>
-      <Name>Sem.Sync.Connector.OnlineStorage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
       <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
       <Name>Sem.Sync.Connector.Outlook2003</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2010\Sem.Sync.Connector.Outlook2010.csproj">
+      <Project>{0E785E12-16FF-4409-927A-1E7554841D72}</Project>
+      <Name>Sem.Sync.Connector.Outlook2010</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
       <Project>{809277C4-F27E-47B6-AC9F-E5EE54AE1399}</Project>
@@ -351,6 +359,22 @@
       <Project>{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}</Project>
       <Name>Sem.Sync.Connector.WerKenntWen</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ConsoleClient\Sem.Sync.ConsoleClient.csproj">
+      <Project>{9165EBDB-D528-4D2A-BD36-A0D986E609FA}</Project>
+      <Name>Sem.Sync.ConsoleClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ContactSyncer\Sem.Sync.ContactSyncer.csproj">
+      <Project>{12CDAB31-6327-448F-BFA2-F26EC8F8392F}</Project>
+      <Name>Sem.Sync.ContactSyncer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj">
+      <Project>{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}</Project>
+      <Name>Sem.Sync.LocalSyncManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
+      <Project>{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}</Project>
+      <Name>Sem.Sync.OutlookWithXing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SharedUI.Common\Sem.Sync.SharedUI.Common.csproj">
       <Project>{B0AD009D-21C5-4BB6-A795-4DDEBC47F4D2}</Project>
       <Name>Sem.Sync.SharedUI.Common</Name>
@@ -362,6 +386,10 @@
     <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
       <Project>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</Project>
       <Name>Sem.Sync.Connector.Statistic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Starter\Sem.Sync.Starter.csproj">
+      <Project>{D9563118-8480-45B0-A20C-737ABA994069}</Project>
+      <Name>Sem.Sync.Starter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>

@@ -109,6 +109,8 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             {
                 var contact = (StdContact)element;
 
+                this.LogProcessingEvent(contact, Properties.Resources.CheckingForUpdateInsert);
+
                 // In case of a EWS-id being present in the contact, we try to load the contact with suppressing
                 // ServiceResponseException where ErrorCode == ErrorItemNotFound - otherwise we assume NULL
                 var item = contact.PersonalProfileIdentifiers.ExchangeWs != null
@@ -123,15 +125,16 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                 // if we have not been able to load a contact, we save it as a new one
                 if (item == null)
                 {
-                    this.LogProcessingEvent(contact, "adding contact");
+                    this.LogProcessingEvent(contact, Properties.Resources.AddingContact);
                     var exchangeContact = contact.ToExchangeContact(service);
                     exchangeContact.Save(contactsFolderId);
                     contact.PersonalProfileIdentifiers.ExchangeWs = exchangeContact.Id.UniqueId;
                 }
                 else
                 {
-                    // todo: currenty we don't touch existing entries, but we should update them
-                    this.LogProcessingEvent(contact, "not written, because already existing");
+                    this.LogProcessingEvent(contact, Properties.Resources.UpdatingContact);
+                    var exchangeContact = contact.ToExchangeContact(service);
+                    exchangeContact.UpdateFromStdContact(contact);
                 }
             }
         }
@@ -185,12 +188,12 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     }
 
                     result.Add(contact);
-                    this.LogProcessingEvent(contact, "element loaded ...");
+                    this.LogProcessingEvent(contact, Properties.Resources.ElementLoaded);
                 }
 
                 CleanUpEntities(result);
 
-                this.LogProcessingEvent("{0} elements loaded ...", result.Count);
+                this.LogProcessingEvent(Properties.Resources.ElementsLoaded, result.Count);
 
                 offset += 100;
             }

@@ -1972,6 +1972,12 @@
             <param name="Local" value="html\4d3423bd-b456-f054-7069-6dd66aeaaa67.htm">
           </OBJECT></LI>
         </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="UpdateFromStdContact Method ">
+            <param name="Local" value="html\2775b4d4-fa1d-c9f3-821c-e8c8d624ca5b.htm">
+          </OBJECT></LI>
+        </UL>
       </UL>
     </UL>
   </UL>
@@ -4105,7 +4111,7 @@
         <UL>
           <LI><OBJECT type="text/sitemap">
             <param name="Name" value="ConvertToStandardContact Method ">
-            <param name="Local" value="html\5291b00a-c567-b71c-f97c-4b43170d2937.htm">
+            <param name="Local" value="html\872191fb-3444-2612-f892-e7a043b723c3.htm">
           </OBJECT></LI>
         </UL>
         <UL>
@@ -4129,7 +4135,7 @@
         <UL>
           <LI><OBJECT type="text/sitemap">
             <param name="Name" value="WriteContactToOutlook Method ">
-            <param name="Local" value="html\ee3d4623-399f-cc59-69eb-e73d3229804d.htm">
+            <param name="Local" value="html\a2d4e14f-c950-10e0-ec9e-8ad33919de75.htm">
           </OBJECT></LI>
         </UL>
       </UL>

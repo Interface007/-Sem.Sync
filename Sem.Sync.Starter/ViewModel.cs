@@ -9,6 +9,9 @@
 
 namespace Sem.Sync.Starter
 {
+    /// <summary>
+    /// View of the model to interact with
+    /// </summary>
     public class ViewModel
     {
     }

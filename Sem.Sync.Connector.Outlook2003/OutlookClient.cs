@@ -261,9 +261,23 @@ namespace Sem.Sync.Connector.Outlook2003
                     Description = outlookItem.Body,
                     Start = outlookItem.Start,
                     End = outlookItem.End,
+                    BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
+                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    Location = outlookItem.Location,
+                    ExternalIdentifier = new List<CalendarIdentifier>
+                        {
+                            new CalendarIdentifier
+                            { 
+                                Identifier = outlookItem.GlobalAppointmentID, 
+                                IdentifierType = CalendarIdentifierType.Outlook, 
+                            }
+                        },
+                    RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
+                    ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
+                    ResponseRequested = outlookItem.ResponseRequested,
+                    ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus(),
                 };
 
-            // TODO: this is a very "incomplete" version of the method
             return result;
         }
 
@@ -556,7 +570,8 @@ namespace Sem.Sync.Connector.Outlook2003
             }
 
             if ((stdOldContact.PersonalInstantMessengerAddresses == null && stdNewContact.PersonalInstantMessengerAddresses != null)
-                || (stdNewContact.PersonalInstantMessengerAddresses != null && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger))
+                || (stdNewContact.PersonalInstantMessengerAddresses != null
+                    && stdOldContact.PersonalInstantMessengerAddresses.MsnMessenger != stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger))
             {
                 outlookContact.IMAddress = (stdNewContact.PersonalInstantMessengerAddresses == null) ? null : stdNewContact.PersonalInstantMessengerAddresses.MsnMessenger;
                 dirty = true;
@@ -693,7 +708,7 @@ namespace Sem.Sync.Connector.Outlook2003
                             attachement.SaveAsFile(fullName);
                             GCRelevantCall();
                         }
-                        catch (System.Runtime.InteropServices.COMException)
+                        catch (COMException)
                         {
                             // we may have a problem if there are too many pictures saved in this session
                             // then we need to clean up the outlook temp path (which is difficult to determine)

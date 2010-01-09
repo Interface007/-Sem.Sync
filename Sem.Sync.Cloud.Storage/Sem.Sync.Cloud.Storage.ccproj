@@ -57,5 +57,8 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug (Code Analysis)' ">
     <OutputPath>bin\Debug (Code Analysis)\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Exclude Non-Standard-Projects' ">
+    <OutputPath>bin\Exclude Non-Standard-Projects\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(CloudExtensionsDir)Microsoft.CloudService.targets" />
 </Project>

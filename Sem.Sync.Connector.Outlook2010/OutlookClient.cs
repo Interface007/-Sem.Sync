@@ -46,7 +46,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="contactsEnum"> The contacts enum. </param>
         /// <returns> a list of ContactsItemContainer </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
-        public static List<ContactsItemContainer> GetContactsList(Items contactsEnum)
+        public static IEnumerable<ContactsItemContainer> GetContactsList(Items contactsEnum)
         {
             if (contactsEnum == null)
             {
@@ -78,7 +78,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="contactsList"> The contacts list. </param>
         /// <returns> a value indicating if the contact has been saved </returns>
         /// <exception cref="ArgumentNullException">in case of contactsEnum or element being null</exception>
-        public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, List<ContactsItemContainer> contactsList)
+        public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, IEnumerable<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
             {
@@ -125,7 +125,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> a new standard contact  </returns>
         /// <exception cref="ArgumentNullException"> if the outlook contact is null  </exception>
-        public static StdContact ConvertToStandardContact(_ContactItem outlookContact, List<StdContact> contactList)
+        public static StdContact ConvertToStandardContact(_ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -358,7 +358,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <returns> a value indicating whether the element has been written to outlook </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
         /// <exception cref="NotImplementedException"> always, because the method is not implemented </exception>
-        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, List<ContactsItemContainer> contactsList)
+        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, IEnumerable<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
             {
@@ -652,14 +652,14 @@ namespace Sem.Sync.Connector.Outlook2010
             }
 
             if ((stdOldContact.PersonalPhoneMobile == null && stdNewContact.PersonalPhoneMobile != null)
-                || (stdNewContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile.ToString() != stdNewContact.PersonalPhoneMobile.ToString()))
+                || (stdNewContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile != null && stdOldContact.PersonalPhoneMobile.ToString() != stdNewContact.PersonalPhoneMobile.ToString()))
             {
                 outlookContact.MobileTelephoneNumber = (stdNewContact.PersonalPhoneMobile == null) ? null : stdNewContact.PersonalPhoneMobile.ToString();
                 dirty = true;
             }
 
             if ((stdOldContact.BusinessPhoneMobile == null && stdNewContact.BusinessPhoneMobile != null)
-                || (stdNewContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile.ToString() != stdNewContact.BusinessPhoneMobile.ToString()))
+                || (stdNewContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile != null && stdOldContact.BusinessPhoneMobile.ToString() != stdNewContact.BusinessPhoneMobile.ToString()))
             {
                 outlookContact.Business2TelephoneNumber = (stdNewContact.BusinessPhoneMobile == null) ? null : stdNewContact.BusinessPhoneMobile.ToString();
                 dirty = true;

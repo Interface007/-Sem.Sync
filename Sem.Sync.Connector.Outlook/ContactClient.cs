@@ -278,11 +278,13 @@ namespace Sem.Sync.Connector.Outlook
             {
                 // find outlook contact with matching id, create new if needed
                 LogProcessingEvent(element, Resources.uiSearching);
-                if (OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
+                if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
                 {
-                    LogProcessingEvent(element, Resources.uiContactUpdated);
-                    added++;
+                    continue;
                 }
+
+                this.LogProcessingEvent(element, Resources.uiContactUpdated);
+                added++;
             }
 
             outlookNamespace.Logoff();

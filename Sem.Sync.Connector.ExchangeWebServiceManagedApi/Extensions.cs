@@ -143,40 +143,92 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         public static Contact ToExchangeContact(this StdContact contact, ExchangeService service)
         {
             var exchangeContact = new Contact(service);
+            exchangeContact.UpdateFromStdContact(contact);
+            return exchangeContact;
+        }
 
-            exchangeContact.GivenName = contact.Name.FirstName;
-            exchangeContact.MiddleName = contact.Name.MiddleName;
-            exchangeContact.Surname = contact.Name.LastName;
-            exchangeContact.FileAs = contact.Name.ToString();
+        /// <summary>
+        /// Updates an Exchange contact with the information of an <see cref="StdContact"/>.
+        /// </summary>
+        /// <param name="exchangeContact"> The exchange contact to be updated. </param>
+        /// <param name="stdContact"> The <see cref="StdContact"/> to get the information from. </param>
+        /// <returns> The updated contact. </returns>
+        public static Contact UpdateFromStdContact(this Contact exchangeContact, StdContact stdContact)
+        {
+            if (stdContact.Name != null)
+            {
+                if (!string.IsNullOrEmpty(stdContact.Name.FirstName))
+                {
+                    exchangeContact.GivenName = stdContact.Name.FirstName;
+                }
+                
+                if (!string.IsNullOrEmpty(stdContact.Name.MiddleName))
+                {
+                    exchangeContact.MiddleName = stdContact.Name.MiddleName;
+                }
 
-            exchangeContact.Birthday = contact.DateOfBirth;
-            exchangeContact.Body = contact.AdditionalTextData;
-            exchangeContact.Categories = contact.Categories == null ? null : new StringList(contact.Categories);
-            
-            exchangeContact.CompanyName = contact.BusinessCompanyName;
-            exchangeContact.Department = contact.BusinessDepartment;
-            exchangeContact.JobTitle = contact.BusinessPosition;
-            exchangeContact.BusinessHomePage = contact.BusinessHomepage;
+                if (!string.IsNullOrEmpty(stdContact.Name.LastName))
+                {
+                    exchangeContact.Surname = stdContact.Name.LastName;
+                }
 
-            exchangeContact.SetAddress(PhysicalAddressKey.Business, contact.BusinessAddressPrimary);
-            exchangeContact.SetAddress(PhysicalAddressKey.Home, contact.PersonalAddressPrimary);
-            exchangeContact.SetAddress(PhysicalAddressKey.Other, contact.PersonalAddressSecondary);
+                exchangeContact.FileAs = stdContact.Name.ToString();
+            }
 
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone, contact.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone2, contact.PersonalAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone, contact.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone2, contact.BusinessAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
+            if (stdContact.DateOfBirth > new DateTime())
+            {
+                exchangeContact.Birthday = stdContact.DateOfBirth;
+            }
 
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.MobilePhone, contact.BusinessPhoneMobile.NewIfNull().ToString());
-            exchangeContact.SetPhoneNumber(PhoneNumberKey.OtherTelephone, contact.PersonalPhoneMobile.NewIfNull().ToString());
+            if (!string.IsNullOrEmpty(stdContact.AdditionalTextData))
+            {
+                exchangeContact.Body = stdContact.AdditionalTextData;
+            }
 
-            exchangeContact.SetImAddress(ImAddressKey.ImAddress1, contact.BusinessInstantMessengerAddresses.NewIfNull().MsnMessenger);
-            exchangeContact.SetImAddress(ImAddressKey.ImAddress2, contact.PersonalInstantMessengerAddresses.NewIfNull().MsnMessenger);
-            exchangeContact.SetImAddress(ImAddressKey.ImAddress3, contact.PersonalInstantMessengerAddresses.NewIfNull().GoogleTalk);
+            if (stdContact.Categories != null && stdContact.Categories.Count > 0)
+            {
+                exchangeContact.Categories = stdContact.Categories == null ? null : new StringList(stdContact.Categories);
+            }
 
-            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress1, contact.BusinessEmailPrimary);
-            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress2, contact.PersonalEmailPrimary);
-            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress3, contact.PersonalEmailSecondary);
+            if (!string.IsNullOrEmpty(stdContact.BusinessCompanyName))
+            {
+                exchangeContact.CompanyName = stdContact.BusinessCompanyName;
+            }
+
+            if (!string.IsNullOrEmpty(stdContact.BusinessDepartment))
+            {
+                exchangeContact.Department = stdContact.BusinessDepartment;
+            }
+
+            if (!string.IsNullOrEmpty(stdContact.BusinessPosition))
+            {
+                exchangeContact.JobTitle = stdContact.BusinessPosition;
+            }
+
+            if (!string.IsNullOrEmpty(stdContact.BusinessHomepage))
+            {
+                exchangeContact.BusinessHomePage = stdContact.BusinessHomepage;
+            }
+
+            exchangeContact.SetAddress(PhysicalAddressKey.Business, stdContact.BusinessAddressPrimary);
+            exchangeContact.SetAddress(PhysicalAddressKey.Home, stdContact.PersonalAddressPrimary);
+            exchangeContact.SetAddress(PhysicalAddressKey.Other, stdContact.PersonalAddressSecondary);
+
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone, stdContact.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.HomePhone2, stdContact.PersonalAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone, stdContact.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.BusinessPhone2, stdContact.BusinessAddressSecondary.NewIfNull().Phone.NewIfNull().ToString());
+
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.MobilePhone, stdContact.BusinessPhoneMobile.NewIfNull().ToString());
+            exchangeContact.SetPhoneNumber(PhoneNumberKey.OtherTelephone, stdContact.PersonalPhoneMobile.NewIfNull().ToString());
+
+            exchangeContact.SetImAddress(ImAddressKey.ImAddress1, stdContact.BusinessInstantMessengerAddresses.NewIfNull().MsnMessenger);
+            exchangeContact.SetImAddress(ImAddressKey.ImAddress2, stdContact.PersonalInstantMessengerAddresses.NewIfNull().MsnMessenger);
+            exchangeContact.SetImAddress(ImAddressKey.ImAddress3, stdContact.PersonalInstantMessengerAddresses.NewIfNull().GoogleTalk);
+
+            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress1, stdContact.BusinessEmailPrimary);
+            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress2, stdContact.PersonalEmailPrimary);
+            exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress3, stdContact.PersonalEmailSecondary);
 
             return exchangeContact;
         }
@@ -189,19 +241,21 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         /// <param name="value"> The <see cref="AddressDetail"/> to be parsed and set into the <see cref="PhysicalAddressEntry"/>. </param>
         private static void SetAddress(this Contact exchangeContact, PhysicalAddressKey address, AddressDetail value)
         {
-            if (value != null)
+            if (value == null)
             {
-                var exchangeAddress = new PhysicalAddressEntry
-                    {
-                        City = value.CityName,
-                        CountryOrRegion = value.CountryName,
-                        PostalCode = value.PostalCode,
-                        State = value.StateName,
-                        Street = value.StreetName
-                    };
-
-                exchangeContact.PhysicalAddresses[address] = exchangeAddress;
+                return;
             }
+
+            var exchangeAddress = new PhysicalAddressEntry
+                {
+                    City = value.CityName,
+                    CountryOrRegion = value.CountryName,
+                    PostalCode = value.PostalCode,
+                    State = value.StateName,
+                    Street = value.StreetName
+                };
+
+            exchangeContact.PhysicalAddresses[address] = exchangeAddress;
         }
 
         /// <summary>
