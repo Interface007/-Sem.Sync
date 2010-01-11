@@ -268,7 +268,7 @@ namespace Sem.Sync.Connector.Outlook2003
                         {
                             new CalendarIdentifier
                             { 
-                                Identifier = outlookItem.GlobalAppointmentID, 
+                                Identifier = outlookItem.EntryID, 
                                 IdentifierType = CalendarIdentifierType.Outlook, 
                             }
                         },
@@ -590,7 +590,7 @@ namespace Sem.Sync.Connector.Outlook2003
                     ContactIdOutlookPropertyName,
                     OlUserPropertyType.olText,
                     true,
-                    OlFormatText.olFormatTextText).Value = stdNewContact.Id.ToString();
+                    1).Value = stdNewContact.Id.ToString();
                 dirty = true;
             }
 
@@ -852,7 +852,7 @@ namespace Sem.Sync.Connector.Outlook2003
                                           ContactIdOutlookPropertyName,
                                           OlUserPropertyType.olText,
                                           true,
-                                          OlFormatText.olFormatTextText);
+                                          1);
 
                 // test if the value is a valid id
                 if (contactIdObject.Value.ToString().Length != 36)

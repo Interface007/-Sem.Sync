@@ -39,25 +39,25 @@
 
             <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
               <Component Id="ResourcesDE"                       Guid="{F54F58EF-A2CB-4695-8B04-39F11CB31046}">
-                <File Id='Connector.Exchange.resources'         Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources'  />
-                <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll'                />
-                <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll'                   />
-                <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll'               />
-                <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll'               />
-                <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll'                      />
+                <File Id='Connector.Exchange.resources'         Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources.dll'  />
+                <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll'                    />
+                <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll'                       />
+                <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll'                   />
+                <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll'                   />
+                <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll'                          />
                 
-                <File Id='LocalSyncManager.resources'           Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes'      />
-                <File Id='OutlookWithXing.resources'            Name='Sem.Sync.OutlookWithXing.resources.dll'                     />
+                <File Id='LocalSyncManager.resources'           Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes'          />
+                <File Id='OutlookWithXing.resources'            Name='Sem.Sync.OutlookWithXing.resources.dll'                         />
                 
-                <File Id='SharedUI.Common.resources'            Name='Sem.Sync.SharedUI.Common.resources.dll'                     />
-                <File Id='SharedUI.WinForms.resources'          Name='Sem.Sync.SharedUI.WinForms.resources.dll'                   />
-                <File Id='SyncBase.resources'                   Name='Sem.Sync.SyncBase.resources.dll'                            />
+                <File Id='SharedUI.Common.resources'            Name='Sem.Sync.SharedUI.Common.resources.dll'                         />
+                <File Id='SharedUI.WinForms.resources'          Name='Sem.Sync.SharedUI.WinForms.resources.dll'                       />
+                <File Id='SyncBase.resources'                   Name='Sem.Sync.SyncBase.resources.dll'                                />
               </Component>
             </Directory>
 
             <Component Id="MainExecutable"                      Guid="{7F3569D2-598D-462A-A537-9D6531FCD7E0}">
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
-              
+
               <!-- the main executable -->
               <File Id='Sem.Sync.LocalSyncManager'              Name='Sem.Sync.LocalSyncManager.exe'        KeyPath='yes'>
                 <Shortcut
@@ -141,8 +141,9 @@
 
     <Feature Id="Documentation" Title="Developers Documentation" Level="1">
       <ComponentRef Id="Documentation"  />
+      <ComponentRef Id="HelperLibrary"  />
       <ComponentRef Id="Description"    />
-    
+
     </Feature>
 
     <Feature Id="Localized" Title="Localized Resources (DE)" Level="1">

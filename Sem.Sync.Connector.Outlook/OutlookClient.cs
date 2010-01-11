@@ -881,7 +881,7 @@ namespace Sem.Sync.Connector.Outlook
                                           ContactIdOutlookPropertyName,
                                           OlUserPropertyType.olText,
                                           true,
-                                          OlFormatText.olFormatTextText);
+                                          1);
 
                 // test if the value is a valid id
                 if (contactIdObject.Value.ToString().Length != 36)

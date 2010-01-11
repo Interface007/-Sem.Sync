@@ -9,7 +9,7 @@
   -->
   <Product Name="Sem.Sync Client for Xing to Outlook Sync"
            Manufacturer="Sven Erik Matzen"
-           Id="{F8D9B001-2DF5-43F4-87B0-AC7713014AD2}"
+           Id="*"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
            Language="1033" Version="1.0.0.0" >
 
@@ -39,16 +39,17 @@
 
             <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
               <Component Id="ResourcesDE"                       Guid="{07EE1D3E-EC53-4DF1-A729-2B104AB95A11}">
-                <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll' />
-                <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll' />
-                <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
-                <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
-                <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll' />
-
+                <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll'                    />
+                <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll'                       />
+                <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll'                   />
+                <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll'                   />
+                <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll'                          />
+                
                 <File Id='OutlookWithXing.resources'            Name='Sem.Sync.OutlookWithXing.resources.dll' KeyPath='yes' />
-                <File Id='SharedUI.Common.resources'            Name='Sem.Sync.SharedUI.Common.resources.dll' />
-                <File Id='SharedUI.WinForms.resources'          Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
-                <File Id='SyncBase.resources'                   Name='Sem.Sync.SyncBase.resources.dll' />
+                
+                <File Id='SharedUI.Common.resources'            Name='Sem.Sync.SharedUI.Common.resources.dll'                         />
+                <File Id='SharedUI.WinForms.resources'          Name='Sem.Sync.SharedUI.WinForms.resources.dll'                       />
+                <File Id='SyncBase.resources'                   Name='Sem.Sync.SyncBase.resources.dll'                                />
               </Component>
             </Directory>
 
@@ -71,35 +72,28 @@
 
             <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary"                       Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
-              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                   KeyPath='yes'/>
-              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                    />
-              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'           />
-              
-              
-              
+              <File Id='Sem.GenericHelpers'                     Name='Sem.GenericHelpers.dll'                   KeyPath='yes' />
+              <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                                  />
+              <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'                         />
+              <File Id='Sem.Sync.SharedUI.Common'               Name='Sem.Sync.SharedUI.Common.dll'                           />
 
-              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'        />
+              <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'                      />
 
               
-              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'            />
+              <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'                          />
 
-              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'           />
-              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'       />
+              <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'                         />
+              <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'                     />
               
               
               
-              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'              />
+              <File Id='Sem.Sync.Connector.Xing'                Name='Sem.Sync.Connector.Xing.dll'                            />
             </Component>
 
             
             
             
             
-            
-
-
-
-
 
             <!-- the description file is optional -->
             <Component Id="Description"                         Guid="C7A07A0F-3AB0-4B12-86BD-6837E8CF63E6" >
@@ -111,7 +105,7 @@
               </File>
             </Component>
 
-         
+
           
           
           
@@ -139,8 +133,8 @@
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
-      <ComponentRef Id="HelperLibrary"      />
-      <ComponentRef Id="Description"        />
+      <ComponentRef Id="HelperLibrary"  />
+      <ComponentRef Id="Description"    />
 
     </Feature>
 

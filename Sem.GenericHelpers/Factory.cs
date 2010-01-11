@@ -88,6 +88,7 @@ namespace Sem.GenericHelpers
             var type = Type.GetType(this.EnrichClassName(className), false, true);
             if (type == null)
             {
+                // todo: alternative version connectors should be supported via a configuration, not hard coded
                 // search for an alternative object (e.g. compatible with an older version of the installed target)
                 switch (className)
                 {
