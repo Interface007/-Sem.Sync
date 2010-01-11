@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Forms;
@@ -92,6 +93,16 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         {
             Process.Start(new ProcessStartInfo(request.UrlOfWebSite));
             return new CaptchaResolveResult { UserReportsSuccess = this.AskForConfirm(messageForUser, title) };
+        }
+
+        /// <summary>
+        /// Asks the user if it's ok to send this information to www.svenerikmatzen.info
+        /// </summary>
+        /// <param name="content">The content that will be sent</param>
+        /// <returns>true if it's ok to send this information</returns>
+        public bool AskForConfirmSendingException(string content)
+        {
+            return new ExceptionOkToSend().AskForOk(content);
         }
     }
 }

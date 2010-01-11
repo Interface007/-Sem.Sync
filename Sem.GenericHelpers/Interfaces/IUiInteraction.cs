@@ -45,5 +45,12 @@ namespace Sem.GenericHelpers.Interfaces
         /// <param name="request"> The information collected while resolving the captcha. </param>
         /// <returns> a <see cref="CaptchaResolveResult"/> instance with information of the web site </returns>
         CaptchaResolveResult ResolveCaptcha(string messageForUser, string title, CaptchaResolveRequest request);
+
+        /// <summary>
+        /// Asks the user if it's ok to send this information to www.svenerikmatzen.info
+        /// </summary>
+        /// <param name="content">The content that will be sent</param>
+        /// <returns>true if it's ok to send this information</returns>
+        bool AskForConfirmSendingException(string content);
     }
 }

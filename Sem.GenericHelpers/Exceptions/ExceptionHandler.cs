@@ -26,6 +26,11 @@ namespace Sem.GenericHelpers.Exceptions
     public class ExceptionHandler : IExceptionWriter
     {
         /// <summary>
+        /// The dafault exception handler (using the file system to log exceptions).
+        /// </summary>
+        private static readonly ExceptionHandler DefaultHandler;
+
+        /// <summary>
         /// Initializes static members of the <see cref="ExceptionHandler"/> class. <see cref="ExceptionWriter"/> will
         /// be initialized with an instance of this class in order to write the exceptions to the path
         /// "[SpecialFolder.ApplicationData]\Sem.GenericHelpers\\Exceptions". Use the method <see cref="Clean"/> in order
@@ -35,13 +40,12 @@ namespace Sem.GenericHelpers.Exceptions
         static ExceptionHandler()
         {
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            ExceptionWriter = new List<IExceptionWriter>
+            DefaultHandler = new ExceptionHandler
                 {
-                    new ExceptionHandler
-                        {
-                            Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions")
-                        }
+                    Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions") 
                 };
+
+            ExceptionWriter = new List<IExceptionWriter> { DefaultHandler };
         }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Sem.GenericHelpers.Exceptions
         /// to the remaining exception writers.
         /// </summary>
         public static List<IExceptionWriter> ExceptionWriter { get; private set; }
+
+        public static IUiInteraction UserInterface { get; set; }
 
         /// <summary>
         /// Gets or sets the Destination path for saving  exception information.
@@ -169,7 +175,16 @@ namespace Sem.GenericHelpers.Exceptions
             {
             }
         }
-        
+
+        /// <summary>
+        /// Sends all pending exception information to the server.
+        /// </summary>
+        public static void SendPending()
+        {
+            Tools.EnsurePathExist(DefaultHandler.Destination);
+            Directory.GetFiles(DefaultHandler.Destination, "*...*...*.xml").ForEach(SendFile);
+        }
+
         /// <summary>
         /// Writes exception information to the files system (<see cref="Destination"/>). Does not throw any exceptions
         /// but may write exception details into the console window.
@@ -299,6 +314,21 @@ namespace Sem.GenericHelpers.Exceptions
             writer.Close(); 
             
             return xml;
+        }
+        
+        private static void SendFile(string fileName)
+        {
+            var content = File.ReadAllText(fileName);
+
+            // ask the user if it's ok to send exception information
+            if (UserInterface == null || !UserInterface.AskForConfirmSendingException(content))
+            {
+                return;
+            }
+
+            var http = new HttpHelper("www.svenerikmatzen.info", false) { UiDispatcher = UserInterface };
+            http.GetContentPost(
+                "ExceptionHandeler/Accept.aspx", "[nocache]", HttpHelper.PreparePostData("exception={0}", content));
         }
     }
 }

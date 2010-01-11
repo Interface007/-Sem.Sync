@@ -33,6 +33,7 @@ namespace Sem.Sync.LocalSyncManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
+            ExceptionHandler.SendPending();
             ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
 
             try

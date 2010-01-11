@@ -106,6 +106,12 @@
       <DependentUpon>ContactCardView.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="UI\ExceptionOkToSend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ExceptionOkToSend.Designer.cs">
+      <DependentUpon>ExceptionOkToSend.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\MatchCandidateView.cs" />
     <Compile Include="ViewModel\Matching.cs" />
     <Compile Include="ViewModel\MatchView.cs" />
@@ -149,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Disclaimer.resx">
       <DependentUpon>Disclaimer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ExceptionOkToSend.resx">
+      <DependentUpon>ExceptionOkToSend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LogOn.de.resx">
       <DependentUpon>LogOn.cs</DependentUpon>

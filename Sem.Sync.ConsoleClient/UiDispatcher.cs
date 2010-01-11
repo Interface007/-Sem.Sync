@@ -94,6 +94,20 @@ namespace Sem.Sync.ConsoleClient
         }
 
         /// <summary>
+        /// Asks the user if it's ok to send this information to www.svenerikmatzen.info
+        /// </summary>
+        /// <param name="content">The content that will be sent</param>
+        /// <returns>true if it's ok to send this information</returns>
+        public bool AskForConfirmSendingException(string content)
+        {
+            Console.WriteLine("In order to improve the software quality, the program wants to send the following information to the web site www.svenerikmatzen.info:");
+            Console.WriteLine(content);
+            Console.WriteLine("Press \"Y\" and the RETURN key to send the information, enter \"N\" to not send the information.");
+            return Console.ReadLine() == "Y";
+            
+        }
+
+        /// <summary>
         /// Requests a merge action for attributes of conflicting entities
         /// </summary>
         /// <param name="toMerge">the list of merge conflicts to reslove</param>
