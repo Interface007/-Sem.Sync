@@ -75,7 +75,13 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -107,6 +113,11 @@
     <Compile Include="Entities\CaptchaResolveRequest.cs" />
     <Compile Include="Entities\CaptchaResolveResult.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
+    <Compile Include="Service References\ExceptionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="Entities\Credentials.cs" />
     <Compile Include="Entities\KeyValuePair.cs" />
@@ -124,13 +135,39 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Overview.cd" />
+    <None Include="Service References\ExceptionService\ExceptionService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExternalAssemblies\ExpressionSerialization\ExpressionSerialization.csproj">
       <Project>{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560}</Project>
       <Name>ExpressionSerialization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ExceptionService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ExceptionService\ExceptionService.disco" />
+    <None Include="Service References\ExceptionService\ExceptionService.xsd" />
+    <None Include="Service References\ExceptionService\ExceptionService1.wsdl" />
+    <None Include="Service References\ExceptionService\ExceptionService1.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ExceptionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ExceptionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ExceptionService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

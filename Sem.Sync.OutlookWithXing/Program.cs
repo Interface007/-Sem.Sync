@@ -15,6 +15,7 @@ namespace Sem.Sync.OutlookWithXing
     using GenericHelpers.Exceptions;
 
     using UI;
+    using Sem.Sync.SharedUI.WinForms.Tools;
 
     /// <summary>
     /// main program execution class
@@ -30,6 +31,8 @@ namespace Sem.Sync.OutlookWithXing
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            ExceptionHandler.UserInterface = new UiDispatcher();
+            ExceptionHandler.SendPending();
             ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
 
             try

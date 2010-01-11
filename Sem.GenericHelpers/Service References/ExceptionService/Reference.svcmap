@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f3457dd8-dc1b-4093-9f04-5849fea1ce0f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8969/ExceptionService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ExceptionService.wsdl" MetadataType="Wsdl" ID="cc0d4293-169b-450e-b6f2-4423a849e144" SourceId="1" SourceUrl="http://localhost:8969/ExceptionService.svc?wsdl" />
+    <MetadataFile FileName="ExceptionService.disco" MetadataType="Disco" ID="411581f5-e104-4435-89b3-cf0a7851be97" SourceId="1" SourceUrl="http://localhost:8969/ExceptionService.svc?disco" />
+    <MetadataFile FileName="ExceptionService.xsd" MetadataType="Schema" ID="14401fa1-04ba-4c83-b2b2-1ad3dd42aa1c" SourceId="1" SourceUrl="http://localhost:8969/ExceptionService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ExceptionService1.xsd" MetadataType="Schema" ID="11725e41-c166-4505-a831-c41aa22fe185" SourceId="1" SourceUrl="http://localhost:8969/ExceptionService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ExceptionService1.wsdl" MetadataType="Wsdl" ID="3feb165a-733f-4ca8-83fe-8e77ce1dd5ab" SourceId="1" SourceUrl="http://localhost:8969/ExceptionService.svc?wsdl=wsdl0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

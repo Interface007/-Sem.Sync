@@ -23,7 +23,7 @@ namespace Sem.Sync.Test.DataGenerator
     /// <summary>
     /// Defines contact test data
     /// </summary>
-    [ClientStoragePathDescriptionAttribute(Irrelevant = true)]
+    [ClientStoragePathDescriptionAttribute(ReferenceType = ClientPathType.Undefined)]
     [ConnectorDescription(
         DisplayName = "Test Data connector",
         CanWriteContacts = true, CanReadContacts = true)]
@@ -437,6 +437,9 @@ namespace Sem.Sync.Test.DataGenerator
         {
             switch (clientFolderName)
             {
+                case "exception":
+                    throw new NotSupportedException("Test-Exception");
+
                 case "matchingtesttarget":
                     matchingTarget = elements;
                     return;
@@ -479,6 +482,9 @@ namespace Sem.Sync.Test.DataGenerator
 
                 case "matchingtesttarget":
                     return matchingTarget;
+
+                case "exception":
+                    throw new NotSupportedException("Test-Exception");
 
                 case "matchingtestbaseline":
                     result.AddRange(

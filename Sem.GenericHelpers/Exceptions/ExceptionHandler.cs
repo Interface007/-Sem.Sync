@@ -182,7 +182,12 @@ namespace Sem.GenericHelpers.Exceptions
         public static void SendPending()
         {
             Tools.EnsurePathExist(DefaultHandler.Destination);
-            Directory.GetFiles(DefaultHandler.Destination, "*...*...*.xml").ForEach(SendFile);
+            var files = Directory.GetFiles(DefaultHandler.Destination, "*...*...*.xml");
+
+            if (files.Length > 0 && UserInterface.AskForConfirm("There are some information files about problems while working with programs from Sven Erik Matzen.\nDo you want to send these files now to the developer?\nIf you select >OK< you can review each information file and decide whether to send it or not.", "Exceptions found"))
+            { 
+                files.ForEach(SendFile); 
+            }
         }
 
         /// <summary>
@@ -298,24 +303,29 @@ namespace Sem.GenericHelpers.Exceptions
         /// <returns> an XElement containing the data from the object  </returns>
         private static XElement SerializeToXElement(object obj, string name)
         {
-            var serializer = new XmlSerializer(obj.GetType()); 
-            var stream = new MemoryStream(); 
-            var writer = new StreamWriter(stream); 
+            var serializer = new XmlSerializer(obj.GetType());
             
-            serializer.Serialize(writer, obj); 
-            
-            stream.Position = 0; 
-            var reader = new XmlTextReader(stream); 
-            var xml = XElement.Load(reader, LoadOptions.None); 
-            xml.Add(new XAttribute("name", name));
-            
-            stream.Close(); 
-            reader.Close(); 
-            writer.Close(); 
-            
-            return xml;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    serializer.Serialize(writer, obj);
+
+                    stream.Position = 0;
+                    using (var reader = new XmlTextReader(stream))
+                    {
+                        var xml = XElement.Load(reader, LoadOptions.None);
+                        xml.Add(new XAttribute("name", name));
+                        return xml;
+                    }
+                }
+            }
         }
         
+        /// <summary>
+        /// Sends an exception file if the configuration does permit this.
+        /// </summary>
+        /// <param name="fileName">the file to be sent</param>
         private static void SendFile(string fileName)
         {
             var content = File.ReadAllText(fileName);
@@ -325,10 +335,15 @@ namespace Sem.GenericHelpers.Exceptions
             {
                 return;
             }
+            
+            // create a new service client
+            var sender = new ExceptionService.ExceptionServiceClient();
 
-            var http = new HttpHelper("www.svenerikmatzen.info", false) { UiDispatcher = UserInterface };
-            http.GetContentPost(
-                "ExceptionHandeler/Accept.aspx", "[nocache]", HttpHelper.PreparePostData("exception={0}", content));
+            // send the information
+            if (!sender.WriteExceptionData(content))
+            { 
+                UserInterface.AskForConfirm("The server has rejected the information file - this is a normal behaviour, because not all exception information can be accepted by the server.", "Information rejected.");
+            }
         }
     }
 }

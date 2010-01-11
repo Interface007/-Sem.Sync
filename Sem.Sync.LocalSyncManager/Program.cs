@@ -32,7 +32,8 @@ namespace Sem.Sync.LocalSyncManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
+            ExceptionHandler.UserInterface = new UiDispatcher();
             ExceptionHandler.SendPending();
             ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
 

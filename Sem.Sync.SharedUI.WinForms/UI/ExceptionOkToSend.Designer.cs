@@ -85,13 +85,13 @@
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
             this.ClientSize = new System.Drawing.Size(476, 393);
             this.Controls.Add(this.Content);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.CancelButton);
             this.Name = "ExceptionOkToSend";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Send Exception Data";
             this.ResumeLayout(false);
             this.PerformLayout();
