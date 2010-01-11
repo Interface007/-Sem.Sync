@@ -37,62 +37,59 @@
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelButton.AccessibleDescription = null;
+            this.CancelButton.AccessibleName = null;
+            resources.ApplyResources(this.CancelButton, "CancelButton");
+            this.CancelButton.BackgroundImage = null;
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.CancelButton.Location = new System.Drawing.Point(340, 358);
+            this.CancelButton.Font = null;
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(124, 23);
-            this.CancelButton.TabIndex = 0;
-            this.CancelButton.Text = "&Dont send information";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
             // OkButton
             // 
-            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.AccessibleDescription = null;
+            this.OkButton.AccessibleName = null;
+            resources.ApplyResources(this.OkButton, "OkButton");
+            this.OkButton.BackgroundImage = null;
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.OkButton.Location = new System.Drawing.Point(204, 358);
+            this.OkButton.Font = null;
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(130, 23);
-            this.OkButton.TabIndex = 1;
-            this.OkButton.Text = "&Send information";
             this.OkButton.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
+            resources.ApplyResources(this.label1, "label1");
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Font = null;
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(452, 139);
-            this.label1.TabIndex = 2;
-            this.label1.Text = resources.GetString("label1.Text");
             // 
             // Content
             // 
-            this.Content.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.Content.Location = new System.Drawing.Point(12, 151);
-            this.Content.Multiline = true;
+            this.Content.AccessibleDescription = null;
+            this.Content.AccessibleName = null;
+            resources.ApplyResources(this.Content, "Content");
+            this.Content.BackgroundImage = null;
+            this.Content.Font = null;
             this.Content.Name = "Content";
-            this.Content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Content.Size = new System.Drawing.Size(452, 201);
-            this.Content.TabIndex = 6;
             // 
             // ExceptionOkToSend
             // 
             this.AcceptButton = this.OkButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 393);
+            this.BackgroundImage = null;
             this.Controls.Add(this.Content);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.CancelButton);
+            this.Font = null;
+            this.Icon = null;
             this.Name = "ExceptionOkToSend";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Send Exception Data";
             this.ResumeLayout(false);
             this.PerformLayout();
 

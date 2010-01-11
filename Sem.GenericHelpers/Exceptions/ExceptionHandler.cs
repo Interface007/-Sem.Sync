@@ -10,6 +10,7 @@ namespace Sem.GenericHelpers.Exceptions
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
@@ -55,6 +56,9 @@ namespace Sem.GenericHelpers.Exceptions
         /// </summary>
         public static List<IExceptionWriter> ExceptionWriter { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the user interface implementation.
+        /// </summary>
         public static IUiInteraction UserInterface { get; set; }
 
         /// <summary>
@@ -181,12 +185,22 @@ namespace Sem.GenericHelpers.Exceptions
         /// </summary>
         public static void SendPending()
         {
+            var value = ConfigurationManager.AppSettings["SendExceptionDetails"];
+            bool doSend;
+            if (!bool.TryParse(value, out doSend) || !doSend)
+            {
+                return;
+            }
+
             Tools.EnsurePathExist(DefaultHandler.Destination);
             var files = Directory.GetFiles(DefaultHandler.Destination, "*...*...*.xml");
 
-            if (files.Length > 0 && UserInterface.AskForConfirm("There are some information files about problems while working with programs from Sven Erik Matzen.\nDo you want to send these files now to the developer?\nIf you select >OK< you can review each information file and decide whether to send it or not.", "Exceptions found"))
-            { 
-                files.ForEach(SendFile); 
+            if (files.Length > 0 &&
+                UserInterface.AskForConfirm(
+                    Sem.GenericHelpers.Properties.Resources.ThereAreSomeInformationFiles,
+                    Sem.GenericHelpers.Properties.Resources.ThereAreSomeInformationFilesTitle))
+            {
+                files.ForEach(SendFile);
             }
         }
 
@@ -342,7 +356,7 @@ namespace Sem.GenericHelpers.Exceptions
             // send the information
             if (!sender.WriteExceptionData(content))
             { 
-                UserInterface.AskForConfirm("The server has rejected the information file - this is a normal behaviour, because not all exception information can be accepted by the server.", "Information rejected.");
+                UserInterface.AskForConfirm(Sem.GenericHelpers.Properties.Resources.TheServerHasRejected, Sem.GenericHelpers.Properties.Resources.TheServerHasRejectedTitle);
             }
         }
     }

@@ -156,6 +156,9 @@
     <EmbeddedResource Include="UI\Disclaimer.resx">
       <DependentUpon>Disclaimer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ExceptionOkToSend.de.resx">
+      <DependentUpon>ExceptionOkToSend.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ExceptionOkToSend.resx">
       <DependentUpon>ExceptionOkToSend.cs</DependentUpon>
     </EmbeddedResource>

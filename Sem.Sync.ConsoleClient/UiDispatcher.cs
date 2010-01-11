@@ -104,7 +104,6 @@ namespace Sem.Sync.ConsoleClient
             Console.WriteLine(content);
             Console.WriteLine("Press \"Y\" and the RETURN key to send the information, enter \"N\" to not send the information.");
             return Console.ReadLine() == "Y";
-            
         }
 
         /// <summary>
