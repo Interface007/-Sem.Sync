@@ -39,7 +39,7 @@
             // 
             this.cancelButton.AccessibleDescription = null;
             this.cancelButton.AccessibleName = null;
-            resources.ApplyResources(this.CancelButton, "cancelButton");
+            resources.ApplyResources(this.cancelButton, "cancelButton");
             this.cancelButton.BackgroundImage = null;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.No;
             this.cancelButton.Font = null;
