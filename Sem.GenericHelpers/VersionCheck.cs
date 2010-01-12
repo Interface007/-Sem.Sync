@@ -121,12 +121,7 @@ namespace Sem.GenericHelpers
                 var reader = new StringReader(versionContentFromServer);
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
-                return
-                    serverVersion.Major <= myVersion.Major &&
-                    serverVersion.Minor <= myVersion.Minor &&
-                    serverVersion.MajorRevision <= myVersion.MajorRevision &&
-                    serverVersion.MinorRevision <= myVersion.MinorRevision &&
-                    serverVersion.Build <= myVersion.Build;
+                return serverVersion.CompareToVersion(myVersion);
             }
             catch 
             {
@@ -136,17 +131,43 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Performs a comparison of two version information structures by comparing 
+        /// major and minor version and revision (1.2.3.4 vs. 4.5.6.7). Revision and
+        /// build will not be compared.
+        /// </summary>
+        /// <param name="otherInstance">the version to compare to</param>
+        /// <returns>true in case of this instance &lt;= <paramref name="otherInstance"/></returns>
+        public bool CompareToVersion(VersionCheck otherInstance)
+        {
+            return
+                this.Major <= otherInstance.Major &&
+                this.Minor <= otherInstance.Minor &&
+                this.MajorRevision <= otherInstance.MajorRevision &&
+                this.MinorRevision <= otherInstance.MinorRevision;
+        }
+
+        /// <summary>
         /// Creates a string version number
         /// </summary>
         /// <returns> a string representing the version number </returns>
         public override string ToString()
         {
+            return this.ToString(true);
+        }
+
+        /// <summary>
+        /// Creates a string version number
+        /// </summary>
+        /// <param name="includeBuild"> A value indicating whether to include the build number. </param>
+        /// <returns> a string representing the version number  </returns>
+        public string ToString(bool includeBuild)
+        {
             return 
                 this.Major + "." +
                 this.Minor + "." +
                 this.MajorRevision + "." +
-                this.MinorRevision + "." +
-                this.Build;
+                this.MinorRevision +
+                (includeBuild ? "." + this.Build : string.Empty);
         }
     }
 }

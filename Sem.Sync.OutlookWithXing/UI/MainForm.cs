@@ -51,6 +51,7 @@ namespace Sem.Sync.OutlookWithXing.UI
         {
             this.InitializeComponent();
             this.DoubleClick += (sender, e) => System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
+            this.versionLabel.Text = "Version " + new VersionCheck().ToString(false);
         }
 
         /// <summary>

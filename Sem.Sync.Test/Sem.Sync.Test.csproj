@@ -100,6 +100,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemConnectorTest.cs" />
     <Compile Include="UpdateTestData.cs" />
+    <Compile Include="VersionCheckTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\Sem.Sync.FilesystemConnector.accessor" />
@@ -129,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Settings.StyleCop" />
+    <Shadow Include="Test References\Sem.GenericHelpers.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
