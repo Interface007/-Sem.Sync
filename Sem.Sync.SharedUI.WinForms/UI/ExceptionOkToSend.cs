@@ -27,11 +27,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Asks the user to let the program send exception information.
         /// </summary>
-        /// <param name="content"> The content to be sent. </param>
+        /// <param name="contentText"> The content to be sent. </param>
         /// <returns> true if the user wants to send the information. </returns>
-        public bool AskForOk(string content)
+        public bool AskForOk(string contentText)
         {
-            this.Content.Text = content;
+            this.content.Text = contentText;
 
             return this.ShowDialog() == System.Windows.Forms.DialogResult.Yes;
         }

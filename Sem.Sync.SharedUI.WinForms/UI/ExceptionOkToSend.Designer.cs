@@ -29,33 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExceptionOkToSend));
-            this.CancelButton = new System.Windows.Forms.Button();
-            this.OkButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.Content = new System.Windows.Forms.TextBox();
+            this.content = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // CancelButton
             // 
-            this.CancelButton.AccessibleDescription = null;
-            this.CancelButton.AccessibleName = null;
-            resources.ApplyResources(this.CancelButton, "CancelButton");
-            this.CancelButton.BackgroundImage = null;
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.CancelButton.Font = null;
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.AccessibleDescription = null;
+            this.cancelButton.AccessibleName = null;
+            resources.ApplyResources(this.CancelButton, "cancelButton");
+            this.cancelButton.BackgroundImage = null;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.cancelButton.Font = null;
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // OkButton
             // 
-            this.OkButton.AccessibleDescription = null;
-            this.OkButton.AccessibleName = null;
-            resources.ApplyResources(this.OkButton, "OkButton");
-            this.OkButton.BackgroundImage = null;
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.OkButton.Font = null;
-            this.OkButton.Name = "OkButton";
-            this.OkButton.UseVisualStyleBackColor = true;
+            this.okButton.AccessibleDescription = null;
+            this.okButton.AccessibleName = null;
+            resources.ApplyResources(this.okButton, "OkButton");
+            this.okButton.BackgroundImage = null;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
+            this.okButton.Font = null;
+            this.okButton.Name = "okButton";
+            this.okButton.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -68,25 +68,25 @@
             // 
             // Content
             // 
-            this.Content.AccessibleDescription = null;
-            this.Content.AccessibleName = null;
-            resources.ApplyResources(this.Content, "Content");
-            this.Content.BackgroundImage = null;
-            this.Content.Font = null;
-            this.Content.Name = "Content";
+            this.content.AccessibleDescription = null;
+            this.content.AccessibleName = null;
+            resources.ApplyResources(this.content, "content");
+            this.content.BackgroundImage = null;
+            this.content.Font = null;
+            this.content.Name = "content";
             // 
             // ExceptionOkToSend
             // 
-            this.AcceptButton = this.OkButton;
+            this.AcceptButton = this.okButton;
             this.AccessibleDescription = null;
             this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = null;
-            this.Controls.Add(this.Content);
+            this.Controls.Add(this.content);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.OkButton);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.cancelButton);
             this.Font = null;
             this.Icon = null;
             this.Name = "ExceptionOkToSend";
@@ -97,9 +97,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox Content;
+        private System.Windows.Forms.TextBox content;
     }
 }
