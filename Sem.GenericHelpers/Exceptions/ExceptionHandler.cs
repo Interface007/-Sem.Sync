@@ -353,11 +353,13 @@ namespace Sem.GenericHelpers.Exceptions
             // create a new service client
             var sender = new ExceptionService.ExceptionServiceClient();
 
-            // send the information
-            if (!sender.WriteExceptionData(content))
-            { 
-                UserInterface.AskForConfirm(Sem.GenericHelpers.Properties.Resources.TheServerHasRejected, Sem.GenericHelpers.Properties.Resources.TheServerHasRejectedTitle);
-            }
+            // todo: encryption - in this case we should use public key encryption
+            // send the information and currently don't care about rejected messages
+            sender.WriteExceptionData(content);
+            ////if (!sender.WriteExceptionData(content))
+            ////{ 
+                ////UserInterface.AskForConfirm(Sem.GenericHelpers.Properties.Resources.TheServerHasRejected, Sem.GenericHelpers.Properties.Resources.TheServerHasRejectedTitle);
+            ////}
         }
     }
 }
