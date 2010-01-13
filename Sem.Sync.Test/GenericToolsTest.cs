@@ -249,5 +249,12 @@ namespace Sem.Sync.Test
             Assert.IsTrue(exceptionText.Contains("<SpecificInformation>Sem.GenericHelpers.Exceptions.TechnicalException: bad file name"));
             Assert.IsTrue(exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegales Zeichen im Pfad."));
         }
+
+        [TestMethod]
+        public void CryptoTest()
+        {
+            var input = "11234567890kjhgfdsaqwertzuiomnbvcxywertzuio8ztrfdxy34r5tzhuj!%&WDFCVZUJKOIJHNk098u7ztrfdä#ölkjh";
+            Assert.AreEqual(input, Tools.DecryptString(Tools.EncryptString(input, 2048, ""), 2048, ""));
+        }
     }
 }

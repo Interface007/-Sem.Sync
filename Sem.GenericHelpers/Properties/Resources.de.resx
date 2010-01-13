@@ -118,9 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TheServerHasRejected" xml:space="preserve">
-    <value>The server has rejected the information file - this is a normal behaviour, because not all exception information can be accepted by the server.</value>
+    <value>Der Server hat die Informationen abgewiesen. Dies ist ein normaler Vorgang, z.B. wenn die Informationen bereits vorhanden sind oder zu viele Informationen noch nicht verarbeitet wurden.</value>
   </data>
   <data name="TheServerHasRejectedTitle" xml:space="preserve">
-    <value>Information rejected.</value>
+    <value>Information abgelehnt.</value>
+  </data>
+  <data name="ThereAreSomeInformationFiles" xml:space="preserve">
+    <value>Es liegen Protokolle über Probleme mit Programmen von Sven Erik Matzen zum senden bereit.
+Möchten Sie diese Informationen jetzt an den Entwickler senden?
+Wenn Sie &gt;OK&lt; wählen können Sie jetzt die Informationen ansehen und entscheiden, ob Sie diese Informationen senden möchten.</value>
+  </data>
+  <data name="ThereAreSomeInformationFilesTitle" xml:space="preserve">
+    <value>Protokolle gefunden</value>
   </data>
 </root>

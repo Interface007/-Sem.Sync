@@ -6,6 +6,8 @@
   to write sophisticating setup programs with this toolkit.
   If we get more files we will split the file into sub files for the features for the
   setup.
+  There's a lot of whitespace inside this file - this helps comparing the different 
+  setup files and copy features from one file to another, so dont't remove it.
   -->
   <Product Name="Sem.Sync Client for Xing to Outlook Sync"
            Manufacturer="Sven Erik Matzen"
