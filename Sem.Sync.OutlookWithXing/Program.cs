@@ -12,9 +12,8 @@ namespace Sem.Sync.OutlookWithXing
     using System;
     using System.Windows.Forms;
 
-    using GenericHelpers.Exceptions;
-
-    using UI;
+    using Sem.GenericHelpers.Exceptions;
+    using Sem.Sync.OutlookWithXing.UI;
     using Sem.Sync.SharedUI.WinForms.Tools;
 
     /// <summary>

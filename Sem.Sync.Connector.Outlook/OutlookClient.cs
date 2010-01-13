@@ -773,6 +773,7 @@ namespace Sem.Sync.Connector.Outlook
         /// Clean up the outlook exclusive temp folder (who knows why they cannot simply use 
         /// the normal temp folder with standard temp file handling...)
         /// </summary>
+        /// <param name="identifier"> The identifier of the office version (e.g. 11.0). </param>
         private static void CleanupTempFolder(string identifier)
         {
             GC.Collect();
