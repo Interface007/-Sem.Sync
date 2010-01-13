@@ -741,7 +741,8 @@ namespace Sem.Sync.Connector.Outlook
                         {
                             // we may have a problem if there are too many pictures saved in this session
                             // then we need to clean up the outlook temp path (which is difficult to determine)
-                            CleanupTempFolder();
+                            CleanupTempFolder("12.0");
+                            CleanupTempFolder("14.0");
 
                             // try again
                             attachement.SaveAsFile(fullName);
@@ -772,12 +773,12 @@ namespace Sem.Sync.Connector.Outlook
         /// Clean up the outlook exclusive temp folder (who knows why they cannot simply use 
         /// the normal temp folder with standard temp file handling...)
         /// </summary>
-        private static void CleanupTempFolder()
+        private static void CleanupTempFolder(string identifier)
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\12.0\\Outlook\\Security");
+            var reg = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\" + identifier + "\\Outlook\\Security");
             if (reg == null)
             {
                 return;
