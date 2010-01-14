@@ -13,20 +13,18 @@ namespace Sem.Sync.Connector.Outlook2010
     #region usings
 
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
 
     using Microsoft.Office.Interop.Outlook;
 
-    using Properties;
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.DetailData;
-    using SyncBase.Helpers;
-
-    using Exception=System.Exception;
-    using System.IO;
-    using System.Diagnostics;
+    using Sem.Sync.Connector.Outlook2010.Properties;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
@@ -38,8 +36,8 @@ namespace Sem.Sync.Connector.Outlook2010
         DisplayName = "Microsoft Outlook 2010",
         CanReadContacts = true,
         CanWriteContacts = true,
-        Internal = false, 
-        IsGeneric = false, 
+        Internal = false,
+        IsGeneric = false,
         MatchingIdentifier = ProfileIdentifierType.Default)]
     [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
@@ -190,7 +188,7 @@ namespace Sem.Sync.Connector.Outlook2010
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
-            
+
             // get a connection to outlook 
             LogProcessingEvent(Resources.uiLogginIn);
             var outlookNamespace = OutlookClient.GetNamespace();
@@ -271,32 +269,31 @@ namespace Sem.Sync.Connector.Outlook2010
         {
             try
             {
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
 
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+                // create outlook instance and get the folder
+                var outlookNamespace = OutlookClient.GetNamespace();
+                var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
 
-            // create outlook instance and get the folder
-            var outlookNamespace = OutlookClient.GetNamespace();
-            var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
+                // extract the contacts that do already exist
+                var contactsList = OutlookClient.GetContactsList(contactsEnum);
 
-            // extract the contacts that do already exist
-            var contactsList = OutlookClient.GetContactsList(contactsEnum);
-
-            var added = 0;
-            foreach (var element in elements)
-            {
-                // find outlook contact with matching id, create new if needed
-                LogProcessingEvent(element, Resources.uiSearching);
-                if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
+                var added = 0;
+                foreach (var element in elements)
                 {
-                    continue;
+                    // find outlook contact with matching id, create new if needed
+                    LogProcessingEvent(element, Resources.uiSearching);
+                    if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
+                    {
+                        continue;
+                    }
+
+                    this.LogProcessingEvent(element, Resources.uiContactUpdated);
+                    added++;
                 }
 
-                this.LogProcessingEvent(element, Resources.uiContactUpdated);
-                added++;
-            }
-
-            outlookNamespace.Logoff();
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
+                outlookNamespace.Logoff();
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
             }
             catch (FileNotFoundException ex)
             {
