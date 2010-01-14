@@ -59,5 +59,18 @@ namespace Sem.GenericHelpers.ExceptionService
 
             return true;
         }
+
+        /// <summary>
+        /// Gets a public key to encrypt the exception data. Using message level encryption with
+        /// public key, we ensure privacy even in environments with trusted proxies breaking ssl.
+        /// </summary>
+        /// <returns>
+        /// The public key portion of the (currently) RSA key.
+        /// </returns>
+        public string GetEncryptionKey()
+        {
+            var key = File.ReadAllText("PublicKey.xml");
+            return key;
+        }
     }
 }

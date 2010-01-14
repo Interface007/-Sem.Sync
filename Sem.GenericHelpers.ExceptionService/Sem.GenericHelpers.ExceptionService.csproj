@@ -64,6 +64,7 @@
       <Link>Properties\CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
     <Content Include="ExceptionService.svc" />
+    <Content Include="PublicKey.xml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

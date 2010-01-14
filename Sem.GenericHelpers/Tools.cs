@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
@@ -872,63 +873,6 @@ namespace Sem.GenericHelpers
             return cachedAllowedAscii;
         }
 
-        public static string EncryptString(string inputString, int dwKeySize, string xmlString)
-        {
-            // TODO: Add Proper Exception Handlers
-            var rsaCryptoServiceProvider = new RSACryptoServiceProvider(dwKeySize);
-            if (!string.IsNullOrEmpty(xmlString))
-            {
-                rsaCryptoServiceProvider.FromXmlString(xmlString);
-            }
-            
-            var keySize = dwKeySize / 8;
-            var bytes = Encoding.UTF32.GetBytes(inputString);
-            
-            var blockLength = keySize - 42;
-            var dataLength = bytes.Length;
-            var iterations = dataLength / blockLength;
-            var stringBuilder = new StringBuilder();
-            
-            for (var i = 0; i <= iterations; i++)
-            {
-                var tempBytes = new byte[((dataLength - (blockLength * i)) > blockLength) ? blockLength : (dataLength - (blockLength * i))];
-
-                Buffer.BlockCopy(bytes, blockLength * i, tempBytes, 0, tempBytes.Length);
-                var encryptedBytes = rsaCryptoServiceProvider.Encrypt(tempBytes, true);
-
-                stringBuilder.Append(Convert.ToBase64String(encryptedBytes));
-            }
-
-            Debug.Print(rsaCryptoServiceProvider.ToXmlString(true));
-
-            return stringBuilder.ToString();
-        }
-
-        public static string DecryptString(string inputString, int dwKeySize, string xmlString)
-        {
-            // TODO: Add Proper Exception Handlers
-            var rsaCryptoServiceProvider = new RSACryptoServiceProvider(dwKeySize);
-            rsaCryptoServiceProvider.FromXmlString(xmlString);
-            
-            var keySize = dwKeySize / 8;
-            var bytes = Encoding.UTF32.GetBytes(inputString);
-            
-            var blockLength = keySize - 42;
-            var dataLength = bytes.Length;
-            var iterations = dataLength / blockLength;
-            var stringBuilder = new StringBuilder();
-            
-            for (var i = 0; i <= iterations; i++)
-            {
-                var tempBytes = new byte[((dataLength - (blockLength * i)) > blockLength) ? blockLength : (dataLength - (blockLength * i))];
-
-                Buffer.BlockCopy(bytes, blockLength * i, tempBytes, 0, tempBytes.Length);
-                var encryptedBytes = rsaCryptoServiceProvider.Encrypt(tempBytes, true);
-
-                stringBuilder.Append(Convert.ToBase64String(encryptedBytes));
-            }
-
-            return stringBuilder.ToString();
-        }
+        
     }
 }

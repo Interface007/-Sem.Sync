@@ -355,11 +355,9 @@ namespace Sem.GenericHelpers.Exceptions
 
             // todo: encryption - in this case we should use public key encryption
             // send the information and currently don't care about rejected messages
+            var key = sender.GetEncryptionKey();
+            content = SimpleCrypto.EncryptString(content, key);
             sender.WriteExceptionData(content);
-            ////if (!sender.WriteExceptionData(content))
-            ////{ 
-                ////UserInterface.AskForConfirm(Sem.GenericHelpers.Properties.Resources.TheServerHasRejected, Sem.GenericHelpers.Properties.Resources.TheServerHasRejectedTitle);
-            ////}
         }
     }
 }

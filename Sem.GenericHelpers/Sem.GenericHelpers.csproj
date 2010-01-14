@@ -128,6 +128,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="SimpleCrypto.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Entities\Credentials.cs" />
     <Compile Include="Entities\KeyValuePair.cs" />

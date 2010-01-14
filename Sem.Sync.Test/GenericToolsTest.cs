@@ -254,7 +254,29 @@ namespace Sem.Sync.Test
         public void CryptoTest()
         {
             var input = "11234567890kjhgfdsaqwertzuiomnbvcxywertzuio8ztrfdxy34r5tzhuj!%&WDFCVZUJKOIJHNk098u7ztrfdä#ölkjh";
-            Assert.AreEqual(input, Tools.DecryptString(Tools.EncryptString(input, 2048, ""), 2048, ""));
+            var key = "<RSAKeyValue><Modulus>jApiPKqlogJQ+z1OOiFqFfxpwK54o8wqhNKQ6rZ9BuUPIwYcVyaVON98M7i8kcaecLfnnQGgzoXy/PNUEH+BeKevz6qa5y3nRWkKDaBJH+2QFcmKhxJ4RBAkGVbWMzRyQb4IvAy6W5btUJWs/9lNskrxINAP3Q2/dvofaido+9KEFc9ubToMQaAxA/SXEFy0fDHTp+uEhFPESef0EFvCtmIAxUVqep3loo2XqKOhF+aqZgpY8y2QLp0koe8AJuE+BH194fJZc1kgMnbxdAEEZP0smHJ0VhfFMCBpzyvgGQWT8OiSOsmH1RUW+YzoWiVtAbtK5eMw27/uUxSDLiSpgQ==</Modulus><Exponent>AQAB</Exponent><P>wSJjw5aGPQqq22BR+oyGNoWHTS+FelF1hVggPauMIQBBQnMxkiNukPzxXfTXI6U1DHV8yohRddn3RfvMnDXyMDSUmiYhvEKPv0+Ko91pDEW7NBC0lF2ivRLRSVNN7ymqGxuHLZl9L8cGZbAd3kcOved2kwIpCTjIBZPF9FvO6W0=</P><Q>uZ/D4uFjN/TNGigBEMDnLC/QKvaKk6k5okvD5nucrZ4E4uZciTSCNVovGPUcVHaF8yVGyr2/Q/HJFqhYiVtJW0dgrgW2MGNH1zkuGdAIOWfXIJJ98OYjbSalmfdfH+Kvm2EMeobRzO2sgiXyk5FcXjVE9qv6lHsnO7aPo+vPZ+U=</Q><DP>pEohvW5dMK3TW5wbAFvri5OY3fLPw5Zptw2ZF3zHTgdOfD1LbLoRQuq4U6mEHUFa2AdVKWA+k1bf/rtMeZF2PMVtp5dKWT/x0dbS48PjqVnj/k07n33rgpTwTUS85fZ2SmrnWcXYdP0DlxryvXOKucac2j8bM0oG9J+Y4935LB0=</DP><DQ>LI5H48a8HStarAOcNdxH4Rhc/GMPYmBFYEqVbFaRhi8e9yPaZGjBNHNASNpVAYUto+53rqSbK4D3BsRD9DyAQDPC5iKi17yM+wFTqoh/4N+nCL+BEXj8We/j4jA5mhq8kixaZXLFG06VkOvw7TEAHfDla9xeGpPxF+k7U1p//20=</DQ><InverseQ>AM+xNS08+xznvloPJSwrOTPXbRYgJwM0pedDT3xWxQ1PhuO9uy0XtoVbsOnsmZ34liUamkXbmUMkmtgc4545lxIGkhvsh+pmbTShBtnn+nKYDRE5/pgmOjGVG7jILb4xpqh7jylS+1wqlxmOIDK2nzVW1e8DJ2XX6gtZw4SJifw=</InverseQ><D>PSUfhYug7F8Eit5WtKz4TAc9CYNka2huvDXQTptFdeg3trwpTagsCXwTF+Y2d5P4hBDYUUZvtxznXqjD8LwrhMn6yrqcDgqN61GUsSRmKUmp2sl38cgPuPAvQt0Wg58HsErQN4N7Lxh0H/ZqZf+0m/96zy/pbURecA1///KbNTAtWVhtx1/b22gDqNR9WKzz0NZwk/+F/01flGEfu5ui1o/7O0n7hJGAk4dff8Mc8hYC6eTI9WIc/WeW7unexe5mSJTols1s6kIAIJxKsQz8YcuF5bB3q1D0T3TvphRVJKo59FxLJyqQaqBUIrNqbvQx8/rzm2rLTtwfYS0zFVpdUQ==</D></RSAKeyValue>";
+            var publicOnly = SimpleCrypto.ExtractPublic(key);
+
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, publicOnly), key));
+
+            key = SimpleCrypto.GenerateNewKey(2048);
+            publicOnly = SimpleCrypto.ExtractPublic(key);
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, publicOnly), key));
+
+            for (var i = 0; i < 5; i++)
+            {
+                input += input;
+            }
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, publicOnly), key));
+            
+            key = SimpleCrypto.GenerateNewKey(4096);
+            publicOnly = SimpleCrypto.ExtractPublic(key);
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), publicOnly));
+
         }
     }
 }

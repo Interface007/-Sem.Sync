@@ -26,5 +26,15 @@ namespace Sem.GenericHelpers.ExceptionService
         /// <returns> true is the data has been logged successfully, false otherwise. </returns>
         [OperationContract]
         bool WriteExceptionData(string exceptionData);
+
+        /// <summary>
+        /// Gets a public key to encrypt the exception data. Using message level encryption with
+        /// public key, we ensure privacy even in environments with trusted proxies breaking ssl.
+        /// </summary>
+        /// <returns>
+        /// The public key portion of the (currently) RSA key.
+        /// </returns>
+        [OperationContract]
+        string GetEncryptionKey();
     }
 }

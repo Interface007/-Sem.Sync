@@ -12,10 +12,20 @@
   <wsdl:message name="IExceptionService_WriteExceptionData_OutputMessage">
     <wsdl:part name="parameters" element="tns:WriteExceptionDataResponse" />
   </wsdl:message>
+  <wsdl:message name="IExceptionService_GetEncryptionKey_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncryptionKey" />
+  </wsdl:message>
+  <wsdl:message name="IExceptionService_GetEncryptionKey_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEncryptionKeyResponse" />
+  </wsdl:message>
   <wsdl:portType name="IExceptionService">
     <wsdl:operation name="WriteExceptionData">
       <wsdl:input wsaw:Action="http://www.svenerikmatzen.info/Sem.GenericHelpers.ExceptionService/IExceptionService/WriteExceptionData" message="tns:IExceptionService_WriteExceptionData_InputMessage" />
       <wsdl:output wsaw:Action="http://www.svenerikmatzen.info/Sem.GenericHelpers.ExceptionService/IExceptionService/WriteExceptionDataResponse" message="tns:IExceptionService_WriteExceptionData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEncryptionKey">
+      <wsdl:input wsaw:Action="http://www.svenerikmatzen.info/Sem.GenericHelpers.ExceptionService/IExceptionService/GetEncryptionKey" message="tns:IExceptionService_GetEncryptionKey_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.svenerikmatzen.info/Sem.GenericHelpers.ExceptionService/IExceptionService/GetEncryptionKeyResponse" message="tns:IExceptionService_GetEncryptionKey_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
 </wsdl:definitions>
