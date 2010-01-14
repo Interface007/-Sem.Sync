@@ -31,8 +31,6 @@
             this.CardImage = new System.Windows.Forms.PictureBox();
             this.FullName = new System.Windows.Forms.Label();
             this.BusinessPosition = new System.Windows.Forms.Label();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.BusinessAddress = new Sem.Sync.SharedUI.WinForms.Controls.ContactAddressView();
             this.PrivateAddress = new Sem.Sync.SharedUI.WinForms.Controls.ContactAddressView();
             ((System.ComponentModel.ISupportInitialize)(this.CardImage)).BeginInit();
@@ -74,29 +72,6 @@
             this.BusinessPosition.TabIndex = 1;
             this.BusinessPosition.Text = "Businessman";
             // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.rectangleShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(316, 204);
-            this.shapeContainer1.TabIndex = 8;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // rectangleShape1
-            // 
-            this.rectangleShape1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rectangleShape1.BackColor = System.Drawing.Color.Ivory;
-            this.rectangleShape1.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
-            this.rectangleShape1.BorderWidth = 3;
-            this.rectangleShape1.Location = new System.Drawing.Point(0, 0);
-            this.rectangleShape1.Name = "rectangleShape1";
-            this.rectangleShape1.Size = new System.Drawing.Size(315, 203);
-            // 
             // BusinessAddress
             // 
             this.BusinessAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -122,13 +97,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.Ivory;
             this.Controls.Add(this.BusinessAddress);
             this.Controls.Add(this.PrivateAddress);
             this.Controls.Add(this.BusinessPosition);
             this.Controls.Add(this.FullName);
             this.Controls.Add(this.CardImage);
-            this.Controls.Add(this.shapeContainer1);
             this.Name = "ContactCardView";
             this.Size = new System.Drawing.Size(316, 204);
             ((System.ComponentModel.ISupportInitialize)(this.CardImage)).EndInit();
@@ -144,7 +118,5 @@
         private System.Windows.Forms.Label BusinessPosition;
         private ContactAddressView PrivateAddress;
         private ContactAddressView BusinessAddress;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
     }
 }

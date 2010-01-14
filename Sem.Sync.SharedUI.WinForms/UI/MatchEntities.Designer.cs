@@ -120,7 +120,7 @@
             // SourceCardView
             // 
             resources.ApplyResources(this.SourceCardView, "SourceCardView");
-            this.SourceCardView.BackColor = System.Drawing.Color.White;
+            this.SourceCardView.BackColor = System.Drawing.Color.Ivory;
             this.SourceCardView.Name = "SourceCardView";
             // 
             // dataGridSourceDetail
@@ -147,7 +147,7 @@
             // TargetCardView
             // 
             resources.ApplyResources(this.TargetCardView, "TargetCardView");
-            this.TargetCardView.BackColor = System.Drawing.Color.White;
+            this.TargetCardView.BackColor = System.Drawing.Color.Ivory;
             this.TargetCardView.Name = "TargetCardView";
             // 
             // dataGridTargetDetail

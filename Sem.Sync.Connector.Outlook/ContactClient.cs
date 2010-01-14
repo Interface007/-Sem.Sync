@@ -24,6 +24,10 @@ namespace Sem.Sync.Connector.Outlook
     using SyncBase.DetailData;
     using SyncBase.Helpers;
 
+    using Exception=System.Exception;
+    using System.IO;
+    using System.Diagnostics;
+
     #endregion usings
 
     /// <summary>
@@ -246,6 +250,7 @@ namespace Sem.Sync.Connector.Outlook
             }
             catch (System.Exception ex)
             {
+                this.CheckForInteropAssemblies(ex as FileNotFoundException);
                 LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
             }
             finally
@@ -264,6 +269,9 @@ namespace Sem.Sync.Connector.Outlook
         /// <param name="skipIfExisting">a value indicating whether existing entries should be added overwritten or skipped.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            try
+            {
+
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
 
             // create outlook instance and get the folder
@@ -289,6 +297,29 @@ namespace Sem.Sync.Connector.Outlook
 
             outlookNamespace.Logoff();
             LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
+            }
+            catch (FileNotFoundException ex)
+            {
+                this.CheckForInteropAssemblies(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the exception is highly porpable from a missing interop assembly and opens a link for the download.
+        /// </summary>
+        /// <param name="ex"> The exception to check. </param>
+        private void CheckForInteropAssemblies(FileNotFoundException ex)
+        {
+            if (ex == null || !ex.FileName.Contains("Microsoft.Office.Interop"))
+            {
+                return;
+            }
+
+            if (this.UiDispatcher.AskForConfirm(Properties.Resources.MissingInteropQuestion, Properties.Resources.MissingInteropQuestionTitle))
+            {
+                Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
+            }
         }
     }
 }

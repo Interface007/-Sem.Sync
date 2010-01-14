@@ -280,7 +280,7 @@
     <value>SourceCardView</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2009.5.22.3, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.109.3666.38106, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -364,7 +364,7 @@
     <value>TargetCardView</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2009.5.22.3, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.109.3666.38106, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>

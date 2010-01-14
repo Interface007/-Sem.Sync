@@ -156,4 +156,10 @@
   <data name="uiXElementsAdded" xml:space="preserve">
     <value>{0} Elemente hinzugefügt</value>
   </data>
+  <data name="MissingInteropQuestion" xml:space="preserve">
+    <value>Es gibt ein Problem, die Primary Interop Assemblies für Office 2003 zu finden. Wollen Sie diese jetzt herunterladen?</value>
+  </data>
+  <data name="MissingInteropQuestionTitle" xml:space="preserve">
+    <value>Datei nicht gefunden</value>
+  </data>
 </root>

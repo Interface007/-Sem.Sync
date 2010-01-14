@@ -61,6 +61,24 @@ namespace Sem.Sync.Connector.Outlook2003.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office 2003. Do you want to open the download page for this missing dependency?.
+        /// </summary>
+        internal static string MissingInteropQuestion {
+            get {
+                return ResourceManager.GetString("MissingInteropQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not found.
+        /// </summary>
+        internal static string MissingInteropQuestionTitle {
+            get {
+                return ResourceManager.GetString("MissingInteropQuestionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to adding {0} elements ....
         /// </summary>
         internal static string uiAddingXElements {
