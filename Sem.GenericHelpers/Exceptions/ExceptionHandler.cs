@@ -337,7 +337,16 @@ namespace Sem.GenericHelpers.Exceptions
         }
         
         /// <summary>
-        /// Sends an exception file if the configuration does permit this.
+        /// Sends an exception file if the configuration does permit this to the configured WCF service.
+        /// The public portion of the encryption key (2048 Bit RSA) is read from the service. There is 
+        /// currently no check if the encryption key is authentic - if someone did manipulate your 
+        /// configuration, she/he can implement the same type of service and send a different key, so 
+        /// that she/he can decrypt the information.
+        /// <para>If you want to, you can simply generate a new key pair, compile the service (which is
+        /// part of this solution) and provide such an exception service by yourself.</para>
+        /// <remarks>The file is encrypted using 2048-bit RSA key. This sounds strong, but was implemented by a
+        /// non-crypto-programmer: me. So don't be surprised if I did a very silly line of code that totally
+        /// broke my encryption class - but inform me if I did so (and also how to fix it).</remarks>
         /// </summary>
         /// <param name="fileName">the file to be sent</param>
         private static void SendFile(string fileName)

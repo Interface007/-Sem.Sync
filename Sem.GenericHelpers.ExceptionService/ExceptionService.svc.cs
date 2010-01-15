@@ -20,6 +20,11 @@ namespace Sem.GenericHelpers.ExceptionService
     /// Implements the <see cref="IExceptionService"/> interface to log the exception information into the file system.
     /// The path is read from the config file and the file name is composed from server side only information, so there's no way
     /// to place a file in a faulty directory, not to place a file with an artificial extension.
+    /// <para>Even if you implement a key with 2048 bit or more for the encryption: don't consider this approach as 
+    /// "secure" - you have the service, the service provides the key, but you don't have something that proves that I
+    /// did issue the key. Security is more than encryption - so because even the encryption is open source in this 
+    /// project, you need to double check the configuration and be sure that there is no man in the middle who knows how 
+    /// to fake my exception server ;-)</para>
     /// </summary>
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class ExceptionService : IExceptionService
