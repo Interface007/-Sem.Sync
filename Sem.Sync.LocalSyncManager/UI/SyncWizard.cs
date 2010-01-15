@@ -17,8 +17,8 @@ namespace Sem.Sync.LocalSyncManager.UI
     
     using Business;
 
+    using GenericHelpers;
     using GenericHelpers.EventArgs;
-    using GenericHelpers.Exceptions;
 
     using Properties;
 
@@ -53,18 +53,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> empty event arguments </param>
         private void SyncWizard_Load(object sender, EventArgs e)
         {
-            ////var data = ExceptionHandler.ExceptionWriter[0].Read();
-            ////if (data != null)
-            ////{
-            ////    HttpHelper.DefaultInstance.UiDispatcher = this.DataContext.s
-
-            ////    HttpHelper.DefaultInstance.GetContentPost(
-            ////        "http://www.svenerikmatzen.info/exceptionsink/receive.aspx",
-            ////        "[NOCACHE]",
-            ////        data.ToString());
-            ////}
-
-            ExceptionHandler.ExceptionWriter.ForEach(writer => writer.Clean());
+            this.versionLabel.Text = "Version " + new VersionCheck().ToString(false);
 
             // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");

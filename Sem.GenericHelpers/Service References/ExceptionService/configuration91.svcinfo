@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="HwRFXHFh4ZU3FB2ihSavdF9oEyI=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="rrh/F/rEsKa/RiDshYYB5yby4o0=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicExceptionService">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicExceptionService" contract="ExceptionService.IExceptionService" bindingType="basicHttpBinding" address="http://localhost:8969/ExceptionService.svc" bindingConfiguration="BasicExceptionService">
+    <endpoint name="BasicExceptionService" contract="ExceptionService.IExceptionService" bindingType="basicHttpBinding" address="http://www.svenerikmatzen.info/Content/ExceptionService.svc" bindingConfiguration="BasicExceptionService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:8969/ExceptionService.svc</serializedValue>
+          <serializedValue>http://www.svenerikmatzen.info/Content/ExceptionService.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

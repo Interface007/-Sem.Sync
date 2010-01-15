@@ -148,7 +148,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Overview.cd" />
-    <None Include="Service References\ExceptionService\ExceptionService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExternalAssemblies\ExpressionSerialization\ExpressionSerialization.csproj">
@@ -163,18 +162,16 @@
     <WCFMetadataStorage Include="Service References\ExceptionService\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ExceptionService\ExceptionService.disco" />
-    <None Include="Service References\ExceptionService\ExceptionService.xsd" />
-    <None Include="Service References\ExceptionService\ExceptionService1.wsdl" />
-    <None Include="Service References\ExceptionService\ExceptionService1.xsd" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\ExceptionService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ExceptionService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\ExceptionService\ExceptionService2.wsdl" />
+    <None Include="Service References\ExceptionService\ExceptionService2.xsd" />
+    <None Include="Service References\ExceptionService\ExceptionService21.wsdl" />
+    <None Include="Service References\ExceptionService\ExceptionService21.xsd" />
     <None Include="Service References\ExceptionService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -190,6 +187,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ExceptionService\ExceptionService1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

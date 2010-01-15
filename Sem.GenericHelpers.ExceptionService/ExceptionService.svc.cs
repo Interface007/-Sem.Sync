@@ -14,12 +14,14 @@ namespace Sem.GenericHelpers.ExceptionService
     using System;
     using System.Configuration;
     using System.IO;
+    using System.ServiceModel.Activation;
 
     /// <summary>
     /// Implements the <see cref="IExceptionService"/> interface to log the exception information into the file system.
     /// The path is read from the config file and the file name is composed from server side only information, so there's no way
     /// to place a file in a faulty directory, not to place a file with an artificial extension.
     /// </summary>
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class ExceptionService : IExceptionService
     {
         /// <summary>
