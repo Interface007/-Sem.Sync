@@ -34,13 +34,13 @@ namespace Sem.GenericHelpers.ExceptionService
         /// <returns> true if the data has been logged successfully </returns>
         public bool WriteExceptionData(string exceptionData)
         {
-            // don't accept more than 10kbytes per message
-            if (exceptionData.Length > 10240)
+            // don't accept more than 40kbytes per message
+            if (exceptionData.Length > 40980)
             {
                 return false;
             }
 
-            // don't accept more than 1 message per minute = 14 MByte per day maximum
+            // don't accept more than 1 message per minute = 56 MByte per day maximum
             var fileNamePattern = string.Format("{0:yyyy-MM-dd-HH-mm}*.*", DateTime.Now);
             if (Directory.GetFiles(DestinationFolder, fileNamePattern, SearchOption.AllDirectories).Length > 0)
             {
@@ -69,7 +69,7 @@ namespace Sem.GenericHelpers.ExceptionService
         /// </returns>
         public string GetEncryptionKey()
         {
-            var key = File.ReadAllText("PublicKey.xml");
+            var key = File.ReadAllText(Path.Combine(DestinationFolder, "PublicKey.xml"));
             return key;
         }
     }

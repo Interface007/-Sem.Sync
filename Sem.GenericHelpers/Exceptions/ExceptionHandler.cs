@@ -352,7 +352,7 @@ namespace Sem.GenericHelpers.Exceptions
             
             // create a new service client
             var sender = new ExceptionService.ExceptionServiceClient();
-
+            
             // todo: encryption - in this case we should use public key encryption
             // send the information and currently don't care about rejected messages
             var key = sender.GetEncryptionKey();

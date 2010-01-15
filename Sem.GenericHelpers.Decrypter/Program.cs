@@ -25,12 +25,18 @@ namespace Sem.GenericHelpers.Decrypter
         /// <param name="args"> The args are ignored. </param>
         public static void Main(string[] args)
         {
-            ////var key = File.ReadAllText("PrivateKey.xml");
-            ////Directory.GetFiles("????-??-??-??-??-??-*.xml").ForEach((x) =>
-            ////    {
-            ////        ExceptionHandler.Suppress<Action<string>(
-            ////            delegate(string y) { File.WriteAllText(y, SimpleCrypto.DecryptString(File.ReadAllText(x), key)); });}
-            ////    });
+            var key = File.ReadAllText("PrivateKey.xml");
+            Directory
+                .GetFiles(Properties.Settings.Default.DataFolder, "????-??-??-??-??-??-*.xml")
+                .ForEach(
+                    x => ExceptionHandler.Suppress(
+                        () =>
+                            {
+                                Console.WriteLine("decrypting {0}...", x);
+                                File.WriteAllText(x, SimpleCrypto.DecryptString(File.ReadAllText(x), key));
+                                Console.WriteLine("finished {0}.", x);
+                            },
+                        (FormatException ex) => true));
         }
     }
 }
