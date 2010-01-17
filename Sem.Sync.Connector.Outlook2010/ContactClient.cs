@@ -187,73 +187,81 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            var currentElementName = string.Empty;
-
-            // get a connection to outlook 
-            LogProcessingEvent(Resources.uiLogginIn);
-            var outlookNamespace = OutlookClient.GetNamespace();
-
-            // we need to log off from outlook in order to clean up the session
             try
             {
-                // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+                var currentElementName = string.Empty;
 
-                // if no folder has been selected, we will leave here
-                if (outlookFolder == null)
-                {
-                    LogProcessingEvent(Resources.uiNoFolderSelected);
-                }
-                else
-                {
-                    // get all the Contacts from the Contacts Folder 
-                    var contactItems = outlookFolder.Items;
-                    var itemsToDo = contactItems.Count;
+                // get a connection to outlook 
+                LogProcessingEvent(Resources.uiLogginIn);
+                var outlookNamespace = OutlookClient.GetNamespace();
 
-                    // iterate through the contacts
-                    for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
+                // we need to log off from outlook in order to clean up the session
+                try
+                {
+                    // select a folder
+                    var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+
+                    // if no folder has been selected, we will leave here
+                    if (outlookFolder == null)
                     {
-                        // in case of problems with a single item, we will continue with the next
-                        try
-                        {
-                            var contactItem = contactItems[itemIndex] as ContactItem;
-                            if (contactItem != null)
-                            {
-                                currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
+                        LogProcessingEvent(Resources.uiNoFolderSelected);
+                    }
+                    else
+                    {
+                        // get all the Contacts from the Contacts Folder 
+                        var contactItems = outlookFolder.Items;
+                        var itemsToDo = contactItems.Count;
 
-                                var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
-                                if (newContact != null)
+                        // iterate through the contacts
+                        for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
+                        {
+                            // in case of problems with a single item, we will continue with the next
+                            try
+                            {
+                                var contactItem = contactItems[itemIndex] as ContactItem;
+                                if (contactItem != null)
                                 {
-                                    result.Add(newContact);
-                                    LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
+                                    currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
+
+                                    var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
+                                    if (newContact != null)
+                                    {
+                                        result.Add(newContact);
+                                        LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
+                                    }
                                 }
                             }
-                        }
-                        catch (System.Runtime.InteropServices.COMException ex)
-                        {
-                            if (ex.ErrorCode == -1285291755 ||
-                                ex.ErrorCode == -2147221227)
+                            catch (System.Runtime.InteropServices.COMException ex)
                             {
-                                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiProblemAccessingOutlookStore, currentElementName, ex.Message));
+                                if (ex.ErrorCode == -1285291755 ||
+                                    ex.ErrorCode == -2147221227)
+                                {
+                                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiProblemAccessingOutlookStore, currentElementName, ex.Message));
+                                }
+                                else
+                                {
+                                    throw;
+                                }
                             }
-                            else
-                            {
-                                throw;
-                            }
-                        }
 
-                        UpdateProgress(itemIndex * 100 / itemsToDo);
+                            UpdateProgress(itemIndex * 100 / itemsToDo);
+                        }
                     }
                 }
+                catch (System.Exception ex)
+                {
+                    this.CheckForInteropAssemblies(ex as FileNotFoundException);
+                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
+                }
+                finally
+                {
+                    outlookNamespace.Logoff();
+                }
             }
-            catch (System.Exception ex)
+            catch (FileNotFoundException ex)
             {
-                this.CheckForInteropAssemblies(ex as FileNotFoundException);
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
-            }
-            finally
-            {
-                outlookNamespace.Logoff();
+                this.CheckForInteropAssemblies(ex);
+                throw;
             }
 
             return result;
