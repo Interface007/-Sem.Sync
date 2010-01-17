@@ -733,6 +733,10 @@ namespace Sem.Sync.Connector.Outlook
                         try
                         {
                             attachement.SaveAsFile(fullName);
+                            
+                            // read all bytes from the temp file
+                            bytes = File.ReadAllBytes(fullName);
+
                             GCRelevantCall();
                         }
                         catch (COMException)
@@ -745,10 +749,10 @@ namespace Sem.Sync.Connector.Outlook
 
                             // try again
                             attachement.SaveAsFile(fullName);
+                            
+                            // read all bytes from the temp file
+                            bytes = File.ReadAllBytes(fullName);
                         }
-
-                        // read all bytes from the temp file
-                        bytes = File.ReadAllBytes(fullName);
 
                         // clean up the temp file
                         File.Delete(fullName);
