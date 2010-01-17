@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -182,6 +183,8 @@ namespace Sem.Sync.SyncBase
             }
             catch (Exception ex)
             {
+                this.CheckForInteropAssemblies(ex as FileNotFoundException);
+
                 ExceptionHandler.HandleException(
                     new TechnicalException(
                         "exception while processing SyncDescription",
@@ -268,9 +271,43 @@ namespace Sem.Sync.SyncBase
         /// <param name="e"> The event argument. </param>
         private void HandleProgressEvent(object sender, ProgressEventArgs e)
         {
-            this.UpdateProgress(
-                                  this.percentageOfSequenceDone
-                                  + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+            this.UpdateProgress(this.percentageOfSequenceDone
+                                + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+        }
+
+        /// <summary>
+        /// Checks if the exception is highly porpable from a missing interop assembly and opens a link for the download.
+        /// </summary>
+        /// <param name="ex"> The exception to check. </param>
+        private void CheckForInteropAssemblies(FileNotFoundException ex)
+        {
+            if (ex == null || !ex.Message.Contains("Microsoft.Office.Interop"))
+            {
+                return;
+            }
+
+            if (!this.UiProvider.AskForConfirm(Resources.MissingInteropQuestion, Resources.MissingInteropQuestionTitle))
+            {
+                return;
+            }
+
+            // Office 2003
+            if (ex.Message.Contains("Version=11"))
+            {
+                Process.Start("http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
+            }
+
+            // Office 2007
+            if (ex.Message.Contains("Version=12"))
+            {
+                Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
+            }
+
+            // Office 2010
+            if (ex.Message.Contains("Version=14"))
+            {
+                Process.Start("http://go.microsoft.com/fwlink/?LinkId=166026");
+            }
         }
     }
 }

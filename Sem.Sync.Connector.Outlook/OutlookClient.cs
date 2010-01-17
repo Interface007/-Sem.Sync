@@ -329,9 +329,7 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// Get the namespace from outlook.
         /// </summary>
-        /// <returns>
-        /// Returns the namespace from outlook.
-        /// </returns>
+        /// <returns> Returns the namespace from outlook. </returns>
         public static NameSpace GetNamespace()
         {
             var outlookApplication = new Application();
@@ -741,6 +739,7 @@ namespace Sem.Sync.Connector.Outlook
                         {
                             // we may have a problem if there are too many pictures saved in this session
                             // then we need to clean up the outlook temp path (which is difficult to determine)
+                            CleanupTempFolder("11.0");
                             CleanupTempFolder("12.0");
                             CleanupTempFolder("14.0");
 

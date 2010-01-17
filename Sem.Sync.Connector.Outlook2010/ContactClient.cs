@@ -13,9 +13,7 @@ namespace Sem.Sync.Connector.Outlook2010
     #region usings
 
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
     using System.Linq;
 
     using Microsoft.Office.Interop.Outlook;
@@ -187,81 +185,72 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            var currentElementName = string.Empty;
+
+            // get a connection to outlook 
+            LogProcessingEvent(Resources.uiLogginIn);
+            var outlookNamespace = OutlookClient.GetNamespace();
+
+            // we need to log off from outlook in order to clean up the session
             try
             {
-                var currentElementName = string.Empty;
+                // select a folder
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
-                // get a connection to outlook 
-                LogProcessingEvent(Resources.uiLogginIn);
-                var outlookNamespace = OutlookClient.GetNamespace();
-
-                // we need to log off from outlook in order to clean up the session
-                try
+                // if no folder has been selected, we will leave here
+                if (outlookFolder == null)
                 {
-                    // select a folder
-                    var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
+                    LogProcessingEvent(Resources.uiNoFolderSelected);
+                }
+                else
+                {
+                    // get all the Contacts from the Contacts Folder 
+                    var contactItems = outlookFolder.Items;
+                    var itemsToDo = contactItems.Count;
 
-                    // if no folder has been selected, we will leave here
-                    if (outlookFolder == null)
+                    // iterate through the contacts
+                    for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
                     {
-                        LogProcessingEvent(Resources.uiNoFolderSelected);
-                    }
-                    else
-                    {
-                        // get all the Contacts from the Contacts Folder 
-                        var contactItems = outlookFolder.Items;
-                        var itemsToDo = contactItems.Count;
-
-                        // iterate through the contacts
-                        for (var itemIndex = 1; itemIndex <= itemsToDo; itemIndex++)
+                        // in case of problems with a single item, we will continue with the next
+                        try
                         {
-                            // in case of problems with a single item, we will continue with the next
-                            try
+                            var contactItem = contactItems[itemIndex] as ContactItem;
+                            if (contactItem != null)
                             {
-                                var contactItem = contactItems[itemIndex] as ContactItem;
-                                if (contactItem != null)
-                                {
-                                    currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
+                                currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                    var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
-                                    if (newContact != null)
-                                    {
-                                        result.Add(newContact);
-                                        LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
-                                    }
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToContacts());
+                                if (newContact != null)
+                                {
+                                    result.Add(newContact);
+                                    LogProcessingEvent(newContact, string.Format(CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
                                 }
                             }
-                            catch (System.Runtime.InteropServices.COMException ex)
-                            {
-                                if (ex.ErrorCode == -1285291755 ||
-                                    ex.ErrorCode == -2147221227)
-                                {
-                                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiProblemAccessingOutlookStore, currentElementName, ex.Message));
-                                }
-                                else
-                                {
-                                    throw;
-                                }
-                            }
-
-                            UpdateProgress(itemIndex * 100 / itemsToDo);
                         }
+                        catch (System.Runtime.InteropServices.COMException ex)
+                        {
+                            if (ex.ErrorCode == -1285291755 ||
+                                ex.ErrorCode == -2147221227)
+                            {
+                                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiProblemAccessingOutlookStore, currentElementName, ex.Message));
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+
+                        UpdateProgress(itemIndex * 100 / itemsToDo);
                     }
-                }
-                catch (System.Exception ex)
-                {
-                    this.CheckForInteropAssemblies(ex as FileNotFoundException);
-                    LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
-                }
-                finally
-                {
-                    outlookNamespace.Logoff();
                 }
             }
-            catch (FileNotFoundException ex)
+            catch (System.Exception ex)
             {
-                this.CheckForInteropAssemblies(ex);
-                throw;
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
+            }
+            finally
+            {
+                outlookNamespace.Logoff();
             }
 
             return result;
@@ -275,56 +264,31 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="skipIfExisting">a value indicating whether existing entries should be added overwritten or skipped.</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            try
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+
+            // create outlook instance and get the folder
+            var outlookNamespace = OutlookClient.GetNamespace();
+            var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
+
+            // extract the contacts that do already exist
+            var contactsList = OutlookClient.GetContactsList(contactsEnum);
+
+            var added = 0;
+            foreach (var element in elements)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
-
-                // create outlook instance and get the folder
-                var outlookNamespace = OutlookClient.GetNamespace();
-                var contactsEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
-
-                // extract the contacts that do already exist
-                var contactsList = OutlookClient.GetContactsList(contactsEnum);
-
-                var added = 0;
-                foreach (var element in elements)
+                // find outlook contact with matching id, create new if needed
+                LogProcessingEvent(element, Resources.uiSearching);
+                if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
                 {
-                    // find outlook contact with matching id, create new if needed
-                    LogProcessingEvent(element, Resources.uiSearching);
-                    if (!OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
-                    {
-                        continue;
-                    }
-
-                    this.LogProcessingEvent(element, Resources.uiContactUpdated);
-                    added++;
+                    continue;
                 }
 
-                outlookNamespace.Logoff();
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
-            }
-            catch (FileNotFoundException ex)
-            {
-                this.CheckForInteropAssemblies(ex);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Checks if the exception is highly porpable from a missing interop assembly and opens a link for the download.
-        /// </summary>
-        /// <param name="ex"> The exception to check. </param>
-        private void CheckForInteropAssemblies(FileNotFoundException ex)
-        {
-            if (ex == null || !ex.FileName.Contains("Microsoft.Office.Interop"))
-            {
-                return;
+                this.LogProcessingEvent(element, Resources.uiContactUpdated);
+                added++;
             }
 
-            if (this.UiDispatcher.AskForConfirm(Properties.Resources.MissingInteropQuestion, Properties.Resources.MissingInteropQuestionTitle))
-            {
-                Process.Start("http://go.microsoft.com/fwlink/?LinkId=166026");
-            }
+            outlookNamespace.Logoff();
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, added));
         }
     }
 }

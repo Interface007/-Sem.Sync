@@ -168,10 +168,10 @@
   <data name="uiWritingElements" xml:space="preserve">
     <value>writing Elements</value>
   </data>
-  <data name="uiWritingElementsDone" xml:space="preserve">
-    <value>writing done</value>
+  <data name="MissingInteropQuestion" xml:space="preserve">
+    <value>There is a problem finding the Primary Interop Assemblies for Office 2003. Do you want to open the download page for this missing dependency?</value>
   </data>
-  <data name="uiXElementsAdded" xml:space="preserve">
-    <value>{0} elements added</value>
+  <data name="MissingInteropQuestionTitle" xml:space="preserve">
+    <value>File not found</value>
   </data>
 </root>
