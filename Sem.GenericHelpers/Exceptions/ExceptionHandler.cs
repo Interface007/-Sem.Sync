@@ -21,8 +21,13 @@ namespace Sem.GenericHelpers.Exceptions
     using Interfaces;
 
     /// <summary>
-    /// Public handler for exceptions. Also implements the <see cref="IExceptionWriter"/> interface and uses
-    /// an instance of its own class as an ExceptionWriter by default.
+    /// <para>Public handler for exceptions. Also implements the <see cref="IExceptionWriter"/> interface and uses
+    /// an instance of its own class as an ExceptionWriter by default.</para>
+    /// <para>The method <see cref="SendPending"/> sends all locally logged exceptions encryped (using <see cref="SimpleCrypto"/>) 
+    /// to a WCF server configured in the app.config</para>
+    /// <remarks>Attention: encryption does not provide privacy or security! Currently there is no check for the 
+    /// authenticity of the WCF server. While the encryption is strong (2048 Bit RSA), there is no prevention of a
+    /// man in the middle attack - no certificates have been used.</remarks>
     /// </summary>
     public class ExceptionHandler : IExceptionWriter
     {
@@ -73,9 +78,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// throw exceptions while writing will be removed from the <see cref="ExceptionWriter"/> list.
         /// </summary>
         /// <param name="ex"> The exception to be handled. </param>
-        /// <returns>
-        /// a string containing the xml information written to the <see cref="ExceptionWriter"/> list.
-        /// </returns>
+        /// <returns> a string containing the xml information written to the <see cref="ExceptionWriter"/> list. </returns>
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1116:SplitParametersMustStartOnLineAfterDeclaration", Justification = "the XElement class perfectly supports floating interfaces")]
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1118:ParametersMustNotSpanMultipleLines", Justification = "the XElement class perfectly supports floating interfaces")]
         public static string HandleException(Exception ex)
@@ -120,6 +123,11 @@ namespace Sem.GenericHelpers.Exceptions
 
         /// <summary>
         /// Simply suppresses all exceptions of type <typeparamref name="TException"/> if the function <paramref name="check"/> returns true.
+        /// The following code sample does show how to suppress all <see cref="FormatException"/> with a message property containing
+        /// the character "x".
+        /// <code language="c#">var result = ExceptionHandler.Suppress(
+        /// () => File.WriteAllText(x, SimpleCrypto.DecryptString(File.ReadAllText(x), key)),
+        ///    (FormatException ex) => ex.Message.Contains("x")));</code>
         /// </summary>
         /// <typeparam name="TException"> the exception to suppress  </typeparam>
         /// <typeparam name="TResult"> The return type of the function. </typeparam>
@@ -145,6 +153,11 @@ namespace Sem.GenericHelpers.Exceptions
 
         /// <summary>
         /// Simply suppresses all exceptions of type <typeparamref name="T"/> if the function <paramref name="check"/> returns true.
+        /// The following code sample does show how to suppress all <see cref="FormatException"/> with a message property containing
+        /// the character "x".
+        /// <code language="c#">ExceptionHandler.Suppress(
+        /// () => File.WriteAllText(x, SimpleCrypto.DecryptString(File.ReadAllText(x), key)),
+        ///    (FormatException ex) => ex.Message.Contains("x")));</code>
         /// </summary>
         /// <typeparam name="T"> the exception to suppress </typeparam>
         /// <param name="code"> The code to be executed. </param>
@@ -165,7 +178,16 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         /// <summary>
-        /// Simply suppresses all exceptions of type <typeparamref name="T"/>
+        /// Simply suppresses all exceptions of type <typeparamref name="T"/> for the code specified
+        /// by the action <paramref name="code"/>.
+        /// The following code sample does show how to suppress all <see cref="FormatException"/>. See
+        /// <see cref="Suppress{T}(System.Action,System.Func{T,bool})"/> in order to check not only
+        /// the type of the exception, but also add a condition for the exception.
+        /// <code language="c#">ExceptionHandler.Suppress(
+        /// () =>
+        ///    {
+        ///        File.WriteAllText(x, SimpleCrypto.DecryptString(File.ReadAllText(x), key));
+        ///    });</code>
         /// </summary>
         /// <typeparam name="T"> the exception to suppress </typeparam>
         /// <param name="code"> The code to be executed.   </param>
@@ -181,7 +203,8 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         /// <summary>
-        /// Sends all pending exception information to the server.
+        /// Sends all pending exception information to the server. See <see cref="SendFile"/> for details about sending
+        /// the information.
         /// </summary>
         public static void SendPending()
         {
@@ -208,9 +231,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// Writes exception information to the files system (<see cref="Destination"/>). Does not throw any exceptions
         /// but may write exception details into the console window.
         /// </summary>
-        /// <param name="information">
-        /// The information.
-        /// </param>
+        /// <param name="information"> The information. </param>
         public void Write(XElement information)
         {
             try
@@ -232,7 +253,8 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         /// <summary>
-        /// Delete all collected exception data
+        /// Delete all collected exception data. This will delete all files matching the pattern for 
+        /// exception logging files ("*...*...*.xml").
         /// </summary>
         public void Clean()
         {
@@ -244,9 +266,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// Reads all collected exception information. 
         /// Returns NULL in case of no available information.
         /// </summary>
-        /// <returns>
-        /// An <see cref="XElement"/> containing all exception information that should be read.
-        /// </returns>
+        /// <returns> An <see cref="XElement"/> containing all exception information that should be read. </returns>
         public XElement Read()
         {
             var result = new XElement("Exceptions");
@@ -259,9 +279,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// is built recursive, so all inner exceptions will be serialized.
         /// </summary>
         /// <param name="ex"> The exception to scan. </param>
-        /// <returns>
-        /// The information as an <see cref="XElement"/>.
-        /// </returns>
+        /// <returns>The information as an <see cref="XElement"/>.</returns>
         private static XElement ScanException(Exception ex)
         {
             if (ex == null)
@@ -280,9 +298,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// Extracts the <see cref="TechnicalException.RelatedEntities"/> and serializes them.
         /// </summary>
         /// <param name="ex"> The <see cref="TechnicalException"/> to scan for. </param>
-        /// <returns>
-        /// An <see cref="XElement"/> containing the serialized ralated entities.
-        /// </returns>
+        /// <returns> An <see cref="XElement"/> containing the serialized ralated entities. </returns>
         private static XElement ExtractEntities(TechnicalException ex)
         {
             if (ex == null)

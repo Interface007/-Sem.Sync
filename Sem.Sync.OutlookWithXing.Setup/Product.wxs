@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <!--
   This setup project is not very complex, but it's containing a GUI, writes registry 
   entries and files, creates folders and shortcuts. As you can see, it's not complex 
@@ -14,11 +15,16 @@
            Id="*"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
            Language="1033" Version="1.0.0.0" >
-
+    
     <Package InstallerVersion="200" Compressed="yes"
              Description="Synchronization client for synchronizing Contacts Xing to Outlook"
              Comments="This client performs an import of Xing contacts into Outlook."
              Manufacturer="Sven Erik Matzen"/>
+
+    <PropertyRef Id="NETFRAMEWORK35"/>
+    <Condition Message="This application requires .NET Framework 3.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK35]]>
+    </Condition>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 

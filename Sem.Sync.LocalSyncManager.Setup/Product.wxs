@@ -20,6 +20,11 @@
              Comments="This client does provide a generic UI to use various Sem.Sync-connectors to synchronize contacts."
              Manufacturer="Sven Erik Matzen"/>
 
+    <PropertyRef Id="NETFRAMEWORK35"/>
+    <Condition Message="This application requires .NET Framework 3.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK35]]>
+    </Condition>
+
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
     <!-- We will install all assemblies into the programs folder, because we don't have a 
