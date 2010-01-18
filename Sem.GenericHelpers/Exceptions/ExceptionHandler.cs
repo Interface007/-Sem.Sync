@@ -48,7 +48,7 @@ namespace Sem.GenericHelpers.Exceptions
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             DefaultHandler = new ExceptionHandler
                 {
-                    Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions") 
+                    Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions")
                 };
 
             ExceptionWriter = new List<IExceptionWriter> { DefaultHandler };
@@ -91,8 +91,8 @@ namespace Sem.GenericHelpers.Exceptions
 
             var mainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
             var mainModuleName = mainModule == null ? "(undefined)" : mainModule.FileName;
-            
-            var logEntry = 
+
+            var logEntry =
                 new XElement("Exception",
                     new XElement("GenericInfo",
                         new XElement("Timestamp", DateTime.Now),
@@ -117,7 +117,7 @@ namespace Sem.GenericHelpers.Exceptions
                             new KeyValuePair<string, object>("responsible writer", exceptionWriter)));
                 }
             }
-            
+
             return exceptionText;
         }
 
@@ -305,7 +305,7 @@ namespace Sem.GenericHelpers.Exceptions
             {
                 return null;
             }
-            
+
             var result = new XElement("RelatedEntities");
             if (ex.RelatedEntities != null)
             {
@@ -334,7 +334,7 @@ namespace Sem.GenericHelpers.Exceptions
         private static XElement SerializeToXElement(object obj, string name)
         {
             var serializer = new XmlSerializer(obj.GetType());
-            
+
             using (var stream = new MemoryStream())
             {
                 using (var writer = new StreamWriter(stream))
@@ -351,7 +351,7 @@ namespace Sem.GenericHelpers.Exceptions
                 }
             }
         }
-        
+
         /// <summary>
         /// Sends an exception file if the configuration does permit this to the configured WCF service.
         /// The public portion of the encryption key (2048 Bit RSA) is read from the service. There is 
@@ -374,15 +374,55 @@ namespace Sem.GenericHelpers.Exceptions
             {
                 return;
             }
-            
+
             // create a new service client
             var sender = new ExceptionService.ExceptionServiceClient();
-            
+
             // todo: encryption - in this case we should use public key encryption
             // send the information and currently don't care about rejected messages
-            var key = sender.GetEncryptionKey();
-            content = SimpleCrypto.EncryptString(content, key);
-            sender.WriteExceptionData(content);
+            try
+            {
+                var key = sender.GetEncryptionKey();
+                content = SimpleCrypto.EncryptString(content, key);
+                sender.WriteExceptionData(content);
+            }
+            catch (System.ServiceModel.ProtocolException ex)
+            {
+                var x = ex.InnerException as System.Net.WebException;
+                var r = x == null ? null : x.Response as System.Net.HttpWebResponse;
+                if (r != null && r.StatusCode == System.Net.HttpStatusCode.ProxyAuthenticationRequired)
+                {
+                    var proxyCredentials = new Entities.Credentials();
+                    var wp = System.Net.WebRequest.DefaultWebProxy;
+
+                    if (UserInterface.AskForLogOnCredentials(
+                            proxyCredentials,
+                            string.Format(CultureInfo.CurrentCulture, "The proxy server needs your credentials to receive content from {0}.", sender.InnerChannel.RemoteAddress.Uri),
+                            string.Empty,
+                            string.Empty))
+                    {
+                        if (string.IsNullOrEmpty(proxyCredentials.LogOnDomain))
+                        {
+                            wp.Credentials = new System.Net.NetworkCredential(
+                                proxyCredentials.LogOnUserId,
+                                proxyCredentials.LogOnPassword);
+                        }
+                        else
+                        {
+                            wp.Credentials = new System.Net.NetworkCredential(
+                                proxyCredentials.LogOnUserId,
+                                proxyCredentials.LogOnPassword,
+                                proxyCredentials.LogOnDomain);
+                        }
+
+                        sender.WriteExceptionData(content);
+                    }
+
+                    return;
+                }
+
+                throw;
+            }
         }
     }
 }
