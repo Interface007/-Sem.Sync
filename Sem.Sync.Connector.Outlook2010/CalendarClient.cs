@@ -240,9 +240,6 @@ namespace Sem.Sync.Connector.Outlook2010
             var outlookNamespace = OutlookClient.GetNamespace();
             var appointmentEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
 
-            // extract the contacts that do already exist
-            var appointmentList = OutlookClient.GetContactsList(appointmentEnum);
-
             var added = 0;
             foreach (var element in elements)
             {

@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { @"..\SemSyncManager\Work\SyncLists\Outlook to CSV.DSyncList" };
+                args = new[] { @"C:\Users\matzensv\AppData\Roaming\SemSyncManager\Work\SyncLists\Outlook to FileSystem.DSyncList" };
             }
 #endif
 

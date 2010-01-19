@@ -9,7 +9,18 @@
 
 namespace Sem.Sync.Connector.MicrosoftExcel2010
 {
-    public class ContactClient
+    using SyncBase;
+    using SyncBase.Attributes;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ConnectorDescription(DisplayName = "Generic-Memory-Client",
+    CanReadContacts = true,
+    CanWriteContacts = true,
+    Internal = true)]
+    public class GenericClient : StdClient
     {
+
     }
 }

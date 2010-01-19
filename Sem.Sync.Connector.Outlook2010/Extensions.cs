@@ -48,6 +48,26 @@ namespace Sem.Sync.Connector.Outlook2010
             }
         }
 
+        public static OlBusyStatus ToOutlook(this BusyStatus status)
+        {
+            switch (status)
+            {
+                case BusyStatus.Free:
+                    return OlBusyStatus.olFree;
+                case BusyStatus.Busy:
+                    return OlBusyStatus.olBusy;
+                case BusyStatus.OutOfOffice:
+                    return OlBusyStatus.olOutOfOffice;
+                case BusyStatus.Tentative:
+                    return OlBusyStatus.olTentative;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "status",
+                        status,
+                        "there is no translation for this value into the SemSync namespace.");
+            }
+        }
+
         /// <summary>
         /// Translates a <see cref="OlRecurrenceState"/> into a <see cref="RecurrenceState"/>.
         /// </summary>

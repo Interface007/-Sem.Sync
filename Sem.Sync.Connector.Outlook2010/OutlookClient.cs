@@ -262,20 +262,21 @@ namespace Sem.Sync.Connector.Outlook2010
                     Start = outlookItem.StartUTC,
                     End = outlookItem.EndUTC,
                     BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
-                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
-                    ExternalIdentifier = new List<CalendarIdentifier>
-                        {
-                            new CalendarIdentifier
-                            { 
-                                Identifier = outlookItem.GlobalAppointmentID, 
-                                IdentifierType = CalendarIdentifierType.Outlook, 
-                            }
-                        },
+                    ExternalIdentifier =
+                        new List<CalendarIdentifier>
+                            {
+                                new CalendarIdentifier
+                                    {
+                                        Identifier = outlookItem.GlobalAppointmentID,
+                                        IdentifierType = CalendarIdentifierType.Outlook,
+                                    }
+                            },
                     RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
                     ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
                     ResponseRequested = outlookItem.ResponseRequested,
-                    ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus(),
+                    ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus()
                 };
 
             return result;
@@ -352,17 +353,16 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// this method is still not implemented
         /// </summary>
-        /// <param name="contactsEnum"> The contacts enum. </param>
+        /// <param name="appointmentEnum"> The appointment enum. </param>
         /// <param name="stdCalendarItem"> The std calendar item. </param>
-        /// <param name="contactsList"> The contacts list. </param>
         /// <returns> a value indicating whether the element has been written to outlook </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
         /// <exception cref="NotImplementedException"> always, because the method is not implemented </exception>
-        internal static bool WriteCalendarItemToOutlook(Items contactsEnum, StdCalendarItem stdCalendarItem, IEnumerable<ContactsItemContainer> contactsList)
+        internal static bool WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
         {
-            if (contactsEnum == null)
+            if (appointmentEnum == null)
             {
-                throw new ArgumentNullException("contactsEnum");
+                throw new ArgumentNullException("appointmentEnum");
             }
 
             if (stdCalendarItem == null)
@@ -370,12 +370,93 @@ namespace Sem.Sync.Connector.Outlook2010
                 throw new ArgumentNullException("stdCalendarItem");
             }
 
-            if (contactsList == null)
+            var outlookAppointment = (from x in appointmentList
+                                       where x.Id == stdCalendarItem.Id.ToString()
+                                       select x.Item).FirstOrDefault();
+            
+            if (outlookAppointment == null)
             {
-                throw new ArgumentNullException("contactsList");
+                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
             }
 
-            throw new NotImplementedException();
+            // convert StdContact to Outlook contact
+            if (ConvertToNativeAppointment(stdCalendarItem, outlookAppointment))
+            {
+                outlookAppointment.Save();
+                GCRelevantCall();
+                return true;
+            }
+
+            GCRelevantCall();
+            return false;
+        }
+
+        private static bool ConvertToNativeAppointment(StdCalendarItem stdNewAppointment, AppointmentItem appointment)
+        {
+            if (stdNewAppointment == null)
+            {
+                throw new ArgumentNullException("stdNewAppointment");
+            }
+
+            if (appointment == null)
+            {
+                throw new ArgumentNullException("appointment");
+            }
+
+            var dirty = false;
+
+            var stdOldAppointment = ConvertToStandardCalendarItem(appointment);
+
+            SyncTools.ClearNulls(stdNewAppointment, typeof(StdContact));
+            SyncTools.ClearNulls(stdOldAppointment, typeof(StdContact));
+
+            ////        Id = Guid.NewGuid(),
+            ////        Title = outlookItem.Subject,
+            ////        Description = outlookItem.Body,
+            ////        Start = outlookItem.StartUTC,
+            ////        End = outlookItem.EndUTC,
+            ////        BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
+            ////        InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
+            ////        Location = outlookItem.Location,
+            ////        ExternalIdentifier =
+            ////            new List<CalendarIdentifier>
+            ////                {
+            ////                    new CalendarIdentifier
+            ////                        {
+            ////                            Identifier = outlookItem.GlobalAppointmentID,
+            ////                            IdentifierType = CalendarIdentifierType.Outlook,
+            ////                        }
+            ////                },
+            ////        RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
+            ////        ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
+            ////        ResponseRequested = outlookItem.ResponseRequested,
+            ////        ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus()
+
+            if (stdNewAppointment.BusyStatus != stdOldAppointment.BusyStatus)
+            {
+                dirty = true;
+                appointment.BusyStatus = stdNewAppointment.BusyStatus.ToOutlook();
+            }
+
+            if (stdNewAppointment.Title != stdOldAppointment.Title)
+            {
+                dirty = true;
+                appointment.Subject = stdNewAppointment.Title;
+            }
+
+            if (stdNewAppointment.Description != stdOldAppointment.Description)
+            {
+                dirty = true;
+                appointment.Body = stdNewAppointment.Description;
+            }
+
+            if (stdNewAppointment.Description != stdOldAppointment.Description)
+            {
+                dirty = true;
+                appointment.Body = stdNewAppointment.Description;
+            }
+
+            return dirty;
         }
 
         /// <summary>
