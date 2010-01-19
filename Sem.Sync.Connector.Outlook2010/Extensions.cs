@@ -48,6 +48,54 @@ namespace Sem.Sync.Connector.Outlook2010
             }
         }
 
+        public static OlRecurrenceState ToOutlook(this RecurrenceState recurrence)
+        {
+            switch (recurrence)
+            {
+                case RecurrenceState.Onetime:
+                    return OlRecurrenceState.olApptNotRecurring;
+                    
+                case RecurrenceState.Master:
+                    return OlRecurrenceState.olApptMaster;
+
+                case RecurrenceState.Occurrence:
+                    return OlRecurrenceState.olApptOccurrence;
+
+                case RecurrenceState.Exception:
+                    return OlRecurrenceState.olApptException;
+
+                default:
+                    throw new ArgumentOutOfRangeException("recurrence");
+            }
+        }
+
+        public static OlResponseStatus ToOutlook(this ResponseStatus status)
+        {
+            switch (status)
+            {
+                case ResponseStatus.Undefined:
+                    return OlResponseStatus.olResponseNone;
+
+                case ResponseStatus.NotResponded:
+                    return OlResponseStatus.olResponseNotResponded;
+
+                case ResponseStatus.Accepted:
+                    return OlResponseStatus.olResponseAccepted;
+
+                case ResponseStatus.Tentative:
+                    return OlResponseStatus.olResponseTentative;
+
+                case ResponseStatus.Declined:
+                    return OlResponseStatus.olResponseDeclined;
+
+                case ResponseStatus.Organized:
+                    return OlResponseStatus.olResponseOrganized;
+
+                default:
+                    throw new ArgumentOutOfRangeException("status");
+            }
+        }
+
         public static OlBusyStatus ToOutlook(this BusyStatus status)
         {
             switch (status)

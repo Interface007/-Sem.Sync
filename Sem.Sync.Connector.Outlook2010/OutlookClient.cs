@@ -68,6 +68,35 @@ namespace Sem.Sync.Connector.Outlook2010
 
             return contactsList;
         }
+        
+        /// <summary>
+        /// creates a list of AppointmentItemContainer from a contacts enumeration
+        /// </summary>
+        /// <param name="appointmentsEnum"> The contacts enum. </param>
+        /// <returns> a list of AppointmentItemContainer </returns>
+        /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
+        public static IEnumerable<AppointmentItemContainer> GetAppointmentsList(Items appointmentsEnum)
+        {
+            if (appointmentsEnum == null)
+            {
+                throw new ArgumentNullException("appointmentsEnum");
+            }
+
+            var contactsList = new List<AppointmentItemContainer>();
+            foreach (var item in appointmentsEnum)
+            {
+                var contactItem = item as AppointmentItem;
+                if (contactItem == null)
+                {
+                    continue;
+                }
+
+                contactsList.Add(new AppointmentItemContainer { Item = contactItem });
+                GCRelevantCall();
+            }
+
+            return contactsList;
+        }
 
         /// <summary>
         /// writes a contact to outlook
@@ -353,11 +382,11 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// this method is still not implemented
         /// </summary>
-        /// <param name="appointmentEnum"> The appointment enum. </param>
-        /// <param name="stdCalendarItem"> The std calendar item. </param>
-        /// <returns> a value indicating whether the element has been written to outlook </returns>
-        /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
-        /// <exception cref="NotImplementedException"> always, because the method is not implemented </exception>
+        /// <param name="appointmentEnum"> The appointment enum.  </param>
+        /// <param name="stdCalendarItem"> The std calendar item.  </param>
+        /// <param name="appointmentList"> The appointment List. </param>
+        /// <returns> a value indicating whether the element has been written to outlook  </returns>
+        /// <exception cref="ArgumentNullException"> in case of contactsEnum being null  </exception>
         internal static bool WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
         {
             if (appointmentEnum == null)
@@ -432,12 +461,6 @@ namespace Sem.Sync.Connector.Outlook2010
             ////        ResponseRequested = outlookItem.ResponseRequested,
             ////        ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus()
 
-            if (stdNewAppointment.BusyStatus != stdOldAppointment.BusyStatus)
-            {
-                dirty = true;
-                appointment.BusyStatus = stdNewAppointment.BusyStatus.ToOutlook();
-            }
-
             if (stdNewAppointment.Title != stdOldAppointment.Title)
             {
                 dirty = true;
@@ -450,10 +473,56 @@ namespace Sem.Sync.Connector.Outlook2010
                 appointment.Body = stdNewAppointment.Description;
             }
 
-            if (stdNewAppointment.Description != stdOldAppointment.Description)
+            if (stdNewAppointment.Start != stdOldAppointment.Start)
             {
                 dirty = true;
-                appointment.Body = stdNewAppointment.Description;
+                appointment.StartUTC = stdNewAppointment.Start;
+            }
+
+            if (stdNewAppointment.End != stdOldAppointment.End)
+            {
+                dirty = true;
+                appointment.EndUTC = stdNewAppointment.End;
+            }
+
+            if (stdNewAppointment.BusyStatus != stdOldAppointment.BusyStatus)
+            {
+                dirty = true;
+                appointment.BusyStatus = stdNewAppointment.BusyStatus.ToOutlook();
+            }
+
+            if (stdNewAppointment.Location != stdOldAppointment.Location)
+            {
+                dirty = true;
+                appointment.Location = stdNewAppointment.Location;
+            }
+
+            if (stdNewAppointment.ReminderBeforeStart != stdOldAppointment.ReminderBeforeStart)
+            {
+                dirty = true;
+                appointment.ReminderMinutesBeforeStart = stdNewAppointment.ReminderBeforeStart.Minutes;
+            }
+
+            if (stdNewAppointment.ResponseRequested != stdOldAppointment.ResponseRequested)
+            {
+                dirty = true;
+                appointment.ResponseRequested = stdNewAppointment.ResponseRequested;
+            }
+
+            if (stdNewAppointment.RecurrenceState != stdOldAppointment.RecurrenceState)
+            {
+                dirty = true;
+
+                // todo: how can se set this property?
+                ////appointment.RecurrenceState = stdNewAppointment.RecurrenceState.ToOutlook();
+            }
+
+            if (stdNewAppointment.ResponseStatus != stdOldAppointment.ResponseStatus)
+            {
+                dirty = true;
+
+                // todo: how to set this property
+                ////appointment.ResponseStatus = stdNewAppointment.ResponseStatus.ToOutlook();
             }
 
             return dirty;
