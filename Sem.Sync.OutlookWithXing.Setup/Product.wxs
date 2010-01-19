@@ -14,7 +14,7 @@
            Manufacturer="Sven Erik Matzen"
            Id="*"
            UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7"
-           Language="1033" Version="1.0.0.0" >
+           Language="1033" Version="1.10.1.18" >
     
     <Package InstallerVersion="200" Compressed="yes"
              Description="Synchronization client for synchronizing Contacts Xing to Outlook"
