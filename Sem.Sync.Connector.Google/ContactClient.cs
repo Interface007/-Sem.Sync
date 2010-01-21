@@ -39,7 +39,8 @@ namespace Sem.Sync.Connector.Google
         DisplayName = "Google Mail Contacts Client", 
         CanReadContacts = true, 
         CanWriteContacts = true,
-        MatchingIdentifier = ProfileIdentifierType.Google, 
+        MatchingIdentifier = ProfileIdentifierType.Google,
+        NeedsCredentialsDomain = false, 
         NeedsCredentials = true)]
     public class ContactClient : StdClient
     {

@@ -225,12 +225,12 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.btnPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant && (this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog);
                 this.txtPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
                 this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-                this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentialsDomain;
                 this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
 
                 this.lblPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
                 this.lblUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-                this.lblDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.lblDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentialsDomain;
                 this.lblPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
             }
 

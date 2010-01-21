@@ -25,8 +25,13 @@ namespace Sem.Sync.Connector.LinkedIn
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
 #if DEBUG
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
-        DisplayName = "LinkedIn", MatchingIdentifier = ProfileIdentifierType.LinkedInId)]
+    [ConnectorDescription(
+        CanReadContacts = true, 
+        CanWriteContacts = false, 
+        NeedsCredentials = true,
+        NeedsCredentialsDomain = false,
+        DisplayName = "LinkedIn", 
+        MatchingIdentifier = ProfileIdentifierType.LinkedInId)]
 #else
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         DisplayName = "LinkedIn", MatchingIdentifier = ProfileIdentifierType.LinkedInId, Internal = true)]

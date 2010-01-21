@@ -27,6 +27,7 @@ namespace Sem.Sync.Connector.MeinVZ
     [ConnectorDescription(DisplayName = "MeinVZ",
         CanReadContacts = true,
         CanWriteContacts = false,
+        NeedsCredentialsDomain = false,
         MatchingIdentifier = ProfileIdentifierType.MeinVZ,
         NeedsCredentials = true)]
     public class MeinVZContacts : ContactClient

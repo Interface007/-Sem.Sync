@@ -20,6 +20,11 @@ namespace Sem.Sync.SyncBase.Attributes
     public sealed class ConnectorDescriptionAttribute : Attribute
     {
         /// <summary>
+        /// Internal representation of the need to provide a domain for the credentials.
+        /// </summary>
+        private bool needsCredentialsDomain;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ConnectorDescriptionAttribute"/> class.
         /// </summary>
         public ConnectorDescriptionAttribute()
@@ -27,6 +32,7 @@ namespace Sem.Sync.SyncBase.Attributes
             this.CanReadContacts = true;
             this.CanWriteContacts = true;
             this.NeedsCredentials = false;
+            this.NeedsCredentialsDomain = true;
             this.IsGeneric = false;
             this.MatchingIdentifier = ProfileIdentifierType.Default;
         }
@@ -55,6 +61,25 @@ namespace Sem.Sync.SyncBase.Attributes
         /// Gets or sets a value indicating whether the connector needs credentials.
         /// </summary>
         public bool NeedsCredentials { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the connector needs credentials.
+        /// <para>Returns only true if the property <see cref="NeedsCredentials"/> is true AND this property is set to true.</para>
+        /// <para>Default is "true".</para>
+        /// </summary>
+        public bool NeedsCredentialsDomain
+        {
+            get
+            {
+                return this.NeedsCredentials 
+                    && this.needsCredentialsDomain;
+            }
+
+            set
+            {
+                this.needsCredentialsDomain = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the connector should be hidden from the user interface.

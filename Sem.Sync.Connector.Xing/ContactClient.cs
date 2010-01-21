@@ -40,8 +40,13 @@ namespace Sem.Sync.Connector.Xing
     /// of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
-        DisplayName = "Xing", MatchingIdentifier = ProfileIdentifierType.XingNameProfileId)]
+    [ConnectorDescription(
+        CanReadContacts = true, 
+        CanWriteContacts = false, 
+        NeedsCredentials = true,
+        NeedsCredentialsDomain = false, 
+        DisplayName = "Xing", 
+        MatchingIdentifier = ProfileIdentifierType.XingNameProfileId)]
     public class ContactClient : StdClient, IExtendedReader
     {
         #region string resources for processing xing pages

@@ -32,6 +32,7 @@ namespace Sem.Sync.Connector.Facebook
         CanReadContacts = true,
         CanWriteContacts = false,
         NeedsCredentials = true,
+        NeedsCredentialsDomain = false,
         MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class WebScrapingClient : WebScrapingBaseClient
     {

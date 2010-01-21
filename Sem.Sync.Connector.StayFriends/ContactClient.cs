@@ -27,8 +27,13 @@ namespace Sem.Sync.Connector.StayFriends
     /// Client implementation for reading information from www.StayFriends.de
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
-        DisplayName = "StayFriends.de", MatchingIdentifier = ProfileIdentifierType.StayFriendsPersonId)]
+    [ConnectorDescription(
+        CanReadContacts = true, 
+        CanWriteContacts = false, 
+        NeedsCredentials = true,
+        NeedsCredentialsDomain = false,
+        DisplayName = "StayFriends.de",
+        MatchingIdentifier = ProfileIdentifierType.StayFriendsPersonId)]
     public class ContactClient : StdClient
     {
         #region string resources for processing wkw pages
