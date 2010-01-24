@@ -32,7 +32,12 @@ namespace Sem.GenericHelpers
         /// name of the calling assembly (the one that did create this object)
         /// </summary>
         private readonly string assemblyName;
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VersionCheck"/> class.
+        /// </summary>
+        /// <param name="version">The version as a string (e.g. "1.2.3.4.5"). The parts are:
+        /// "<see cref="Major"/>.<see cref="Minor"/>.<see cref="MajorRevision"/>.<see cref="MinorRevision"/>.<see cref="Build"/>"</param>
         public VersionCheck(string version) 
         {
             var assembly = Assembly.GetCallingAssembly().GetName();
