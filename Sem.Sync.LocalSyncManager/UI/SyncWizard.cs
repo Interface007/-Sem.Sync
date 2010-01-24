@@ -25,7 +25,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using SharedUI.Common;
     using SharedUI.WinForms.Tools;
     using SyncBase;
-    
+
     using Tools;
 
     /// <summary>
@@ -209,54 +209,65 @@ namespace Sem.Sync.LocalSyncManager.UI
         private void ReadFromContext(object sender, PropertyChangedEventArgs e)
         {
             // todo: this needs to be changed to be included into databinding setup
-            this.txtPathSource.Text = this.DataContext.Source.Path;
-            this.txtPathTarget.Text = this.DataContext.Target.Path;
+            var source = this.DataContext.Source;
+            var target = this.DataContext.Target;
+            
+            this.txtPathSource.Text = source.Path;
+            this.txtPathTarget.Text = target.Path;
 
-            this.txtUidSource.Text = this.DataContext.Source.LogonCredentials.LogOnUserId;
-            this.txtPasswordSource.Text = this.DataContext.Source.LogonCredentials.LogOnPassword;
-            this.txtDomainSource.Text = this.DataContext.Source.LogonCredentials.LogOnDomain;
+            this.txtUidSource.Text = source.LogonCredentials.LogOnUserId;
+            this.txtPasswordSource.Text = source.LogonCredentials.LogOnPassword;
+            this.txtDomainSource.Text = source.LogonCredentials.LogOnDomain;
 
-            this.txtPasswordTarget.Text = this.DataContext.Target.LogonCredentials.LogOnPassword;
-            this.txtUidTarget.Text = this.DataContext.Target.LogonCredentials.LogOnUserId;
-            this.txtDomainTarget.Text = this.DataContext.Target.LogonCredentials.LogOnDomain;
+            this.txtPasswordTarget.Text = target.LogonCredentials.LogOnPassword;
+            this.txtUidTarget.Text = target.LogonCredentials.LogOnUserId;
+            this.txtDomainTarget.Text = target.LogonCredentials.LogOnDomain;
 
-            if (this.DataContext.Source.ConnectorDescription != null)
+            if (source.ConnectorDescription != null)
             {
-                this.btnPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant && (this.DataContext.Source.ShowSelectPathDialog || this.DataContext.Source.ShowSelectFileDialog);
-                this.txtPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
-                this.txtUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-                this.txtDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentialsDomain;
-                this.txtPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.btnPathSource.Visible = !source.ConnectorPathDescription.Irrelevant && (source.ShowSelectPathDialog || source.ShowSelectFileDialog);
+                this.txtPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
+                this.lblPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
+                
+                var sourceNeedsCredentials = source.ConnectorDescription.NeedsCredentials;
+                
+                this.txtUidSource.Visible = sourceNeedsCredentials;
+                this.txtPasswordSource.Visible = sourceNeedsCredentials;
+                this.txtDomainSource.Visible = source.ConnectorDescription.NeedsCredentialsDomain;
 
-                this.lblPathSource.Visible = !this.DataContext.Source.ConnectorPathDescription.Irrelevant;
-                this.lblUidSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
-                this.lblDomainSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentialsDomain;
-                this.lblPasswordSource.Visible = this.DataContext.Source.ConnectorDescription.NeedsCredentials;
+                this.lblUidSource.Visible = sourceNeedsCredentials;
+                this.lblPasswordSource.Visible = sourceNeedsCredentials;
+                this.lblDomainSource.Visible = source.ConnectorDescription.NeedsCredentialsDomain;
             }
 
-            if (this.DataContext.Target.ConnectorDescription != null)
+            if (target.ConnectorDescription != null)
             {
-                this.btnPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant && (this.DataContext.Target.ShowSelectPathDialog || this.DataContext.Target.ShowSelectFileDialog);
-                this.txtPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant;
-                this.txtUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-                this.txtDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-                this.txtPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-
-                this.lblPathTarget.Visible = !this.DataContext.Target.ConnectorPathDescription.Irrelevant;
-                this.lblUidTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-                this.lblDomainTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
-                this.lblPasswordTarget.Visible = this.DataContext.Target.ConnectorDescription.NeedsCredentials;
+                this.btnPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant && (target.ShowSelectPathDialog || target.ShowSelectFileDialog);
+                this.txtPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
+                this.lblPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
+                
+                var targetNeedsCredentials = target.ConnectorDescription.NeedsCredentials;
+                
+                this.txtUidTarget.Visible = targetNeedsCredentials;
+                this.txtPasswordTarget.Visible = targetNeedsCredentials;
+                this.txtDomainTarget.Visible = target.ConnectorDescription.NeedsCredentialsDomain;
+                
+                this.lblUidTarget.Visible = targetNeedsCredentials;
+                this.lblPasswordTarget.Visible = targetNeedsCredentials;
+                this.lblDomainTarget.Visible = target.ConnectorDescription.NeedsCredentialsDomain;
             }
 
             if (e.PropertyName != "CurrentSyncWorkflowData")
             {
-                this.contextDataWorkflowData.DataSource = null;
-                this.contextDataWorkflowData.DataMember = string.Empty;
+                var workflowData = this.contextDataWorkflowData;
 
-                this.contextDataWorkflowData.DataSource = this.DataContext;
-                this.contextDataWorkflowData.DataMember = "SyncWorkflowData";
+                workflowData.DataSource = null;
+                workflowData.DataMember = string.Empty;
 
-                this.contextDataWorkflowData.ResetBindings(false);
+                workflowData.DataSource = this.DataContext;
+                workflowData.DataMember = "SyncWorkflowData";
+
+                workflowData.ResetBindings(false);
             }
         }
 
