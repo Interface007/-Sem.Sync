@@ -32,16 +32,16 @@ namespace Sem.Sync.ChangeTracker
                         this.Sources.DataSource = null;
                         this.Sources.DataSource = this.agent.DetectedChanges;
                         this.Sources.DisplayMember = "DisplayName";
+                        
+                        if (this.agent.DetectedChanges.Count <= 0 || Notification.Forms.Count != 0)
+                        {
+                            return;
+                        }
+
+                        var notification = new Notification();
+                        notification.ShowChange(this.agent.DetectedChanges[0]);
+                        this.agent.DetectedChanges.RemoveAt(0);
                     }));
-
-            if (this.agent.DetectedChanges.Count <= 0)
-            {
-                return;
-            }
-
-            var notification = new Notification();
-            notification.ShowChange(this.agent.DetectedChanges[0]);
-            this.agent.DetectedChanges.RemoveAt(0);
         }
     }
 }

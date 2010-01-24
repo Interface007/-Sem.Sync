@@ -33,6 +33,20 @@ namespace Sem.GenericHelpers
         /// </summary>
         private readonly string assemblyName;
         
+        public VersionCheck(string version) 
+        {
+            var assembly = Assembly.GetCallingAssembly().GetName();
+            this.assemblyName = assembly.Name;
+
+            var parts = version.Split('.');
+
+            this.Major = int.Parse(parts[0]);
+            this.Minor = int.Parse(parts[1]);
+            this.MajorRevision = short.Parse(parts[2]);
+            this.MinorRevision = short.Parse(parts[3]);
+            this.Build = int.Parse(parts[4]);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionCheck"/> class and initializes the version information.
         /// </summary>
@@ -121,7 +135,7 @@ namespace Sem.GenericHelpers
                 var reader = new StringReader(versionContentFromServer);
                 var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
-                return serverVersion.CompareToVersion(myVersion);
+                return serverVersion.IsLessOrEqual(myVersion);
             }
             catch 
             {
@@ -135,15 +149,51 @@ namespace Sem.GenericHelpers
         /// major and minor version and revision (1.2.3.4 vs. 4.5.6.7). Revision and
         /// build will not be compared.
         /// </summary>
-        /// <param name="otherInstance">the version to compare to</param>
-        /// <returns>true in case of this instance &lt;= <paramref name="otherInstance"/></returns>
-        public bool CompareToVersion(VersionCheck otherInstance)
+        /// <param name="greaterInstance">the version to compare to</param>
+        /// <returns>true in case of this instance &lt;= <paramref name="greaterInstance"/></returns>
+        public bool IsLessOrEqual(VersionCheck greaterInstance)
         {
-            return
-                this.Major <= otherInstance.Major &&
-                this.Minor <= otherInstance.Minor &&
-                this.MajorRevision <= otherInstance.MajorRevision &&
-                this.MinorRevision <= otherInstance.MinorRevision;
+            if (this.Major > greaterInstance.Major)
+            {
+                return false;
+            }
+            
+            if (this.Major < greaterInstance.Major)
+            {
+                return true;
+            }
+
+            if (this.Minor > greaterInstance.Minor)
+            {
+                return false;
+            }
+
+            if (this.Minor < greaterInstance.Minor)
+            {
+                return true;
+            }
+
+            if (this.MajorRevision > greaterInstance.MajorRevision)
+            {
+                return false;
+            }
+
+            if (this.MajorRevision < greaterInstance.MajorRevision)
+            {
+                return true;
+            }
+
+            if (this.MinorRevision > greaterInstance.MinorRevision)
+            {
+                return false;
+            }
+
+            if (this.MinorRevision < greaterInstance.MinorRevision)
+            {
+                return true;
+            }
+
+            return true;
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ namespace Sem.Sync.ChangeTracker
     using System.Threading;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
 
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
@@ -35,6 +36,11 @@ namespace Sem.Sync.ChangeTracker
         /// source in the background.
         /// </summary>
         private readonly BackgroundWorker worker;
+
+        /// <summary>
+        /// the last time the connectors have been checked.
+        /// </summary>
+        private DateTime lastRun = DateTime.Now;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckAgent"/> class.
@@ -94,7 +100,21 @@ namespace Sem.Sync.ChangeTracker
                             new SyncDescription
                                 {
                                     SourceConnector = "Sem.Sync.Test.DataGenerator.Contacts",
+                                    SourceStorePath = "somepath",
+                                    SourceCredentials = new Credentials
+                                        {
+                                            LogOnDomain = "the domain",
+                                            LogOnUserId = "user name",
+                                            LogOnPassword = "some pass"
+                                        },
                                     BaselineConnector = "Sem.Sync.Test.DataGenerator.Contacts",
+                                    BaselineStorePath = "somepath",
+                                    BaselineCredentials = new Credentials
+                                        {
+                                            LogOnDomain = "the domain",
+                                            LogOnUserId = "user name",
+                                            LogOnPassword = "some pass"
+                                        },
                                 }
                         };
 
@@ -104,20 +124,27 @@ namespace Sem.Sync.ChangeTracker
                 // pause the thread - we don't need to query the connectors too often.
                 Thread.Sleep(2000);
 
+                if (this.lastRun.AddMinutes(10) >= DateTime.Now)
+                {
+                    continue;
+                }
+
                 foreach (var syncDescription in listOfSources)
                 {
                     var sourceList = engine.SetupConnector(
                         syncDescription.SourceConnector,
                         syncDescription.SourceCredentials).GetAll(syncDescription.SourceStorePath).ToContacts();
 
-                    var targetList = engine.SetupConnector(
-                        syncDescription.BaselineConnector,
-                        syncDescription.BaselineCredentials).GetAll(syncDescription.BaselineStorePath).ToContacts();
+                    var baselineConnector = engine.SetupConnector(
+                        syncDescription.BaselineConnector, 
+                        syncDescription.BaselineCredentials);
+
+                    var baselineList = baselineConnector.GetAll(syncDescription.BaselineStorePath).ToContacts();
 
                     var contactsToCompare = from s in sourceList
-                                            join t in targetList
-                                            on s.PersonalProfileIdentifiers
-                                            equals t.PersonalProfileIdentifiers
+                                            join t in baselineList
+                                                on s.PersonalProfileIdentifiers
+                                                equals t.PersonalProfileIdentifiers
                                             select new
                                                 {
                                                     source = s,
@@ -127,6 +154,10 @@ namespace Sem.Sync.ChangeTracker
                     {
                         this.CompareEntities(toCompare.source, toCompare.Baseline);
                     }
+
+                    baselineConnector.WriteRange(
+                        sourceList.ToStdElement(), 
+                        syncDescription.BaselineStorePath);
 
                     if (this.DataChanged != null)
                     {
