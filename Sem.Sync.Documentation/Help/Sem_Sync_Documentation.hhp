@@ -1,0 +1,20 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=Sem_Sync_Documentation.chm
+Contents file=Sem_Sync_Documentation.hhc
+Index file=Sem_Sync_Documentation.hhk
+Default Topic=html\c85e1a79-1a46-4902-b2f7-6b68baf511a1.htm
+Full-text search=Yes
+Language=0x409 English (United States)
+Title=Sem_Sync_Documentation
+[FILES]
+html\*.htm
+icons\*.gif
+art\*.gif
+art\*.jpg
+art\*.png
+media\*.gif
+scripts\*.js
+styles\*.css
+[INFOTYPES]
