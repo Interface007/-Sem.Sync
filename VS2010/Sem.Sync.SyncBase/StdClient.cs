@@ -164,7 +164,7 @@ namespace Sem.Sync.SyncBase
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements);
             this.WriteRange(data, clientFolderName);
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
         }
 
         /// <summary>
@@ -194,12 +194,12 @@ namespace Sem.Sync.SyncBase
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
         public virtual void MergeMissingRange(List<StdElement> elements, string clientFolderName)
         {
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements, true);
             data.Sort();
             this.WriteRange(data, clientFolderName);
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Sem.Sync.SyncBase
             LogProcessingEvent(Resources.uiWritingElements);
             this.BeforeStorageAccess(clientFolderName);
             this.WriteFullList(elements, clientFolderName, false);
-            LogProcessingEvent(Resources.uiWritingElementsDone);
+            ////LogProcessingEvent(Resources.uiWritingElementsDone);
         }
 
         /// <summary>

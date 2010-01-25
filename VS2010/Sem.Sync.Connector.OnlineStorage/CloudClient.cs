@@ -48,17 +48,17 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="clientFolderName">represents a path to the data</param>
         /// <param name="result">the list that will be filled with the contacts</param>
         /// <returns>the list of contacts that has been read from the online storage</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        protected override List<Sem.Sync.SyncBase.StdElement> ReadFullList(string clientFolderName, List<Sem.Sync.SyncBase.StdElement> result)
         {
-            var client = this.GetClient();
-            var contacts = client.GetAll(clientFolderName).ContactList;
-            if (contacts != null)
-            {
-                foreach (var contact in contacts)
-                {
-                    result.Add(contact);
-                }
-            }
+            ////var client = this.GetClient();
+            ////var contacts = client.GetAll(clientFolderName).ContactList;
+            ////if (contacts != null)
+            ////{
+            ////    foreach (var contact in contacts)
+            ////    {
+            ////        result.Add(contact);
+            ////    }
+            ////}
 
             return result;
         }
@@ -69,7 +69,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="elements"> The elements to be written. </param>
         /// <param name="clientFolderName"> represents a path to the data </param>
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
-        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<Sem.Sync.SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (Regex.IsMatch(clientFolderName, "^http(s)?://.*(\\?)?"))
             {
@@ -80,7 +80,7 @@ namespace Sem.Sync.Connector.OnlineStorage
             var client = this.GetClient();
             var container = new ContactListContainer
                 {
-                    ContactList = elements.ToContacts().ToArray(),
+                    ////ContactList = elements.ToContacts().ToArray(),
                     Credentials = new CloudCredentials
                         {
                             AccountId = this.LogOnUserId,
