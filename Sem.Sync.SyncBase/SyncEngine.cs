@@ -50,6 +50,8 @@ namespace Sem.Sync.SyncBase
         /// will be set when the first command is executed
         /// </summary>
         private bool versionOutdated;
+        
+        public bool skipLogging = false;
 
         /// <summary>
         /// flag for already executed version check
@@ -271,8 +273,11 @@ namespace Sem.Sync.SyncBase
         /// <param name="e"> The event argument. </param>
         private void HandleProgressEvent(object sender, ProgressEventArgs e)
         {
-            this.UpdateProgress(this.percentageOfSequenceDone
+            if (!this.skipLogging)
+            {
+                this.UpdateProgress(this.percentageOfSequenceDone
                                 + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+            }
         }
 
         /// <summary>
