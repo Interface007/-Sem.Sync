@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="46035b67-96a5-46b1-a772-b812861f3678" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:50643/Storage.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Storage.xsd" MetadataType="Schema" ID="395f1ab8-4334-4372-a693-bce6fef4ffae" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd1" />
+    <MetadataFile FileName="Storage.disco" MetadataType="Disco" ID="b2697d7f-93e8-40e0-b5b5-50cf5d73889d" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?disco" />
+    <MetadataFile FileName="Storage.wsdl" MetadataType="Wsdl" ID="74f7df10-9a1c-4c56-9556-f964ffa84036" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Storage1.xsd" MetadataType="Schema" ID="92936ace-adf1-43da-a884-b4ffb764e37e" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd4" />
+    <MetadataFile FileName="Storage1.wsdl" MetadataType="Wsdl" ID="921bd201-9a0c-491f-97aa-527e63435538" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?wsdl" />
+    <MetadataFile FileName="Storage2.xsd" MetadataType="Schema" ID="97069d14-1b50-406b-8bac-e58b4066944f" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd3" />
+    <MetadataFile FileName="Storage3.xsd" MetadataType="Schema" ID="be8f3174-fdf7-4504-83c1-5cc92a3c88c0" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd0" />
+    <MetadataFile FileName="Storage4.xsd" MetadataType="Schema" ID="60307008-89ae-497d-b2c5-aae2f637c203" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd5" />
+    <MetadataFile FileName="Storage5.xsd" MetadataType="Schema" ID="dc07f246-6d26-4036-bb26-7b3907887109" SourceId="1" SourceUrl="http://localhost:50643/Storage.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

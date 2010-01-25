@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SyncDescription Name="Match entries manually">
+    <Command>MatchManually</Command>
+    <CommandParameter>WerKenntWenUrl</CommandParameter>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+    <BaselineConnector>Sem.Sync.Connector.Filesystem.GenericClient`1 of Sem.Sync.SyncBase.DetailData.MatchingEntry, Sem.Sync.SyncBase</BaselineConnector>
+    <BaselineStorePath>{FS:WorkingFolder}\BaseLine.xmlbase</BaselineStorePath>
+  </SyncDescription>
+</ArrayOfSyncDescription>
