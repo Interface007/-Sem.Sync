@@ -96,7 +96,7 @@ namespace Sem.Sync.Connector.Xing
         /// regular expression to extract the URLs for the vCards
         /// </summary>
         private const string PatternGetVCardUrls = 
-            @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?inputField_[0-9]*"" value=""(?<tags>[\w ,]*)""";
+            @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?(inputField_[0-9]*"" value=""(?<tags>[\w ,]*)"")?";
             ////"(.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
 
         #endregion
