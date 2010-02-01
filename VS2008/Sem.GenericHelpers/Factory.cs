@@ -124,6 +124,12 @@ namespace Sem.GenericHelpers
         {
             var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
             var classType = Type.GetType(this.EnrichClassName(className.Trim()));
+
+            if (classType == null)
+            {
+                throw new ArgumentException(string.Format("The class {0} cannot be found - check spelling.", className), "className");
+            }
+
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 

@@ -61,9 +61,9 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office 2003. Do you want to open the download page for this missing dependency?.
+        ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office. Do you want to open the download page for this missing dependency?.
         /// </summary>
-        internal static string MissingInteropQuestion {
+        public static string MissingInteropQuestion {
             get {
                 return ResourceManager.GetString("MissingInteropQuestion", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Sem.Sync.SyncBase.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File not found.
         /// </summary>
-        internal static string MissingInteropQuestionTitle {
+        public static string MissingInteropQuestionTitle {
             get {
                 return ResourceManager.GetString("MissingInteropQuestionTitle", resourceCulture);
             }

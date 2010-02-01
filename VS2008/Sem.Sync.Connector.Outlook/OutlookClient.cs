@@ -262,7 +262,7 @@ namespace Sem.Sync.Connector.Outlook
                     Start = outlookItem.StartUTC,
                     End = outlookItem.EndUTC,
                     BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
-                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier = new List<CalendarIdentifier>
                         {
