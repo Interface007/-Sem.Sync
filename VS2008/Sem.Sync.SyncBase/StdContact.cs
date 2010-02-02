@@ -126,7 +126,7 @@ namespace Sem.Sync.SyncBase
         /////// <summary>
         /////// Gets or sets ProfileIdentifier.
         /////// </summary>
-        ////public Dictionary<string, string> ProfileIdentifier { get; set; }
+        ////public SerializableDictionary<string, string> PersonalProfileIdentifiers { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the company this contact is associated with

@@ -343,7 +343,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                     int.Parse(birthday.Substring(3, 2), CultureInfo.InvariantCulture));
             }
 
-            contact.PersonalProfileIdentifiers.WerKenntWenUrl = downloadUrl;
+            contact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.WerKenntWenUrl, downloadUrl);
 
             dataExtractor = new Regex(PersonPictureUrlPattern, RegexOptions.Singleline);
             matches = dataExtractor.Matches(data);

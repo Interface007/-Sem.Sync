@@ -339,7 +339,7 @@ namespace Sem.Sync.Connector.MeinVZ
                 }
             }
 
-            result.PersonalProfileIdentifiers.MeinVZPersonId = contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1);
+            result.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
             return result;
         }

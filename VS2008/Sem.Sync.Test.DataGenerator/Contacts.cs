@@ -554,7 +554,7 @@ namespace Sem.Sync.Test.DataGenerator
                              {
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
-                                 PersonalProfileIdentifiers = { XingNameProfileId = profileId },
+                                 PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
                              };
             return result;
         }

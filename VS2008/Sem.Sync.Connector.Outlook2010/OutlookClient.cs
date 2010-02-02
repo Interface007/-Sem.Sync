@@ -436,8 +436,8 @@ namespace Sem.Sync.Connector.Outlook2010
 
             var stdOldAppointment = ConvertToStandardCalendarItem(appointment);
 
-            SyncTools.ClearNulls(stdNewAppointment, typeof(StdContact));
-            SyncTools.ClearNulls(stdOldAppointment, typeof(StdContact));
+            SyncTools.ClearNulls(stdNewAppointment, typeof(StdCalendarItem));
+            SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
 
             ////        Id = Guid.NewGuid(),
             ////        Title = outlookItem.Subject,

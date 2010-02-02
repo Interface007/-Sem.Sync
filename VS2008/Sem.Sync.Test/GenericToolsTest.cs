@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.DetailData;
+
 namespace Sem.Sync.Test
 {
     using System;
@@ -99,7 +101,7 @@ namespace Sem.Sync.Test
             var testData = Contacts.GetStandardContactList(true);
 
             Assert.AreEqual(testData[2].Name.FirstName, Tools.GetPropertyValueString(testData[2], "Name.FirstName"));
-            Assert.AreEqual(testData[2].PersonalProfileIdentifiers.DefaultProfileId, Tools.GetPropertyValueString(testData, "[2].PersonalProfileIdentifiers.DefaultProfileId"));
+            Assert.AreEqual(testData[2].PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.Default), Tools.GetPropertyValueString(testData, "[2].PersonalProfileIdentifiers.DefaultProfileId"));
 
             var testClass = new
                 {
@@ -271,7 +273,10 @@ namespace Sem.Sync.Test
             }
             Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
             Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, publicOnly), key));
-            
+
+            input = "1234567890";
+            Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, publicOnly), key));
+
             ////key = SimpleCrypto.GenerateNewKey(4096);
             ////publicOnly = SimpleCrypto.ExtractPublic(key);
             ////Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));

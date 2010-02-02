@@ -1,4 +1,6 @@
-﻿namespace Sem.Sync.Test.Ui
+﻿using Sem.Sync.SyncBase.DetailData;
+
+namespace Sem.Sync.Test.Ui
 {
     using System;
     using System.Collections.Generic;
@@ -20,21 +22,21 @@
         public static bool Exist(this List<MatchCandidateView> list, string xingId)
         {
             return (from x in list
-                 where x.Element.PersonalProfileIdentifiers.XingNameProfileId == xingId
+                    where x.Element.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.XingNameProfileId) == xingId
                  select x).Count() == 1;
         }
 
         public static MatchCandidateView GetByXingId(this List<MatchCandidateView> list, string xingId)
         {
             return (from x in list
-                    where x.Element.PersonalProfileIdentifiers.XingNameProfileId == xingId
+                    where x.Element.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.XingNameProfileId) == xingId
                     select x).FirstOrDefault();
         }
 
         public static StdContact GetByXingId(this List<StdContact> list, string xingId)
         {
             return (from x in list
-                    where x.PersonalProfileIdentifiers.XingNameProfileId == xingId
+                    where x.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.XingNameProfileId) == xingId
                     select x).FirstOrDefault();
         }
     }

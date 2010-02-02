@@ -228,6 +228,10 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = ((IList)item).Count > 0;
                     break;
 
+                case "ProfileIdentifiers":
+                    isDefined = ((ProfileIdentifiers)item).Count > 0;
+                    break;
+
                 default:
                     // check if we have a new type for that we need to identify the default value
 #if DEBUG

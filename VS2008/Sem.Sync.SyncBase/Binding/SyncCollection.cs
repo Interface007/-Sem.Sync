@@ -12,11 +12,11 @@ namespace Sem.Sync.SyncBase.Binding
 {
     using System.ComponentModel;
     using System.IO;
+    using System.Reflection;
     using System.Xml.Serialization;
-
-    using DetailData;
-
-    using GenericHelpers;
+    
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// implements a binding list for the SyncDescription class
@@ -34,7 +34,16 @@ namespace Sem.Sync.SyncBase.Binding
             {
                 var workFlow = Tools.LoadFromFile<SyncWorkFlow>(pathToFile);
 
-                var commands = LoadSyncList(workFlow.Template);
+                var commandsFileName = workFlow
+                    .ReplaceToken(workFlow.Template)
+                    .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
+
+                if (commandsFileName.StartsWith("file:\\", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    commandsFileName = commandsFileName.Substring(6);
+                }
+
+                var commands = LoadSyncList(commandsFileName);
 
                 if (commands == null)
                 {
