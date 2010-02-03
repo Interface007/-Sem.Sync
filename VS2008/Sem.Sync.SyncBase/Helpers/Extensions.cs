@@ -150,12 +150,21 @@ namespace Sem.Sync.SyncBase.Helpers
                             (sourceValue as List<KeyValuePair<string, ProfileIdInformation>>).MergeList(targetValue as List<KeyValuePair<string, ProfileIdInformation>>);
                             break;
 
+                        case "ProfileIdentifiers":
+                            var targetProfiles = targetValue as ProfileIdentifiers;
+                            if (targetProfiles != null)
+                            {
+                                (sourceValue as ProfileIdentifiers)
+                                    .ForEach(x => targetProfiles.SetProfileId(x.Key, x.Value, true));
+                            }
+                            
+                            break;
+
                         case "SyncData":
                         case "PersonName":
                         case "AddressDetail":
                         case "PhoneNumber":
                         case "InstantMessengerAddresses":
-                        case "ProfileIdentifiers":
                             targetValue.MergeHighEvidence(sourceValue, item.PropertyType);
                             break;
 

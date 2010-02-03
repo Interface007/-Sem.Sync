@@ -372,6 +372,11 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
                         break;
 
+                    case "ProfileIdentifiers":
+                        // don't compare the profile identifiers
+                        conflict = MergePropertyConflict.None;
+                        break;
+
                     case "Byte[]":
                         break;
 

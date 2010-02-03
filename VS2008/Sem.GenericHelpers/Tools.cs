@@ -392,9 +392,18 @@ namespace Sem.GenericHelpers
                     {
                         var indexerName = ((DefaultMemberAttribute)indexerObject[0]).MemberName;
                         var indexerPropertyInfo = valueType.GetProperty(indexerName);
-
-                        if (valueType.Name == "Dictionary`2")
+                        
+                        var valueDictionary = value as IDictionary;
+                        if (valueDictionary != null)
                         {
+                            var getter = valueType.GetMethod("get_Item");
+
+                            object parameterObject = parameter;
+                            if (getter.GetParameters()[0].ParameterType.BaseType == typeof(Enum))
+                            {
+                                parameterObject = Enum.Parse(getter.GetParameters()[0].ParameterType, parameter);
+                            }
+
                             if (checkIndex)
                             {
                                 var exists = (bool)GetPropertyValue(value, "ContainsKey(" + parameter + ")");
@@ -404,7 +413,7 @@ namespace Sem.GenericHelpers
                                 }
                             }
 
-                            value = indexerPropertyInfo.GetValue(value, new object[] { parameter });
+                            value = indexerPropertyInfo.GetValue(value, new[] { parameterObject });
                         }
                         else
                         {
@@ -720,6 +729,11 @@ namespace Sem.GenericHelpers
 
             var resultList = new List<string>();
 
+            if (type.Name == "ProfileIdentifiers")
+            {
+                return resultList;
+            }
+
             var methodsToAdd = from x in type.GetMethods()
                                where
                                    x.GetParameters().Length == 0 &&
@@ -872,7 +886,5 @@ namespace Sem.GenericHelpers
 
             return cachedAllowedAscii;
         }
-
-        
     }
 }

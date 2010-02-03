@@ -35,28 +35,6 @@ namespace Sem.Sync.SyncBase.DetailData
             this.Add(type, profileId);
         }
 
-        protected override string TranslateKey(string keyName)
-        {
-            switch (keyName)
-            {
-                case "DefaultProfileId":
-                    return "Default";
-                
-                case "MeinVZPersonId":
-                    return "MeinVZ";
-
-                case "GoogleId":
-                    return "Google";
-            }
-            
-            return base.TranslateKey(keyName);
-        }
-
-        protected override ProfileIdInformation CreateNewValueItem(string value)
-        {
-            return value;
-        }
-
         /// <summary>
         /// Gets a specific identifier by the type.
         /// </summary>
@@ -64,142 +42,43 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns>the value of the identifier</returns>
         public ProfileIdInformation GetProfileId(ProfileIdentifierType type)
         {
-            if (this.ContainsKey(type))
-            {
-                return this[type];
-            }
-
-            return null;
-
-            ////string result;
-
-            ////switch (type)
-            ////{
-            ////    case ProfileIdentifierType.ActiveDirectoryId:
-            ////        result = this.ActiveDirectoryId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.OracleCrmOnDemandId:
-            ////        result = this.OracleCrmOnDemandId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.MicrosoftAccessId:
-            ////        result = this.MicrosoftAccessId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.FacebookProfileId:
-            ////        result = this.FacebookProfileId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.XingNameProfileId:
-            ////        result = this.XingNameProfileId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.LotusNotesId:
-            ////        result = this.LotusNotesId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.WerKenntWenUrl:
-            ////        result = this.WerKenntWenUrl;
-            ////        break;
-
-            ////    case ProfileIdentifierType.StayFriendsPersonId:
-            ////        result = this.StayFriendsPersonId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.LinkedInId:
-            ////        result = this.LinkedInId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.MeinVZ:
-            ////        result = this.MeinVZPersonId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.Google:
-            ////        result = this.GoogleId;
-            ////        break;
-
-            ////    case ProfileIdentifierType.ExchangeWs:
-            ////        result = this.ExchangeWs;
-            ////        break;
-
-            ////    default:
-            ////        result = this.DefaultProfileId;
-            ////        break;
-            ////}
-
-            ////return result;
+            return this.ContainsKey(type) ? this[type] : null;
         }
 
         /// <summary>
         /// Sets a specific profile id.
         /// </summary>
-        /// <param name="type">the profile type to set</param>
-        /// <param name="newValue">the new profile id</param>
-        public void SetProfileId(ProfileIdentifierType type, ProfileIdInformation newValue)
+        /// <param name="type"> the profile type to set </param>
+        /// <param name="newValue"> the new profile id </param>
+        /// <returns> The new profile id. </returns>
+        public ProfileIdInformation SetProfileId(ProfileIdentifierType type, ProfileIdInformation newValue)
+        {
+            return this.SetProfileId(type, newValue, false);
+        }
+
+        /// <summary>
+        /// Sets a specific profile id.
+        /// </summary>
+        /// <param name="type"> the profile type to set </param>
+        /// <param name="newValue"> the new profile id </param>
+        /// <param name="dontOverwriteExisting"> If set to true, an existing value will not be overwritten. </param>
+        /// <returns> The profile id that does exist in the dictionary after this operation. </returns>
+        public ProfileIdInformation SetProfileId(ProfileIdentifierType type, ProfileIdInformation newValue, bool dontOverwriteExisting)
         {
             if (this.ContainsKey(type))
             {
+                if (dontOverwriteExisting)
+                {
+                    return this[type];
+                }
+
                 this[type] = newValue;
-                return;
+                return newValue;
             }
 
             this.Add(type, newValue);
 
-            ////switch (type)
-            ////{
-            ////    case ProfileIdentifierType.ActiveDirectoryId:
-            ////        this.ActiveDirectoryId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.OracleCrmOnDemandId:
-            ////        this.OracleCrmOnDemandId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.MicrosoftAccessId:
-            ////        this.MicrosoftAccessId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.FacebookProfileId:
-            ////        this.FacebookProfileId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.XingNameProfileId:
-            ////        this.XingNameProfileId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.WerKenntWenUrl:
-            ////        this.WerKenntWenUrl = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.StayFriendsPersonId:
-            ////        this.StayFriendsPersonId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.LinkedInId:
-            ////        this.LinkedInId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.MeinVZ:
-            ////        this.MeinVZPersonId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.Google:
-            ////        this.GoogleId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.LotusNotesId:
-            ////        this.LotusNotesId = newValue;
-            ////        break;
-
-            ////    case ProfileIdentifierType.ExchangeWs:
-            ////        this.ExchangeWs = newValue;
-            ////        break;
-
-            ////    default:
-            ////        this.DefaultProfileId = newValue;
-            ////        break;
-            ////}
+            return newValue;
         }
 
         /// <summary>
@@ -298,7 +177,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 result.Append(identifier.Value);
             }
 
-            return result.ToString().Substring(4);
+            return result.ToString().Substring(3);
         }
 
         /// <summary>
@@ -312,6 +191,28 @@ namespace Sem.Sync.SyncBase.DetailData
                 // enforce explicit comparison of identifiers
                 return 0;
             }
+        }
+
+        protected override ProfileIdInformation CreateNewValueItem(string value)
+        {
+            return value;
+        }
+
+        protected override string TranslateKey(string keyName)
+        {
+            switch (keyName)
+            {
+                case "DefaultProfileId":
+                    return "Default";
+
+                case "MeinVZPersonId":
+                    return "MeinVZ";
+
+                case "GoogleId":
+                    return "Google";
+            }
+
+            return base.TranslateKey(keyName);
         }
     }
 }
