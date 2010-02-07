@@ -64,16 +64,6 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public string LogOnPassword { get; set; }
 
-        public virtual string ProfileIdName()
-        {
-            return this.ProfileIdName(string.Empty);
-        }
-
-        public virtual string ProfileIdName(string store)
-        {
-            return this.GetType().FullName + "(" + store + ")";
-        }
-
         /// <summary>
         /// Gets the user readable name of the client implementation. This name should
         /// be specific enough to let the user know what element store will be accessed.

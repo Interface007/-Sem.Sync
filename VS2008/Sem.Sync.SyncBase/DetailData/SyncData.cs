@@ -23,5 +23,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Gets or sets thet date time property of the creation of this entity if implemented by the source.
         /// </summary>
         public DateTime DateOfCreation { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this item is tagged for deletion. If this property is set to true,
+        /// the item should be deleted in native stores.
+        /// </summary>
+        public bool Deleted { get; set; }
     }
 }

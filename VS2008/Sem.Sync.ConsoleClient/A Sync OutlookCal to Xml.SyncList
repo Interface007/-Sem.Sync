@@ -4,7 +4,6 @@
   <SyncDescription Name="Delete previous export/work files">
     <Command>DeletePattern</Command>
     <TargetStorePath>
-      {FS:WorkingFolder}\test.csv
       {FS:WorkingFolder}\Outlook.xmlcontact
     </TargetStorePath>
   </SyncDescription>

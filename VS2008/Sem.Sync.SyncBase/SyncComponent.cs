@@ -163,5 +163,15 @@ namespace Sem.Sync.SyncBase
                 this.ProgressEvent(sender, args);
             }
         }
+
+        public virtual string ProfileIdName()
+        {
+            return this.ProfileIdName(string.Empty);
+        }
+
+        public virtual string ProfileIdName(string store)
+        {
+            return this.GetType().FullName + "(" + store + ")";
+        }
     }
 }
