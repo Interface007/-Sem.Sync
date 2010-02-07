@@ -24,6 +24,7 @@ namespace Sem.Sync.Test
 
     using Sem.GenericHelpers;
     using Sem.Sync.Test.DataGenerator;
+    using System.Reflection;
 
     public class RecursiveTestClass
     {
@@ -91,7 +92,16 @@ namespace Sem.Sync.Test
         /// information about and functionality for the current test run.
         /// </summary>
         public TestContext TestContext { get; set; }
-        
+
+        [TestMethod]
+        public void TestAccessor()
+        {
+            var x2 = string.Empty;
+            Assembly.GetCallingAssembly().o(y => y.ManifestModule).o(y => y.FullyQualifiedName).o(y => y.ToUpper(), ref x2);
+            //// new ComplexTestClass().o(y => y.myProp1).o(y => y.Password, ref x2);
+            new ComplexTestClass().o(y => y.myProp2).o(y => y.Password, ref x2);
+        }
+
         /// <summary>
         /// Tests the functionality to read object paths from an object
         /// </summary>

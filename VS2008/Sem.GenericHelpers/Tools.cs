@@ -795,6 +795,38 @@ namespace Sem.GenericHelpers
             }
         }
 
+        public static TResult o<TResult, TObject>(this TObject obj, Func<TObject, TResult> f1) where TResult : class
+        {
+            return !Equals(obj, default(TObject)) ? f1(obj) : null;
+        }
+
+        public static TResult o<TResult, TResult2, TObject>(this TObject obj, Func<TObject, TResult> f1, Func<TResult, TResult2> f2) where TResult : class
+        {
+            var result1 = !Equals(obj, default(TObject)) ? f1(obj) : null;
+            if (result1 == default(TResult))
+            {
+                return null;
+            }
+
+            var result2 = !Equals(obj, default(TResult)) ? f1(obj) : null;
+            if (result1 == default(TResult))
+            {
+                return null;
+            }
+
+            return !Equals(obj, default(TObject)) ? f1(obj) : null;
+        }
+
+        public static void o<TResult, TObject>(this TObject obj, Func<TObject, TResult> f, ref TResult target)
+        {
+            if (Equals(obj, default(TObject)))
+            {
+                return;
+            }
+
+            target = f(obj);
+        }
+
         /// <summary>
         /// Extracts parameters for a method invoke.
         /// </summary>
@@ -831,6 +863,7 @@ namespace Sem.GenericHelpers
 
             var lastDot = parameter.LastIndexOf('.');
             var type = Type.GetType(new Factory().EnrichClassName(parameter.Substring(0, lastDot)), false, true);
+
             if (type != null && type.BaseType == typeof(Enum))
             {
                 return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
