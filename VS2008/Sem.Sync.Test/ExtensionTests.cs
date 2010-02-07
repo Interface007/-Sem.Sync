@@ -47,6 +47,27 @@ namespace Sem.Sync.Test
         // public void MyTestCleanup() { }
         #endregion
 
+        [TestMethod]
+        public void TestAccessor()
+        {
+            var source = new ComplexTestClass();
+            var target = new NetworkCredentials();
+
+            // testClass.myProp2 is null, so testClass.myProp2.Password cannot be evaluated and x should stay the same
+            source.MapIfExist(y => y.myProp2, y => y.Password, ref target.Passwort);
+            Assert.IsNull(target.Passwort);
+
+            // testClass.myProp2 is null, so testClass.myProp2.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source.MapIfExist(y => y.myProp2, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // testClass.myProp1 is "", so testClass.myProp2.Password can be evaluated and x should be updated
+            target.Passwort = "hallo";
+            source.MapIfExist(y => y.myProp1, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "geheim1");
+        }
+
         /// <summary>
         /// performs a basic test for the "is one of" method
         /// </summary>
@@ -101,5 +122,10 @@ namespace Sem.Sync.Test
             Assert.AreEqual("domain", x.myProp5.NewIfNull("key2").Domain);
             Assert.AreEqual(string.Empty, x.myProp5.NewIfNull("nonexistingKey").Domain);
         }
+    }
+
+    public class NetworkCredentials
+    {
+        public string Passwort;
     }
 }

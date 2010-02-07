@@ -125,7 +125,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> a new standard contact  </returns>
         /// <exception cref="ArgumentNullException"> if the outlook contact is null  </exception>
-        public static StdContact ConvertToStandardContact(_ContactItem outlookContact, IEnumerable<StdContact> contactList)
+        public static StdContact ConvertToStandardContact(ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -218,7 +218,7 @@ namespace Sem.Sync.Connector.Outlook2003
                 {
                     return null;
                 }
-                    
+
                 throw;
             }
 
@@ -262,7 +262,7 @@ namespace Sem.Sync.Connector.Outlook2003
                     Start = outlookItem.Start,
                     End = outlookItem.End,
                     BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
-                    InternalSyncData = { DateOfLastChange = outlookItem.LastModificationTime },
+                    InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier = new List<CalendarIdentifier>
                         {
@@ -296,7 +296,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <returns>
         /// a reference to the MAPI folder
         /// </returns>
-        public static MAPIFolder GetOutlookMapiFolder(_NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
+        public static MAPIFolder GetOutlookMapiFolder(NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
         {
             if (outlookNamespace == null)
             {
@@ -329,9 +329,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Get the namespace from outlook.
         /// </summary>
-        /// <returns>
-        /// Returns the namespace from outlook.
-        /// </returns>
+        /// <returns> Returns the namespace from outlook. </returns>
         public static NameSpace GetNamespace()
         {
             var outlookApplication = new Application();
@@ -432,7 +430,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <returns>true if the outlook contact needs to be saved, false if there was no information altered</returns>
         /// <exception cref="ArgumentNullException"> if one of the parameters is null </exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "this is only multiple if-statements - that's not really complex")]
-        private static bool ConvertToNativeContact(StdContact stdNewContact, _ContactItem outlookContact)
+        private static bool ConvertToNativeContact(StdContact stdNewContact, ContactItem outlookContact)
         {
             if (stdNewContact == null)
             {
@@ -680,7 +678,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="contact">the contact to process</param>
         /// <param name="pictureName">returns the name of the picture from the mime object</param>
         /// <returns>an array of bytes representing the picture</returns>
-        private static byte[] SaveOutlookContactPicture(_ContactItem contact, out string pictureName)
+        private static byte[] SaveOutlookContactPicture(ContactItem contact, out string pictureName)
         {
             // check if we have a picture inside the outlook contact
             if (contact.HasPicture)
@@ -706,7 +704,7 @@ namespace Sem.Sync.Connector.Outlook2003
                         try
                         {
                             attachement.SaveAsFile(fullName);
-                            
+
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
 
@@ -722,7 +720,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
                             // try again
                             attachement.SaveAsFile(fullName);
-                            
+
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
                         }
@@ -843,7 +841,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="outlookContact"> the outlook contact to handle </param>
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> the corresponding Guid </returns>
-        private static Guid GetStandardId(_ContactItem outlookContact, IEnumerable<StdContact> contactList)
+        private static Guid GetStandardId(ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -864,7 +862,7 @@ namespace Sem.Sync.Connector.Outlook2003
                 // test if the value is a valid id
                 if (contactIdObject.Value.ToString().Length != 36)
                 {
-                    // use the formerly generated id if it's not valid
+                    // use the formerly generated id if the one from outlook is not valid
                     contactIdObject.Value = newId.ToString();
                     outlookContact.Save();
                 }
