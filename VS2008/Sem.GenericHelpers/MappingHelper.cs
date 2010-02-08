@@ -10,12 +10,24 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Provides helper extensions for mapping data from one entity to another.
     /// </summary>
     public static class MappingHelper
     {
+        /// <summary>
+        /// Expression modifier instance
+        /// </summary>
+        private static readonly NullLiftModifier Modifier = new NullLiftModifier();
+
+        /// <summary>
+        /// Dictionary for the modified and compiled expression trees
+        /// </summary>
+        private static readonly Dictionary<string, Delegate> Expressions = new Dictionary<string, Delegate>();
+
         /// <summary>
         /// Trys to evaluate a series of 3 functions and assignes the result of the last function to
         /// the target <paramref name="target"/>. The evaluation does stop if any result of an evaluation
@@ -124,6 +136,39 @@ namespace Sem.GenericHelpers
             }
 
             target = f1(obj);
+        }
+
+        /// <summary>
+        /// Maps one property to another objects property using a full property path.
+        /// </summary>
+        /// <param name="obj">The root object.</param>
+        /// <param name="f1"> The expression that does describe the path to the property. </param>
+        /// <param name="target"> The target property to write the result of the expression. </param>
+        /// <typeparam name="TResult1"> The type of the expressions result </typeparam>
+        /// <typeparam name="TObject"> The type of the root object </typeparam>
+        public static void MapIfExist2<TResult1, TObject>(this TObject obj, Expression<Func<TObject, TResult1>> f1, ref TResult1 target)
+        {
+            var method = GetMethod(f1);
+            var result = method(obj);
+
+            if (Equals(result, default(TObject)))
+            {
+                return;
+            }
+
+            target = result;
+        }
+
+        private static Func<TObject, TResult1> GetMethod<TObject, TResult1>(Expression<Func<TObject, TResult1>> f1)
+        {
+            var key = f1 + typeof(TObject).FullName;
+            if (!Expressions.ContainsKey(key))
+            {
+                var x = (Expression<Func<TObject, TResult1>>)Modifier.Modify(f1);
+                Expressions.Add(key, x.Compile());
+            }
+
+            return (Func<TObject, TResult1>)Expressions[key];
         }
     }
 }

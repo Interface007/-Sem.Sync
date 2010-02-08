@@ -247,7 +247,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="outlookItem"> The outlook item. </param>
         /// <returns> the newly created StdCalendarItem </returns>
         /// <exception cref="ArgumentNullException"> in case of outlookItem being null </exception>
-        public static StdCalendarItem ConvertToStandardCalendarItem(_AppointmentItem outlookItem)
+        public static StdCalendarItem ConvertToStandardCalendarItem(AppointmentItem outlookItem)
         {
             if (outlookItem == null)
             {
@@ -617,7 +617,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <returns>
         /// A value that indicates if the outlook contact has been changed.
         /// </returns>
-        private static bool CompareAddress(_ContactItem outlookContact, AddressDetail stdNewContactAddress, AddressDetail stdOldContactAddress, string prefix, bool dirty)
+        private static bool CompareAddress(ContactItem outlookContact, AddressDetail stdNewContactAddress, AddressDetail stdOldContactAddress, string prefix, bool dirty)
         {
             if (stdOldContactAddress.CityName !=
                 stdNewContactAddress.CityName)

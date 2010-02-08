@@ -45,6 +45,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38747F9F-5CE3-4A29-A5D2-40638560264E}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SemSync-Standard.vsmdi = SemSync-Standard.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Statistic", "Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj", "{1068FBA6-60F2-4A39-9941-CCD6447313E8}"
@@ -218,7 +219,7 @@ Global
 		SccLocalPath30 = Sem.GenericHelpers.ExceptionService
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SemSync2.vsmdi
+		CategoryFile = SemSync-Standard.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (Code Analysis)|Any CPU = Debug (Code Analysis)|Any CPU

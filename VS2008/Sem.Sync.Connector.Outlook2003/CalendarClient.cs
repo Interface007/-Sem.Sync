@@ -64,7 +64,7 @@ namespace Sem.Sync.Connector.Outlook2003
                                       orderby a.Subject, a.Start
                                       select a;
 
-                _AppointmentItem lastItem = null;
+                AppointmentItem lastItem = null;
                 foreach (var item in outlookItemList)
                 {
                     currentElementName = item.Subject;

@@ -9,7 +9,9 @@
 
 namespace Sem.Sync.Test
 {
+    using System;
     using System.Collections.Generic;
+    using System.Net;
 
     using GenericHelpers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -100,6 +102,7 @@ namespace Sem.Sync.Test
         {
             var source = new {x = new ComplexTestClass()};
             var source2 = new {x = null as ComplexTestClass};
+            var source3 = new { x = new ComplexTestClass { myProp1 = new NetworkCredential("name3", "pass3") } };
             var target = new NetworkCredentials();
 
             // source.x.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
@@ -116,6 +119,11 @@ namespace Sem.Sync.Test
             source.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);
             Assert.IsTrue(target.Passwort == "geheim1");
 
+            target.Passwort = "hallo";
+            source.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);  // now it's "geheim1"
+            source3.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort); // now it's "pass3"
+            Assert.IsTrue(target.Passwort == "pass3");
+
             // source2.x is null, so source.myProp1.Password cannot be evaluated and x should stay the same
             target.Passwort = "hallo";
             source2.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);
@@ -128,6 +136,75 @@ namespace Sem.Sync.Test
             Assert.IsTrue(target.Passwort == "hallo");
         }
 
+        [TestMethod]
+        public void TestMapIfExistWithExpressionTree()
+        {
+            var source1 = new { x = new ComplexTestClass() };
+            var source2 = new { x = null as ComplexTestClass };
+            var source3 = new { x = new ComplexTestClass { myProp1 = new NetworkCredential("name3", "pass3") } };
+            var target = new NetworkCredentials();
+
+            // source.x.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            source1.MapIfExist2(y => y.x.myProp2.Password, ref target.Passwort);
+            Assert.IsNull(target.Passwort);
+
+            // source.x.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source1.MapIfExist2(y => y.x.myProp2.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // source.x.myProp1 is "geheim1", so source.myProp1.Password can be evaluated and x should be updated
+            target.Passwort = "hallo";
+            source1.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "geheim1");
+            
+            target.Passwort = "hallo";
+            source1.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);    // now it's "geheim1"
+            source3.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);    // now it's "pass3"
+            Assert.IsTrue(target.Passwort == "pass3");
+
+            // source2.x is null, so source.myProp1.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source2.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // source2 is null, so source.myProp1.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo2";
+            source2 = null;
+            source2.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo2");
+        }
+
+        [TestMethod]
+        public void SpeedTest()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                this.TestMapIfExistWith3Steps();
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                this.TestMapIfExistWithExpressionTree();
+            }
+            
+            var start = DateTime.Now;
+            for (int i = 0; i < 999; i++)
+            {
+                this.TestMapIfExistWith3Steps();
+            }
+
+            Console.WriteLine(start - DateTime.Now);
+            start = DateTime.Now;
+
+            for (int i = 0; i < 999; i++)
+            {
+                this.TestMapIfExistWithExpressionTree();
+            }
+
+            Console.WriteLine(start - DateTime.Now);
+        }
+        
         /// <summary>
         /// performs a basic test for the "is one of" method
         /// </summary>
