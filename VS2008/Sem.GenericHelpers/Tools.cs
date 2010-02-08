@@ -795,55 +795,6 @@ namespace Sem.GenericHelpers
             }
         }
 
-        public static void MapIfExist<TResult1, TResult2, TResult3, TObject>(this TObject obj, Func<TObject, TResult1> f1, Func<TResult1, TResult2> f2, Func<TResult2, TResult3> f3, ref TResult3 target)
-            where TResult1 : class
-            where TResult2 : class
-            where TResult3 : class
-        {
-            var result1 = !Equals(obj, default(TObject)) ? f1(obj) : null;
-            if (result1 == default(TResult1))
-            {
-                return;
-            }
-
-            var result2 = !Equals(result1, default(TResult1)) ? f2(result1) : null;
-            if (result2 == default(TResult2))
-            {
-                return;
-            }
-
-            var result3 = !Equals(result2, default(TResult2)) ? f3(result2) : null;
-            if (result3 == default(TResult3))
-            {
-                return;
-            }
-
-            target = result3;
-        }
-
-        public static void MapIfExist<TResult1, TResult2, TObject>(this TObject obj, Func<TObject, TResult1> f1, Func<TResult1, TResult2> f2, ref TResult2 target)
-            where TResult1 : class
-            where TResult2 : class
-        {
-            var result1 = !Equals(obj, default(TObject)) ? f1(obj) : null;
-            if (result1 == default(TResult1))
-            {
-                return;
-            }
-
-            target = f2(result1);
-        }
-
-        public static void MapIfExist<TResult1, TObject>(this TObject obj, Func<TObject, TResult1> f1, ref TResult1 target)
-        {
-            if (Equals(obj, default(TObject)))
-            {
-                return;
-            }
-
-            target = f1(obj);
-        }
-
         /// <summary>
         /// Extracts parameters for a method invoke.
         /// </summary>

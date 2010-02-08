@@ -48,24 +48,84 @@ namespace Sem.Sync.Test
         #endregion
 
         [TestMethod]
-        public void TestAccessor()
+        public void TestMapIfExistWith1Step()
         {
             var source = new ComplexTestClass();
             var target = new NetworkCredentials();
 
-            // testClass.myProp2 is null, so testClass.myProp2.Password cannot be evaluated and x should stay the same
+            // source.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            source.myProp2.MapIfExist(y => y.Password, ref target.Passwort);
+            Assert.IsNull(target.Passwort);
+
+            // source.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source.myProp2.MapIfExist(y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // source.myProp1 is "geheim1", so source.myProp1.Password can be evaluated and x should be updated
+            target.Passwort = "hallo";
+            source.myProp1.MapIfExist(y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "geheim1");
+        }
+
+        [TestMethod]
+        public void TestMapIfExistWith2Steps()
+        {
+            var source = new ComplexTestClass();
+            var target = new NetworkCredentials();
+
+            // source.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
             source.MapIfExist(y => y.myProp2, y => y.Password, ref target.Passwort);
             Assert.IsNull(target.Passwort);
 
-            // testClass.myProp2 is null, so testClass.myProp2.Password cannot be evaluated and x should stay the same
+            // source.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
             target.Passwort = "hallo";
             source.MapIfExist(y => y.myProp2, y => y.Password, ref target.Passwort);
             Assert.IsTrue(target.Passwort == "hallo");
 
-            // testClass.myProp1 is "", so testClass.myProp2.Password can be evaluated and x should be updated
+            // source.myProp1 is "geheim1", so source.myProp1.Password can be evaluated and x should be updated
             target.Passwort = "hallo";
             source.MapIfExist(y => y.myProp1, y => y.Password, ref target.Passwort);
             Assert.IsTrue(target.Passwort == "geheim1");
+            
+            // source is null, so source.myProp1.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source = null;
+            source.MapIfExist(y => y.myProp1, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+        }
+
+        [TestMethod]
+        public void TestMapIfExistWith3Steps()
+        {
+            var source = new {x = new ComplexTestClass()};
+            var source2 = new {x = null as ComplexTestClass};
+            var target = new NetworkCredentials();
+
+            // source.x.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            source.MapIfExist(y => y.x, y => y.myProp2, y => y.Password, ref target.Passwort);
+            Assert.IsNull(target.Passwort);
+
+            // source.x.myProp2 is null, so source.myProp2.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source.MapIfExist(y => y.x, y => y.myProp2, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // source.x.myProp1 is "geheim1", so source.myProp1.Password can be evaluated and x should be updated
+            target.Passwort = "hallo";
+            source.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "geheim1");
+
+            // source2.x is null, so source.myProp1.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source2.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
+
+            // source2 is null, so source.myProp1.Password cannot be evaluated and x should stay the same
+            target.Passwort = "hallo";
+            source2 = null;
+            source2.MapIfExist(y => y.x, y => y.myProp1, y => y.Password, ref target.Passwort);
+            Assert.IsTrue(target.Passwort == "hallo");
         }
 
         /// <summary>
@@ -74,15 +134,15 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void IsOneOfBasicTest()
         {
-            const string TestObject = "check";
+            const string testObject = "check";
 
-            Assert.IsTrue(TestObject.IsOneOf("isnot", "no", "check", "test"));
-            Assert.IsTrue(TestObject.IsOneOf("check", "no", "check", "test"));
-            Assert.IsTrue(TestObject.IsOneOf("isnot", "no", "test1", "check"));
-            Assert.IsTrue(TestObject.IsOneOf("check"));
-            Assert.IsFalse(TestObject.IsOneOf("isnot", "no", "test1", "nocheck"));
-            Assert.IsFalse(TestObject.IsOneOf("isnot"));
-            Assert.IsFalse(TestObject.IsOneOf());
+            Assert.IsTrue(testObject.IsOneOf("isnot", "no", "check", "test"));
+            Assert.IsTrue(testObject.IsOneOf("check", "no", "check", "test"));
+            Assert.IsTrue(testObject.IsOneOf("isnot", "no", "test1", "check"));
+            Assert.IsTrue(testObject.IsOneOf("check"));
+            Assert.IsFalse(testObject.IsOneOf("isnot", "no", "test1", "nocheck"));
+            Assert.IsFalse(testObject.IsOneOf("isnot"));
+            Assert.IsFalse(testObject.IsOneOf());
         }
 
         /// <summary>
