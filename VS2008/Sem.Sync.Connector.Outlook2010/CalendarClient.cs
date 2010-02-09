@@ -16,11 +16,10 @@ namespace Sem.Sync.Connector.Outlook2010
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
     using Microsoft.Office.Interop.Outlook;
-
-    using SyncBase;
-    using SyncBase.Attributes;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
@@ -64,14 +63,14 @@ namespace Sem.Sync.Connector.Outlook2010
                                       orderby a.Subject, a.Start
                                       select a;
 
-                _AppointmentItem lastItem = null;
+                AppointmentItem lastItem = null;
                 foreach (var item in outlookItemList)
                 {
                     currentElementName = item.Subject;
 
                     if (lastItem != null)
                     {
-                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item);
+                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
                         LogProcessingEvent(stdItem, "comparing ...");
 
                         if (lastItem.Subject == item.Subject
@@ -195,7 +194,7 @@ namespace Sem.Sync.Connector.Outlook2010
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
-                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem));
+                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)

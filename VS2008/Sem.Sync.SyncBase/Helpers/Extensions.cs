@@ -372,6 +372,31 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
+        /// Converts a list of typed elements to a list of different typed elements. This is usefull to
+        /// cast a list of type 1 into a list of type 2.
+        /// </summary>
+        /// <typeparam name="TSource"> The type of elements in the source </typeparam>
+        /// <typeparam name="TDestination"> the type of elements to cast to. </typeparam>
+        /// <param name="list"> a list of elements to cast </param>
+        /// <returns> a list of casted elements </returns>
+        public static List<TDestination> ToOtherType<TSource, TDestination>(this List<TSource> list) 
+            where TDestination : class
+        {
+            var result = new List<TDestination>();
+            foreach (var element in list)
+            {
+                var e = element as TDestination;
+
+                if (e != null)
+                {
+                    result.Add(e);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Converts a list of <see cref="StdElement"/> to a list of <see cref="MatchingEntry"/> by omitting all
         /// entries that cannot be casted to a <see cref="MatchingEntry"/> .
         /// </summary>

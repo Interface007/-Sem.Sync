@@ -36,6 +36,11 @@ namespace Sem.Sync.Connector.Outlook
         private const string ContactIdOutlookPropertyName = "SemSyncId";
 
         /// <summary>
+        /// This is the name of the custom outlook field for the synchronization id
+        /// </summary>
+        private const string AppointmentIdOutlookPropertyName = "SemSyncId";
+
+        /// <summary>
         /// Counts calls that may allocate but not free Runtime Callable Wrappers (COM objects) but not free them in time
         /// </summary>
         private static int garbageCollectionRelevantCalls;
@@ -162,7 +167,7 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             // generate the new id this contact will get in case there is no contact id in outlook
-            var newId = GetStandardId(outlookContact, contactList);
+            var newId = GetStandardContactId(outlookContact, contactList);
 
             // read the picture data and name of this contact
             string pictureName;
@@ -273,21 +278,23 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// converts an outlook appointment element to a StdCalendarItem
         /// </summary>
-        /// <param name="outlookItem"> The outlook item. </param>
+        /// <param name="outlookItem"> The outlook item to be converted.  </param>
+        /// <param name="appointmentList">list of std calendar entries to suppress duplicates</param>
         /// <returns> the newly created StdCalendarItem </returns>
         /// <exception cref="ArgumentNullException"> in case of outlookItem being null </exception>
-        public static StdCalendarItem ConvertToStandardCalendarItem(AppointmentItem outlookItem)
+        public static StdCalendarItem ConvertToStandardCalendarItem(AppointmentItem outlookItem, IEnumerable<StdCalendarItem> appointmentList)
         {
-            var item = outlookItem as Microsoft.Office.Interop.Outlook.AppointmentItem;
-
             if (outlookItem == null)
             {
                 throw new ArgumentNullException("outlookItem");
             }
 
+            // generate the new id this contact will get in case there is no contact id in outlook
+            var newId = GetStandardAppointmentId(outlookItem, appointmentList);
+
             var result = new StdCalendarItem
                 {
-                    Id = Guid.NewGuid(),
+                    Id = newId,
                     Title = outlookItem.Subject,
                     Description = outlookItem.Body,
                     Start = outlookItem.StartUTC,
@@ -316,18 +323,10 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// Opens a MAPI folder from outlook.
         /// </summary>
-        /// <param name="outlookNamespace">
-        /// The outlook namespace.
-        /// </param>
-        /// <param name="folderName">
-        /// The outlook folder name.
-        /// </param>
-        /// <param name="defaultFolder">
-        /// The default folder.
-        /// </param>
-        /// <returns>
-        /// a reference to the MAPI folder
-        /// </returns>
+        /// <param name="outlookNamespace"> The outlook namespace. </param>
+        /// <param name="folderName"> The outlook folder name. </param>
+        /// <param name="defaultFolder"> The default folder. </param>
+        /// <returns> a reference to the MAPI folder </returns>
         public static MAPIFolder GetOutlookMapiFolder(NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
         {
             if (outlookNamespace == null)
@@ -400,13 +399,9 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             var outlookAppointment = (from x in appointmentList
-                                       where x.Id == stdCalendarItem.Id.ToString()
-                                       select x.Item).FirstOrDefault();
-            
-            if (outlookAppointment == null)
-            {
-                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
-            }
+                                      where x.Id == stdCalendarItem.Id.ToString()
+                                      select x.Item).FirstOrDefault() 
+                                      ?? (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
 
             // convert StdContact to Outlook contact
             if (ConvertToNativeAppointment(stdCalendarItem, outlookAppointment))
@@ -420,6 +415,13 @@ namespace Sem.Sync.Connector.Outlook
             return false;
         }
 
+        /// <summary>
+        /// Converts a <see cref="StdCalendarItem"/> to an Outlook-Appointment.
+        /// </summary>
+        /// <param name="stdNewAppointment"> The <see cref="StdCalendarItem"/> to be converted. </param>
+        /// <param name="appointment"> The appointment to be updated. </param>
+        /// <returns> True if there have been updates in the target </returns>
+        /// <exception cref="ArgumentNullException"> in case of the <paramref name="stdNewAppointment"/> or <paramref name="appointment"/> being null.</exception>
         private static bool ConvertToNativeAppointment(StdCalendarItem stdNewAppointment, AppointmentItem appointment)
         {
             if (stdNewAppointment == null)
@@ -432,100 +434,46 @@ namespace Sem.Sync.Connector.Outlook
                 throw new ArgumentNullException("appointment");
             }
 
-            var dirty = false;
-
-            var stdOldAppointment = ConvertToStandardCalendarItem(appointment);
+            var stdOldAppointment = ConvertToStandardCalendarItem(appointment, null);
 
             SyncTools.ClearNulls(stdNewAppointment, typeof(StdCalendarItem));
             SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
 
-            ////        Id = Guid.NewGuid(),
-            ////        Title = outlookItem.Subject,
-            ////        Description = outlookItem.Body,
-            ////        Start = outlookItem.StartUTC,
-            ////        End = outlookItem.EndUTC,
-            ////        BusyStatus = outlookItem.BusyStatus.ToBusyStatus(),
-            ////        InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
-            ////        Location = outlookItem.Location,
-            ////        ExternalIdentifier =
-            ////            new List<CalendarIdentifier>
-            ////                {
-            ////                    new CalendarIdentifier
-            ////                        {
-            ////                            Identifier = outlookItem.GlobalAppointmentID,
-            ////                            IdentifierType = CalendarIdentifierType.Outlook,
-            ////                        }
-            ////                },
-            ////        RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
-            ////        ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
-            ////        ResponseRequested = outlookItem.ResponseRequested,
-            ////        ResponseStatus = outlookItem.ResponseStatus.ToResponseStatus()
+            var dirty = false;
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.BusyStatus.ToOutlook(), x => appointment.BusyStatus = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ReminderBeforeStart.Minutes, x => appointment.ReminderMinutesBeforeStart = x);
+            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ResponseRequested, x => appointment.ResponseRequested = x);
 
-            if (stdNewAppointment.Title != stdOldAppointment.Title)
-            {
-                dirty = true;
-                appointment.Subject = stdNewAppointment.Title;
-            }
-
-            if (stdNewAppointment.Description != stdOldAppointment.Description)
-            {
-                dirty = true;
-                appointment.Body = stdNewAppointment.Description;
-            }
-
-            if (stdNewAppointment.Start != stdOldAppointment.Start)
-            {
-                dirty = true;
-                appointment.StartUTC = stdNewAppointment.Start;
-            }
-
-            if (stdNewAppointment.End != stdOldAppointment.End)
-            {
-                dirty = true;
-                appointment.EndUTC = stdNewAppointment.End;
-            }
-
-            if (stdNewAppointment.BusyStatus != stdOldAppointment.BusyStatus)
-            {
-                dirty = true;
-                appointment.BusyStatus = stdNewAppointment.BusyStatus.ToOutlook();
-            }
-
-            if (stdNewAppointment.Location != stdOldAppointment.Location)
-            {
-                dirty = true;
-                appointment.Location = stdNewAppointment.Location;
-            }
-
-            if (stdNewAppointment.ReminderBeforeStart != stdOldAppointment.ReminderBeforeStart)
-            {
-                dirty = true;
-                appointment.ReminderMinutesBeforeStart = stdNewAppointment.ReminderBeforeStart.Minutes;
-            }
-
-            if (stdNewAppointment.ResponseRequested != stdOldAppointment.ResponseRequested)
-            {
-                dirty = true;
-                appointment.ResponseRequested = stdNewAppointment.ResponseRequested;
-            }
-
-            if (stdNewAppointment.RecurrenceState != stdOldAppointment.RecurrenceState)
-            {
-                dirty = true;
-
-                // todo: how can se set this property?
-                ////appointment.RecurrenceState = stdNewAppointment.RecurrenceState.ToOutlook();
-            }
-
-            if (stdNewAppointment.ResponseStatus != stdOldAppointment.ResponseStatus)
-            {
-                dirty = true;
-
-                // todo: how to set this property
-                ////appointment.ResponseStatus = stdNewAppointment.ResponseStatus.ToOutlook();
-            }
-
+            // todo: how can se set the RecurrenceState property?
+            // todo: how to set the ResponseStatus property
             return dirty;
+        }
+
+        /// <summary>
+        /// compares old to new and sets the destination if both are different.
+        /// </summary>
+        /// <param name="dirty"> The dirty-flag (set to true if a modification in the destination object has been done). </param>
+        /// <param name="oldStd"> The old std element. </param>
+        /// <param name="newStd"> The new std element. </param>
+        /// <param name="f"> The expression to extract the value from the <see cref="StdCalendarItem"/>. </param>
+        /// <param name="setter"> The setter method for the destination object. </param>
+        /// <typeparam name="TDestination"> The type of the destination property. </typeparam>
+        /// <typeparam name="TSource"> The type of the source object. </typeparam>
+        private static void MapIfDiffers<TDestination, TSource>(ref bool dirty, TSource oldStd, TSource newStd, Func<TSource, TDestination> f, Action<TDestination> setter)
+        {
+            var newValue = f(newStd);
+            if (Equals(f(oldStd), newValue))
+            {
+                return;
+            }
+
+            setter(newValue);
+            dirty = true;
         }
 
         /// <summary>
@@ -1022,7 +970,7 @@ namespace Sem.Sync.Connector.Outlook
         /// <param name="outlookContact"> the outlook contact to handle </param>
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> the corresponding Guid </returns>
-        private static Guid GetStandardId(ContactItem outlookContact, IEnumerable<StdContact> contactList)
+        private static Guid GetStandardContactId(ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -1058,6 +1006,57 @@ namespace Sem.Sync.Connector.Outlook
 
             var guid = newId;
             if (contactList != null && contactList.Where(x => x.Id == guid).Count() > 0)
+            {
+                newId = Guid.NewGuid();
+            }
+
+            return newId;
+        }
+        
+        /// <summary>
+        /// Returns a syncronization id for a given appointment. If there is no syncronization id, a new one will be 
+        /// created and saved to outlook. If saving the appointment does fail because of authorization, NO exception 
+        /// will be thrown.
+        /// </summary>
+        /// <param name="outlookAppointment"> the outlook appointment to handle </param>
+        /// <param name="appointmentList"> The appointment List to lookup duplicates. </param>
+        /// <returns> the corresponding Guid </returns>
+        private static Guid GetStandardAppointmentId(AppointmentItem outlookAppointment, IEnumerable<StdCalendarItem> appointmentList)
+        {
+            if (outlookAppointment == null)
+            {
+                throw new ArgumentNullException("outlookAppointment");
+            }
+
+            var newId = Guid.NewGuid();
+            try
+            {
+                // try to read the contact id property - generate one if it's not there
+                var contactIdObject = outlookAppointment.UserProperties[AppointmentIdOutlookPropertyName] ??
+                                      outlookAppointment.UserProperties.Add(
+                                          ContactIdOutlookPropertyName,
+                                          OlUserPropertyType.olText,
+                                          true,
+                                          OlFormatText.olFormatTextText);
+
+                // test if the value is a valid id
+                if (contactIdObject.Value.ToString().Length != 36)
+                {
+                    // use the formerly generated id if the one from outlook is not valid
+                    contactIdObject.Value = newId.ToString();
+                    outlookAppointment.Save();
+                }
+
+                // finally read the id from the property
+                newId = new Guid(contactIdObject.Value.ToString());
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // if we are not authorized to write back the id, we will assume a new id
+            }
+
+            var guid = newId;
+            if (appointmentList != null && appointmentList.Where(x => x.Id == guid).Count() > 0)
             {
                 newId = Guid.NewGuid();
             }

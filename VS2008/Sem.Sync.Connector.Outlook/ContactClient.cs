@@ -70,7 +70,7 @@ namespace Sem.Sync.Connector.Outlook
                                       orderby a.LastName, a.FirstName
                                       select a;
 
-                _ContactItem lastItem = null;
+                ContactItem lastItem = null;
                 var contactList = new List<StdContact>(300);
                 foreach (var item in outlookItemList)
                 {
