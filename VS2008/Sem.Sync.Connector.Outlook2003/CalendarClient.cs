@@ -19,8 +19,9 @@ namespace Sem.Sync.Connector.Outlook2003
 
     using Microsoft.Office.Interop.Outlook;
 
-    using SyncBase;
-    using SyncBase.Attributes;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
@@ -71,7 +72,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
                     if (lastItem != null)
                     {
-                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item);
+                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
                         LogProcessingEvent(stdItem, "comparing ...");
 
                         if (lastItem.Subject == item.Subject
@@ -195,7 +196,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
-                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem));
+                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
@@ -241,7 +242,7 @@ namespace Sem.Sync.Connector.Outlook2003
             var appointmentEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
 
             // extract the contacts that do already exist
-            var appointmentList = OutlookClient.GetContactsList(appointmentEnum);
+            var appointmentList = OutlookClient.GetAppointmentsList(appointmentEnum);
 
             var added = 0;
             foreach (var element in elements)

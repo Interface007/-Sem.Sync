@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { @"{FS:ApplicationFolder}\A Copy OutlookCal to Xml.SyncList" };
+                args = new[] { @"{FS:ApplicationFolder}\A Copy Xml to OutlookCal.SyncList" };
             }
 #endif
 

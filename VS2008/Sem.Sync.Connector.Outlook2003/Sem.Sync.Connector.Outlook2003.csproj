@@ -87,6 +87,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="AppointmentItemContainer.cs" />
     <Compile Include="CalendarClient.cs" />
     <Compile Include="ContactClient.cs" />
     <Compile Include="ContactsItemContainer.cs" />

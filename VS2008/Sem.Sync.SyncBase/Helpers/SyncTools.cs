@@ -204,6 +204,22 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = (int)item != 0;
                     break;
 
+                case "Int64":
+                    isDefined = (Int64)item != 0;
+                    break;
+
+                case "Double":
+                    isDefined = (double)item != (double)0;
+                    break;
+
+                case "Boolean":
+                    isDefined = (bool)item;
+                    break;
+
+                case "TimeSpan":
+                    isDefined = (TimeSpan)item == new TimeSpan();
+                    break;
+
                 case "String":
                     isDefined = !string.IsNullOrEmpty((string)item);
                     break;
@@ -237,14 +253,15 @@ namespace Sem.Sync.SyncBase.Helpers
 #if DEBUG
                     if (
                         !typeName.IsOneOf(
-                             "SyncData",
-                             "PhoneNumber",
-                             "AddressDetail",
-                             "PersonName",
-                             "StdContact",
-                             "ProfileIdentifiers",
-                             "ProfileIdInformation",
-                             "InstantMessengerAddresses"))
+                            "SyncData",
+                            "StdCalendarItem",                            
+                            "PhoneNumber",
+                            "AddressDetail",
+                            "PersonName",
+                            "StdContact",
+                            "ProfileIdentifiers",
+                            "ProfileIdInformation",
+                            "InstantMessengerAddresses"))
                     {
                         Tools.DebugWriteLine("type name not explicitly supported in ClearNulls: " + typeName);
                     }
