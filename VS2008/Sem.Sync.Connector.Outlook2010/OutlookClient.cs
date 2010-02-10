@@ -570,7 +570,6 @@ namespace Sem.Sync.Connector.Outlook2010
 
                 if (stdOldContact.Name == null || stdOldContact.Name.MiddleName != stdNewContact.Name.MiddleName)
                 {
-
                     outlookContact.MiddleName = stdNewContact.Name.MiddleName;
                     dirty = true;
                 }
