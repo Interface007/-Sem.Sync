@@ -16,15 +16,13 @@ namespace Sem.Sync.Connector.Outlook2010
     using System.Linq;
     using System.Runtime.InteropServices;
 
-    using GenericHelpers;
-
     using Microsoft.Office.Interop.Outlook;
     using Microsoft.Win32;
 
-    using SyncBase;
-    using SyncBase.DetailData;
-    using SyncBase.Helpers;
-    using System.Linq.Expressions;
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// This class communicates with an outlook instance.
@@ -441,42 +439,18 @@ namespace Sem.Sync.Connector.Outlook2010
             SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
 
             var dirty = false;
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.BusyStatus.ToOutlook(), x => appointment.BusyStatus = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ReminderBeforeStart.Minutes, x => appointment.ReminderMinutesBeforeStart = x);
-            MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ResponseRequested, x => appointment.ResponseRequested = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.BusyStatus.ToOutlook(), x => appointment.BusyStatus = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ReminderBeforeStart.Minutes, x => appointment.ReminderMinutesBeforeStart = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ResponseRequested, x => appointment.ResponseRequested = x);
 
             // todo: how can se set the RecurrenceState property?
             // todo: how to set the ResponseStatus property
             return dirty;
-        }
-
-        /// <summary>
-        /// compares old to new and sets the destination if both are different.
-        /// </summary>
-        /// <param name="dirty"> The dirty-flag (set to true if a modification in the destination object has been done). </param>
-        /// <param name="oldStd"> The old std element. </param>
-        /// <param name="newStd"> The new std element. </param>
-        /// <param name="f"> The expression to extract the value from the <see cref="StdCalendarItem"/>. </param>
-        /// <param name="setter"> The setter method for the destination object. </param>
-        /// <typeparam name="TDestination"> The type of the destination property. </typeparam>
-        /// <typeparam name="TSource"> The type of the source object. </typeparam>
-        private static void MapIfDiffers<TDestination, TSource>(ref bool dirty, TSource oldStd, TSource newStd, Expression<Func<TSource, TDestination>> f, Action<TDestination> setter)
-        {
-            var modifier = new NullLiftModifier();
-            var function = ((Expression<Func<TSource, TDestination>>)modifier.Modify(f)).Compile();
-            var newValue = function(newStd);
-            if (!Equals(newValue, default(TDestination)) && Equals(function(oldStd), newValue))
-            {
-                return;
-            }
-
-            setter(newValue);
-            dirty = true;
         }
 
         /// <summary>
@@ -557,40 +531,40 @@ namespace Sem.Sync.Connector.Outlook2010
             SyncTools.ClearNulls(stdNewContact, typeof(StdContact));
             SyncTools.ClearNulls(stdOldContact, typeof(StdContact));
 
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.DateOfBirth, x => outlookContact.Birthday = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonGender, x => outlookContact.Gender = gender);
-            
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.FirstName, x => outlookContact.FirstName = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.MiddleName, x => outlookContact.MiddleName = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.LastName, x => outlookContact.LastName = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.AcademicTitle, x => outlookContact.Title = x);
-            
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessEmailPrimary, x => outlookContact.Email2Address = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalEmailPrimary, x => outlookContact.Email1Address = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessHomepage, x => outlookContact.BusinessHomePage = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalHomepage, x => outlookContact.PersonalHomePage = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessCompanyName, x => outlookContact.CompanyName = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPosition, x => outlookContact.JobTitle = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.DateOfBirth, x => outlookContact.Birthday = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonGender, x => outlookContact.Gender = gender);
 
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.CityName, x => outlookContact.BusinessAddressCity = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.CountryName, x => outlookContact.BusinessAddressCountry = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.PostalCode, x => outlookContact.BusinessAddressPostalCode = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.StateName, x => outlookContact.BusinessAddressState = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.StreetName, x => outlookContact.BusinessAddressStreet = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.Phone.ToString(), x => outlookContact.BusinessTelephoneNumber = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.FirstName, x => outlookContact.FirstName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.MiddleName, x => outlookContact.MiddleName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.LastName, x => outlookContact.LastName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.AcademicTitle, x => outlookContact.Title = x);
 
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.CityName, x => outlookContact.HomeAddressCity = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.CountryName, x => outlookContact.HomeAddressCountry = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.PostalCode, x => outlookContact.HomeAddressPostalCode = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.StateName, x => outlookContact.HomeAddressState = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.StreetName, x => outlookContact.HomeAddressStreet = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.Phone.ToString(), x => outlookContact.HomeTelephoneNumber = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessEmailPrimary, x => outlookContact.Email2Address = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalEmailPrimary, x => outlookContact.Email1Address = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessHomepage, x => outlookContact.BusinessHomePage = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalHomepage, x => outlookContact.PersonalHomePage = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessCompanyName, x => outlookContact.CompanyName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPosition, x => outlookContact.JobTitle = x);
 
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalPhoneMobile.ToString(), x => outlookContact.MobileTelephoneNumber = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPhoneMobile.ToString(), x => outlookContact.Business2TelephoneNumber = x);
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalInstantMessengerAddresses.MsnMessenger, x => outlookContact.IMAddress = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.CityName, x => outlookContact.BusinessAddressCity = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.CountryName, x => outlookContact.BusinessAddressCountry = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.PostalCode, x => outlookContact.BusinessAddressPostalCode = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.StateName, x => outlookContact.BusinessAddressState = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.StreetName, x => outlookContact.BusinessAddressStreet = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessAddressPrimary.Phone.ToString(), x => outlookContact.BusinessTelephoneNumber = x);
 
-            MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData, x => outlookContact.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.CityName, x => outlookContact.HomeAddressCity = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.CountryName, x => outlookContact.HomeAddressCountry = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.PostalCode, x => outlookContact.HomeAddressPostalCode = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.StateName, x => outlookContact.HomeAddressState = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.StreetName, x => outlookContact.HomeAddressStreet = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalAddressPrimary.Phone.ToString(), x => outlookContact.HomeTelephoneNumber = x);
+
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalPhoneMobile.ToString(), x => outlookContact.MobileTelephoneNumber = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPhoneMobile.ToString(), x => outlookContact.Business2TelephoneNumber = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalInstantMessengerAddresses.MsnMessenger, x => outlookContact.IMAddress = x);
+
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData, x => outlookContact.Body = x);
 
             if (stdOldContact.Id != stdNewContact.Id)
             {

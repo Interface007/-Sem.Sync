@@ -159,6 +159,30 @@ namespace Sem.GenericHelpers
             target = result;
         }
 
+        /// <summary>
+        /// compares old to new and sets the destination if both are different.
+        /// </summary>
+        /// <param name="dirty"> The dirty-flag (set to true if a modification in the destination object has been done). </param>
+        /// <param name="newStd"> The new std element. </param>
+        /// <param name="oldStd"> The old std element. </param>
+        /// <param name="f"> The expression to extract the value from the source type. </param>
+        /// <param name="setter"> The setter method for the destination object. </param>
+        /// <typeparam name="TDestination"> The type of the destination property. </typeparam>
+        /// <typeparam name="TSource"> The type of the source object. </typeparam>
+        public static void MapIfDiffers<TDestination, TSource>(ref bool dirty, TSource newStd, TSource oldStd, Expression<Func<TSource, TDestination>> f, Action<TDestination> setter)
+        {
+            var modifier = new NullLiftModifier();
+            var function = ((Expression<Func<TSource, TDestination>>)modifier.Modify(f)).Compile();
+            var newValue = function(newStd);
+            if (Equals(function(oldStd), newValue))
+            {
+                return;
+            }
+
+            setter(newValue);
+            dirty = true;
+        }
+
         private static Func<TObject, TResult1> GetMethod<TObject, TResult1>(Expression<Func<TObject, TResult1>> f1)
         {
             var key = f1 + typeof(TObject).FullName;

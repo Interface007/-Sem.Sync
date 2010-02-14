@@ -156,6 +156,35 @@ namespace Sem.Sync.Test
         }
 
         [TestMethod]
+        public void MapIfDiffersTest()
+        {
+            var source1 = new ComplexTestClass();
+            var source2 = new ComplexTestClass();
+            var target = new NetworkCredentials();
+
+            var dirty = false;
+            
+            // both NULL : no mapping
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp2.Password, x => target.Passwort = x);
+            Assert.IsFalse(dirty);
+            
+            // both "geheim1" : no mapping
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
+            Assert.IsFalse(dirty);
+            
+            // source1 = "geheim1", source2 = "something completely different" : !!mapping!!
+            source2.myProp1.Password = "something completely different";
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
+            Assert.IsTrue(dirty);
+            
+            // source1 = NULL, source2 = "something completely different" : !!mapping!!
+            source1.myProp1 = null;
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
+            Assert.IsTrue(dirty);
+            Assert.IsNull(target.Passwort);
+        }
+
+        [TestMethod]
         public void SpeedTest()
         {
             for (int i = 0; i < 9; i++)
