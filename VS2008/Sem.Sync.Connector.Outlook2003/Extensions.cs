@@ -110,8 +110,8 @@ namespace Sem.Sync.Connector.Outlook2003
                     return OlBusyStatus.olTentative;
                 default:
                     throw new ArgumentOutOfRangeException(
-                        "status", 
-                        status, 
+                        "status",
+                        status,
                         "there is no translation for this value into the SemSync namespace.");
             }
         }

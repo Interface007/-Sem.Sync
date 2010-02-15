@@ -22,6 +22,18 @@ namespace Sem.GenericHelpers
             return Visit(expression);
         }
 
+        protected override Expression VisitMethodCall(MethodCallExpression originalExpression)
+        {
+            var invocationExpression = (MethodCallExpression)base.VisitMethodCall(originalExpression);
+            var argument = invocationExpression.Object;
+
+            Expression nullTest = Expression.Equal(
+                argument,
+                Expression.Constant(null, argument.Type));
+
+            return Expression.Condition(nullTest, Expression.Constant(null, invocationExpression.Method.ReturnType), invocationExpression);
+        }
+
         /// <summary>
         /// Change how '.' performs member access.
         /// </summary>
@@ -29,9 +41,15 @@ namespace Sem.GenericHelpers
         /// <returns></returns>
         protected override Expression VisitMemberAccess(MemberExpression originalExpression)
         {
-            MemberExpression memberAccessExpression = (MemberExpression)base.VisitMemberAccess(originalExpression);
+            var memberAccessExpression = (MemberExpression)base.VisitMemberAccess(originalExpression);
 
-            Expression nullTest = Expression.Equal(
+            if (memberAccessExpression.Type == typeof(System.DateTime)
+                || memberAccessExpression.Type.BaseType == typeof(System.Enum))
+            {
+                return memberAccessExpression;
+            }
+
+            var nullTest = Expression.Equal(
                 memberAccessExpression.Expression, 
                 Expression.Constant(null, memberAccessExpression.Expression.Type));
 

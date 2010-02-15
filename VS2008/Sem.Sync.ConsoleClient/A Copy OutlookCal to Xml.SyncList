@@ -15,6 +15,7 @@
   <SyncDescription Name="Export from Outlook to memory">
     <Command>CopyAll</Command>
     <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <SourceStorePath>:Filter(Now())</SourceStorePath>
     <TargetConnector>Sem.Sync.Connector.Memory.GenericClient</TargetConnector>
     <TargetStorePath>{FS:WorkingFolder}\OutlookCalendar.xmlcontact</TargetStorePath>
   </SyncDescription>

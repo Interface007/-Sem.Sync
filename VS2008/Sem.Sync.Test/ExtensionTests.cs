@@ -182,6 +182,12 @@ namespace Sem.Sync.Test
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
             Assert.IsTrue(dirty);
             Assert.IsNull(target.Passwort);
+
+            // source1 = NULL, source2 = "something completely different" : !!mapping!!
+            source1.myProp1 = null;
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password.ToString(), x => target.Passwort = x);
+            Assert.IsTrue(dirty);
+            Assert.IsNull(target.Passwort);
         }
 
         [TestMethod]

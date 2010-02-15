@@ -177,7 +177,8 @@ namespace Sem.Sync.SyncBase.DetailData
                 result.Append(identifier.Value);
             }
 
-            return result.ToString().Substring(3);
+            var resultString = result.ToString();
+            return resultString.Length > 3 ? resultString.Substring(3) : string.Empty;
         }
 
         /// <summary>
