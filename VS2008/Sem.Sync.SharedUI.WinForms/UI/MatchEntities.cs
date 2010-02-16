@@ -291,6 +291,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         }
 
         /// <summary>
+        /// Handels the click event of the AutoMatch button
+        /// </summary>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnAutoMatch_Click(object sender, EventArgs e)
+        {
+            this.matching.MatchAll();
+        }
+
+        /// <summary>
         /// Handels the click event of the UnMatch button
         /// </summary>
         /// <param name="sender"> The sender of the event. </param>

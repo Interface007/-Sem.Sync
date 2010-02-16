@@ -107,7 +107,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the message to be logged. </param>
         private static void ProcessingEvent(object sender, ProcessingEventArgs e)
         {
-            Console.WriteLine(e.Message + " " + e.Item.NewIfNull());
+            Console.WriteLine(e.Message + (e.Item == null ? string.Empty : " " + e.Item));
         }
 
         /// <summary>

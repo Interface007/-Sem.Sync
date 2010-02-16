@@ -183,12 +183,20 @@ namespace Sem.GenericHelpers
             dirty = true;
         }
 
-        private static Func<TObject, TResult1> GetMethod<TObject, TResult1>(Expression<Func<TObject, TResult1>> f1)
+        /// <summary>
+        /// Creates and caches a function that is euqivalent to the expression <paramref name="expressionToGetTheFunctionFor"/>.
+        /// The expression is modified to return NULL instead of throwing ReferenceNullExceptions if a part of the expression is null.
+        /// </summary>
+        /// <param name="expressionToGetTheFunctionFor"> The expression that should be translated into a compiled function </param>
+        /// <typeparam name="TObject">The type of the object that is the parameter for the function </typeparam>
+        /// <typeparam name="TResult1">The type of the result of the function </typeparam>
+        /// <returns>The compiled function that is equivalent to the expression </returns>
+        private static Func<TObject, TResult1> GetMethod<TObject, TResult1>(Expression<Func<TObject, TResult1>> expressionToGetTheFunctionFor)
         {
-            var key = f1 + typeof(TObject).FullName;
+            var key = expressionToGetTheFunctionFor + typeof(TObject).FullName;
             if (!Expressions.ContainsKey(key))
             {
-                var x = (Expression<Func<TObject, TResult1>>)Modifier.Modify(f1);
+                var x = (Expression<Func<TObject, TResult1>>)Modifier.Modify(expressionToGetTheFunctionFor);
                 Expressions.Add(key, x.Compile());
             }
 

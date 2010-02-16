@@ -317,5 +317,23 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     where x.Id == baseLineId
                     select x).FirstOrDefault();
         }
+
+        internal void MatchAll()
+        {
+            foreach (var sourceItem in this.Source)
+            {
+                var ppi = sourceItem.PersonalProfileIdentifiers;
+                var targetItem = (from x in this.Target 
+                                  where x.PersonalProfileIdentifiers.Equals(ppi)
+                                  select x).FirstOrDefault();
+
+                if (targetItem != null)
+                {
+                    this.CurrentSourceElement = sourceItem;
+                    this.CurrentTargetElement = targetItem;
+                    this.Match();
+                }
+            }
+        }
     }
 }

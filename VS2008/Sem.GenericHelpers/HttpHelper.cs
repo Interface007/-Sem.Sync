@@ -754,7 +754,7 @@ namespace Sem.GenericHelpers
 
                         if (this.UiDispatcher.AskForLogOnCredentials(
                             this.proxyCredentials,
-                            string.Format(CultureInfo.CurrentCulture, "The proxy server {1} needs your credentials to receive content from {0}.", url.Host, request.Proxy.GetProxy(url).Host),
+                            string.Format(CultureInfo.CurrentCulture, Properties.Resources.TheProxyServerNeedsYourCredentials, url.Host, request.Proxy.GetProxy(url).Host),
                             this.proxyCredentials.LogOnUserId,
                             this.proxyCredentials.LogOnPassword))
                         {

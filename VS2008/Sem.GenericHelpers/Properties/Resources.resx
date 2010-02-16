@@ -131,4 +131,7 @@ If you select &gt;OK&lt; you can review each information file and decide whether
   <data name="ThereAreSomeInformationFilesTitle" xml:space="preserve">
     <value>Exceptions found</value>
   </data>
+  <data name="TheProxyServerNeedsYourCredentials" xml:space="preserve">
+    <value>The proxy server {1} needs your credentials to receive content from {0}.</value>
+  </data>
 </root>
