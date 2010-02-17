@@ -143,7 +143,7 @@ namespace Sem.Sync.Connector.WerKenntWen
         {
             var wkwContacts = this.GetUrlList();
 
-            ////for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 foreach (var item in wkwContacts)
                 {
@@ -397,6 +397,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                 new CaptchaResolveRequest
                     {
                         UrlOfWebSite = "http://www.wer-kennt-wen.de/captcha",
+                        HttpHelper = this.wkwRequester,
                     });
         }
     }
