@@ -298,6 +298,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         private void BtnAutoMatch_Click(object sender, EventArgs e)
         {
             this.matching.MatchAll();
+            this.SetupGui();
         }
 
         /// <summary>

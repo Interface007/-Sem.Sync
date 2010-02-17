@@ -205,11 +205,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "Int64":
-                    isDefined = (Int64)item != 0;
+                    isDefined = (long)item != 0;
                     break;
 
                 case "Double":
-                    isDefined = (double)item != (double)0;
+                    isDefined = (double)item != 0;
                     break;
 
                 case "Boolean":
@@ -225,7 +225,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "DateTime":
-                    isDefined = (DateTime)item != new DateTime() && (DateTime)item > new DateTime(1900, 1, 1) && (DateTime)item < new DateTime(2100, 1, 1);
+                    isDefined = (DateTime)item != new DateTime() && (DateTime)item > new DateTime(1900, 1, 1) && (DateTime)item <
+                                                                                                                 new DateTime
+                                                                                                                     (2100,
+                                                                                                                      1,
+                                                                                                                      1);
                     break;
 
                 case "Date":
@@ -320,7 +324,8 @@ namespace Sem.Sync.SyncBase.Helpers
             {
                 var comparison = (from x in Attribute.GetCustomAttributes(item)
                                   where x.GetType() == typeof(ComparisonModifierAttribute)
-                                  select x).FirstOrDefault() as ComparisonModifierAttribute ?? new ComparisonModifierAttribute();
+                                  select x).FirstOrDefault() as ComparisonModifierAttribute ??
+                                 new ComparisonModifierAttribute();
 
                 if (comparison.SkipMerge)
                 {
@@ -401,25 +406,25 @@ namespace Sem.Sync.SyncBase.Helpers
                         result.AddRange(
                             DetectConflicts(
                                 new ConflictTestContainer
-                                {
-                                    SourceObject = container.SourceObject,
-                                    TargetObject = container.TargetObject,
-                                    BaselineObject = container.BaselineObject,
-                                    PropertyName = container.PropertyName + "." + item.Name,
-                                    PropertyType = item.PropertyType,
-                                    SourceProperty =
-                                        (container.SourceProperty == null)
-                                            ? null
-                                            : item.GetValue(container.SourceProperty, null),
-                                    TargetProperty =
-                                        (container.TargetProperty == null)
-                                            ? null
-                                            : item.GetValue(container.TargetProperty, null),
-                                    BaselineProperty =
-                                        (container.BaselineProperty == null)
-                                            ? null
-                                            : item.GetValue(container.BaselineProperty, null)
-                                },
+                                    {
+                                        SourceObject = container.SourceObject,
+                                        TargetObject = container.TargetObject,
+                                        BaselineObject = container.BaselineObject,
+                                        PropertyName = container.PropertyName + "." + item.Name,
+                                        PropertyType = item.PropertyType,
+                                        SourceProperty =
+                                            (container.SourceProperty == null)
+                                                ? null
+                                                : item.GetValue(container.SourceProperty, null),
+                                        TargetProperty =
+                                            (container.TargetProperty == null)
+                                                ? null
+                                                : item.GetValue(container.TargetProperty, null),
+                                        BaselineProperty =
+                                            (container.BaselineProperty == null)
+                                                ? null
+                                                : item.GetValue(container.BaselineProperty, null)
+                                    },
                                 skipIdenticalChanges));
 
                         // we did already add the results for this property, so skip it now
@@ -432,18 +437,16 @@ namespace Sem.Sync.SyncBase.Helpers
                     && (!skipIdenticalChanges || conflict != MergePropertyConflict.BothChangedIdentically))
                 {
                     result.Add(new MergeConflict
-                    {
-                        PropertyConflict = conflict,
-
-                        BaselineElement = container.BaselineObject,
-                        SourceElement = container.SourceObject,
-                        TargetElement = container.TargetObject,
-
-                        PathToProperty = container.PropertyName + "." + item.Name,
-                        BaselinePropertyValue = baselineString,
-                        SourcePropertyValue = sourceString,
-                        TargetPropertyValue = targetString
-                    });
+                                   {
+                                       PropertyConflict = conflict,
+                                       BaselineElement = container.BaselineObject,
+                                       SourceElement = container.SourceObject,
+                                       TargetElement = container.TargetObject,
+                                       PathToProperty = container.PropertyName + "." + item.Name,
+                                       BaselinePropertyValue = baselineString,
+                                       SourcePropertyValue = sourceString,
+                                       TargetPropertyValue = targetString
+                                   });
                 }
             }
 

@@ -194,11 +194,21 @@ namespace Sem.Sync.SyncBase.DetailData
             }
         }
 
+        /// <summary>
+        /// Creates a new value for the given string.
+        /// </summary>
+        /// <param name="value"> The value to create a new value of type <see cref="ProfileIdInformation"/>. </param>
+        /// <returns> The new value </returns>
         protected override ProfileIdInformation CreateNewValueItem(string value)
         {
             return value;
         }
 
+        /// <summary>
+        /// To keep compatibility while deserializing information, some text is translated.
+        /// </summary>
+        /// <param name="keyName"> The key name to be translated. </param>
+        /// <returns> The translated string. </returns>
         protected override string TranslateKey(string keyName)
         {
             switch (keyName)
