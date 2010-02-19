@@ -249,7 +249,8 @@ namespace Sem.Sync.Test
             Assert.IsTrue(exceptionText.Contains("<Timestamp>" + DateTime.Now.Year));
             Assert.IsTrue(exceptionText.Contains("vstesthost.exe</ExecutingMainModule>"));
             Assert.IsTrue(exceptionText.Contains("<SpecificInformation>Sem.GenericHelpers.Exceptions.TechnicalException: bad file name"));
-            Assert.IsTrue(exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegales Zeichen im Pfad."));
+            Assert.IsTrue(exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegales Zeichen im Pfad.")
+                || exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegal characters in path."));
         }
 
         [TestMethod]

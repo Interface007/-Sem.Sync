@@ -111,7 +111,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="contactsList"> The contacts list. </param>
         /// <returns> a value indicating if the contact has been saved </returns>
         /// <exception cref="ArgumentNullException">in case of contactsEnum or element being null</exception>
-        public static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, IEnumerable<ContactsItemContainer> contactsList)
+        internal static bool WriteContactToOutlook(Items contactsEnum, StdContact element, bool skipIfExisting, IEnumerable<ContactsItemContainer> contactsList)
         {
             if (contactsEnum == null)
             {
@@ -399,8 +399,12 @@ namespace Sem.Sync.Connector.Outlook2010
 
             var outlookAppointment = (from x in appointmentList
                                       where x.Id == stdCalendarItem.Id.ToString()
-                                      select x.Item).FirstOrDefault() 
-                                      ?? (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
+                                      select x.Item).FirstOrDefault();
+
+            if (outlookAppointment == null)
+            { 
+                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem); 
+            }
 
             // convert StdContact to Outlook contact
             if (ConvertToNativeAppointment(stdCalendarItem, outlookAppointment))
