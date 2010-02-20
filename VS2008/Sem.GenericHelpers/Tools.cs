@@ -805,6 +805,7 @@ namespace Sem.GenericHelpers
                     case "Guid":
                     case "String":
                     case "DateTime":
+                    case "Boolean":
                     case "Int32":
                         resultList.Add(parentName + item.Name);
                         break;
@@ -884,8 +885,8 @@ namespace Sem.GenericHelpers
             }
 
             string propName;
-            var indexOfOpeningBracket = pathToProperty.IndexOf('[');
-            var indexOfClosingBracket = pathToProperty.IndexOf(']');
+            var indexOfOpeningBracket = pathToProperty.IndexOfAny(new[] { '[', '(' });
+            var indexOfClosingBracket = pathToProperty.IndexOfAny(new[] { ']', ')' });
             var indexOfNextPart = pathToProperty.IndexOf('.');
             if (indexOfOpeningBracket > 0 && 
                 indexOfOpeningBracket < indexOfNextPart &&
