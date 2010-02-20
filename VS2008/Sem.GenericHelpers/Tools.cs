@@ -497,10 +497,19 @@ namespace Sem.GenericHelpers
 
             var propName = GetInvokePartFromPath(ref pathToProperty);
 
-            if (propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("("))
+            var isMethod = propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("(");
+            if (isMethod)
             {
                 return;
             }
+
+            var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
+
+            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
+            var parameter = parameterStart > -1
+                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
+                                : string.Empty;
+            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
 
             var type = objectToWriteTo.GetType();
             var propInfo = type.GetProperty(propName);
@@ -508,9 +517,6 @@ namespace Sem.GenericHelpers
             {
                 return;
             }
-
-            var isIndexed = pathToProperty.StartsWith("[", StringComparison.Ordinal) && pathToProperty.Contains("]");
-            var parameter = GetParameterForInvoke(ref pathToProperty);
 
             // if we need to navigate down the object path
             if (pathToProperty.Contains('.'))
@@ -582,6 +588,21 @@ namespace Sem.GenericHelpers
                     propInfo.SetValue(objectToWriteTo, valueString, null);
                     break;
 
+                case "SerializableDictionary`2":
+                    var sdic = propInfo.GetValue(objectToWriteTo, null) as SerializableDictionary<string, string>;
+                    if (sdic == null)
+                    {
+                        sdic = propType.GetConstructor(new Type[] { }).Invoke(null) as SerializableDictionary<string, string>;
+                        propInfo.SetValue(objectToWriteTo, sdic, null);
+                    }
+
+                    if (sdic != null)
+                    {
+                        sdic.Add(parameter, valueString);
+                    }
+
+                    break;
+
                 case "List`1":
 
                     var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
@@ -596,6 +617,12 @@ namespace Sem.GenericHelpers
                 case "ProfileIdInformation":
                     var myObject = propType.GetConstructor(new[] { typeof(string) }).Invoke(new[] { valueString });
                     propInfo.SetValue(objectToWriteTo, myObject, null);
+                    break;
+
+                case "queryType":
+                    var myQueryType = propType.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                    SetPropertyValue(myQueryType, "Value", valueString);
+                    propInfo.SetValue(objectToWriteTo, myQueryType, null);
                     break;
 
                 default:
@@ -796,22 +823,6 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Extracts parameters for a method invoke.
-        /// </summary>
-        /// <param name="propName"> The property name including the parameters. This will be manipulated
-        /// to not include the parameters after the call. </param>
-        /// <returns>The parameters.</returns>
-        private static string GetParameterForInvoke(ref string propName)
-        {
-            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
-            var parameter = parameterStart > -1
-                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
-                                : string.Empty;
-            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
-            return parameter;
-        }
-
-        /// <summary>
         /// Assembels an array of indexer parameters for a property get/set invocation.
         /// </summary>
         /// <param name="parameter"> The parameter to extract the indexers from. </param>
@@ -853,7 +864,16 @@ namespace Sem.GenericHelpers
             }
 
             string propName;
+            var indexOfOpeningBracket = pathToProperty.IndexOf('[');
+            var indexOfClosingBracket = pathToProperty.IndexOf(']');
             var indexOfNextPart = pathToProperty.IndexOf('.');
+            if (indexOfOpeningBracket > 0 && 
+                indexOfOpeningBracket < indexOfNextPart &&
+                indexOfClosingBracket > indexOfNextPart)
+            {
+                indexOfNextPart = indexOfClosingBracket + 1;
+            }
+
             if (indexOfNextPart > 0)
             {
                 propName = pathToProperty.Substring(0, indexOfNextPart);

@@ -225,11 +225,9 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
 
                 case "DateTime":
-                    isDefined = (DateTime)item != new DateTime() && (DateTime)item > new DateTime(1900, 1, 1) && (DateTime)item <
-                                                                                                                 new DateTime
-                                                                                                                     (2100,
-                                                                                                                      1,
-                                                                                                                      1);
+                    isDefined = (DateTime)item != new DateTime() 
+                        && (DateTime)item > new DateTime(1900, 1, 1) 
+                        && (DateTime)item < new DateTime(2100, 1, 1);
                     break;
 
                 case "Date":
@@ -244,10 +242,14 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = true;
                     break;
 
+                case "SerializableDictionary`2":
+                    isDefined = ((IDictionary)item).Count > 0;
+                    break;
+
                 case "List`1":
                     isDefined = ((IList)item).Count > 0;
                     break;
-
+                
                 case "ProfileIdentifiers":
                     isDefined = ((ProfileIdentifiers)item).Count > 0;
                     break;
@@ -439,9 +441,11 @@ namespace Sem.Sync.SyncBase.Helpers
                     result.Add(new MergeConflict
                                    {
                                        PropertyConflict = conflict,
+
                                        BaselineElement = container.BaselineObject,
                                        SourceElement = container.SourceObject,
                                        TargetElement = container.TargetObject,
+
                                        PathToProperty = container.PropertyName + "." + item.Name,
                                        BaselinePropertyValue = baselineString,
                                        SourcePropertyValue = sourceString,

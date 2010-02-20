@@ -9,10 +9,10 @@
 
 namespace Sem.GenericHelpers
 {
-    using System.Collections.Generic;
-    using System.Xml.Serialization;
     using System;
+    using System.Collections.Generic;
     using System.Xml.Linq;
+    using System.Xml.Serialization;
 
     [XmlRoot("dictionary")]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable

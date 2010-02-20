@@ -239,7 +239,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets a list of image data for this contact.
         /// </summary>
-        public List<SourceSpecificAttribute> SourceSpecificAttributes { get; set; }
+        public SerializableDictionary<string, string> SourceSpecificAttributes { get; set; }
 
         /// <summary>
         /// Gets or sets the personal relationship status of the contact (married/single...).
