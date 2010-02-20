@@ -465,6 +465,26 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
+        /// </summary>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a boolean</returns>
+        public static bool GetPropertyValueBoolean<T>(T objectToReadFrom, string pathToProperty)
+        {
+            var value = GetPropertyValue(objectToReadFrom, pathToProperty);
+            if (value.GetType() == typeof(bool))
+            {
+                return (bool)value;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// replaces all invalid chars from a file name with a hyphen ("-")
         /// </summary>
         /// <param name="fileName"> The file name. </param>
