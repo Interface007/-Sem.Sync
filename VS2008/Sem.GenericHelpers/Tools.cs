@@ -593,6 +593,10 @@ namespace Sem.GenericHelpers
                 case "Enum":
                     propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
                     break;
+                
+                case "Boolean":
+                    propInfo.SetValue(objectToWriteTo, bool.Parse(valueString), null);
+                    break;
 
                 case "Guid":
                     propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
