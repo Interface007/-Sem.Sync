@@ -123,7 +123,16 @@ namespace Sem.Sync.Connector.Facebook
                 switch (key)
                 {
                     case "birthday":
-                        result.DateOfBirth = DateTime.Parse(value, CultureInfo.CurrentCulture);
+                        DateTime dtvalue;
+                        if (DateTime.TryParse(
+                            value, 
+                            CultureInfo.CurrentCulture,
+                            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, 
+                            out dtvalue))
+                        {
+                            result.DateOfBirth = dtvalue;
+                        }
+
                         break;
 
                     case "hometown":
