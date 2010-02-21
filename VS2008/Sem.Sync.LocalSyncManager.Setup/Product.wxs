@@ -85,6 +85,7 @@
               <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                                  />
               <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'                         />
               <File Id='Sem.Sync.SharedUI.Common'               Name='Sem.Sync.SharedUI.Common.dll'                           />
+              <File Id='ExpressionSerialization'                Name='ExpressionSerialization.dll'                            />
 
               <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll'                 />
               <File Id='Sem.Sync.Connector.Console'             Name='Sem.Sync.Connector.Console.dll'                         />
