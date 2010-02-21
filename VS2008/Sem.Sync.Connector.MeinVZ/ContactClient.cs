@@ -363,6 +363,20 @@ namespace Sem.Sync.Connector.MeinVZ
                 {
                     if (this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
                     {
+                        var n = 2;
+                        while (true)
+                        {
+                            List<string> result2;
+                            this.httpRequester.GetExtract(extractedData[0].Replace("/tid/103", "/p/" + n), ExtractorProfileUrls, out result2);
+                            if (result2.Count == 0)
+                            {
+                                break;
+                            }
+
+                            result.AddRange(result2);
+                            n++;
+                        }
+
                         break;
                     }
                 }
