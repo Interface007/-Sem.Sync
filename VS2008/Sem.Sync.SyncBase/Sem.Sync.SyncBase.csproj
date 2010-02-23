@@ -157,6 +157,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DetailData\ImageEntry.cs" />
+    <Compile Include="Interfaces\IBackupStorage.cs" />
     <Compile Include="Interfaces\IExtendedReader.cs" />
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />

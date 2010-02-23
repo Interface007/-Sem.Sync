@@ -401,7 +401,24 @@ namespace Sem.Sync.SyncBase
         /// <returns>true if writing was successfull, false if the entry has been skipped</returns>
         private static bool WriteElement(ICollection<StdElement> list, StdElement element, bool skipIfExisting)
         {
-            var listEntry = (from entry in list where entry.Id == element.Id select entry).FirstOrDefault();
+            var asContact = element as StdContact;
+            StdElement listEntry;
+
+            if (asContact != null)
+            {
+                listEntry = (from entry in list
+                             where
+                             entry.Id == element.Id
+                             || ((StdContact)entry).PersonalProfileIdentifiers.Equals(asContact.PersonalProfileIdentifiers)
+                             select entry).FirstOrDefault();
+            }
+            else
+            {
+                listEntry = (from entry in list 
+                             where
+                             entry.Id == element.Id 
+                             select entry).FirstOrDefault();
+            }
 
             if (listEntry != null)
             {

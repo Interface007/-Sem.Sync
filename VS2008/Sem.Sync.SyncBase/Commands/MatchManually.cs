@@ -41,6 +41,12 @@ namespace Sem.Sync.SyncBase.Commands
         {
             CheckParameters(targetClient, sourceClient, baseliClient, baselineStorePath, sourceStorePath, targetStorePath);
 
+            var backupConnector = targetClient as IBackupStorage;
+            if (backupConnector != null)
+            {
+                backupConnector.BackupStorage(targetStorePath);
+            }
+
             // todo: split the command parameter in oder to specify whether to add orphaned source entries or skip them.
             var sourceTypeAttributes = sourceClient.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
             var identifierToUse = (!string.IsNullOrEmpty(commandParameter))
