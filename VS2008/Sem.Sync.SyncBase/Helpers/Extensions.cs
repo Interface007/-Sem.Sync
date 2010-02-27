@@ -160,6 +160,33 @@ namespace Sem.Sync.SyncBase.Helpers
                             
                             break;
 
+                        case "SerializableDictionary`2":
+                            var sourcedic = sourceValue as SerializableDictionary<string, string>;
+                            var targetdic = targetValue as SerializableDictionary<string, string>;
+
+                            if (sourcedic != null && sourcedic != targetdic)
+                            {
+                                if (targetdic == null)
+                                {
+                                    targetdic = new SerializableDictionary<string, string>();
+                                    //item.SetValue(targetValue, targetdic, null);
+                                }
+
+                                foreach (var sourceDicItem in sourcedic)
+                                {
+                                    if (targetdic.Keys.Contains(sourceDicItem.Key))
+                                    {
+                                        targetdic[sourceDicItem.Key] = sourceDicItem.Value;
+                                    }
+                                    else
+                                    {
+                                        targetdic.Add(sourceDicItem.Key, sourceDicItem.Value);
+                                    }
+                                }
+                            }
+                            break;
+
+
                         case "SyncData":
                         case "PersonName":
                         case "AddressDetail":
