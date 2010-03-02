@@ -8,12 +8,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace Sem.Sync.Connector.Filesystem
 {
     #region usings
 
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
