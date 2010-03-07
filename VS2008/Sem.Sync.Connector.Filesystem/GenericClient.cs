@@ -63,9 +63,9 @@ namespace Sem.Sync.Connector.Filesystem
         /// <summary>
         /// Perform a full backup of the storage - the connector has to choose a meaningfull name for the backup
         /// </summary>
+        /// <param name="clientFolderName"> The client Folder Name. </param>
         public void BackupStorage(string clientFolderName)
         {
-        
             var destFileName = clientFolderName + string.Format(CultureInfo.InvariantCulture, "-{0:yyyy-MM-dd-hh-mm-ss}-{1}.syncbackup", DateTime.Now, Guid.NewGuid());
             File.Copy(clientFolderName, destFileName);
         }
@@ -73,6 +73,7 @@ namespace Sem.Sync.Connector.Filesystem
         /// <summary>
         /// Perform a full restore of the storage - the connector has to choose the correct source for the restore
         /// </summary>
+        /// <param name="clientFolderName"> The client Folder Name. </param>
         public void RestoreStorage(string clientFolderName)
         {
             throw new NotImplementedException();
