@@ -16,9 +16,7 @@ namespace Sem.Sync.Connector.Outlook2003
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
     using Microsoft.Office.Interop.Outlook;
-
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;

@@ -27,7 +27,7 @@ namespace Sem.Sync.Connector.Outlook2003
     /// <summary>
     /// This class communicates with an outlook instance.
     /// </summary>
-    public static class OutlookClient
+    internal static class OutlookClient
     {
         /// <summary>
         /// This is the name of the custom outlook field for the synchronization id
@@ -50,7 +50,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="contactsEnum"> The contacts enum. </param>
         /// <returns> a list of ContactsItemContainer </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
-        public static IEnumerable<ContactsItemContainer> GetContactsList(Items contactsEnum)
+        internal static IEnumerable<ContactsItemContainer> GetContactsList(Items contactsEnum)
         {
             if (contactsEnum == null)
             {
@@ -79,7 +79,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="appointmentsEnum"> The contacts enum. </param>
         /// <returns> a list of AppointmentItemContainer </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null </exception>
-        public static IEnumerable<AppointmentItemContainer> GetAppointmentsList(Items appointmentsEnum)
+        internal static IEnumerable<AppointmentItemContainer> GetAppointmentsList(Items appointmentsEnum)
         {
             if (appointmentsEnum == null)
             {
@@ -158,7 +158,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="contactList"> The contact List to lookup duplicates. </param>
         /// <returns> a new standard contact  </returns>
         /// <exception cref="ArgumentNullException"> if the outlook contact is null  </exception>
-        public static StdContact ConvertToStandardContact(ContactItem outlookContact, IEnumerable<StdContact> contactList)
+        internal static StdContact ConvertToStandardContact(ContactItem outlookContact, IEnumerable<StdContact> contactList)
         {
             if (outlookContact == null)
             {
@@ -281,7 +281,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="appointmentList">list of std calendar entries to suppress duplicates</param>
         /// <returns> the newly created StdCalendarItem </returns>
         /// <exception cref="ArgumentNullException"> in case of outlookItem being null </exception>
-        public static StdCalendarItem ConvertToStandardCalendarItem(AppointmentItem outlookItem, IEnumerable<StdCalendarItem> appointmentList)
+        internal static StdCalendarItem ConvertToStandardCalendarItem(AppointmentItem outlookItem, IEnumerable<StdCalendarItem> appointmentList)
         {
             if (outlookItem == null)
             {
@@ -326,7 +326,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="folderName"> The outlook folder name. </param>
         /// <param name="defaultFolder"> The default folder. </param>
         /// <returns> a reference to the MAPI folder </returns>
-        public static MAPIFolder GetOutlookMapiFolder(NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
+        internal static MAPIFolder GetOutlookMapiFolder(NameSpace outlookNamespace, string folderName, OlDefaultFolders defaultFolder)
         {
             if (outlookNamespace == null)
             {
@@ -360,7 +360,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// Get the namespace from outlook.
         /// </summary>
         /// <returns> Returns the namespace from outlook. </returns>
-        public static NameSpace GetNamespace()
+        internal static NameSpace GetNamespace()
         {
             var outlookApplication = new Application();
 

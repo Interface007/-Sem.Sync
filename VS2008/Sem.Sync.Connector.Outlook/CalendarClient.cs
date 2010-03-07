@@ -160,6 +160,7 @@ namespace Sem.Sync.Connector.Outlook
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
+            var minimumDate = DateTime.Now;
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
@@ -168,6 +169,11 @@ namespace Sem.Sync.Connector.Outlook
             // we need to log off from outlook in order to clean up the session
             try
             {
+                if (clientFolderName.Contains(":"))
+                {
+                    clientFolderName = clientFolderName.Substring(0, clientFolderName.IndexOf(":"));
+                }
+
                 // select a folder
                 var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
@@ -188,7 +194,7 @@ namespace Sem.Sync.Connector.Outlook
                         try
                         {
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
-                            if (calendarStdItem != null)
+                            if (calendarStdItem != null && calendarStdItem.Start > minimumDate)
                             {
                                 currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 

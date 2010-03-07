@@ -689,7 +689,7 @@ namespace Sem.Sync.Connector.Outlook2010
             }
 
             var folderReg = reg.GetValue("OutlookSecureTempFolder");
-            if (folderReg == null)
+            if (folderReg == null || !Directory.Exists(folderReg.ToString()))
             {
                 return;
             }
