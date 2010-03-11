@@ -182,6 +182,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>a processed item that contains NULL references instead of defaults</returns>
         /// <remarks>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The complexity of this method does come from one single switch statement, that is easy to understand.")]
         public static bool ClearNulls(object item, Type testType)
         {
             if (item == null)

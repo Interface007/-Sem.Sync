@@ -121,6 +121,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets a list of identifiers for different information stored like active directory, social networking sited or similar
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This class will be used in XML-Serialization, what means that a ReadOnly property will add a bunch of complexity.")]
         public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
         /////// <summary>

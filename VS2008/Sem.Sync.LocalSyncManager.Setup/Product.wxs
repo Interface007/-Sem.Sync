@@ -85,7 +85,12 @@
               <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                                  />
               <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'                         />
               <File Id='Sem.Sync.SharedUI.Common'               Name='Sem.Sync.SharedUI.Common.dll'                           />
+              
               <File Id='ExpressionSerialization'                Name='ExpressionSerialization.dll'                            />
+              
+              <File Id='Google.GData.Client'                    Name='Google.GData.Client.dll'                                />
+              <File Id='Google.GData.Contacts'                  Name='Google.GData.Contacts.dll'                              />
+              <File Id='Google.GData.Extensions'                Name='Google.GData.Extensions.dll'                            />
 
               <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll'                 />
               <File Id='Sem.Sync.Connector.Console'             Name='Sem.Sync.Connector.Console.dll'                         />

@@ -406,6 +406,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <typeparam name="TDestination"> the type of elements to cast to. </typeparam>
         /// <param name="list"> a list of elements to cast </param>
         /// <returns> a list of casted elements </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "There is no design to accieve type inference in fluent interfaces for this method.")]
         public static List<TDestination> ToOtherType<TSource, TDestination>(this List<TSource> list) 
             where TDestination : class
         {
