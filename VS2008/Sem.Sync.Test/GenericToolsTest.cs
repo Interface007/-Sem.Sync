@@ -16,6 +16,7 @@ namespace Sem.Sync.Test
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
+    using System.Text;
 
     using GenericHelpers.Entities;
     using GenericHelpers.Exceptions;
@@ -24,6 +25,7 @@ namespace Sem.Sync.Test
 
     using Sem.GenericHelpers;
     using Sem.Sync.Test.DataGenerator;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     public class RecursiveTestClass
     {
@@ -282,6 +284,34 @@ namespace Sem.Sync.Test
             ////publicOnly = SimpleCrypto.ExtractPublic(key);
             ////Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), key));
             ////Assert.AreEqual(input, SimpleCrypto.DecryptString(SimpleCrypto.EncryptString(input, key), publicOnly));
+        }
+
+        [TestMethod]
+        public void TestCryptedCredentials()
+        {
+            var credentials = new Credentials
+                {
+                    LogOnDomain = "domain", 
+                    LogOnPassword = "password", 
+                    LogOnUserId = "hello"
+                };
+            
+            Assert.AreEqual("domain", credentials.LogOnDomain);
+            Assert.AreEqual("password", credentials.LogOnPassword);
+            Assert.AreEqual("hello", credentials.LogOnUserId);
+
+            var xmlSerialized = Tools.SaveToString(credentials);
+            Assert.IsFalse(xmlSerialized.Contains("password"));
+
+            var binSerializer = new BinaryFormatter();
+            using (MemoryStream contentStream = new MemoryStream())
+            {
+                binSerializer.Serialize(contentStream, credentials);
+                var data = contentStream.ToArray();
+                var dataString = Encoding.ASCII.GetString(data);
+
+                Assert.IsFalse(dataString.Contains("password"));
+            }
         }
     }
 }
