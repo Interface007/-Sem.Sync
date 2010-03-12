@@ -354,7 +354,24 @@ namespace Sem.GenericHelpers
                         var method =
                             (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).
                                 FirstOrDefault();
-                        return method == null ? null : method.Invoke(objectToReadFrom, new[] { parameter });
+
+                        if (method == null)
+                        {
+                            return null;
+                        }
+
+                        var parameters = method.GetParameters();
+                        if (parameters.Count() == 1)
+                        {
+                            var parameterType = parameters[0].ParameterType;
+
+                            if (parameterType.BaseType == typeof(Enum))
+                            {
+                                return method.Invoke(objectToReadFrom, new[] { Enum.Parse(parameterType, parameter) });
+                            }
+                        }
+
+                        return method.Invoke(objectToReadFrom, new[] { parameter });
                     }
                 }
 
