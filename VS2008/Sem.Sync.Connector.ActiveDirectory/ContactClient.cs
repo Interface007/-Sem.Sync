@@ -237,6 +237,10 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 foreach (var propItem in searchItem.Properties[name.ToString()])
                 {
                     content.AppendLine(name + " ... " + propItem);
+                    if (name.ToString() == "pwdlastset")
+                    {
+                        content.AppendLine("Last PWDChange time: " + DateTime.FromFileTime((long)propItem));
+                    }
                 }
             }
 
