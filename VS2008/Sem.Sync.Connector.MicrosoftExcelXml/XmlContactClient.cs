@@ -48,10 +48,7 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
         /// <returns> the list of contacts </returns>
         public override List<StdElement> GetAll(string clientFolderName)
         {
-            return
-                clientFolderName.EndsWith(".xml")
-                ? ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement()
-                : ExcelOpenXml.ImportFromFromOpenXmlPackageFile<StdContact>(clientFolderName).ToStdElement();
+            return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement();
         }
 
         /// <summary>
@@ -67,15 +64,7 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
                 File.Delete(clientFolderName);
             }
 
-            if (clientFolderName.EndsWith(".xml"))
-            {
-                File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
-            }
-            else
-            {
-                // todo: xlsx-format support for writing ...
-                File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
-            }
+            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
         }
     }
 }
