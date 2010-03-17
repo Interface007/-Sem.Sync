@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.MicrosoftExcel2010
+namespace Sem.Sync.Connector.MicrosoftExcelXml
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -48,7 +48,7 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
         /// <typeparam name="T"> The type of object to serialize. </typeparam>
         /// <param name="listToConvert"> List of objects to be converted - each property path will be serialized to one column  </param>
         /// <returns> The exported worksheet.  </returns>
-        public static string ExportToWorksheet<T>(List<T> listToConvert)
+        public static string ExportToWorksheetXml<T>(List<T> listToConvert)
         {
             var properties = Tools.GetPropertyList(string.Empty, typeof(T));
 
@@ -136,10 +136,24 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
         /// <param name="xml"> The xml from where to import the data. </param>
         /// <typeparam name="T"> The type of object for the list. </typeparam>
         /// <returns> A newly created list of objects. </returns>
-        public static List<T> ImportFromWorksheet<T>(string xml)
+        public static List<T> ImportFromWorksheetXml<T>(string xml)
             where T : class, new()
         {
             var document = XDocument.Parse(xml);
+            return ImportFromWorksheetXml<T>(document);
+        }
+
+        /// <summary>
+        /// Imports data from a worksheet into a list of objects. Currently the column headers need to be the
+        /// property paths - we will change this to allow a configuration file for the mapping in a future 
+        /// version.
+        /// </summary>
+        /// <param name="document"> The xml from where to import the data. </param>
+        /// <typeparam name="T"> The type of object for the list. </typeparam>
+        /// <returns> A newly created list of objects. </returns>
+        public static List<T> ImportFromWorksheetXml<T>(XDocument document)
+            where T : class, new()
+        {
             var list = new List<T>();
 
             // initialize with an empty list in order to get no NULL reference exception
@@ -154,35 +168,11 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
                         x => x.Element(SpreadSheetWorkbook)
                          .Element(SpreadSheetWorksheet)
                          .Element(SpreadSheetTable)
-                         .Elements(SpreadSheetRow), 
+                         .Elements(SpreadSheetRow),
                         ref data);
 
             // ReSharper restore PossibleNullReferenceException
-            var columns = new XElement[0];
-            var isFirstRow = true;
-
-            foreach (var row in data)
-            {
-                // extract the "paths" to the properties of the object.
-                // this should be more comfortable by allowing to specify a 
-                // configuration file for column headers/paths
-                if (isFirstRow)
-                {
-                    columns = row.Elements(SpreadSheetCell).ToArray();
-                    isFirstRow = false;
-                    continue;
-                }
-
-                var cellIndex = 0;
-                var newElement = new T();
-                foreach (var cell in row.Elements(SpreadSheetCell))
-                {
-                    Tools.SetPropertyValue(newElement, columns[cellIndex].Value, cell.Value);
-                    cellIndex++;
-                }
-
-                list.Add(newElement);
-            }
+            XmlHelper.DeserializeList(data, list, SpreadSheetCell);
 
             return list;
         }

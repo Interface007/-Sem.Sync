@@ -7,8 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.MicrosoftExcel2010
+namespace Sem.Sync.Connector.MicrosoftExcelXml
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
@@ -41,6 +42,19 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
         }
 
         /// <summary>
+        /// Reads all elements from the excel file
+        /// </summary>
+        /// <param name="clientFolderName"> The path to the excel file. </param>
+        /// <returns> the list of contacts </returns>
+        public override List<StdElement> GetAll(string clientFolderName)
+        {
+            return
+                clientFolderName.EndsWith(".xml")
+                ? ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement()
+                : ExcelOpenXml.ImportFromFromOpenXmlPackageFile<StdContact>(clientFolderName).ToStdElement();
+        }
+
+        /// <summary>
         /// Writes the elements to the destination.
         /// </summary>
         /// <param name="elements"> The elements. </param>
@@ -53,12 +67,15 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
                 File.Delete(clientFolderName);
             }
 
-            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheet(elements.ToContacts()), Encoding.UTF8);
-        }
-
-        public override System.Collections.Generic.List<StdElement> GetAll(string clientFolderName)
-        {
-            return ExcelXml.ImportFromWorksheet<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement();
+            if (clientFolderName.EndsWith(".xml"))
+            {
+                File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
+            }
+            else
+            {
+                // todo: xlsx-format support for writing ...
+                File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
+            }
         }
     }
 }
