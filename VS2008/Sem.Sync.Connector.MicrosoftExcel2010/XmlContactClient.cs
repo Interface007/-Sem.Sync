@@ -21,7 +21,7 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
     /// </summary>
     [ConnectorDescription(
         DisplayName = "Excel-XML-Client",
-        CanReadContacts = false,
+        CanReadContacts = true,
         CanWriteContacts = true,
         Internal = false)]
     [ClientStoragePathDescription(
@@ -53,7 +53,12 @@ namespace Sem.Sync.Connector.MicrosoftExcel2010
                 File.Delete(clientFolderName);
             }
 
-            File.WriteAllText(clientFolderName, ExcelWriter.ExportToWorksheet(elements.ToContacts()), Encoding.UTF8);
+            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheet(elements.ToContacts()), Encoding.UTF8);
+        }
+
+        public override System.Collections.Generic.List<StdElement> GetAll(string clientFolderName)
+        {
+            return ExcelXml.ImportFromWorksheet<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement();
         }
     }
 }

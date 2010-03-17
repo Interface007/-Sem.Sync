@@ -79,8 +79,8 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="ExcelXml.cs" />
     <Compile Include="XmlContactClient.cs" />
-    <Compile Include="ExcelWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

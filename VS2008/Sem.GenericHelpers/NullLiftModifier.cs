@@ -44,7 +44,8 @@ namespace Sem.GenericHelpers
             var memberAccessExpression = (MemberExpression)base.VisitMemberAccess(originalExpression);
 
             if (memberAccessExpression.Type == typeof(System.DateTime)
-                || memberAccessExpression.Type.BaseType == typeof(System.Enum))
+                || memberAccessExpression.Type.BaseType == typeof(System.Enum)
+                || memberAccessExpression.Expression == null)
             {
                 return memberAccessExpression;
             }
