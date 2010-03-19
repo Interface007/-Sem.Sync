@@ -21,7 +21,7 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
     /// Writes a list of "something" into an excel XML file - does explicitly NOT support XSLX-Files!
     /// </summary>
     [ConnectorDescription(
-        DisplayName = "Excel-XML-Client",
+        DisplayName = "Microsoft Excel Xml Spreadsheet 2003",
         CanReadContacts = true,
         CanWriteContacts = true,
         Internal = false)]
