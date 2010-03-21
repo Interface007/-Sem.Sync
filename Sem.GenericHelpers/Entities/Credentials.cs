@@ -56,40 +56,44 @@ namespace Sem.GenericHelpers.Entities
         /// used in windows environment.
         /// </summary>
         [XmlIgnore]
-        public string LogOnPassword { get; set; }
+        public string LogOnPassword 
+        {
+            get
+            {
+                if (this.LogOnPasswordProtected == null)
+                {
+                    return string.Empty;
+                }
+
+                try
+                {
+                    var unprotectedString = ProtectedData.Unprotect(this.LogOnPasswordProtected, Credentials.Entropy, DataProtectionScope.CurrentUser);
+                    var dataString = Encoding.UTF8.GetString(unprotectedString);
+                    return dataString;
+                }
+                catch (CryptographicException)
+                {
+                    // eating the crypto-exception and resetting the password
+                    return string.Empty;
+                }
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                var bytes = Encoding.UTF8.GetBytes(value);
+                this.LogOnPasswordProtected = ProtectedData.Protect(bytes, Credentials.Entropy, DataProtectionScope.CurrentUser);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the protected password. The password is protected by the user scope encryption key
         /// of the DPAPI (Data Protection API).
         /// </summary>
-        public byte[] LogOnPasswordProtected
-        {
-            get
-            {
-                byte[] protectedString = null;
-                if (this.LogOnPassword != null)
-                {
-                    var bytes = Encoding.UTF8.GetBytes(this.LogOnPassword);
-                    protectedString = ProtectedData.Protect(bytes, Credentials.Entropy, DataProtectionScope.CurrentUser);
-                }
-
-                return protectedString;
-            }
-
-            set
-            {
-                try
-                {
-                    var unprotectedString = ProtectedData.Unprotect(value, Credentials.Entropy, DataProtectionScope.CurrentUser);
-                    var dataString = Encoding.UTF8.GetString(unprotectedString);
-                    this.LogOnPassword = dataString;
-                }
-                catch (CryptographicException)
-                {
-                    // eating the crypto-exception and resetting the password
-                    this.LogOnPassword = string.Empty;
-                }
-            }
-        }
+        public byte[] LogOnPasswordProtected { get; set; }
     }
 }

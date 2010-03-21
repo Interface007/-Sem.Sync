@@ -132,11 +132,14 @@
     <Compile Include="Exceptions\ExceptionHandler.cs" />
     <Compile Include="Exceptions\ProcessCanceledException.cs" />
     <Compile Include="Exceptions\TechnicalException.cs" />
+    <Compile Include="ExpressionVisitor.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Entities\CaptchaResolveRequest.cs" />
     <Compile Include="Entities\CaptchaResolveResult.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
+    <Compile Include="MappingHelper.cs" />
+    <Compile Include="NullLiftModifier.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -147,6 +150,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SerializableDictionary.cs" />
     <Compile Include="Service References\ExceptionService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

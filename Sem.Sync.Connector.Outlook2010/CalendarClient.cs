@@ -16,11 +16,10 @@ namespace Sem.Sync.Connector.Outlook2010
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
     using Microsoft.Office.Interop.Outlook;
-
-    using SyncBase;
-    using SyncBase.Attributes;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
@@ -64,14 +63,14 @@ namespace Sem.Sync.Connector.Outlook2010
                                       orderby a.Subject, a.Start
                                       select a;
 
-                _AppointmentItem lastItem = null;
+                AppointmentItem lastItem = null;
                 foreach (var item in outlookItemList)
                 {
                     currentElementName = item.Subject;
 
                     if (lastItem != null)
                     {
-                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item);
+                        var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
                         LogProcessingEvent(stdItem, "comparing ...");
 
                         if (lastItem.Subject == item.Subject
@@ -161,6 +160,7 @@ namespace Sem.Sync.Connector.Outlook2010
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
+            var minimumDate = DateTime.Now;
 
             // get a connection to outlook 
             LogProcessingEvent("logging on ...");
@@ -169,6 +169,11 @@ namespace Sem.Sync.Connector.Outlook2010
             // we need to log off from outlook in order to clean up the session
             try
             {
+                if (clientFolderName.Contains(":"))
+                {
+                    clientFolderName = clientFolderName.Substring(0, clientFolderName.IndexOf(":"));
+                }
+
                 // select a folder
                 var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
@@ -189,13 +194,13 @@ namespace Sem.Sync.Connector.Outlook2010
                         try
                         {
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
-                            if (calendarStdItem != null)
+                            if (calendarStdItem != null && calendarStdItem.Start > minimumDate)
                             {
                                 currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 
                                 LogProcessingEvent("reading ... " + currentElementName);
 
-                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem));
+                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
                             }
                         }
                         catch (System.Runtime.InteropServices.COMException ex)

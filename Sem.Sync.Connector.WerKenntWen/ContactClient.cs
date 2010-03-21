@@ -19,6 +19,7 @@ namespace Sem.Sync.Connector.WerKenntWen
     using System.Web;
 
     using GenericHelpers;
+    using GenericHelpers.Entities;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -31,11 +32,11 @@ namespace Sem.Sync.Connector.WerKenntWen
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(
-        CanReadContacts = true, 
-        CanWriteContacts = false, 
+        CanReadContacts = true,
+        CanWriteContacts = false,
         NeedsCredentials = true,
-        NeedsCredentialsDomain = false, 
-        DisplayName = "Wer-Kennt-Wen.de", 
+        NeedsCredentialsDomain = false,
+        DisplayName = "Wer-Kennt-Wen.de",
         MatchingIdentifier = ProfileIdentifierType.WerKenntWenUrl)]
     public class ContactClient : StdClient
     {
@@ -142,12 +143,15 @@ namespace Sem.Sync.Connector.WerKenntWen
         {
             var wkwContacts = this.GetUrlList();
 
-            foreach (var item in wkwContacts)
+            for (int i = 0; i < 3; i++)
             {
-                var contact = this.DownloadContact(item, item.Replace("/", "_").Replace("?", "_"));
-                if (contact != null)
+                foreach (var item in wkwContacts)
                 {
-                    result.Add(contact);
+                    var contact = this.DownloadContact(item, item.Replace("/", "_").Replace("?", "_"));
+                    if (contact != null)
+                    {
+                        result.Add(contact);
+                    }
                 }
             }
 
@@ -168,9 +172,20 @@ namespace Sem.Sync.Connector.WerKenntWen
             {
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                contactListContent = this.wkwRequester.GetContent(
-                    string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
-                    "UrlList" + CacheHintRefresh);
+                while (true)
+                {
+                    contactListContent =
+                        this.wkwRequester.GetContent(
+                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
+                            "UrlList" + CacheHintRefresh);
+
+                    if (!contactListContent.Contains("wkw/captcha/"))
+                    {
+                        break;
+                    }
+
+                    this.ResolveCaptcha();
+                }
 
                 // if we don't find the logon form any more, we did succeed
                 if (!contactListContent.Contains(HttpDetectionStringLogonNeeded))
@@ -228,12 +243,24 @@ namespace Sem.Sync.Connector.WerKenntWen
         /// <returns>the downloaded contact as a StdContact</returns>
         private StdContact DownloadContact(string downloadUrl, string name)
         {
-            var data = this.wkwRequester.GetContent(downloadUrl, name + ".txt");
-            if (string.IsNullOrEmpty(data))
-            {
-                return null;
-            }
+            string data;
 
+            while (true)
+            {
+                data = this.wkwRequester.GetContent(downloadUrl, name + ".txt");
+                if (string.IsNullOrEmpty(data))
+                {
+                    return null;
+                }
+
+                if (!data.Contains("wkw/captcha/"))
+                {
+                    break;
+                }
+
+                this.ResolveCaptcha();
+            }
+            
             // we use regular expressions to extract the urls to the vCards
             var dataExtractor = new Regex(PersonDataExtractionPattern, RegexOptions.Singleline);
             var matches = dataExtractor.Matches(data);
@@ -343,7 +370,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                     int.Parse(birthday.Substring(3, 2), CultureInfo.InvariantCulture));
             }
 
-            contact.PersonalProfileIdentifiers.WerKenntWenUrl = downloadUrl;
+            contact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.WerKenntWenUrl, downloadUrl);
 
             dataExtractor = new Regex(PersonPictureUrlPattern, RegexOptions.Singleline);
             matches = dataExtractor.Matches(data);
@@ -360,6 +387,18 @@ namespace Sem.Sync.Connector.WerKenntWen
 
             LogProcessingEvent(contact, "downloaded");
             return contact;
+        }
+
+        private void ResolveCaptcha()
+        {
+            this.UiDispatcher.ResolveCaptcha(
+                "WKW will ein Captcha gelöst haben.",
+                "WKW Captcha",
+                new CaptchaResolveRequest
+                    {
+                        UrlOfWebSite = "http://www.wer-kennt-wen.de/captcha",
+                        HttpHelper = this.wkwRequester,
+                    });
         }
     }
 }

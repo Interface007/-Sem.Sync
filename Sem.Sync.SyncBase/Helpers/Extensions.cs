@@ -150,12 +150,48 @@ namespace Sem.Sync.SyncBase.Helpers
                             (sourceValue as List<KeyValuePair<string, ProfileIdInformation>>).MergeList(targetValue as List<KeyValuePair<string, ProfileIdInformation>>);
                             break;
 
+                        case "ProfileIdentifiers":
+                            var targetProfiles = targetValue as ProfileIdentifiers;
+                            if (targetProfiles != null)
+                            {
+                                (sourceValue as ProfileIdentifiers)
+                                    .ForEach(x => targetProfiles.SetProfileId(x.Key, x.Value, true));
+                            }
+                            
+                            break;
+
+                        case "SerializableDictionary`2":
+                            var sourcedic = sourceValue as SerializableDictionary<string, string>;
+                            var targetdic = targetValue as SerializableDictionary<string, string>;
+
+                            if (sourcedic != null && sourcedic != targetdic)
+                            {
+                                if (targetdic == null)
+                                {
+                                    targetdic = new SerializableDictionary<string, string>();
+                                    //item.SetValue(targetValue, targetdic, null);
+                                }
+
+                                foreach (var sourceDicItem in sourcedic)
+                                {
+                                    if (targetdic.Keys.Contains(sourceDicItem.Key))
+                                    {
+                                        targetdic[sourceDicItem.Key] = sourceDicItem.Value;
+                                    }
+                                    else
+                                    {
+                                        targetdic.Add(sourceDicItem.Key, sourceDicItem.Value);
+                                    }
+                                }
+                            }
+                            break;
+
+
                         case "SyncData":
                         case "PersonName":
                         case "AddressDetail":
                         case "PhoneNumber":
                         case "InstantMessengerAddresses":
-                        case "ProfileIdentifiers":
                             targetValue.MergeHighEvidence(sourceValue, item.PropertyType);
                             break;
 
@@ -352,6 +388,32 @@ namespace Sem.Sync.SyncBase.Helpers
                             };
                     }
                 }
+
+                if (e != null)
+                {
+                    result.Add(e);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts a list of typed elements to a list of different typed elements. This is usefull to
+        /// cast a list of type 1 into a list of type 2.
+        /// </summary>
+        /// <typeparam name="TSource"> The type of elements in the source </typeparam>
+        /// <typeparam name="TDestination"> the type of elements to cast to. </typeparam>
+        /// <param name="list"> a list of elements to cast </param>
+        /// <returns> a list of casted elements </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "There is no design to accieve type inference in fluent interfaces for this method.")]
+        public static List<TDestination> ToOtherType<TSource, TDestination>(this List<TSource> list) 
+            where TDestination : class
+        {
+            var result = new List<TDestination>();
+            foreach (var element in list)
+            {
+                var e = element as TDestination;
 
                 if (e != null)
                 {

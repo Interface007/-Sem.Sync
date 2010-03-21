@@ -48,6 +48,74 @@ namespace Sem.Sync.Connector.Outlook2003
             }
         }
 
+        public static OlRecurrenceState ToOutlook(this RecurrenceState recurrence)
+        {
+            switch (recurrence)
+            {
+                case RecurrenceState.Onetime:
+                    return OlRecurrenceState.olApptNotRecurring;
+                    
+                case RecurrenceState.Master:
+                    return OlRecurrenceState.olApptMaster;
+
+                case RecurrenceState.Occurrence:
+                    return OlRecurrenceState.olApptOccurrence;
+
+                case RecurrenceState.Exception:
+                    return OlRecurrenceState.olApptException;
+
+                default:
+                    throw new ArgumentOutOfRangeException("recurrence");
+            }
+        }
+
+        public static OlResponseStatus ToOutlook(this ResponseStatus status)
+        {
+            switch (status)
+            {
+                case ResponseStatus.Undefined:
+                    return OlResponseStatus.olResponseNone;
+
+                case ResponseStatus.NotResponded:
+                    return OlResponseStatus.olResponseNotResponded;
+
+                case ResponseStatus.Accepted:
+                    return OlResponseStatus.olResponseAccepted;
+
+                case ResponseStatus.Tentative:
+                    return OlResponseStatus.olResponseTentative;
+
+                case ResponseStatus.Declined:
+                    return OlResponseStatus.olResponseDeclined;
+
+                case ResponseStatus.Organized:
+                    return OlResponseStatus.olResponseOrganized;
+
+                default:
+                    throw new ArgumentOutOfRangeException("status");
+            }
+        }
+
+        public static OlBusyStatus ToOutlook(this BusyStatus status)
+        {
+            switch (status)
+            {
+                case BusyStatus.Free:
+                    return OlBusyStatus.olFree;
+                case BusyStatus.Busy:
+                    return OlBusyStatus.olBusy;
+                case BusyStatus.OutOfOffice:
+                    return OlBusyStatus.olOutOfOffice;
+                case BusyStatus.Tentative:
+                    return OlBusyStatus.olTentative;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "status",
+                        status,
+                        "there is no translation for this value into the SemSync namespace.");
+            }
+        }
+
         /// <summary>
         /// Translates a <see cref="OlRecurrenceState"/> into a <see cref="RecurrenceState"/>.
         /// </summary>

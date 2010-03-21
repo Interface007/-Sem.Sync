@@ -61,6 +61,15 @@ namespace Sem.GenericHelpers.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The proxy server {1} needs your credentials to receive content from {0}..
+        /// </summary>
+        internal static string TheProxyServerNeedsYourCredentials {
+            get {
+                return ResourceManager.GetString("TheProxyServerNeedsYourCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are some information files about problems while working with programs from Sven Erik Matzen.
         ///Do you want to send these files now to the developer?
         ///If you select &gt;OK&lt; you can review each information file and decide whether to send it or not..

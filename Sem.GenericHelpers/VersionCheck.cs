@@ -38,7 +38,7 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="version">The version as a string (e.g. "1.2.3.4.5"). The parts are:
         /// "<see cref="Major"/>.<see cref="Minor"/>.<see cref="MajorRevision"/>.<see cref="MinorRevision"/>.<see cref="Build"/>"</param>
-        public VersionCheck(string version) 
+        public VersionCheck(string version)
         {
             var assembly = Assembly.GetCallingAssembly().GetName();
             this.assemblyName = assembly.Name;
@@ -137,12 +137,17 @@ namespace Sem.GenericHelpers
                 var versionContentFromServer =
                     (new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider })
                     .GetContent(VersionXmlUrl, "[NOCACHE]");
-                var reader = new StringReader(versionContentFromServer);
-                var serverVersion = (VersionCheck)formatter.Deserialize(reader);
 
-                return serverVersion.IsLessOrEqual(myVersion);
+                if (!string.IsNullOrEmpty(versionContentFromServer))
+                {
+                    var reader = new StringReader(versionContentFromServer);
+                    var serverVersion = (VersionCheck)formatter.Deserialize(reader);
+                    return serverVersion.IsLessOrEqual(myVersion);
+                }
+
+                return true;
             }
-            catch 
+            catch
             {
                 // catch simply all - if there's a problem, we will check next time
                 return true;
@@ -162,7 +167,7 @@ namespace Sem.GenericHelpers
             {
                 return false;
             }
-            
+
             if (this.Major < greaterInstance.Major)
             {
                 return true;
@@ -217,7 +222,7 @@ namespace Sem.GenericHelpers
         /// <returns> a string representing the version number  </returns>
         public string ToString(bool includeBuild)
         {
-            return 
+            return
                 this.Major + "." +
                 this.Minor + "." +
                 this.MajorRevision + "." +

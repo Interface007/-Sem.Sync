@@ -15,6 +15,8 @@ namespace Sem.Sync.Test.DataGenerator
     using System.Text;
     using System.Xml.Serialization;
 
+    using GenericHelpers;
+
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
@@ -458,26 +460,11 @@ namespace Sem.Sync.Test.DataGenerator
         {
             switch (clientFolderName)
             {
+                case "customdata":
+                    return customtestsource();
+
                 case "matchingtestsource":
-                    result.AddRange(
-                        new List<StdElement>
-                            {
-                                new StdContact
-                                    {
-                                        Name = "matchable1",
-                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
-                                    },
-                                new StdContact
-                                    {
-                                        Name = "matchable2",
-                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
-                                    },
-                                new StdContact
-                                    {
-                                        Name = "unmatchable",
-                                        PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
-                                    },
-                            });
+                    this.matchingtestsource(result);
                     break;
 
                 case "matchingtesttarget":
@@ -487,25 +474,7 @@ namespace Sem.Sync.Test.DataGenerator
                     throw new NotSupportedException("Test-Exception");
 
                 case "matchingtestbaseline":
-                    result.AddRange(
-                        new List<StdElement>
-                            {
-                                new MatchingEntry
-                                    {
-                                        Id = new Guid("{A1445F74-6C24-47a3-97E9-9A3E2FA35B17}"),
-                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
-                                    },
-                                new MatchingEntry
-                                    {
-                                        Id = new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"),
-                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
-                                    },
-                                new MatchingEntry
-                                    {
-                                        Id = new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"),
-                                        ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
-                                    }
-                            });
+                    this.matchingtestbaseline(result);
                     break;
 
                 default:
@@ -519,6 +488,71 @@ namespace Sem.Sync.Test.DataGenerator
             }
 
             return result;
+        }
+
+        private static List<StdElement> customtestsource()
+        {
+            var result = new List<StdElement>();
+            result.AddRange(new List<StdElement>
+                {
+                    new StdContact
+                        {
+                            Name = "contact with sourcedata",
+                            SourceSpecificAttributes = new SerializableDictionary<string, string>
+                                { 
+                                    { "TestDataConnector.firstAttribute", "first attribute value" },
+                                    { "TestDataConnector.secondAttribute", "second attribute value" },
+                                }
+                        }
+                });
+
+            return result;
+        }
+
+        private void matchingtestsource(List<StdElement> result)
+        {
+            result.AddRange(
+                new List<StdElement>
+                    {
+                        new StdContact
+                            {
+                                Name = "matchable1",
+                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                            },
+                        new StdContact
+                            {
+                                Name = "matchable2",
+                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                            },
+                        new StdContact
+                            {
+                                Name = "unmatchable",
+                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
+                            },
+                    });
+        }
+
+        private void matchingtestbaseline(List<StdElement> result)
+        {
+            result.AddRange(
+                new List<StdElement>
+                    {
+                        new MatchingEntry
+                            {
+                                Id = new Guid("{A1445F74-6C24-47a3-97E9-9A3E2FA35B17}"),
+                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
+                            },
+                        new MatchingEntry
+                            {
+                                Id = new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"),
+                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                            },
+                        new MatchingEntry
+                            {
+                                Id = new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"),
+                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                            }
+                    });
         }
 
         /// <summary>
@@ -554,7 +588,7 @@ namespace Sem.Sync.Test.DataGenerator
                              {
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
-                                 PersonalProfileIdentifiers = { XingNameProfileId = profileId },
+                                 PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
                              };
             return result;
         }

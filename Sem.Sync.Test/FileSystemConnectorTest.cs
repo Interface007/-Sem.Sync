@@ -118,6 +118,9 @@ namespace Sem.Sync.Test
             Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetContactById(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
         }
 
+        /// <summary>
+        /// Performs a copy test of StdContacts from CSV file to CSV file
+        /// </summary>
         [TestMethod]
         public void CopyTestsCSV()
         {

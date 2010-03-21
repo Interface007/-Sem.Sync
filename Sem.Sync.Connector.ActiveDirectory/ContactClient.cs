@@ -160,7 +160,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 AdditionalTextData = GetPropString(searchItem.Properties, "info"),               
             };
 
-            result.PersonalProfileIdentifiers.ActiveDirectoryId = GetPropString(searchItem.Properties, "CN");
+            result.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
 
             return result;
         }
@@ -237,6 +237,10 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 foreach (var propItem in searchItem.Properties[name.ToString()])
                 {
                     content.AppendLine(name + " ... " + propItem);
+                    if (name.ToString() == "pwdlastset")
+                    {
+                        content.AppendLine("Last PWDChange time: " + DateTime.FromFileTime((long)propItem));
+                    }
                 }
             }
 
@@ -315,8 +319,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             var existing =
                 from x in result
-                where ((StdContact)x).PersonalProfileIdentifiers.ActiveDirectoryId ==
-                      newContact.PersonalProfileIdentifiers.ActiveDirectoryId
+                where ((StdContact)x).PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
+                      newContact.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
                 select x;
 
             if (existing.Count() != 0)
