@@ -9,8 +9,7 @@
 
 namespace Sem.Sync.Test.ExcelXmlTest
 {
-    using Connector.MicrosoftExcelXml;
-
+    using Sem.Sync.Connector.MicrosoftExcelXml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SyncBase;
@@ -31,7 +30,7 @@ namespace Sem.Sync.Test.ExcelXmlTest
         [DeploymentItem("Data\\ExCel2010-StdContacts.xlsx")]
         public void LoadDataFromExCelOriginalFileOpenXmlDocument()
         {
-            var data = ExcelXml.ImportFromFromOpenXmlPackageFile<StdContact>("ExCel2010-StdContacts.xlsx");
+            var data = ExcelXml.ImportFromWorksheetXml<StdContact>("ExCel2010-StdContacts.xlsx");
             Assert.IsNotNull(data);
         }
     }
