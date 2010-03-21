@@ -96,7 +96,7 @@ namespace Sem.Sync.Connector.Xing
         /// regular expression to extract the URLs for the vCards
         /// </summary>
         private const string PatternGetVCardUrls = 
-            @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?inputField_[0-9]*"" value=""(?<tags>[\w ,]*)""";
+            @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?(inputField_[0-9]*"" value=""(?<tags>[\w ,]*)"")?";
             ////"(.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
 
         #endregion
@@ -171,7 +171,7 @@ namespace Sem.Sync.Connector.Xing
         public StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline)
         {
             var contact = contactToFill as StdContact;
-            if (contact != null && contact.PersonalProfileIdentifiers.XingNameProfileId != null)
+            if (contact != null && contact.PersonalProfileIdentifiers.ContainsKey(ProfileIdentifierType.XingNameProfileId))
             {
                 var offset = 0;
                 var added = 0;
@@ -180,7 +180,7 @@ namespace Sem.Sync.Connector.Xing
                     this.LogProcessingEvent("reading contacts ({0})", offset); 
 
                     // get the contact list
-                    var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.PersonalProfileIdentifiers.XingNameProfileId, offset);
+                    var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.PersonalProfileIdentifiers[ProfileIdentifierType.ExchangeWs], offset);
                     var profileContent = this.GetTextContent(url, string.Format(CultureInfo.InvariantCulture, "XingContent-{0}", offset));
 
                     var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
@@ -197,7 +197,7 @@ namespace Sem.Sync.Connector.Xing
                     foreach (Match extract in extracts)
                     {
                         var xingId = extract.Groups["name"].ToString();
-                        var stdId = (from x in baseline where x.ProfileId.XingNameProfileId == xingId select x.Id).FirstOrDefault();
+                        var stdId = (from x in baseline where x.ProfileId.GetProfileId(ProfileIdentifierType.XingNameProfileId) == xingId select x.Id).FirstOrDefault();
 
                         // we ignore contacts we donn't know
                         if (stdId == default(Guid))
@@ -251,7 +251,7 @@ namespace Sem.Sync.Connector.Xing
                 var contact = this.DownloadContact(item.VCardUrl, item.VCardUrl.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
-                    contact.PersonalProfileIdentifiers.XingNameProfileId = item.ProfileUrl;
+                    contact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.XingNameProfileId, item.ProfileUrl);
                     contact.Categories = new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }

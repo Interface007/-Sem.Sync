@@ -91,6 +91,10 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <returns> a <see cref="CaptchaResolveResult"/> instance with information of the web site </returns>
         public CaptchaResolveResult ResolveCaptcha(string messageForUser, string title, CaptchaResolveRequest request)
         {
+            if (request.HttpHelper != null)
+            {
+                return new CaptchaResolve().Resolve(messageForUser, title, request);
+            }
             Process.Start(new ProcessStartInfo(request.UrlOfWebSite));
             return new CaptchaResolveResult { UserReportsSuccess = this.AskForConfirm(messageForUser, title) };
         }

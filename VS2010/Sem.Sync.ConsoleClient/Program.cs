@@ -35,7 +35,7 @@ namespace Sem.Sync.ConsoleClient
 #if (DEBUG)
             if (args.Length < 1)
             {
-                args = new[] { @"C:\Users\matzensv\AppData\Roaming\SemSyncManager\Work\SyncLists\Outlook to FileSystem.DSyncList" };
+                args = new[] { @"{FS:ApplicationFolder}\A Copy OutlookCal to Xml.SyncList" };
             }
 #endif
 
@@ -44,7 +44,13 @@ namespace Sem.Sync.ConsoleClient
                 var success = false;
                 try
                 {
-                    var filename = args[0];
+                    var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
+                    Console.WriteLine("working folder: {0}", defaultBaseFolder);
+
+                    // setup the sync engine
+                    var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
+
+                    var filename = engine.ReplacePathToken(args[0]);
 
                     if (!File.Exists(filename))
                     {
@@ -55,12 +61,6 @@ namespace Sem.Sync.ConsoleClient
                         // load the list of commands
                         Console.WriteLine("loading command list: {0}", filename);
                         var syncCommands = SyncCollection.LoadSyncList(filename);
-
-                        var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
-                        Console.WriteLine("working folder: {0}", defaultBaseFolder);
-
-                        // setup the sync engine
-                        var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
 
                         // feed dispatcher with credentials if specified by the command line
                         ((UiDispatcher)engine.UiProvider).UserDomain = args.Length > 1 ? args[1] : string.Empty;
@@ -107,7 +107,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the message to be logged. </param>
         private static void ProcessingEvent(object sender, ProcessingEventArgs e)
         {
-            Console.WriteLine(e.Message + " " + e.Item.NewIfNull());
+            Console.WriteLine(e.Message + (e.Item == null ? string.Empty : " " + e.Item));
         }
 
         /// <summary>

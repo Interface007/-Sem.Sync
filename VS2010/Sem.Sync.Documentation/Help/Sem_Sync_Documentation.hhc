@@ -608,8 +608,20 @@
       <UL>
         <LI><OBJECT type="text/sitemap">
           <param name="Name" value="VersionCheck Constructor ">
-          <param name="Local" value="html\bb382625-cc97-df80-533d-5100ece9cc54.htm">
+          <param name="Local" value="html\5c065f2a-e9cb-d405-8d43-bdceb87bf653.htm">
         </OBJECT></LI>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="VersionCheck Constructor ">
+            <param name="Local" value="html\bb382625-cc97-df80-533d-5100ece9cc54.htm">
+          </OBJECT></LI>
+        </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="VersionCheck Constructor (String)">
+            <param name="Local" value="html\518e401e-0dd1-3a0c-7fc9-1e7df0f82a1b.htm">
+          </OBJECT></LI>
+        </UL>
       </UL>
       <UL>
         <LI><OBJECT type="text/sitemap">
@@ -636,8 +648,8 @@
         </UL>
         <UL>
           <LI><OBJECT type="text/sitemap">
-            <param name="Name" value="CompareToVersion Method ">
-            <param name="Local" value="html\dadaeacc-4e82-2c71-e77e-0ba78def0e14.htm">
+            <param name="Name" value="IsLessOrEqual Method ">
+            <param name="Local" value="html\97668145-05f4-cc26-e5ba-808914affcfa.htm">
           </OBJECT></LI>
         </UL>
         <UL>
@@ -2380,6 +2392,12 @@
           <param name="Name" value="Notification Properties ">
           <param name="Local" value="html\8bbe4289-d6ba-92b4-a080-eaaf548902cf.htm">
         </OBJECT></LI>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Forms Property ">
+            <param name="Local" value="html\484cc015-d39c-3e3f-d81f-18de282ebabd.htm">
+          </OBJECT></LI>
+        </UL>
       </UL>
       <UL>
         <LI><OBJECT type="text/sitemap">
@@ -4064,6 +4082,54 @@
     </OBJECT></LI>
     <UL>
       <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="AppointmentItemContainer Class">
+        <param name="Local" value="html\04fa7d72-0454-7689-1052-4f7fa27c8641.htm">
+      </OBJECT></LI>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="AppointmentItemContainer Members">
+          <param name="Local" value="html\f8278e12-79cd-cd26-e45f-2fb41eb0ed62.htm">
+        </OBJECT></LI>
+      </UL>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="AppointmentItemContainer Constructor ">
+          <param name="Local" value="html\c3e80efe-08f8-4328-a874-babfb9922b4c.htm">
+        </OBJECT></LI>
+      </UL>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="AppointmentItemContainer Methods ">
+          <param name="Local" value="html\7aac993b-4110-dcd6-0eec-e196f322188b.htm">
+        </OBJECT></LI>
+      </UL>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="AppointmentItemContainer Properties ">
+          <param name="Local" value="html\40268ce9-ab2e-ec2e-3200-f99cb4b3fcef.htm">
+        </OBJECT></LI>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Id Property ">
+            <param name="Local" value="html\40026a8f-b9f3-5cab-faf8-12c7e8e0df2d.htm">
+          </OBJECT></LI>
+        </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="Item Property ">
+            <param name="Local" value="html\bd3949e0-cede-8dba-4bf5-e559e0296a2d.htm">
+          </OBJECT></LI>
+        </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="LastName Property ">
+            <param name="Local" value="html\0f1e85cd-c80b-693f-a786-1079681fe9e6.htm">
+          </OBJECT></LI>
+        </UL>
+      </UL>
+    </UL>
+    <UL>
+      <LI><OBJECT type="text/sitemap">
         <param name="Name" value="CalendarClient Class">
         <param name="Local" value="html\0ea7be25-7d7d-ba17-319a-212d689ed38b.htm">
       </OBJECT></LI>
@@ -4352,6 +4418,12 @@
           <LI><OBJECT type="text/sitemap">
             <param name="Name" value="ConvertToStandardContact Method ">
             <param name="Local" value="html\986e17b3-095c-ab95-a567-6cdb722c1172.htm">
+          </OBJECT></LI>
+        </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="GetAppointmentsList Method ">
+            <param name="Local" value="html\a95a01b1-f60a-2ddb-cb21-88211fe03743.htm">
           </OBJECT></LI>
         </UL>
         <UL>
@@ -8767,6 +8839,18 @@
       </UL>
       <UL>
         <LI><OBJECT type="text/sitemap">
+          <param name="Name" value="SyncEngine Fields">
+          <param name="Local" value="html\2b577116-0500-ead9-3558-a6e5a631ea5b.htm">
+        </OBJECT></LI>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="skipLogging Field">
+            <param name="Local" value="html\5e5fb371-63d4-d924-8b1d-6d5203ca7bdd.htm">
+          </OBJECT></LI>
+        </UL>
+      </UL>
+      <UL>
+        <LI><OBJECT type="text/sitemap">
           <param name="Name" value="SyncEngine Methods ">
           <param name="Local" value="html\97b349f2-63ad-eba3-c717-6acbb990a195.htm">
         </OBJECT></LI>
@@ -9218,6 +9302,12 @@
           <LI><OBJECT type="text/sitemap">
             <param name="Name" value="NeedsCredentials Property ">
             <param name="Local" value="html\195d9565-70bb-f414-ee88-cb0615792c25.htm">
+          </OBJECT></LI>
+        </UL>
+        <UL>
+          <LI><OBJECT type="text/sitemap">
+            <param name="Name" value="NeedsCredentialsDomain Property ">
+            <param name="Local" value="html\5394dbe8-ae48-b4f2-4a35-cc837219d8dc.htm">
           </OBJECT></LI>
         </UL>
       </UL>

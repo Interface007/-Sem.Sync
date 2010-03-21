@@ -103,7 +103,7 @@ namespace Sem.Sync.Connector.Google
         {
             elementsToDelete.ForEach(
                 x =>
-                this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GoogleId)).Entries.
+                this.requester.Get<Contact>(new Uri(((StdContact)x).PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.Google))).Entries.
                     ForEach(this.requester.Delete));
         }
 
@@ -204,7 +204,7 @@ namespace Sem.Sync.Connector.Google
                 try
                 {
                     this.LogProcessingEvent(stdContact, "reading contact for update ...");
-                    var googleId = stdContact.PersonalProfileIdentifiers.GoogleId;
+                    var googleId = stdContact.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.Google);
                     var googleContact = new Contact();
 
                     if (!string.IsNullOrEmpty(googleId))
@@ -252,7 +252,7 @@ namespace Sem.Sync.Connector.Google
 
                         // replace the google contact with the new generated version from the server
                         googleContact = this.requester.Insert(this.contactsUri, googleContact);
-                        stdContact.PersonalProfileIdentifiers.GoogleId = googleContact.Id;
+                        stdContact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.Google, googleContact.Id);
                     }
                     else
                     {

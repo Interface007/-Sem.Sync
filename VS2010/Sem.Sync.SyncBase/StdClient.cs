@@ -10,18 +10,19 @@ namespace Sem.Sync.SyncBase
     using System.Collections.Generic;
     using System.Configuration;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
-
-    using Attributes;
-
-    using GenericHelpers.EventArgs;
-    using GenericHelpers.Interfaces;
-
-    using Helpers;
-
-    using Interfaces;
-    using Properties;
     
+    using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Entities;
+    using Sem.GenericHelpers.EventArgs;
+    using Sem.GenericHelpers.Interfaces;
+    
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.SyncBase.Interfaces;
+    using Sem.Sync.SyncBase.Properties;
+
     /// <summary>
     /// This class can (should) be used as a base class for "client" classes. It already implements some of the aspects 
     /// of such a client class, so you only need to implement the specific methods.
@@ -271,6 +272,42 @@ namespace Sem.Sync.SyncBase
                 elements.Remove(element);
             }
         }
+        
+        /// <summary>
+        /// Extracts the column definition file name of a multi line parameter
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the file name of the column definition file</returns>
+        protected static string GetColumnDefinitionFileName(string clientFolderName)
+        {
+            var fileName = clientFolderName.Contains("\n") || clientFolderName.Contains("|")
+                       ? clientFolderName.Split(
+                             new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+                       : string.Empty;
+
+            if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
+            {
+                fileName = Path.Combine(Path.GetDirectoryName(GetFileName(clientFolderName)), fileName);
+            }
+
+            return fileName;
+        }
+
+        /// <summary>
+        /// Extracts the source/target file name of a multi line parameter
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the source/target file name </returns>
+        protected static string GetFileName(string clientFolderName)
+        {
+            var fileName = clientFolderName;
+            if (fileName.Contains("\n") || fileName.Contains("|"))
+            {
+                fileName = fileName.Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+            }
+
+            return fileName;
+        }
 
         /// <summary>
         /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
@@ -383,6 +420,45 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Read the column definition from the column definition file specified with the
+        /// parameter <paramref name="columnDefinitionFile"/>. If there is no such file 
+        /// specified, a list of such entries will be created by searching the object 
+        /// recursively for properties.
+        /// </summary>
+        /// <typeparam name="T"> The type to create the definition for </typeparam>
+        /// <param name="columnDefinitionFile"> the file that does contain a list of <see cref="ColumnDefinition"/> </param>
+        /// <returns> a list of <see cref="ColumnDefinition"/> to describe the columns </returns>
+        protected List<ColumnDefinition> GetColumnDefinition<T>(string columnDefinitionFile)
+        {
+            var result = new List<ColumnDefinition>();
+            var definitionFileName = columnDefinitionFile.Replace(".{write}", string.Empty);
+            this.LogProcessingEvent("reading/building column definition");
+
+            if (
+                !string.IsNullOrEmpty(columnDefinitionFile)
+                && File.Exists(definitionFileName))
+            {
+                result = result.LoadFrom(definitionFileName, new[] { typeof(ColumnDefinition) });
+                if (result.LongCount() > 0)
+                {
+                    this.LogProcessingEvent("definition file with {0} columns used ({1}).", result.LongCount(), definitionFileName);
+                    return result;
+                }
+            }
+
+            this.LogProcessingEvent("building column definition from type {0}...", typeof(T).Name);
+            result = (from x in Tools.GetPropertyList(string.Empty, typeof(T)) select new ColumnDefinition(x)).ToList();
+
+            if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
+            {
+                this.LogProcessingEvent("saving column definition to file {0}...", definitionFileName);
+                result.SaveTo(definitionFileName, new[] { typeof(ColumnDefinition) });
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Writes a single element to the list of elements; overwrites an existing element with the same id
         /// </summary>
         /// <param name="list">the list of elements the new element should be added to</param>
@@ -401,7 +477,24 @@ namespace Sem.Sync.SyncBase
         /// <returns>true if writing was successfull, false if the entry has been skipped</returns>
         private static bool WriteElement(ICollection<StdElement> list, StdElement element, bool skipIfExisting)
         {
-            var listEntry = (from entry in list where entry.Id == element.Id select entry).FirstOrDefault();
+            var asContact = element as StdContact;
+            StdElement listEntry;
+
+            if (asContact != null)
+            {
+                listEntry = (from entry in list
+                             where
+                             entry.Id == element.Id
+                             || ((StdContact)entry).PersonalProfileIdentifiers.Equals(asContact.PersonalProfileIdentifiers)
+                             select entry).FirstOrDefault();
+            }
+            else
+            {
+                listEntry = (from entry in list 
+                             where
+                             entry.Id == element.Id 
+                             select entry).FirstOrDefault();
+            }
 
             if (listEntry != null)
             {

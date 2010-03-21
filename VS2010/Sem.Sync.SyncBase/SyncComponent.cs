@@ -37,6 +37,25 @@ namespace Sem.Sync.SyncBase
         public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
+        /// The name of the profile id to be used with this connector.
+        /// </summary>
+        /// <returns> The type name of this connector implementation. </returns>
+        public virtual string ProfileIdName()
+        {
+            return this.ProfileIdName(string.Empty);
+        }
+
+        /// <summary>
+        /// The name of the profile id to be used with this connector.
+        /// </summary>
+        /// <param name="store"> The storage that is specific for this context. </param>
+        /// <returns> The type name of this connector implementation with the storage name. </returns>
+        public virtual string ProfileIdName(string store)
+        {
+            return this.GetType().FullName + "(" + store + ")";
+        }
+
+        /// <summary>
         /// logs an event by specifying the current element that is related to the event and a message about the current event
         /// </summary>
         /// <param name="stdItem">the std-element this event corresponds to</param>

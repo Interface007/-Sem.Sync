@@ -44,6 +44,7 @@
             this.dataGridTargetDetail = new System.Windows.Forms.DataGridView();
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.dataGridMatches = new System.Windows.Forms.DataGridView();
+            this.BtnAutoMatch = new System.Windows.Forms.Button();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -182,12 +183,20 @@
             this.dataGridMatches.ReadOnly = true;
             this.dataGridMatches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             // 
+            // BtnAutoMatch
+            // 
+            resources.ApplyResources(this.BtnAutoMatch, "BtnAutoMatch");
+            this.BtnAutoMatch.Name = "BtnAutoMatch";
+            this.BtnAutoMatch.UseVisualStyleBackColor = true;
+            this.BtnAutoMatch.Click += new System.EventHandler(this.BtnAutoMatch_Click);
+            // 
             // MatchEntities
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.chkMatchedOnly);
+            this.Controls.Add(this.BtnAutoMatch);
             this.Controls.Add(this.btnUnMatch);
             this.Controls.Add(this.btnMatch);
             this.Controls.Add(this.btnFinished);
@@ -223,5 +232,6 @@
         private System.Windows.Forms.DataGridView dataGridMatches;
         private ContactCardView SourceCardView;
         private ContactCardView TargetCardView;
+        private System.Windows.Forms.Button BtnAutoMatch;
     }
 }

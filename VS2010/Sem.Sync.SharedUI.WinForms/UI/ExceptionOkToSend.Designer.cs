@@ -35,7 +35,7 @@
             this.content = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // CancelButton
+            // cancelButton
             // 
             this.cancelButton.AccessibleDescription = null;
             this.cancelButton.AccessibleName = null;
@@ -46,11 +46,11 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // OkButton
+            // okButton
             // 
             this.okButton.AccessibleDescription = null;
             this.okButton.AccessibleName = null;
-            resources.ApplyResources(this.okButton, "OkButton");
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.BackgroundImage = null;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.okButton.Font = null;
@@ -66,7 +66,7 @@
             this.label1.Font = null;
             this.label1.Name = "label1";
             // 
-            // Content
+            // content
             // 
             this.content.AccessibleDescription = null;
             this.content.AccessibleName = null;

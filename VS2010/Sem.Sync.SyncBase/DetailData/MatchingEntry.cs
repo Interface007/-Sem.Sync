@@ -18,6 +18,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Gets or sets a set of profile identifiers.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This class will be used in XML-Serialization, what means that a ReadOnly property will add a bunch of complexity.")]
         public ProfileIdentifiers ProfileId { get; set; }
 
         /// <summary>

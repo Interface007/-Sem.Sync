@@ -354,12 +354,37 @@ namespace Sem.GenericHelpers
                         var method =
                             (from x in methods where x.GetParameters().Length == 1 && x.Name == propName select x).
                                 FirstOrDefault();
-                        return method == null ? null : method.Invoke(objectToReadFrom, new[] { parameter });
+
+                        if (method == null)
+                        {
+                            return null;
+                        }
+
+                        var parameters = method.GetParameters();
+                        if (parameters.Count() == 1)
+                        {
+                            var parameterType = parameters[0].ParameterType;
+
+                            if (parameterType.BaseType == typeof(Enum))
+                            {
+                                return method.Invoke(objectToReadFrom, new[] { Enum.Parse(parameterType, parameter) });
+                            }
+                        }
+
+                        return method.Invoke(objectToReadFrom, new[] { parameter });
                     }
                 }
 
-                var propertyInfo = type.GetProperty(propName);
-                var value = propertyInfo == null ? objectToReadFrom : propertyInfo.GetValue(objectToReadFrom, null);
+                object value;
+                if (string.IsNullOrEmpty(propName))
+                {
+                    value = objectToReadFrom;
+                }
+                else
+                {
+                    var propertyInfo = type.GetProperty(propName);
+                    value = propertyInfo == null ? null : propertyInfo.GetValue(objectToReadFrom, null);
+                }
 
                 if (value == null)
                 {
@@ -371,11 +396,9 @@ namespace Sem.GenericHelpers
                 if (isIndexed)
                 {
                     int numIndex;
-                    var checkIndex = false;
                     if (parameter.EndsWith("?", StringComparison.Ordinal))
                     {
                         parameter = parameter.Substring(0, parameter.Length - 1);
-                        checkIndex = true;
                     }
 
                     var indexerObject = valueType.GetCustomAttributes(typeof(DefaultMemberAttribute), true);
@@ -393,18 +416,24 @@ namespace Sem.GenericHelpers
                         var indexerName = ((DefaultMemberAttribute)indexerObject[0]).MemberName;
                         var indexerPropertyInfo = valueType.GetProperty(indexerName);
 
-                        if (valueType.Name == "Dictionary`2")
+                        var valueDictionary = value as IDictionary;
+                        if (valueDictionary != null)
                         {
-                            if (checkIndex)
+                            var getter = valueType.GetMethod("get_Item");
+
+                            object parameterObject = parameter;
+                            if (getter.GetParameters()[0].ParameterType.BaseType == typeof(Enum))
                             {
-                                var exists = (bool)GetPropertyValue(value, "ContainsKey(" + parameter + ")");
-                                if (!exists)
-                                {
-                                    return null;
-                                }
+                                parameterObject = Enum.Parse(getter.GetParameters()[0].ParameterType, parameter);
                             }
 
-                            value = indexerPropertyInfo.GetValue(value, new object[] { parameter });
+                            var exists = (bool)GetPropertyValue(value, "ContainsKey(" + parameter + ")");
+                            if (!exists)
+                            {
+                                return null;
+                            }
+
+                            value = indexerPropertyInfo.GetValue(value, new[] { parameterObject });
                         }
                         else
                         {
@@ -413,15 +442,10 @@ namespace Sem.GenericHelpers
                                 return null;
                             }
 
-                            if (checkIndex)
+                            var maxIndex = ((int)GetPropertyValue(value, "Count")) - 1;
+                            if (maxIndex < numIndex)
                             {
-                                var maxIndex = ((int)GetPropertyValue(value, "Count")) - 1;
-                                if (maxIndex < numIndex)
-                                {
-                                    return null;
-                                }
-
-                                value = indexerPropertyInfo.GetValue(value, new object[] { numIndex });
+                                return null;
                             }
 
                             value = indexerPropertyInfo.GetValue(value, new object[] { numIndex });
@@ -453,6 +477,26 @@ namespace Sem.GenericHelpers
             }
 
             return value.ToString();
+        }
+
+        /// <summary>
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
+        /// </summary>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a boolean</returns>
+        public static bool GetPropertyValueBoolean<T>(T objectToReadFrom, string pathToProperty)
+        {
+            var value = GetPropertyValue(objectToReadFrom, pathToProperty);
+            if (value != null && value.GetType() == typeof(bool))
+            {
+                return (bool)value;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -488,10 +532,19 @@ namespace Sem.GenericHelpers
 
             var propName = GetInvokePartFromPath(ref pathToProperty);
 
-            if (propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("("))
+            var isMethod = propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("(");
+            if (isMethod)
             {
                 return;
             }
+
+            var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
+
+            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
+            var parameter = parameterStart > -1
+                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
+                                : string.Empty;
+            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
 
             var type = objectToWriteTo.GetType();
             var propInfo = type.GetProperty(propName);
@@ -499,9 +552,6 @@ namespace Sem.GenericHelpers
             {
                 return;
             }
-
-            var isIndexed = pathToProperty.StartsWith("[", StringComparison.Ordinal) && pathToProperty.Contains("]");
-            var parameter = GetParameterForInvoke(ref pathToProperty);
 
             // if we need to navigate down the object path
             if (pathToProperty.Contains('.'))
@@ -559,6 +609,10 @@ namespace Sem.GenericHelpers
                     propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
                     break;
 
+                case "Boolean":
+                    propInfo.SetValue(objectToWriteTo, bool.Parse(valueString), null);
+                    break;
+
                 case "Guid":
                     propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
                     break;
@@ -571,6 +625,21 @@ namespace Sem.GenericHelpers
                     }
 
                     propInfo.SetValue(objectToWriteTo, valueString, null);
+                    break;
+
+                case "SerializableDictionary`2":
+                    var sdic = propInfo.GetValue(objectToWriteTo, null) as SerializableDictionary<string, string>;
+                    if (sdic == null)
+                    {
+                        sdic = propType.GetConstructor(new Type[] { }).Invoke(null) as SerializableDictionary<string, string>;
+                        propInfo.SetValue(objectToWriteTo, sdic, null);
+                    }
+
+                    if (sdic != null)
+                    {
+                        sdic.Add(parameter, valueString);
+                    }
+
                     break;
 
                 case "List`1":
@@ -587,6 +656,12 @@ namespace Sem.GenericHelpers
                 case "ProfileIdInformation":
                     var myObject = propType.GetConstructor(new[] { typeof(string) }).Invoke(new[] { valueString });
                     propInfo.SetValue(objectToWriteTo, myObject, null);
+                    break;
+
+                case "queryType":
+                    var myQueryType = propType.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                    SetPropertyValue(myQueryType, "Value", valueString);
+                    propInfo.SetValue(objectToWriteTo, myQueryType, null);
                     break;
 
                 default:
@@ -720,6 +795,11 @@ namespace Sem.GenericHelpers
 
             var resultList = new List<string>();
 
+            if (type.Name == "ProfileIdentifiers")
+            {
+                return resultList;
+            }
+
             var methodsToAdd = from x in type.GetMethods()
                                where
                                    x.GetParameters().Length == 0 &&
@@ -744,6 +824,7 @@ namespace Sem.GenericHelpers
                     case "Guid":
                     case "String":
                     case "DateTime":
+                    case "Boolean":
                     case "Int32":
                         resultList.Add(parentName + item.Name);
                         break;
@@ -782,22 +863,6 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Extracts parameters for a method invoke.
-        /// </summary>
-        /// <param name="propName"> The property name including the parameters. This will be manipulated
-        /// to not include the parameters after the call. </param>
-        /// <returns>The parameters.</returns>
-        private static string GetParameterForInvoke(ref string propName)
-        {
-            var parameterStart = propName.IndexOfAny(new[] { '[', '(' });
-            var parameter = parameterStart > -1
-                                ? propName.Substring(parameterStart + 1, propName.Length - parameterStart - 2)
-                                : string.Empty;
-            propName = parameterStart > -1 ? propName.Substring(0, parameterStart) : propName;
-            return parameter;
-        }
-
-        /// <summary>
         /// Assembels an array of indexer parameters for a property get/set invocation.
         /// </summary>
         /// <param name="parameter"> The parameter to extract the indexers from. </param>
@@ -817,6 +882,7 @@ namespace Sem.GenericHelpers
 
             var lastDot = parameter.LastIndexOf('.');
             var type = Type.GetType(new Factory().EnrichClassName(parameter.Substring(0, lastDot)), false, true);
+
             if (type != null && type.BaseType == typeof(Enum))
             {
                 return new[] { Enum.Parse(type, parameter.Substring(lastDot + 1)) };
@@ -838,7 +904,16 @@ namespace Sem.GenericHelpers
             }
 
             string propName;
+            var indexOfOpeningBracket = pathToProperty.IndexOfAny(new[] { '[', '(' });
+            var indexOfClosingBracket = pathToProperty.IndexOfAny(new[] { ']', ')' });
             var indexOfNextPart = pathToProperty.IndexOf('.');
+            if (indexOfOpeningBracket > 0 &&
+                indexOfOpeningBracket < indexOfNextPart &&
+                indexOfClosingBracket > indexOfNextPart)
+            {
+                indexOfNextPart = indexOfClosingBracket + 1;
+            }
+
             if (indexOfNextPart > 0)
             {
                 propName = pathToProperty.Substring(0, indexOfNextPart);
@@ -872,7 +947,5 @@ namespace Sem.GenericHelpers
 
             return cachedAllowedAscii;
         }
-
-        
     }
 }

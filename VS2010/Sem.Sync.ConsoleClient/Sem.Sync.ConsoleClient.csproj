@@ -140,6 +140,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
+    <Content Include="A Copy Xml to OutlookCal.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="A Sync OutlookCal to Xml.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="A Copy OutlookCal to Xml.SyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="A Copy from MeinVZ.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -256,6 +256,46 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         }
 
         /// <summary>
+        /// Performs a match for all source entities. The match may fail for some entities, so it can be incomplete.
+        /// <para>Matching is performed by one of the following conditions:
+        /// <list type="bullets">
+        ///     <item>One matching profile-id</item>
+        ///     <item>matching first, middle and last name + matching personal or business address </item>
+        /// </list></para>
+        /// </summary>
+        internal void MatchAll()
+        {
+            foreach (var sourceItem in this.Source)
+            {
+                var ppi = sourceItem.PersonalProfileIdentifiers;
+                var targetItem = (from x in this.Target
+                                  where x.PersonalProfileIdentifiers.Equals(ppi)
+                                  select x).FirstOrDefault();
+
+                if (targetItem == null)
+                {
+                    var name = sourceItem.ToStringSimple();
+                    var businessEmail = sourceItem.BusinessEmailPrimary;
+                    var personalEmail = sourceItem.BusinessEmailPrimary;
+                    targetItem = (from x in this.Target
+                                  where x.ToStringSimple() == name
+                                        && (x.BusinessEmailPrimary == businessEmail
+                                            || x.PersonalEmailPrimary == personalEmail)
+                                  select x).FirstOrDefault();
+                }
+
+                if (targetItem == null)
+                {
+                    continue;
+                }
+
+                this.CurrentSourceElement = sourceItem;
+                this.CurrentTargetElement = targetItem;
+                this.Match();
+            }
+        }
+
+        /// <summary>
         /// Determines a list of property names and values from the <paramref name="objectToInspect"/>.
         /// </summary>
         /// <param name="objectToInspect"> The object to get the properties from. </param>

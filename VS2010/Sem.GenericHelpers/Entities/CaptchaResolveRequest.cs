@@ -18,5 +18,7 @@ namespace Sem.GenericHelpers.Entities
         /// Gets or sets the url of the web site that will provide the UI to solve the captcha.
         /// </summary>
         public string UrlOfWebSite { get; set; }
+        
+        public HttpHelper HttpHelper { get; set; }
     }
 }

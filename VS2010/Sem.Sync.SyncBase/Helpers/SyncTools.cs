@@ -182,6 +182,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>a processed item that contains NULL references instead of defaults</returns>
         /// <remarks>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The complexity of this method does come from one single switch statement, that is easy to understand.")]
         public static bool ClearNulls(object item, Type testType)
         {
             if (item == null)
@@ -204,12 +205,30 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = (int)item != 0;
                     break;
 
+                case "Int64":
+                    isDefined = (long)item != 0;
+                    break;
+
+                case "Double":
+                    isDefined = (double)item != 0;
+                    break;
+
+                case "Boolean":
+                    isDefined = (bool)item;
+                    break;
+
+                case "TimeSpan":
+                    isDefined = (TimeSpan)item == new TimeSpan();
+                    break;
+
                 case "String":
                     isDefined = !string.IsNullOrEmpty((string)item);
                     break;
 
                 case "DateTime":
-                    isDefined = (DateTime)item != new DateTime() && (DateTime)item != new DateTime(1900, 1, 1);
+                    isDefined = (DateTime)item != new DateTime() 
+                        && (DateTime)item > new DateTime(1900, 1, 1) 
+                        && (DateTime)item < new DateTime(2100, 1, 1);
                     break;
 
                 case "Date":
@@ -224,8 +243,16 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = true;
                     break;
 
+                case "SerializableDictionary`2":
+                    isDefined = ((IDictionary)item).Count > 0;
+                    break;
+
                 case "List`1":
                     isDefined = ((IList)item).Count > 0;
+                    break;
+                
+                case "ProfileIdentifiers":
+                    isDefined = ((ProfileIdentifiers)item).Count > 0;
                     break;
 
                 default:
@@ -233,14 +260,15 @@ namespace Sem.Sync.SyncBase.Helpers
 #if DEBUG
                     if (
                         !typeName.IsOneOf(
-                             "SyncData",
-                             "PhoneNumber",
-                             "AddressDetail",
-                             "PersonName",
-                             "StdContact",
-                             "ProfileIdentifiers",
-                             "ProfileIdInformation",
-                             "InstantMessengerAddresses"))
+                            "SyncData",
+                            "StdCalendarItem",                            
+                            "PhoneNumber",
+                            "AddressDetail",
+                            "PersonName",
+                            "StdContact",
+                            "ProfileIdentifiers",
+                            "ProfileIdInformation",
+                            "InstantMessengerAddresses"))
                     {
                         Tools.DebugWriteLine("type name not explicitly supported in ClearNulls: " + typeName);
                     }
@@ -299,7 +327,8 @@ namespace Sem.Sync.SyncBase.Helpers
             {
                 var comparison = (from x in Attribute.GetCustomAttributes(item)
                                   where x.GetType() == typeof(ComparisonModifierAttribute)
-                                  select x).FirstOrDefault() as ComparisonModifierAttribute ?? new ComparisonModifierAttribute();
+                                  select x).FirstOrDefault() as ComparisonModifierAttribute ??
+                                 new ComparisonModifierAttribute();
 
                 if (comparison.SkipMerge)
                 {
@@ -368,6 +397,11 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
                         break;
 
+                    case "ProfileIdentifiers":
+                        // don't compare the profile identifiers
+                        conflict = MergePropertyConflict.None;
+                        break;
+
                     case "Byte[]":
                         break;
 
@@ -375,25 +409,25 @@ namespace Sem.Sync.SyncBase.Helpers
                         result.AddRange(
                             DetectConflicts(
                                 new ConflictTestContainer
-                                {
-                                    SourceObject = container.SourceObject,
-                                    TargetObject = container.TargetObject,
-                                    BaselineObject = container.BaselineObject,
-                                    PropertyName = container.PropertyName + "." + item.Name,
-                                    PropertyType = item.PropertyType,
-                                    SourceProperty =
-                                        (container.SourceProperty == null)
-                                            ? null
-                                            : item.GetValue(container.SourceProperty, null),
-                                    TargetProperty =
-                                        (container.TargetProperty == null)
-                                            ? null
-                                            : item.GetValue(container.TargetProperty, null),
-                                    BaselineProperty =
-                                        (container.BaselineProperty == null)
-                                            ? null
-                                            : item.GetValue(container.BaselineProperty, null)
-                                },
+                                    {
+                                        SourceObject = container.SourceObject,
+                                        TargetObject = container.TargetObject,
+                                        BaselineObject = container.BaselineObject,
+                                        PropertyName = container.PropertyName + "." + item.Name,
+                                        PropertyType = item.PropertyType,
+                                        SourceProperty =
+                                            (container.SourceProperty == null)
+                                                ? null
+                                                : item.GetValue(container.SourceProperty, null),
+                                        TargetProperty =
+                                            (container.TargetProperty == null)
+                                                ? null
+                                                : item.GetValue(container.TargetProperty, null),
+                                        BaselineProperty =
+                                            (container.BaselineProperty == null)
+                                                ? null
+                                                : item.GetValue(container.BaselineProperty, null)
+                                    },
                                 skipIdenticalChanges));
 
                         // we did already add the results for this property, so skip it now
@@ -406,18 +440,18 @@ namespace Sem.Sync.SyncBase.Helpers
                     && (!skipIdenticalChanges || conflict != MergePropertyConflict.BothChangedIdentically))
                 {
                     result.Add(new MergeConflict
-                    {
-                        PropertyConflict = conflict,
+                                   {
+                                       PropertyConflict = conflict,
 
-                        BaselineElement = container.BaselineObject,
-                        SourceElement = container.SourceObject,
-                        TargetElement = container.TargetObject,
+                                       BaselineElement = container.BaselineObject,
+                                       SourceElement = container.SourceObject,
+                                       TargetElement = container.TargetObject,
 
-                        PathToProperty = container.PropertyName + "." + item.Name,
-                        BaselinePropertyValue = baselineString,
-                        SourcePropertyValue = sourceString,
-                        TargetPropertyValue = targetString
-                    });
+                                       PathToProperty = container.PropertyName + "." + item.Name,
+                                       BaselinePropertyValue = baselineString,
+                                       SourcePropertyValue = sourceString,
+                                       TargetPropertyValue = targetString
+                                   });
                 }
             }
 

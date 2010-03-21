@@ -25,6 +25,7 @@ namespace Sem.Sync.SyncBase
     using GenericHelpers.Interfaces;
 
     using Interfaces;
+
     using Properties;
 
     /// <summary>
@@ -41,6 +42,7 @@ namespace Sem.Sync.SyncBase
     public class SyncEngine : SyncComponent
     {
         #region fields
+
         /// <summary>
         /// the factory to create the classes
         /// </summary>
@@ -50,8 +52,6 @@ namespace Sem.Sync.SyncBase
         /// will be set when the first command is executed
         /// </summary>
         private bool versionOutdated;
-        
-        public bool skipLogging = false;
 
         /// <summary>
         /// flag for already executed version check
@@ -67,14 +67,23 @@ namespace Sem.Sync.SyncBase
         /// the percentage of work already done
         /// </summary>
         private int percentageOfSequenceDone;
+
         #endregion
 
         #region events
+
         /// <summary>
         /// Will be raised in the event of needed log on credentials
         /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
+
         #endregion
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to skip logging and progress reporting 
+        /// in order to speed up processing.
+        /// </summary>
+        public bool SkipLogging { get; set; }
 
         /// <summary>
         /// Gets or sets a value that represents the file system working folder. Use 
@@ -93,7 +102,8 @@ namespace Sem.Sync.SyncBase
             var itemsDone = 0;
             this.numberOfCommandsInSequence = syncList.Count;
 
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
+            LogProcessingEvent(
+                string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
 
             foreach (var item in syncList)
             {
@@ -121,9 +131,11 @@ namespace Sem.Sync.SyncBase
         /// <returns>the processed string containing the token values instead of the token</returns>
         public string ReplacePathToken(string path)
         {
-            return (path ?? string.Empty)
+            return
+                (path ?? string.Empty)
                 .Replace("{FS:WorkingFolder}", this.WorkingFolder)
-                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
+                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase))
+                .Replace("file:\\", string.Empty);
         }
 
         /// <summary>
@@ -136,7 +148,9 @@ namespace Sem.Sync.SyncBase
         /// <returns>
         /// a value whether the execution should continue (true) or should abort (false)
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification =
+                "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
         public bool Execute(SyncDescription item)
         {
             if (!this.versionChecked)
@@ -164,7 +178,12 @@ namespace Sem.Sync.SyncBase
 
             try
             {
-                var command = this.factory.GetNewObject<ISyncCommand>(string.Format(CultureInfo.CurrentCulture, "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase", item.Command));
+                var command =
+                    this.factory.GetNewObject<ISyncCommand>(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase",
+                            item.Command));
                 var commandAsComponent = command as SyncComponent;
 
                 if (command != null)
@@ -178,7 +197,14 @@ namespace Sem.Sync.SyncBase
                     this.WireUpEvents(commandAsComponent, true);
 
                     // execute the command with the connectors
-                    continueExecution = command.ExecuteCommand(sourceClient, targetClient, baseliClient, sourceStorePath, targetStorePath, baselineStorePath, this.ReplacePathToken(item.CommandParameter));
+                    continueExecution = command.ExecuteCommand(
+                        sourceClient,
+                        targetClient,
+                        baseliClient,
+                        sourceStorePath,
+                        targetStorePath,
+                        baselineStorePath,
+                        this.ReplacePathToken(item.CommandParameter));
 
                     this.WireUpEvents(commandAsComponent, false);
                 }
@@ -273,15 +299,15 @@ namespace Sem.Sync.SyncBase
         /// <param name="e"> The event argument. </param>
         private void HandleProgressEvent(object sender, ProgressEventArgs e)
         {
-            if (!this.skipLogging)
+            if (!this.SkipLogging)
             {
-                this.UpdateProgress(this.percentageOfSequenceDone
-                                + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+                this.UpdateProgress(
+                    this.percentageOfSequenceDone + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
             }
         }
 
         /// <summary>
-        /// Checks if the exception is highly porpable from a missing interop assembly and opens a link for the download.
+        /// Checks if the exception is highly propable from a missing interop assembly and opens a link for the download.
         /// </summary>
         /// <param name="ex"> The exception to check. </param>
         private void CheckForInteropAssemblies(FileNotFoundException ex)
@@ -296,16 +322,20 @@ namespace Sem.Sync.SyncBase
                 return;
             }
 
+            // todo: we need to lookup the installed version instead of parsing the exception!
+
             // Office 2003
             if (ex.Message.Contains("Version=11"))
             {
-                Process.Start("http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
+                Process.Start(
+                    "http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
             }
 
             // Office 2007
             if (ex.Message.Contains("Version=12"))
             {
-                Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
+                Process.Start(
+                    "http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
             }
 
             // Office 2010

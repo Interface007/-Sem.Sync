@@ -12,18 +12,20 @@ namespace Sem.Sync.Connector.Filesystem
 {
     #region usings
 
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Xml.Serialization;
-
-    using GenericHelpers;
-
-    using Properties;
-
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.Helpers;
+    
+    using Sem.GenericHelpers;
+    
+    using Sem.Sync.Connector.Filesystem.Properties;
+    
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.SyncBase.Interfaces;
 
     #endregion usings
 
@@ -39,7 +41,7 @@ namespace Sem.Sync.Connector.Filesystem
         Default = "{FS:WorkingFolder}\\Elements.xml",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     [ConnectorDescription(DisplayName = "Filesystem generic client", IsGeneric = true)]
-    public class GenericClient<T> : StdClient where T : StdElement
+    public class GenericClient<T> : StdClient, IBackupStorage where T : StdElement
     {
         /// <summary>
         /// This is the formatter instance for serializing the list of contacts.
@@ -56,6 +58,25 @@ namespace Sem.Sync.Connector.Filesystem
             {
                 return "FileSystem Generic Connector - does not provide type specific features";
             }
+        }
+
+        /// <summary>
+        /// Perform a full backup of the storage - the connector has to choose a meaningfull name for the backup
+        /// </summary>
+        /// <param name="clientFolderName"> The client Folder Name. </param>
+        public void BackupStorage(string clientFolderName)
+        {
+            var destFileName = clientFolderName + string.Format(CultureInfo.InvariantCulture, "-{0:yyyy-MM-dd-hh-mm-ss}-{1}.syncbackup", DateTime.Now, Guid.NewGuid());
+            File.Copy(clientFolderName, destFileName);
+        }
+
+        /// <summary>
+        /// Perform a full restore of the storage - the connector has to choose the correct source for the restore
+        /// </summary>
+        /// <param name="clientFolderName"> The client Folder Name. </param>
+        public void RestoreStorage(string clientFolderName)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -111,5 +132,5 @@ namespace Sem.Sync.Connector.Filesystem
                 ListFormatter.Serialize(file, result);
             }
         }
-     }
+    }
 }

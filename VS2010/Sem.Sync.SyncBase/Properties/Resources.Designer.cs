@@ -61,7 +61,7 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office 2003. Do you want to open the download page for this missing dependency?.
+        ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office. Do you want to open the download page for this missing dependency?.
         /// </summary>
         public static string MissingInteropQuestion {
             get {

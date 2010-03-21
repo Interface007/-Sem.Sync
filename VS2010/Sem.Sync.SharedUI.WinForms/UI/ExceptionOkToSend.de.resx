@@ -117,10 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>312, 358</value>
+  </data>
+  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Informationen &amp;nicht senden</value>
   </data>
-  <data name="OkButton.Text" xml:space="preserve">
+  <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>166, 358</value>
+  </data>
+  <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 23</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
     <value>Informationen &amp;senden</value>
   </data>
   <data name="label1.Text" xml:space="preserve">

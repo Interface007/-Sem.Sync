@@ -664,6 +664,11 @@ namespace Sem.GenericHelpers
                     propInfo.SetValue(objectToWriteTo, myQueryType, null);
                     break;
 
+                case "PhoneNumber":
+                    var myPhoneNumber = propType.GetConstructor(new[] {typeof (string)}).Invoke(new[] {valueString});
+                    propInfo.SetValue(objectToWriteTo, myPhoneNumber, null);
+                    break;
+
                 default:
                     if (isIndexed)
                     {

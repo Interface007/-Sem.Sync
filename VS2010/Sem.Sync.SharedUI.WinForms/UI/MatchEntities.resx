@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnFinished.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="btnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -178,7 +178,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnMatch.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chkMatchedOnly.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -241,7 +241,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnUnMatch.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="splitContainer2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -280,7 +280,7 @@
     <value>SourceCardView</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.109.3666.38106, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.123.3699.28185, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -364,7 +364,7 @@
     <value>TargetCardView</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.109.3666.38106, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.123.3699.28185, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -521,6 +521,36 @@
   </data>
   <data name="&gt;&gt;splitContainer2.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="BtnAutoMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="BtnAutoMatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnAutoMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 475</value>
+  </data>
+  <data name="BtnAutoMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BtnAutoMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BtnAutoMatch.Text" xml:space="preserve">
+    <value>&amp;automatch</value>
+  </data>
+  <data name="&gt;&gt;BtnAutoMatch.Name" xml:space="preserve">
+    <value>BtnAutoMatch</value>
+  </data>
+  <data name="&gt;&gt;BtnAutoMatch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnAutoMatch.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnAutoMatch.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
