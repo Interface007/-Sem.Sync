@@ -1,59 +1,26 @@
 <?xml version="1.0"?>
 <ReplacementLists xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <BusinessCompanyName>
-    <KeyValuePair>
-      <Key>Avanade Deutschland GmbH (Teil des Joint Venture von Accenture &amp; Microsoft)</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>CSC Deutschland Solutions GmbH,</Key>
-      <Value>CSC Deutschland Solutions GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft),</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Commerz Systems GmbH (ehemals pdv.com Beratungs GmbH)</Key>
-      <Value>Commerz Systems GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Avanade Deutschland GmbH (Joint Venture von Accenture &amp;amp; Microsoft)</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Avanade</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Avanade Deutschland GmbH (Accenture / Microsoft Joint Venture)</Key>
-      <Value>Avanade Deutschland GmbH</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>CSC</Key>
-      <Value>CSC Deutschland Solutions GmbH</Value>
-    </KeyValuePair>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Teil des Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp;amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)," Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Accenture / Microsoft Joint Venture)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade" Value="Avanade Deutschland GmbH"/>
+    
+    <KeyValuePair Key="Accenture" Value="Accenture GmbH"/>
+    <KeyValuePair Key="Accenture Technology Solutions" Value="Accenture GmbH"/>
+    
+    <KeyValuePair Key="CSC" Value="CSC Deutschland Solutions GmbH"/>
+    <KeyValuePair Key="CSC Deutschland Solutions GmbH," Value="CSC Deutschland Solutions GmbH"/>
+    
+    <KeyValuePair Key="Commerz Systems GmbH (ehemals pdv.com Beratungs GmbH)" Value="Commerz Systems GmbH"/>
+    <KeyValuePair Key="Commerz Systems GmbH (früher pdv.com Beratungs-GmbH)" Value="Commerz Systems GmbH"/>
   </BusinessCompanyName>
   <BusinessHomepage>
-    <KeyValuePair>
-      <Key>http://www.avanade.com/de/</Key>
-      <Value>http://www.avanade.de</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>http://www.avanade.com</Key>
-      <Value>http://www.avanade.de</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>https://www.commerzbank.de/</Key>
-      <Value>http://www.commerzbank.de</Value>
-    </KeyValuePair>
-    <KeyValuePair>
-      <Key>Commerz Systems GmbH (ehemals pdv.com Beratungs GmbH)</Key>
-      <Value>Commerz Systems GmbH</Value>
-    </KeyValuePair>
+    <KeyValuePair Key="http://www.avanade.com/de/" Value="http://www.avanade.de"/>
+    <KeyValuePair Key="http://www.avanade.com" Value="http://www.avanade.de"/>
+    <KeyValuePair Key="https://www.commerzbank.de/" Value="http://www.commerzbank.de"    />
   </BusinessHomepage>
 </ReplacementLists>

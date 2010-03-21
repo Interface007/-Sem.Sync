@@ -289,7 +289,7 @@ namespace Sem.Sync.SyncBase
                 name.Append(this.Name.AcademicTitle);
             }
 
-            return name.ToString();
+            return name.ToString().ToUpperInvariant();
         }
 
         /// <summary>
