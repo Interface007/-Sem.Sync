@@ -324,6 +324,10 @@ namespace Sem.Sync.SyncBase.Helpers
                         contact.Id = new Guid(value);
                         break;
 
+                    case "CATEGORIES":
+                        contact.SourceSpecificAttributes.Add(propertyName, value); 
+                        break;
+
                     case "LABEL":
                     case "PRODID":
                     case "BEGIN":
@@ -332,7 +336,6 @@ namespace Sem.Sync.SyncBase.Helpers
                     case "CLASS":
                     case "FN":
                     case "":
-                    case "CATEGORIES":
                     case "VERSION":
                     case "X-MATZEN-GENERATOR":
                     case "X-MS-OL-DESIGN":

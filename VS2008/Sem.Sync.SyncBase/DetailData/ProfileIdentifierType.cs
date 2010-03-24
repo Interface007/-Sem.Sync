@@ -84,5 +84,10 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Exchange Web Services
         /// </summary>
         ExchangeWs,
+
+        /// <summary>
+        /// any unspecific eMail address
+        /// </summary>
+        GenericEMail,
     }
 }

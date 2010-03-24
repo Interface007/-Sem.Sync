@@ -145,6 +145,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Decrypte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MicrosoftExcelXml", "Sem.Sync.Connector.MicrosoftExcelXml\Sem.Sync.Connector.MicrosoftExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelOpenXml", "Sem.Sync.Connector.MsExcelOpenXml\Sem.Sync.Connector.MsExcelOpenXml.csproj", "{C88E3C85-79A2-4045-85BB-696097ED23D7}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 53
@@ -1606,6 +1608,31 @@ Global
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1643,6 +1670,7 @@ Global
 		{809277C4-F27E-47B6-AC9F-E5EE54AE1399} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{A3F64060-5F1F-4470-B1AE-71836CFD6DA0} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{C88E3C85-79A2-4045-85BB-696097ED23D7} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{C59830A8-5F30-4AC1-A862-473D9911B08A} = {1820AB38-479F-49F7-9CF6-1920BFA94C41}
 		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
