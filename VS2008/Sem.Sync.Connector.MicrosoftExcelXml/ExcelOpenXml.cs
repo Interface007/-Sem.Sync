@@ -26,18 +26,18 @@
         {
             var list = new List<T>();
 
-            using (Package xlPackage = Package.Open(packageFileName, FileMode.Open, FileAccess.Read))
+            using (var excelPackage = Package.Open(packageFileName, FileMode.Open, FileAccess.Read))
             {
                 PackagePart documentPart = null;
 
                 Uri documentUri = null;
 
                 // Get the main document part (workbook.xml).
-                foreach (System.IO.Packaging.PackageRelationship relationship in xlPackage.GetRelationshipsByType(documentRelationshipType))
+                foreach (System.IO.Packaging.PackageRelationship relationship in excelPackage.GetRelationshipsByType(documentRelationshipType))
                 {
                     // There should only be one document part in the package. 
                     documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), relationship.TargetUri);
-                    documentPart = xlPackage.GetPart(documentUri);
+                    documentPart = excelPackage.GetPart(documentUri);
 
                     // There should only be one instance, but get out no matter what.
                     break;
@@ -75,9 +75,9 @@
                             var relId = rel.Value;
 
                             // get the relation between the document and the sheet.
-                            System.IO.Packaging.PackageRelationship sheetRelation = documentPart.GetRelationship(relId);
-                            Uri sheetUri = System.IO.Packaging.PackUriHelper.ResolvePartUri(documentUri, sheetRelation.TargetUri);
-                            System.IO.Packaging.PackagePart sheetPart = xlPackage.GetPart(sheetUri);
+                            var sheetRelation = documentPart.GetRelationship(relId);
+                            var sheetUri = System.IO.Packaging.PackUriHelper.ResolvePartUri(documentUri, sheetRelation.TargetUri);
+                            var sheetPart = excelPackage.GetPart(sheetUri);
 
                             using (var sheetReader = XmlReader.Create(sheetPart.GetStream()))
                             {

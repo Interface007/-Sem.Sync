@@ -9,14 +9,15 @@
 
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    
+
     using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
-    
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
 
@@ -67,19 +68,35 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 var worksheetPart = (WorksheetPart)document.WorkbookPart.GetPartById(sheets.First().Id);
 
                 // Get the cells in the specified column and order them by row.
-                IEnumerable<Cell> cells = 
+                IEnumerable<Cell> cells =
                     worksheetPart.
                     Worksheet.
                     Descendants<Cell>().
                     OrderBy(r => GetRowIndex(r.CellReference));
-                
+
                 if (cells.Count() == 0)
                 {
                     // The specified column does not exist.
-                    return null;
+                    return result;
                 }
+
+                var rowStart = int.Parse(new Regex(@"[A-Za-z]+(\d+)\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString());
+                var rowEnd = int.Parse(new Regex(@".+\:[A-Za-z]+(\d+)").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString());
+
+                var colStart = new Regex(@"([A-Za-z]+)\d+\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString();
+                var colEnd = new Regex(@".+\:([A-Za-z]+)\d+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString();
+                var colStartIndex = Convert.ToByte(colStart.ToCharArray()[0]);
+                var colEndIndex = Convert.ToByte(colEnd.ToCharArray()[0]);
+
+                for (var rowId = rowStart; rowId <= rowEnd; rowId++)
+                {
+                    for (var colId = colStartIndex; colId <= colEndIndex; colId++)
+                    {
+                        
+                    }
+                }
+
                 var colNameRegEx = new Regex("[A-Za-z]+");
-;
 
                 // Get the first cell in the column.
                 ////var headCells = cells.Where(x => colNameRegEx.x.CellReference);
@@ -88,8 +105,6 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 // If the content of the first cell is stored as a shared string, get the text of the first cell
                 // from the SharedStringTablePart and return it. Otherwise, return the string value of the cell.
                 ////GetCellValue(document, headCell);
-
-
             }
 
             return result;
@@ -125,7 +140,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
             ////File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
         }
-        
+
         // Given a cell name, parses the specified cell to get the row index.
         private static uint GetRowIndex(string cellName)
         {
