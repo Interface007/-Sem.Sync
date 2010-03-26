@@ -15,14 +15,27 @@
         [TestMethod]
         public void CellIndexTest()
         {
-            Assert.AreEqual("A", XmlContactClient.GetColSelectorChars(1));
-            Assert.AreEqual("B", XmlContactClient.GetColSelectorChars(2));
-            Assert.AreEqual("Z", XmlContactClient.GetColSelectorChars(26));
-            Assert.AreEqual("AA", XmlContactClient.GetColSelectorChars(27));
-            Assert.AreEqual("AB", XmlContactClient.GetColSelectorChars(28));
-            Assert.AreEqual("SF", XmlContactClient.GetColSelectorChars(500));
-            Assert.AreEqual("VU", XmlContactClient.GetColSelectorChars(593));
-            Assert.AreEqual("AQS", XmlContactClient.GetColSelectorChars(1137));
+            Assert.AreEqual("A", 1.IndexToLetters());
+            Assert.AreEqual("B", 2.IndexToLetters());
+            Assert.AreEqual("Z", 26.IndexToLetters());
+            Assert.AreEqual("AA", 27.IndexToLetters());
+            Assert.AreEqual("AB", 28.IndexToLetters());
+            Assert.AreEqual("SF", 500.IndexToLetters());
+            Assert.AreEqual("VU", 593.IndexToLetters());
+            Assert.AreEqual("AQS", 1137.IndexToLetters());
+        }
+
+        [TestMethod]
+        public void LettersToIndex()
+        {
+            Assert.AreEqual(1, "A".LettersToIndex());
+            Assert.AreEqual(2, "B".LettersToIndex());
+            Assert.AreEqual(26, "Z".LettersToIndex());
+            Assert.AreEqual(27, "AA".LettersToIndex());
+            Assert.AreEqual(28, "AB".LettersToIndex());
+            Assert.AreEqual(500, "SF".LettersToIndex());
+            Assert.AreEqual(593, "VU".LettersToIndex());
+            Assert.AreEqual(1137, "AQS".LettersToIndex());
         }
     }
 }
