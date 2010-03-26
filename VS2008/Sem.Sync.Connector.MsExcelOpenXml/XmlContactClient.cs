@@ -7,12 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.GenericHelpers;
+
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     using DocumentFormat.OpenXml.Packaging;
@@ -55,8 +58,11 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var worksheetName = "1";
             var result = new List<StdElement>();
 
+            var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
+            var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
+
             // Open the document as read-only.
-            using (var document = SpreadsheetDocument.Open(clientFolderName, false))
+            using (var document = SpreadsheetDocument.Open(GetFileName(clientFolderName), false))
             {
                 var sheets = document.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == worksheetName);
                 if (sheets.Count() == 0)
@@ -70,9 +76,9 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 // Get the cells in the specified column and order them by row.
                 IEnumerable<Cell> cells =
                     worksheetPart.
-                    Worksheet.
-                    Descendants<Cell>().
-                    OrderBy(r => GetRowIndex(r.CellReference));
+                        Worksheet.
+                        Descendants<Cell>().
+                        OrderBy(r => GetRowIndex(r.CellReference));
 
                 if (cells.Count() == 0)
                 {
@@ -80,34 +86,81 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                     return result;
                 }
 
-                var rowStart = int.Parse(new Regex(@"[A-Za-z]+(\d+)\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString());
-                var rowEnd = int.Parse(new Regex(@".+\:[A-Za-z]+(\d+)").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString());
+                var rowStart =
+                    int.Parse(
+                        new Regex(@"[A-Za-z]+(\d+)\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).
+                            Groups[1].ToString());
+                var rowEnd =
+                    int.Parse(
+                        new Regex(@".+\:[A-Za-z]+(\d+)").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).
+                            Groups[1].ToString());
 
-                var colStart = new Regex(@"([A-Za-z]+)\d+\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString();
-                var colEnd = new Regex(@".+\:([A-Za-z]+)\d+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).Groups[1].ToString();
-                var colStartIndex = Convert.ToByte(colStart.ToCharArray()[0]);
-                var colEndIndex = Convert.ToByte(colEnd.ToCharArray()[0]);
+                var colStart =
+                    new Regex(@"([A-Za-z]+)\d+\:.+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).
+                        Groups[1].ToString();
+                var colEnd =
+                    new Regex(@".+\:([A-Za-z]+)\d+").Match(worksheetPart.Worksheet.SheetDimension.Reference.Value).
+                        Groups[1].ToString();
 
-                for (var rowId = rowStart; rowId <= rowEnd; rowId++)
+                var colStartIndex = Convert.ToByte(colStart.ToCharArray()[0]) - 64;
+                var array = colEnd.ToCharArray();
+                var colEndIndex = Convert.ToByte(array[0]) - 64;
+                if (array.Length > 1)
                 {
-                    for (var colId = colStartIndex; colId <= colEndIndex; colId++)
-                    {
-                        
-                    }
+                    colEndIndex = (colEndIndex * 26) + Convert.ToByte(array[1]) - 64;
                 }
 
-                var colNameRegEx = new Regex("[A-Za-z]+");
+                for (var rowId = rowStart + 1; rowId <= rowEnd; rowId++)
+                {
+                    var colIndex = 0;
+                    var newElement = new StdContact();
+                    for (var colId = colStartIndex; colId <= colEndIndex; colId++)
+                    {
+                        var colSelectorChars = GetColSelectorChars(colId);
+                        var id = rowId;
+                        var cell = cells.Where(x => x.CellReference == colSelectorChars + id).FirstOrDefault();
+                        string cellValue;
 
-                // Get the first cell in the column.
-                ////var headCells = cells.Where(x => colNameRegEx.x.CellReference);
-                string cellText;
+                        // If the content of the first cell is stored as a shared string, get the text of the first cell
+                        // from the SharedStringTablePart and return it. Otherwise, return the string value of the cell.
+                        if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+                        {
+                            var shareStringPart = document.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First();
+                            var items = shareStringPart.SharedStringTable.Elements<SharedStringItem>().ToArray();
+                            cellValue = items[int.Parse(cell.CellValue.Text)].InnerText;
+                        }
+                        else
+                        {
+                            cellValue = cell.CellValue.Text;
+                        }
 
-                // If the content of the first cell is stored as a shared string, get the text of the first cell
-                // from the SharedStringTablePart and return it. Otherwise, return the string value of the cell.
-                ////GetCellValue(document, headCell);
+                        Tools.SetPropertyValue(newElement, mapping[colIndex].Selector, cellValue);
+
+                        colIndex++;
+                    }
+
+                    result.Add(newElement);
+                }
             }
 
             return result;
+        }
+
+        public static string GetColSelectorChars(int colId)
+        {
+            var result = string.Empty;
+            colId--;
+
+            while (true)
+            {
+                result = Encoding.ASCII.GetString(new[] { (byte)((colId % 26) + 65) }) + result;
+                if (colId < 26)
+                {
+                    return result;
+                }
+
+                colId = (colId / 26) - 1;
+            }
         }
 
         private string GetCellValue(SpreadsheetDocument document, Cell headCell)

@@ -143,13 +143,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Exceptio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Decrypter", "Sem.GenericHelpers.Decrypter\Sem.GenericHelpers.Decrypter.csproj", "{E039CB82-BBC8-4F63-A9F9-53DCAEE88725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MicrosoftExcelXml", "Sem.Sync.Connector.MicrosoftExcelXml\Sem.Sync.Connector.MicrosoftExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelXml", "Sem.Sync.Connector.MicrosoftExcelXml\Sem.Sync.Connector.MsExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelOpenXml", "Sem.Sync.Connector.MsExcelOpenXml\Sem.Sync.Connector.MsExcelOpenXml.csproj", "{C88E3C85-79A2-4045-85BB-696097ED23D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.MsExcelOpenXml", "Sem.Sync.Test.MsExcelOpenXml\Sem.Sync.Test.MsExcelOpenXml.csproj", "{373FB222-22E9-4C6F-869C-79E13DB3C6C3}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 54
+		SccNumberOfProjects = 55
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -357,14 +359,18 @@ Global
 		SccProjectTopLevelParentUniqueName51 = SemSync.sln
 		SccProjectName51 = Sem.GenericHelpers.Decrypter
 		SccLocalPath51 = Sem.GenericHelpers.Decrypter
-		SccProjectUniqueName52 = Sem.Sync.Connector.MicrosoftExcelXml\\Sem.Sync.Connector.MicrosoftExcelXml.csproj
+		SccProjectUniqueName52 = Sem.Sync.Connector.MsExcelOpenXml\\Sem.Sync.Connector.MsExcelOpenXml.csproj
 		SccProjectTopLevelParentUniqueName52 = SemSync.sln
-		SccProjectName52 = Sem.Sync.Connector.MicrosoftExcelXml
-		SccLocalPath52 = Sem.Sync.Connector.MicrosoftExcelXml
-		SccProjectUniqueName53 = Sem.Sync.Connector.MsExcelOpenXml\\Sem.Sync.Connector.MsExcelOpenXml.csproj
+		SccProjectName52 = Sem.Sync.Connector.MsExcelOpenXml
+		SccLocalPath52 = Sem.Sync.Connector.MsExcelOpenXml
+		SccProjectUniqueName53 = Sem.Sync.Test.MsExcelOpenXml\\Sem.Sync.Test.MsExcelOpenXml.csproj
 		SccProjectTopLevelParentUniqueName53 = SemSync.sln
-		SccProjectName53 = Sem.Sync.Connector.MsExcelOpenXml
-		SccLocalPath53 = Sem.Sync.Connector.MsExcelOpenXml
+		SccProjectName53 = Sem.Sync.Test.MsExcelOpenXml
+		SccLocalPath53 = Sem.Sync.Test.MsExcelOpenXml
+		SccProjectUniqueName54 = Sem.Sync.Connector.MicrosoftExcelXml\\Sem.Sync.Connector.MsExcelXml.csproj
+		SccProjectTopLevelParentUniqueName54 = SemSync.sln
+		SccProjectName54 = Sem.Sync.Connector.MicrosoftExcelXml
+		SccLocalPath54 = Sem.Sync.Connector.MicrosoftExcelXml
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync1.vsmdi
@@ -1637,6 +1643,31 @@ Global
 		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|x86.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1689,6 +1720,7 @@ Global
 		{F66A835D-11C6-4EF2-A3D7-65E7B1D90915} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{D382C555-7547-4CED-AC82-C76043E80126} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
+		{373FB222-22E9-4C6F-869C-79E13DB3C6C3} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6} = {0D187AB7-63F9-462F-A812-63220CBC701D}
