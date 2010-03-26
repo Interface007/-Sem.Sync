@@ -8,8 +8,8 @@
     <ProjectGuid>{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sem.Sync.Connector.MicrosoftExcelXml</RootNamespace>
-    <AssemblyName>Sem.Sync.Connector.MicrosoftExcelXml</AssemblyName>
+    <RootNamespace>Sem.Sync.Connector.MsExcelXml</RootNamespace>
+    <AssemblyName>Sem.Sync.Connector.MsExcelXml</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Sem.Sync.Connector.MicrosoftExcel2010.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Sem.Sync.Connector.MsExcel2010.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

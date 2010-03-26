@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.Connector.MicrosoftExcelXml
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExcelOpenXml.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the ExcelOpenXml type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.MsExcelXml
 {
     using System;
     using System.Collections.Generic;

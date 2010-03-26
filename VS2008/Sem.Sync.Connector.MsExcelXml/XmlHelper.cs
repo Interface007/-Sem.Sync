@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Connector.MicrosoftExcelXml
+﻿namespace Sem.Sync.Connector.MsExcelXml
 {
     using System.Collections.Generic;
     using System.Linq;
