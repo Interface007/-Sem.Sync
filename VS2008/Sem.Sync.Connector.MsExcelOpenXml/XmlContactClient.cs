@@ -7,15 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using DocumentFormat.OpenXml;
+
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    
+
     using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
-    
+
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
@@ -76,7 +78,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 }
 
                 var dimension = worksheet.SheetDimension.Reference.Value;
-                
+
                 var rowStart = dimension.GetRegExResultInt(@"[A-Za-z]+(\d+)\:.+");
                 var rowEnd = dimension.GetRegExResultInt(@".+\:[A-Za-z]+(\d+)");
 
@@ -118,7 +120,31 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 File.Delete(clientFolderName);
             }
 
-            ////File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
+            var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
+            var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
+
+            // Open the document as read-only.
+            using (var spreadsheetDocument = SpreadsheetDocument.Create(GetFileName(clientFolderName), SpreadsheetDocumentType.Workbook))
+            {
+                var workbookpart = spreadsheetDocument.AddWorkbookPart();
+                workbookpart.Workbook = new Workbook();
+
+                var worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet(new SheetData());
+
+                var sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                
+                var sheet = new Sheet
+                                {
+                                    Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), 
+                                    SheetId = 1, 
+                                    Name = "mySheet"
+                                };
+
+                sheets.Append(sheet);
+
+                workbookpart.Workbook.Save();
+            }
         }
     }
 }
