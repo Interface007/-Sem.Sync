@@ -7,7 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Drawing.Spreadsheet;
+using Transform=DocumentFormat.OpenXml.Drawing.ChartDrawing.Transform;
 
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
@@ -124,26 +129,51 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
 
             // Open the document as read-only.
-            using (var spreadsheetDocument = SpreadsheetDocument.Create(GetFileName(clientFolderName), SpreadsheetDocumentType.Workbook))
+            using (var spreadSheet = SpreadsheetDocument.Create(GetFileName(clientFolderName), SpreadsheetDocumentType.Workbook))
             {
-                var workbookpart = spreadsheetDocument.AddWorkbookPart();
-                workbookpart.Workbook = new Workbook();
+                // create the workbook
+                spreadSheet.AddWorkbookPart();
+                spreadSheet.WorkbookPart.Workbook = new Workbook();
 
-                var worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
-                worksheetPart.Worksheet = new Worksheet(new SheetData());
+                // create the worksheet
+                spreadSheet.WorkbookPart.AddNewPart<WorksheetPart>();
+                spreadSheet.WorkbookPart.WorksheetParts.First().Worksheet = new Worksheet();
 
-                var sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                // create sheet data
+                spreadSheet.WorkbookPart.WorksheetParts.First().Worksheet.AppendChild(new SheetData());
+
+                var sheetData = spreadSheet.WorkbookPart.WorksheetParts.First().Worksheet.First();
+
+                foreach (var element in elements)
+                {
+                    var row = new Row();
+                    sheetData.AppendChild(row);
+                    foreach (var columnDefinition in mapping)
+                    {
+                        row.AppendChild(new Cell { CellValue = new CellValue(Tools.GetPropertyValueString(element, columnDefinition.Selector)) });
+                    }
+                }
+
+                spreadSheet.WorkbookPart.WorksheetParts.First().Worksheet.SheetDimension =
+                    new SheetDimension
+                    {
+                        Reference = new StringValue
+                        {
+                            Value = "A1:" + mapping.Count.IndexToLetters() + elements.Count
+                        }
+                    };
                 
-                var sheet = new Sheet
-                                {
-                                    Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), 
-                                    SheetId = 1, 
-                                    Name = "mySheet"
-                                };
+                // save worksheet
+                spreadSheet.WorkbookPart.WorksheetParts.First().Worksheet.Save();
 
-                sheets.Append(sheet);
-
-                workbookpart.Workbook.Save();
+                // create the worksheet to workbook relation
+                spreadSheet.WorkbookPart.Workbook.AppendChild(new Sheets());
+                spreadSheet.WorkbookPart.Workbook.GetFirstChild<Sheets>().AppendChild(new Sheet
+                    {
+                        Id = spreadSheet.WorkbookPart.GetIdOfPart(spreadSheet.WorkbookPart.WorksheetParts.First()),
+                        SheetId = 1,
+                        Name = "test"
+                    });
             }
         }
     }
