@@ -9,14 +9,6 @@
 
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
-    using System;
-    using DocumentFormat.OpenXml;
-    using DocumentFormat.OpenXml.Drawing;
-    using DocumentFormat.OpenXml.Drawing.Charts;
-    using DocumentFormat.OpenXml.Drawing.Spreadsheet;
-
-    using Transform = DocumentFormat.OpenXml.Drawing.ChartDrawing.Transform;
-
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
