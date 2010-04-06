@@ -53,6 +53,21 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
             return result;
         }
+        
+        /// <summary>
+        /// Adds cells to a row
+        /// </summary>
+        /// <param name="row"> The row to add the cells to. </param>
+        /// <param name="reference"> The reference. </param>
+        /// <param name="text"> The text of the cell. </param>
+        public static void CreateCell(this Row row, string reference, string text)
+        {
+            var cell1 = new Cell { CellReference = reference, DataType = CellValues.String };
+            var cellValue1 = new CellValue { Text = text };
+
+            cell1.Append(cellValue1);
+            row.Append(cell1);
+        }
 
         public static string IndexToLetters(this int index)
         {
