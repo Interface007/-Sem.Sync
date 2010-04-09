@@ -10,24 +10,21 @@
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
     using System;
-    using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
-
-    using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
 
     public static class OpenXmlHelper
     {
-        public static string GetCellValue(SpreadsheetDocument document, Cell cell)
+        private static Regex regexIntegers = new Regex(@"\d+", RegexOptions.Compiled);
+
+        public static string GetCellValue(Cell cell, SharedStringItem[] items)
         {
             if (cell.DataType == null || cell.DataType.Value != CellValues.SharedString)
             {
                 return cell.CellValue.Text;
             }
 
-            var shareStringPart = document.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First();
-            var items = shareStringPart.SharedStringTable.Elements<SharedStringItem>().ToArray();
             return items[int.Parse(cell.CellValue.Text)].InnerText;
         }
 
@@ -47,13 +44,18 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var result = 0;
             foreach (var character in array)
             {
+                if (character.CompareTo('A') < 0 || character.CompareTo('Z') > 0)
+                {
+                    return result;
+                }
+
                 result = result * 26;
                 result += Convert.ToByte(character) - 64;
             }
 
             return result;
         }
-        
+
         /// <summary>
         /// Adds cells to a row
         /// </summary>
@@ -90,8 +92,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         public static uint GetRowIndex(this string cellName)
         {
             // Create a regular expression to match the row index portion the cell name.
-            var regex = new Regex(@"\d+");
-            var match = regex.Match(cellName);
+            var match = regexIntegers.Match(cellName);
 
             return uint.Parse(match.Value);
         }

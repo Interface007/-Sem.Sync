@@ -7,10 +7,7 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
-    using System.ComponentModel;
-    using System.Globalization;
     using System.Text.RegularExpressions;
-    using System.Xml.Serialization;
 
     using GenericHelpers;
 
@@ -57,11 +54,6 @@ namespace Sem.Sync.SyncBase.DetailData
         private static readonly Regex RegStreetNumberExtensionPre = new Regex("^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+[0-9]+");
 
         /// <summary>
-        /// extracts the street number and may be an extension
-        /// </summary>
-        private static readonly Regex RegStreetNumberExtension = new Regex("(?<name>^[a-zA-Z -.ﬂ‰ˆ¸ƒ÷‹]+)\\s*(?<num>\\d+)?\\s*(?<ext>\\D+)?");
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="AddressDetail"/> class. 
         /// </summary>
         public AddressDetail()
@@ -93,10 +85,7 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 if (RegStreetNumberExtensionPre.IsMatch(line))
                 {
-                    var lineParts = RegStreetNumberExtension.Matches(line);
-                    this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
-                    this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"), CultureInfo.InvariantCulture);
-                    this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
+                    this.StreetName = line;
                     continue;
                 }
 
@@ -136,49 +125,9 @@ namespace Sem.Sync.SyncBase.DetailData
         public string StreetName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the street
-        /// </summary>
-        [XmlIgnore]
-        public string StreetNameAndNumber
-        {
-            get
-            {
-                return 
-                    this.StreetName + 
-                    ((this.StreetNumber > 0) ? " " + this.StreetNumber : string.Empty) + 
-                    this.StreetNumberExtension ?? string.Empty;
-            }
-
-            set
-            {
-                // check to see if we can interpret the content
-                if (value == null || !RegStreetNumberExtensionPre.IsMatch(value))
-                {
-                    return;
-                }
-
-                var lineParts = RegStreetNumberExtension.Matches(value);
-                this.StreetName = GetMatchGroupWithDefault(lineParts, "name", string.Empty);
-                this.StreetNumber = int.Parse(GetMatchGroupWithDefault(lineParts, "num", "0"), CultureInfo.InvariantCulture);
-                this.StreetNumberExtension = GetMatchGroupWithDefault(lineParts, "ext", string.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of the house in the street
-        /// </summary>
-        [DefaultValue(0)]
-        public int StreetNumber { get; set; }
-
-        /// <summary>
         /// Gets or sets an identifier for the room inside the house/building
         /// </summary>
         public string Room { get; set; }
-
-        /// <summary>
-        /// Gets or sets an addition to the street number (like the "a" in "Birkenweg 21a")
-        /// </summary>
-        public string StreetNumberExtension { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number that belongs to the address
@@ -241,9 +190,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 result = (result * 397) ^ (this.PostalCode != null ? this.PostalCode.GetHashCode() : 0);
                 result = (result * 397) ^ (this.CityName != null ? this.CityName.GetHashCode() : 0);
                 result = (result * 397) ^ (this.StreetName != null ? this.StreetName.GetHashCode() : 0);
-                result = (result * 397) ^ this.StreetNumber;
                 result = (result * 397) ^ (this.Room != null ? this.Room.GetHashCode() : 0);
-                result = (result * 397) ^ (this.StreetNumberExtension != null ? this.StreetNumberExtension.GetHashCode() : 0);
                 result = (result * 397) ^ (this.Phone != null ? this.Phone.GetHashCode() : 0);
                 return result;
             }
@@ -289,9 +236,6 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 case AddressFormatting.StreetAndCity:
                     result += this.StreetName ?? string.Empty;
-                    result = result.Replace(this.StreetNumber + (this.StreetNumberExtension ?? string.Empty), string.Empty);
-                    result += this.StreetNumber > 0 ? " " + this.StreetNumber : string.Empty;
-                    result += string.IsNullOrEmpty(this.StreetNumberExtension) ? string.Empty : " " + this.StreetNumberExtension;
                     result += string.IsNullOrEmpty(result) ? string.Empty : "\n";
 
                     result += string.IsNullOrEmpty(this.PostalCode) ? string.Empty : this.PostalCode + " ";
@@ -300,9 +244,6 @@ namespace Sem.Sync.SyncBase.DetailData
 
                 default:
                     result += this.StreetName ?? string.Empty;
-                    result = result.Replace(this.StreetNumber + (this.StreetNumberExtension ?? string.Empty), string.Empty);
-                    result += this.StreetNumber > 0 ? " " + this.StreetNumber : string.Empty;
-                    result += string.IsNullOrEmpty(this.StreetNumberExtension) ? string.Empty : " " + this.StreetNumberExtension;
                     result += string.IsNullOrEmpty(result) ? string.Empty : " / ";
 
                     result += string.IsNullOrEmpty(this.PostalCode) ? string.Empty : this.PostalCode + " ";

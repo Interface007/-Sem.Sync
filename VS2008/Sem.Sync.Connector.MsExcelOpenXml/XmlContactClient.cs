@@ -56,25 +56,41 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
             var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
 
+            this.LogProcessingEvent("Opening Excel file...");
+
             // Open the document as read-only.
             using (var document = SpreadsheetDocument.Open(GetFileName(clientFolderName), false))
             {
-                // The specified worksheet does not exist.
                 var sheet = document.WorkbookPart.Workbook.Descendants<Sheet>().First();
-                var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
-
-                // Get the cells in the specified column and order them by row.
-                IEnumerable<Cell> cells =
-                        worksheet.
-                        Descendants<Cell>().
-                        OrderBy(r => r.CellReference.Value.GetRowIndex());
-
-                if (cells.Count() == 0)
+                if (sheet == null)
                 {
-                    // The specified column does not exist.
+                    // exit if we don't have a sheet
                     return result;
                 }
 
+                var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
+
+                // we should transform the shared strings into an array to have really quick access
+                var sharedStrings = document.WorkbookPart.GetPartsOfType<SharedStringTablePart>();
+                var shareStringArray = new SharedStringItem[0];
+                if (sharedStrings.Count() > 0)
+                {
+                    var sharedStringTablePart = sharedStrings.First();
+                    shareStringArray = sharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ToArray();
+                }
+
+                // Get the cells as one list (no deferred execution!)
+                IEnumerable<Cell> cells = worksheet.Descendants<Cell>().ToList();
+
+                if (cells.Count() == 0)
+                {
+                    this.LogProcessingEvent("no cells inside file - read aborted");
+
+                    // exit if we don't have cells
+                    return result;
+                }
+
+                // find out dimension to setup the array of cell values
                 var dimension = worksheet.SheetDimension.Reference.Value;
 
                 var rowStart = dimension.GetRegExResultInt(@"[A-Za-z]+(\d+)\:.+");
@@ -83,25 +99,43 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 var colStartIndex = dimension.GetRegExResult(@"([A-Za-z]+)\d+\:.+").LettersToIndex();
                 var colEndIndex = dimension.GetRegExResult(@".+\:([A-Za-z]+)\d+").LettersToIndex();
 
-                for (var rowId = rowStart + 1; rowId <= rowEnd; rowId++)
+                this.LogProcessingEvent("{0} values in {1} rows and {2} columns found.", (rowEnd - rowStart + 1) * (colEndIndex - colStartIndex + 1), (rowEnd - rowStart + 1), (colEndIndex - colStartIndex + 1));
+
+                var valueArray = new string[rowEnd - rowStart + 1, colEndIndex - colStartIndex + 1];
+
+                // iterate through the cells and copy the content into the correct value array element
+                foreach (var cell in cells)
+                {
+                    var value = cell.CellReference.Value;
+                    var indexRow = value.GetRowIndex() - rowStart;
+                    var indexCol = value.LettersToIndex() - colStartIndex;
+
+                    // the helper will handle string table lookups
+                    valueArray[indexRow, indexCol] = OpenXmlHelper.GetCellValue(cell, shareStringArray);
+                }
+
+                this.LogProcessingEvent("data successfully read from excel sheet");
+
+                // copy the values into objects
+                for (var rowId = 1; rowId < rowEnd - rowStart + 1; rowId++)
                 {
                     var colIndex = 0;
                     var newElement = new StdContact();
-                    for (var colId = colStartIndex; colId <= colEndIndex; colId++)
+                    for (var colId = 0; colId < mapping.Count - 1; colId++)
                     {
-                        var colSelector = colId.IndexToLetters() + rowId;
-                        var cell = cells.Where(x => x.CellReference == colSelector).FirstOrDefault();
-                        var cellValue = OpenXmlHelper.GetCellValue(document, cell);
-
-                        Tools.SetPropertyValue(newElement, mapping[colIndex].Selector, cellValue);
-
+                        Tools.SetPropertyValue(newElement, mapping[colIndex].Selector, valueArray[rowId, colId]);
                         colIndex++;
                     }
 
                     result.Add(newElement);
+                    this.LogProcessingEvent(newElement, "contact read");
                 }
             }
 
+            this.LogProcessingEvent("cleaning up entities");
+            CleanUpEntities(result);
+
+            this.LogProcessingEvent("reading finished");
             return result;
         }
 
@@ -121,6 +155,9 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
             var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
 
+            this.LogProcessingEvent("preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
+            CleanUpEntities(elements);
+
             var matrix = new string[elements.Count + 2, mapping.Count + 1];
 
             var titleIndex = 1;
@@ -133,6 +170,8 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var rowIndex = 2;
             foreach (var element in elements)
             {
+                this.LogProcessingEvent(element, "writing contact...");
+
                 var colIndex = 1;
                 foreach (var columnDefinition in mapping)
                 {
@@ -143,7 +182,11 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 rowIndex++;
             }
 
+            this.LogProcessingEvent("writing data to excel file...");
+
             OpenXmlGenerator.CreatePackage(GetFileName(clientFolderName), matrix);
+
+            this.LogProcessingEvent("writing finished");
         }
     }
 }
