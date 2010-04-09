@@ -55,7 +55,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sem.Sync.Connector.MicrosoftExcelXml\Sem.Sync.Connector.MicrosoftExcelXml.csproj">
+    <ProjectReference Include="..\Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj">
       <Project>{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}</Project>
       <Name>Sem.Sync.Connector.MicrosoftExcelXml</Name>
     </ProjectReference>

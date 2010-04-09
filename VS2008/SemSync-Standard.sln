@@ -93,11 +93,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Exceptio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.ExcelXmlTest", "Sem.Sync.Test.ExcelXml\Sem.Sync.Test.ExcelXmlTest.csproj", "{27E453BB-CA85-4B95-A6C6-871AA8042B54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MicrosoftExcelXml", "Sem.Sync.Connector.MicrosoftExcelXml\Sem.Sync.Connector.MicrosoftExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelXml", "Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelOpenXml", "Sem.Sync.Connector.MsExcelOpenXml\Sem.Sync.Connector.MsExcelOpenXml.csproj", "{C88E3C85-79A2-4045-85BB-696097ED23D7}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 33
+		SccNumberOfProjects = 34
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -225,10 +227,14 @@ Global
 		SccProjectTopLevelParentUniqueName31 = SemSync-Standard.sln
 		SccProjectName31 = Sem.Sync.Test.ExcelXml
 		SccLocalPath31 = Sem.Sync.Test.ExcelXml
-		SccProjectUniqueName32 = Sem.Sync.Connector.MicrosoftExcelXml\\Sem.Sync.Connector.MicrosoftExcelXml.csproj
+		SccProjectUniqueName32 = Sem.Sync.Connector.MsExcelXml\\Sem.Sync.Connector.MsExcelXml.csproj
 		SccProjectTopLevelParentUniqueName32 = SemSync-Standard.sln
-		SccProjectName32 = Sem.Sync.Connector.MicrosoftExcelXml
-		SccLocalPath32 = Sem.Sync.Connector.MicrosoftExcelXml
+		SccProjectName32 = Sem.Sync.Connector.MsExcelXml
+		SccLocalPath32 = Sem.Sync.Connector.MsExcelXml
+		SccProjectUniqueName33 = Sem.Sync.Connector.MsExcelOpenXml\\Sem.Sync.Connector.MsExcelOpenXml.csproj
+		SccProjectTopLevelParentUniqueName33 = SemSync-Standard.sln
+		SccProjectName33 = Sem.Sync.Connector.MsExcelOpenXml
+		SccLocalPath33 = Sem.Sync.Connector.MsExcelOpenXml
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync-Standard.vsmdi
@@ -1024,6 +1030,31 @@ Global
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C88E3C85-79A2-4045-85BB-696097ED23D7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1054,6 +1085,7 @@ Global
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{A3F64060-5F1F-4470-B1AE-71836CFD6DA0} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{C88E3C85-79A2-4045-85BB-696097ED23D7} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560} = {024EBF54-994C-4E06-87F6-17D444178E99}
 		{478077C0-A411-44A9-8053-E8E90BA2847B} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{42794DFF-7448-47AA-BBFE-E56D83B756DB} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
