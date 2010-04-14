@@ -53,7 +53,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> empty event arguments </param>
         private void SyncWizard_Load(object sender, EventArgs e)
         {
-            this.versionLabel.Text = "Version " + new VersionCheck().ToString(false);
+            this.versionLabel.Text = Resources.LabelVersion + new VersionCheck().ToString(false);
 
             // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");

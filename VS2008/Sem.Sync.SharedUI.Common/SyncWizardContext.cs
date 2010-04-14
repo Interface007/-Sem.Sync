@@ -151,11 +151,13 @@ namespace Sem.Sync.SharedUI.Common
 
             set
             {
-                if (this.currentSyncWorkflowData != value)
+                if (this.currentSyncWorkflowData == value)
                 {
-                    this.currentSyncWorkflowData = value;
-                    this.LoadFrom(value);
+                    return;
                 }
+
+                this.currentSyncWorkflowData = value;
+                this.LoadFrom(value);
             }
         }
 
