@@ -10,8 +10,13 @@
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+
+    using DocumentFormat.OpenXml;
+    using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
 
     /// <summary>
@@ -20,9 +25,27 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     public static class OpenXmlHelper
     {
         /// <summary>
+        /// internal ID for the sheet to be created
+        /// </summary>
+        private const string SheetId = "rId1";
+
+        /// <summary>
         /// The regular expression for integer extraction.
         /// </summary>
         private static readonly Regex RegexIntegers = new Regex(@"\d+", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Initializes static members of the <see cref="OpenXmlHelper"/> class.
+        /// </summary>
+        static OpenXmlHelper()
+        {
+            WorkSheetName = "Sem.Sync";
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the worksheet to be created - default = "Sem.Sync".
+        /// </summary>
+        public static string WorkSheetName { get; set; }
 
         /// <summary>
         /// Reads the string value of a cell (including string table lookup).
@@ -135,6 +158,204 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var match = RegexIntegers.Match(cellName);
 
             return uint.Parse(match.Value);
+        }
+
+        /// <summary>
+        /// Extracts an array of strings from the first sheet of an excel file
+        /// </summary>
+        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <returns> a two dimensional array of strings </returns>
+        public static string[,] GetValueArrayFromExcelFile(string clientFolderName)
+        {
+            // in case of no valid data we will return an empty array
+            var valueArray = new string[0, 0];
+
+            // open the document
+            using (var document = SpreadsheetDocument.Open(clientFolderName, false))
+            {
+                // get the first sheet
+                var sheet = document.WorkbookPart.Workbook.Descendants<Sheet>().First();
+                if (sheet == null)
+                {
+                    return valueArray;
+                }
+
+                var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
+
+                // Get the cells as one list (no deferred execution!)
+                IEnumerable<Cell> cells = worksheet.Descendants<Cell>().ToList();
+
+                if (cells.Count() == 0)
+                {
+                    return valueArray;
+                }
+
+                // we should transform the shared strings into an array to have really quick access
+                var shareStringArray = GetSharedStringArray(document);
+
+                // find out dimension to setup the array of cell values and setup a corresponding value array
+                valueArray = SetupArrayByDimension(worksheet, cells);                  
+
+                // iterate through the cells and copy the content into the correct value array element
+                foreach (var cell in cells)
+                {
+                    var value = cell.CellReference.Value;
+                    var indexRow = value.GetRowIndex() - 1;
+                    var indexCol = value.LettersToIndex() - 1;
+
+                    // the helper will handle string table lookups
+                    valueArray[indexRow, indexCol] = OpenXmlHelper.GetCellValue(cell, shareStringArray);
+                }
+            }
+
+            return valueArray;
+        }
+
+        /// <summary>
+        /// Generates an ExCel file from an array of strings
+        /// </summary>
+        /// <param name="filePath"> The file path to the file to be created.  </param>
+        /// <param name="strings"> The strings of the cells to be created. </param>
+        public static void WriteStringArrayToExcelfile(string filePath, string[,] strings)
+        {
+            using (var package = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
+            {
+                // create a WorkbookView
+                var worksheet = BuildWorkbookPart(package);
+
+                var sheetData = new SheetData();
+
+                var rowCount = strings.GetLength(0);
+                var colCount = strings.GetLength(1);
+
+                for (var i = 1; i < rowCount; i++)
+                {
+                    var row = new Row { RowIndex = (uint)i, DyDescent = 0.25D, Spans = new ListValue<StringValue> { InnerText = "1:" + colCount } };
+                    for (var j = 1; j < colCount; j++)
+                    {
+                        row.CreateCell(j.IndexToLetters() + i, strings[i, j]);
+                    }
+
+                    sheetData.Append(row);
+                }
+
+                // attach the sheet data to the worksheet
+                worksheet.Append(sheetData);
+
+                SetGenericDocumentProperties(package);
+            }
+        }
+
+        /// <summary>
+        /// Reads the dimensions of a worksheets or probes the cells in order to find the
+        /// dimensions for the value array and sets up an array of strings for the values.
+        /// </summary>
+        /// <param name="worksheet"> The worksheet to analyze. </param>
+        /// <param name="cells">The columns containing the data.</param>
+        /// <returns> The array of strings for the values of the cells. </returns>
+        private static string[,] SetupArrayByDimension(Worksheet worksheet, IEnumerable<Cell> cells)
+        {
+            var maxColIndex = 0;
+            var maxRowIndex = 0;
+                
+            if (worksheet.SheetDimension != null)
+            {
+                var dimension = worksheet.SheetDimension;
+                var dimensionValue = dimension.Reference.Value;
+                maxRowIndex = dimensionValue.GetRegExResultInt(@".+\:[A-Za-z]+(\d+)");
+                maxColIndex = dimensionValue.GetRegExResult(@".+\:([A-Za-z]+)\d+").LettersToIndex();
+            }
+            else
+            {
+                foreach (var cell in cells)
+                {
+                    var cellReference = cell.CellReference.Value;
+                    var cellColIndex = cellReference.LettersToIndex();
+                    if (cellColIndex > maxColIndex)
+                    {
+                        maxColIndex = cellColIndex;
+                    }
+
+                    var cellRowIndex = cellReference.GetRegExResultInt(@"[A-Za-z]+(\d+)");
+                    if (cellRowIndex > maxRowIndex)
+                    {
+                        maxRowIndex = cellRowIndex;
+                    }
+                }
+            }
+
+            return new string[maxRowIndex, maxColIndex];
+        }
+
+        /// <summary>
+        /// Extracts the lookup string table.
+        /// </summary>
+        /// <param name="document"> The document that may contain such a lookup table. </param>
+        /// <returns> The extracted strings as a one dimensional array (the array may be empty, but not null) </returns> 
+        private static SharedStringItem[] GetSharedStringArray(SpreadsheetDocument document)
+        {
+            var sharedStrings = document.WorkbookPart.GetPartsOfType<SharedStringTablePart>();
+            var shareStringArray = new SharedStringItem[] { };
+            if (sharedStrings.Count() > 0)
+            {
+                var sharedStringTablePart = sharedStrings.First();
+                shareStringArray = sharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ToArray();
+            }
+
+            return shareStringArray;
+        }
+
+        /// <summary>
+        /// Generates a workbook for one sheet
+        /// </summary>
+        /// <param name="package"> The target package of for the workbook. </param>
+        /// <returns> a new generated worksheet </returns>
+        private static Worksheet BuildWorkbookPart(SpreadsheetDocument package)
+        {
+            // create the workbook as the base of the document
+            var workbook = new Workbook();
+            workbook.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
+            var workbookPart = package.AddWorkbookPart();
+            workbookPart.Workbook = workbook;
+
+            // create workbook view and attach it to the workbook
+            var bookViews = new BookViews();
+            bookViews.Append(new WorkbookView { XWindow = 240, YWindow = 60, WindowWidth = 14355U, WindowHeight = 6720U });
+            workbook.Append(bookViews);
+
+            // create the sheet with a predefined name and attach it to the workbook
+            var sheets = new Sheets();
+            sheets.Append(new Sheet { Name = WorkSheetName, SheetId = 1U, Id = SheetId });
+            workbook.Append(sheets);
+
+            // create worksheet as the base for the data
+            var worksheet = new Worksheet { MCAttributes = new MarkupCompatibilityAttributes { Ignorable = "x14ac" } };
+            worksheet.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
+            worksheet.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+            worksheet.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
+
+            // create the sheet view and attach that to the worksheet
+            var sheetViews = new SheetViews();
+            sheetViews.Append(new SheetView { TabSelected = true, WorkbookViewId = 0U });
+            worksheet.Append(sheetViews);
+
+            // create a new worksheet part from the workbook to contain the worksheet
+            var worksheetPart = workbookPart.AddNewPart<WorksheetPart>(SheetId);
+            worksheetPart.Worksheet = worksheet;
+
+            return worksheet;
+        }
+
+        /// <summary>
+        /// setup some generic sheet properties
+        /// </summary>
+        /// <param name="package">the package to update</param>
+        private static void SetGenericDocumentProperties(OpenXmlPackage package)
+        {
+            package.PackageProperties.Creator = System.Environment.UserName;
+            package.PackageProperties.Created = DateTime.Now;
+            package.PackageProperties.Modified = DateTime.Now;
+            package.PackageProperties.LastModifiedBy = Environment.UserName;
         }
     }
 }

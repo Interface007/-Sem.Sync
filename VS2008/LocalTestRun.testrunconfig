@@ -3,10 +3,15 @@
   <Description>This is a default test run configuration for a local test run.</Description>
   <CodeCoverage enabled="true">
     <Regular>
-      <CodeCoverageItem binaryFile="\Sem.Sync.Connector.Filesystem\bin\Debug\Sem.Sync.Connector.Filesystem.dll"
-                        pdbFile="\Sem.Sync.Connector.Filesystem\bin\Debug\Sem.Sync.Connector.Filesystem.pdb" instrumentInPlace="true" />
-      <CodeCoverageItem binaryFile="\Sem.Sync.SyncBase\bin\Debug\Sem.Sync.SyncBase.dll"
-                        pdbFile="\Sem.Sync.SyncBase\bin\Debug\Sem.Sync.SyncBase.pdb" instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="..\BIN\Sem.Sync.Connector.Filesystem.dll"
+                        pdbFile="..\BIN\Sem.Sync.Connector.Filesystem.pdb" 
+                        instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="..\BIN\Sem.Sync.SyncBase.dll"
+                        pdbFile="..\BIN\Sem.Sync.SyncBase.pdb" 
+                        instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="..\BIN\Sem.GenericHelpers.dll"
+                        pdbFile="..\BIN\Sem.GenericHelpers.pdb" 
+                        instrumentInPlace="true" />
     </Regular>
   </CodeCoverage>
   <TestTypeSpecific />

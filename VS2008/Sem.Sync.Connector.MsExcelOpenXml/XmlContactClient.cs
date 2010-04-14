@@ -9,19 +9,20 @@
 
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
-    using System.Linq;
-
-    using DocumentFormat.OpenXml.Packaging;
-    using DocumentFormat.OpenXml.Spreadsheet;
+    using System.Xml;
 
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
 
     /// <summary>
-    /// Writes a list of "something" into an excel OpenXml file
+    /// Writes a list of "something" into an excel OpenXml file. The <see cref="StdElement.Id"/> 
+    /// MUST be specified, because there is no such thing as a unique row identifier 
+    /// in Microsoft ExCel.
     /// </summary>
     [ConnectorDescription(
         DisplayName = "Microsoft Excel OpenXml",
@@ -55,81 +56,65 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
             var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
+            var excelFile = GetFileName(clientFolderName);
 
-            this.LogProcessingEvent("Opening Excel file...");
+            this.LogProcessingEvent("Opening Excel file {0} ...", excelFile);
 
-            // Open the document as read-only.
-            using (var document = SpreadsheetDocument.Open(GetFileName(clientFolderName), false))
+            // get the array of values from the first sheet inside the array
+            var valueArray = OpenXmlHelper.GetValueArrayFromExcelFile(excelFile);
+
+            if (valueArray.Length <= 0)
             {
-                var sheet = document.WorkbookPart.Workbook.Descendants<Sheet>().First();
-                if (sheet == null)
+                this.LogProcessingEvent("no cells inside file - read aborted");
+
+                // exit if we don't have cells
+                return result;
+            }
+
+            this.LogProcessingEvent(
+                "{0} values found in {1} rows and {2} columns.",
+                valueArray.Length,
+                valueArray.GetLength(0),
+                valueArray.GetLength(1));
+
+            var exceptionCounter = 0;
+            var exceptionReport = excelFile + ".ExceptionReport.xml";
+            XmlWriter exceptionFile = null;
+
+            // copy the values into objects
+            for (var rowId = 1; rowId < valueArray.GetLength(0); rowId++)
+            {
+                var colIndex = 0;
+                var newElement = new StdContact();
+                for (var colId = 0; colId < mapping.Count - 1; colId++)
                 {
-                    // exit if we don't have a sheet
-                    return result;
-                }
-
-                var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
-
-                // we should transform the shared strings into an array to have really quick access
-                var sharedStrings = document.WorkbookPart.GetPartsOfType<SharedStringTablePart>();
-                var shareStringArray = new SharedStringItem[0];
-                if (sharedStrings.Count() > 0)
-                {
-                    var sharedStringTablePart = sharedStrings.First();
-                    shareStringArray = sharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ToArray();
-                }
-
-                // Get the cells as one list (no deferred execution!)
-                IEnumerable<Cell> cells = worksheet.Descendants<Cell>().ToList();
-
-                if (cells.Count() == 0)
-                {
-                    this.LogProcessingEvent("no cells inside file - read aborted");
-
-                    // exit if we don't have cells
-                    return result;
-                }
-
-                // find out dimension to setup the array of cell values
-                var dimension = worksheet.SheetDimension.Reference.Value;
-
-                var rowStart = dimension.GetRegExResultInt(@"[A-Za-z]+(\d+)\:.+");
-                var rowEnd = dimension.GetRegExResultInt(@".+\:[A-Za-z]+(\d+)");
-
-                var colStartIndex = dimension.GetRegExResult(@"([A-Za-z]+)\d+\:.+").LettersToIndex();
-                var colEndIndex = dimension.GetRegExResult(@".+\:([A-Za-z]+)\d+").LettersToIndex();
-
-                this.LogProcessingEvent("{0} values in {1} rows and {2} columns found.", (rowEnd - rowStart + 1) * (colEndIndex - colStartIndex + 1), (rowEnd - rowStart + 1), (colEndIndex - colStartIndex + 1));
-
-                var valueArray = new string[rowEnd - rowStart + 1, colEndIndex - colStartIndex + 1];
-
-                // iterate through the cells and copy the content into the correct value array element
-                foreach (var cell in cells)
-                {
-                    var value = cell.CellReference.Value;
-                    var indexRow = value.GetRowIndex() - rowStart;
-                    var indexCol = value.LettersToIndex() - colStartIndex;
-
-                    // the helper will handle string table lookups
-                    valueArray[indexRow, indexCol] = OpenXmlHelper.GetCellValue(cell, shareStringArray);
-                }
-
-                this.LogProcessingEvent("data successfully read from excel sheet");
-
-                // copy the values into objects
-                for (var rowId = 1; rowId < rowEnd - rowStart + 1; rowId++)
-                {
-                    var colIndex = 0;
-                    var newElement = new StdContact();
-                    for (var colId = 0; colId < mapping.Count - 1; colId++)
+                    try
                     {
                         Tools.SetPropertyValue(newElement, mapping[colIndex].Selector, valueArray[rowId, colId]);
-                        colIndex++;
+                    }
+                    catch (Exception ex)
+                    {
+                        exceptionFile = WriteExceptionFile(valueArray, rowId, colId, newElement, exceptionFile, exceptionReport, ex);
+                        exceptionCounter++;
                     }
 
-                    result.Add(newElement);
-                    this.LogProcessingEvent(newElement, "contact read");
+                    colIndex++;
                 }
+
+                result.Add(newElement);
+                this.LogProcessingEvent(newElement, "contact read");
+            }
+
+            if (exceptionCounter > 0)
+            {
+                if (exceptionFile != null)
+                {
+                    exceptionFile.WriteEndElement();
+                    exceptionFile.WriteEndDocument();
+                    exceptionFile.Close();
+                }
+
+                this.LogProcessingEvent("{0} exceptions while reading data ... see exception report ({1}) for details.", exceptionCounter, exceptionReport);
             }
 
             this.LogProcessingEvent("cleaning up entities");
@@ -145,7 +130,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="elements"> The elements. </param>
         /// <param name="clientFolderName"> The name of the file to write to. </param>
         /// <param name="skipIfExisting"> The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. </param>
-        protected override void WriteFullList(System.Collections.Generic.List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (File.Exists(clientFolderName))
             {
@@ -184,9 +169,52 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
             this.LogProcessingEvent("writing data to excel file...");
 
-            OpenXmlGenerator.CreatePackage(GetFileName(clientFolderName), matrix);
+            OpenXmlHelper.WriteStringArrayToExcelfile(GetFileName(clientFolderName), matrix);
 
             this.LogProcessingEvent("writing finished");
+        }
+
+        /// <summary>
+        /// Writes the exception together with some meta information to an <see cref="XmlWriter"/>. If that <see cref="XmlWriter"/> is
+        /// null, a new instance of an <see cref="XmlWriter"/> is being created for writing into the file specified as the parameter
+        /// <paramref name="exceptionReportFileName"/>.
+        /// </summary>
+        /// <remarks>While creating the exception file a start tag is being written for the root element. The calling method is 
+        /// responsible to write the corresponding closing tag in order to finish the file.</remarks>
+        /// <param name="valueArray"> The value array working with while the exception has been thrown. </param>
+        /// <param name="rowId"> The row id of the data row that caused the exception. </param>
+        /// <param name="colId"> The col id of the data column that caused the exception.  </param>
+        /// <param name="newElement"> The element that is being processed while the exception did occure. </param>
+        /// <param name="exceptionFile"> The <see cref="XmlWriter"/> for the exception file - if this element is NULL, a new file stream will be created. </param>
+        /// <param name="exceptionReportFileName"> The exception report file name - in case of a null reference in the parameter <paramref name="exceptionFile"/> this file name will be used to create a new file stream for the XmlWriter. </param>
+        /// <param name="ex"> The exception to be written to the file. </param>
+        /// <returns> The instance of the <see cref="XmlWriter"/> that has been utilized to write the exception. </returns>
+        private static XmlWriter WriteExceptionFile(string[,] valueArray, int rowId, int colId, StdContact newElement, XmlWriter exceptionFile, string exceptionReportFileName, Exception ex)
+        {
+            if (exceptionFile == null)
+            {
+                exceptionFile = XmlWriter.Create(File.AppendText(exceptionReportFileName));
+
+                if (exceptionFile != null)
+                {
+                    exceptionFile.WriteStartDocument(true);
+                    exceptionFile.WriteStartElement("ExceptionReport");
+                }
+            }
+
+            if (exceptionFile != null)
+            {
+                exceptionFile.WriteStartElement("Exception");
+                exceptionFile.WriteAttributeString("PersonName", newElement.GetFullName());
+                exceptionFile.WriteAttributeString("Row", rowId.ToString(CultureInfo.InvariantCulture));
+                exceptionFile.WriteAttributeString("Column", colId.ToString(CultureInfo.InvariantCulture));
+                exceptionFile.WriteAttributeString("ExcelReference", colId.IndexToLetters() + rowId);
+                exceptionFile.WriteElementString("CellValue", valueArray[rowId, colId]);
+                exceptionFile.WriteElementString("Exception", ex.ToString());
+                exceptionFile.WriteEndElement();
+            }
+
+            return exceptionFile;
         }
     }
 }
