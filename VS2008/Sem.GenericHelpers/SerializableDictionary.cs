@@ -15,6 +15,7 @@ namespace Sem.GenericHelpers
     using System.Xml.Serialization;
 
     [XmlRoot("dictionary")]
+    [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
         public System.Xml.Schema.XmlSchema GetSchema()

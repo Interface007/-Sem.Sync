@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="XmlContactClient.cs" company="Sven Erik Matzen">
-//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General internal License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
 //   Writes a list of "something" into an excel OpenXml file
@@ -32,7 +32,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     [ClientStoragePathDescription(
         Mandatory = true,
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    public class XmlContactClient : StdClient
+    internal class XmlContactClient : StdClient
     {
         /// <summary>
         /// Exporting / writing will simply overwrite the destination, so we should override this method in order 

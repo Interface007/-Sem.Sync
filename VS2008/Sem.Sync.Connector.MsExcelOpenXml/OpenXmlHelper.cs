@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="OpenXmlHelper.cs" company="Sven Erik Matzen">
-//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General internal License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
 //   Defines the OpenXmlHelper type.
@@ -22,7 +22,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     /// <summary>
     /// Helper class for OpenXml manipulation
     /// </summary>
-    public static class OpenXmlHelper
+    internal static class OpenXmlHelper
     {
         /// <summary>
         /// internal ID for the sheet to be created
@@ -45,7 +45,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <summary>
         /// Gets or sets the name of the worksheet to be created - default = "Sem.Sync".
         /// </summary>
-        public static string WorkSheetName { get; set; }
+        internal static string WorkSheetName { get; set; }
 
         /// <summary>
         /// Reads the string value of a cell (including string table lookup).
@@ -53,7 +53,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="cell"> The cell to get the value from. </param>
         /// <param name="items"> The string lookup array for string reference cells. </param>
         /// <returns>The string value of the cell</returns>
-        public static string GetCellValue(Cell cell, SharedStringItem[] items)
+        internal static string GetCellValue(Cell cell, SharedStringItem[] items)
         {
             if (cell.DataType == null || cell.DataType.Value != CellValues.SharedString)
             {
@@ -69,7 +69,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="stringToMatch"> The string to match. </param>
         /// <param name="regex"> The regex to extract information. </param>
         /// <returns> the first group of the match as int</returns>
-        public static int GetRegExResultInt(this string stringToMatch, string regex)
+        internal static int GetRegExResultInt(this string stringToMatch, string regex)
         {
             return int.Parse(stringToMatch.GetRegExResult(regex));
         }
@@ -80,7 +80,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="stringToMatch"> The string to match. </param>
         /// <param name="regex"> The regex to extract information. </param>
         /// <returns> the first group of the match </returns>
-        public static string GetRegExResult(this string stringToMatch, string regex)
+        internal static string GetRegExResult(this string stringToMatch, string regex)
         {
             return new Regex(regex).Match(stringToMatch).Groups[1].ToString();
         }
@@ -91,7 +91,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// </summary>
         /// <param name="letters"> The letters to be translated. </param>
         /// <returns> the column index </returns>
-        public static int LettersToIndex(this string letters)
+        internal static int LettersToIndex(this string letters)
         {
             var array = letters.ToCharArray();
             var result = 0;
@@ -115,7 +115,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="row"> The row to add the cells to. </param>
         /// <param name="reference"> The reference. </param>
         /// <param name="text"> The text of the cell. </param>
-        public static void CreateCell(this Row row, string reference, string text)
+        internal static void CreateCell(this Row row, string reference, string text)
         {
             var cell1 = new Cell { CellReference = reference, DataType = CellValues.String };
             var cellValue1 = new CellValue { Text = text };
@@ -130,7 +130,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// </summary>
         /// <param name="index"> The index to be translated. </param>
         /// <returns> The column index as characters </returns>
-        public static string IndexToLetters(this int index)
+        internal static string IndexToLetters(this int index)
         {
             var result = string.Empty;
             index--;
@@ -152,12 +152,12 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// </summary>
         /// <param name="cellName">the alpha numeric cell reference (e.g. "AB:167" => 167)</param>
         /// <returns>the row index</returns>
-        public static uint GetRowIndex(this string cellName)
+        internal static int GetRowIndex(this string cellName)
         {
             // Create a regular expression to match the row index portion the cell name.
             var match = RegexIntegers.Match(cellName);
 
-            return uint.Parse(match.Value);
+            return int.Parse(match.Value);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// </summary>
         /// <param name="clientFolderName"> The client folder name. </param>
         /// <returns> a two dimensional array of strings </returns>
-        public static string[,] GetValueArrayFromExcelFile(string clientFolderName)
+        internal static string[,] GetValueArrayFromExcelFile(string clientFolderName)
         {
             // in case of no valid data we will return an empty array
             var valueArray = new string[0, 0];
@@ -216,7 +216,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// </summary>
         /// <param name="filePath"> The file path to the file to be created.  </param>
         /// <param name="strings"> The strings of the cells to be created. </param>
-        public static void WriteStringArrayToExcelfile(string filePath, string[,] strings)
+        internal static void WriteStringArrayToExcelfile(string filePath, string[,] strings)
         {
             using (var package = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
             {

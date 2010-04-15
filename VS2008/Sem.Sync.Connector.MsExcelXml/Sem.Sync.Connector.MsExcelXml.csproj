@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="ExcelOpenXml.cs" />
     <Compile Include="ExcelXml.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="XmlContactClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlHelper.cs" />

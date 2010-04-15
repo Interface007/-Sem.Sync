@@ -649,9 +649,11 @@ namespace Sem.Sync.Connector.Outlook2003
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
                         }
-
-                        // clean up the temp file
-                        File.Delete(fullName);
+                        finally
+                        {
+                            // clean up the temp file
+                            File.Delete(fullName);
+                        }
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {

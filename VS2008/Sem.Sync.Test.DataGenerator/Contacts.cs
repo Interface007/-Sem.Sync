@@ -464,7 +464,7 @@ namespace Sem.Sync.Test.DataGenerator
                     return customtestsource();
 
                 case "matchingtestsource":
-                    this.matchingtestsource(result);
+                    matchingtestsource(result);
                     break;
 
                 case "matchingtesttarget":
@@ -474,7 +474,7 @@ namespace Sem.Sync.Test.DataGenerator
                     throw new NotSupportedException("Test-Exception");
 
                 case "matchingtestbaseline":
-                    this.matchingtestbaseline(result);
+                    matchingtestbaseline(result);
                     break;
 
                 default:
@@ -509,7 +509,7 @@ namespace Sem.Sync.Test.DataGenerator
             return result;
         }
 
-        private void matchingtestsource(List<StdElement> result)
+        private static void matchingtestsource(List<StdElement> result)
         {
             result.AddRange(
                 new List<StdElement>
@@ -532,7 +532,7 @@ namespace Sem.Sync.Test.DataGenerator
                     });
         }
 
-        private void matchingtestbaseline(List<StdElement> result)
+        private static void matchingtestbaseline(List<StdElement> result)
         {
             result.AddRange(
                 new List<StdElement>

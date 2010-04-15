@@ -189,7 +189,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// Opens the current working folder using the explorer
         /// </summary>
-        public static void OpenWorkingFolder()
+        public void OpenWorkingFolder()
         {
             var engine = new SyncEngine
                              {
@@ -222,7 +222,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// Opens the folder for the exceptrion log files using the standard process for folders (Windows Explorer on most systems).
         /// </summary>
-        public static void OpenExceptionFolder()
+        public void OpenExceptionFolder()
         {
             System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
         }

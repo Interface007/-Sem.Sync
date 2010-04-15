@@ -319,6 +319,11 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "CATEGORIES":
+                        if (contact.SourceSpecificAttributes == null)
+                        {
+                            contact.SourceSpecificAttributes = new SerializableDictionary<string, string>();    
+                        }
+
                         contact.SourceSpecificAttributes.Add(propertyName, value); 
                         break;
 
