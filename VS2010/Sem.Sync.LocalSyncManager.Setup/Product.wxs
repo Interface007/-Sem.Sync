@@ -88,6 +88,8 @@
               
               <File Id='ExpressionSerialization'                Name='ExpressionSerialization.dll'                            />
               
+              <File Id='DocumentFormat.OpenXml'                 Name='DocumentFormat.OpenXml.dll'                             />
+              
               <File Id='Google.GData.Client'                    Name='Google.GData.Client.dll'                                />
               <File Id='Google.GData.Contacts'                  Name='Google.GData.Contacts.dll'                              />
               <File Id='Google.GData.Extensions'                Name='Google.GData.Extensions.dll'                            />
@@ -95,6 +97,7 @@
               <File Id='Sem.Sync.Connector.ActiveDirectory'     Name='Sem.Sync.Connector.ActiveDirectory.dll'                 />
               <File Id='Sem.Sync.Connector.Console'             Name='Sem.Sync.Connector.Console.dll'                         />
               <File Id='Sem.Sync.Connector.ExchangeWSMA'        Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.dll'    />
+              <File Id='Sem.Sync.Connector.ExcelOpenXml'        Name='Sem.Sync.Connector.MsExcelOpenXml.dll'                  />
               <File Id='Sem.Sync.Connector.Facebook'            Name='Sem.Sync.Connector.Facebook.dll'                        />
               <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'                      />
               <File Id='Sem.Sync.Connector.Google'              Name='Sem.Sync.Connector.Google.dll'                          />

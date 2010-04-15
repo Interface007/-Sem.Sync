@@ -39,7 +39,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>TRUE</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>FALSE</Optimize>
     <OutputPath>..\bin</OutputPath>
@@ -78,7 +78,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>TRUE</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\Debug\Sem.Sync.SyncBase.XML</DocumentationFile>
@@ -87,14 +87,14 @@
     <RunCodeAnalysis>TRUE</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>TRUE</Optimize>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>TRUE</DebugSymbols>
     <OutputPath>..\bin</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\Debug\Sem.Sync.SyncBase.XML</DocumentationFile>
@@ -102,7 +102,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>

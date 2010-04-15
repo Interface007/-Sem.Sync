@@ -256,15 +256,9 @@ namespace Sem.Sync.SyncBase.Helpers
                         var address = new AddressDetail
                             {
                                 CityName = GetNthElement(valueParts, 4),
-
                                 StreetName = GetNthElement(valueParts, 3),
-                                StreetNumber = SyncTools.ExtractStreetNumber(GetNthElement(valueParts, 3)),
-                                StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(), //// (GetNthElement(valueParts, 3)),
-
                                 StateName = GetNthElement(valueParts, 5),
-
                                 PostalCode = GetNthElement(valueParts, 6),
-
                                 CountryName = GetNthElement(valueParts, 7),
                             };
 
@@ -324,6 +318,10 @@ namespace Sem.Sync.SyncBase.Helpers
                         contact.Id = new Guid(value);
                         break;
 
+                    case "CATEGORIES":
+                        contact.SourceSpecificAttributes.Add(propertyName, value); 
+                        break;
+
                     case "LABEL":
                     case "PRODID":
                     case "BEGIN":
@@ -332,7 +330,6 @@ namespace Sem.Sync.SyncBase.Helpers
                     case "CLASS":
                     case "FN":
                     case "":
-                    case "CATEGORIES":
                     case "VERSION":
                     case "X-MATZEN-GENERATOR":
                     case "X-MS-OL-DESIGN":

@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Sem.Sync.SyncBase.DetailData;
+using Sem.Sync.SyncBase.Helpers;
 
 namespace Sem.Sync.Test
 {
@@ -312,6 +313,30 @@ namespace Sem.Sync.Test
 
                 Assert.IsFalse(dataString.Contains("password"));
             }
+        }
+
+        [TestMethod]
+        public void TestSyncToolsNormalizeFileName()
+        {
+            Assert.AreEqual(@"hello.txt", SyncTools.NormalizeFileName(@"hello.txt"));
+            Assert.AreEqual(@"hello1.txt", SyncTools.NormalizeFileName(@"hello1.txt"));
+            Assert.AreEqual(@"hello..txt", SyncTools.NormalizeFileName(@"hello..txt"));
+            Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello?.txt"));
+            Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello:.txt"));
+            Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello\.txt"));
+            Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello/.txt"));
+        }
+
+        [TestMethod]
+        public void TestGenderByText()
+        {
+            Assert.AreEqual(Gender.Female, SyncTools.GenderByText("Mrs."));
+            Assert.AreEqual(Gender.Female, SyncTools.GenderByText("Frau"));
+            Assert.AreEqual(Gender.Male, SyncTools.GenderByText("Mr."));
+            Assert.AreEqual(Gender.Male, SyncTools.GenderByText("Herr"));
+            Assert.AreEqual(Gender.Unspecified, SyncTools.GenderByText("something"));
+            Assert.AreEqual(Gender.Unspecified, SyncTools.GenderByText(null));
+            Assert.AreEqual(Gender.Unspecified, SyncTools.GenderByText(string.Empty));
         }
     }
 }

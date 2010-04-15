@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.Properties;
+
 namespace Sem.Sync.ConsoleClient
 {
     using System;
@@ -75,7 +77,7 @@ namespace Sem.Sync.ConsoleClient
             }
 
             Console.WriteLine(messageForUser);
-            Console.WriteLine("-=> YES");
+            Console.WriteLine(Resources.MessageUiDispatcherAskForConfirm);
             return true;
         }
 
@@ -100,9 +102,9 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>true if it's ok to send this information</returns>
         public bool AskForConfirmSendingException(string content)
         {
-            Console.WriteLine("In order to improve the software quality, the program wants to send the following information to the web site www.svenerikmatzen.info:");
+            Console.WriteLine(Resources.UiDispatcherAskForConfirmSendingException01);
             Console.WriteLine(content);
-            Console.WriteLine("Press \"Y\" and the RETURN key to send the information, enter \"N\" to not send the information.");
+            Console.WriteLine(Resources.UiDispatcherAskForConfirmSendingException02);
             return Console.ReadLine() == "Y";
         }
 

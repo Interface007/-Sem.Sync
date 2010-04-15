@@ -61,6 +61,88 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found: .
+        /// </summary>
+        public static string ErrorMessageFileNotFound {
+            get {
+                return ResourceManager.GetString("ErrorMessageFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to exception while execution: 
+        ///{0}.
+        /// </summary>
+        public static string MessageErrorException {
+            get {
+                return ResourceManager.GetString("MessageErrorException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished - Press ENTER to close the window.
+        /// </summary>
+        public static string MessageInfoCloseWithEnter {
+            get {
+                return ResourceManager.GetString("MessageInfoCloseWithEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to loading command list: {0}.
+        /// </summary>
+        public static string MessageInfoLoadingList {
+            get {
+                return ResourceManager.GetString("MessageInfoLoadingList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}% done....
+        /// </summary>
+        public static string MessageInfoProgress {
+            get {
+                return ResourceManager.GetString("MessageInfoProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution status: {0}.
+        /// </summary>
+        public static string MessageInfoStatus {
+            get {
+                return ResourceManager.GetString("MessageInfoStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to usage: {0} [PathOfCommandList].
+        /// </summary>
+        public static string MessageInfoUsage {
+            get {
+                return ResourceManager.GetString("MessageInfoUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to working folder: {0}.
+        /// </summary>
+        public static string MessageInfoWorkingFolder {
+            get {
+                return ResourceManager.GetString("MessageInfoWorkingFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -=&gt; YES.
+        /// </summary>
+        public static string MessageUiDispatcherAskForConfirm {
+            get {
+                return ResourceManager.GetString("MessageUiDispatcherAskForConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a problem finding the Primary Interop Assemblies for Office. Do you want to open the download page for this missing dependency?.
         /// </summary>
         public static string MissingInteropQuestion {
@@ -120,6 +202,24 @@ namespace Sem.Sync.SyncBase.Properties {
         public static string uiAddingXMissingElements {
             get {
                 return ResourceManager.GetString("uiAddingXMissingElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to improve the software quality, the program wants to send the following information to the web site www.svenerikmatzen.info:.
+        /// </summary>
+        public static string UiDispatcherAskForConfirmSendingException01 {
+            get {
+                return ResourceManager.GetString("UiDispatcherAskForConfirmSendingException01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press &quot;Y&quot; and the RETURN key to send the information, enter &quot;N&quot; to not send the information..
+        /// </summary>
+        public static string UiDispatcherAskForConfirmSendingException02 {
+            get {
+                return ResourceManager.GetString("UiDispatcherAskForConfirmSendingException02", resourceCulture);
             }
         }
         

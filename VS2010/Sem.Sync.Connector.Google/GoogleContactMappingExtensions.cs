@@ -183,7 +183,7 @@ namespace Sem.Sync.Connector.Google
         /// <param name="addressType"> The address type (home or work). </param>
         public static void AddIMAddress(this Contact googleContact, InstantMessengerAddresses instantMessengerAddresses, string addressType)
         {
-            if (!string.IsNullOrEmpty(instantMessengerAddresses.MsnMessenger))
+            if (instantMessengerAddresses != null && !string.IsNullOrEmpty(instantMessengerAddresses.MsnMessenger))
             {
                 googleContact.IMs.Add(new IMAddress(instantMessengerAddresses.MsnMessenger));
             }

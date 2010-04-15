@@ -212,8 +212,6 @@ namespace Sem.Sync.Connector.Outlook
                         CityName = outlookContact.HomeAddressCity,
                         StateName = outlookContact.HomeAddressState,
                         StreetName = outlookContact.HomeAddressStreet,
-                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.HomeAddressStreet),
-                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
                     },
 
                     PersonalHomepage = outlookContact.PersonalHomePage,
@@ -232,8 +230,6 @@ namespace Sem.Sync.Connector.Outlook
                         CityName = outlookContact.BusinessAddressCity,
                         StateName = outlookContact.BusinessAddressState,
                         StreetName = outlookContact.BusinessAddressStreet,
-                        StreetNumber = SyncTools.ExtractStreetNumber(outlookContact.BusinessAddressStreet),
-                        StreetNumberExtension = SyncTools.ExtractStreetNumberExtension(),
                     },
 
                     BusinessHomepage = outlookContact.BusinessHomePage,
@@ -568,7 +564,7 @@ namespace Sem.Sync.Connector.Outlook
             MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPhoneMobile.ToString(), x => outlookContact.Business2TelephoneNumber = x);
             MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalInstantMessengerAddresses.MsnMessenger, x => outlookContact.IMAddress = x);
 
-            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData, x => outlookContact.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData.Replace("\r\n", "\n"), x => outlookContact.Body = x);
 
             if (stdOldContact.Id != stdNewContact.Id)
             {
