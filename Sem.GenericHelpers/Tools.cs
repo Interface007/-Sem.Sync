@@ -382,6 +382,10 @@ namespace Sem.GenericHelpers
                 }
                 else
                 {
+                    if (type.Name == "SerializableDictionary`2" && propName == "Item")
+                    {
+                        return null;
+                    }
                     var propertyInfo = type.GetProperty(propName);
                     value = propertyInfo == null ? null : propertyInfo.GetValue(objectToReadFrom, null);
                 }
@@ -662,6 +666,11 @@ namespace Sem.GenericHelpers
                     var myQueryType = propType.GetConstructor(new Type[] { }).Invoke(new object[] { });
                     SetPropertyValue(myQueryType, "Value", valueString);
                     propInfo.SetValue(objectToWriteTo, myQueryType, null);
+                    break;
+
+                case "PhoneNumber":
+                    var myPhoneNumber = propType.GetConstructor(new[] {typeof (string)}).Invoke(new[] {valueString});
+                    propInfo.SetValue(objectToWriteTo, myPhoneNumber, null);
                     break;
 
                 default:

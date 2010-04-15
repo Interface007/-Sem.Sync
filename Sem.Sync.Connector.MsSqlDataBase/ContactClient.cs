@@ -8,6 +8,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Data.SqlClient;
+using System.Linq;
+using Sem.GenericHelpers;
+using Sem.GenericHelpers.Entities;
+using Sem.Sync.SyncBase.Helpers;
+
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
     using System.Collections.Generic;
@@ -60,26 +66,23 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var mappings = new List<DataMapping>
-                {
-                    new DataMapping
-                        {
-                            ////PathToProperty = ""
-                        }
-                };
+            var columns = this.GetColumnDefinition<StdContact>(clientFolderName);
+            var connectionString = "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=SemSync-Private;Data Source=WKMATZENSV02;";
 
-            using (var con = new System.Data.SqlClient.SqlConnection(clientFolderName))
+            using (var con = new System.Data.SqlClient.SqlConnection(connectionString))
             {
-                var databaseName = con.Database;
-                con.ConnectionString = con.ConnectionString.Replace(databaseName, "master");
                 con.Open();
-
-                var cmd = con.CreateCommand();
-                cmd.CommandText = string.Format(CultureInfo.InvariantCulture, "SELECT 1 FROM Databases WHERE Name = '{0}'", databaseName);
-                var ret = cmd.ExecuteScalar();
-
+                elements.ToContacts().ForEach(x => this.WriteContact(con, x, columns));
                 con.Close();
             }
+        }
+
+        private void WriteContact(SqlConnection con, StdContact x, List<ColumnDefinition> definitions)
+        {
+            var cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT ContactID FROM Contact WHERE ContactID = @contactId'";
+            cmd.Parameters.AddWithValue("@contactId", x.Id);
+            var ret = cmd.ExecuteScalar();
         }
     }
 }

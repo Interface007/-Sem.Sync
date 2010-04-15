@@ -62,44 +62,6 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Extracts the street number from a complete street specification.
-        /// </summary>
-        /// <param name="streetDescription">A text representation of the street specification.</param>
-        /// <returns>The street number</returns>
-        public static int ExtractStreetNumber(string streetDescription)
-        {
-            var result = 0;
-
-            if (!string.IsNullOrEmpty(streetDescription))
-            {
-                var streetNumberExtract = new Regex("[0-9]+");
-                var match = streetNumberExtract.Match(streetDescription);
-                if (match.Captures.Count > 0)
-                {
-                    if (!int.TryParse(match.Captures[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out result))
-                    {
-                        result = 0;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Extracts the street number extension from a complete street specification. E.g. in germany the 
-        /// street number can be extended by a character like "Sesamstreet 21a". In this case "a" is the 
-        /// extension and describes the fact that after numbering all houses in a stree there has been
-        /// built another one.
-        /// </summary>
-        /// <returns>The street number extension</returns>
-        public static string ExtractStreetNumberExtension()
-        {
-            // TODO: implement a way to extract the street number extension
-            return null;
-        }
-
-        /// <summary>
         /// Match source to target and baseline (if provided) and build up a list of elements that can be tested 
         /// for conflicts. This list does contain information about possible merge conflicts with references to
         /// the real objects from the source lists.

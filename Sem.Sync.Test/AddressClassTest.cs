@@ -19,18 +19,7 @@
         [TestMethod]
         public void AddressConstructorTest01()
         {
-            CheckConstructorStreet("Birkenweg 21a", "Birkenweg", 21, "a");
-            CheckConstructorStreet("Birken Weg 21a", "Birken Weg", 21, "a");
-            CheckConstructorStreet("Birken-Weg 21a", "Birken-Weg", 21, "a");
-            CheckConstructorStreet("Birkenweg 21", "Birkenweg", 21, string.Empty);
-            CheckConstructorStreet("Birken Weg 21", "Birken Weg", 21, string.Empty);
-            CheckConstructorStreet("Birken-Weg 21", "Birken-Weg", 21, string.Empty);
-            CheckConstructorStreet("Birkenweg 21a-z", "Birkenweg", 21, "a-z");
-            CheckConstructorStreet("Birkenweg 21 a-z", "Birkenweg", 21, "a-z");
-            CheckConstructorStreet("Birkenweg 21 a - z", "Birkenweg", 21, "a - z");
-            CheckConstructorStreet("Birkenweg 21a -z", "Birkenweg", 21, "a -z");
-            CheckConstructorStreet("Birkenweg 21a- z", "Birkenweg", 21, "a- z");
-            CheckConstructorStreet("Birkenweg 21a - z", "Birkenweg", 21, "a - z");
+            CheckConstructorStreet("Birkenweg 21a", "Birkenweg 21a");
         }
 
         [TestMethod]
@@ -53,15 +42,15 @@
         [TestMethod]
         public void AddressConstructorTest04()
         {
-            CheckConstructorStreet("Birkenweg 21a\n35586 Wetzlar\nGermany", "Birkenweg", 21, "a");
+            CheckConstructorStreet("Birkenweg 21a\n35586 Wetzlar\nGermany", "Birkenweg 21a");
             CheckConstructorCity("Birkenweg 21a\n35586 Wetzlar\nGermany", "Wetzlar", "35586");
             CheckConstructorCountry("Birkenweg 21a\n35586 Wetzlar\nGermany", "Germany");
 
-            CheckConstructorStreet("Birkenweg 21a\nGermany", "Birkenweg", 21, "a");
+            CheckConstructorStreet("Birkenweg 21a\nGermany", "Birkenweg 21a");
             CheckConstructorCity("Birkenweg 21a\nGermany", string.Empty, string.Empty);
             CheckConstructorCountry("Birkenweg 21a\nGermany", "Germany");
 
-            CheckConstructorStreet("Birkenweg 21a\n\n\n\nGermany", "Birkenweg", 21, "a");
+            CheckConstructorStreet("Birkenweg 21a\n\n\n\nGermany", "Birkenweg 21a");
             CheckConstructorCity("Birkenweg 21a\n\n\n\nGermany", string.Empty, string.Empty);
             CheckConstructorCountry("Birkenweg 21a\n\n\n\nGermany", "Germany");
         }
@@ -69,7 +58,7 @@
         [TestMethod]
         public void AddressToStringTest01()
         {
-            Assert.AreEqual("Birkenweg 21 a / 35586 Wetzlar Germany", new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany").ToString());
+            Assert.AreEqual("Birkenweg 21a / 35586 Wetzlar Germany", new AddressDetail("Birkenweg 21a\n35586 Wetzlar\nGermany").ToString());
         }
 
         [TestMethod]
@@ -141,12 +130,10 @@
             }
         }
 
-        private static void CheckConstructorStreet(string checkThis, string street, int streetNumber, string extension)
+        private static void CheckConstructorStreet(string checkThis, string street)
         {
             var address = new AddressDetail(checkThis);
             Assert.AreEqual(street, address.StreetName);
-            Assert.AreEqual(streetNumber, address.StreetNumber);
-            Assert.AreEqual(extension, address.StreetNumberExtension);
         }
     }
 }
