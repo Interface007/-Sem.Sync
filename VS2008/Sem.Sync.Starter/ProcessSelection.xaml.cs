@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.GenericHelpers.Exceptions;
+using Sem.Sync.SyncBase;
+
 namespace Sem.Sync.Starter
 {
     using System;
@@ -15,7 +18,6 @@ namespace Sem.Sync.Starter
     using System.Windows.Controls;
     
     using SharedUI.Common;
-    using SharedUI.WinForms.Tools;
 
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -38,10 +40,10 @@ namespace Sem.Sync.Starter
         public ProcessSelection()
         {
             InitializeComponent();
-            this.DataContext = new SyncWizardContext<UiDispatcher>();
+            this.DataContext = new SyncWizardContext(typeof(StdContact), ExceptionHandler.UserInterface);
 
             this.Network = new List<Button>();
-            foreach (var source in ((SyncWizardContext<UiDispatcher>)this.DataContext).SyncWorkflowData)
+            foreach (var source in ((SyncWizardContext)this.DataContext).SyncWorkflowData)
             {
                 var button = new Button
                 {
@@ -84,7 +86,7 @@ namespace Sem.Sync.Starter
           var process = (KeyValuePair<string, string>) clicked.Tag;
           if (MessageBox.Show("Starting process: " + process.Value, "Sync-Process", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
           {
-              ((SyncWizardContext<UiDispatcher>)this.DataContext).Run(process.Key);
+              ((SyncWizardContext)this.DataContext).Run(process.Key);
           }
         }
 

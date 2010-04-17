@@ -155,6 +155,7 @@ namespace Sem.Sync.SyncBase
         {
             if (!this.versionChecked)
             {
+                LogProcessingEvent("checking version of engine...");
                 this.versionOutdated = !new VersionCheck().Check(this.UiProvider);
                 this.versionChecked = true;
             }

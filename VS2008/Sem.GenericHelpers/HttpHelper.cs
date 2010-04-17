@@ -747,6 +747,7 @@ namespace Sem.GenericHelpers
                 }
                 catch (WebException ex)
                 {
+
                     if ((this.UiDispatcher != null) && ex.Response != null &&
                         ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
@@ -789,6 +790,18 @@ namespace Sem.GenericHelpers
                                     request = this.CreateRequest(url, "GET", referer);
                                     request.Headers.Add("Authorization", "GoogleLogin auth=" + this.ContentCredentials.LogOnPassword);
                                 }
+                            }
+                        }
+
+                        if ((this.UiDispatcher != null) &&
+                            (ex.Status == WebExceptionStatus.ConnectFailure
+                          || ex.Status == WebExceptionStatus.NameResolutionFailure))
+                        {
+                            if (this.UiDispatcher.AskForConfirm(
+                                string.Format("The connection to a web server ({0}) cannot be established (reason: {1}). Do you want to retry?", url.Host, ex.Status),
+                                "Connection problem"))
+                            {
+                                continue;
                             }
                         }
 

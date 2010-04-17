@@ -101,5 +101,35 @@ namespace Sem.Sync.SyncBase.Attributes
         /// Gets or sets the display name for gui implementations.
         /// </summary>
         public ProfileIdentifierType MatchingIdentifier { get; set; }
+
+        public bool CanRead(Type entityType)
+        {
+            switch (entityType.Name)
+            {
+                case "StdContact":
+                    return this.CanReadContacts;
+
+                case "StdCalendarItem":
+                    return this.CanReadCalendarEntries;
+
+                default:
+                    return false;
+            }
+        }
+
+        public bool CanWrite(Type entityType)
+        {
+            switch (entityType.Name)
+            {
+                case "StdContact":
+                    return this.CanWriteContacts;
+
+                case "StdCalendarItem":
+                    return this.CanWriteCalendarEntries;
+
+                default:
+                    return false;
+            }
+        }
     }
 }

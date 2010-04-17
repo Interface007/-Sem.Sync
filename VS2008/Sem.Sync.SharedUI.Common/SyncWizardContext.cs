@@ -18,7 +18,7 @@ namespace Sem.Sync.SharedUI.Common
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    
+
     using GenericHelpers;
     using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
@@ -38,8 +38,7 @@ namespace Sem.Sync.SharedUI.Common
     /// and target as well as  the paths inside the storage and  the credentials
     /// to authenticate.
     /// </summary>
-    /// <typeparam name="TUiProvider"> The type of the UI provider to use </typeparam>
-    public class SyncWizardContext<TUiProvider> : INotifyPropertyChanged where TUiProvider : IUiInteraction, new()
+    public class SyncWizardContext : INotifyPropertyChanged
     {
         /// <summary>
         /// The file extension for data files.
@@ -66,11 +65,15 @@ namespace Sem.Sync.SharedUI.Common
         /// </summary>
         private string currentSyncWorkflowData;
 
+        private Type entityType;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="SyncWizardContext{TUiProvider}"/> class. 
+        /// Initializes a new instance of the <see cref="SyncWizardContext"/> class. 
         /// </summary>
-        public SyncWizardContext()
+        public SyncWizardContext(Type typeOfEntity, IUiInteraction uiInteraction)
         {
+            this.entityType = typeOfEntity;
+            this.UiProvider = uiInteraction;
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
             this.Source = new ConnectorInformation();
@@ -340,7 +343,7 @@ namespace Sem.Sync.SharedUI.Common
             var engine = new SyncEngine
                              {
                                  WorkingFolder = Config.WorkingFolder,
-                                 UiProvider = new TUiProvider(),
+                                 UiProvider = this.UiProvider,
                              };
 
             engine.ProcessingEvent += this.HandleProcessingEvent;
@@ -359,9 +362,11 @@ namespace Sem.Sync.SharedUI.Common
 
             if (this.FinishedEvent != null)
             {
-                this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 }); 
+                this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 });
             }
         }
+
+        protected IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Generates sample data - not yet completed
@@ -403,7 +408,7 @@ namespace Sem.Sync.SharedUI.Common
                 }
 
                 var types = new Type[0];
-                
+
                 try
                 {
                     // todo: check if the dll is a loadable assembly
@@ -435,22 +440,22 @@ namespace Sem.Sync.SharedUI.Common
 
                     var fullName =
                         exportedType.IsGenericType
-                            ? exportedType.FullName.Replace("`1", " of StdContact")
+                            ? exportedType.FullName.Replace("`1", " of " + entityType.Name)
                             : exportedType.FullName;
 
                     var nameToUse =
                         exportedType.IsGenericType
-                            ? (attribute.DisplayName ?? fullName) + " of StdContact"
+                            ? (attribute.DisplayName ?? fullName) + " of " + entityType.Name
                             : attribute.DisplayName ?? fullName;
 
-                    if (!attribute.Internal && (attribute.CanReadContacts || attribute.CanWriteContacts))
+                    if (!attribute.Internal && (attribute.CanRead(entityType) || attribute.CanWrite(entityType)))
                     {
                         yield return
                             new Triple<string, string, int>
                                 {
                                     Value1 = fullName,
                                     Value2 = nameToUse,
-                                    Value3 = attribute.CanReadContacts ? (attribute.CanWriteContacts ? 3 : 1) : 2
+                                    Value3 = attribute.CanRead(entityType) ? (attribute.CanWrite(entityType) ? 3 : 1) : 2
                                 };
                     }
                 }
@@ -503,7 +508,7 @@ namespace Sem.Sync.SharedUI.Common
             {
                 if (this.Source != null)
                 {
-                    this.Source.PropertyChanged += this.HandlePropertyChangedEvent; 
+                    this.Source.PropertyChanged += this.HandlePropertyChangedEvent;
                 }
 
                 if (this.Target != null)

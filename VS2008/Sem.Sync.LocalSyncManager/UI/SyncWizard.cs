@@ -23,7 +23,6 @@ namespace Sem.Sync.LocalSyncManager.UI
     using Properties;
 
     using SharedUI.Common;
-    using SharedUI.WinForms.Tools;
     using SyncBase;
 
     using Tools;
@@ -44,7 +43,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Gets or sets the data context.
         /// </summary>
-        public SyncWizardContext<UiDispatcher> DataContext { get; set; }
+        public SyncWizardContext DataContext { get; set; }
 
         /// <summary>
         /// Setup of the event handler routing and "databinding"
@@ -297,16 +296,16 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <returns> the user entered path to a file </returns>
         private string AskForDestinationFile(string currentFileName)
         {
-            this.saveFileDialog1.DefaultExt = SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
             
             // ReSharper disable LocalizableElement
-            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
             
             // ReSharper restore LocalizableElement
             this.saveFileDialog1.FilterIndex = 0;
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.FileName = currentFileName;
-            this.saveFileDialog1.InitialDirectory = SyncWizardContext<UiDispatcher>.WorkingFolderData;
+            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
             return
                 this.saveFileDialog1.ShowDialog() == DialogResult.OK
                 ? this.saveFileDialog1.FileName
@@ -323,7 +322,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
-                this.folderBrowser.SelectedPath = SyncWizardContext<UiDispatcher>.ResolvePath(textBox.Text);
+                this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.folderBrowser.SelectedPath;

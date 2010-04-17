@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase;
+
 namespace Sem.Sync.LocalSyncManager
 {
     using System;
@@ -42,7 +44,7 @@ namespace Sem.Sync.LocalSyncManager
                 Application.Run(
                     new SyncWizard
                     {
-                        DataContext = new SyncWizardContext<UiDispatcher>()
+                        DataContext = new SyncWizardContext(typeof(StdContact), ExceptionHandler.UserInterface)
                     });
             }
             catch (Exception ex)
