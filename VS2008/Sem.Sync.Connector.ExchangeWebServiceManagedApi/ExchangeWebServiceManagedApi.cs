@@ -221,8 +221,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 
             if (folderName.Contains("|"))
             {
-                server = folderName.Split('|')[0];
-                folderName = folderName.Split('|')[1];
+                var strings = folderName.Split('|');
+                server = strings[0];
+                folderName = strings[1];
             }
 
             if (string.IsNullOrEmpty(server))
