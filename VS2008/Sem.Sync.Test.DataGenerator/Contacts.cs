@@ -463,6 +463,9 @@ namespace Sem.Sync.Test.DataGenerator
                 case "customdata":
                     return customtestsource();
 
+                case "specialchars":
+                    return specialchars();
+
                 case "matchingtestsource":
                     matchingtestsource(result);
                     break;
@@ -503,6 +506,21 @@ namespace Sem.Sync.Test.DataGenerator
                                     { "TestDataConnector.firstAttribute", "first attribute value" },
                                     { "TestDataConnector.secondAttribute", "second attribute value" },
                                 }
+                        }
+                });
+
+            return result;
+        }
+
+        private static List<StdElement> specialchars()
+        {
+            var result = new List<StdElement>();
+            result.AddRange(new List<StdElement>
+                {
+                    new StdContact
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "contact öwi#thÜsomße éâ°specialchars",
                         }
                 });
 

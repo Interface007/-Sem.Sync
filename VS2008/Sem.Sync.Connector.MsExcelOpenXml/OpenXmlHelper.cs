@@ -317,7 +317,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             workbook.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
             var workbookPart = package.AddWorkbookPart();
             workbookPart.Workbook = workbook;
-
+            
             // create workbook view and attach it to the workbook
             var bookViews = new BookViews();
             bookViews.Append(new WorkbookView { XWindow = 240, YWindow = 60, WindowWidth = 14355U, WindowHeight = 6720U });
