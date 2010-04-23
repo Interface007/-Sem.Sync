@@ -610,7 +610,10 @@ namespace Sem.GenericHelpers
                     break;
 
                 case "Enum":
-                    propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                    if (Enum.IsDefined(propType, valueString))
+                    {
+                        propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                    }
                     break;
 
                 case "Boolean":

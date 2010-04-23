@@ -32,7 +32,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     [ClientStoragePathDescription(
         Mandatory = true,
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    internal class XmlContactClient : StdClient
+    public class XmlContactClient : StdClient
     {
         /// <summary>
         /// Exporting / writing will simply overwrite the destination, so we should override this method in order 

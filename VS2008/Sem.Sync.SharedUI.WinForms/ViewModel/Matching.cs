@@ -165,7 +165,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <returns> A bindable list of view entities </returns>
         public List<MatchCandidateView> SourceAsList()
         {
-            return this.FilterMatchedEntries
+            return this.FilterMatchedEntriesSource
                 ? (from s in this.Source
                    join b in this.BaseLine on
                    s.PersonalProfileIdentifiers equals b.ProfileId into g
@@ -261,7 +261,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <returns> A bindable list of view entities </returns>
         public List<MatchCandidateView> TargetAsList()
         {
-            return this.FilterMatchedEntries
+            return this.FilterMatchedEntriesTarget
                 ? (from x in this.Target
                    join y in this.BaseLine on
                        x.Id equals y.Id

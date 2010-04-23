@@ -33,6 +33,7 @@
                                    Target = Contacts.GetMatchingTarget(),
                                    BaseLine = Contacts.GetMatchingBaseline(),
                                    FilterMatchedEntriesSource = true,
+                                   FilterMatchedEntriesTarget = true,
                                    Profile = ProfileIdentifierType.XingNameProfileId,
                                };
 
