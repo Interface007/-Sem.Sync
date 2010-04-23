@@ -33,7 +33,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntities));
             this.btnFinished = new System.Windows.Forms.Button();
             this.btnMatch = new System.Windows.Forms.Button();
-            this.chkMatchedOnly = new System.Windows.Forms.CheckBox();
+            this.chkMatchedOnlySource = new System.Windows.Forms.CheckBox();
             this.btnUnMatch = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -45,6 +45,7 @@
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.dataGridMatches = new System.Windows.Forms.DataGridView();
             this.BtnAutoMatch = new System.Windows.Forms.Button();
+            this.chkMatchedOnlyTarget = new System.Windows.Forms.CheckBox();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -72,14 +73,14 @@
             this.btnMatch.UseVisualStyleBackColor = true;
             this.btnMatch.Click += new System.EventHandler(this.BtnMatch_Click);
             // 
-            // chkMatchedOnly
+            // chkMatchedOnlySource
             // 
-            resources.ApplyResources(this.chkMatchedOnly, "chkMatchedOnly");
-            this.chkMatchedOnly.Checked = true;
-            this.chkMatchedOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMatchedOnly.Name = "chkMatchedOnly";
-            this.chkMatchedOnly.UseVisualStyleBackColor = true;
-            this.chkMatchedOnly.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
+            resources.ApplyResources(this.chkMatchedOnlySource, "chkMatchedOnlySource");
+            this.chkMatchedOnlySource.Checked = true;
+            this.chkMatchedOnlySource.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMatchedOnlySource.Name = "chkMatchedOnlySource";
+            this.chkMatchedOnlySource.UseVisualStyleBackColor = true;
+            this.chkMatchedOnlySource.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
             // 
             // btnUnMatch
             // 
@@ -190,12 +191,22 @@
             this.BtnAutoMatch.UseVisualStyleBackColor = true;
             this.BtnAutoMatch.Click += new System.EventHandler(this.BtnAutoMatch_Click);
             // 
+            // chkMatchedOnlyTarget
+            // 
+            resources.ApplyResources(this.chkMatchedOnlyTarget, "chkMatchedOnlyTarget");
+            this.chkMatchedOnlyTarget.Checked = true;
+            this.chkMatchedOnlyTarget.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMatchedOnlyTarget.Name = "chkMatchedOnlyTarget";
+            this.chkMatchedOnlyTarget.UseVisualStyleBackColor = true;
+            this.chkMatchedOnlyTarget.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
+            // 
             // MatchEntities
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer2);
-            this.Controls.Add(this.chkMatchedOnly);
+            this.Controls.Add(this.chkMatchedOnlyTarget);
+            this.Controls.Add(this.chkMatchedOnlySource);
             this.Controls.Add(this.BtnAutoMatch);
             this.Controls.Add(this.btnUnMatch);
             this.Controls.Add(this.btnMatch);
@@ -221,7 +232,7 @@
 
         private System.Windows.Forms.Button btnFinished;
         private System.Windows.Forms.Button btnMatch;
-        private System.Windows.Forms.CheckBox chkMatchedOnly;
+        private System.Windows.Forms.CheckBox chkMatchedOnlySource;
         private System.Windows.Forms.Button btnUnMatch;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -233,5 +244,6 @@
         private ContactCardView SourceCardView;
         private ContactCardView TargetCardView;
         private System.Windows.Forms.Button BtnAutoMatch;
+        private System.Windows.Forms.CheckBox chkMatchedOnlyTarget;
     }
 }

@@ -92,7 +92,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="theGrid"> The the grid to be set up. </param>
         /// <param name="elementList"> The list of elements to be set into the grid. </param>
         /// <typeparam name="T"> the type of elements inside <paramref name="elementList"/> </typeparam>
-        private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
+        private static void SetupCandidateGrid<T>(DataGridView theGrid, IEnumerable<T> elementList)
         {
             theGrid.ClearSelection();
 
@@ -211,13 +211,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         private void SetupGui()
         {
-            // determine display of already matched entities
-            this.matching.FilterMatchedEntries = this.chkMatchedOnly.Checked;
+            var matchingInstance = this.matching;
 
+            // determine display of already matched entities
+            matchingInstance.FilterMatchedEntriesSource = this.chkMatchedOnlySource.Checked;
+            matchingInstance.FilterMatchedEntriesTarget = this.chkMatchedOnlyTarget.Checked;
+            
             // rebind grids
-            SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
-            SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
-            SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
+            SetupCandidateGrid(this.dataGridMatches, matchingInstance.BaselineAsList());
+            SetupCandidateGrid(this.dataGridTargetCandidates, matchingInstance.TargetAsList2());
+            SetupCandidateGrid(this.dataGridSourceCandidates, matchingInstance.SourceAsList2());
             SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
             SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
 
@@ -239,12 +242,26 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             var found = false;
             for (var r = this.lastSelectedSourceRow; r < this.dataGridSourceCandidates.Rows.Count; r++)
             {
-                if (this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                // try to reduce grid navigation by probing directly before selecting a row
+                var row = this.dataGridSourceCandidates.Rows[r];
+                var element = ((MatchCandidateView)row.DataBoundItem).Element;
+                var autoMatch = (from x in this.dataGridTargetCandidates.Rows.Cast<DataGridViewRow>()
+                                 where ((MatchCandidateView)x.DataBoundItem).Element.ToStringSimple() == element.ToStringSimple()
+                                 select x).FirstOrDefault();
+
+                if (autoMatch == null)
                 {
-                    // if we found one, exit this loop
-                    found = true;
-                    break;
+                    continue;
                 }
+
+                if (!this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                {
+                    continue;
+                }
+
+                // if we found one, exit this loop
+                found = true;
+                break;
             }
 
             if (!found && this.lastSelectedTargetRow > 0 && this.lastSelectedTargetRow < this.dataGridTargetCandidates.RowCount)

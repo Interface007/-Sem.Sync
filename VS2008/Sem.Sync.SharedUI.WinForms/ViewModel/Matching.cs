@@ -65,7 +65,13 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// Gets or sets a value indicating whether to filter the property <see cref="SourceAsList"/> by excluding 
         /// the entries already matched to an entry inside <see cref="TargetAsList"/>.
         /// </summary>
-        public bool FilterMatchedEntries { get; set; }
+        public bool FilterMatchedEntriesSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to filter the property <see cref="SourceAsList"/> by excluding 
+        /// the entries already matched to an entry inside <see cref="TargetAsList"/>.
+        /// </summary>
+        public bool FilterMatchedEntriesTarget { get; set; }
 
         /// <summary>
         /// Sets the reference to the currently active source contact for the call to <see cref="Match"/>.
@@ -181,6 +187,75 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         }
 
         /// <summary>
+        /// Returns a filtered (if <see cref="FilterMatchedEntries"/> is true) list of
+        /// view entities for the source list <see cref="Source"/>
+        /// </summary>
+        /// <returns> A bindable list of view entities </returns>
+        public IEnumerable<MatchCandidateView> SourceAsList2()
+        {
+            var result = (from x in this.Source
+                          select
+                              new MatchCandidateView
+                                  {
+                                      ContactName = x.GetFullName(),
+                                      Element = x
+                                  }).ToList();
+
+            if (!this.FilterMatchedEntriesSource)
+            {
+                return result;
+            }
+
+            var profileType = this.Profile;
+
+            BaseLine.ForEach(
+                x =>
+                {
+                    var id = x.ProfileId.GetProfileId(profileType);
+                    var entries = (from y in result where y.Element.PersonalProfileIdentifiers.GetProfileId(profileType) == id select y).ToList();
+                    foreach (var entry in entries)
+                    {
+                        result.Remove(entry);
+                    }
+                });
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns a list of view entities for the target list <see cref="Target"/>
+        /// </summary>
+        /// <returns> A bindable list of view entities </returns>
+        public IEnumerable<MatchCandidateView> TargetAsList2()
+        {
+            var result = (from x in this.Target
+                          select
+                              new MatchCandidateView
+                                  {
+                                      ContactName = x.GetFullName(),
+                                      Element = x
+                                  }).ToList();
+
+            if (!this.FilterMatchedEntriesTarget)
+            {
+                return result;
+            }
+
+            BaseLine.ForEach(
+                x =>
+                    {
+                        var id = x.Id;
+                        var entries = (from y in result where y.Element.Id == id select y).ToList();
+                        foreach (var entry in entries)
+                        {
+                            result.Remove(entry);
+                        }
+                    });
+
+            return result;
+        }
+
+        /// <summary>
         /// Returns a list of view entities for the target list <see cref="Target"/>
         /// </summary>
         /// <returns> A bindable list of view entities </returns>
@@ -215,13 +290,10 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         public List<MatchView> BaselineAsList()
         {
             // filtering out entries without matching information is not needed, but helpful for debugging ;-)
-            var list = from x in this.BaseLine
-                       where !string.IsNullOrEmpty(x.ProfileId.GetProfileId(this.Profile))
-                       select x;
+            var profileIdentifierType = this.Profile;
 
-            var result = (from b in list
-                          join s in this.Source on 
-                            b.ProfileId equals s.PersonalProfileIdentifiers 
+            var result = (from b in this.BaseLine 
+                          join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals s.PersonalProfileIdentifiers.GetProfileId(profileIdentifierType)
                           join t in this.Target on b.Id equals t.Id
                           select new MatchView
                                      {

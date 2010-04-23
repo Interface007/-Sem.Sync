@@ -7,7 +7,6 @@
 //   Defines the MatchCandidateView type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using SyncBase;

@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnFinished.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="btnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -178,40 +178,41 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnMatch.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
-  <data name="chkMatchedOnly.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="chkMatchedOnlySource.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="chkMatchedOnly.AutoSize" type="System.Boolean, mscorlib">
+  <data name="chkMatchedOnlySource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chkMatchedOnly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="chkMatchedOnlySource.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkMatchedOnly.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="chkMatchedOnlySource.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 480</value>
   </data>
-  <data name="chkMatchedOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 17</value>
+  <data name="chkMatchedOnlySource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 17</value>
   </data>
-  <data name="chkMatchedOnly.TabIndex" type="System.Int32, mscorlib">
+  <data name="chkMatchedOnlySource.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="chkMatchedOnly.Text" xml:space="preserve">
-    <value>show &amp;only unmatched</value>
+  <data name="chkMatchedOnlySource.Text" xml:space="preserve">
+    <value>show &amp;only unmatched (source)
+</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnly.Name" xml:space="preserve">
-    <value>chkMatchedOnly</value>
+  <data name="&gt;&gt;chkMatchedOnlySource.Name" xml:space="preserve">
+    <value>chkMatchedOnlySource</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnly.Type" xml:space="preserve">
+  <data name="&gt;&gt;chkMatchedOnlySource.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnly.Parent" xml:space="preserve">
+  <data name="&gt;&gt;chkMatchedOnlySource.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnly.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;chkMatchedOnlySource.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="btnUnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -241,7 +242,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnUnMatch.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="splitContainer2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -280,7 +281,7 @@
     <value>SourceCardView</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.123.3699.28185, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3762.30559, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -364,7 +365,7 @@
     <value>TargetCardView</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.123.3699.28185, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3762.30559, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -550,7 +551,40 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnAutoMatch.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 480</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 17</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Text" xml:space="preserve">
+    <value>show &amp;only unmatched (target)</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Name" xml:space="preserve">
+    <value>chkMatchedOnlyTarget</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
