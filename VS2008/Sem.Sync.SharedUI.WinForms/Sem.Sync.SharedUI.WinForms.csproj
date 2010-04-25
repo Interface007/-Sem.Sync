@@ -175,6 +175,9 @@
     <EmbeddedResource Include="UI\LogOn.resx">
       <DependentUpon>LogOn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\MatchEntities.de.resx">
+      <DependentUpon>MatchEntities.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MatchEntities.resx">
       <DependentUpon>MatchEntities.cs</DependentUpon>
     </EmbeddedResource>

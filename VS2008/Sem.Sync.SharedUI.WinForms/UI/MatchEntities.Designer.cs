@@ -31,9 +31,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchEntities));
-            this.btnFinished = new System.Windows.Forms.Button();
-            this.btnMatch = new System.Windows.Forms.Button();
-            this.btnUnMatch = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.chkMatchedOnlySource = new System.Windows.Forms.CheckBox();
@@ -45,6 +42,9 @@
             this.dataGridTargetDetail = new System.Windows.Forms.DataGridView();
             this.dataGridTargetCandidates = new System.Windows.Forms.DataGridView();
             this.dataGridMatches = new System.Windows.Forms.DataGridView();
+            this.btnFinished = new System.Windows.Forms.Button();
+            this.btnMatch = new System.Windows.Forms.Button();
+            this.btnUnMatch = new System.Windows.Forms.Button();
             this.BtnAutoMatch = new System.Windows.Forms.Button();
             this.BtnUnmachtAll = new System.Windows.Forms.Button();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -59,27 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTargetCandidates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridMatches)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnFinished
-            // 
-            resources.ApplyResources(this.btnFinished, "btnFinished");
-            this.btnFinished.Name = "btnFinished";
-            this.btnFinished.UseVisualStyleBackColor = true;
-            this.btnFinished.Click += new System.EventHandler(this.BtnFinished_Click);
-            // 
-            // btnMatch
-            // 
-            resources.ApplyResources(this.btnMatch, "btnMatch");
-            this.btnMatch.Name = "btnMatch";
-            this.btnMatch.UseVisualStyleBackColor = true;
-            this.btnMatch.Click += new System.EventHandler(this.BtnMatch_Click);
-            // 
-            // btnUnMatch
-            // 
-            resources.ApplyResources(this.btnUnMatch, "btnUnMatch");
-            this.btnUnMatch.Name = "btnUnMatch";
-            this.btnUnMatch.UseVisualStyleBackColor = true;
-            this.btnUnMatch.Click += new System.EventHandler(this.BtnUnMatch_Click);
             // 
             // splitContainer2
             // 
@@ -195,6 +174,27 @@
             this.dataGridMatches.Name = "dataGridMatches";
             this.dataGridMatches.ReadOnly = true;
             this.dataGridMatches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            // 
+            // btnFinished
+            // 
+            resources.ApplyResources(this.btnFinished, "btnFinished");
+            this.btnFinished.Name = "btnFinished";
+            this.btnFinished.UseVisualStyleBackColor = true;
+            this.btnFinished.Click += new System.EventHandler(this.BtnFinished_Click);
+            // 
+            // btnMatch
+            // 
+            resources.ApplyResources(this.btnMatch, "btnMatch");
+            this.btnMatch.Name = "btnMatch";
+            this.btnMatch.UseVisualStyleBackColor = true;
+            this.btnMatch.Click += new System.EventHandler(this.BtnMatch_Click);
+            // 
+            // btnUnMatch
+            // 
+            resources.ApplyResources(this.btnUnMatch, "btnUnMatch");
+            this.btnUnMatch.Name = "btnUnMatch";
+            this.btnUnMatch.UseVisualStyleBackColor = true;
+            this.btnUnMatch.Click += new System.EventHandler(this.BtnUnMatch_Click);
             // 
             // BtnAutoMatch
             // 

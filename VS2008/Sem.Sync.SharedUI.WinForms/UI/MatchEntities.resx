@@ -118,101 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnFinished.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnFinished.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnFinished.Location" type="System.Drawing.Point, System.Drawing">
-    <value>648, 472</value>
-  </data>
-  <data name="btnFinished.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnFinished.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnFinished.Text" xml:space="preserve">
-    <value>&amp;finished</value>
-  </data>
-  <data name="&gt;&gt;btnFinished.Name" xml:space="preserve">
-    <value>btnFinished</value>
-  </data>
-  <data name="&gt;&gt;btnFinished.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnFinished.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnFinished.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="btnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnMatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>567, 472</value>
-  </data>
-  <data name="btnMatch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="btnMatch.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnMatch.Text" xml:space="preserve">
-    <value>&amp;match</value>
-  </data>
-  <data name="&gt;&gt;btnMatch.Name" xml:space="preserve">
-    <value>btnMatch</value>
-  </data>
-  <data name="&gt;&gt;btnMatch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnMatch.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnMatch.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="btnUnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnUnMatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnUnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>486, 472</value>
-  </data>
-  <data name="btnUnMatch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="btnUnMatch.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="btnUnMatch.Text" xml:space="preserve">
-    <value>&amp;unmatch</value>
-  </data>
-  <data name="&gt;&gt;btnUnMatch.Name" xml:space="preserve">
-    <value>btnUnMatch</value>
-  </data>
-  <data name="&gt;&gt;btnUnMatch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnUnMatch.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnUnMatch.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="splitContainer2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="splitContainer2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
@@ -231,6 +140,7 @@
   <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chkMatchedOnlySource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -278,7 +188,7 @@
     <value>SourceCardView</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.37132, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.38508, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -398,7 +308,7 @@
     <value>TargetCardView</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.37132, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.38508, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -556,6 +466,96 @@
   <data name="&gt;&gt;splitContainer2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="btnFinished.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnFinished.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnFinished.Location" type="System.Drawing.Point, System.Drawing">
+    <value>648, 472</value>
+  </data>
+  <data name="btnFinished.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnFinished.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnFinished.Text" xml:space="preserve">
+    <value>&amp;finished</value>
+  </data>
+  <data name="&gt;&gt;btnFinished.Name" xml:space="preserve">
+    <value>btnFinished</value>
+  </data>
+  <data name="&gt;&gt;btnFinished.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnFinished.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnFinished.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="btnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnMatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>567, 472</value>
+  </data>
+  <data name="btnMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnMatch.Text" xml:space="preserve">
+    <value>&amp;match</value>
+  </data>
+  <data name="&gt;&gt;btnMatch.Name" xml:space="preserve">
+    <value>btnMatch</value>
+  </data>
+  <data name="&gt;&gt;btnMatch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMatch.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnMatch.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnUnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnUnMatch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnUnMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>486, 472</value>
+  </data>
+  <data name="btnUnMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnUnMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnUnMatch.Text" xml:space="preserve">
+    <value>&amp;unmatch</value>
+  </data>
+  <data name="&gt;&gt;btnUnMatch.Name" xml:space="preserve">
+    <value>btnUnMatch</value>
+  </data>
+  <data name="&gt;&gt;btnUnMatch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnUnMatch.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnUnMatch.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="BtnAutoMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
@@ -626,7 +626,7 @@
     <value>735, 504</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>MatchEntries</value>
+    <value>Match Source to Target</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MatchEntities</value>
