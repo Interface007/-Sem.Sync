@@ -53,6 +53,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.InitializeComponent();
             this.dataGridTargetCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectTargetRow);
             this.dataGridSourceCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectSourceRow);
+            this.dataGridMatches.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectMatchesRow);
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
 
             this.matching.Profile = identifierToUse;
-            
+
             this.matching.Source = sourceList.ToContacts();
             this.matching.Target = targetList.ToContacts();
             this.matching.BaseLine = baselineList.ToMatchingEntries();
@@ -80,9 +81,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
-            return 
-                this.ShowDialog() != DialogResult.OK 
-                ? null 
+            return
+                this.ShowDialog() != DialogResult.OK
+                ? null
                 : this.matching.BaseLine.ToStdElement();
         }
 
@@ -206,6 +207,59 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             return false;
         }
 
+        private bool SelectMatchesRow(DataGridViewRow row)
+        {
+            if (row.Index == -1)
+            {
+                return false;
+            }
+
+            if (row.Index != this.dataGridMatches.CurrentCell.RowIndex)
+            {
+                this.dataGridMatches.CurrentCell = row.Cells[0];
+            }
+
+            var entry = (MatchView)row.DataBoundItem;
+            var entryId = entry.BaselineId;
+            var matchingEntry = this.matching.BaseLine.FirstOrDefault(x => x == null ? false : x.Id == entry.BaselineId);
+            if (matchingEntry == null)
+            {
+                return false;
+            }
+
+            var entryProfile = matchingEntry.ProfileId.GetProfileId(this.matching.Profile);
+
+            for (var i = 0; i < this.dataGridSourceCandidates.Rows.Count; i++)
+            {
+                var dataGridViewRow = this.dataGridSourceCandidates.Rows[i];
+                var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
+                if (sourceEntry.Element.PersonalProfileIdentifiers.GetProfileId(this.matching.Profile) != entryProfile) 
+                {
+                    continue;
+                }
+
+                dataGridViewRow.Selected = true;
+                this.SelectSourceRow(dataGridViewRow);
+                break;
+            }
+
+            for (var i = 0; i < this.dataGridTargetCandidates.Rows.Count; i++)
+            {
+                var dataGridViewRow = this.dataGridTargetCandidates.Rows[i];
+                var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
+                if (sourceEntry.Element.Id != entryId)
+                {
+                    continue;
+                }
+
+                dataGridViewRow.Selected = true;
+                this.SelectTargetRow(dataGridViewRow);
+                break;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Performs a general refresh of the GUI
         /// </summary>
@@ -216,7 +270,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             // determine display of already matched entities
             matchingInstance.FilterMatchedEntriesSource = this.chkMatchedOnlySource.Checked;
             matchingInstance.FilterMatchedEntriesTarget = this.chkMatchedOnlyTarget.Checked;
-            
+
             // rebind grids
             SetupCandidateGrid(this.dataGridMatches, matchingInstance.BaselineAsList());
             SetupCandidateGrid(this.dataGridTargetCandidates, matchingInstance.TargetAsList2());
@@ -229,8 +283,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.TargetCardView.Contact = null;
 
             // if there is a "last selected source row", select it if possible
-            if (this.lastSelectedSourceRow > 0 
-                && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount 
+            if (this.lastSelectedSourceRow > 0
+                && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount
                 && this.dataGridSourceCandidates.RowCount > 1)
             {
                 this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
@@ -334,6 +388,27 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
                 // perform the un-match
                 this.matching.UnMatch(((MatchView)this.dataGridMatches.SelectedRows[0].DataBoundItem).BaselineId);
+
+                // rebind the gui
+                this.SetupGui();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Handels the click event of the UnMatchAll button
+        /// </summary>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnUnMatchAll_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // perform the un-match
+                this.matching.UnMatchAll();
 
                 // rebind the gui
                 this.SetupGui();

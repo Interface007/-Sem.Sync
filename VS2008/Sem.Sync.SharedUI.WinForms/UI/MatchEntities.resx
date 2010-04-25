@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnFinished.Location" type="System.Drawing.Point, System.Drawing">
-    <value>648, 475</value>
+    <value>648, 472</value>
   </data>
   <data name="btnFinished.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnFinished.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="btnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -157,7 +157,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>567, 475</value>
+    <value>567, 472</value>
   </data>
   <data name="btnMatch.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -178,41 +178,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnMatch.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="chkMatchedOnlySource.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="chkMatchedOnlySource.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkMatchedOnlySource.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkMatchedOnlySource.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 480</value>
-  </data>
-  <data name="chkMatchedOnlySource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 17</value>
-  </data>
-  <data name="chkMatchedOnlySource.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="chkMatchedOnlySource.Text" xml:space="preserve">
-    <value>show &amp;only unmatched (source)
-</value>
-  </data>
-  <data name="&gt;&gt;chkMatchedOnlySource.Name" xml:space="preserve">
-    <value>chkMatchedOnlySource</value>
-  </data>
-  <data name="&gt;&gt;chkMatchedOnlySource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkMatchedOnlySource.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;chkMatchedOnlySource.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="btnUnMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -221,7 +187,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnUnMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>486, 475</value>
+    <value>486, 472</value>
   </data>
   <data name="btnUnMatch.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -242,7 +208,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnUnMatch.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="splitContainer2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -265,11 +231,42 @@
   <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <data name="chkMatchedOnlySource.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkMatchedOnlySource.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkMatchedOnlySource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 3</value>
+  </data>
+  <data name="chkMatchedOnlySource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 17</value>
+  </data>
+  <data name="chkMatchedOnlySource.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkMatchedOnlySource.Text" xml:space="preserve">
+    <value>show &amp;only unmatched (source)
+</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlySource.Name" xml:space="preserve">
+    <value>chkMatchedOnlySource</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlySource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlySource.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlySource.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="SourceCardView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="SourceCardView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 102</value>
+    <value>0, 100</value>
   </data>
   <data name="SourceCardView.Size" type="System.Drawing.Size, System.Drawing">
     <value>356, 192</value>
@@ -281,19 +278,19 @@
     <value>SourceCardView</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3762.30559, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.37132, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;SourceCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;SourceCardView.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="dataGridSourceDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridSourceDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 150</value>
+    <value>0, 148</value>
   </data>
   <data name="dataGridSourceDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>356, 144</value>
@@ -311,16 +308,16 @@
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;dataGridSourceDetail.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="dataGridSourceCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="dataGridSourceCandidates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 26</value>
   </data>
   <data name="dataGridSourceCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 96</value>
+    <value>356, 68</value>
   </data>
   <data name="dataGridSourceCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -335,7 +332,7 @@
     <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;dataGridSourceCandidates.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -349,11 +346,47 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="chkMatchedOnlyTarget.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Location" type="System.Drawing.Point, System.Drawing">
+    <value>186, 3</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 17</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkMatchedOnlyTarget.Text" xml:space="preserve">
+    <value>show &amp;only unmatched (target)</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Name" xml:space="preserve">
+    <value>chkMatchedOnlyTarget</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;chkMatchedOnlyTarget.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="TargetCardView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="TargetCardView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 102</value>
+    <value>0, 100</value>
   </data>
   <data name="TargetCardView.Size" type="System.Drawing.Size, System.Drawing">
     <value>351, 192</value>
@@ -365,19 +398,19 @@
     <value>TargetCardView</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Type" xml:space="preserve">
-    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3762.30559, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sem.Sync.SharedUI.WinForms.Controls.ContactCardView, Sem.Sync.SharedUI.WinForms, Version=2010.328.3766.37132, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TargetCardView.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TargetCardView.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="dataGridTargetDetail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="dataGridTargetDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 150</value>
+    <value>0, 148</value>
   </data>
   <data name="dataGridTargetDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>351, 145</value>
@@ -395,16 +428,16 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;dataGridTargetDetail.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="dataGridTargetCandidates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="dataGridTargetCandidates.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 26</value>
   </data>
   <data name="dataGridTargetCandidates.Size" type="System.Drawing.Size, System.Drawing">
-    <value>351, 96</value>
+    <value>351, 68</value>
   </data>
   <data name="dataGridTargetCandidates.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -419,7 +452,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;dataGridTargetCandidates.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -434,7 +467,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>711, 294</value>
+    <value>711, 292</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>356</value>
@@ -473,7 +506,7 @@
     <value>0, 0</value>
   </data>
   <data name="dataGridMatches.Size" type="System.Drawing.Size, System.Drawing">
-    <value>711, 159</value>
+    <value>711, 158</value>
   </data>
   <data name="dataGridMatches.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -503,10 +536,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>711, 457</value>
+    <value>711, 454</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>294</value>
+    <value>292</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -530,7 +563,7 @@
     <value>NoControl</value>
   </data>
   <data name="BtnAutoMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>405, 475</value>
+    <value>324, 472</value>
   </data>
   <data name="BtnAutoMatch.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -551,40 +584,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnAutoMatch.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
-  <data name="chkMatchedOnlyTarget.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+  <data name="BtnUnmachtAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
-  <data name="chkMatchedOnlyTarget.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkMatchedOnlyTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="BtnUnmachtAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkMatchedOnlyTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 480</value>
+  <data name="BtnUnmachtAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 472</value>
   </data>
-  <data name="chkMatchedOnlyTarget.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 17</value>
+  <data name="BtnUnmachtAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
-  <data name="chkMatchedOnlyTarget.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="BtnUnmachtAll.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="chkMatchedOnlyTarget.Text" xml:space="preserve">
-    <value>show &amp;only unmatched (target)</value>
+  <data name="BtnUnmachtAll.Text" xml:space="preserve">
+    <value>unma&amp;tch all</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnlyTarget.Name" xml:space="preserve">
-    <value>chkMatchedOnlyTarget</value>
+  <data name="&gt;&gt;BtnUnmachtAll.Name" xml:space="preserve">
+    <value>BtnUnmachtAll</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnlyTarget.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;BtnUnmachtAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnlyTarget.Parent" xml:space="preserve">
+  <data name="&gt;&gt;BtnUnmachtAll.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;chkMatchedOnlyTarget.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;BtnUnmachtAll.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -593,7 +623,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>735, 510</value>
+    <value>735, 504</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>MatchEntries</value>

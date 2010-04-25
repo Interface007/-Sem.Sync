@@ -159,7 +159,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         }
 
         /// <summary>
-        /// Returns a filtered (if <see cref="FilterMatchedEntries"/> is true) list of
+        /// Returns a filtered (if <see cref="FilterMatchedEntriesSource"/> is true) list of
         /// view entities for the source list <see cref="Source"/>
         /// </summary>
         /// <returns> A bindable list of view entities </returns>
@@ -187,7 +187,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         }
 
         /// <summary>
-        /// Returns a filtered (if <see cref="FilterMatchedEntries"/> is true) list of
+        /// Returns a filtered (if <see cref="FilterMatchedEntriesTarget"/> is true) list of
         /// view entities for the source list <see cref="Source"/>
         /// </summary>
         /// <returns> A bindable list of view entities </returns>
@@ -208,7 +208,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
             var profileType = this.Profile;
 
-            BaseLine.ForEach(
+            this.BaseLine.ForEach(
                 x =>
                 {
                     var id = x.ProfileId.GetProfileId(profileType);
@@ -241,14 +241,17 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                 return result;
             }
 
-            BaseLine.ForEach(
+            this.BaseLine.ForEach(
                 x =>
                     {
                         var id = x.Id;
                         var entries = (from y in result where y.Element.Id == id select y).ToList();
                         foreach (var entry in entries)
                         {
-                            result.Remove(entry);
+                            if (x.ProfileId.GetProfileId(this.Profile) != null)
+                            {
+                                result.Remove(entry);
+                            }
                         }
                     });
 
@@ -365,6 +368,19 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                 this.CurrentTargetElement = targetItem;
                 this.Match();
             }
+        }
+
+        /// <summary>
+        /// Performs a match for all source entities. The match may fail for some entities, so it can be incomplete.
+        /// <para>Matching is performed by one of the following conditions:
+        /// <list type="bullets">
+        ///     <item>One matching profile-id</item>
+        ///     <item>matching first, middle and last name + matching personal or business address </item>
+        /// </list></para>
+        /// </summary>
+        internal void UnMatchAll()
+        {
+            this.BaseLine.ForEach(x => x.ProfileId.Remove(this.Profile));
         }
 
         /// <summary>
