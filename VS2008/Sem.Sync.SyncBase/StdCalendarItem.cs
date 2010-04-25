@@ -119,8 +119,15 @@ namespace Sem.Sync.SyncBase
         /// </exception>
         public override void NormalizeContent()
         {
-            this.Description = this.Description.Trim();
-            this.Title = this.Title.Trim();
+            if (!string.IsNullOrEmpty(this.Description))
+            {
+                this.Description = this.Description.Trim();
+            }
+
+            if (!string.IsNullOrEmpty(this.Title))
+            {
+                this.Title = this.Title.Trim();
+            }
         }
     }
 }

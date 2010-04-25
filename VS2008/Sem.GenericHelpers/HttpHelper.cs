@@ -747,7 +747,6 @@ namespace Sem.GenericHelpers
                 }
                 catch (WebException ex)
                 {
-
                     if ((this.UiDispatcher != null) && ex.Response != null &&
                         ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
                     {
@@ -958,11 +957,8 @@ namespace Sem.GenericHelpers
                 return;
             }
 
-            var cookieList = new List<KeyValuePair>();
-            foreach (Cookie cookie in this.sessionCookies.GetCookies(url))
-            {
-                cookieList.Add(new KeyValuePair(cookie.Name, cookie.Value));
-            }
+            var cookieList = (from Cookie cookie in this.sessionCookies.GetCookies(url)
+                              select new KeyValuePair(cookie.Name, cookie.Value)).ToList();
 
             var cacheItem = new ResponseCacheItem
                 {

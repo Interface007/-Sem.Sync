@@ -80,8 +80,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
-            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => DataContext.OpenWorkingFolder();
-            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => DataContext.OpenExceptionFolder();
+            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
+            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenExceptionFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
@@ -356,6 +356,21 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 textBox.Text = this.openFileDialog1.FileName;
             }
+        }
+
+        /// <summary>
+        /// handels the menu click event
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The event parameters. </param>
+        private void SwitchToCalendarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new SyncWizard
+                    {
+                        DataContext = new SyncWizardContext(typeof(StdCalendarItem), this.DataContext.UiProvider)
+                    };
+
+            form.Show();
         }
     }
 }

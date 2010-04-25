@@ -65,6 +65,9 @@ namespace Sem.Sync.SharedUI.Common
         /// </summary>
         private string currentSyncWorkflowData;
 
+        /// <summary>
+        /// holds the type of entities this class should handle
+        /// </summary>
         private Type entityType;
 
         /// <summary>
@@ -188,6 +191,11 @@ namespace Sem.Sync.SharedUI.Common
         /// Gets or sets a value indicating whether the execution of a template is locked.
         /// </summary>
         public bool Locked { get; set; }
+
+        /// <summary>
+        /// Gets or sets the UiProvider that will handle the ui interaction.
+        /// </summary>
+        public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Opens the current working folder using the explorer
@@ -365,8 +373,6 @@ namespace Sem.Sync.SharedUI.Common
                 this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 });
             }
         }
-
-        protected IUiInteraction UiProvider { get; set; }
 
         /// <summary>
         /// Generates sample data - not yet completed

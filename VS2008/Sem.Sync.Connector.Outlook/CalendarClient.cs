@@ -26,11 +26,11 @@ namespace Sem.Sync.Connector.Outlook
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
-    [ConnectorDescription(DisplayName = "Outlook Calendar Connector",
+    [ConnectorDescription(DisplayName = "Outlook Calendar Connector 2007",
         CanReadContacts = false,
         CanWriteContacts = false,
         CanReadCalendarEntries = true,
-        CanWriteCalendarEntries = false)]
+        CanWriteCalendarEntries = true)]
     public class CalendarClient : StdClient
     {
         /// <summary>

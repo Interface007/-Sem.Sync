@@ -40,7 +40,11 @@ namespace Sem.Sync.Connector.Filesystem
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Elements.xml",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    [ConnectorDescription(DisplayName = "Filesystem generic client", IsGeneric = true)]
+    [ConnectorDescription(
+        DisplayName = "Filesystem generic client", 
+        IsGeneric = true,
+        CanReadCalendarEntries = true,
+        CanWriteCalendarEntries = true)]
     public class GenericClient<T> : StdClient, IBackupStorage where T : StdElement
     {
         /// <summary>
