@@ -64,29 +64,41 @@ namespace Sem.Sync.Connector.Outlook
                                       select a;
 
                 AppointmentItem lastItem = null;
-                foreach (var item in outlookItemList)
+                var lastPersonName = string.Empty;
+                foreach (var item in outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm")))
                 {
-                    currentElementName = item.Subject;
+                    var subject = item.Subject;
+
+                    var personName =
+                            string.IsNullOrEmpty(subject)
+                            ? string.Empty
+                            : subject.StartsWith("Geburtstag von ", StringComparison.OrdinalIgnoreCase)
+                            ? subject.Substring(15)
+                            : subject.EndsWith("'s Birthday", StringComparison.OrdinalIgnoreCase)
+                            ? subject.Substring(0, subject.Length - 11)
+                            : string.Empty;
 
                     if (lastItem != null)
                     {
                         var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
                         LogProcessingEvent(stdItem, "comparing ...");
 
-                        if (lastItem.Subject == item.Subject
-                            && lastItem.Start == item.Start
-                            && lastItem.Body == item.Body &&
-                            (item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase) ||
-                             item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
+                        if (!string.IsNullOrEmpty(personName))
                         {
-                            LogProcessingEvent(stdItem, "removing ...");
+                            if (lastPersonName == personName
+                                && lastItem.Start == item.Start
+                                && lastItem.Body == item.Body)
+                            {
+                                LogProcessingEvent(stdItem, "removing ...");
 
-                            item.Delete();
-                            continue;
+                                item.Delete();
+                                continue;
+                            }
                         }
                     }
 
                     lastItem = item;
+                    lastPersonName = personName;
                 }
             }
             catch (System.Exception ex)
