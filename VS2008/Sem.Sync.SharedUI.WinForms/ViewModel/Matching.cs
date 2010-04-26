@@ -136,7 +136,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             }
 
             var targetId = this.currentTargetElement.Id;
-            var sourceProfileId = this.currentSourceElement.PersonalProfileIdentifiers.GetProfileId(this.Profile);
+            var sourceProfileId = this.currentSourceElement.ExternalIdentifier.GetProfileId(this.Profile);
 
             // search for the element to match and set the profile id
             var element = this.GetBaselineElementById(targetId);
@@ -149,13 +149,13 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             element.ProfileId.SetProfileId(this.Profile, sourceProfileId);
 
             // check if there is a profile class for the target element
-            if (this.currentTargetElement.PersonalProfileIdentifiers == null)
+            if (this.currentTargetElement.ExternalIdentifier == null)
             {
-                this.currentTargetElement.PersonalProfileIdentifiers = new ProfileIdentifiers();
+                this.currentTargetElement.ExternalIdentifier = new ProfileIdentifiers();
             }
 
             // set the profile id for the target element, too
-            this.currentTargetElement.PersonalProfileIdentifiers.SetProfileId(this.Profile, sourceProfileId);
+            this.currentTargetElement.ExternalIdentifier.SetProfileId(this.Profile, sourceProfileId);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             return this.FilterMatchedEntriesSource
                 ? (from s in this.Source
                    join b in this.BaseLine on
-                   s.PersonalProfileIdentifiers equals b.ProfileId into g
+                   s.ExternalIdentifier equals b.ProfileId into g
                    from y in g.DefaultIfEmpty()
                    where y == null
                    select
@@ -212,7 +212,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                 x =>
                 {
                     var id = x.ProfileId.GetProfileId(profileType);
-                    var entries = (from y in result where y.Element.PersonalProfileIdentifiers.GetProfileId(profileType) == id select y).ToList();
+                    var entries = (from y in result where y.Element.ExternalIdentifier.GetProfileId(profileType) == id select y).ToList();
                     foreach (var entry in entries)
                     {
                         result.Remove(entry);
@@ -296,7 +296,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             var profileIdentifierType = this.Profile;
 
             var result = (from b in this.BaseLine 
-                          join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals s.PersonalProfileIdentifiers.GetProfileId(profileIdentifierType)
+                          join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals s.ExternalIdentifier.GetProfileId(profileIdentifierType)
                           join t in this.Target on b.Id equals t.Id
                           select new MatchView
                                      {
@@ -342,9 +342,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             foreach (var sourceItem in this.Source)
             {
-                var ppi = sourceItem.PersonalProfileIdentifiers;
+                var ppi = sourceItem.ExternalIdentifier;
                 var targetItem = (from x in this.Target
-                                  where x.PersonalProfileIdentifiers.Equals(ppi)
+                                  where x.ExternalIdentifier.Equals(ppi)
                                   select x).FirstOrDefault();
 
                 if (targetItem == null)

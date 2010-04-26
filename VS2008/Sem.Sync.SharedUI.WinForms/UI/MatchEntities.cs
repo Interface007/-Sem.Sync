@@ -233,7 +233,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             {
                 var dataGridViewRow = this.dataGridSourceCandidates.Rows[i];
                 var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
-                if (sourceEntry.Element.PersonalProfileIdentifiers.GetProfileId(this.matching.Profile) != entryProfile) 
+                if (sourceEntry.Element.ExternalIdentifier.GetProfileId(this.matching.Profile) != entryProfile) 
                 {
                     continue;
                 }

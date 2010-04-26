@@ -4,6 +4,8 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
+using System.Collections.Generic;
+
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -36,6 +38,12 @@ namespace Sem.Sync.SyncBase
         [ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public SyncData InternalSyncData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
+        public ProfileIdentifiers ExternalIdentifier { get; set; }
+        
         /// <summary>
         /// compares two entities
         /// </summary>

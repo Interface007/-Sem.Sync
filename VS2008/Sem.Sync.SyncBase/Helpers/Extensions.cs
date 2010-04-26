@@ -384,7 +384,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         e = new StdContact
                             {
                                 Id = element.Id,
-                                PersonalProfileIdentifiers = m.ProfileId
+                                ExternalIdentifier = m.ProfileId
                             };
                     }
                 }

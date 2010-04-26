@@ -89,5 +89,6 @@ namespace Sem.Sync.SyncBase.DetailData
         /// any unspecific eMail address
         /// </summary>
         GenericEMail,
+        MicrosoftOutlookId
     }
 }

@@ -34,7 +34,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// </returns>
         public override string ToString()
         {
-            return this.ContactName + " - profiles: " + this.Element.PersonalProfileIdentifiers;
+            return this.ContactName + " - profiles: " + this.Element.ExternalIdentifier;
         }
     }
 }

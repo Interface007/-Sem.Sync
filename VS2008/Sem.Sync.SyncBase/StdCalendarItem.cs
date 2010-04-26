@@ -22,7 +22,7 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public StdCalendarItem()
         {
-            this.ExternalIdentifier = new List<CalendarIdentifier>();
+            this.ExternalIdentifier = new ProfileIdentifiers();
         }
 
         /// <summary>
@@ -96,12 +96,6 @@ namespace Sem.Sync.SyncBase
         /// Gets or sets the timespan when a riminder should be shown to the user.
         /// </summary>
         public TimeSpan ReminderBeforeStart { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
-        public List<CalendarIdentifier> ExternalIdentifier { get; set; }
 
         /// <summary>
         /// Returns a meaningful string representation for this object

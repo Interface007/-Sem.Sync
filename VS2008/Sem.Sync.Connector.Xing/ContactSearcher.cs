@@ -62,7 +62,7 @@ namespace Sem.Sync.Connector.Xing
 
             foreach (StdContact element in listToScan)
             {
-                if (!string.IsNullOrEmpty(element.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.XingNameProfileId))
+                if (!string.IsNullOrEmpty(element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.XingNameProfileId))
                     || string.IsNullOrEmpty(element.Name.LastName))
                 {
                     continue;

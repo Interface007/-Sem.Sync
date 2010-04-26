@@ -143,8 +143,8 @@ namespace Sem.Sync.ChangeTracker
 
                     var contactsToCompare = from s in sourceList
                                             join t in baselineList
-                                                on s.PersonalProfileIdentifiers
-                                                equals t.PersonalProfileIdentifiers
+                                                on s.ExternalIdentifier
+                                                equals t.ExternalIdentifier
                                             select new
                                                 {
                                                     source = s,

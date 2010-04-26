@@ -160,7 +160,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 AdditionalTextData = GetPropString(searchItem.Properties, "info"),               
             };
 
-            result.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
+            result.ExternalIdentifier.SetProfileId(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
 
             return result;
         }
@@ -319,8 +319,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             var existing =
                 from x in result
-                where ((StdContact)x).PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
-                      newContact.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
+                where ((StdContact)x).ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
+                      newContact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
                 select x;
 
             if (existing.Count() != 0)

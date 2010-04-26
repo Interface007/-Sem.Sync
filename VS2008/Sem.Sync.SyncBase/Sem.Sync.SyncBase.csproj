@@ -162,7 +162,6 @@
     <Compile Include="Interfaces\ISyncCommand.cs" />
     <Compile Include="Commands\MatchManually.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />
-    <Compile Include="DetailData\CalendarIdentifier.cs" />
     <Compile Include="DetailData\MatchingEntry.cs" />
     <Compile Include="DetailData\ReplacementLists.cs" />
     <Compile Include="GlobalSuppressions.cs" />

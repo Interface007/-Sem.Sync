@@ -485,7 +485,7 @@ namespace Sem.Sync.SyncBase
                 listEntry = (from entry in list
                              where
                              entry.Id == element.Id
-                             || ((StdContact)entry).PersonalProfileIdentifiers.Equals(asContact.PersonalProfileIdentifiers)
+                             || ((StdContact)entry).ExternalIdentifier.Equals(asContact.ExternalIdentifier)
                              select entry).FirstOrDefault();
             }
             else

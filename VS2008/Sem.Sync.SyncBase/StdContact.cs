@@ -51,12 +51,12 @@ namespace Sem.Sync.SyncBase
             {
                 base.Id = value;
                 
-                if (this.PersonalProfileIdentifiers == null)
+                if (this.ExternalIdentifier == null)
                 {
-                    this.PersonalProfileIdentifiers = new ProfileIdentifiers();
+                    this.ExternalIdentifier = new ProfileIdentifiers();
                 }
 
-                this.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
+                this.ExternalIdentifier.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
             }
         }
 
@@ -117,12 +117,6 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public InstantMessengerAddresses PersonalInstantMessengerAddresses { get; set; }
-
-        /// <summary>
-        /// Gets or sets a list of identifiers for different information stored like active directory, social networking sited or similar
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This class will be used in XML-Serialization, what means that a ReadOnly property will add a bunch of complexity.")]
-        public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
 
         /////// <summary>
         /////// Gets or sets ProfileIdentifier.

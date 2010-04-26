@@ -311,7 +311,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "UID":
-                        contact.PersonalProfileIdentifiers.SetProfileId(useIndetifierAs, value);
+                        contact.ExternalIdentifier.SetProfileId(useIndetifierAs, value);
                         break;
 
                     case "X-MATZEN-STDUID":

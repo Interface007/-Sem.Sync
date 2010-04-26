@@ -66,7 +66,7 @@ namespace Sem.Sync.Test.DataGenerator
                             {
                                 Name = new PersonName("Kati Katze"),
                                 Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
-                                PersonalProfileIdentifiers =
+                                ExternalIdentifier =
                                     new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
                                 PersonalAddressPrimary =
                                     new AddressDetail(
@@ -535,17 +535,17 @@ namespace Sem.Sync.Test.DataGenerator
                         new StdContact
                             {
                                 Name = "matchable1",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
                             },
                         new StdContact
                             {
                                 Name = "matchable2",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
                             },
                         new StdContact
                             {
                                 Name = "unmatchable",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
                             },
                     });
         }
@@ -606,7 +606,7 @@ namespace Sem.Sync.Test.DataGenerator
                              {
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
-                                 PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
+                                 ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
                              };
             return result;
         }
