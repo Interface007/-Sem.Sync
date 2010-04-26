@@ -74,7 +74,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// credentials for the proxy server
         /// </summary>
-        private readonly ICredentialAware proxyCredentials = new Credentials();
+        private ICredentialAware proxyCredentials = new Credentials();
 
         #endregion
 
@@ -737,12 +737,18 @@ namespace Sem.GenericHelpers
             HttpWebResponse objResponse;
             var request = this.CreateRequest(url, "GET", referer);
 
+            var logonCredentialRequest = new LogonCredentialRequest(
+                            this.proxyCredentials,
+                            string.Format(CultureInfo.CurrentCulture, Properties.Resources.TheProxyServerNeedsYourCredentials, url.Host, request.Proxy.GetProxy(url).Host),
+                            request.Proxy.GetProxy(url).Host);
+
             while (true)
             {
                 try
                 {
                     objResponse = (HttpWebResponse)request.GetResponse();
                     encoding = objResponse.CharacterSet;
+                    logonCredentialRequest.SaveCredentials();
                     break;
                 }
                 catch (WebException ex)
@@ -752,24 +758,22 @@ namespace Sem.GenericHelpers
                     {
                         request = this.CreateRequest(url, "GET", referer);
 
-                        if (this.UiDispatcher.AskForLogOnCredentials(
-                            this.proxyCredentials,
-                            string.Format(CultureInfo.CurrentCulture, Properties.Resources.TheProxyServerNeedsYourCredentials, url.Host, request.Proxy.GetProxy(url).Host),
-                            this.proxyCredentials.LogOnUserId,
-                            this.proxyCredentials.LogOnPassword))
+                        if (this.UiDispatcher.AskForLogOnCredentials(logonCredentialRequest))
                         {
-                            if (string.IsNullOrEmpty(this.proxyCredentials.LogOnDomain))
+                            this.proxyCredentials = logonCredentialRequest.LogOnCredentials;
+
+                            if (string.IsNullOrEmpty(logonCredentialRequest.LogOnCredentials.LogOnDomain))
                             {
                                 request.Proxy.Credentials = new NetworkCredential(
-                                    this.proxyCredentials.LogOnUserId,
-                                    this.proxyCredentials.LogOnPassword);
+                                    logonCredentialRequest.LogOnCredentials.LogOnUserId,
+                                    logonCredentialRequest.LogOnCredentials.LogOnPassword);
                             }
                             else
                             {
                                 request.Proxy.Credentials = new NetworkCredential(
-                                    this.proxyCredentials.LogOnUserId,
-                                    this.proxyCredentials.LogOnPassword,
-                                    this.proxyCredentials.LogOnDomain);
+                                    logonCredentialRequest.LogOnCredentials.LogOnUserId,
+                                    logonCredentialRequest.LogOnCredentials.LogOnPassword,
+                                    logonCredentialRequest.LogOnCredentials.LogOnDomain);
                             }
                         }
                         else

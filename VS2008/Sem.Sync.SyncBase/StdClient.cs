@@ -12,12 +12,12 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    
+
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
     using Sem.GenericHelpers.EventArgs;
     using Sem.GenericHelpers.Interfaces;
-    
+
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Interfaces;
@@ -88,7 +88,7 @@ namespace Sem.Sync.SyncBase
                 return this.GetType().Name;
             }
         }
-        
+
         /// <summary>
         /// virtual method that should be (optionally) implemented by the client to remove duplicate entities
         /// </summary>
@@ -272,7 +272,7 @@ namespace Sem.Sync.SyncBase
                 elements.Remove(element);
             }
         }
-        
+
         /// <summary>
         /// Extracts the column definition file name of a multi line parameter
         /// </summary>
@@ -318,7 +318,8 @@ namespace Sem.Sync.SyncBase
         {
             if (this.UiDispatcher != null)
             {
-                this.UiDispatcher.AskForLogOnCredentials(this, message, this.LogOnUserId, this.LogOnPassword);
+                var logonCredentialRequest = new LogonCredentialRequest(this, message, message);
+                this.UiDispatcher.AskForLogOnCredentials(logonCredentialRequest);
                 return;
             }
 
@@ -490,9 +491,9 @@ namespace Sem.Sync.SyncBase
             }
             else
             {
-                listEntry = (from entry in list 
+                listEntry = (from entry in list
                              where
-                             entry.Id == element.Id 
+                             entry.Id == element.Id
                              select entry).FirstOrDefault();
             }
 

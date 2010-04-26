@@ -37,6 +37,7 @@
             this.UserMessage = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.chkAllowSaving = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -81,12 +82,19 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // LogOnGui
+            // chkAllowSaving
+            // 
+            resources.ApplyResources(this.chkAllowSaving, "chkAllowSaving");
+            this.chkAllowSaving.Name = "chkAllowSaving";
+            this.chkAllowSaving.UseVisualStyleBackColor = true;
+            // 
+            // LogOn
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
+            this.Controls.Add(this.chkAllowSaving);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.UserMessage);
@@ -94,7 +102,7 @@
             this.Controls.Add(this.textBoxUserId);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "LogOnGui";
+            this.Name = "LogOn";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,5 +117,6 @@
         private System.Windows.Forms.Label UserMessage;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.CheckBox chkAllowSaving;
     }
 }

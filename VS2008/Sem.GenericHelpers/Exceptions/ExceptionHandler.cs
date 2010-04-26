@@ -395,11 +395,12 @@ namespace Sem.GenericHelpers.Exceptions
                     var proxyCredentials = new Entities.Credentials();
                     var wp = System.Net.WebRequest.DefaultWebProxy;
 
-                    if (UserInterface.AskForLogOnCredentials(
-                            proxyCredentials,
-                            string.Format(CultureInfo.CurrentCulture, "The proxy server needs your credentials to receive content from {0}.", sender.InnerChannel.RemoteAddress.Uri),
-                            string.Empty,
-                            string.Empty))
+                    var logonCredentialRequest = new LogonCredentialRequest(
+                        proxyCredentials,
+                        string.Format(CultureInfo.CurrentCulture, "The proxy server needs your credentials to receive content from {0}.", sender.InnerChannel.RemoteAddress.Uri),
+                        sender.InnerChannel.RemoteAddress.Uri.ToString());
+
+                    if (UserInterface.AskForLogOnCredentials(logonCredentialRequest))
                     {
                         if (string.IsNullOrEmpty(proxyCredentials.LogOnDomain))
                         {
@@ -416,6 +417,8 @@ namespace Sem.GenericHelpers.Exceptions
                         }
 
                         sender.WriteExceptionData(content);
+
+                        logonCredentialRequest.SaveCredentials();
                     }
 
                     return;

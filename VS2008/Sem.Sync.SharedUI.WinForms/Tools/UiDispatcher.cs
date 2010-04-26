@@ -9,13 +9,13 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Forms;
 
     using GenericHelpers.Entities;
-    using GenericHelpers.Interfaces;
+
+    using Sem.GenericHelpers;
 
     using SyncBase;
     using SyncBase.DetailData;
@@ -60,14 +60,11 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// <summary>
         /// requests the logon credential request for an online resource
         /// </summary>
-        /// <param name="client">the object that asks for the credentials</param>
-        /// <param name="messageForUser">the message the user will see</param>
-        /// <param name="logOnUserId">the preset user id if applicable</param>
-        /// <param name="logOnPassword">the preset user password if applicable</param>
+        /// <param name="request">an object containing all information to request the credentiols from the user and pass them back to the callee</param>
         /// <returns>true if the user did click the ok button</returns>
-        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool AskForLogOnCredentials(LogonCredentialRequest request)
         {
-            return new LogOn().SetLogonCredentials(client, messageForUser, logOnUserId, logOnPassword);
+            return new LogOn().SetLogonCredentials(request);
         }
 
         /// <summary>

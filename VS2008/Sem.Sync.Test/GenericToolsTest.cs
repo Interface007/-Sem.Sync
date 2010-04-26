@@ -104,7 +104,7 @@ namespace Sem.Sync.Test
             var testData = Contacts.GetStandardContactList(true);
 
             Assert.AreEqual(testData[2].Name.FirstName, Tools.GetPropertyValueString(testData[2], "Name.FirstName"));
-            Assert.AreEqual(testData[2].ExternalIdentifier.GetProfileId(ProfileIdentifierType.Default).ToString(), Tools.GetPropertyValueString(testData, "[2].PersonalProfileIdentifiers.[Default]"));
+            Assert.AreEqual(testData[2].ExternalIdentifier.GetProfileId(ProfileIdentifierType.Default).ToString(), Tools.GetPropertyValueString(testData, "[2].ExternalIdentifier.[Default]"));
 
             var testClass = new
                 {
