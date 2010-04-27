@@ -32,7 +32,6 @@ namespace Sem.Sync.SyncBase.Commands
         /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
         public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
         {
-            // todo: this is currently specific to StdContact-elements, so we need to generalize it.
             if (targetClient == null)
             {
                 throw new InvalidOperationException("item.targetClient is null");
@@ -54,14 +53,22 @@ namespace Sem.Sync.SyncBase.Commands
             }
 
             var targetList = targetClient.GetAll(targetStorePath);
+            var sourceList = sourceClient.GetAll(sourceStorePath);
+            var type = 
+                  targetList.Count > 0
+                ? targetList[0].GetType()
+                : sourceList.Count > 0
+                ? sourceList[0].GetType()
+                : typeof(StdElement);
+
             var mergeResultList =
                 ((IUiSyncInteraction)this.UiProvider).PerformAttributeMerge(
                     SyncTools.DetectConflicts(
                         SyncTools.BuildConflictTestContainerList(
-                            sourceClient.GetAll(sourceStorePath),
+                            sourceList,
                             targetList,
                             (baseliClient == null) ? null : baseliClient.GetAll(baselineStorePath),
-                            typeof(StdContact)),
+                            type),
                         true),
                     targetList);
 

@@ -27,6 +27,11 @@ namespace Sem.GenericHelpers
             var invocationExpression = (MethodCallExpression)base.VisitMethodCall(originalExpression);
             var argument = invocationExpression.Object;
 
+            if (argument == null)
+            {
+                return invocationExpression;
+            }
+            
             Expression nullTest = Expression.Equal(
                 argument,
                 Expression.Constant(null, argument.Type));
