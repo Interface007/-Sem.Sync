@@ -108,6 +108,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
                                           "LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
                     this.AddContactsFromAdFilter(clientFolderName, result, entry);
+
+                    break;
                 }
                 catch (DirectoryServicesCOMException ex)
                 {
