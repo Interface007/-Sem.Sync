@@ -1,13 +1,13 @@
-﻿namespace Sem.Sync.Test.Ui
+﻿
+namespace Sem.Sync.Test.Ui
 {
     using DataGenerator;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using SharedUI.WinForms.ViewModel;
-
-    using SyncBase.DetailData;
-
+    using Sem.Sync.SharedUI.WinForms.ViewModel;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
+    
     /// <summary>
     /// Test the matching logic of the winforms matching UI
     /// </summary>
@@ -29,8 +29,8 @@
         {
             var business = new Matching
                                {
-                                   Source = Contacts.GetMatchingSource(),
-                                   Target = Contacts.GetMatchingTarget(),
+                                   Source = Contacts.GetMatchingSource().ToStdElement(),
+                                   Target = Contacts.GetMatchingTarget().ToStdElement(),
                                    BaseLine = Contacts.GetMatchingBaseline(),
                                    FilterMatchedEntriesSource = true,
                                    FilterMatchedEntriesTarget = true,
@@ -57,7 +57,7 @@
             Assert.IsFalse(business.TargetAsList().Exist("Unmatched"));
             Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan"));
 
-            Assert.IsTrue(business.BaselineAsList().Exist(business.Target.GetByXingId("Unmatched").Id));
+            Assert.IsTrue(business.BaselineAsList().Exist(business.Target.ToContacts().GetByXingId("Unmatched").Id));
         }
     }
 }

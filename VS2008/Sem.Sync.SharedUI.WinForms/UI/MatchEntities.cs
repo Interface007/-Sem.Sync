@@ -23,8 +23,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     /// <summary>
     /// This form perfoms an entity merge. The method <see cref="PerformMatch"/> accepts a source, target and baseline list of <see cref="StdElement"/>.
-    /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdContact.PersonalProfileIdentifiers"/> and
-    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdContact.PersonalProfileIdentifiers"/> from the source and 
+    /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdElement.ExternalIdentifier"/> and
+    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdContact.ExternalIdentifier"/> from the source and 
     /// <see cref="StdContact.Id"/> of the target are stored inside the baseline.
     /// </summary>
     public partial class MatchEntities : Form
@@ -73,8 +73,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             this.matching.Profile = identifierToUse;
 
-            this.matching.Source = sourceList.ToContacts();
-            this.matching.Target = targetList.ToContacts();
+            this.matching.Source = sourceList;
+            this.matching.Target = targetList;
             this.matching.BaseLine = baselineList.ToMatchingEntries();
 
             this.SetupGui();
@@ -157,7 +157,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentSourceElement = element;
-            this.SourceCardView.Contact = element;
+            var stdContact = element as StdContact;
+            this.SourceCardView.Contact = stdContact;
+            this.SourceCardView.Visible = stdContact != null;
 
             this.dataGridSourceDetail.DataSource = this.matching.CurrentSourceProperties();
             this.dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -198,7 +200,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentTargetElement = element;
-            this.TargetCardView.Contact = element;
+            var stdContact = element as StdContact;
+            this.TargetCardView.Contact = stdContact;
+            this.TargetCardView.Visible = stdContact != null;
 
             this.dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
             this.dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;

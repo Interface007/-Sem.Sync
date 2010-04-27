@@ -7,6 +7,7 @@
 //   Defines the Matching type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using System;
@@ -15,8 +16,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
     using GenericHelpers.Entities;
 
-    using SyncBase;
-    using SyncBase.DetailData;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// this might be better hosted in a more generic library
@@ -26,22 +28,22 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <summary>
         /// Reference to the currently active source contact for the call to <see cref="Match"/>.
         /// </summary>
-        private StdContact currentSourceElement;
+        private StdElement currentSourceElement;
 
         /// <summary>
         /// Reference to the currently active target contact for the call to <see cref="Match"/>.
         /// </summary>
-        private StdContact currentTargetElement;
+        private StdElement currentTargetElement;
 
         /// <summary>
         /// Gets or sets the source list for matching. This is the list of <see cref="StdContact"/> entries that have been read.
         /// </summary>
-        public List<StdContact> Source { get; set; }
+        public List<StdElement> Source { get; set; }
 
         /// <summary>
         /// Gets or sets the target list for matching. This is the list of <see cref="StdContact"/> entries that will be written to.
         /// </summary>
-        public List<StdContact> Target { get; set; }
+        public List<StdElement> Target { get; set; }
 
         /// <summary>
         /// Gets or sets the BaseLine list of <see cref="MatchingEntry"/>. This list contains entries that will persist
@@ -76,7 +78,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <summary>
         /// Sets the reference to the currently active source contact for the call to <see cref="Match"/>.
         /// </summary>
-        public StdContact CurrentSourceElement
+        public StdElement CurrentSourceElement
         {
             set
             {
@@ -97,7 +99,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <summary>
         /// Sets the reference to the currently active source contact for the call to <see cref="Match"/>.
         /// </summary>
-        public StdContact CurrentTargetElement
+        public StdElement CurrentTargetElement
         {
             set
             {
@@ -171,19 +173,8 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                    s.ExternalIdentifier equals b.ProfileId into g
                    from y in g.DefaultIfEmpty()
                    where y == null
-                   select
-                       new MatchCandidateView
-                       {
-                           ContactName = s.GetFullName(),
-                           Element = s
-                       }).ToList()
-                : (from s in this.Source
-                   select
-                       new MatchCandidateView
-                       {
-                           ContactName = s.GetFullName(),
-                           Element = s
-                       }).ToList();
+                   select new MatchCandidateView(s)).ToList()
+                : (from s in this.Source select new MatchCandidateView(s)).ToList();
         }
 
         /// <summary>
@@ -193,13 +184,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <returns> A bindable list of view entities </returns>
         public IEnumerable<MatchCandidateView> SourceAsList2()
         {
-            var result = (from x in this.Source
-                          select
-                              new MatchCandidateView
-                                  {
-                                      ContactName = x.GetFullName(),
-                                      Element = x
-                                  }).ToList();
+            var result = (from x in this.Source select new MatchCandidateView(x)).ToList();
 
             if (!this.FilterMatchedEntriesSource)
             {
@@ -228,13 +213,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <returns> A bindable list of view entities </returns>
         public IEnumerable<MatchCandidateView> TargetAsList2()
         {
-            var result = (from x in this.Target
-                          select
-                              new MatchCandidateView
-                                  {
-                                      ContactName = x.GetFullName(),
-                                      Element = x
-                                  }).ToList();
+            var result = (from x in this.Target select new MatchCandidateView(x)).ToList();
 
             if (!this.FilterMatchedEntriesTarget)
             {
@@ -271,19 +250,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                    into g
                    from y in g.DefaultIfEmpty()
                    where y == null || string.IsNullOrEmpty(y.ProfileId.GetProfileId(this.Profile))
-                   select
-                       new MatchCandidateView
-                       {
-                           ContactName = x.GetFullName(),
-                           Element = x
-                       }).ToList()
+                   select new MatchCandidateView(x)).ToList()
                 : (from x in this.Target
-                   select
-                       new MatchCandidateView
-                       {
-                           ContactName = x.GetFullName(),
-                           Element = x
-                       }).ToList();
+                   select new MatchCandidateView(x)).ToList();
         }
 
         /// <summary>
@@ -298,12 +267,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             var result = (from b in this.BaseLine 
                           join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals s.ExternalIdentifier.GetProfileId(profileIdentifierType)
                           join t in this.Target on b.Id equals t.Id
-                          select new MatchView
-                                     {
-                                         ContactName = s.GetFullName(),
-                                         ContactNameMatch = t.GetFullName(),
-                                         BaselineId = t.Id,
-                                     }).ToList();
+                          select new MatchView(s, t)).ToList();
             result.Sort();
             return result;
         }
@@ -347,12 +311,13 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                                   where x.ExternalIdentifier.Equals(ppi)
                                   select x).FirstOrDefault();
 
-                if (targetItem == null)
+                var sourceContact = sourceItem as StdContact;
+                if (targetItem == null && sourceContact != null)
                 {
                     var name = sourceItem.ToStringSimple();
-                    var businessEmail = sourceItem.BusinessEmailPrimary;
-                    var personalEmail = sourceItem.BusinessEmailPrimary;
-                    targetItem = (from x in this.Target
+                    var businessEmail = sourceContact.BusinessEmailPrimary;
+                    var personalEmail = sourceContact.PersonalEmailPrimary;
+                    targetItem = (from x in this.Target.ToContacts()
                                   where x.ToStringSimple() == name
                                         && (x.BusinessEmailPrimary == businessEmail
                                             || x.PersonalEmailPrimary == personalEmail)
@@ -390,15 +355,16 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <typeparam name="T"> The type of the object to be scanned for proprties </typeparam>
         /// <returns> A list of <see cref="KeyValuePair"/> with the names and values of the properties. </returns>
         private static List<KeyValuePair> GetPropertyList<T>(T objectToInspect)
+            where T : class 
         {
             var resultList = new List<KeyValuePair>();
 
-            var members = typeof(T).GetProperties();
+            var members = (objectToInspect != null) ? objectToInspect.GetType().GetProperties() : typeof(T).GetProperties();
 
             foreach (var item in members)
             {
                 var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType.FullName == "System.Enum")
+                if (item.PropertyType.BaseType != null && item.PropertyType.BaseType.FullName == "System.Enum")
                 {
                     typeName = "Enum";
                 }

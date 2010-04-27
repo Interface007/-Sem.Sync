@@ -7,6 +7,8 @@
 //   Defines the MatchCandidateView type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using SyncBase;
@@ -16,6 +18,23 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     /// </summary>
     public class MatchCandidateView
     {
+        public MatchCandidateView(StdElement stdElement)
+        {
+            this.Element = stdElement;
+            var contact = stdElement as StdContact;
+            if (contact != null)
+            {
+                this.ContactName = contact.GetFullName();
+                return;
+            }
+            
+            this.ContactName = stdElement.ToString();
+        }
+
+        public MatchCandidateView()
+        {
+        }
+
         /// <summary>
         /// Gets or sets the name of the contact.
         /// </summary>
@@ -24,7 +43,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// <summary>
         /// Gets or sets the contact element.
         /// </summary>
-        public StdContact Element { get; set; }
+        public StdElement Element { get; set; }
 
         /// <summary>
         /// Overrides the <see cref="object.ToString"/> by returning a meaningful string representation of the data.
