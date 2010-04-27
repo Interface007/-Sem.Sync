@@ -9,6 +9,7 @@
 
 namespace Sem.GenericHelpers
 {
+    using System;
     using System.Linq.Expressions;
 
     /// <summary>
@@ -48,24 +49,38 @@ namespace Sem.GenericHelpers
         {
             var memberAccessExpression = (MemberExpression)base.VisitMemberAccess(originalExpression);
 
-            if (memberAccessExpression.Type == typeof(System.DateTime)
-                || memberAccessExpression.Type.BaseType == typeof(System.Enum)
-                || memberAccessExpression.Expression == null)
+            if (memberAccessExpression.Expression == null)
             {
                 return memberAccessExpression;
             }
 
-            // for value types we cannot add the null check
-            if (memberAccessExpression.Type.IsValueType)
-            {
-                return memberAccessExpression;
-            }
+            var valueType = memberAccessExpression.Expression.Type;
+            var memberType = memberAccessExpression.Type;
+
+            var valueNull = GetNullMember(valueType);
+            var memberNull = GetNullMember(memberType);
 
             var nullTest = Expression.Equal(
-                memberAccessExpression.Expression, 
-                Expression.Constant(null, memberAccessExpression.Expression.Type));
-            
-            return Expression.Condition(nullTest, Expression.Constant(null, memberAccessExpression.Type), memberAccessExpression);
+                memberAccessExpression.Expression,
+                Expression.Constant(valueNull, valueType));
+
+            return Expression.Condition(
+                nullTest, 
+                Expression.Constant(memberNull, memberType), 
+                memberAccessExpression);
+        }
+
+        private static object GetNullMember(Type memberType)
+        {
+            if (memberType.IsValueType)
+            {
+                if (memberType.Name == "DateTime")
+                {
+                    return new System.DateTime();
+                }
+            }
+
+            return null;
         }
     }
 }

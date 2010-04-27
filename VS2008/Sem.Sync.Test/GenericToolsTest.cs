@@ -45,6 +45,9 @@ namespace Sem.Sync.Test
         public DateTime? myProp6 { get; set; }
         public DateTime? myProp7 { get; set; }
         public int? myProp8 { get; set; }
+        public DateTime myProp9 { get; set; }
+        
+        public ComplexTestClass myProp10 { get; set; }
 
         public ComplexTestClass()
         {

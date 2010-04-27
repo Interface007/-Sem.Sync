@@ -82,33 +82,49 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <returns>the list with added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            try
+            while (true)
             {
-                // we should have a look for "good" credentials
-                this.LogProcessingEvent("preparing log on");
-                this.PrepareCredentials();
-
-                // if domainController does not contain a "." we assume this to be a domain name 
-                // rather than a domain controller, so we lookup the first controller we can get
-                this.LogProcessingEvent("detecting domain controller");
                 var domainController = this.LogOnDomain;
-                if (!string.IsNullOrEmpty(domainController) && !domainController.Contains("."))
+
+                try
                 {
-                    domainController = GetDCs(domainController)[0];
+                    // we should have a look for "good" credentials
+                    this.LogProcessingEvent("preparing log on");
+                    this.PrepareCredentials();
+
+                    // if domainController does not contain a "." we assume this to be a domain name 
+                    // rather than a domain controller, so we lookup the first controller we can get
+                    this.LogProcessingEvent("detecting domain controller");
+                    if (!string.IsNullOrEmpty(domainController) && !domainController.Contains("."))
+                    {
+                        domainController = GetDCs(domainController)[0];
+                    }
+
+                    // open the directory using explicit or implicit credentials
+                    this.LogProcessingEvent("opening ldap connection");
+                    var entry = string.IsNullOrEmpty(this.LogOnPassword)
+                                    ? new DirectoryEntry("LDAP://" + domainController)
+                                    : new DirectoryEntry(
+                                          "LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
+
+                    this.AddContactsFromAdFilter(clientFolderName, result, entry);
                 }
-
-                // open the directory using explicit or implicit credentials
-                this.LogProcessingEvent("opening ldap connection");
-                var entry =
-                    string.IsNullOrEmpty(this.LogOnPassword)
-                    ? new DirectoryEntry("LDAP://" + domainController)
-                    : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
-
-                this.AddContactsFromAdFilter(clientFolderName, result, entry);
-            }
-            catch (Exception ex)
-            {
-                this.LogException(ex);
+                catch (DirectoryServicesCOMException ex)
+                {
+                    if (ex.ExtendedErrorMessage.Contains("LdapErr: DSID-0C09043E"))
+                    {
+                        this.QueryForLogOnCredentials("LDAP needs credentials for " + domainController);
+                        continue;
+                    }
+                    
+                    this.LogException(ex);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    this.LogException(ex);
+                    break;
+                }
             }
 
             return result;
@@ -260,14 +276,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
         {
             var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
             var domain = Domain.GetDomain(context);
-            var domainControllerList = new List<string>();
 
-            foreach (DomainController server in domain.DomainControllers)
-            {
-                domainControllerList.Add(server.Name);
-            }
-
-            return domainControllerList;
+            return (from DomainController server in domain.DomainControllers select server.Name).ToList();
         }
 
         /// <summary>
