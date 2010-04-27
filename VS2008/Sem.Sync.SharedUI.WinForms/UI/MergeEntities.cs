@@ -47,13 +47,13 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             {
                 return targetList;
             }
-            
+
             this.conflictGrid.AutoGenerateColumns = true;
             this.conflictGrid.DataSource =
                 (from x in toMerge
                  select new MergeView
                             {
-                                ContactName = ((StdContact)(x.SourceElement ?? x.TargetElement ?? x.BaselineElement)).GetFullName(),
+                                ContactName = GetEntityName(x),
                                 PropertyName = x.PathToProperty,
                                 SourceValue = x.SourcePropertyValue,
                                 TargetValue = x.TargetPropertyValue,
@@ -82,18 +82,33 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             // perform the user selected action
             foreach (var conflict in merge)
             {
-                if (conflict.ActionToDo == MergePropertyAction.CopySourceToTarget)
+                if (conflict.ActionToDo != MergePropertyAction.CopySourceToTarget)
                 {
-                    var theConflict = conflict;
-                    SetPropertyValue(
-                        (StdContact)
-                        (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(),
-                        conflict.PathToProperty,
-                        conflict.SourcePropertyValue);
+                    continue;
                 }
+
+                var theConflict = conflict;
+                SetPropertyValue(
+                    (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(),
+                    conflict.PathToProperty,
+                    conflict.SourcePropertyValue);
             }
 
             return targetList;
+        }
+
+        private static string GetEntityName(MergeConflict x)
+        {
+            var element = x.SourceElement ?? x.TargetElement ?? x.BaselineElement;
+            var type = element.GetType().Name;
+            switch (type)
+            {
+                case "StdContact":
+                    return ((StdContact)element).GetFullName();
+
+                default:
+                    return element.ToSortSimple();
+            }
         }
 
         /// <summary>
@@ -102,10 +117,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="stdElement"> The <see cref="StdElement"/> with the property to be set. </param>
         /// <param name="pathToProperty"> The path to the property to be set property. </param>
         /// <param name="newValue"> The new value. </param>
-        private static void SetPropertyValue(StdContact stdElement, string pathToProperty, string newValue)
+        private static void SetPropertyValue(StdElement stdElement, string pathToProperty, string newValue)
         {
             object propObject = stdElement;
-            var propType = typeof(StdContact);
+            var propType = stdElement.GetType();
             while (pathToProperty.Contains("."))
             {
                 var nextSeparator = pathToProperty.IndexOf(".", StringComparison.Ordinal);
@@ -139,6 +154,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 case "CountryCode":
                 case "Gender":
                     memberToSet.SetValue(propObject, Enum.Parse(memberToSet.PropertyType, newValue, true), null);
+                    break;
+
+                case "TimeSpan":
+                    memberToSet.SetValue(propObject, TimeSpan.Parse(newValue), null);
                     break;
 
                 case "DateTime":

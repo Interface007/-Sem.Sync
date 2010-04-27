@@ -592,6 +592,10 @@ namespace Sem.GenericHelpers
 
             switch (destinationType)
             {
+                case "TimeSpan":
+                    propInfo.SetValue(objectToWriteTo, TimeSpan.Parse(valueString), null);
+                    break;
+
                 case "DateTime":
                     propInfo.SetValue(objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
                     break;
@@ -836,6 +840,7 @@ namespace Sem.GenericHelpers
                     case "Guid":
                     case "String":
                     case "DateTime":
+                    case "TimeSpan":
                     case "Boolean":
                     case "Int32":
                         resultList.Add(parentName + item.Name);

@@ -409,6 +409,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     case "Guid":
                     case "String":
                     case "DateTime":
+                    case "TimeSpan":
                     case "Int32":
                         if (item.GetValue(objectToInspect, null) != null)
                         {

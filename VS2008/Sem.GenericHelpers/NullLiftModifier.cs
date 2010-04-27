@@ -55,10 +55,16 @@ namespace Sem.GenericHelpers
                 return memberAccessExpression;
             }
 
+            // for value types we cannot add the null check
+            if (memberAccessExpression.Type.IsValueType)
+            {
+                return memberAccessExpression;
+            }
+
             var nullTest = Expression.Equal(
                 memberAccessExpression.Expression, 
                 Expression.Constant(null, memberAccessExpression.Expression.Type));
-
+            
             return Expression.Condition(nullTest, Expression.Constant(null, memberAccessExpression.Type), memberAccessExpression);
         }
     }

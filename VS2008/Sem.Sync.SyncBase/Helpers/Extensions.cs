@@ -121,6 +121,11 @@ namespace Sem.Sync.SyncBase.Helpers
                                 && !string.IsNullOrEmpty((string)sourceValue);
                             break;
 
+                        case "TimeSpan":
+                            setValue = (((TimeSpan)targetValue).TotalMinutes > 0)
+                                && !(((TimeSpan)sourceValue).TotalMinutes > 0);
+                            break;
+
                         case "DateTime":
                             setValue = (((DateTime)targetValue).Year < 1901 || ((DateTime)targetValue).Year > 2200)
                                 && !(((DateTime)sourceValue).Year < 1901 || ((DateTime)sourceValue).Year > 2200);

@@ -317,11 +317,12 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 switch (typeName)
                 {
+                    case "Int32":
                     case "Enum":
                     case "Guid":
                     case "String":
+                    case "TimeSpan":
                     case "DateTime":
-                    case "Int32":
                         var sourceValue = container.SourceProperty == null ? null : item.GetValue(container.SourceProperty, null);
                         var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
                         var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);

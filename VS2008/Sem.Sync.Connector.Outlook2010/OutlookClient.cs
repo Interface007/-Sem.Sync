@@ -432,8 +432,8 @@ namespace Sem.Sync.Connector.Outlook2010
 
             var stdOldAppointment = ConvertToStandardCalendarItem(appointment, null);
 
-            SyncTools.ClearNulls(stdNewAppointment, typeof(StdCalendarItem));
-            SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
+            stdNewAppointment.NormalizeContent();
+            stdOldAppointment.NormalizeContent();
 
             var dirty = false;
             MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);

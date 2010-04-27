@@ -4,6 +4,8 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
+using Sem.Sync.SyncBase.Helpers;
+
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -122,6 +124,8 @@ namespace Sem.Sync.SyncBase
             {
                 this.Title = this.Title.Trim();
             }
+
+            SyncTools.ClearNulls(this, typeof(StdCalendarItem));
         }
     }
 }
