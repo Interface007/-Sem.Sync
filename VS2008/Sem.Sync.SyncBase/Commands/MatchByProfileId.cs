@@ -66,7 +66,7 @@ namespace Sem.Sync.SyncBase.Commands
         }
 
         /// <summary>
-        /// Automatically matches without user interaction entities by <see cref="StdContact.PersonalProfileIdentifiers"/>.
+        /// Automatically matches without user interaction entities by <see cref="StdElement.ExternalIdentifier"/>.
         /// </summary>
         /// <param name="target"> the list of <see cref="StdContact"/> that contains the target (here the <see cref="StdElement.Id"/> will be changed if a match is found in the baseline) </param>
         /// <param name="baseline"> the list of <see cref="StdElement"/> that contains the source of the baseline (this will not be changed, but need to contain entries of type <see cref="MatchingEntry"/>) </param>

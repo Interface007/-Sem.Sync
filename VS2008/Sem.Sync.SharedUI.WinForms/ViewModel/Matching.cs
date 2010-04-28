@@ -377,7 +377,6 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     case "DateTime":
                     case "TimeSpan":
                     case "Int32":
-                    case "ProfileIdentifiers":
                         if (item.GetValue(objectToInspect, null) != null)
                         {
                             resultList.Add(
@@ -390,6 +389,9 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
                         break;
 
+                    case "SerializableDictionary`2":
+                    case "ProfileIdentifiers":
+                    case "List`1":
                     case "Byte[]":
                         break;
 

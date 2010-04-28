@@ -85,11 +85,6 @@ namespace Sem.Sync.SyncBase
         [ComparisonModifier(CaseInsensitive = true)]
         public InstantMessengerAddresses PersonalInstantMessengerAddresses { get; set; }
 
-        /////// <summary>
-        /////// Gets or sets ProfileIdentifier.
-        /////// </summary>
-        ////public SerializableDictionary<string, string> PersonalProfileIdentifiers { get; set; }
-
         /// <summary>
         /// Gets or sets the name of the company this contact is associated with
         /// </summary>

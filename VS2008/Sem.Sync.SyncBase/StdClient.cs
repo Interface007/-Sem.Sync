@@ -103,7 +103,7 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         /// <param name="elementsToDelete">
         /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
-        /// only the id read from <see cref="StdContact.PersonalProfileIdentifiers"/> is needed to delete an element.
+        /// only the id read from <see cref="StdContact.ExternalIdentifier"/> is needed to delete an element.
         /// </param>
         /// <param name="clientFolderName">the information where inside the source the elements reside - 
         /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>

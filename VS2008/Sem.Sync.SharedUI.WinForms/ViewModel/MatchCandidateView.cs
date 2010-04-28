@@ -49,7 +49,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         /// Overrides the <see cref="object.ToString"/> by returning a meaningful string representation of the data.
         /// </summary>
         /// <returns>
-        /// ContactName + " - profiles: " + PersonalProfileIdentifiers
+        /// ContactName + " - profiles: " + ExternalIdentifier
         /// </returns>
         public override string ToString()
         {

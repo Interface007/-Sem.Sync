@@ -87,14 +87,14 @@ namespace Sem.Sync.SharedUI.Common
             var fileInfo = this.ScanFiles(Directory.GetCurrentDirectory());
 
             this.ClientsSource = from x in fileInfo
-                                 where (x.Value3 & 1) == 1
-                                 orderby x.Value2
-                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
+                                 where (x.ReadWrite & 1) == 1
+                                 orderby x.DisplayName
+                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
 
             this.ClientsTarget = from x in fileInfo
-                                 where (x.Value3 & 2) == 2
-                                 orderby x.Value2
-                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
+                                 where (x.ReadWrite & 2) == 2
+                                 orderby x.DisplayName
+                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
             Tools.EnsurePathExist(WorkingFolderTemplates);
@@ -404,7 +404,7 @@ namespace Sem.Sync.SharedUI.Common
         /// </summary>
         /// <param name="path"> The path to scan. </param>
         /// <returns> The IEnumerable with the information. </returns>
-        private IEnumerable<Triple<string, string, int>> ScanFiles(string path)
+        private IEnumerable<ConnectorTypeDescription> ScanFiles(string path)
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))
             {
@@ -457,11 +457,11 @@ namespace Sem.Sync.SharedUI.Common
                     if (!attribute.Internal && (attribute.CanRead(entityType) || attribute.CanWrite(entityType)))
                     {
                         yield return
-                            new Triple<string, string, int>
+                            new ConnectorTypeDescription
                                 {
-                                    Value1 = fullName,
-                                    Value2 = nameToUse,
-                                    Value3 = attribute.CanRead(entityType) ? (attribute.CanWrite(entityType) ? 3 : 1) : 2
+                                    ClassName = fullName,
+                                    DisplayName = nameToUse,
+                                    ReadWrite = attribute.CanRead(entityType) ? (attribute.CanWrite(entityType) ? 3 : 1) : 2
                                 };
                     }
                 }
@@ -590,5 +590,12 @@ namespace Sem.Sync.SharedUI.Common
 
             return returnvalue;
         }
+    }
+
+    internal class ConnectorTypeDescription
+    {
+        public string ClassName;
+        public string DisplayName;
+        public int ReadWrite;
     }
 }
