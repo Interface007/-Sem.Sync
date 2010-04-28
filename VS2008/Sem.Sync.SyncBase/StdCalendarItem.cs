@@ -24,7 +24,10 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public StdCalendarItem()
         {
-            this.ExternalIdentifier = new ProfileIdentifiers();
+            if (this.ExternalIdentifier == null)
+            {
+                this.ExternalIdentifier = new ProfileIdentifiers();
+            }
         }
 
         /// <summary>

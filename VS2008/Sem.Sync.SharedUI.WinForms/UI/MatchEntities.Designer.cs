@@ -81,16 +81,16 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.chkMatchedOnlySource);
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceCandidates);
             this.splitContainer1.Panel1.Controls.Add(this.SourceCardView);
             this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceDetail);
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridSourceCandidates);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.chkMatchedOnlyTarget);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
             this.splitContainer1.Panel2.Controls.Add(this.TargetCardView);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetDetail);
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridTargetCandidates);
             // 
             // chkMatchedOnlySource
             // 

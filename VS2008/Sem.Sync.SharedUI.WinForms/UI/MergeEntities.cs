@@ -149,10 +149,15 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             // we have to deal with special type data (int, datetime) that need to be
             // converted back from string - there is no automated cast in SetValue.
             var destinationType = memberToSet.PropertyType.Name;
+            var destinationBaseType = memberToSet.PropertyType.BaseType;
+            if (destinationBaseType == typeof(Enum))
+            {
+                destinationType = "Enum";
+            }
+
             switch (destinationType)
             {
-                case "CountryCode":
-                case "Gender":
+                case "Enum":
                     memberToSet.SetValue(propObject, Enum.Parse(memberToSet.PropertyType, newValue, true), null);
                     break;
 

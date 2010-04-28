@@ -25,41 +25,8 @@ namespace Sem.Sync.SyncBase
     /// store any information that's needed for describing contact relevant information of a person.
     /// </summary>
     [Serializable]
-    public class StdContact : StdElement
+    public sealed class StdContact : StdElement
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StdContact"/> class.
-        /// </summary>
-        public StdContact()
-        {
-            this.Id = Guid.NewGuid();
-        }
-
-        /// <summary>
-        /// Gets or sets the identifier for this contact. Overwritten to set the default
-        /// <see cref="PersonalProfileIdentifiers"/>, too.
-        /// </summary>
-        [XmlAttribute]
-        public override sealed Guid Id
-        {
-            get
-            {
-                return base.Id;
-            }
-
-            set
-            {
-                base.Id = value;
-                
-                if (this.ExternalIdentifier == null)
-                {
-                    this.ExternalIdentifier = new ProfileIdentifiers();
-                }
-
-                this.ExternalIdentifier.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
-            }
-        }
-
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>

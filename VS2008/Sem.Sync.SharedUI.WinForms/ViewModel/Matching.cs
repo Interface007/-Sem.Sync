@@ -377,6 +377,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     case "DateTime":
                     case "TimeSpan":
                     case "Int32":
+                    case "ProfileIdentifiers":
                         if (item.GetValue(objectToInspect, null) != null)
                         {
                             resultList.Add(
