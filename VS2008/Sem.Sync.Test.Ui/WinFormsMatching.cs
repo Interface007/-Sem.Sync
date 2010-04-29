@@ -29,8 +29,8 @@ namespace Sem.Sync.Test.Ui
         {
             var business = new Matching
                                {
-                                   Source = Contacts.GetMatchingSource().ToStdElement(),
-                                   Target = Contacts.GetMatchingTarget().ToStdElement(),
+                                   Source = Contacts.GetMatchingSource().ToStdElements(),
+                                   Target = Contacts.GetMatchingTarget().ToStdElements(),
                                    BaseLine = Contacts.GetMatchingBaseline(),
                                    FilterMatchedEntriesSource = true,
                                    FilterMatchedEntriesTarget = true,
@@ -57,7 +57,7 @@ namespace Sem.Sync.Test.Ui
             Assert.IsFalse(business.TargetAsList().Exist("Unmatched"));
             Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan"));
 
-            Assert.IsTrue(business.BaselineAsList().Exist(business.Target.ToContacts().GetByXingId("Unmatched").Id));
+            Assert.IsTrue(business.BaselineAsList().Exist(business.Target.ToStdContacts().GetByXingId("Unmatched").Id));
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <returns> the list of contacts </returns>
         public override List<StdElement> GetAll(string clientFolderName)
         {
-            return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement();
+            return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElements();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Sem.Sync.Connector.MsExcelXml
                 File.Delete(clientFolderName);
             }
 
-            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
+            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToStdContacts()), Encoding.UTF8);
         }
     }
 }

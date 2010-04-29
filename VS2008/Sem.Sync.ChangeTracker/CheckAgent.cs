@@ -29,7 +29,7 @@ namespace Sem.Sync.ChangeTracker
     /// does raise an event <see cref="DataChanged"/> in case of found changes.</para>
     /// The list is automatically shrinked to a maximum of <see cref="MaxEntries"/> entries.
     /// </summary>
-    internal class CheckAgent
+    internal class CheckAgent : IDisposable
     {
         /// <summary>
         /// This backgroundworker does provide the threading for scanning the 
@@ -133,13 +133,13 @@ namespace Sem.Sync.ChangeTracker
                 {
                     var sourceList = engine.SetupConnector(
                         syncDescription.SourceConnector,
-                        syncDescription.SourceCredentials).GetAll(syncDescription.SourceStorePath).ToContacts();
+                        syncDescription.SourceCredentials).GetAll(syncDescription.SourceStorePath).ToStdContacts();
 
                     var baselineConnector = engine.SetupConnector(
                         syncDescription.BaselineConnector, 
                         syncDescription.BaselineCredentials);
 
-                    var baselineList = baselineConnector.GetAll(syncDescription.BaselineStorePath).ToContacts();
+                    var baselineList = baselineConnector.GetAll(syncDescription.BaselineStorePath).ToStdContacts();
 
                     var contactsToCompare = from s in sourceList
                                             join t in baselineList
@@ -156,7 +156,7 @@ namespace Sem.Sync.ChangeTracker
                     }
 
                     baselineConnector.WriteRange(
-                        sourceList.ToStdElement(), 
+                        sourceList.ToStdElements(), 
                         syncDescription.BaselineStorePath);
 
                     if (this.DataChanged != null)
@@ -207,5 +207,15 @@ namespace Sem.Sync.ChangeTracker
                 this.DetectedChanges.RemoveAt(0);
             }
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            worker.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

@@ -46,13 +46,13 @@
 
             // the target did contain nothing, and now should contain the updated entries
             // two entries should have the know matchable ids
-            var target = new Contacts().GetAll("matchingtesttarget").ToContacts();
+            var target = new Contacts().GetAll("matchingtesttarget").ToStdContacts();
             Assert.AreEqual(3, target.Count, "target count");
             Assert.AreEqual(new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"), target[0].Id, "target match 1");
             Assert.AreEqual(new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"), target[1].Id, "target match 2");
             
             // the base line must not be changed (still three entries)
-            var baseline = new Contacts().GetAll("matchingtestbaseline").ToContacts();
+            var baseline = new Contacts().GetAll("matchingtestbaseline").ToStdContacts();
             Assert.AreEqual(3, baseline.Count, "baseline count");
         }
     }

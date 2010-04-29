@@ -80,7 +80,7 @@ namespace Sem.Sync.Connector.OnlineStorage
             var client = this.GetClient();
             var container = new ContactListContainer
                 {
-                    ContactList = elements.ToContacts().ToArray(),
+                    ContactList = elements.ToStdContacts().ToArray(),
                     Credentials = new CloudCredentials
                         {
                             AccountId = this.LogOnUserId,

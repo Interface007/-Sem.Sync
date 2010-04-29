@@ -65,7 +65,7 @@ namespace Sem.Sync.Connector.Outlook
 
                 AppointmentItem lastItem = null;
                 var lastPersonName = string.Empty;
-                foreach (var item in outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm")))
+                foreach (var item in outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm", CultureInfo.InvariantCulture)))
                 {
                     var subject = item.Subject;
 

@@ -77,7 +77,7 @@ namespace Sem.Sync.Connector.Filesystem
                 {
                     if (file.Length > 0)
                     {
-                        result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<StdContact>)ContactListFormatter.Deserialize(file)).ToStdElements();
                         CleanUpEntities(result);
                     }
 
@@ -101,7 +101,7 @@ namespace Sem.Sync.Connector.Filesystem
                 try
                 {
                     CleanUpEntities(elements);
-                    ContactListFormatter.Serialize(file, elements.ToContacts());
+                    ContactListFormatter.Serialize(file, elements.ToStdContacts());
                 }
                 catch (System.Exception ex)
                 {

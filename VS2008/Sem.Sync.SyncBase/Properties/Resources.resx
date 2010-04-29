@@ -214,4 +214,7 @@
 	<data name="UiDispatcherAskForConfirmSendingException02">
 		<value><![CDATA[Press "Y" and the RETURN key to send the information, enter "N" to not send the information.]]></value>
 	</data>
+	<data name="ExceptionWhileUnmatchingCaption">
+		<value xml:space="preserve">Exception while unmatching</value>
+	</data>
 </root>

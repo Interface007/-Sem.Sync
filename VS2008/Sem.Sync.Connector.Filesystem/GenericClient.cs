@@ -107,7 +107,7 @@ namespace Sem.Sync.Connector.Filesystem
                 {
                     if (file.Length > 0)
                     {
-                        result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElements();
                     }
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));

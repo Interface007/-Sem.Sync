@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase.Attributes
     using System;
 
     using DetailData;
+    using System.Reflection;
 
     /// <summary>
     /// Specifies information about the connectors capabilities
@@ -102,7 +103,12 @@ namespace Sem.Sync.SyncBase.Attributes
         /// </summary>
         public ProfileIdentifierType MatchingIdentifier { get; set; }
 
-        public bool CanRead(Type entityType)
+        /// <summary>
+        /// returns true if the specified type can be read by this connector
+        /// </summary>
+        /// <param name="entityType">the type to be read</param>
+        /// <returns>true if the connector can read</returns>
+        public bool CanRead(MemberInfo entityType)
         {
             switch (entityType.Name)
             {
@@ -117,7 +123,12 @@ namespace Sem.Sync.SyncBase.Attributes
             }
         }
 
-        public bool CanWrite(Type entityType)
+        /// <summary>
+        /// returns true if the specified type can be written by this connector
+        /// </summary>
+        /// <param name="entityType">the type to be written</param>
+        /// <returns>true if the connector can write</returns>
+        public bool CanWrite(MemberInfo entityType)
         {
             switch (entityType.Name)
             {

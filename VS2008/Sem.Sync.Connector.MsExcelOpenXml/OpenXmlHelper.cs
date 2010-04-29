@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace Sem.Sync.Connector.MsExcelOpenXml
 {
     using System;
@@ -60,7 +62,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                 return cell.CellValue.Text;
             }
 
-            return items[int.Parse(cell.CellValue.Text)].InnerText;
+            return items[int.Parse(cell.CellValue.Text, CultureInfo.InvariantCulture)].InnerText;
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <returns> the first group of the match as int</returns>
         internal static int GetRegExResultInt(this string stringToMatch, string regex)
         {
-            return int.Parse(stringToMatch.GetRegExResult(regex));
+            return int.Parse(stringToMatch.GetRegExResult(regex), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             // Create a regular expression to match the row index portion the cell name.
             var match = RegexIntegers.Match(cellName);
 
-            return int.Parse(match.Value);
+            return int.Parse(match.Value, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

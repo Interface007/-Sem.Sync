@@ -70,6 +70,15 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception while unmatching.
+        /// </summary>
+        public static string ExceptionWhileUnmatchingCaption {
+            get {
+                return ResourceManager.GetString("ExceptionWhileUnmatchingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to exception while execution: 
         ///{0}.
         /// </summary>

@@ -21,6 +21,11 @@ namespace Sem.Sync.SyncBase
     Serializable]
     public abstract class StdElement : IComparable<StdElement>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StdElement"/> class and sets a new GUID for the <see cref="Id"/>
+        /// - this will also initialize the <see cref="ExternalIdentifier"/> property and set the <see cref="ProfileIdentifierType.Default"/>
+        /// id in this collection.
+        /// </summary>
         protected StdElement()
         {
             this.Id = Guid.NewGuid();            

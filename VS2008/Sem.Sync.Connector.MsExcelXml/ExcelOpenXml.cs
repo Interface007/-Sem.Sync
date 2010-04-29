@@ -30,7 +30,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <param name="packageFileName">The package file name.</param>
         /// <typeparam name="T"> </typeparam>
         /// <returns> </returns>
-        public static List<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName)
+        public static IEnumerable<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName)
             where T : class, new()
         {
             var list = new List<T>();

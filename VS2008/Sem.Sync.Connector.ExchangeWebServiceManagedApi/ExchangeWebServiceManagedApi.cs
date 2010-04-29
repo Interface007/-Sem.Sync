@@ -88,7 +88,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             var contactsFolder = this.GetContactsFolder(clientFolderName);
             foreach (var element in elementsToDelete)
             {
-                var contact = Contact.Bind(contactsFolder.Service, ((StdContact)element).ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
+                var contact = Contact.Bind(contactsFolder.Service, element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
                 contact.Delete(DeleteMode.MoveToDeletedItems);
             }
         }

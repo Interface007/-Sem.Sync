@@ -72,7 +72,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             using (var con = new System.Data.SqlClient.SqlConnection(connectionString))
             {
                 con.Open();
-                elements.ToContacts().ForEach(x => this.WriteContact(con, x, columns));
+                elements.ToStdContacts().ForEach(x => this.WriteContact(con, x, columns));
                 con.Close();
             }
         }

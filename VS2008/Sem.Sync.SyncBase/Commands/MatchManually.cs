@@ -75,7 +75,7 @@ namespace Sem.Sync.SyncBase.Commands
             // only write to target if we did get a merge result
             if (matchResultList != null)
             {
-                var sourceContactList = sourceMatchList.ToContacts();
+                var sourceContactList = sourceMatchList.ToStdContacts();
                 var matchingEntryList = matchResultList.ToMatchingEntries();
 
                 // Check for new (not matched) contacts and generate new matching entries for such new entries.

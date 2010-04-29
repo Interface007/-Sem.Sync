@@ -41,7 +41,7 @@ namespace Sem.Sync.Connector.Statistic
         /// </param>
         public ValueAnalysisCounter(List<StdElement> elements)
         {
-            var contacts = elements.ToContacts();
+            var contacts = elements.ToStdContacts();
 
             if (contacts.Count > 0)
             {

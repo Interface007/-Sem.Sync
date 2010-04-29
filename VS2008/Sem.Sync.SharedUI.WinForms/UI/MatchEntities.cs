@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.Properties;
+
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
     using System;
@@ -24,7 +26,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     /// <summary>
     /// This form perfoms an entity merge. The method <see cref="PerformMatch"/> accepts a source, target and baseline list of <see cref="StdElement"/>.
     /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdElement.ExternalIdentifier"/> and
-    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdContact.ExternalIdentifier"/> from the source and 
+    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdElement.ExternalIdentifier"/> from the source and 
     /// <see cref="StdContact.Id"/> of the target are stored inside the baseline.
     /// </summary>
     public partial class MatchEntities : Form
@@ -84,7 +86,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             return
                 this.ShowDialog() != DialogResult.OK
                 ? null
-                : this.matching.BaseLine.ToStdElement();
+                : this.matching.BaseLine.ToStdElements();
         }
 
         /// <summary>
@@ -237,7 +239,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             {
                 var dataGridViewRow = this.dataGridSourceCandidates.Rows[i];
                 var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
-                if (sourceEntry.Element.ExternalIdentifier.GetProfileId(this.matching.Profile) != entryProfile) 
+                if (sourceEntry.Element.ExternalIdentifier.GetProfileId(this.matching.Profile) != entryProfile)
                 {
                     continue;
                 }
@@ -419,7 +421,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, Resources.ExceptionWhileUnmatchingCaption, MessageBoxButtons.OK);
             }
         }
 

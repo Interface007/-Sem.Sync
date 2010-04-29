@@ -317,7 +317,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     var name = sourceItem.ToStringSimple();
                     var businessEmail = sourceContact.BusinessEmailPrimary;
                     var personalEmail = sourceContact.PersonalEmailPrimary;
-                    targetItem = (from x in this.Target.ToContacts()
+                    targetItem = (from x in this.Target.ToStdContacts()
                                   where x.ToStringSimple() == name
                                         && (x.BusinessEmailPrimary == businessEmail
                                             || x.PersonalEmailPrimary == personalEmail)

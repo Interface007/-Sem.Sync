@@ -66,7 +66,7 @@ namespace Sem.Sync.Connector.OnlineStorage
             client.WriteFullList(
                 new ContactListContainer
                     {
-                        ContactList = elements.ToContacts().ToArray()
+                        ContactList = elements.ToStdContacts().ToArray()
                                      }, 
                                      clientFolderName, 
                                      skipIfExisting);

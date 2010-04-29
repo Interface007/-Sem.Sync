@@ -354,7 +354,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="sourceString">the source string for the de-serialization</param>
         /// <param name="extraTypes">you need to add types that are used in the list here</param>
         /// <returns>The list loaded from the string.</returns>
-        public static List<T> LoadFromString<T>(this List<T> elementList, string sourceString, params Type[] extraTypes)
+// ReSharper disable RedundantAssignment
+        public static T LoadFromString<T>(this T elementList, string sourceString, params Type[] extraTypes)
+// ReSharper restore RedundantAssignment
         {
             if (string.IsNullOrEmpty(sourceString))
             {
@@ -362,9 +364,9 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             // the xml serializer needs the additional type of the element
-            var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
+            var formatter = new XmlSerializer(typeof(T), extraTypes);
             var reader = new StringReader(sourceString);
-            elementList = (List<T>)formatter.Deserialize(reader);
+            elementList = (T)formatter.Deserialize(reader);
             
             return elementList;
         }
@@ -374,7 +376,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <param name="list">a list of standard contacts to cast</param>
         /// <returns>a list of casted elements</returns>
-        public static List<StdContact> ToContacts(this List<StdElement> list)
+        public static List<StdContact> ToStdContacts(this IEnumerable<StdElement> list)
         {
             var result = new List<StdContact>();
             foreach (var element in list)
@@ -457,15 +459,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <typeparam name="T"> the type of conversion. </typeparam>
         /// <param name="list"> The list of something to be converted </param>
         /// <returns> The resulting list of <see cref="StdElement"/> </returns>
-        public static List<StdElement> ToStdElement<T>(this List<T> list) where T : StdElement
+        public static List<StdElement> ToStdElements<T>(this IEnumerable<T> list) where T : StdElement
         {
-            var result = new List<StdElement>();
-            foreach (var element in list)
-            {
-                result.Add(element);
-            }
-
-            return result;
+            return list.Cast<StdElement>().ToList();
         }
 
         /// <summary>

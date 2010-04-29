@@ -199,7 +199,7 @@ namespace Sem.Sync.Connector.Google
             GoogleContactMappingExtensions.GenericUIResponder = this.UiDispatcher;
             this.EnsureInitialization();
 
-            foreach (var stdContact in elements.ToContacts())
+            foreach (var stdContact in elements.ToStdContacts())
             {
                 try
                 {

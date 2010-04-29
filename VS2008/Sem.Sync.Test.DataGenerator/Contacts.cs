@@ -483,8 +483,8 @@ namespace Sem.Sync.Test.DataGenerator
                 default:
                     if (VariableContactList != null)
                     {
-                        result = VariableContactList.ToStdElement();
-                        result.AddRange(GetStandardContactList(false).ToStdElement());
+                        result = VariableContactList.ToStdElements();
+                        result.AddRange(GetStandardContactList(false).ToStdElements());
                     }
 
                     break;
