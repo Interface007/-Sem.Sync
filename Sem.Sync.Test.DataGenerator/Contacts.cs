@@ -66,7 +66,7 @@ namespace Sem.Sync.Test.DataGenerator
                             {
                                 Name = new PersonName("Kati Katze"),
                                 Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
-                                PersonalProfileIdentifiers =
+                                ExternalIdentifier =
                                     new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
                                 PersonalAddressPrimary =
                                     new AddressDetail(
@@ -463,8 +463,11 @@ namespace Sem.Sync.Test.DataGenerator
                 case "customdata":
                     return customtestsource();
 
+                case "specialchars":
+                    return specialchars();
+
                 case "matchingtestsource":
-                    this.matchingtestsource(result);
+                    matchingtestsource(result);
                     break;
 
                 case "matchingtesttarget":
@@ -474,14 +477,14 @@ namespace Sem.Sync.Test.DataGenerator
                     throw new NotSupportedException("Test-Exception");
 
                 case "matchingtestbaseline":
-                    this.matchingtestbaseline(result);
+                    matchingtestbaseline(result);
                     break;
 
                 default:
                     if (VariableContactList != null)
                     {
-                        result = VariableContactList.ToStdElement();
-                        result.AddRange(GetStandardContactList(false).ToStdElement());
+                        result = VariableContactList.ToStdElements();
+                        result.AddRange(GetStandardContactList(false).ToStdElements());
                     }
 
                     break;
@@ -509,7 +512,22 @@ namespace Sem.Sync.Test.DataGenerator
             return result;
         }
 
-        private void matchingtestsource(List<StdElement> result)
+        private static List<StdElement> specialchars()
+        {
+            var result = new List<StdElement>();
+            result.AddRange(new List<StdElement>
+                {
+                    new StdContact
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "contact öwi#thÜsomße éâ°specialchars",
+                        }
+                });
+
+            return result;
+        }
+
+        private static void matchingtestsource(List<StdElement> result)
         {
             result.AddRange(
                 new List<StdElement>
@@ -517,22 +535,22 @@ namespace Sem.Sync.Test.DataGenerator
                         new StdContact
                             {
                                 Name = "matchable1",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
                             },
                         new StdContact
                             {
                                 Name = "matchable2",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
                             },
                         new StdContact
                             {
                                 Name = "unmatchable",
-                                PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
+                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
                             },
                     });
         }
 
-        private void matchingtestbaseline(List<StdElement> result)
+        private static void matchingtestbaseline(List<StdElement> result)
         {
             result.AddRange(
                 new List<StdElement>
@@ -588,7 +606,7 @@ namespace Sem.Sync.Test.DataGenerator
                              {
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
-                                 PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
+                                 ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
                              };
             return result;
         }

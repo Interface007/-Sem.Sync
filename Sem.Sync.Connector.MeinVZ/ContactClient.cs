@@ -290,7 +290,7 @@ namespace Sem.Sync.Connector.MeinVZ
                     break;
             }
         }
-    
+
         /// <summary>
         /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>
@@ -332,14 +332,14 @@ namespace Sem.Sync.Connector.MeinVZ
                 catch (Exception ex)
                 {
                     throw new TechnicalException(
-                        "Problem mapping key value pair from web page.", 
+                        "Problem mapping key value pair from web page.",
                         ex,
                         new KeyValuePair<string, object>("key", key),
                         new KeyValuePair<string, object>("value", value));
                 }
             }
 
-            result.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+            result.ExternalIdentifier.SetProfileId(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
             return result;
         }
@@ -361,7 +361,7 @@ namespace Sem.Sync.Connector.MeinVZ
                 // this will succeed if we have a valid cookie
                 if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
                 {
-                    if (this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
+                    if (extractedData.Count > 0 && this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
                     {
                         var n = 2;
                         while (true)
@@ -386,26 +386,40 @@ namespace Sem.Sync.Connector.MeinVZ
                     QueryForLogOnCredentials("needs some credentials");
                 }
 
-                var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
-                var formKey = matches[0].Groups[1].Captures[0].ToString();
+                var logInResponse = string.Empty;
 
-                matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
-                var iv = matches[0].Groups[1].Captures[0].ToString();
-
-                // prepare the post data for log on
-                var postData = HttpHelper.PreparePostData(
-                    HttpDataLogonRequest,
-                    this.LogOnUserId,
-                    this.LogOnPassword,
-                    formKey,
-                    iv);
-
-                // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
-
-                if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
+                try
                 {
-                    return result;
+                    var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
+                    var formKey = matches[0].Groups[1].Captures[0].ToString();
+
+                    matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
+                    var iv = matches[0].Groups[1].Captures[0].ToString();
+
+                    // prepare the post data for log on
+                    var postData = HttpHelper.PreparePostData(
+                        HttpDataLogonRequest,
+                        this.LogOnUserId,
+                        this.LogOnPassword,
+                        formKey,
+                        iv);
+
+                    // post to get the cookies
+                    logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
+
+                    if (logInResponse.Contains(this.HttpDetectionStringLogOnFailed))
+                    {
+                        return result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new TechnicalException(
+                        "Problem reading MeinVZ content", 
+                        ex,
+                        new KeyValuePair<string, object>("lastcontent", this.httpRequester.LastExtractContent),
+                        new KeyValuePair<string, object>("userid", this.LogOnUserId),
+                        new KeyValuePair<string, object>("loginresponse", logInResponse));
                 }
             }
 

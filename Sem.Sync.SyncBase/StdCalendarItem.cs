@@ -4,6 +4,8 @@
 // </copyright>
 // <author>Sven Erik Matzen</author>
 //-----------------------------------------------------------------------
+using Sem.Sync.SyncBase.Helpers;
+
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -22,7 +24,10 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public StdCalendarItem()
         {
-            this.ExternalIdentifier = new List<CalendarIdentifier>();
+            if (this.ExternalIdentifier == null)
+            {
+                this.ExternalIdentifier = new ProfileIdentifiers();
+            }
         }
 
         /// <summary>
@@ -98,12 +103,6 @@ namespace Sem.Sync.SyncBase
         public TimeSpan ReminderBeforeStart { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
-        public List<CalendarIdentifier> ExternalIdentifier { get; set; }
-
-        /// <summary>
         /// Returns a meaningful string representation for this object
         /// </summary>
         /// <returns>a meaningful string representation for this object</returns>
@@ -119,8 +118,17 @@ namespace Sem.Sync.SyncBase
         /// </exception>
         public override void NormalizeContent()
         {
-            this.Description = this.Description.Trim();
-            this.Title = this.Title.Trim();
+            if (!string.IsNullOrEmpty(this.Description))
+            {
+                this.Description = this.Description.Trim();
+            }
+
+            if (!string.IsNullOrEmpty(this.Title))
+            {
+                this.Title = this.Title.Trim();
+            }
+
+            SyncTools.ClearNulls(this, typeof(StdCalendarItem));
         }
     }
 }

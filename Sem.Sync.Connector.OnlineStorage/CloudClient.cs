@@ -50,15 +50,15 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <returns>the list of contacts that has been read from the online storage</returns>
         protected override List<Sem.Sync.SyncBase.StdElement> ReadFullList(string clientFolderName, List<Sem.Sync.SyncBase.StdElement> result)
         {
-            ////var client = this.GetClient();
-            ////var contacts = client.GetAll(clientFolderName).ContactList;
-            ////if (contacts != null)
-            ////{
-            ////    foreach (var contact in contacts)
-            ////    {
-            ////        result.Add(contact);
-            ////    }
-            ////}
+            var client = this.GetClient();
+            var contacts = client.GetAll(clientFolderName).ContactList;
+            if (contacts != null)
+            {
+                foreach (var contact in contacts)
+                {
+                    result.Add(contact.ToStdElementBase());
+                }
+            }
 
             return result;
         }
@@ -80,7 +80,7 @@ namespace Sem.Sync.Connector.OnlineStorage
             var client = this.GetClient();
             var container = new ContactListContainer
                 {
-                    ////ContactList = elements.ToContacts().ToArray(),
+                    ContactList = elements.ToStdContactsCloud().ToArray(),
                     Credentials = new CloudCredentials
                         {
                             AccountId = this.LogOnUserId,

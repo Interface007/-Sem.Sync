@@ -44,7 +44,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// Gets or sets the cached original contact item
         /// </summary>
-        public ContactItem Item { get; set; }
+        internal ContactItem Item { get; set; }
 
         /// <summary>
         /// Gets the last name of the cached contact item

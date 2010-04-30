@@ -7,13 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.Properties;
+
 namespace Sem.Sync.ConsoleClient
 {
     using System;
     using System.IO;
     using System.Reflection;
-
-    using GenericHelpers;
     using GenericHelpers.EventArgs;
 
     using SyncBase;
@@ -45,7 +45,7 @@ namespace Sem.Sync.ConsoleClient
                 try
                 {
                     var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
-                    Console.WriteLine("working folder: {0}", defaultBaseFolder);
+                    Console.WriteLine(Resources.MessageInfoWorkingFolder, defaultBaseFolder);
 
                     // setup the sync engine
                     var engine = new SyncEngine { WorkingFolder = defaultBaseFolder, UiProvider = new UiDispatcher() };
@@ -54,12 +54,12 @@ namespace Sem.Sync.ConsoleClient
 
                     if (!File.Exists(filename))
                     {
-                        Console.WriteLine("File not found: " + filename);
+                        Console.WriteLine(Resources.ErrorMessageFileNotFound + filename);
                     }
                     else
                     {
                         // load the list of commands
-                        Console.WriteLine("loading command list: {0}", filename);
+                        Console.WriteLine(Resources.MessageInfoLoadingList, filename);
                         var syncCommands = SyncCollection.LoadSyncList(filename);
 
                         // feed dispatcher with credentials if specified by the command line
@@ -81,21 +81,21 @@ namespace Sem.Sync.ConsoleClient
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("exception while execution: \n{0}", ex);
+                    Console.WriteLine(Resources.MessageErrorException, ex);
                 }
 
-                Console.WriteLine("Execution status: {0}", success ? "success" : "failed");
+                Console.WriteLine(Resources.MessageInfoStatus, success ? "success" : "failed");
             }
             else
             {
                 Console.WriteLine(
-                    "usage: {0} [PathOfCommandList]",
+                    Resources.MessageInfoUsage,
                     Path.GetFileNameWithoutExtension(Assembly.GetAssembly(typeof(Program)).CodeBase));
             }
 
 #if (DEBUG)
             // wait for user input if in debug build
-            Console.WriteLine("Finished - Press ENTER to close the window");
+            Console.WriteLine(Resources.MessageInfoCloseWithEnter);
             Console.ReadLine();
 #endif
         }
@@ -117,7 +117,7 @@ namespace Sem.Sync.ConsoleClient
         /// <param name="e"> The processing event arguments that do include the percentageof work done. </param>
         private static void ProgressEvent(object sender, ProgressEventArgs e)
         {
-            Console.WriteLine("{0}% done...", e.PercentageDone);
+            Console.WriteLine(Resources.MessageInfoProgress, e.PercentageDone);
         }
     }
 }

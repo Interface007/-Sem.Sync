@@ -7,6 +7,7 @@
 namespace Sem.GenericHelpers
 {
     using System.Configuration;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Xml.Serialization;
@@ -45,11 +46,11 @@ namespace Sem.GenericHelpers
 
             var parts = version.Split('.');
 
-            this.Major = int.Parse(parts[0]);
-            this.Minor = int.Parse(parts[1]);
-            this.MajorRevision = short.Parse(parts[2]);
-            this.MinorRevision = short.Parse(parts[3]);
-            this.Build = int.Parse(parts[4]);
+            this.Major = int.Parse(parts[0], CultureInfo.InvariantCulture);
+            this.Minor = int.Parse(parts[1], CultureInfo.InvariantCulture);
+            this.MajorRevision = short.Parse(parts[2], CultureInfo.InvariantCulture);
+            this.MinorRevision = short.Parse(parts[3], CultureInfo.InvariantCulture);
+            this.Build = int.Parse(parts[4], CultureInfo.InvariantCulture);
         }
 
         /// <summary>

@@ -298,14 +298,11 @@ namespace Sem.Sync.Connector.Outlook2003
                     InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier =
-                        new List<CalendarIdentifier>
-                            {
-                                new CalendarIdentifier
-                                    { 
-                                        Identifier = outlookItem.EntryID, 
-                                        IdentifierType = CalendarIdentifierType.Outlook, 
-                                    }
-                            },
+                        new ProfileIdentifiers
+                            (
+                                ProfileIdentifierType.MicrosoftOutlookId,
+                                outlookItem.EntryID
+                            ),
                     RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
                     ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
                     ResponseRequested = outlookItem.ResponseRequested,
@@ -649,9 +646,11 @@ namespace Sem.Sync.Connector.Outlook2003
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
                         }
-
-                        // clean up the temp file
-                        File.Delete(fullName);
+                        finally
+                        {
+                            // clean up the temp file
+                            File.Delete(fullName);
+                        }
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {

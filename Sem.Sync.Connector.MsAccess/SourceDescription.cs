@@ -36,7 +36,7 @@ namespace Sem.Sync.Connector.MsAccess
         /// <summary>
         /// Gets or sets the column definitions.
         /// </summary>
-        public List<ColumnDefinition> ColumnDefinitions { get; set; }
+        public IEnumerable<ColumnDefinition> ColumnDefinitions { get; set; }
 
         /// <summary>
         /// Generates a standard sample for looking up the correct XML syntax

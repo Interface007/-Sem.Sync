@@ -171,7 +171,7 @@ namespace Sem.Sync.Connector.Xing
         public StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline)
         {
             var contact = contactToFill as StdContact;
-            if (contact != null && contact.PersonalProfileIdentifiers.ContainsKey(ProfileIdentifierType.XingNameProfileId))
+            if (contact != null && contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType.XingNameProfileId))
             {
                 var offset = 0;
                 var added = 0;
@@ -180,7 +180,7 @@ namespace Sem.Sync.Connector.Xing
                     this.LogProcessingEvent("reading contacts ({0})", offset); 
 
                     // get the contact list
-                    var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.PersonalProfileIdentifiers[ProfileIdentifierType.ExchangeWs], offset);
+                    var url = string.Format(CultureInfo.InvariantCulture, HttpUrlProfileContacts, contact.ExternalIdentifier[ProfileIdentifierType.ExchangeWs], offset);
                     var profileContent = this.GetTextContent(url, string.Format(CultureInfo.InvariantCulture, "XingContent-{0}", offset));
 
                     var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
@@ -251,7 +251,7 @@ namespace Sem.Sync.Connector.Xing
                 var contact = this.DownloadContact(item.VCardUrl, item.VCardUrl.Replace("/", "_").Replace("?", "_"));
                 if (contact != null)
                 {
-                    contact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.XingNameProfileId, item.ProfileUrl);
+                    contact.ExternalIdentifier.SetProfileId(ProfileIdentifierType.XingNameProfileId, item.ProfileUrl);
                     contact.Categories = new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }

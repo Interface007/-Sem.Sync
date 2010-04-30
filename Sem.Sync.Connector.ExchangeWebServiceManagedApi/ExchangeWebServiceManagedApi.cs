@@ -88,7 +88,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             var contactsFolder = this.GetContactsFolder(clientFolderName);
             foreach (var element in elementsToDelete)
             {
-                var contact = Contact.Bind(contactsFolder.Service, ((StdContact)element).PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
+                var contact = Contact.Bind(contactsFolder.Service, element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
                 contact.Delete(DeleteMode.MoveToDeletedItems);
             }
         }
@@ -113,11 +113,11 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 
                 // In case of a EWS-id being present in the contact, we try to load the contact with suppressing
                 // ServiceResponseException where ErrorCode == ErrorItemNotFound - otherwise we assume NULL
-                var item = contact.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ExchangeWs) != null
+                var item = contact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs) != null
                            ? ExceptionHandler.Suppress(
                                 () => Contact.Bind(
                                     contactsFolder.Service,
-                                    contact.PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.ExchangeWs).Id,
+                                    contact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id,
                                     ContactPropertySet),
                                 (ServiceResponseException x) => x.ErrorCode == ServiceError.ErrorItemNotFound)
                            : null;
@@ -128,7 +128,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     this.LogProcessingEvent(contact, Properties.Resources.AddingContact);
                     var exchangeContact = contact.ToExchangeContact(service);
                     exchangeContact.Save(contactsFolderId);
-                    contact.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.ExchangeWs, exchangeContact.Id.UniqueId);
+                    contact.ExternalIdentifier.SetProfileId(ProfileIdentifierType.ExchangeWs, exchangeContact.Id.UniqueId);
                 }
                 else
                 {
@@ -221,8 +221,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 
             if (folderName.Contains("|"))
             {
-                server = folderName.Split('|')[0];
-                folderName = folderName.Split('|')[1];
+                var strings = folderName.Split('|');
+                server = strings[0];
+                folderName = strings[1];
             }
 
             if (string.IsNullOrEmpty(server))

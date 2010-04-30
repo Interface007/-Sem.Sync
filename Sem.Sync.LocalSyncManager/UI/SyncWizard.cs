@@ -23,7 +23,6 @@ namespace Sem.Sync.LocalSyncManager.UI
     using Properties;
 
     using SharedUI.Common;
-    using SharedUI.WinForms.Tools;
     using SyncBase;
 
     using Tools;
@@ -44,7 +43,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Gets or sets the data context.
         /// </summary>
-        public SyncWizardContext<UiDispatcher> DataContext { get; set; }
+        public SyncWizardContext DataContext { get; set; }
 
         /// <summary>
         /// Setup of the event handler routing and "databinding"
@@ -53,7 +52,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e"> empty event arguments </param>
         private void SyncWizard_Load(object sender, EventArgs e)
         {
-            this.versionLabel.Text = "Version " + new VersionCheck().ToString(false);
+            this.versionLabel.Text = Resources.LabelVersion + new VersionCheck().ToString(false);
 
             // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");
@@ -81,8 +80,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
-            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext<UiDispatcher>.OpenWorkingFolder();
-            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext<UiDispatcher>.OpenExceptionFolder();
+            this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
+            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenExceptionFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
@@ -297,16 +296,16 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <returns> the user entered path to a file </returns>
         private string AskForDestinationFile(string currentFileName)
         {
-            this.saveFileDialog1.DefaultExt = SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
             
             // ReSharper disable LocalizableElement
-            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext<UiDispatcher>.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
             
             // ReSharper restore LocalizableElement
             this.saveFileDialog1.FilterIndex = 0;
             this.saveFileDialog1.AddExtension = true;
             this.saveFileDialog1.FileName = currentFileName;
-            this.saveFileDialog1.InitialDirectory = SyncWizardContext<UiDispatcher>.WorkingFolderData;
+            this.saveFileDialog1.InitialDirectory = SyncWizardContext.WorkingFolderData;
             return
                 this.saveFileDialog1.ShowDialog() == DialogResult.OK
                 ? this.saveFileDialog1.FileName
@@ -323,7 +322,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             if (!useFileDialog)
             {
-                this.folderBrowser.SelectedPath = SyncWizardContext<UiDispatcher>.ResolvePath(textBox.Text);
+                this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = this.folderBrowser.SelectedPath;
@@ -357,6 +356,21 @@ namespace Sem.Sync.LocalSyncManager.UI
             {
                 textBox.Text = this.openFileDialog1.FileName;
             }
+        }
+
+        /// <summary>
+        /// handels the menu click event
+        /// </summary>
+        /// <param name="sender"> The sender. </param>
+        /// <param name="e"> The event parameters. </param>
+        private void SwitchToCalendarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new SyncWizard
+                    {
+                        DataContext = new SyncWizardContext(typeof(StdCalendarItem), this.DataContext.UiProvider)
+                    };
+
+            form.Show();
         }
     }
 }

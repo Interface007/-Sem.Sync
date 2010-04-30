@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ContactsItemContainer.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//     Copyright (c) Sven Erik Matzen. GNU Library General internal License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
@@ -19,7 +19,7 @@ namespace Sem.Sync.Connector.Outlook2003
     /// to cache some of the properties of that object that will be needed
     /// in linq-queries.
     /// </summary>
-    public class ContactsItemContainer
+    internal class ContactsItemContainer
     {
         /// <summary>
         /// name of the custom outlook property that does hold the Sem.Sync entity id
@@ -44,12 +44,12 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Gets or sets the cached original contact item
         /// </summary>
-        public ContactItem Item { get; set; }
+        internal ContactItem Item { get; set; }
 
         /// <summary>
         /// Gets the last name of the cached contact item
         /// </summary>
-        public string LastName
+        internal string LastName
         {
             get
             {
@@ -66,7 +66,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Gets the first name of the cached contact item
         /// </summary>
-        public string FirstName
+        internal string FirstName
         {
             get
             {
@@ -82,7 +82,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Gets the unique identifier of the cached contact item
         /// </summary>
-        public string Id
+        internal string Id
         {
             get
             {

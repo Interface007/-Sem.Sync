@@ -7,6 +7,7 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
+    using System.Linq;
     using System.Text;
     using Sem.GenericHelpers;
 
@@ -89,31 +90,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns>true in case of min. one matches</returns>
         public bool MatchesAny(ProfileIdentifiers other)
         {
-            foreach (var identifier in other)
-            {
-                if (this.GetProfileId(identifier.Key) == identifier.Value)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-
-            ////return (other == null)
-            ////    ? false
-            ////    : (!string.IsNullOrEmpty(this.XingNameProfileId) && this.XingNameProfileId == other.XingNameProfileId) ||
-            ////      (!string.IsNullOrEmpty(this.ActiveDirectoryId) && this.ActiveDirectoryId == other.ActiveDirectoryId) ||
-            ////      (!string.IsNullOrEmpty(this.MicrosoftAccessId) && this.MicrosoftAccessId == other.MicrosoftAccessId) ||
-            ////      (!string.IsNullOrEmpty(this.WerKenntWenUrl) && this.WerKenntWenUrl == other.WerKenntWenUrl) ||
-            ////      (!string.IsNullOrEmpty(this.FacebookProfileId) && this.FacebookProfileId == other.FacebookProfileId) ||
-            ////      (!string.IsNullOrEmpty(this.MeinVZPersonId) && this.MeinVZPersonId == other.MeinVZPersonId) ||
-            ////      (!string.IsNullOrEmpty(this.StayFriendsPersonId) && this.StayFriendsPersonId == other.StayFriendsPersonId) ||
-            ////      (!string.IsNullOrEmpty(this.LinkedInId) && this.LinkedInId == other.LinkedInId) ||
-            ////      (!string.IsNullOrEmpty(this.GoogleId) && this.GoogleId == other.GoogleId) ||
-            ////      (!string.IsNullOrEmpty(this.LotusNotesId) && this.LotusNotesId == other.LotusNotesId) ||
-            ////      (!string.IsNullOrEmpty(this.OracleCrmOnDemandId) && this.OracleCrmOnDemandId == other.OracleCrmOnDemandId) ||
-            ////      (!string.IsNullOrEmpty(this.ExchangeWs) && this.ExchangeWs == other.ExchangeWs) ||
-            ////      (!string.IsNullOrEmpty(this.DefaultProfileId) && this.DefaultProfileId == other.DefaultProfileId);
+            return other.Any(identifier => this.GetProfileId(identifier.Key) == identifier.Value);
         }
 
         /// <summary>

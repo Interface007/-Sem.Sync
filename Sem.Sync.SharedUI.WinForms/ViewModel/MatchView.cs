@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase;
+
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using System;
@@ -17,6 +19,21 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     /// </summary>
     public class MatchView : IComparable<MatchView>
     {
+        public MatchView()
+        {
+        }
+
+        public MatchView(StdElement sourceElement, StdElement targetElement)
+        {
+            var sourceContact = targetElement as StdContact;
+            var targetContact = targetElement as StdContact;
+
+            ContactName = sourceContact != null ? sourceContact.GetFullName() : sourceElement.ToString();
+            ContactNameMatch = targetContact != null ? targetContact.GetFullName() : targetElement.ToString();
+
+            BaselineId = targetElement.Id;
+        }
+
         /// <summary>
         /// Gets or sets ContactName of this matches source entity.
         /// </summary>

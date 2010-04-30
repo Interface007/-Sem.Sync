@@ -18,7 +18,7 @@ namespace Sem.Sync.SharedUI.Common
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    
+
     using GenericHelpers;
     using GenericHelpers.Entities;
     using GenericHelpers.EventArgs;
@@ -38,8 +38,7 @@ namespace Sem.Sync.SharedUI.Common
     /// and target as well as  the paths inside the storage and  the credentials
     /// to authenticate.
     /// </summary>
-    /// <typeparam name="TUiProvider"> The type of the UI provider to use </typeparam>
-    public class SyncWizardContext<TUiProvider> : INotifyPropertyChanged where TUiProvider : IUiInteraction, new()
+    public class SyncWizardContext : INotifyPropertyChanged
     {
         /// <summary>
         /// The file extension for data files.
@@ -67,10 +66,17 @@ namespace Sem.Sync.SharedUI.Common
         private string currentSyncWorkflowData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SyncWizardContext{TUiProvider}"/> class. 
+        /// holds the type of entities this class should handle
         /// </summary>
-        public SyncWizardContext()
+        private Type entityType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyncWizardContext"/> class. 
+        /// </summary>
+        public SyncWizardContext(Type typeOfEntity, IUiInteraction uiInteraction)
         {
+            this.entityType = typeOfEntity;
+            this.UiProvider = uiInteraction;
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
             this.Source = new ConnectorInformation();
@@ -81,14 +87,14 @@ namespace Sem.Sync.SharedUI.Common
             var fileInfo = this.ScanFiles(Directory.GetCurrentDirectory());
 
             this.ClientsSource = from x in fileInfo
-                                 where (x.Value3 & 1) == 1
-                                 orderby x.Value2
-                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
+                                 where (x.ReadWrite & 1) == 1
+                                 orderby x.DisplayName
+                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
 
             this.ClientsTarget = from x in fileInfo
-                                 where (x.Value3 & 2) == 2
-                                 orderby x.Value2
-                                 select new KeyValuePair<string, string>(x.Value1, x.Value2);
+                                 where (x.ReadWrite & 2) == 2
+                                 orderby x.DisplayName
+                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
             Tools.EnsurePathExist(WorkingFolderTemplates);
@@ -151,11 +157,13 @@ namespace Sem.Sync.SharedUI.Common
 
             set
             {
-                if (this.currentSyncWorkflowData != value)
+                if (this.currentSyncWorkflowData == value)
                 {
-                    this.currentSyncWorkflowData = value;
-                    this.LoadFrom(value);
+                    return;
                 }
+
+                this.currentSyncWorkflowData = value;
+                this.LoadFrom(value);
             }
         }
 
@@ -185,9 +193,14 @@ namespace Sem.Sync.SharedUI.Common
         public bool Locked { get; set; }
 
         /// <summary>
+        /// Gets or sets the UiProvider that will handle the ui interaction.
+        /// </summary>
+        public IUiInteraction UiProvider { get; set; }
+
+        /// <summary>
         /// Opens the current working folder using the explorer
         /// </summary>
-        public static void OpenWorkingFolder()
+        public void OpenWorkingFolder()
         {
             var engine = new SyncEngine
                              {
@@ -220,7 +233,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// Opens the folder for the exceptrion log files using the standard process for folders (Windows Explorer on most systems).
         /// </summary>
-        public static void OpenExceptionFolder()
+        public void OpenExceptionFolder()
         {
             System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
         }
@@ -338,7 +351,7 @@ namespace Sem.Sync.SharedUI.Common
             var engine = new SyncEngine
                              {
                                  WorkingFolder = Config.WorkingFolder,
-                                 UiProvider = new TUiProvider(),
+                                 UiProvider = this.UiProvider,
                              };
 
             engine.ProcessingEvent += this.HandleProcessingEvent;
@@ -357,7 +370,7 @@ namespace Sem.Sync.SharedUI.Common
 
             if (this.FinishedEvent != null)
             {
-                this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 }); 
+                this.FinishedEvent(new ProgressEventArgs { PercentageDone = 100 });
             }
         }
 
@@ -391,7 +404,7 @@ namespace Sem.Sync.SharedUI.Common
         /// </summary>
         /// <param name="path"> The path to scan. </param>
         /// <returns> The IEnumerable with the information. </returns>
-        private IEnumerable<Triple<string, string, int>> ScanFiles(string path)
+        private IEnumerable<ConnectorTypeDescription> ScanFiles(string path)
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))
             {
@@ -401,7 +414,7 @@ namespace Sem.Sync.SharedUI.Common
                 }
 
                 var types = new Type[0];
-                
+
                 try
                 {
                     // todo: check if the dll is a loadable assembly
@@ -433,22 +446,22 @@ namespace Sem.Sync.SharedUI.Common
 
                     var fullName =
                         exportedType.IsGenericType
-                            ? exportedType.FullName.Replace("`1", " of StdContact")
+                            ? exportedType.FullName.Replace("`1", " of " + entityType.Name)
                             : exportedType.FullName;
 
                     var nameToUse =
                         exportedType.IsGenericType
-                            ? (attribute.DisplayName ?? fullName) + " of StdContact"
+                            ? (attribute.DisplayName ?? fullName) + " of " + entityType.Name
                             : attribute.DisplayName ?? fullName;
 
-                    if (!attribute.Internal && (attribute.CanReadContacts || attribute.CanWriteContacts))
+                    if (!attribute.Internal && (attribute.CanRead(entityType) || attribute.CanWrite(entityType)))
                     {
                         yield return
-                            new Triple<string, string, int>
+                            new ConnectorTypeDescription
                                 {
-                                    Value1 = fullName,
-                                    Value2 = nameToUse,
-                                    Value3 = attribute.CanReadContacts ? (attribute.CanWriteContacts ? 3 : 1) : 2
+                                    ClassName = fullName,
+                                    DisplayName = nameToUse,
+                                    ReadWrite = attribute.CanRead(entityType) ? (attribute.CanWrite(entityType) ? 3 : 1) : 2
                                 };
                     }
                 }
@@ -501,7 +514,7 @@ namespace Sem.Sync.SharedUI.Common
             {
                 if (this.Source != null)
                 {
-                    this.Source.PropertyChanged += this.HandlePropertyChangedEvent; 
+                    this.Source.PropertyChanged += this.HandlePropertyChangedEvent;
                 }
 
                 if (this.Target != null)
@@ -577,5 +590,12 @@ namespace Sem.Sync.SharedUI.Common
 
             return returnvalue;
         }
+    }
+
+    internal class ConnectorTypeDescription
+    {
+        public string ClassName;
+        public string DisplayName;
+        public int ReadWrite;
     }
 }

@@ -33,7 +33,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.Requester = request.HttpHelper;
 
             this.Page = this.Requester.GetContent(request.UrlOfWebSite);
-            var imageStream = new System.IO.MemoryStream(this.Requester.GetContentBinary(this.GetImageFromPage(this.Page)));
+            var imageStream = new System.IO.MemoryStream(this.Requester.GetContentBinary(GetImageFromPage(this.Page)));
             this.picCaptcha.Image = Image.FromStream(imageStream);
             imageStream.Dispose();
 
@@ -42,13 +42,14 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
         protected string Page { get; set; }
 
-        private string GetImageFromPage(string page)
+        private static string GetImageFromPage(string page)
         {
             var imageUrl = System.Text.RegularExpressions.Regex.Match(page, "<iframe src=\"(http://api.recaptcha.net/noscript[?]k=[a-zA-Z0-9]*)");
             if (imageUrl.Groups.Count == 2)
             {
                 return imageUrl.Groups[1].ToString();
             }
+
             throw new NotImplementedException();
         }
 

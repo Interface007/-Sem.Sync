@@ -44,12 +44,12 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <returns>the list of contacts that has been read from the online storage</returns>
         protected override List<Sem.Sync.SyncBase.StdElement> ReadFullList(string clientFolderName, List<Sem.Sync.SyncBase.StdElement> result)
         {
-            ////var client = new OnlineStorage.ContactClient();
-            ////var contacts = client.GetAll(clientFolderName).ContactList;
-            ////foreach (var contact in contacts)
-            ////{
-            ////    result.Add(contact);
-            ////}
+            var client = new OnlineStorage.ContactClient();
+            var contacts = client.GetAll(clientFolderName).ContactList;
+            foreach (var contact in contacts)
+            {
+                result.Add(contact.ToStdElementBase());
+            }
 
             return result;
         }
@@ -62,14 +62,14 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<Sem.Sync.SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            ////var client = new OnlineStorage.ContactClient();
-            ////client.WriteFullList(
-            ////    new ContactListContainer
-            ////        {
-            ////            ContactList = elements.ToContacts().ToArray()
-            ////                         }, 
-            ////                         clientFolderName, 
-            ////                         skipIfExisting);
+            var client = new OnlineStorage.ContactClient();
+            client.WriteFullList(
+                new ContactListContainer
+                    {
+                        ContactList = elements.ToStdContactsService().ToArray()
+                                     }, 
+                                     clientFolderName, 
+                                     skipIfExisting);
         }
     }
 }

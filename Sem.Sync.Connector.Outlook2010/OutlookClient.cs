@@ -298,14 +298,11 @@ namespace Sem.Sync.Connector.Outlook2010
                     InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier =
-                        new List<CalendarIdentifier>
-                            {
-                                new CalendarIdentifier
-                                    { 
-                                        Identifier = outlookItem.GlobalAppointmentID, 
-                                        IdentifierType = CalendarIdentifierType.Outlook, 
-                                    }
-                            },
+                        new ProfileIdentifiers
+                            (
+                                ProfileIdentifierType.MicrosoftOutlookId,
+                                outlookItem.GlobalAppointmentID
+                            ),
                     RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
                     ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
                     ResponseRequested = outlookItem.ResponseRequested,
@@ -435,8 +432,8 @@ namespace Sem.Sync.Connector.Outlook2010
 
             var stdOldAppointment = ConvertToStandardCalendarItem(appointment, null);
 
-            SyncTools.ClearNulls(stdNewAppointment, typeof(StdCalendarItem));
-            SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
+            stdNewAppointment.NormalizeContent();
+            stdOldAppointment.NormalizeContent();
 
             var dirty = false;
             MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);

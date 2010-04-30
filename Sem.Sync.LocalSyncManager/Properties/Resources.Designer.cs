@@ -77,6 +77,15 @@ namespace Sem.Sync.LocalSyncManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Version .
+        /// </summary>
+        internal static string LabelVersion {
+            get {
+                return ResourceManager.GetString("LabelVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The process you&apos;ve selected has now been finished. You might select another process or close the synchronization window..
         /// </summary>
         internal static string ProcessFinishedMessage {

@@ -61,17 +61,17 @@ namespace Sem.GenericHelpers
         /// professional and know all implications of this class: please consider this class as
         /// insecure!</remarks>
         /// </summary>
-        /// <param name="inputString"> The input string to be encrypted. </param>
+        /// <param name="inputValue"> The input string to be encrypted. </param>
         /// <param name="keyAsXml"> The encryption key as xml. </param>
         /// <returns> The encrypted and base64 encoded value </returns>
-        public static string EncryptString(string inputString, string keyAsXml)
+        public static string EncryptString(string inputValue, string keyAsXml)
         {
             var rsaCryptoServiceProvider = new RSACryptoServiceProvider();
             rsaCryptoServiceProvider.FromXmlString(keyAsXml);
             
             var keySizeInBit = rsaCryptoServiceProvider.KeySize;
             var keySize = keySizeInBit / 8;
-            var bytes = Encoding.UTF32.GetBytes(inputString);
+            var bytes = Encoding.UTF32.GetBytes(inputValue);
 
             var blockLength = keySize - 42;
             var dataLength = bytes.Length;
@@ -98,22 +98,22 @@ namespace Sem.GenericHelpers
         /// professional and know all implications of this class: please consider this class as
         /// insecure!</remarks>
         /// </summary>
-        /// <param name="inputString"> The input string to be decrypted. </param>
+        /// <param name="inputValue"> The input string to be decrypted. </param>
         /// <param name="keyAsXml"> The key to decrypt the input serialized as xml including the private portion. </param>
         /// <returns> The decrypted string </returns>
-        public static string DecryptString(string inputString, string keyAsXml)
+        public static string DecryptString(string inputValue, string keyAsXml)
         {
             var rsaCryptoServiceProvider = new RSACryptoServiceProvider();
             rsaCryptoServiceProvider.FromXmlString(keyAsXml);
 
             var keySizeInBit = rsaCryptoServiceProvider.KeySize;
             var base64BlockSize = ((keySizeInBit / 8) % 3 != 0) ? (((keySizeInBit / 8) / 3) * 4) + 4 : ((keySizeInBit / 8) / 3) * 4;
-            var iterations = inputString.Length / base64BlockSize;
+            var iterations = inputValue.Length / base64BlockSize;
             var arrayList = new ArrayList();
             
             for (var i = 0; i < iterations; i++)
             {
-                var encryptedBytes = Convert.FromBase64String(inputString.Substring(base64BlockSize * i, base64BlockSize));
+                var encryptedBytes = Convert.FromBase64String(inputValue.Substring(base64BlockSize * i, base64BlockSize));
                 arrayList.AddRange(rsaCryptoServiceProvider.Decrypt(encryptedBytes, true));
             }
 

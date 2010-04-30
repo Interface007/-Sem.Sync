@@ -33,7 +33,7 @@ namespace Sem.Sync.OnlineStorage
         /// <returns> the view entity array </returns>
         public ViewContact[] GetAll(string clientFolderName)
         {
-            var stdContacts = (from x in new ContactClient().GetAll(this.storagePath).ToContacts()
+            var stdContacts = (from x in new ContactClient().GetAll(this.storagePath).ToStdContacts()
                                          select new ViewContact
                                                     {
                                                         FullName = x.GetFullName(),

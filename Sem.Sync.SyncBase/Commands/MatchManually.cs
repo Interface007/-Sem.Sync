@@ -75,22 +75,22 @@ namespace Sem.Sync.SyncBase.Commands
             // only write to target if we did get a merge result
             if (matchResultList != null)
             {
-                var sourceContactList = sourceMatchList.ToContacts();
+                var sourceContactList = sourceMatchList.ToStdContacts();
                 var matchingEntryList = matchResultList.ToMatchingEntries();
 
                 // Check for new (not matched) contacts and generate new matching entries for such new entries.
                 var orphanSource = from x in sourceContactList
                                    join matchEntry in matchingEntryList on
-                                       x.PersonalProfileIdentifiers equals
+                                       x.ExternalIdentifier equals
                                        matchEntry.ProfileId
                                        into matchGroup
                                    from y in matchGroup.DefaultIfEmpty()
-                                   where y == null && !string.IsNullOrEmpty(x.PersonalProfileIdentifiers.GetProfileId(identifierToUse))
+                                   where y == null && !string.IsNullOrEmpty(x.ExternalIdentifier.GetProfileId(identifierToUse))
                                    select
                                        new MatchingEntry
                                            {
                                                Id = x.Id, 
-                                               ProfileId = x.PersonalProfileIdentifiers 
+                                               ProfileId = x.ExternalIdentifier 
                                            };
 
                 // add all new contacts matching entries to the base line

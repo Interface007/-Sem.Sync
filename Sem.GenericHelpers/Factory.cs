@@ -8,6 +8,7 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -127,7 +128,7 @@ namespace Sem.GenericHelpers
 
             if (classType == null)
             {
-                throw new ArgumentException(string.Format("The class {0} cannot be found - check spelling.", className), "className");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), "className");
             }
 
             var typeParams = new[] { classType };

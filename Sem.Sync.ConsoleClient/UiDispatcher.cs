@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.Properties;
+
 namespace Sem.Sync.ConsoleClient
 {
     using System;
@@ -15,6 +17,8 @@ namespace Sem.Sync.ConsoleClient
 
     using GenericHelpers.Entities;
     using GenericHelpers.Interfaces;
+
+    using Sem.GenericHelpers;
 
     using SyncBase;
     using SyncBase.DetailData;
@@ -45,20 +49,16 @@ namespace Sem.Sync.ConsoleClient
         /// Requests log on credentials from the user and insert them into an object implementing 
         /// the ICredentialAware interface.
         /// </summary>
-        /// <param name="client">the object that should get the credentials</param>
-        /// <param name="messageForUser">a message that should be displayed to the user</param>
-        /// <param name="logOnUserId">a pre-selection for the user part of the credentails</param>
-        /// <param name="logOnPassword">a pre-selection for the password part of the credentails</param>
         /// <returns>a value indicating whether the user did click the cancel button</returns>
-        public bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool AskForLogOnCredentials(LogonCredentialRequest request)
         {
-            Console.WriteLine(messageForUser);
-            
-            client.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain", false);
-            client.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name", false);
-            client.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password", true);
-            
-            return client.LogOnPassword.Length > 0;
+            Console.WriteLine(request.MessageForUser);
+
+            request.LogOnCredentials.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain", false);
+            request.LogOnCredentials.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name", false);
+            request.LogOnCredentials.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password", true);
+
+            return request.LogOnCredentials.LogOnPassword.Length > 0;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Sem.Sync.ConsoleClient
             }
 
             Console.WriteLine(messageForUser);
-            Console.WriteLine("-=> YES");
+            Console.WriteLine(Resources.MessageUiDispatcherAskForConfirm);
             return true;
         }
 
@@ -100,9 +100,9 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>true if it's ok to send this information</returns>
         public bool AskForConfirmSendingException(string content)
         {
-            Console.WriteLine("In order to improve the software quality, the program wants to send the following information to the web site www.svenerikmatzen.info:");
+            Console.WriteLine(Resources.UiDispatcherAskForConfirmSendingException01);
             Console.WriteLine(content);
-            Console.WriteLine("Press \"Y\" and the RETURN key to send the information, enter \"N\" to not send the information.");
+            Console.WriteLine(Resources.UiDispatcherAskForConfirmSendingException02);
             return Console.ReadLine() == "Y";
         }
 

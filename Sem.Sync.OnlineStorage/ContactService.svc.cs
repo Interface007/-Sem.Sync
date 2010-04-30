@@ -31,7 +31,7 @@ namespace Sem.Sync.OnlineStorage
         {
             var stdContacts = new ContactListContainer
                                   {
-                                      ContactList = new ContactClient().GetAll(this.storagePath).ToContacts()
+                                      ContactList = new ContactClient().GetAll(this.storagePath).ToStdContacts()
                                   };
             return stdContacts;
         }
@@ -45,7 +45,7 @@ namespace Sem.Sync.OnlineStorage
         /// <returns> A value indicating whether the operation was successfull. </returns>
         public bool WriteFullList(ContactListContainer elements, string clientFolderName, bool skipIfExisting)
         {
-            new ContactClient().WriteRange(elements.ContactList.ToStdElement(), this.storagePath);
+            new ContactClient().WriteRange(elements.ContactList.ToStdElements(), this.storagePath);
             return true;
         }
     }

@@ -11,9 +11,6 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System.Diagnostics;
     using System.IO;
-
-    using GenericHelpers.Interfaces;
-
     using Interfaces;
     using Microsoft.Win32;
     

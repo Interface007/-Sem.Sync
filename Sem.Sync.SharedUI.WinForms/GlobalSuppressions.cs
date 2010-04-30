@@ -58,3 +58,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.SharedUI.WinForms.ViewModel.Matching.#SourceAsList()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.SharedUI.WinForms.ViewModel.Matching.#TargetAsList()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.SharedUI.WinForms.ViewModel.Matching.#BaselineAsList()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "svenerikmatzen", Scope = "resource", Target = "Sem.Sync.SharedUI.WinForms.UI.ExceptionOkToSend.resources")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "automatch", Scope = "resource", Target = "Sem.Sync.SharedUI.WinForms.UI.MatchEntities.resources")]
