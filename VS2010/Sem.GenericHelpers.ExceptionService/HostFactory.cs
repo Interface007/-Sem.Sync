@@ -13,9 +13,9 @@ namespace Sem.GenericHelpers.ExceptionService
     using System.ServiceModel;
     using System.ServiceModel.Activation;
 
-    /// <summary>
-    /// The host factory will enable this WCF to run at GoDaddy (my current hoster)
-    /// </summary>
+    /////// <summary>
+    /////// The host factory will enable this WCF to run at GoDaddy (my current hoster)
+    /////// </summary>
     ////public class HostFactory : ServiceHostFactory
     ////{
     ////    /// <summary>

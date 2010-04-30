@@ -16,7 +16,6 @@ namespace Sem.Sync.ConsoleClient
     using System.Diagnostics;
 
     using GenericHelpers.Entities;
-    using GenericHelpers.Interfaces;
 
     using Sem.GenericHelpers;
 
@@ -54,9 +53,9 @@ namespace Sem.Sync.ConsoleClient
         {
             Console.WriteLine(request.MessageForUser);
 
-            request.LogOnCredentials.LogOnDomain = GetInfoWithDefault(this.UserDomain, "Please enter the user domain", false);
-            request.LogOnCredentials.LogOnUserId = GetInfoWithDefault(this.UserName, "Please enter the user name", false);
-            request.LogOnCredentials.LogOnPassword = GetInfoWithDefault(this.UserPassword, "Please enter the user password", true);
+            request.LogOnCredentials.LogOnDomain = GetInfoWithDefault(this.UserDomain, Resources.UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_domain, false);
+            request.LogOnCredentials.LogOnUserId = GetInfoWithDefault(this.UserName, Resources.UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_name, false);
+            request.LogOnCredentials.LogOnPassword = GetInfoWithDefault(this.UserPassword, Resources.UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_password, true);
 
             return request.LogOnCredentials.LogOnPassword.Length > 0;
         }
@@ -114,7 +113,7 @@ namespace Sem.Sync.ConsoleClient
         /// <returns>the unmodified <paramref name="targetList"/></returns>
         public List<StdElement> PerformAttributeMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
-            Console.WriteLine("Interactive attribute merge to solve merge conflicts not implemented - skipped");
+            Console.WriteLine(Resources.NotImplementedInteractiveAttributeMerge);
             return targetList;
         }
 
@@ -130,7 +129,7 @@ namespace Sem.Sync.ConsoleClient
         /// </returns>
         public List<StdElement> PerformEntityMerge(List<StdElement> sourceList, List<StdElement> targetList, List<StdElement> baselineList, ProfileIdentifierType identifierToUse)
         {
-            Console.WriteLine("Interactive entity merge to solve merge conflicts not implemented - skipped");
+            Console.WriteLine(Resources.NotImplementedInteractiveEntityMerge);
             return targetList;
         }
 

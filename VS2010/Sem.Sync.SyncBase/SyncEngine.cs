@@ -328,15 +328,13 @@ namespace Sem.Sync.SyncBase
             // Office 2003
             if (ex.Message.Contains("Version=11"))
             {
-                Process.Start(
-                    "http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
+                Process.Start("http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
             }
 
             // Office 2007
             if (ex.Message.Contains("Version=12"))
             {
-                Process.Start(
-                    "http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
+                Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
             }
 
             // Office 2010
@@ -344,6 +342,19 @@ namespace Sem.Sync.SyncBase
             {
                 Process.Start("http://go.microsoft.com/fwlink/?LinkId=166026");
             }
+        }
+
+        /// <summary>
+        /// Opens the working folder for this engine instance
+        /// </summary>
+        public void OpenWorkingFolder()
+        {
+            this.Execute(
+                new SyncDescription
+                    {
+                        Command = SyncCommand.OpenDocument.ToString(),
+                        CommandParameter = "{FS:WorkingFolder}"
+                    });
         }
     }
 }

@@ -210,13 +210,9 @@ namespace Sem.Sync.Connector.ActiveDirectory
         {
             if (thePropertyCollection != null && thePropertyCollection.Count > 0)
             {
-                foreach (var name in propNamesByPriotity)
-                {
-                    if (thePropertyCollection[name].Count > 0)
-                    {
-                        return thePropertyCollection[name][0].ToString();
-                    }
-                }
+                return (from name in propNamesByPriotity
+                        where thePropertyCollection[name].Count > 0
+                        select thePropertyCollection[name][0].ToString()).FirstOrDefault();
             }
 
             return null;
@@ -268,12 +264,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <summary>
         /// lookup the list of domain controllers for the specified domain
         /// </summary>
-        /// <param name="domainName">
-        /// The domain Name to get the DC for.
-        /// </param>
-        /// <returns>
-        /// The list of DCs in this domain.
-        /// </returns>
+        /// <param name="domainName"> The domain Name to get the DC for. </param>
+        /// <returns> The list of DCs in this domain. </returns>
         private static List<string> GetDCs(string domainName)
         {
             var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
@@ -331,7 +323,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             var existing =
                 from x in result
-                where ((StdContact)x).ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
+                where x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
                       newContact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
                 select x;
 
@@ -374,8 +366,9 @@ namespace Sem.Sync.Connector.ActiveDirectory
             // if we have a user name and it does contain a backslash, we need to split the domain from the user name
             if (!string.IsNullOrEmpty(this.LogOnUserId) && this.LogOnUserId.Contains("\\"))
             {
-                this.LogOnDomain = this.LogOnUserId.Split('\\')[0];
-                this.LogOnUserId = this.LogOnUserId.Split('\\')[1];
+                var strings = this.LogOnUserId.Split('\\');
+                this.LogOnDomain = strings[0];
+                this.LogOnUserId = strings[1];
             }
 
             // if the user id is {default} we need to get the domain from the currently logged in user

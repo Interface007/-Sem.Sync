@@ -8,19 +8,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Data.SqlClient;
-using System.Linq;
-using Sem.GenericHelpers;
-using Sem.GenericHelpers.Entities;
-using Sem.Sync.SyncBase.Helpers;
-
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
     using System.Collections.Generic;
-    using System.Globalization;
+    using System.Data.SqlClient;
 
-    using SyncBase;
-    using SyncBase.Attributes;
+    using Sem.GenericHelpers.Entities;
+    
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
@@ -72,12 +69,12 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             using (var con = new System.Data.SqlClient.SqlConnection(connectionString))
             {
                 con.Open();
-                elements.ToStdContacts().ForEach(x => this.WriteContact(con, x, columns));
+                elements.ToStdContacts().ForEach(x => WriteContact(con, x, columns));
                 con.Close();
             }
         }
 
-        private void WriteContact(SqlConnection con, StdContact x, List<ColumnDefinition> definitions)
+        private static void WriteContact(SqlConnection con, StdContact x, List<ColumnDefinition> definitions)
         {
             var cmd = con.CreateCommand();
             cmd.CommandText = "SELECT ContactID FROM Contact WHERE ContactID = @contactId'";

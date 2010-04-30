@@ -79,6 +79,15 @@ namespace Sem.Sync.Connector.Outlook2003.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to there is no translation for this value into the SemSync namespace..
+        /// </summary>
+        internal static string NoValueTranslationMessage {
+            get {
+                return ResourceManager.GetString("NoValueTranslationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to adding {0} elements ....
         /// </summary>
         internal static string uiAddingXElements {

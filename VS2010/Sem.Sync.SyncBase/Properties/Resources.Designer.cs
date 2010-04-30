@@ -170,6 +170,24 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interactive attribute merge to solve merge conflicts not implemented - skipped.
+        /// </summary>
+        public static string NotImplementedInteractiveAttributeMerge {
+            get {
+                return ResourceManager.GetString("NotImplementedInteractiveAttributeMerge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interactive entity merge to solve merge conflicts not implemented - skipped.
+        /// </summary>
+        public static string NotImplementedInteractiveEntityMerge {
+            get {
+                return ResourceManager.GetString("NotImplementedInteractiveEntityMerge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to adding element ....
         /// </summary>
         public static string uiAddingElement {
@@ -211,6 +229,33 @@ namespace Sem.Sync.SyncBase.Properties {
         public static string uiAddingXMissingElements {
             get {
                 return ResourceManager.GetString("uiAddingXMissingElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the user domain.
+        /// </summary>
+        public static string UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_domain {
+            get {
+                return ResourceManager.GetString("UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_domain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the user name.
+        /// </summary>
+        public static string UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_name {
+            get {
+                return ResourceManager.GetString("UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the user password.
+        /// </summary>
+        public static string UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_password {
+            get {
+                return ResourceManager.GetString("UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_password", resourceCulture);
             }
         }
         

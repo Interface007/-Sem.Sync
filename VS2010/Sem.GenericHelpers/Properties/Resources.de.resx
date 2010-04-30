@@ -131,4 +131,7 @@ Wenn Sie &gt;OK&lt; wählen können Sie jetzt die Informationen ansehen und ents
   <data name="ThereAreSomeInformationFilesTitle" xml:space="preserve">
     <value>Protokolle gefunden</value>
   </data>
+	<data name="TheProxyServerNeedsYourCredentials" xml:space="preserve">
+    <value>Am Proxy-Server {1} muss eine Anmeldung erfolgen, um Inhalte von {0} abzufragen.</value>
+  </data>
 </root>
