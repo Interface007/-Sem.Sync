@@ -207,12 +207,7 @@ namespace Sem.Sync.SharedUI.Common
                                  WorkingFolder = Config.WorkingFolder
                              };
 
-            engine.Execute(
-                new SyncDescription
-                    {
-                        Command = SyncCommand.OpenDocument.ToString(),
-                        CommandParameter = "{FS:WorkingFolder}"
-                    });
+            engine.OpenWorkingFolder();
         }
 
         /// <summary>

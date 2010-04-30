@@ -207,7 +207,7 @@ namespace Sem.Sync.Test
         {
             try
             {
-                File.WriteAllText("invalid Path:\\\\\\\\::?!", "test");
+                File.WriteAllText("invalid Path:\\\\\\\\::?!", @"test");
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace Sem.Sync.Test
             {
                 try
                 {
-                    File.WriteAllText("invalid Path:\\\\\\\\::?!", "test");
+                    File.WriteAllText("invalid Path:\\\\\\\\::?!", @"test");
                 }
                 catch (Exception ex)
                 {
@@ -308,7 +308,7 @@ namespace Sem.Sync.Test
             Assert.IsFalse(xmlSerialized.Contains("password"));
 
             var binSerializer = new BinaryFormatter();
-            using (MemoryStream contentStream = new MemoryStream())
+            using (var contentStream = new MemoryStream())
             {
                 binSerializer.Serialize(contentStream, credentials);
                 var data = contentStream.ToArray();

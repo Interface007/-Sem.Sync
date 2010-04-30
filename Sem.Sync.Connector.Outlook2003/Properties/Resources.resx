@@ -162,4 +162,7 @@
   <data name="MissingInteropQuestionTitle" xml:space="preserve">
     <value>File not found</value>
   </data>
+	<data name="NoValueTranslationMessage">
+		<value xml:space="preserve">there is no translation for this value into the SemSync namespace.</value>
+	</data>
 </root>

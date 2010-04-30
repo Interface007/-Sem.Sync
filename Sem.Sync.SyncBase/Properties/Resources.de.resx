@@ -177,4 +177,25 @@
   <data name="MissingInteropQuestionTitle" xml:space="preserve">
     <value>Datei nicht gefunden</value>
   </data>
+	<data name="uiOutOfDateVersion" xml:space="preserve">
+    <value>Die Version der Sync-Engine ist nicht mehr aktuell - bitte aktualisieren!</value>
+  </data>
+	<data name="ErrorMessageFileNotFound">
+		<value><![CDATA[Datei nicht gefunden: ]]></value>
+	</data>
+	<data name="MessageInfoLoadingList">
+		<value xml:space="preserve">Lade Sync-Befehlsliste: {0}</value>
+	</data>
+	<data name="MessageInfoWorkingFolder">
+		<value xml:space="preserve">Arbeits-Ordner: {0}</value>
+	</data>
+	<data name="MessageInfoUsage">
+		<value xml:space="preserve">Aufruf: {0} [PathOfCommandList]</value>
+	</data>
+	<data name="MessageInfoCloseWithEnter">
+		<value xml:space="preserve">Fertig - Bitte ENTER drücken, um das Fenster zu schliessen.</value>
+	</data>
+	<data name="MessageInfoProgress">
+		<value xml:space="preserve">{0}% Fortschritt...</value>
+	</data>
 </root>

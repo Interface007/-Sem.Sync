@@ -12,10 +12,8 @@ namespace Sem.Sync.Test.ExcelXmlTest
     using Sem.Sync.Connector.MsExcelOpenXml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using SyncBase;
-
     /// <summary>
-    /// Tests the Excel file parsing functionality of the <see cref="ExcelXml"/> class.
+    /// Tests the Excel file parsing functionality of the <see cref="OpenXmlHelper"/> class.
     /// </summary>
     [TestClass]
     public class XmlParsingTests
@@ -30,7 +28,7 @@ namespace Sem.Sync.Test.ExcelXmlTest
         [DeploymentItem("Data\\ExCel2010-StdContacts.xlsx")]
         public void LoadDataFromExCelOriginalFileOpenXmlDocument()
         {
-            var data = Sem.Sync.Connector.MsExcelOpenXml.OpenXmlHelper.GetValueArrayFromExcelFile("ExCel2010-StdContacts.xlsx");
+            var data = OpenXmlHelper.GetValueArrayFromExcelFile("ExCel2010-StdContacts.xlsx");
             Assert.IsNotNull(data);
         }
     }

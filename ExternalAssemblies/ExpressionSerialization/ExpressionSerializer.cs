@@ -11,9 +11,9 @@ namespace ExpressionSerialization
 {
     public class ExpressionSerializer
     {
-        private static readonly Type[] attributeTypes = new[] { typeof(string), typeof(int), typeof(bool), typeof(ExpressionType) };
-        private Dictionary<string, ParameterExpression> parameters = new Dictionary<string, ParameterExpression>();
-        private ExpressionSerializationTypeResolver resolver;
+        private static readonly Type[] AttributeTypes = new[] { typeof(string), typeof(int), typeof(bool), typeof(ExpressionType) };
+        private readonly Dictionary<string, ParameterExpression> parameters = new Dictionary<string, ParameterExpression>();
+        private readonly ExpressionSerializationTypeResolver resolver;
         public List<CustomExpressionXmlConverter> Converters { get; private set; }
 
         public ExpressionSerializer(ExpressionSerializationTypeResolver resolver)
@@ -72,7 +72,7 @@ namespace ExpressionSerialization
 
         private object GenerateXmlFromProperty(Type propType, string propName, object value)
         {
-            if (attributeTypes.Contains(propType))
+            if (AttributeTypes.Contains(propType))
                 return GenerateXmlFromPrimitive(propName, value);
             if (propType.Equals(typeof(object)))
                 return GenerateXmlFromObject(propName, value);

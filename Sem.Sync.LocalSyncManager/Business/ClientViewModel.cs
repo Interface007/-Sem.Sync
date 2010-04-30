@@ -74,12 +74,7 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </summary>
         public void OpenWorkingFolder()
         {
-            this.engine.Execute(
-                new SyncDescription
-                {
-                    Command = SyncCommand.OpenDocument.ToString(),
-                    CommandParameter = "{FS:WorkingFolder}"
-                });
+            this.engine.OpenWorkingFolder();
         }
         
         /// <summary>

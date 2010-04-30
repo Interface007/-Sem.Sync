@@ -486,7 +486,7 @@ namespace Sem.Sync.SyncBase
                 listEntry = (from entry in list
                              where
                              entry.Id == element.Id
-                             || ((StdContact)entry).ExternalIdentifier.Equals(asContact.ExternalIdentifier)
+                             || entry.ExternalIdentifier.Equals(asContact.ExternalIdentifier)
                              select entry).FirstOrDefault();
             }
             else

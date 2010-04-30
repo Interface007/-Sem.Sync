@@ -16,19 +16,22 @@ namespace ExpressionSerialization
 
     public class ExpressionSerializationTypeResolver
     {
-        private Dictionary<AnonTypeId, Type> anonymousTypes = new Dictionary<AnonTypeId, Type>();
-        private ModuleBuilder moduleBuilder;
-        private int anonymousTypeIndex = 0;
+        private readonly Dictionary<AnonTypeId, Type> anonymousTypes = new Dictionary<AnonTypeId, Type>();
+        private readonly ModuleBuilder moduleBuilder;
+        private int anonymousTypeIndex;
 
         //vsadov: hack to force loading of VB runtime.
+#pragma warning disable 169
+// ReSharper disable InconsistentNaming
         private int vb_hack = Microsoft.VisualBasic.CompilerServices.Operators.CompareString("qq","qq",true);
+// ReSharper restore InconsistentNaming
+#pragma warning restore 169
 
 
         public ExpressionSerializationTypeResolver()
         {
-            AssemblyName asmname = new AssemblyName();
-            asmname.Name = "AnonymousTypes";
-            AssemblyBuilder assemblyBuilder = System.Threading.Thread.GetDomain().DefineDynamicAssembly(asmname, AssemblyBuilderAccess.RunAndSave);
+            var asmname = new AssemblyName { Name = "AnonymousTypes" };
+            var assemblyBuilder = System.Threading.Thread.GetDomain().DefineDynamicAssembly(asmname, AssemblyBuilderAccess.RunAndSave);
             moduleBuilder = assemblyBuilder.DefineDynamicModule("AnonymousTypes");
         }
 
@@ -42,12 +45,11 @@ namespace ExpressionSerialization
 
         public Type GetType(string typeName)
         {
-            Type type;
             if (string.IsNullOrEmpty(typeName))
                 throw new ArgumentNullException("typeName");
 
             // First - try all replacers
-            type = ResolveTypeFromString(typeName);
+            var type = this.ResolveTypeFromString(typeName);
             //type = typeReplacers.Select(f => f(typeName)).FirstOrDefault();
             if (type != null)
                 return type;
@@ -57,7 +59,7 @@ namespace ExpressionSerialization
                 return this.GetType(typeName.Substring(0, typeName.Length - 2)).MakeArrayType();
 
             // First - try all loaded types
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 type = assembly.GetType(typeName, false, true);
                 if (type != null)
@@ -85,7 +87,7 @@ namespace ExpressionSerialization
             {
                 if (!(obj is NameTypePair))
                     return false;
-                NameTypePair other = obj as NameTypePair;
+                var other = obj as NameTypePair;
                 return Name.Equals(other.Name) && Type.Equals(other.Type);
             }
         }
@@ -103,17 +105,14 @@ namespace ExpressionSerialization
 
             public override int GetHashCode()
             {
-                int result = Name.GetHashCode();
-                foreach (var ntpair in Properties)
-                    result += ntpair.GetHashCode();
-                return result;
+                return this.Name.GetHashCode() + this.Properties.Sum(ntpair => ntpair.GetHashCode());
             }
 
             public override bool Equals(object obj)
             {
                 if (!(obj is AnonTypeId))
                     return false;
-                AnonTypeId other = obj as AnonTypeId;
+                var other = obj as AnonTypeId;
                 return (Name.Equals(other.Name)
                     && Properties.SequenceEqual(other.Properties));
 
@@ -151,61 +150,58 @@ namespace ExpressionSerialization
             return null;
         }
 
-        private bool MatchPiecewise<T>(IEnumerable<T> first, IEnumerable<T> second)
+        private static bool MatchPiecewise<T>(IEnumerable<T> first, IEnumerable<T> second)
         {
-            T[] firstArray = first.ToArray();
-            T[] secondArray = second.ToArray();
+            var firstArray = first.ToArray();
+            var secondArray = second.ToArray();
             if (firstArray.Length != secondArray.Length)
                 return false;
-            for (int i = 0; i < firstArray.Length; i++)
-                if (!firstArray[i].Equals(secondArray[i]))
-                    return false;
-            return true;
+            return !firstArray.Where((t, i) => !t.Equals(secondArray[i])).Any();
         }
 
         //vsadov: need to take ctor parameters too as they do not 
         //necessarily match properties order as returned by GetProperties
-        public Type GetOrCreateAnonymousTypeFor(string name, NameTypePair[] properties, NameTypePair[] ctr_params)
+        public Type GetOrCreateAnonymousTypeFor(string name, NameTypePair[] properties, NameTypePair[] ctrParams)
         {
-            AnonTypeId id = new AnonTypeId(name, properties.Concat(ctr_params));
+            var id = new AnonTypeId(name, properties.Concat(ctrParams));
             if (anonymousTypes.ContainsKey(id))
                 return anonymousTypes[id];
 
             //vsadov: VB anon type. not necessary, just looks better
-            string anon_prefix = name.StartsWith("<>") ? "<>f__AnonymousType" : "VB$AnonymousType_";
-            TypeBuilder anonTypeBuilder = moduleBuilder.DefineType(anon_prefix + anonymousTypeIndex++, TypeAttributes.Public | TypeAttributes.Class);
+            var anonPrefix = name.StartsWith("<>") ? "<>f__AnonymousType" : "VB$AnonymousType_";
+            var anonTypeBuilder = moduleBuilder.DefineType(anonPrefix + anonymousTypeIndex++, TypeAttributes.Public | TypeAttributes.Class);
 
-            FieldBuilder[] fieldBuilders = new FieldBuilder[properties.Length];
-            PropertyBuilder[] propertyBuilders = new PropertyBuilder[properties.Length];
+            var fieldBuilders = new FieldBuilder[properties.Length];
+            var propertyBuilders = new PropertyBuilder[properties.Length];
 
             for (int i = 0; i < properties.Length; i++)
             {
                 fieldBuilders[i] = anonTypeBuilder.DefineField("_generatedfield_" + properties[i].Name, properties[i].Type, FieldAttributes.Private);
                 propertyBuilders[i] = anonTypeBuilder.DefineProperty(properties[i].Name, PropertyAttributes.None, properties[i].Type, new Type[0]);
-                MethodBuilder propertyGetterBuilder = anonTypeBuilder.DefineMethod("get_" + properties[i].Name, MethodAttributes.Public, properties[i].Type, new Type[0]);
-                ILGenerator getterILGenerator = propertyGetterBuilder.GetILGenerator();
-                getterILGenerator.Emit(OpCodes.Ldarg_0);
-                getterILGenerator.Emit(OpCodes.Ldfld, fieldBuilders[i]);
-                getterILGenerator.Emit(OpCodes.Ret);
+                var propertyGetterBuilder = anonTypeBuilder.DefineMethod("get_" + properties[i].Name, MethodAttributes.Public, properties[i].Type, new Type[0]);
+                var getterIlGenerator = propertyGetterBuilder.GetILGenerator();
+                getterIlGenerator.Emit(OpCodes.Ldarg_0);
+                getterIlGenerator.Emit(OpCodes.Ldfld, fieldBuilders[i]);
+                getterIlGenerator.Emit(OpCodes.Ret);
                 propertyBuilders[i].SetGetMethod(propertyGetterBuilder);
             }
 
-            ConstructorBuilder constructorBuilder = anonTypeBuilder.DefineConstructor(MethodAttributes.HideBySig | MethodAttributes.Public | MethodAttributes.Public, CallingConventions.Standard, ctr_params.Select(prop => prop.Type).ToArray());
-            ILGenerator constructorILGenerator = constructorBuilder.GetILGenerator();
-            for (int i = 0; i < ctr_params.Length; i++)
+            var constructorBuilder = anonTypeBuilder.DefineConstructor(MethodAttributes.HideBySig | MethodAttributes.Public | MethodAttributes.Public, CallingConventions.Standard, ctrParams.Select(prop => prop.Type).ToArray());
+            var constructorIlGenerator = constructorBuilder.GetILGenerator();
+            for (var i = 0; i < ctrParams.Length; i++)
             {
-                constructorILGenerator.Emit(OpCodes.Ldarg_0);
-                constructorILGenerator.Emit(OpCodes.Ldarg, i + 1);
-                constructorILGenerator.Emit(OpCodes.Stfld, fieldBuilders[i]);
-                constructorBuilder.DefineParameter(i + 1, ParameterAttributes.None, ctr_params[i].Name);
+                constructorIlGenerator.Emit(OpCodes.Ldarg_0);
+                constructorIlGenerator.Emit(OpCodes.Ldarg, i + 1);
+                constructorIlGenerator.Emit(OpCodes.Stfld, fieldBuilders[i]);
+                constructorBuilder.DefineParameter(i + 1, ParameterAttributes.None, ctrParams[i].Name);
             }
-            constructorILGenerator.Emit(OpCodes.Ret);
+            constructorIlGenerator.Emit(OpCodes.Ret);
 
             //TODO - Define ToString() and GetHashCode implementations for our generated Anonymous Types
             //MethodBuilder toStringBuilder = anonTypeBuilder.DefineMethod();
             //MethodBuilder getHashCodeBuilder = anonTypeBuilder.DefineMethod();
 
-            Type anonType = anonTypeBuilder.CreateType();
+            var anonType = anonTypeBuilder.CreateType();
             anonymousTypes.Add(id, anonType);
             return anonType;
         }
