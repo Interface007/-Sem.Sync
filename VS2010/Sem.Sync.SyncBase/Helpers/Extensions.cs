@@ -370,7 +370,7 @@ namespace Sem.Sync.SyncBase.Helpers
             
             return elementList;
         }
-        
+
         /// <summary>
         /// Converts a list of standard contacts to a list of standard elements
         /// </summary>

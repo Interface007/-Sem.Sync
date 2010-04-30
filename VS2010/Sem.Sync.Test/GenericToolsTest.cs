@@ -253,7 +253,7 @@ namespace Sem.Sync.Test
             Assert.IsTrue(exceptionText.Contains("<TripleOfStringStringString xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" name=\"myTriple\">"));
             Assert.IsTrue(exceptionText.Contains("<Value1>hello</Value1>"));
             Assert.IsTrue(exceptionText.Contains("<Timestamp>" + DateTime.Now.Year));
-            Assert.IsTrue(exceptionText.Contains("vstesthost.exe</ExecutingMainModule>"));
+            Assert.IsTrue(exceptionText.Contains("QTAgent32.exe</ExecutingMainModule"));
             Assert.IsTrue(exceptionText.Contains("<SpecificInformation>Sem.GenericHelpers.Exceptions.TechnicalException: bad file name"));
             Assert.IsTrue(exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegales Zeichen im Pfad.")
                 || exceptionText.Contains("<SpecificInformation>System.ArgumentException: Illegal characters in path."));

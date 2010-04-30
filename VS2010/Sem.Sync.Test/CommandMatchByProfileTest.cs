@@ -1,9 +1,6 @@
 ﻿namespace Sem.Sync.Test
 {
     using System;
-    using System.Text;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using DataGenerator;
 
@@ -17,23 +14,11 @@
     [TestClass]
     public class CommandMatchByProfileTest
     {
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return this.testContextInstance;
-            }
-            set
-            {
-                this.testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
         [TestMethod]
         public void MatchByProfileCheck1()

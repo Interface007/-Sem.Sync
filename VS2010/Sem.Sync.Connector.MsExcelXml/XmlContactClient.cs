@@ -7,15 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.MicrosoftExcelXml
+namespace Sem.Sync.Connector.MsExcelXml
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
     using Sem.Sync.SyncBase;
-    using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.SyncBase.Attributes;
 
     /// <summary>
     /// Writes a list of "something" into an excel XML file - does explicitly NOT support XSLX-Files!
@@ -36,7 +36,7 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
         /// </summary>
         /// <param name="elements"> The elements. </param>
         /// <param name="clientFolderName"> The client folder name. </param>
-        public override void AddRange(System.Collections.Generic.List<StdElement> elements, string clientFolderName)
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, false);
         }
@@ -48,7 +48,7 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
         /// <returns> the list of contacts </returns>
         public override List<StdElement> GetAll(string clientFolderName)
         {
-            return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElement();
+            return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElements();
         }
 
         /// <summary>
@@ -57,14 +57,14 @@ namespace Sem.Sync.Connector.MicrosoftExcelXml
         /// <param name="elements"> The elements. </param>
         /// <param name="clientFolderName"> The name of the file to write to. </param>
         /// <param name="skipIfExisting"> The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. </param>
-        protected override void WriteFullList(System.Collections.Generic.List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (File.Exists(clientFolderName))
             {
                 File.Delete(clientFolderName);
             }
 
-            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToContacts()), Encoding.UTF8);
+            File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToStdContacts()), Encoding.UTF8);
         }
     }
 }

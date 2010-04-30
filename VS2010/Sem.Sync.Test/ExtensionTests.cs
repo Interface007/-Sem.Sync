@@ -277,19 +277,19 @@ namespace Sem.Sync.Test
 
             // simple reference type
             Assert.AreEqual("geheim1", x.myProp1.NewIfNull().Password);
-            Assert.AreEqual(string.Empty, x.myProp2.NewIfNull().Domain);
+            Assert.AreEqual(null, x.myProp2.NewIfNull().Domain);
 
             // array
             Assert.AreEqual("domain", x.myProp3.NewIfNull(0).Domain);
-            Assert.AreEqual(string.Empty, x.myProp3.NewIfNull(20).Domain);
+            Assert.AreEqual(null, x.myProp3.NewIfNull(20).Domain);
 
             // list
             Assert.AreEqual("domain", x.myProp4.NewIfNull(0).Domain);
-            Assert.AreEqual(string.Empty, x.myProp4.NewIfNull(70).Domain);
+            Assert.AreEqual(null, x.myProp4.NewIfNull(70).Domain);
 
             // dictionary
             Assert.AreEqual("domain", x.myProp5.NewIfNull("key2").Domain);
-            Assert.AreEqual(string.Empty, x.myProp5.NewIfNull("nonexistingKey").Domain);
+            Assert.AreEqual(null, x.myProp5.NewIfNull("nonexistingKey").Domain);
         }
     }
 
