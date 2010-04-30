@@ -183,7 +183,7 @@ namespace Sem.Sync.SyncBase
                     this.factory.GetNewObject<ISyncCommand>(
                         string.Format(
                             CultureInfo.CurrentCulture,
-                            "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase",
+                            "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase.Commands",
                             item.Command));
                 var commandAsComponent = command as SyncComponent;
 

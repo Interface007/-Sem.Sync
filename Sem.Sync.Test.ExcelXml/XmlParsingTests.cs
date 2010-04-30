@@ -9,8 +9,9 @@
 
 namespace Sem.Sync.Test.ExcelXmlTest
 {
-    using Sem.Sync.Connector.MsExcelOpenXml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Sem.Sync.Connector.MsExcelOpenXml;
 
     /// <summary>
     /// Tests the Excel file parsing functionality of the <see cref="OpenXmlHelper"/> class.

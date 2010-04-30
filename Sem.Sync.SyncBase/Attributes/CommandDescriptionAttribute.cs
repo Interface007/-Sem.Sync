@@ -10,7 +10,6 @@
 namespace Sem.Sync.SyncBase.Attributes
 {
     using System;
-    using Commands;
     using Interfaces;
 
     /// <summary>
@@ -22,7 +21,7 @@ namespace Sem.Sync.SyncBase.Attributes
         /// <summary>
         /// Gets or sets a value indicating whether the command is for debugging purpose only.
         /// Debugging commands perform unusual actions of connectors that do or may do harm to the underlying data.
-        /// An example for a debugging command is <see cref="UpdateTestData"/>, which will delete all data of the 
+        /// An example for a debugging command is UpdateTestData, which will delete all data of the 
         /// storage behind the client and insert new updated data.
         /// Debugging commands will display a warning.
         /// </summary>

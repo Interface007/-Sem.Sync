@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38747F9F-5CE3-4A29-A5D2-40638560264E}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SemSync-Standard1.vsmdi = SemSync-Standard1.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
@@ -242,7 +243,7 @@ Global
 		SccLocalPath34 = Sem.GenericHelpers.Decrypter
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SemSync-Standard.vsmdi
+		CategoryFile = SemSync-Standard1.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (Code Analysis)|Any CPU = Debug (Code Analysis)|Any CPU

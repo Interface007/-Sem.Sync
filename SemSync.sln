@@ -1,13 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LocalSyncManager", "Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj", "{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {ABF6A30F-5063-460C-9277-AF0F59C89290}
-	EndProjectSection
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SyncBase", "SyncBase", "{6F297CC9-DA64-4469-9105-9CA63DEFB2DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{36822C45-2766-42EF-A4A7-543D24FAAD37}"
@@ -16,6 +9,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 	ProjectSection(SolutionItems) = preProject
 		Misc files\Sem.Sync.LocalSyncManager.Menu.png = Misc files\Sem.Sync.LocalSyncManager.Menu.png
 		SemSync-Mapping.xlsx = SemSync-Mapping.xlsx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{6B789A6A-7566-4229-87C8-66C01D988C31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{467B0823-AB21-4F23-B85C-00C31D5BC2C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{024EBF54-994C-4E06-87F6-17D444178E99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A462F00C-C5D1-4784-B712-81FDA7D566D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38747F9F-5CE3-4A29-A5D2-40638560264E}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SemSync1.vsmdi = SemSync1.vsmdi
+		Settings.StyleCop = Settings.StyleCop
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{F3AF3F0D-D657-4074-85F6-0AF8669D3B66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{0D187AB7-63F9-462F-A812-63220CBC701D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{4A76460C-2024-4B3D-81FE-8C4A3F1570AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase", "Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj", "{4725C93E-55A0-42A5-9C61-61DC498A4308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.LocalSyncManager", "Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj", "{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ABF6A30F-5063-460C-9277-AF0F59C89290} = {ABF6A30F-5063-460C-9277-AF0F59C89290}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Filesystem", "Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj", "{F0A26B2B-02CA-4095-AD20-013D0110ABB3}"
@@ -34,30 +55,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactViewer", "ContactVie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SharedUI.WinForms", "Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj", "{CB0D9362-8813-4A6E-825F-9BF48DC527AB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{6B789A6A-7566-4229-87C8-66C01D988C31}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{467B0823-AB21-4F23-B85C-00C31D5BC2C1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Facebook", "Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj", "{C1B81350-1893-49FF-9582-470C46C2729A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{024EBF54-994C-4E06-87F6-17D444178E99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.ActiveDirectory", "Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj", "{ABF6A30F-5063-460C-9277-AF0F59C89290}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A462F00C-C5D1-4784-B712-81FDA7D566D4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test", "Sem.Sync.Test\Sem.Sync.Test.csproj", "{478077C0-A411-44A9-8053-E8E90BA2847B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38747F9F-5CE3-4A29-A5D2-40638560264E}"
-	ProjectSection(SolutionItems) = preProject
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-		SemSync1.vsmdi = SemSync1.vsmdi
-		Settings.StyleCop = Settings.StyleCop
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Documentation", "Sem.Sync.Documentation\Sem.Sync.Documentation.csproj", "{C59830A8-5F30-4AC1-A862-473D9911B08A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{F3AF3F0D-D657-4074-85F6-0AF8669D3B66}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sem.Sync.OutlookWithXing.Setup", "Sem.Sync.OutlookWithXing.Setup\Sem.Sync.OutlookWithXing.Setup.wixproj", "{7F11C83F-B81F-49F0-ADE7-FF2CE5689C51}"
 EndProject
@@ -77,8 +81,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.LotusNot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MeinVZ", "Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj", "{9A99EDD4-4489-4E23-A409-36BA82F63D66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{0D187AB7-63F9-462F-A812-63220CBC701D}"
-EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Sem.Sync.Cloud.Storage", "Sem.Sync.Cloud.Storage\Sem.Sync.Cloud.Storage.ccproj", "{2D3B598A-2FA5-40F0-AE3E-3FB399758AF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Cloud", "Sem.Sync.Cloud\Sem.Sync.Cloud.csproj", "{0856527D-C929-4E9D-862F-9971DA241A91}"
@@ -86,8 +88,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.CloudStorage", "Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj", "{11F37589-CA3B-4B92-B87C-9B48073E4546}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.DataGenerator", "Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj", "{42794DFF-7448-47AA-BBFE-E56D83B756DB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{4A76460C-2024-4B3D-81FE-8C4A3F1570AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ContactSyncer", "Sem.Sync.ContactSyncer\Sem.Sync.ContactSyncer.csproj", "{12CDAB31-6327-448F-BFA2-F26EC8F8392F}"
 EndProject
@@ -115,8 +115,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.Ui", "Sem.Syn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Console", "Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj", "{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.SonyEricsson", "Sem.Sync.Connector.SonyEricsson\Sem.Sync.Connector.SonyEricsson.csproj", "{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Starter", "Sem.Sync.Starter\Sem.Sync.Starter.csproj", "{D9563118-8480-45B0-A20C-737ABA994069}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SharedUI.Common", "Sem.Sync.SharedUI.Common\Sem.Sync.SharedUI.Common.csproj", "{B0AD009D-21C5-4BB6-A795-4DDEBC47F4D2}"
@@ -131,10 +129,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.Exchange
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.ExchangeWsma", "Sem.Sync.Test.ExchangeWsma\Sem.Sync.Test.ExchangeWsma.csproj", "{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Obex", "Sem.Obex\Sem.Obex.csproj", "{5DAC912C-601C-49A7-ABDE-C29554D22EB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Obex.Console", "Sem.Obex.Console\Sem.Obex.Console.csproj", "{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.ChangeTracker", "Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj", "{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.ExceptionService", "Sem.GenericHelpers.ExceptionService\Sem.GenericHelpers.ExceptionService.csproj", "{C57E4B3B-AD5B-48EA-B843-5CE0C2477297}"
@@ -147,9 +141,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.MsExcelOpenXm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsExcelXml", "Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj", "{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SyncCommands", "SyncCommands", "{F208BEB1-10C7-4CB6-9EE2-606CEAAE339E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncBase.Commands", "Sem.Sync.SyncBase.Commands\Sem.Sync.SyncBase.Commands.csproj", "{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 55
+		SccNumberOfProjects = 53
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -241,134 +239,126 @@ Global
 		SccProjectTopLevelParentUniqueName22 = SemSync.sln
 		SccProjectName22 = Sem.Sync.Connector.Outlook2010
 		SccLocalPath22 = Sem.Sync.Connector.Outlook2010
-		SccProjectUniqueName23 = Sem.Sync.Connector.SonyEricsson\\Sem.Sync.Connector.SonyEricsson.csproj
+		SccProjectUniqueName23 = Sem.Sync.Connector.Statistic\\Sem.Sync.Connector.Statistic.csproj
 		SccProjectTopLevelParentUniqueName23 = SemSync.sln
-		SccProjectName23 = Sem.Sync.Connector.SonyEricsson
-		SccLocalPath23 = Sem.Sync.Connector.SonyEricsson
-		SccProjectUniqueName24 = Sem.Sync.Connector.Statistic\\Sem.Sync.Connector.Statistic.csproj
+		SccProjectName23 = Sem.Sync.Connector.Statistic
+		SccLocalPath23 = Sem.Sync.Connector.Statistic
+		SccProjectUniqueName24 = Sem.Sync.Connector.StayFriends\\Sem.Sync.Connector.StayFriends.csproj
 		SccProjectTopLevelParentUniqueName24 = SemSync.sln
-		SccProjectName24 = Sem.Sync.Connector.Statistic
-		SccLocalPath24 = Sem.Sync.Connector.Statistic
-		SccProjectUniqueName25 = Sem.Sync.Connector.StayFriends\\Sem.Sync.Connector.StayFriends.csproj
+		SccProjectName24 = Sem.Sync.Connector.StayFriends
+		SccLocalPath24 = Sem.Sync.Connector.StayFriends
+		SccProjectUniqueName25 = Sem.Sync.Connector.WerKenntWen\\Sem.Sync.Connector.WerKenntWen.csproj
 		SccProjectTopLevelParentUniqueName25 = SemSync.sln
-		SccProjectName25 = Sem.Sync.Connector.StayFriends
-		SccLocalPath25 = Sem.Sync.Connector.StayFriends
-		SccProjectUniqueName26 = Sem.Sync.Connector.WerKenntWen\\Sem.Sync.Connector.WerKenntWen.csproj
+		SccProjectName25 = Sem.Sync.Connector.WerKenntWen
+		SccLocalPath25 = Sem.Sync.Connector.WerKenntWen
+		SccProjectUniqueName26 = Sem.Sync.Connector.Xing\\Sem.Sync.Connector.Xing.csproj
 		SccProjectTopLevelParentUniqueName26 = SemSync.sln
-		SccProjectName26 = Sem.Sync.Connector.WerKenntWen
-		SccLocalPath26 = Sem.Sync.Connector.WerKenntWen
-		SccProjectUniqueName27 = Sem.Sync.Connector.Xing\\Sem.Sync.Connector.Xing.csproj
+		SccProjectName26 = Sem.Sync.Connector.Xing
+		SccLocalPath26 = Sem.Sync.Connector.Xing
+		SccProjectUniqueName27 = Sem.Sync.ConsoleClient\\Sem.Sync.ConsoleClient.csproj
 		SccProjectTopLevelParentUniqueName27 = SemSync.sln
-		SccProjectName27 = Sem.Sync.Connector.Xing
-		SccLocalPath27 = Sem.Sync.Connector.Xing
-		SccProjectUniqueName28 = Sem.Sync.ConsoleClient\\Sem.Sync.ConsoleClient.csproj
+		SccProjectName27 = Sem.Sync.ConsoleClient
+		SccLocalPath27 = Sem.Sync.ConsoleClient
+		SccProjectUniqueName28 = Sem.Sync.ContactSyncer\\Sem.Sync.ContactSyncer.csproj
 		SccProjectTopLevelParentUniqueName28 = SemSync.sln
-		SccProjectName28 = Sem.Sync.ConsoleClient
-		SccLocalPath28 = Sem.Sync.ConsoleClient
-		SccProjectUniqueName29 = Sem.Sync.ContactSyncer\\Sem.Sync.ContactSyncer.csproj
+		SccProjectName28 = Sem.Sync.ContactSyncer
+		SccLocalPath28 = Sem.Sync.ContactSyncer
+		SccProjectUniqueName29 = Sem.Sync.Documentation\\Sem.Sync.Documentation.csproj
 		SccProjectTopLevelParentUniqueName29 = SemSync.sln
-		SccProjectName29 = Sem.Sync.ContactSyncer
-		SccLocalPath29 = Sem.Sync.ContactSyncer
-		SccProjectUniqueName30 = Sem.Sync.Documentation\\Sem.Sync.Documentation.csproj
+		SccProjectName29 = Sem.Sync.Documentation
+		SccLocalPath29 = Sem.Sync.Documentation
+		SccProjectUniqueName30 = Sem.Sync.LocalSyncManager\\Sem.Sync.LocalSyncManager.csproj
 		SccProjectTopLevelParentUniqueName30 = SemSync.sln
-		SccProjectName30 = Sem.Sync.Documentation
-		SccLocalPath30 = Sem.Sync.Documentation
-		SccProjectUniqueName31 = Sem.Sync.LocalSyncManager\\Sem.Sync.LocalSyncManager.csproj
+		SccProjectName30 = Sem.Sync.LocalSyncManager
+		SccLocalPath30 = Sem.Sync.LocalSyncManager
+		SccProjectUniqueName31 = Sem.Sync.LocalSyncManager.Setup\\Sem.Sync.LocalSyncManager.Setup.wixproj
 		SccProjectTopLevelParentUniqueName31 = SemSync.sln
-		SccProjectName31 = Sem.Sync.LocalSyncManager
-		SccLocalPath31 = Sem.Sync.LocalSyncManager
-		SccProjectUniqueName32 = Sem.Sync.LocalSyncManager.Setup\\Sem.Sync.LocalSyncManager.Setup.wixproj
+		SccProjectName31 = Sem.Sync.LocalSyncManager.Setup
+		SccLocalPath31 = Sem.Sync.LocalSyncManager.Setup
+		SccProjectUniqueName32 = Sem.Sync.OnlineStorage\\Sem.Sync.OnlineStorage.csproj
 		SccProjectTopLevelParentUniqueName32 = SemSync.sln
-		SccProjectName32 = Sem.Sync.LocalSyncManager.Setup
-		SccLocalPath32 = Sem.Sync.LocalSyncManager.Setup
-		SccProjectUniqueName33 = Sem.Sync.OnlineStorage\\Sem.Sync.OnlineStorage.csproj
+		SccProjectName32 = Sem.Sync.OnlineStorage
+		SccLocalPath32 = Sem.Sync.OnlineStorage
+		SccProjectUniqueName33 = Sem.Sync.OutlookWithXing\\Sem.Sync.OutlookWithXing.csproj
 		SccProjectTopLevelParentUniqueName33 = SemSync.sln
-		SccProjectName33 = Sem.Sync.OnlineStorage
-		SccLocalPath33 = Sem.Sync.OnlineStorage
-		SccProjectUniqueName34 = Sem.Sync.OutlookWithXing\\Sem.Sync.OutlookWithXing.csproj
+		SccProjectName33 = Sem.Sync.OutlookWithXing
+		SccLocalPath33 = Sem.Sync.OutlookWithXing
+		SccProjectUniqueName34 = Sem.Sync.OutlookWithXing.Setup\\Sem.Sync.OutlookWithXing.Setup.wixproj
 		SccProjectTopLevelParentUniqueName34 = SemSync.sln
-		SccProjectName34 = Sem.Sync.OutlookWithXing
-		SccLocalPath34 = Sem.Sync.OutlookWithXing
-		SccProjectUniqueName35 = Sem.Sync.OutlookWithXing.Setup\\Sem.Sync.OutlookWithXing.Setup.wixproj
+		SccProjectName34 = Sem.Sync.OutlookWithXing.Setup
+		SccLocalPath34 = Sem.Sync.OutlookWithXing.Setup
+		SccProjectUniqueName35 = Sem.Sync.SharedUI.Common\\Sem.Sync.SharedUI.Common.csproj
 		SccProjectTopLevelParentUniqueName35 = SemSync.sln
-		SccProjectName35 = Sem.Sync.OutlookWithXing.Setup
-		SccLocalPath35 = Sem.Sync.OutlookWithXing.Setup
-		SccProjectUniqueName36 = Sem.Sync.SharedUI.Common\\Sem.Sync.SharedUI.Common.csproj
+		SccProjectName35 = Sem.Sync.SharedUI.Common
+		SccLocalPath35 = Sem.Sync.SharedUI.Common
+		SccProjectUniqueName36 = Sem.Sync.SharedUI.WinForms\\Sem.Sync.SharedUI.WinForms.csproj
 		SccProjectTopLevelParentUniqueName36 = SemSync.sln
-		SccProjectName36 = Sem.Sync.SharedUI.Common
-		SccLocalPath36 = Sem.Sync.SharedUI.Common
-		SccProjectUniqueName37 = Sem.Sync.SharedUI.WinForms\\Sem.Sync.SharedUI.WinForms.csproj
+		SccProjectName36 = Sem.Sync.SharedUI.WinForms
+		SccLocalPath36 = Sem.Sync.SharedUI.WinForms
+		SccProjectUniqueName37 = Sem.Sync.Starter\\Sem.Sync.Starter.csproj
 		SccProjectTopLevelParentUniqueName37 = SemSync.sln
-		SccProjectName37 = Sem.Sync.SharedUI.WinForms
-		SccLocalPath37 = Sem.Sync.SharedUI.WinForms
-		SccProjectUniqueName38 = Sem.Sync.Starter\\Sem.Sync.Starter.csproj
+		SccProjectName37 = Sem.Sync.Starter
+		SccLocalPath37 = Sem.Sync.Starter
+		SccProjectUniqueName38 = Sem.Sync.SyncBase\\Sem.Sync.SyncBase.csproj
 		SccProjectTopLevelParentUniqueName38 = SemSync.sln
-		SccProjectName38 = Sem.Sync.Starter
-		SccLocalPath38 = Sem.Sync.Starter
-		SccProjectUniqueName39 = Sem.Sync.SyncBase\\Sem.Sync.SyncBase.csproj
+		SccProjectName38 = Sem.Sync.SyncBase
+		SccLocalPath38 = Sem.Sync.SyncBase
+		SccProjectUniqueName39 = Sem.Sync.Test\\Sem.Sync.Test.csproj
 		SccProjectTopLevelParentUniqueName39 = SemSync.sln
-		SccProjectName39 = Sem.Sync.SyncBase
-		SccLocalPath39 = Sem.Sync.SyncBase
-		SccProjectUniqueName40 = Sem.Sync.Test\\Sem.Sync.Test.csproj
+		SccProjectName39 = Sem.Sync.Test
+		SccLocalPath39 = Sem.Sync.Test
+		SccProjectUniqueName40 = Sem.Sync.Test.Cloud\\Sem.Sync.Test.Cloud.csproj
 		SccProjectTopLevelParentUniqueName40 = SemSync.sln
-		SccProjectName40 = Sem.Sync.Test
-		SccLocalPath40 = Sem.Sync.Test
-		SccProjectUniqueName41 = Sem.Sync.Test.Cloud\\Sem.Sync.Test.Cloud.csproj
+		SccProjectName40 = Sem.Sync.Test.Cloud
+		SccLocalPath40 = Sem.Sync.Test.Cloud
+		SccProjectUniqueName41 = Sem.Sync.Test.DataGenerator\\Sem.Sync.Test.DataGenerator.csproj
 		SccProjectTopLevelParentUniqueName41 = SemSync.sln
-		SccProjectName41 = Sem.Sync.Test.Cloud
-		SccLocalPath41 = Sem.Sync.Test.Cloud
-		SccProjectUniqueName42 = Sem.Sync.Test.DataGenerator\\Sem.Sync.Test.DataGenerator.csproj
+		SccProjectName41 = Sem.Sync.Test.DataGenerator
+		SccLocalPath41 = Sem.Sync.Test.DataGenerator
+		SccProjectUniqueName42 = Sem.Sync.Test.ExchangeWsma\\Sem.Sync.Test.ExchangeWsma.csproj
 		SccProjectTopLevelParentUniqueName42 = SemSync.sln
-		SccProjectName42 = Sem.Sync.Test.DataGenerator
-		SccLocalPath42 = Sem.Sync.Test.DataGenerator
-		SccProjectUniqueName43 = Sem.Sync.Test.ExchangeWsma\\Sem.Sync.Test.ExchangeWsma.csproj
+		SccProjectName42 = Sem.Sync.Test.ExchangeWsma
+		SccLocalPath42 = Sem.Sync.Test.ExchangeWsma
+		SccProjectUniqueName43 = Sem.Sync.Test.Google\\Sem.Sync.Test.Google.csproj
 		SccProjectTopLevelParentUniqueName43 = SemSync.sln
-		SccProjectName43 = Sem.Sync.Test.ExchangeWsma
-		SccLocalPath43 = Sem.Sync.Test.ExchangeWsma
-		SccProjectUniqueName44 = Sem.Sync.Test.Google\\Sem.Sync.Test.Google.csproj
+		SccProjectName43 = Sem.Sync.Test.Google
+		SccLocalPath43 = Sem.Sync.Test.Google
+		SccProjectUniqueName44 = Sem.Sync.Test.Ui\\Sem.Sync.Test.Ui.csproj
 		SccProjectTopLevelParentUniqueName44 = SemSync.sln
-		SccProjectName44 = Sem.Sync.Test.Google
-		SccLocalPath44 = Sem.Sync.Test.Google
-		SccProjectUniqueName45 = Sem.Sync.Test.Ui\\Sem.Sync.Test.Ui.csproj
+		SccProjectName44 = Sem.Sync.Test.Ui
+		SccLocalPath44 = Sem.Sync.Test.Ui
+		SccProjectUniqueName45 = Sem.Sync.Test.WebConnectors\\Sem.Sync.Test.WebConnectors.csproj
 		SccProjectTopLevelParentUniqueName45 = SemSync.sln
-		SccProjectName45 = Sem.Sync.Test.Ui
-		SccLocalPath45 = Sem.Sync.Test.Ui
-		SccProjectUniqueName46 = Sem.Sync.Test.WebConnectors\\Sem.Sync.Test.WebConnectors.csproj
+		SccProjectName45 = Sem.Sync.Test.WebConnectors
+		SccLocalPath45 = Sem.Sync.Test.WebConnectors
+		SccProjectUniqueName46 = Sem.Sync.ChangeTracker\\Sem.Sync.ChangeTracker.csproj
 		SccProjectTopLevelParentUniqueName46 = SemSync.sln
-		SccProjectName46 = Sem.Sync.Test.WebConnectors
-		SccLocalPath46 = Sem.Sync.Test.WebConnectors
-		SccProjectUniqueName47 = Sem.Obex\\Sem.Obex.csproj
+		SccProjectName46 = Sem.Sync.ChangeTracker
+		SccLocalPath46 = Sem.Sync.ChangeTracker
+		SccProjectUniqueName47 = Sem.GenericHelpers.ExceptionService\\Sem.GenericHelpers.ExceptionService.csproj
 		SccProjectTopLevelParentUniqueName47 = SemSync.sln
-		SccProjectName47 = Sem.Obex
-		SccLocalPath47 = Sem.Obex
-		SccProjectUniqueName48 = Sem.Obex.Console\\Sem.Obex.Console.csproj
+		SccProjectName47 = Sem.GenericHelpers.ExceptionService
+		SccLocalPath47 = Sem.GenericHelpers.ExceptionService
+		SccProjectUniqueName48 = Sem.GenericHelpers.Decrypter\\Sem.GenericHelpers.Decrypter.csproj
 		SccProjectTopLevelParentUniqueName48 = SemSync.sln
-		SccProjectName48 = Sem.Obex.Console
-		SccLocalPath48 = Sem.Obex.Console
-		SccProjectUniqueName49 = Sem.Sync.ChangeTracker\\Sem.Sync.ChangeTracker.csproj
+		SccProjectName48 = Sem.GenericHelpers.Decrypter
+		SccLocalPath48 = Sem.GenericHelpers.Decrypter
+		SccProjectUniqueName49 = Sem.Sync.Connector.MsExcelOpenXml\\Sem.Sync.Connector.MsExcelOpenXml.csproj
 		SccProjectTopLevelParentUniqueName49 = SemSync.sln
-		SccProjectName49 = Sem.Sync.ChangeTracker
-		SccLocalPath49 = Sem.Sync.ChangeTracker
-		SccProjectUniqueName50 = Sem.GenericHelpers.ExceptionService\\Sem.GenericHelpers.ExceptionService.csproj
+		SccProjectName49 = Sem.Sync.Connector.MsExcelOpenXml
+		SccLocalPath49 = Sem.Sync.Connector.MsExcelOpenXml
+		SccProjectUniqueName50 = Sem.Sync.Test.MsExcelOpenXml\\Sem.Sync.Test.MsExcelOpenXml.csproj
 		SccProjectTopLevelParentUniqueName50 = SemSync.sln
-		SccProjectName50 = Sem.GenericHelpers.ExceptionService
-		SccLocalPath50 = Sem.GenericHelpers.ExceptionService
-		SccProjectUniqueName51 = Sem.GenericHelpers.Decrypter\\Sem.GenericHelpers.Decrypter.csproj
+		SccProjectName50 = Sem.Sync.Test.MsExcelOpenXml
+		SccLocalPath50 = Sem.Sync.Test.MsExcelOpenXml
+		SccProjectUniqueName51 = Sem.Sync.Connector.MsExcelXml\\Sem.Sync.Connector.MsExcelXml.csproj
 		SccProjectTopLevelParentUniqueName51 = SemSync.sln
-		SccProjectName51 = Sem.GenericHelpers.Decrypter
-		SccLocalPath51 = Sem.GenericHelpers.Decrypter
-		SccProjectUniqueName52 = Sem.Sync.Connector.MsExcelOpenXml\\Sem.Sync.Connector.MsExcelOpenXml.csproj
+		SccProjectName51 = Sem.Sync.Connector.MsExcelXml
+		SccLocalPath51 = Sem.Sync.Connector.MsExcelXml
+		SccProjectUniqueName52 = Sem.Sync.SyncBase.Commands\\Sem.Sync.SyncBase.Commands.csproj
 		SccProjectTopLevelParentUniqueName52 = SemSync.sln
-		SccProjectName52 = Sem.Sync.Connector.MsExcelOpenXml
-		SccLocalPath52 = Sem.Sync.Connector.MsExcelOpenXml
-		SccProjectUniqueName53 = Sem.Sync.Test.MsExcelOpenXml\\Sem.Sync.Test.MsExcelOpenXml.csproj
-		SccProjectTopLevelParentUniqueName53 = SemSync.sln
-		SccProjectName53 = Sem.Sync.Test.MsExcelOpenXml
-		SccLocalPath53 = Sem.Sync.Test.MsExcelOpenXml
-		SccProjectUniqueName54 = Sem.Sync.Connector.MsExcelXml\\Sem.Sync.Connector.MsExcelXml.csproj
-		SccProjectTopLevelParentUniqueName54 = SemSync.sln
-		SccProjectName54 = Sem.Sync.Connector.MsExcelXml
-		SccLocalPath54 = Sem.Sync.Connector.MsExcelXml
+		SccProjectName52 = Sem.Sync.SyncBase.Commands
+		SccLocalPath52 = Sem.Sync.SyncBase.Commands
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync1.vsmdi
@@ -1266,31 +1256,6 @@ Global
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}.Release|x86.ActiveCfg = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Development MeinVZ|Mixed Platforms.ActiveCfg = Development MeinVZ|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Development MeinVZ|Mixed Platforms.Build.0 = Development MeinVZ|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Exclude Non-Standard-Projects|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948}.Release|x86.ActiveCfg = Release|Any CPU
 		{D9563118-8480-45B0-A20C-737ABA994069}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9563118-8480-45B0-A20C-737ABA994069}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
 		{D9563118-8480-45B0-A20C-737ABA994069}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
@@ -1466,56 +1431,6 @@ Global
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{458F0A09-00ED-4615-AA6C-EC89CDE8DDF8}.Release|x86.ActiveCfg = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Development MeinVZ|Mixed Platforms.ActiveCfg = Development MeinVZ|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Development MeinVZ|Mixed Platforms.Build.0 = Development MeinVZ|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Exclude Non-Standard-Projects|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0}.Release|x86.ActiveCfg = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug (Code Analysis)|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Development MeinVZ|Mixed Platforms.ActiveCfg = Development MeinVZ|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Development MeinVZ|Mixed Platforms.Build.0 = Development MeinVZ|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Exclude Non-Standard-Projects|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Exclude Non-Standard-Projects|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8}.Release|x86.ActiveCfg = Release|Any CPU
 		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
 		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug (Code Analysis)|Any CPU
@@ -1666,6 +1581,31 @@ Global
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1675,11 +1615,6 @@ Global
 		{CB0D9362-8813-4A6E-825F-9BF48DC527AB} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{930EBD41-0114-4B39-A89A-EBCD7C81931F} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
 		{B0AD009D-21C5-4BB6-A795-4DDEBC47F4D2} = {6F297CC9-DA64-4469-9105-9CA63DEFB2DB}
-		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
-		{9165EBDB-D528-4D2A-BD36-A0D986E609FA} = {6B789A6A-7566-4229-87C8-66C01D988C31}
-		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}
-		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251} = {6B789A6A-7566-4229-87C8-66C01D988C31}
-		{E039CB82-BBC8-4F63-A9F9-53DCAEE88725} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{F0A26B2B-02CA-4095-AD20-013D0110ABB3} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{2B1EC971-9055-4156-9FFF-0F2B3C7697F4} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{DA88047A-8BA7-492B-BB71-EB87472817A5} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
@@ -1697,7 +1632,6 @@ Global
 		{D6AC1146-22A3-48D5-B12F-3B2FA4F87955} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{292139B0-E1A3-4C02-A72D-D8EDD3ABE320} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
-		{9CBA7A6F-0EE8-4444-BD27-0CF68EF9D948} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{15DD2E27-2606-4211-BDCA-863BB9E26142} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{0E785E12-16FF-4409-927A-1E7554841D72} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{809277C4-F27E-47B6-AC9F-E5EE54AE1399} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
@@ -1705,12 +1639,15 @@ Global
 		{C88E3C85-79A2-4045-85BB-696097ED23D7} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{A4B8F29E-A81F-4363-8A83-9E565FACD0EB} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{C59830A8-5F30-4AC1-A862-473D9911B08A} = {1820AB38-479F-49F7-9CF6-1920BFA94C41}
-		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
+		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{9165EBDB-D528-4D2A-BD36-A0D986E609FA} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{AA22CCE8-86E8-4F8B-A7FF-1D941E090251} = {6B789A6A-7566-4229-87C8-66C01D988C31}
+		{E039CB82-BBC8-4F63-A9F9-53DCAEE88725} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
+		{AF01B376-4A94-4A1E-A469-E4DCC30811F9} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{C57E4B3B-AD5B-48EA-B843-5CE0C2477297} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560} = {024EBF54-994C-4E06-87F6-17D444178E99}
-		{5DAC912C-601C-49A7-ABDE-C29554D22EB0} = {024EBF54-994C-4E06-87F6-17D444178E99}
-		{48CF1947-B3F5-4ADB-BCD5-91D6007D19E8} = {024EBF54-994C-4E06-87F6-17D444178E99}
 		{478077C0-A411-44A9-8053-E8E90BA2847B} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{42794DFF-7448-47AA-BBFE-E56D83B756DB} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{0F0A60CA-C12A-46B1-AEE4-FED06A15E24D} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
@@ -1725,6 +1662,7 @@ Global
 		{0856527D-C929-4E9D-862F-9971DA241A91} = {0D187AB7-63F9-462F-A812-63220CBC701D}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
 		{D9563118-8480-45B0-A20C-737ABA994069} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
+		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85} = {F208BEB1-10C7-4CB6-9EE2-606CEAAE339E}
 	EndGlobalSection
 	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
 		SpecExplorer.ActivityCompletionStatus = 

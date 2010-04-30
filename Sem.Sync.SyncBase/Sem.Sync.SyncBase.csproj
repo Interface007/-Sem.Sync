@@ -50,7 +50,7 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <DocumentationFile>bin\Debug\Sem.Sync.SyncBase.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>Migrated rules for Sem.Sync.SyncBase (2).ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,7 +75,7 @@
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Migrated rules for Sem.Sync.SyncBase (2).ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
     <DebugSymbols>TRUE</DebugSymbols>
@@ -91,7 +91,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>TRUE</Optimize>
-    <CodeAnalysisRuleSet>Migrated rules for Sem.Sync.SyncBase (2).ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
     <DebugSymbols>TRUE</DebugSymbols>
@@ -105,7 +105,7 @@
     <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Migrated rules for Sem.Sync.SyncBase (2).ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU' ">
     <OutputPath>..\bin</OutputPath>
@@ -140,26 +140,6 @@
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
     <Compile Include="BusyStatus.cs" />
-    <Compile Include="Commands\AskForContinue.cs" />
-    <Compile Include="Commands\MatchByEMail.cs" />
-    <Compile Include="Commands\GetContactRelation.cs" />
-    <Compile Include="Commands\CopyAll.cs" />
-    <Compile Include="Commands\DeleteElements.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Commands\DeletePattern.cs" />
-    <Compile Include="Commands\DetectConflicts.cs" />
-    <Compile Include="Commands\MatchByName.cs" />
-    <Compile Include="Commands\MatchByProfileId.cs" />
-    <Compile Include="Commands\MergeExternal.cs" />
-    <Compile Include="Commands\MergeHighEvidence.cs" />
-    <Compile Include="Commands\MergeMissing.cs" />
-    <Compile Include="Commands\NormalizeContent.cs" />
-    <Compile Include="Commands\OpenDocument.cs" />
-    <Compile Include="Commands\RemoveDuplicatesOnTarget.cs" />
-    <Compile Include="Commands\UpdateTestData.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DetailData\BusinessCertificate.cs" />
     <Compile Include="DetailData\BusinessHistoryEntry.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
@@ -177,7 +157,6 @@
     <Compile Include="Interfaces\IBackupStorage.cs" />
     <Compile Include="Interfaces\IExtendedReader.cs" />
     <Compile Include="Interfaces\ISyncCommand.cs" />
-    <Compile Include="Commands\MatchManually.cs" />
     <Compile Include="DetailData\AddressDetail.cs" />
     <Compile Include="DetailData\MatchingEntry.cs" />
     <Compile Include="DetailData\ReplacementLists.cs" />
@@ -270,6 +249,9 @@
   <ItemGroup>
     <None Include="Migrated rules for Sem.Sync.SyncBase %282%29.ruleset" />
     <None Include="Overview.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
