@@ -14,11 +14,12 @@ namespace Sem.Sync.Connector.MsExcelXml
     using System.Xml.Linq;
 
     using Sem.GenericHelpers;
+    using System.Globalization;
 
     /// <summary>
     /// The ExcelWriter class does provide functionality to write SpreadsheetML excel sheets.
     /// </summary>
-    public class ExcelXml
+    public static class ExcelXml
     {
         /// <summary>
         /// Namespace declaration for office specific properties
@@ -48,7 +49,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <typeparam name="T"> The type of object to serialize. </typeparam>
         /// <param name="listToConvert"> List of objects to be converted - each property path will be serialized to one column  </param>
         /// <returns> The exported worksheet.  </returns>
-        public static string ExportToWorksheetXml<T>(List<T> listToConvert)
+        public static string ExportToWorksheetXml<T>(IList<T> listToConvert)
         {
             var properties = Tools.GetPropertyList(string.Empty, typeof(T));
 
@@ -83,11 +84,11 @@ namespace Sem.Sync.Connector.MsExcelXml
 
                         // this will create the data area for the sheet
                         new XElement(SpreadSheetTable,
-                            new XAttribute(SpreadSheet + "ExpandedColumnCount", properties.Count.ToString()),
+                            new XAttribute(SpreadSheet + "ExpandedColumnCount", properties.Count.ToString(CultureInfo.InvariantCulture)),
 
                             // the row count is the number of elements + 1 because we will add the 
                 // paths of the properties as the heading (= one additional row)
-                            new XAttribute(SpreadSheet + "ExpandedRowCount", (listToConvert.Count + 1).ToString()),
+                            new XAttribute(SpreadSheet + "ExpandedRowCount", (listToConvert.Count + 1).ToString(CultureInfo.InvariantCulture)),
                             new XAttribute(OfficeExcel + "FullColumns", "1"),
                             new XAttribute(OfficeExcel + "FullRows", "1"),
                             new XAttribute(SpreadSheet + "DefaultColumnWidth", "120"),
@@ -136,7 +137,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <param name="xml"> The xml from where to import the data. </param>
         /// <typeparam name="T"> The type of object for the list. </typeparam>
         /// <returns> A newly created list of objects. </returns>
-        public static List<T> ImportFromWorksheetXml<T>(string xml)
+        public static IEnumerable<T> ImportFromWorksheetXml<T>(string xml)
             where T : class, new()
         {
             var document = XDocument.Parse(xml);
@@ -151,7 +152,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <param name="document"> The xml from where to import the data. </param>
         /// <typeparam name="T"> The type of object for the list. </typeparam>
         /// <returns> A newly created list of objects. </returns>
-        public static List<T> ImportFromWorksheetXml<T>(XDocument document)
+        public static IEnumerable<T> ImportFromWorksheetXml<T>(XDocument document)
             where T : class, new()
         {
             var list = new List<T>();

@@ -22,19 +22,64 @@ namespace Sem.Sync.SyncBase
     public abstract class StdElement : IComparable<StdElement>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="StdElement"/> class and sets a new GUID for the <see cref="Id"/>
+        /// - this will also initialize the <see cref="ExternalIdentifier"/> property and set the <see cref="ProfileIdentifierType.Default"/>
+        /// id in this collection.
+        /// </summary>
+        protected StdElement()
+        {
+            this.Id = Guid.NewGuid();            
+        }
+
+        /// <summary>
+        /// The backinmg field for the <seealso cref="Id"/> property
+        /// </summary>
+        private Guid id;
+
+        /// <summary>
         /// Gets or sets the unique identifier of the entity. Optimally you will sync
         /// entities in a way that one physical entity (person / event in time and 
         /// space / whatever) will have only one ID.
         /// </summary>
         [XmlAttribute]
-        public virtual Guid Id { get; set; }
-        
+        public Guid Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+
+                if (this.ExternalIdentifier == null)
+                {
+                    this.ExternalIdentifier = new ProfileIdentifiers();
+                }
+
+                this.ExternalIdentifier.SetProfileId(ProfileIdentifierType.Default, value.ToString("B")); 
+            }
+        }
+
         /// <summary>
         /// Gets or sets some internal synchronization data that does not need to (but 
         /// might) match to any real property of the entity.
         /// </summary>
         [ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public SyncData InternalSyncData { get; set; }
+
+        private ProfileIdentifiers externalIdentifier;
+
+        /// <summary>
+        /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
+        public ProfileIdentifiers ExternalIdentifier
+        {
+            get { return externalIdentifier; }
+            set
+            {
+                externalIdentifier = value;
+                externalIdentifier.SetProfileId(ProfileIdentifierType.Default, this.Id.ToString("B"));
+            }
+        }
 
         /// <summary>
         /// compares two entities

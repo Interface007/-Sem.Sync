@@ -63,8 +63,8 @@ namespace Sem.Sync.SyncBase.Commands
             
             targetClient.WriteRange(
                 this.MatchThisByEMail(
-                    sourceClient.GetAll(sourceStorePath).ToContacts(),
-                    targetClient.GetAll(targetStorePath).ToContacts()),
+                    sourceClient.GetAll(sourceStorePath).ToStdContacts(),
+                    targetClient.GetAll(targetStorePath).ToStdContacts()),
                 targetStorePath);
             
             return true;
@@ -153,7 +153,7 @@ namespace Sem.Sync.SyncBase.Commands
                 item.Id = corresponding.Id;
             }
 
-            return target.ToStdElement();
+            return target.ToStdElements();
         }
     }
 }

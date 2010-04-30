@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase.Attributes
     using System;
 
     using DetailData;
+    using System.Reflection;
 
     /// <summary>
     /// Specifies information about the connectors capabilities
@@ -101,5 +102,45 @@ namespace Sem.Sync.SyncBase.Attributes
         /// Gets or sets the display name for gui implementations.
         /// </summary>
         public ProfileIdentifierType MatchingIdentifier { get; set; }
+
+        /// <summary>
+        /// returns true if the specified type can be read by this connector
+        /// </summary>
+        /// <param name="entityType">the type to be read</param>
+        /// <returns>true if the connector can read</returns>
+        public bool CanRead(MemberInfo entityType)
+        {
+            switch (entityType.Name)
+            {
+                case "StdContact":
+                    return this.CanReadContacts;
+
+                case "StdCalendarItem":
+                    return this.CanReadCalendarEntries;
+
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// returns true if the specified type can be written by this connector
+        /// </summary>
+        /// <param name="entityType">the type to be written</param>
+        /// <returns>true if the connector can write</returns>
+        public bool CanWrite(MemberInfo entityType)
+        {
+            switch (entityType.Name)
+            {
+                case "StdContact":
+                    return this.CanWriteContacts;
+
+                case "StdCalendarItem":
+                    return this.CanWriteCalendarEntries;
+
+                default:
+                    return false;
+            }
+        }
     }
 }

@@ -298,14 +298,11 @@ namespace Sem.Sync.Connector.Outlook
                     InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier =
-                        new List<CalendarIdentifier>
-                            {
-                                new CalendarIdentifier
-                                    { 
-                                        Identifier = outlookItem.GlobalAppointmentID, 
-                                        IdentifierType = CalendarIdentifierType.Outlook, 
-                                    }
-                            },
+                        new ProfileIdentifiers
+                            (
+                                ProfileIdentifierType.MicrosoftOutlookId, 
+                                outlookItem.GlobalAppointmentID
+                            ),
                     RecurrenceState = outlookItem.RecurrenceState.ToRecurrenceState(),
                     ReminderBeforeStart = TimeSpan.FromMinutes(outlookItem.ReminderMinutesBeforeStart),
                     ResponseRequested = outlookItem.ResponseRequested,

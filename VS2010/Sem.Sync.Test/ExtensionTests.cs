@@ -69,7 +69,7 @@ namespace Sem.Sync.Test
             target.Passwort = "hallo";
             source.MapIfExist(y => y.myProp1, y => y.Password, ref target.Passwort);
             Assert.IsTrue(target.Passwort == "geheim1");
-            
+
             // source is null, so source.myProp1.Password cannot be evaluated and x should stay the same
             target.Passwort = "hallo";
             source = null;
@@ -80,8 +80,8 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void TestMapIfExistWith3Steps()
         {
-            var source = new {x = new ComplexTestClass()};
-            var source2 = new {x = null as ComplexTestClass};
+            var source = new { x = new ComplexTestClass() };
+            var source2 = new { x = null as ComplexTestClass };
             var source3 = new { x = new ComplexTestClass { myProp1 = new NetworkCredential("name3", "pass3") } };
             var target = new NetworkCredentials();
 
@@ -137,7 +137,7 @@ namespace Sem.Sync.Test
             target.Passwort = "hallo";
             source1.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);
             Assert.IsTrue(target.Passwort == "geheim1");
-            
+
             target.Passwort = "hallo";
             source1.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);    // now it's "geheim1"
             source3.MapIfExist2(y => y.x.myProp1.Password, ref target.Passwort);    // now it's "pass3"
@@ -163,20 +163,20 @@ namespace Sem.Sync.Test
             var target = new NetworkCredentials();
 
             var dirty = false;
-            
+
             // both NULL : no mapping
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp2.Password, x => target.Passwort = x);
             Assert.IsFalse(dirty);
-            
+
             // both "geheim1" : no mapping
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
             Assert.IsFalse(dirty);
-            
+
             // source1 = "geheim1", source2 = "something completely different" : !!mapping!!
             source2.myProp1.Password = "something completely different";
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
             Assert.IsTrue(dirty);
-            
+
             // source1 = NULL, source2 = "something completely different" : !!mapping!!
             source1.myProp1 = null;
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password, x => target.Passwort = x);
@@ -188,6 +188,23 @@ namespace Sem.Sync.Test
             MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp1.Password.ToString(), x => target.Passwort = x);
             Assert.IsTrue(dirty);
             Assert.IsNull(target.Passwort);
+
+            source1.myProp6 = new DateTime(2010, 7, 1);
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp6, x => source2.myProp6 = x);
+            Assert.IsTrue(dirty);
+            Assert.AreEqual(source2.myProp6, source1.myProp6);
+
+            source1.myProp9 = new DateTime(2010, 7, 1);
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp9, x => source2.myProp9 = x);
+            Assert.IsTrue(dirty);
+            Assert.AreEqual(source2.myProp9, source1.myProp9);
+
+            source1.myProp9 = new DateTime();
+            source1.myProp10 = new ComplexTestClass { myProp9 = new DateTime(2010, 7, 6) };
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp10.myProp9, x => source2.myProp9 = x);
+            Assert.IsTrue(dirty);
+            Assert.AreEqual(new DateTime(2010, 7, 6), source2.myProp9);
+            Assert.AreEqual(new DateTime(2010, 7, 6), source1.myProp10.myProp9);
         }
 
         [TestMethod]
@@ -202,7 +219,7 @@ namespace Sem.Sync.Test
             {
                 this.TestMapIfExistWithExpressionTree();
             }
-            
+
             var start = DateTime.Now;
             for (int i = 0; i < 999; i++)
             {
@@ -219,7 +236,7 @@ namespace Sem.Sync.Test
 
             Console.WriteLine(start - DateTime.Now);
         }
-        
+
         /// <summary>
         /// performs a basic test for the "is one of" method
         /// </summary>

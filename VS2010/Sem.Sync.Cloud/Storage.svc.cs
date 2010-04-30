@@ -35,7 +35,7 @@ namespace Sem.Sync.Cloud
                 var client = new BlobStorageStdClient();
                 var stdContacts = new ContactListContainer
                 {
-                    ContactList = client.GetAll(blobId ?? "default").ToContacts()
+                    ContactList = client.GetAll(blobId ?? "default").ToStdContacts()
                 };
                 return stdContacts;
             }
@@ -69,7 +69,7 @@ namespace Sem.Sync.Cloud
             {
                 // this can be replaced by any class inheriting from StdClient
                 var client = new BlobStorageStdClient();
-                client.WriteRange(elements.ContactList.ToStdElement(), blobId ?? "default");
+                client.WriteRange(elements.ContactList.ToStdElements(), blobId ?? "default");
             }
             catch (Exception ex)
             {

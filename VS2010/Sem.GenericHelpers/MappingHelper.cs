@@ -47,25 +47,25 @@ namespace Sem.GenericHelpers
         /// </code>
         /// </example>
         /// <param name="obj"> The root object. </param>
-        /// <param name="f1"> The function for the 1st evaluation. </param>
-        /// <param name="f2"> The function for the 2nd evaluation. </param>
-        /// <param name="f3"> The function for the 3rd evaluation </param>
+        /// <param name="evaluationFunction1"> The function for the 1st evaluation. </param>
+        /// <param name="evaluationFunction2"> The function for the 2nd evaluation. </param>
+        /// <param name="evaluationFunction3"> The function for the 3rd evaluation </param>
         /// <param name="target"> The target of the mapping. </param>
         /// <typeparam name="TResult1"> The result type of the 1st evaluation. </typeparam>
         /// <typeparam name="TResult2"> The result type of the 2nd evaluation. </typeparam>
         /// <typeparam name="TResult3"> The result type of the 3rd evaluation. </typeparam>
         /// <typeparam name="TObject"> The type of the root object </typeparam>
-        public static void MapIfExist<TResult1, TResult2, TResult3, TObject>(this TObject obj, Func<TObject, TResult1> f1, Func<TResult1, TResult2> f2, Func<TResult2, TResult3> f3, ref TResult3 target)
+        public static void MapIfExist<TResult1, TResult2, TResult3, TObject>(this TObject obj, Func<TObject, TResult1> evaluationFunction1, Func<TResult1, TResult2> evaluationFunction2, Func<TResult2, TResult3> evaluationFunction3, ref TResult3 target)
             where TResult1 : class
             where TResult2 : class
         {
-            var result1 = !Equals(obj, default(TObject)) ? f1(obj) : null;
+            var result1 = !Equals(obj, default(TObject)) ? evaluationFunction1(obj) : null;
             if (result1 == default(TResult1))
             {
                 return;
             }
 
-            result1.MapIfExist(f2, f3, ref target);
+            result1.MapIfExist(evaluationFunction2, evaluationFunction3, ref target);
         }
 
         /// <summary>
@@ -87,22 +87,22 @@ namespace Sem.GenericHelpers
         /// </code>
         /// </example>
         /// <param name="obj"> The root object. </param>
-        /// <param name="f1"> The function for the 1st evaluation. </param>
-        /// <param name="f2"> The function for the 2nd evaluation. </param>
+        /// <param name="evaluationFunction1"> The function for the 1st evaluation. </param>
+        /// <param name="evaluationFunction2"> The function for the 2nd evaluation. </param>
         /// <param name="target"> The target of the mapping. </param>
         /// <typeparam name="TResult1"> The result type of the 1st evaluation. </typeparam>
         /// <typeparam name="TResult2"> The result type of the 2nd evaluation. </typeparam>
         /// <typeparam name="TObject"> The type of the root object </typeparam>
-        public static void MapIfExist<TResult1, TResult2, TObject>(this TObject obj, Func<TObject, TResult1> f1, Func<TResult1, TResult2> f2, ref TResult2 target)
+        public static void MapIfExist<TResult1, TResult2, TObject>(this TObject obj, Func<TObject, TResult1> evaluationFunction1, Func<TResult1, TResult2> evaluationFunction2, ref TResult2 target)
             where TResult1 : class
         {
-            var result1 = !Equals(obj, default(TObject)) ? f1(obj) : null;
+            var result1 = !Equals(obj, default(TObject)) ? evaluationFunction1(obj) : null;
             if (result1 == default(TResult1))
             {
                 return;
             }
 
-            result1.MapIfExist(f2, ref target);
+            result1.MapIfExist(evaluationFunction2, ref target);
         }
 
         /// <summary>
@@ -124,31 +124,31 @@ namespace Sem.GenericHelpers
         /// </code>
         /// </example>
         /// <param name="obj"> The root object. </param>
-        /// <param name="f1"> The function for the 1st evaluation. </param>
+        /// <param name="evaluationFunction1"> The function for the 1st evaluation. </param>
         /// <param name="target"> The target of the mapping. </param>
         /// <typeparam name="TResult1"> The result type of the 1st evaluation. </typeparam>
         /// <typeparam name="TObject"> The type of the root object </typeparam>
-        public static void MapIfExist<TResult1, TObject>(this TObject obj, Func<TObject, TResult1> f1, ref TResult1 target)
+        public static void MapIfExist<TResult1, TObject>(this TObject obj, Func<TObject, TResult1> evaluationFunction1, ref TResult1 target)
         {
             if (Equals(obj, default(TObject)))
             {
                 return;
             }
 
-            target = f1(obj);
+            target = evaluationFunction1(obj);
         }
 
         /// <summary>
         /// Maps one property to another objects property using a full property path.
         /// </summary>
         /// <param name="obj">The root object.</param>
-        /// <param name="f1"> The expression that does describe the path to the property. </param>
+        /// <param name="evaluationFunction1"> The expression that does describe the path to the property. </param>
         /// <param name="target"> The target property to write the result of the expression. </param>
         /// <typeparam name="TResult1"> The type of the expressions result </typeparam>
         /// <typeparam name="TObject"> The type of the root object </typeparam>
-        public static void MapIfExist2<TResult1, TObject>(this TObject obj, Expression<Func<TObject, TResult1>> f1, ref TResult1 target)
+        public static void MapIfExist2<TResult1, TObject>(this TObject obj, Expression<Func<TObject, TResult1>> evaluationFunction1, ref TResult1 target)
         {
-            var method = GetMethod(f1);
+            var method = GetMethod(evaluationFunction1);
             var result = method(obj);
 
             if (Equals(result, default(TObject)))
@@ -165,14 +165,14 @@ namespace Sem.GenericHelpers
         /// <param name="dirty"> The dirty-flag (set to true if a modification in the destination object has been done). </param>
         /// <param name="newStd"> The new std element. </param>
         /// <param name="oldStd"> The old std element. </param>
-        /// <param name="f"> The expression to extract the value from the source type. </param>
+        /// <param name="valueExtractionExpression"> The expression to extract the value from the source type. </param>
         /// <param name="setter"> The setter method for the destination object. </param>
         /// <typeparam name="TDestination"> The type of the destination property. </typeparam>
         /// <typeparam name="TSource"> The type of the source object. </typeparam>
-        public static void MapIfDiffers<TDestination, TSource>(ref bool dirty, TSource newStd, TSource oldStd, Expression<Func<TSource, TDestination>> f, Action<TDestination> setter)
+        public static void MapIfDiffers<TDestination, TSource>(ref bool dirty, TSource newStd, TSource oldStd, Expression<Func<TSource, TDestination>> valueExtractionExpression, Action<TDestination> setter)
         {
             var modifier = new NullLiftModifier();
-            var function = ((Expression<Func<TSource, TDestination>>)modifier.Modify(f)).Compile();
+            var function = ((Expression<Func<TSource, TDestination>>)modifier.Modify(valueExtractionExpression)).Compile();
             var newValue = function(newStd);
             if (Equals(function(oldStd), newValue))
             {

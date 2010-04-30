@@ -14,6 +14,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using GenericHelpers.EventArgs;
     using GenericHelpers.Interfaces;
 
+    using Sem.GenericHelpers;
+
     /// <summary>
     /// Log on dialog
     /// </summary>
@@ -34,27 +36,25 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="arguments"> The arguments with preselected credentials and a message for the user. </param>
         public void SetLogonCredentials(ICredentialAware client, QueryForLogOnCredentialsEventArgs arguments)
         {
-            this.SetLogonCredentials(client, arguments.MessageForUser, arguments.LogonUserId, arguments.LogonPassword);
+            this.SetLogonCredentials(new LogonCredentialRequest(client, arguments.MessageForUser, arguments.MessageForUser));
         }
 
         /// <summary>
         /// Shows the dialog to the user and sets the resulting information for the client via the interface <see cref="ICredentialAware"/>.
         /// </summary>
-        /// <param name="client"> The client that implements <see cref="ICredentialAware"/> and should get the credentials.   </param>
-        /// <param name="messageForUser"> The message for the user to know what credentials to enter.  </param>
-        /// <param name="logOnUserId"> The preselected user id part of the credentials.  </param>
-        /// <param name="logOnPassword"> The preselected password part of the credentials. </param>
+        /// <param name="request">an object containing all information to request the credentiols from the user and pass them back to the callee</param>
         /// <returns> A value indicating whether the user did press the "ok"-button (true) or the "cancel"-button (false). </returns>
-        public bool SetLogonCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword)
+        public bool SetLogonCredentials(LogonCredentialRequest request)
         {
-            this.UserMessage.Text = messageForUser;
-            this.textBoxUserId.Text = logOnUserId;
-            this.textBoxPassword.Text = logOnPassword;
+            this.UserMessage.Text = request.MessageForUser;
+            this.textBoxUserId.Text = request.LogOnCredentials.LogOnUserId;
+            this.textBoxPassword.Text = request.LogOnCredentials.LogOnPassword;
 
             if (this.ShowDialog() == DialogResult.OK)
             {
-                client.LogOnUserId = this.textBoxUserId.Text;
-                client.LogOnPassword = this.textBoxPassword.Text;
+                request.LogOnCredentials.LogOnUserId = this.textBoxUserId.Text;
+                request.LogOnCredentials.LogOnPassword = this.textBoxPassword.Text;
+                request.WriteToCacheAllowed = this.chkAllowSaving.Checked;
                 return true;
             }
 

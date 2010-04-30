@@ -40,13 +40,13 @@ namespace Sem.Sync.Test.Google
                         "Software\\Sem.Sync\\Test", "GoogleTestPassword", string.Empty)
                 };
 
-            connector.WriteRange(original.ToStdElement(), string.Empty);
-            var received = connector.GetAll(string.Empty).ToContacts();
+            connector.WriteRange(original.ToStdElements(), string.Empty);
+            var received = connector.GetAll(string.Empty).ToStdContacts();
 
             var originalText = Contacts.SerializeList(original);
             var receivedText = Contacts.SerializeList(received);
 
-            connector.DeleteElements(original.ToStdElement(), string.Empty);
+            connector.DeleteElements(original.ToStdElements(), string.Empty);
 
             Assert.IsTrue(originalText == receivedText);
         }

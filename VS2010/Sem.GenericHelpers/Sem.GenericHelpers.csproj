@@ -93,6 +93,10 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU' ">
+    <OutputPath>..\bin</OutputPath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -138,6 +142,7 @@
     <Compile Include="Entities\CaptchaResolveRequest.cs" />
     <Compile Include="Entities\CaptchaResolveResult.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
+    <Compile Include="LogonCredentialRequest.cs" />
     <Compile Include="MappingHelper.cs" />
     <Compile Include="NullLiftModifier.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
@@ -174,7 +179,6 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Overview.cd" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +221,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Service References\ExceptionService\ExceptionService1.disco" />
   </ItemGroup>
   <ItemGroup>
@@ -228,11 +233,6 @@
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">

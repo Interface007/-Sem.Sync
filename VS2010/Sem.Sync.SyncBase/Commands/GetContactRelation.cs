@@ -74,7 +74,7 @@ namespace Sem.Sync.SyncBase.Commands
             // add the matching profile ids from the baseline as StdContact - 
             // .ToContacts().ToStdElement() will convert each MatchingEntry 
             // of the list into a StdContact
-            elements.MergeHighEvidence(baseline.ToContacts().ToStdElement());
+            elements.MergeHighEvidence(baseline.ToStdContacts().ToStdElements());
 
             ((StdClient)extendedClient).UiDispatcher = this.UiProvider;
 

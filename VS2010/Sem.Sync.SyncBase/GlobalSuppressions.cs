@@ -56,3 +56,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.SyncBase.StdContact.#SourceSpecificAttributes")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "Sem.Sync.SyncBase.StdCalendarItem.#Resources")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "Sem.Sync.SyncBase.DetailData.ProfileIdentifiers.#MatchesAny(Sem.Sync.SyncBase.DetailData.ProfileIdentifiers)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Scope = "member", Target = "Sem.Sync.SyncBase.StdClient.#GetColumnDefinition`1(System.String)")]

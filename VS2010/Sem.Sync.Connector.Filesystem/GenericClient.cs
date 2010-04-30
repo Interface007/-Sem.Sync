@@ -40,7 +40,11 @@ namespace Sem.Sync.Connector.Filesystem
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Elements.xml",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    [ConnectorDescription(DisplayName = "Filesystem generic client", IsGeneric = true)]
+    [ConnectorDescription(
+        DisplayName = "Filesystem generic client", 
+        IsGeneric = true,
+        CanReadCalendarEntries = true,
+        CanWriteCalendarEntries = true)]
     public class GenericClient<T> : StdClient, IBackupStorage where T : StdElement
     {
         /// <summary>
@@ -103,7 +107,7 @@ namespace Sem.Sync.Connector.Filesystem
                 {
                     if (file.Length > 0)
                     {
-                        result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElement();
+                        result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElements();
                     }
 
                     LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));

@@ -25,41 +25,8 @@ namespace Sem.Sync.SyncBase
     /// store any information that's needed for describing contact relevant information of a person.
     /// </summary>
     [Serializable]
-    public class StdContact : StdElement
+    public sealed class StdContact : StdElement
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StdContact"/> class.
-        /// </summary>
-        public StdContact()
-        {
-            this.Id = Guid.NewGuid();
-        }
-
-        /// <summary>
-        /// Gets or sets the identifier for this contact. Overwritten to set the default
-        /// <see cref="PersonalProfileIdentifiers"/>, too.
-        /// </summary>
-        [XmlAttribute]
-        public override sealed Guid Id
-        {
-            get
-            {
-                return base.Id;
-            }
-
-            set
-            {
-                base.Id = value;
-                
-                if (this.PersonalProfileIdentifiers == null)
-                {
-                    this.PersonalProfileIdentifiers = new ProfileIdentifiers();
-                }
-
-                this.PersonalProfileIdentifiers.SetProfileId(ProfileIdentifierType.Default, value.ToString("B"));
-            }
-        }
-
         /// <summary>
         /// Gets or sets the gender/sex of a person.
         /// </summary>
@@ -117,17 +84,6 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         [ComparisonModifier(CaseInsensitive = true)]
         public InstantMessengerAddresses PersonalInstantMessengerAddresses { get; set; }
-
-        /// <summary>
-        /// Gets or sets a list of identifiers for different information stored like active directory, social networking sited or similar
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This class will be used in XML-Serialization, what means that a ReadOnly property will add a bunch of complexity.")]
-        public ProfileIdentifiers PersonalProfileIdentifiers { get; set; }
-
-        /////// <summary>
-        /////// Gets or sets ProfileIdentifier.
-        /////// </summary>
-        ////public SerializableDictionary<string, string> PersonalProfileIdentifiers { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the company this contact is associated with

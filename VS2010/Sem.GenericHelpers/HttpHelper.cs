@@ -74,7 +74,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// credentials for the proxy server
         /// </summary>
-        private readonly ICredentialAware proxyCredentials = new Credentials();
+        private ICredentialAware proxyCredentials = new Credentials();
 
         #endregion
 
@@ -737,12 +737,18 @@ namespace Sem.GenericHelpers
             HttpWebResponse objResponse;
             var request = this.CreateRequest(url, "GET", referer);
 
+            var logonCredentialRequest = new LogonCredentialRequest(
+                            this.proxyCredentials,
+                            string.Format(CultureInfo.CurrentCulture, Properties.Resources.TheProxyServerNeedsYourCredentials, url.Host, request.Proxy.GetProxy(url).Host),
+                            request.Proxy.GetProxy(url).Host);
+
             while (true)
             {
                 try
                 {
                     objResponse = (HttpWebResponse)request.GetResponse();
                     encoding = objResponse.CharacterSet;
+                    logonCredentialRequest.SaveCredentials();
                     break;
                 }
                 catch (WebException ex)
@@ -752,24 +758,22 @@ namespace Sem.GenericHelpers
                     {
                         request = this.CreateRequest(url, "GET", referer);
 
-                        if (this.UiDispatcher.AskForLogOnCredentials(
-                            this.proxyCredentials,
-                            string.Format(CultureInfo.CurrentCulture, Properties.Resources.TheProxyServerNeedsYourCredentials, url.Host, request.Proxy.GetProxy(url).Host),
-                            this.proxyCredentials.LogOnUserId,
-                            this.proxyCredentials.LogOnPassword))
+                        if (this.UiDispatcher.AskForLogOnCredentials(logonCredentialRequest))
                         {
-                            if (string.IsNullOrEmpty(this.proxyCredentials.LogOnDomain))
+                            this.proxyCredentials = logonCredentialRequest.LogOnCredentials;
+
+                            if (string.IsNullOrEmpty(logonCredentialRequest.LogOnCredentials.LogOnDomain))
                             {
                                 request.Proxy.Credentials = new NetworkCredential(
-                                    this.proxyCredentials.LogOnUserId,
-                                    this.proxyCredentials.LogOnPassword);
+                                    logonCredentialRequest.LogOnCredentials.LogOnUserId,
+                                    logonCredentialRequest.LogOnCredentials.LogOnPassword);
                             }
                             else
                             {
                                 request.Proxy.Credentials = new NetworkCredential(
-                                    this.proxyCredentials.LogOnUserId,
-                                    this.proxyCredentials.LogOnPassword,
-                                    this.proxyCredentials.LogOnDomain);
+                                    logonCredentialRequest.LogOnCredentials.LogOnUserId,
+                                    logonCredentialRequest.LogOnCredentials.LogOnPassword,
+                                    logonCredentialRequest.LogOnCredentials.LogOnDomain);
                             }
                         }
                         else
@@ -789,6 +793,18 @@ namespace Sem.GenericHelpers
                                     request = this.CreateRequest(url, "GET", referer);
                                     request.Headers.Add("Authorization", "GoogleLogin auth=" + this.ContentCredentials.LogOnPassword);
                                 }
+                            }
+                        }
+
+                        if ((this.UiDispatcher != null) &&
+                            (ex.Status == WebExceptionStatus.ConnectFailure
+                          || ex.Status == WebExceptionStatus.NameResolutionFailure))
+                        {
+                            if (this.UiDispatcher.AskForConfirm(
+                                string.Format("The connection to a web server ({0}) cannot be established (reason: {1}). Do you want to retry?", url.Host, ex.Status),
+                                "Connection problem"))
+                            {
+                                continue;
                             }
                         }
 
@@ -945,11 +961,8 @@ namespace Sem.GenericHelpers
                 return;
             }
 
-            var cookieList = new List<KeyValuePair>();
-            foreach (Cookie cookie in this.sessionCookies.GetCookies(url))
-            {
-                cookieList.Add(new KeyValuePair(cookie.Name, cookie.Value));
-            }
+            var cookieList = (from Cookie cookie in this.sessionCookies.GetCookies(url)
+                              select new KeyValuePair(cookie.Name, cookie.Value)).ToList();
 
             var cacheItem = new ResponseCacheItem
                 {

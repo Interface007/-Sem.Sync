@@ -94,7 +94,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                             DateOfLastChange = element.LastModifiedTime
                                         };
 
-            result.PersonalProfileIdentifiers = new ProfileIdentifiers(ProfileIdentifierType.ExchangeWs, contact.Id.UniqueId);
+            result.ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.ExchangeWs, contact.Id.UniqueId);
             
             result.Name = new PersonName
                               {
@@ -184,7 +184,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
 
             if (stdContact.Categories != null && stdContact.Categories.Count > 0)
             {
-                exchangeContact.Categories = stdContact.Categories == null ? null : new StringList(stdContact.Categories);
+                exchangeContact.Categories = new StringList(stdContact.Categories);
             }
 
             if (!string.IsNullOrEmpty(stdContact.BusinessCompanyName))

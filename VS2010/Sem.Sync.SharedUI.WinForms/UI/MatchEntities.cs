@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Sem.Sync.SyncBase.Properties;
+
 namespace Sem.Sync.SharedUI.WinForms.UI
 {
     using System;
@@ -23,8 +25,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     /// <summary>
     /// This form perfoms an entity merge. The method <see cref="PerformMatch"/> accepts a source, target and baseline list of <see cref="StdElement"/>.
-    /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdContact.PersonalProfileIdentifiers"/> and
-    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdContact.PersonalProfileIdentifiers"/> from the source and 
+    /// The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdElement.ExternalIdentifier"/> and
+    /// unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdElement.ExternalIdentifier"/> from the source and 
     /// <see cref="StdContact.Id"/> of the target are stored inside the baseline.
     /// </summary>
     public partial class MatchEntities : Form
@@ -53,6 +55,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.InitializeComponent();
             this.dataGridTargetCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectTargetRow);
             this.dataGridSourceCandidates.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectSourceRow);
+            this.dataGridMatches.CellEnter += (s, e) => DataGridCellEnter(s, e, this.SelectMatchesRow);
         }
 
         /// <summary>
@@ -71,19 +74,19 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
 
             this.matching.Profile = identifierToUse;
-            
-            this.matching.Source = sourceList.ToContacts();
-            this.matching.Target = targetList.ToContacts();
+
+            this.matching.Source = sourceList;
+            this.matching.Target = targetList;
             this.matching.BaseLine = baselineList.ToMatchingEntries();
 
             this.SetupGui();
 
             // cange the target list only if the OK-button has been clicked
             // otherwise we return null to not writy any content to the target
-            return 
-                this.ShowDialog() != DialogResult.OK 
-                ? null 
-                : this.matching.BaseLine.ToStdElement();
+            return
+                this.ShowDialog() != DialogResult.OK
+                ? null
+                : this.matching.BaseLine.ToStdElements();
         }
 
         /// <summary>
@@ -92,7 +95,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="theGrid"> The the grid to be set up. </param>
         /// <param name="elementList"> The list of elements to be set into the grid. </param>
         /// <typeparam name="T"> the type of elements inside <paramref name="elementList"/> </typeparam>
-        private static void SetupCandidateGrid<T>(DataGridView theGrid, List<T> elementList)
+        private static void SetupCandidateGrid<T>(DataGridView theGrid, IEnumerable<T> elementList)
         {
             theGrid.ClearSelection();
 
@@ -156,7 +159,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentSourceElement = element;
-            this.SourceCardView.Contact = element;
+            var stdContact = element as StdContact;
+            this.SourceCardView.Contact = stdContact;
+            this.SourceCardView.Visible = stdContact != null;
 
             this.dataGridSourceDetail.DataSource = this.matching.CurrentSourceProperties();
             this.dataGridSourceDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -197,11 +202,66 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
             var element = ((MatchCandidateView)row.DataBoundItem).Element;
             this.matching.CurrentTargetElement = element;
-            this.TargetCardView.Contact = element;
+            var stdContact = element as StdContact;
+            this.TargetCardView.Contact = stdContact;
+            this.TargetCardView.Visible = stdContact != null;
 
             this.dataGridTargetDetail.DataSource = this.matching.CurrentTargetProperties();
             this.dataGridTargetDetail.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridTargetDetail.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            return false;
+        }
+
+        private bool SelectMatchesRow(DataGridViewRow row)
+        {
+            if (row.Index == -1)
+            {
+                return false;
+            }
+
+            if (row.Index != this.dataGridMatches.CurrentCell.RowIndex)
+            {
+                this.dataGridMatches.CurrentCell = row.Cells[0];
+            }
+
+            var entry = (MatchView)row.DataBoundItem;
+            var entryId = entry.BaselineId;
+            var matchingEntry = this.matching.BaseLine.FirstOrDefault(x => x == null ? false : x.Id == entry.BaselineId);
+            if (matchingEntry == null)
+            {
+                return false;
+            }
+
+            var entryProfile = matchingEntry.ProfileId.GetProfileId(this.matching.Profile);
+
+            for (var i = 0; i < this.dataGridSourceCandidates.Rows.Count; i++)
+            {
+                var dataGridViewRow = this.dataGridSourceCandidates.Rows[i];
+                var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
+                if (sourceEntry.Element.ExternalIdentifier.GetProfileId(this.matching.Profile) != entryProfile)
+                {
+                    continue;
+                }
+
+                dataGridViewRow.Selected = true;
+                this.SelectSourceRow(dataGridViewRow);
+                break;
+            }
+
+            for (var i = 0; i < this.dataGridTargetCandidates.Rows.Count; i++)
+            {
+                var dataGridViewRow = this.dataGridTargetCandidates.Rows[i];
+                var sourceEntry = (MatchCandidateView)dataGridViewRow.DataBoundItem;
+                if (sourceEntry.Element.Id != entryId)
+                {
+                    continue;
+                }
+
+                dataGridViewRow.Selected = true;
+                this.SelectTargetRow(dataGridViewRow);
+                break;
+            }
 
             return false;
         }
@@ -211,13 +271,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// </summary>
         private void SetupGui()
         {
+            var matchingInstance = this.matching;
+
             // determine display of already matched entities
-            this.matching.FilterMatchedEntries = this.chkMatchedOnly.Checked;
+            matchingInstance.FilterMatchedEntriesSource = this.chkMatchedOnlySource.Checked;
+            matchingInstance.FilterMatchedEntriesTarget = this.chkMatchedOnlyTarget.Checked;
 
             // rebind grids
-            SetupCandidateGrid(this.dataGridMatches, this.matching.BaselineAsList());
-            SetupCandidateGrid(this.dataGridTargetCandidates, this.matching.TargetAsList());
-            SetupCandidateGrid(this.dataGridSourceCandidates, this.matching.SourceAsList());
+            SetupCandidateGrid(this.dataGridMatches, matchingInstance.BaselineAsList());
+            SetupCandidateGrid(this.dataGridTargetCandidates, matchingInstance.TargetAsList2());
+            SetupCandidateGrid(this.dataGridSourceCandidates, matchingInstance.SourceAsList2());
             SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
             SetupCandidateGrid<object>(this.dataGridSourceDetail, null);
 
@@ -226,8 +289,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             this.TargetCardView.Contact = null;
 
             // if there is a "last selected source row", select it if possible
-            if (this.lastSelectedSourceRow > 0 
-                && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount 
+            if (this.lastSelectedSourceRow > 0
+                && this.lastSelectedSourceRow < this.dataGridSourceCandidates.RowCount
                 && this.dataGridSourceCandidates.RowCount > 1)
             {
                 this.dataGridSourceCandidates.Rows[this.lastSelectedSourceRow].Selected = true;
@@ -239,12 +302,26 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             var found = false;
             for (var r = this.lastSelectedSourceRow; r < this.dataGridSourceCandidates.Rows.Count; r++)
             {
-                if (this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                // try to reduce grid navigation by probing directly before selecting a row
+                var row = this.dataGridSourceCandidates.Rows[r];
+                var element = ((MatchCandidateView)row.DataBoundItem).Element;
+                var autoMatch = (from x in this.dataGridTargetCandidates.Rows.Cast<DataGridViewRow>()
+                                 where ((MatchCandidateView)x.DataBoundItem).Element.ToStringSimple() == element.ToStringSimple()
+                                 select x).FirstOrDefault();
+
+                if (autoMatch == null)
                 {
-                    // if we found one, exit this loop
-                    found = true;
-                    break;
+                    continue;
                 }
+
+                if (!this.SelectSourceRow(this.dataGridSourceCandidates.Rows[r]))
+                {
+                    continue;
+                }
+
+                // if we found one, exit this loop
+                found = true;
+                break;
             }
 
             if (!found && this.lastSelectedTargetRow > 0 && this.lastSelectedTargetRow < this.dataGridTargetCandidates.RowCount)
@@ -324,6 +401,27 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Handels the click event of the UnMatchAll button
+        /// </summary>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnUnMatchAll_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // perform the un-match
+                this.matching.UnMatchAll();
+
+                // rebind the gui
+                this.SetupGui();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Resources.ExceptionWhileUnmatchingCaption, MessageBoxButtons.OK);
             }
         }
 

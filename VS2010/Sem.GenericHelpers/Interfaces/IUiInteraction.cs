@@ -21,12 +21,9 @@ namespace Sem.GenericHelpers.Interfaces
         /// Requests log on credentials from the user and insert them into an object implementing 
         /// the ICredentialAware interface.
         /// </summary>
-        /// <param name="client">the object that should get the credentials</param>
-        /// <param name="messageForUser">a message that should be displayed to the user</param>
-        /// <param name="logOnUserId">a pre-selection for the user part of the credentails</param>
-        /// <param name="logOnPassword">a pre-selection for the password part of the credentails</param>
+        /// <param name="request">an object containing all information to request the credentiols from the user and pass them back to the callee</param>
         /// <returns>a value indicating whether the user did click the cancel button</returns>
-        bool AskForLogOnCredentials(ICredentialAware client, string messageForUser, string logOnUserId, string logOnPassword);
+        bool AskForLogOnCredentials(LogonCredentialRequest request);
 
         /// <summary>
         /// Requests a confirmation from the user

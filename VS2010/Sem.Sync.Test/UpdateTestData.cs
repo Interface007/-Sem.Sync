@@ -55,7 +55,7 @@ namespace Sem.Sync.Test
             contacts.AddRange(Contacts.VariableContactList);
             
             targetClient.AddRange(
-                contacts.ToStdElement(),
+                contacts.ToStdElements(),
                 targetStorePath);
 
             return true;

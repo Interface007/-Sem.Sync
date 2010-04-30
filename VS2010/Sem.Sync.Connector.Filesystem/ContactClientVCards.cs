@@ -146,7 +146,7 @@ namespace Sem.Sync.Connector.Filesystem
             Tools.EnsurePathExist(clientFolderName);
             var use3Char = this.GetConfigValueBoolean("FileExtensionVCF");
 
-            foreach (var element in elements.ToContacts())
+            foreach (var element in elements.ToStdContacts())
             {
                 if (element.Name == null)
                 {

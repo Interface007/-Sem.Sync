@@ -79,7 +79,7 @@ namespace Sem.Sync.Test
             Assert.AreEqual("FileSystem Contact Connector - one file for all contacts", connector.FriendlyClientName);
 
             var tempFolder = PrepareFolder(false);
-            var listWithTwoContacts = connector.GetAll(Path.Combine(tempFolder, "file1")).ToContacts();
+            var listWithTwoContacts = connector.GetAll(Path.Combine(tempFolder, "file1")).ToStdContacts();
 
             Assert.AreEqual(2, listWithTwoContacts.Count);
             Assert.AreEqual(0, listWithTwoContacts.GetContactById(ContactWithoutPicture).PictureData.Length);

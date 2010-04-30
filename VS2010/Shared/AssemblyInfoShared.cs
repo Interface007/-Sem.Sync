@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfoShared.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//     Copyright (c) Sven Erik Matzen. GNU Library General internal License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
@@ -24,6 +24,6 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
 
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
+[assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("2010.0128.*")]
+[assembly: AssemblyVersion("2010.0328.*")]

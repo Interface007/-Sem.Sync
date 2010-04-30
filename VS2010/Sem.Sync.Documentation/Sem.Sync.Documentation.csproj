@@ -410,4 +410,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU' ">
+    <OutputPath>..\bin</OutputPath>
+  </PropertyGroup>
 </Project>

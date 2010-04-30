@@ -34,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Sem.GenericHelpers.Decrypter.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
     <DebugSymbols>TRUE</DebugSymbols>
@@ -44,6 +45,7 @@
     <Optimize>TRUE</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
     <DebugSymbols>TRUE</DebugSymbols>
@@ -52,6 +54,10 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU' ">
+    <OutputPath>..\bin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -10,11 +10,8 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
-
     using DetailData;
 
     using GenericHelpers;
@@ -280,7 +277,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="skipIdenticalChanges">Skips identical changes on both sides.</param>
         /// <returns>A list of <see cref="MergeConflict"/> that have been detected.</returns>
         [SuppressMessage("Microsoft.StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "the if statements are far more readable in this case")]
-        private static List<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
+        private static IEnumerable<MergeConflict> DetectConflicts(ConflictTestContainer container, bool skipIdenticalChanges)
         {
             var result = new List<MergeConflict>();
             var members = container.PropertyType.GetProperties();
@@ -303,7 +300,7 @@ namespace Sem.Sync.SyncBase.Helpers
                 var baselineString = string.Empty;
 
                 if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty == null) continue;
-                if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty != null) conflict = MergePropertyConflict.BothChangedIdentically;
+                if (container.SourceProperty == null && container.TargetProperty == null) conflict = MergePropertyConflict.BothChangedIdentically;
                 if (container.SourceProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.SourceChanged;
                 if (container.SourceProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.SourceChanged;
                 if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.TargetChanged;
@@ -317,11 +314,12 @@ namespace Sem.Sync.SyncBase.Helpers
 
                 switch (typeName)
                 {
+                    case "Int32":
                     case "Enum":
                     case "Guid":
                     case "String":
+                    case "TimeSpan":
                     case "DateTime":
-                    case "Int32":
                         var sourceValue = container.SourceProperty == null ? null : item.GetValue(container.SourceProperty, null);
                         var targetValue = container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null);
                         var baselineValue = container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null);
@@ -359,6 +357,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
                         break;
 
+                    case "SerializableDictionary`2":
                     case "ProfileIdentifiers":
                         // don't compare the profile identifiers
                         conflict = MergePropertyConflict.None;
@@ -377,18 +376,9 @@ namespace Sem.Sync.SyncBase.Helpers
                                         BaselineObject = container.BaselineObject,
                                         PropertyName = container.PropertyName + "." + item.Name,
                                         PropertyType = item.PropertyType,
-                                        SourceProperty =
-                                            (container.SourceProperty == null)
-                                                ? null
-                                                : item.GetValue(container.SourceProperty, null),
-                                        TargetProperty =
-                                            (container.TargetProperty == null)
-                                                ? null
-                                                : item.GetValue(container.TargetProperty, null),
-                                        BaselineProperty =
-                                            (container.BaselineProperty == null)
-                                                ? null
-                                                : item.GetValue(container.BaselineProperty, null)
+                                        SourceProperty = (container.SourceProperty == null) ? null : item.GetValue(container.SourceProperty, null),
+                                        TargetProperty = (container.TargetProperty == null) ? null : item.GetValue(container.TargetProperty, null),
+                                        BaselineProperty = (container.BaselineProperty == null) ? null : item.GetValue(container.BaselineProperty, null)
                                     },
                                 skipIdenticalChanges));
 

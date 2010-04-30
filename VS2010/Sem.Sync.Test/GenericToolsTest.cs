@@ -45,6 +45,9 @@ namespace Sem.Sync.Test
         public DateTime? myProp6 { get; set; }
         public DateTime? myProp7 { get; set; }
         public int? myProp8 { get; set; }
+        public DateTime myProp9 { get; set; }
+        
+        public ComplexTestClass myProp10 { get; set; }
 
         public ComplexTestClass()
         {
@@ -104,7 +107,7 @@ namespace Sem.Sync.Test
             var testData = Contacts.GetStandardContactList(true);
 
             Assert.AreEqual(testData[2].Name.FirstName, Tools.GetPropertyValueString(testData[2], "Name.FirstName"));
-            Assert.AreEqual(testData[2].PersonalProfileIdentifiers.GetProfileId(ProfileIdentifierType.Default).ToString(), Tools.GetPropertyValueString(testData, "[2].PersonalProfileIdentifiers.[Default]"));
+            Assert.AreEqual(testData[2].ExternalIdentifier.GetProfileId(ProfileIdentifierType.Default).ToString(), Tools.GetPropertyValueString(testData, "[2].ExternalIdentifier.[Default]"));
 
             var testClass = new
                 {

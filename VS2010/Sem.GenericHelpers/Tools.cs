@@ -386,6 +386,7 @@ namespace Sem.GenericHelpers
                     {
                         return null;
                     }
+
                     var propertyInfo = type.GetProperty(propName);
                     value = propertyInfo == null ? null : propertyInfo.GetValue(objectToReadFrom, null);
                 }
@@ -592,6 +593,10 @@ namespace Sem.GenericHelpers
 
             switch (destinationType)
             {
+                case "TimeSpan":
+                    propInfo.SetValue(objectToWriteTo, TimeSpan.Parse(valueString), null);
+                    break;
+
                 case "DateTime":
                     propInfo.SetValue(objectToWriteTo, DateTime.Parse(valueString, CultureInfo.CurrentCulture), null);
                     break;
@@ -610,7 +615,11 @@ namespace Sem.GenericHelpers
                     break;
 
                 case "Enum":
-                    propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                    if (Enum.IsDefined(propType, valueString))
+                    {
+                        propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                    }
+
                     break;
 
                 case "Boolean":
@@ -669,19 +678,15 @@ namespace Sem.GenericHelpers
                     break;
 
                 case "PhoneNumber":
-                    var myPhoneNumber = propType.GetConstructor(new[] {typeof (string)}).Invoke(new[] {valueString});
+                    var myPhoneNumber = propType.GetConstructor(new[] { typeof(string) }).Invoke(new[] { valueString });
                     propInfo.SetValue(objectToWriteTo, myPhoneNumber, null);
                     break;
 
                 default:
-                    if (isIndexed)
-                    {
-                        propInfo.SetValue(objectToWriteTo, valueString, CreateIndexerValue(parameter));
-                    }
-                    else
-                    {
-                        propInfo.SetValue(objectToWriteTo, valueString, null);
-                    }
+                    propInfo.SetValue(
+                        objectToWriteTo, 
+                        valueString, 
+                        isIndexed ? CreateIndexerValue(parameter) : null);
 
                     break;
             }
@@ -733,9 +738,9 @@ namespace Sem.GenericHelpers
 
             var arrayData = Encoding.ASCII.GetBytes(text ?? string.Empty);
             var arrayResult = sha1.ComputeHash(arrayData);
-            for (var i = 0; i < arrayResult.Length; i++)
+            foreach (byte t in arrayResult)
             {
-                temp = Convert.ToString(arrayResult[i], 16);
+                temp = Convert.ToString(t, 16);
                 if (temp.Length == 1)
                 {
                     temp = "0" + temp;
@@ -833,6 +838,7 @@ namespace Sem.GenericHelpers
                     case "Guid":
                     case "String":
                     case "DateTime":
+                    case "TimeSpan":
                     case "Boolean":
                     case "Int32":
                         resultList.Add(parentName + item.Name);
@@ -862,13 +868,7 @@ namespace Sem.GenericHelpers
         /// <returns> the enumeration of elements </returns>
         public static IEnumerable<string> CombineNonEmpty(params string[] elements)
         {
-            foreach (var element in elements)
-            {
-                if (!string.IsNullOrEmpty(element))
-                {
-                    yield return element;
-                }
-            }
+            return elements.Where(element => !string.IsNullOrEmpty(element));
         }
 
         /// <summary>

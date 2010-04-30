@@ -66,7 +66,7 @@ namespace Sem.Sync.Connector.CloudStorage
             resultXml.Append("</ArrayOfStdContact>");
             var textStream = new MemoryStream(Encoding.UTF8.GetBytes(result.ToString()));
 
-            result = ((List<StdContact>)ContactListFormatter.Deserialize(textStream)).ToStdElement();
+            result = ((List<StdContact>)ContactListFormatter.Deserialize(textStream)).ToStdElements();
             CleanUpEntities(result);
             
             return result;

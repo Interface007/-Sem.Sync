@@ -39,7 +39,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// Gets or sets the cached original contact item
         /// </summary>
-        public AppointmentItem Item { get; set; }
+        internal AppointmentItem Item { get; set; }
 
         /// <summary>
         /// Gets the subject of the cached appointment item

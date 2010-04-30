@@ -66,7 +66,7 @@ namespace Sem.Sync.SyncBase.Commands
         }
 
         /// <summary>
-        /// Automatically matches without user interaction entities by <see cref="StdContact.PersonalProfileIdentifiers"/>.
+        /// Automatically matches without user interaction entities by <see cref="StdElement.ExternalIdentifier"/>.
         /// </summary>
         /// <param name="target"> the list of <see cref="StdContact"/> that contains the target (here the <see cref="StdElement.Id"/> will be changed if a match is found in the baseline) </param>
         /// <param name="baseline"> the list of <see cref="StdElement"/> that contains the source of the baseline (this will not be changed, but need to contain entries of type <see cref="MatchingEntry"/>) </param>
@@ -75,52 +75,42 @@ namespace Sem.Sync.SyncBase.Commands
         {
             foreach (var item in target)
             {
-                var localItem = (StdContact)item;
-                var corresponding = (from element in baseline
-                                     where ((MatchingEntry)element).ProfileId.MatchesAny(localItem.PersonalProfileIdentifiers)
-                                     select element).FirstOrDefault();
-
-                // if there is one with a matching profile id, 
-                // we overwrite the id
-                if (corresponding == null)
-                {
-                    continue;
-                }
-
-                var sourceId = ((MatchingEntry)corresponding).ProfileId;
-                var targetId = localItem.PersonalProfileIdentifiers;
-
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.ActiveDirectoryId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.FacebookProfileId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.Google);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.LinkedInId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.LotusNotesId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.MeinVZ);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.MicrosoftAccessId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.OracleCrmOnDemandId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.StayFriendsPersonId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.WerKenntWenUrl);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.XingNameProfileId);
-                CopyIfDestinationIsNull(sourceId, targetId, ProfileIdentifierType.ExchangeWs);
-                
-                item.Id = corresponding.Id;
+                MatchStdContact(item as StdContact, baseline);
             }
 
             return target;
         }
 
-        /// <summary>
-        /// Sets the profile id if the target property is null.
-        /// </summary>
-        /// <param name="source">the source profile identifier container</param>
-        /// <param name="target">the target profile identifier container</param>
-        /// <param name="id">the profile type to copy from source to target</param>
-        private static void CopyIfDestinationIsNull(ProfileIdentifiers source, ProfileIdentifiers target, ProfileIdentifierType id)
+        private static void MatchStdContact(StdElement contact, IEnumerable<StdElement> baseline)
         {
-            if (string.IsNullOrEmpty(target.GetProfileId(id)))
+            if (contact == null)
             {
-                target.SetProfileId(id, source.GetProfileId(id));
+                return;
             }
+
+            var targetId = contact.ExternalIdentifier;
+            var corresponding = (from element in baseline
+                                 where ((MatchingEntry)element).ProfileId.MatchesAny(targetId)
+                                 select element).FirstOrDefault();
+
+            // if there is one with a matching profile id, 
+            // we overwrite the id
+            if (corresponding == null)
+            {
+                return;
+            }
+
+            var sourceId = ((MatchingEntry)corresponding).ProfileId;
+            foreach (var id in sourceId)
+            {
+                var key = id.Key;
+                if (string.IsNullOrEmpty(targetId.GetProfileId(key)))
+                {
+                    targetId.SetProfileId(key, id.Value);
+                }
+            }
+
+            contact.Id = corresponding.Id;
         }
     }
 }

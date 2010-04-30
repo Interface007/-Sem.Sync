@@ -130,4 +130,7 @@
   <data name="AllFilesFileFilter" xml:space="preserve">
     <value>all files|*.*</value>
   </data>
+	<data name="LabelVersion">
+		<value><![CDATA[Version ]]></value>
+	</data>
 </root>

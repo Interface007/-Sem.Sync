@@ -18,7 +18,7 @@ namespace Sem.Sync.Connector.MsExcelXml
 
     using Sem.GenericHelpers;
 
-    public class ExcelOpenXml
+    public static class ExcelOpenXml
     {
         private const string documentRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
         private static XNamespace relationShip = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -30,7 +30,7 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <param name="packageFileName">The package file name.</param>
         /// <typeparam name="T"> </typeparam>
         /// <returns> </returns>
-        public static List<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName)
+        public static IEnumerable<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName)
             where T : class, new()
         {
             var list = new List<T>();
