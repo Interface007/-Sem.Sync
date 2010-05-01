@@ -47,11 +47,13 @@
 
             <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
               <Component Id="ResourcesDE"                       Guid="{07EE1D3E-EC53-4DF1-A729-2B104AB95A11}">
+                
                 <File Id='Connector.Filesystem.resources'       Name='Sem.Sync.Connector.Filesystem.resources.dll'                    />
                 <File Id='Connector.Outlook.resources'          Name='Sem.Sync.Connector.Outlook.resources.dll'                       />
                 <File Id='Connector.Outlook2003.resources'      Name='Sem.Sync.Connector.Outlook2003.resources.dll'                   />
                 <File Id='Connector.Outlook2010.resources'      Name='Sem.Sync.Connector.Outlook2010.resources.dll'                   />
                 <File Id='Connector.Xing.resources'             Name='Sem.Sync.Connector.Xing.resources.dll'                          />
+                
                 
                 <File Id='OutlookWithXing.resources'            Name='Sem.Sync.OutlookWithXing.resources.dll' KeyPath='yes' />
                 
@@ -85,13 +87,28 @@
               <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'                         />
               <File Id='Sem.Sync.SharedUI.Common'               Name='Sem.Sync.SharedUI.Common.dll'                           />
 
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
               <File Id='Sem.Sync.Connector.Filesystem'          Name='Sem.Sync.Connector.Filesystem.dll'                      />
 
               
               <File Id='Sem.Sync.Connector.Memory'              Name='Sem.Sync.Connector.Memory.dll'                          />
 
+              
               <File Id='Sem.Sync.Connector.Outlook'             Name='Sem.Sync.Connector.Outlook.dll'                         />
               <File Id='Sem.Sync.Connector.Outlook2003'         Name='Sem.Sync.Connector.Outlook2003.dll'                     />
+              
               
               
               
@@ -141,6 +158,7 @@
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Library documentation" Level="1">
+      
       <ComponentRef Id="HelperLibrary"  />
       <ComponentRef Id="Description"    />
 

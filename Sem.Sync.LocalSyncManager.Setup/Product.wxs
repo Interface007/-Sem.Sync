@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
   <!--
   This setup project is not very complex, but it's containing a GUI, writes registry 
   entries and files, creates folders and shortcuts. As you can see, it's not complex 
@@ -85,6 +86,7 @@
               <File Id='Sem.Sync.SyncBase'                      Name='Sem.Sync.SyncBase.dll'                                  />
               <File Id='Sem.Sync.SharedUI.WinForms'             Name='Sem.Sync.SharedUI.WinForms.dll'                         />
               <File Id='Sem.Sync.SharedUI.Common'               Name='Sem.Sync.SharedUI.Common.dll'                           />
+              <File Id='Sem.Sync.SyncBase.Commands'             Name='Sem.Sync.SyncBase.Commands.dll'                         />
               
               <File Id='ExpressionSerialization'                Name='ExpressionSerialization.dll'                            />
               
