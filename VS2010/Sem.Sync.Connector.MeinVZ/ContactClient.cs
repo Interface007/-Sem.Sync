@@ -15,6 +15,7 @@ namespace Sem.Sync.Connector.MeinVZ
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -183,10 +184,7 @@ namespace Sem.Sync.Connector.MeinVZ
             this.httpRequester.UiDispatcher = this.UiDispatcher;
             var contactUrls = this.GetUrlList();
 
-            foreach (var contactUrl in contactUrls)
-            {
-                result.Add(this.DownloadContact(contactUrl));
-            }
+            result.AddRange(contactUrls.Select(this.DownloadContact));
 
             result.Sort();
             return result;
@@ -305,8 +303,11 @@ namespace Sem.Sync.Connector.MeinVZ
             if (imageUrl != null)
             {
                 var url = imageUrl.Groups[1].ToString();
-                result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
-                result.PictureData = this.httpRequester.GetContentBinary(url, url);
+                if (!string.IsNullOrEmpty(url))
+                {
+                    result.PictureName = url.Substring(url.LastIndexOf('/') + 1);
+                    result.PictureData = this.httpRequester.GetContentBinary(url, url);
+                }
             }
 
             foreach (Match match in Regex.Matches(content, ContactContentSelector, RegexOptions.Singleline))
@@ -315,7 +316,7 @@ namespace Sem.Sync.Connector.MeinVZ
                 var value = match.Groups[2].ToString();
                 try
                 {
-                    if (value.Contains(">"))
+                    if (key != "Geburtstag:" && value.Contains(">"))
                     {
                         value = value.Substring(value.IndexOf('>') + 1);
                     }
@@ -324,8 +325,6 @@ namespace Sem.Sync.Connector.MeinVZ
                     {
                         value = value.Substring(0, value.IndexOf('<'));
                     }
-
-                    result.InternalSyncData = new SyncData();
 
                     MapKeyValuePair(result, value, key);
                 }

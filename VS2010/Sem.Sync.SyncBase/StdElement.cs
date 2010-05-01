@@ -28,7 +28,8 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         protected StdElement()
         {
-            this.Id = Guid.NewGuid();            
+            this.Id = Guid.NewGuid();
+            this.InternalSyncData = new SyncData();
         }
 
         /// <summary>
@@ -44,10 +45,14 @@ namespace Sem.Sync.SyncBase
         [XmlAttribute]
         public Guid Id
         {
-            get { return id; }
+            get
+            {
+                return this.id;
+            }
+
             set
             {
-                id = value;
+                this.id = value;
 
                 if (this.ExternalIdentifier == null)
                 {
