@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StdCalendarItemResult.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the StdCalendarItemResult type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Connector.Statistic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Sem.Sync.SyncBase;
 
     public class StdCalendarItemResult
@@ -35,7 +43,5 @@ namespace Sem.Sync.Connector.Statistic
                                                 select x).Count()
                         };
         }
-
-        
     }
 }

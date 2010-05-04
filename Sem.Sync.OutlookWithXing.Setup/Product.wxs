@@ -21,7 +21,7 @@
              Comments="This client performs an import of Xing contacts into Outlook."
              Manufacturer="Sven Erik Matzen"/>
 
-    <PropertyRef Id="NETFRAMEWORK35"/>
+    <PropertyRef Id="NETFRAMEWORK40"/>
     <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
       <![CDATA[Installed OR NETFRAMEWORK40]]>
     </Condition>
