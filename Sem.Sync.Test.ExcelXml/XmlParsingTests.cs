@@ -27,7 +27,7 @@ namespace Sem.Sync.Test.ExcelXmlTest
 
         [TestMethod]
         [DeploymentItem("Data\\ExCel2010-StdContacts.xlsx")]
-        public void LoadDataFromExCelOriginalFileOpenXmlDocument()
+        public void LoadDataFromExcelOriginalFileOpenXmlDocument()
         {
             var data = OpenXmlHelper.GetValueArrayFromExcelFile("ExCel2010-StdContacts.xlsx");
             Assert.IsNotNull(data);

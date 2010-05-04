@@ -11,7 +11,6 @@ namespace Sem.Sync.SyncBase
     using System.ComponentModel;
     using System.IO;
     using System.Text;
-    using System.Xml.Serialization;
 
     using DetailData;
 
@@ -364,6 +363,8 @@ namespace Sem.Sync.SyncBase
             {
                 this.DateOfBirth = new DateTime(1900, 1, 1);
             }
+
+            SyncTools.ClearNulls(this, typeof(StdContact));
         }
     }
 }

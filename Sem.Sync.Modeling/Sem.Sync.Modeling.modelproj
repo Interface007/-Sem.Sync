@@ -136,6 +136,10 @@
       <Name>Sem.Sync.SharedUI.WinForms</Name>
       <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase.Commands\Sem.Sync.SyncBase.Commands.csproj">
+      <Name>Sem.Sync.SyncBase.Commands</Name>
+      <Project>{a86d2cb9-2907-4abe-8f8c-31e76994ce85}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
       <Name>Sem.Sync.SyncBase</Name>
       <Project>{4725c93e-55a0-42a5-9c61-61dc498a4308}</Project>

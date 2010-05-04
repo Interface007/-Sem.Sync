@@ -26,9 +26,17 @@ namespace Sem.Sync.Connector.Statistic
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
     /// </summary>
-    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = true, NeedsCredentials = false, DisplayName = "Simple Report")]
+    [ConnectorDescription(
+        CanReadContacts = false, 
+        CanWriteContacts = true, 
+        CanReadCalendarEntries = false, 
+        CanWriteCalendarEntries = true, 
+        IsGeneric = true,
+        NeedsCredentials = false, 
+        DisplayName = "Simple Report")]
     [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemPath)]
-    public class SimpleReport : StdClient
+    public class SimpleReport<T> : StdClient
+        where T : StdElement, new()
     {
         /// <summary>
         /// Writes a range of elements to the standard connector.

@@ -20,6 +20,7 @@ namespace Sem.Sync.Connector.Outlook2010
     using Microsoft.Win32;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
@@ -72,7 +73,7 @@ namespace Sem.Sync.Connector.Outlook2010
 
             return contactsList;
         }
-        
+
         /// <summary>
         /// creates a list of AppointmentItemContainer from a contacts enumeration
         /// </summary>
@@ -378,8 +379,10 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <param name="appointmentList"> The appointment List. </param>
         /// <returns> a value indicating whether the element has been written to outlook  </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null  </exception>
-        internal static bool WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
+        internal static SaveAction WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
         {
+            var actionDone = SaveAction.None;
+
             if (appointmentEnum == null)
             {
                 throw new ArgumentNullException("appointmentEnum");
@@ -395,20 +398,20 @@ namespace Sem.Sync.Connector.Outlook2010
                                       select x.Item).FirstOrDefault();
 
             if (outlookAppointment == null)
-            { 
-                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem); 
+            {
+                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
+                actionDone = SaveAction.Create;
             }
 
             // convert StdContact to Outlook contact
             if (ConvertToNativeAppointment(stdCalendarItem, outlookAppointment))
             {
+                actionDone = actionDone == SaveAction.None ? SaveAction.Update : actionDone;
                 outlookAppointment.Save();
-                GCRelevantCall();
-                return true;
             }
 
             GCRelevantCall();
-            return false;
+            return actionDone;
         }
 
         /// <summary>
@@ -561,7 +564,7 @@ namespace Sem.Sync.Connector.Outlook2010
             MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.BusinessPhoneMobile.ToString(), x => outlookContact.Business2TelephoneNumber = x);
             MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonalInstantMessengerAddresses.MsnMessenger, x => outlookContact.IMAddress = x);
 
-            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData, x => outlookContact.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.AdditionalTextData.Replace("\r\n", "\n"), x => outlookContact.Body = x);
 
             if (stdOldContact.Id != stdNewContact.Id)
             {
@@ -646,9 +649,11 @@ namespace Sem.Sync.Connector.Outlook2010
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
                         }
-
-                        // clean up the temp file
-                        File.Delete(fullName);
+                        finally
+                        {
+                            // clean up the temp file
+                            File.Delete(fullName);
+                        }
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
@@ -689,13 +694,22 @@ namespace Sem.Sync.Connector.Outlook2010
 
             foreach (var picturePath in Directory.GetFiles(folderReg.ToString(), "Contact*.jpg"))
             {
-                try
+                var failCounter = 0;
+                while (true)
                 {
-                    File.Delete(picturePath);
-                }
-                catch (IOException)
-                {
-                    // LogProcessingEvent("problem to clean the outlook temp folder " + picturePath + ": " + ex.Message);
+                    try
+                    {
+                        File.Delete(picturePath);
+                        break;
+                    }
+                    catch (IOException ex)
+                    {
+                        failCounter++;
+                        if (failCounter > 3)
+                        {
+                            throw new TechnicalException("problem to clean the outlook temp folder " + picturePath + ": " + ex.Message);
+                        }
+                    }
                 }
             }
         }
@@ -805,7 +819,7 @@ namespace Sem.Sync.Connector.Outlook2010
 
             return newId;
         }
-        
+
         /// <summary>
         /// Returns a syncronization id for a given appointment. If there is no syncronization id, a new one will be 
         /// created and saved to outlook. If saving the appointment does fail because of authorization, NO exception 
@@ -856,5 +870,12 @@ namespace Sem.Sync.Connector.Outlook2010
 
             return newId;
         }
+    }
+
+    internal enum SaveAction
+    {
+        None,
+        Update,
+        Create
     }
 }

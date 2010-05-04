@@ -79,6 +79,15 @@ namespace Sem.Sync.Connector.Outlook.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to there is no translation for this value into the SemSync namespace..
+        /// </summary>
+        internal static string NoValueTranslationMessage {
+            get {
+                return ResourceManager.GetString("NoValueTranslationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to adding {0} elements ....
         /// </summary>
         internal static string uiAddingXElements {
@@ -151,7 +160,7 @@ namespace Sem.Sync.Connector.Outlook.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to reading ....
+        ///   Looks up a localized string similar to reading {0} ....
         /// </summary>
         internal static string uiReadingContact {
             get {
@@ -192,6 +201,114 @@ namespace Sem.Sync.Connector.Outlook.Properties {
         internal static string uiXElementsAdded {
             get {
                 return ResourceManager.GetString("uiXElementsAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to adding/updating {0} elements ....
+        /// </summary>
+        internal static string UserInfoAddingEntries {
+            get {
+                return ResourceManager.GetString("UserInfoAddingEntries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to comparing ....
+        /// </summary>
+        internal static string UserInfoComparing {
+            get {
+                return ResourceManager.GetString("UserInfoComparing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} elements added, {1} elements updated.
+        /// </summary>
+        internal static string UserInfoElementsAdded {
+            get {
+                return ResourceManager.GetString("UserInfoElementsAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error at name {0}: {1}.
+        /// </summary>
+        internal static string UserInfoErrorAtName {
+            get {
+                return ResourceManager.GetString("UserInfoErrorAtName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to logging on ....
+        /// </summary>
+        internal static string UserInfoLoggingOn {
+            get {
+                return ResourceManager.GetString("UserInfoLoggingOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no outlook folder selected.
+        /// </summary>
+        internal static string UserInfoNoOutlookFolderSelected {
+            get {
+                return ResourceManager.GetString("UserInfoNoOutlookFolderSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to preparing list ....
+        /// </summary>
+        internal static string UserInfoPreparingList {
+            get {
+                return ResourceManager.GetString("UserInfoPreparingList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to problem accessing outlook store at name {0}: {1}.
+        /// </summary>
+        internal static string UserInfoProblemAccessingStore {
+            get {
+                return ResourceManager.GetString("UserInfoProblemAccessingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to reading ... .
+        /// </summary>
+        internal static string UserInfoReading {
+            get {
+                return ResourceManager.GetString("UserInfoReading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove duplicates finished.
+        /// </summary>
+        internal static string UserInfoRemoveDuplicatesFinished {
+            get {
+                return ResourceManager.GetString("UserInfoRemoveDuplicatesFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to removing ....
+        /// </summary>
+        internal static string UserInfoRemoving {
+            get {
+                return ResourceManager.GetString("UserInfoRemoving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to searching ....
+        /// </summary>
+        internal static string UserInfoSearchingElementInStore {
+            get {
+                return ResourceManager.GetString("UserInfoSearchingElementInStore", resourceCulture);
             }
         }
     }

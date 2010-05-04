@@ -44,7 +44,7 @@ namespace Sem.Sync.LocalSyncManager
                 Application.Run(
                     new SyncWizard
                     {
-                        DataContext = new SyncWizardContext(typeof(StdContact), ExceptionHandler.UserInterface)
+                        DataContext = new SyncWizardContext(ExceptionHandler.UserInterface)
                     });
             }
             catch (Exception ex)

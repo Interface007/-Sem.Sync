@@ -40,7 +40,7 @@ namespace Sem.Sync.Starter
         public ProcessSelection()
         {
             InitializeComponent();
-            this.DataContext = new SyncWizardContext(typeof(StdContact), ExceptionHandler.UserInterface);
+            this.DataContext = new SyncWizardContext(ExceptionHandler.UserInterface);
 
             this.Network = new List<Button>();
             foreach (var source in ((SyncWizardContext)this.DataContext).SyncWorkflowData)

@@ -28,11 +28,14 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         DisplayName = "Microsoft Excel OpenXml",
         CanReadContacts = true,
         CanWriteContacts = true,
+        CanReadCalendarEntries = true,
+        CanWriteCalendarEntries = true,
         Internal = false)]
     [ClientStoragePathDescription(
         Mandatory = true,
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    public class XmlContactClient : StdClient
+    public class XmlContactClient<T> : StdClient
+        where T : StdElement, new()
     {
         /// <summary>
         /// Exporting / writing will simply overwrite the destination, so we should override this method in order 
@@ -55,7 +58,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var result = new List<StdElement>();
 
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
-            var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
+            var mapping = this.GetColumnDefinition(mappingFileName, typeof(T));
             var excelFile = GetFileName(clientFolderName);
 
             this.LogProcessingEvent("Opening Excel file {0} ...", excelFile);
@@ -85,7 +88,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             for (var rowId = 1; rowId < valueArray.GetLength(0); rowId++)
             {
                 var colIndex = 0;
-                var newElement = new StdContact();
+                var newElement = new T();
                 for (var colId = 0; colId < mapping.Count - 1; colId++)
                 {
                     try
@@ -138,7 +141,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             }
 
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
-            var mapping = this.GetColumnDefinition<StdContact>(mappingFileName);
+            var mapping = this.GetColumnDefinition(mappingFileName, typeof(T));
 
             this.LogProcessingEvent("preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
             CleanUpEntities(elements);
@@ -189,7 +192,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <param name="exceptionReportFileName"> The exception report file name - in case of a null reference in the parameter <paramref name="exceptionFile"/> this file name will be used to create a new file stream for the XmlWriter. </param>
         /// <param name="ex"> The exception to be written to the file. </param>
         /// <returns> The instance of the <see cref="XmlWriter"/> that has been utilized to write the exception. </returns>
-        private static XmlWriter WriteExceptionFile(string[,] valueArray, int rowId, int colId, StdContact newElement, XmlWriter exceptionFile, string exceptionReportFileName, Exception ex)
+        private static XmlWriter WriteExceptionFile(string[,] valueArray, int rowId, int colId, StdElement newElement, XmlWriter exceptionFile, string exceptionReportFileName, Exception ex)
         {
             if (exceptionFile == null)
             {
@@ -205,7 +208,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             if (exceptionFile != null)
             {
                 exceptionFile.WriteStartElement("Exception");
-                exceptionFile.WriteAttributeString("PersonName", newElement.GetFullName());
+                exceptionFile.WriteAttributeString("PersonName", newElement.ToString());
                 exceptionFile.WriteAttributeString("Row", rowId.ToString(CultureInfo.InvariantCulture));
                 exceptionFile.WriteAttributeString("Column", colId.ToString(CultureInfo.InvariantCulture));
                 exceptionFile.WriteAttributeString("ExcelReference", colId.IndexToLetters() + rowId);

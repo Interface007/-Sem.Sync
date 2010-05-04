@@ -19,7 +19,7 @@ namespace Sem.Sync.Connector.Outlook2010
     /// to cache some of the properties of that object that will be needed
     /// in linq-queries.
     /// </summary>
-    public class AppointmentItemContainer
+    internal class AppointmentItemContainer
     {
         /// <summary>
         /// name of the custom outlook property that does hold the Sem.Sync entity id
@@ -44,7 +44,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// Gets the subject of the cached appointment item
         /// </summary>
-        public string LastName
+        internal string LastName
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// Gets the unique identifier of the cached contact item
         /// </summary>
-        public string Id
+        internal string Id
         {
             get
             {

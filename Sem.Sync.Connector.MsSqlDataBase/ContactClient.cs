@@ -63,7 +63,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var columns = this.GetColumnDefinition<StdContact>(clientFolderName);
+            var columns = this.GetColumnDefinition(clientFolderName, typeof(StdContact));
             var connectionString = "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=SemSync-Private;Data Source=WKMATZENSV02;";
 
             using (var con = new System.Data.SqlClient.SqlConnection(connectionString))
@@ -74,7 +74,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             }
         }
 
-        private static void WriteContact(SqlConnection con, StdContact x, List<ColumnDefinition> definitions)
+        private static void WriteContact(SqlConnection con, StdElement x, List<ColumnDefinition> definitions)
         {
             var cmd = con.CreateCommand();
             cmd.CommandText = "SELECT ContactID FROM Contact WHERE ContactID = @contactId'";
