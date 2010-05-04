@@ -48,7 +48,13 @@ namespace Sem.Sync.Connector.Filesystem
         Mandatory = true,
         Default = "{FS:WorkingFolder}\\Elements.csv",
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
-    [ConnectorDescription(DisplayName = "Filesystem CSV", IsGeneric = true)]
+    [ConnectorDescription(
+        DisplayName = "Filesystem CSV", 
+        IsGeneric = true,
+        CanReadCalendarEntries = true,
+        CanWriteCalendarEntries = true,
+        CanReadContacts = true,
+        CanWriteContacts = true)]
     public class GenericClientCsv<T> : StdClient
         where T : StdElement, new()
     {
@@ -77,7 +83,7 @@ namespace Sem.Sync.Connector.Filesystem
                 result = new List<StdElement>();
                 using (var file = new StreamReader(filename, new UnicodeEncoding(false, true)))
                 {
-                    var columnDefinition = this.GetColumnDefinition<T>(GetColumnDefinitionFileName(clientFolderName));
+                    var columnDefinition = this.GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName), typeof(T));
                     if (!file.EndOfStream)
                     {
                         // skip the headers
@@ -114,6 +120,8 @@ namespace Sem.Sync.Connector.Filesystem
                     }
                 }
             }
+            
+            this.LogProcessingEvent("read completed");
 
             return result;
         }
@@ -127,7 +135,7 @@ namespace Sem.Sync.Connector.Filesystem
         /// <param name="skipIfExisting">this parameter is ignored in this client implementation</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var columnDefinition = this.GetColumnDefinition<T>(GetColumnDefinitionFileName(clientFolderName));
+            var columnDefinition = this.GetColumnDefinition(GetColumnDefinitionFileName(clientFolderName), typeof(T));
 
             using (var file = new StreamWriter(GetFileName(clientFolderName), false, new UnicodeEncoding(false, true)))
             {
@@ -164,6 +172,8 @@ namespace Sem.Sync.Connector.Filesystem
 
                     file.WriteLine(line.ToString().Replace("\n", " ").Replace("\r", " "));
                 }
+
+                this.LogProcessingEvent("write completed");
             }
         }
     }

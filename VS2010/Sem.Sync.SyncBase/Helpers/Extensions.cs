@@ -406,6 +406,40 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
+        /// Converts a list of standard contacts to a list of standard elements
+        /// </summary>
+        /// <param name="list">a list of standard contacts to cast</param>
+        /// <returns>a list of casted elements</returns>
+        public static List<StdCalendarItem> ToStdCalendarItems(this IEnumerable<StdElement> list)
+        {
+            var result = new List<StdCalendarItem>();
+            foreach (var element in list)
+            {
+                var e = element as StdCalendarItem;
+
+                if (e == null)
+                {
+                    var m = element as MatchingEntry;
+                    if (m != null)
+                    {
+                        e = new StdCalendarItem
+                            {
+                                Id = element.Id,
+                                ExternalIdentifier = m.ProfileId
+                            };
+                    }
+                }
+
+                if (e != null)
+                {
+                    result.Add(e);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Converts a list of typed elements to a list of different typed elements. This is usefull to
         /// cast a list of type 1 into a list of type 2.
         /// </summary>

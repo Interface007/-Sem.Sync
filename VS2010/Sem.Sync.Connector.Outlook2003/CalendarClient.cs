@@ -17,6 +17,8 @@ namespace Sem.Sync.Connector.Outlook2003
     using System.Globalization;
     using System.Linq;
     using Microsoft.Office.Interop.Outlook;
+
+    using Sem.Sync.Connector.Outlook2003.Properties;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
@@ -26,7 +28,7 @@ namespace Sem.Sync.Connector.Outlook2003
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
-    [ConnectorDescription(DisplayName = "Outlook Calendar Connector 2003",
+    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003",
         CanReadContacts = false,
         CanWriteContacts = false,
         CanReadCalendarEntries = true,
@@ -50,7 +52,7 @@ namespace Sem.Sync.Connector.Outlook2003
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
-            LogProcessingEvent("logging on ...");
+            LogProcessingEvent(Resources.UserInfoLoggingOn);
             var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
@@ -58,47 +60,59 @@ namespace Sem.Sync.Connector.Outlook2003
             {
                 var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
-                LogProcessingEvent("preparing list ...");
+                LogProcessingEvent(Resources.UserInfoPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
                                       orderby a.Subject, a.Start
                                       select a;
 
                 AppointmentItem lastItem = null;
-                foreach (var item in outlookItemList)
+                var lastPersonName = string.Empty;
+                foreach (var item in outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm", CultureInfo.InvariantCulture)))
                 {
-                    currentElementName = item.Subject;
+                    var subject = item.Subject;
+
+                    var personName =
+                            string.IsNullOrEmpty(subject)
+                            ? string.Empty
+                            : subject.StartsWith("Geburtstag von ", StringComparison.OrdinalIgnoreCase)
+                            ? subject.Substring(15)
+                            : subject.EndsWith("'s Birthday", StringComparison.OrdinalIgnoreCase)
+                            ? subject.Substring(0, subject.Length - 11)
+                            : string.Empty;
 
                     if (lastItem != null)
                     {
                         var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
                         LogProcessingEvent(stdItem, "comparing ...");
 
-                        if (lastItem.Subject == item.Subject
-                            && lastItem.Start == item.Start
-                            && lastItem.Body == item.Body &&
-                            (item.Subject.StartsWith("Geburtstag", StringComparison.OrdinalIgnoreCase) ||
-                             item.Subject.EndsWith("Birthday", StringComparison.OrdinalIgnoreCase)))
+                        if (!string.IsNullOrEmpty(personName))
                         {
-                            LogProcessingEvent(stdItem, "removing ...");
+                            if (lastPersonName == personName
+                                && lastItem.Start == item.Start
+                                && lastItem.Body == item.Body)
+                            {
+                                LogProcessingEvent(stdItem, Resources.UserInfoRemoving);
 
-                            item.Delete();
-                            continue;
+                                item.Delete();
+                                continue;
+                            }
                         }
                     }
 
                     lastItem = item;
+                    lastPersonName = personName;
                 }
             }
             catch (System.Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, ex.Message));
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
             }
             finally
             {
                 outlookNamespace.Logoff();
             }
 
-            LogProcessingEvent("Remove duplicates finished");
+            LogProcessingEvent(Resources.UserInfoRemoveDuplicatesFinished);
         }
 
         /// <summary>
@@ -163,7 +177,7 @@ namespace Sem.Sync.Connector.Outlook2003
             var minimumDate = DateTime.Now;
 
             // get a connection to outlook 
-            LogProcessingEvent("logging on ...");
+            LogProcessingEvent(Resources.UserInfoLoggingOn);
             var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
@@ -180,7 +194,7 @@ namespace Sem.Sync.Connector.Outlook2003
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
                 {
-                    LogProcessingEvent("no outlook folder selected");
+                    LogProcessingEvent(Resources.UserInfoNoOutlookFolderSelected);
                 }
                 else
                 {
@@ -198,7 +212,7 @@ namespace Sem.Sync.Connector.Outlook2003
                             {
                                 currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 
-                                LogProcessingEvent("reading ... " + currentElementName);
+                                LogProcessingEvent(Resources.UserInfoReading + currentElementName);
 
                                 result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
                             }
@@ -208,7 +222,7 @@ namespace Sem.Sync.Connector.Outlook2003
                             if (ex.ErrorCode == -1285291755 ||
                                 ex.ErrorCode == -2147221227)
                             {
-                                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "problem accessing outlook store at name {0}: {1}", currentElementName, ex.Message));
+                                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoProblemAccessingStore, currentElementName, ex.Message));
                             }
                             else
                             {
@@ -220,7 +234,7 @@ namespace Sem.Sync.Connector.Outlook2003
             }
             catch (System.Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "Error at name {0}: {1}", currentElementName, ex.Message));
+                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
             }
             finally
             {
@@ -239,7 +253,7 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "adding {0} elements ...", elements.Count));
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoAddingEntries, elements.Count));
 
             // create outlook instance and get the folder
             var outlookNamespace = OutlookClient.GetNamespace();
@@ -249,18 +263,29 @@ namespace Sem.Sync.Connector.Outlook2003
             var appointmentList = OutlookClient.GetAppointmentsList(appointmentEnum);
 
             var added = 0;
+            var updated = 0;
+
             foreach (var element in elements)
             {
                 // find outlook contact with matching id, create new if needed
-                LogProcessingEvent(element, "searching ...");
-                if (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, appointmentList))
+                LogProcessingEvent(element, Resources.UserInfoSearchingElementInStore);
+                switch (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, appointmentList))
                 {
-                    added++;
+                    case SaveAction.None:
+                        break;
+                    case SaveAction.Update:
+                        updated++;
+                        break;
+                    case SaveAction.Create:
+                        added++;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
             outlookNamespace.Logoff();
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, "{0} elements added", added));
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoElementsAdded, added, updated));
         }
     }
 }

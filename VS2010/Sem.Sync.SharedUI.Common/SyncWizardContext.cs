@@ -12,11 +12,13 @@
 namespace Sem.Sync.SharedUI.Common
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Reflection;
 
     using GenericHelpers;
@@ -66,16 +68,10 @@ namespace Sem.Sync.SharedUI.Common
         private string currentSyncWorkflowData;
 
         /// <summary>
-        /// holds the type of entities this class should handle
-        /// </summary>
-        private Type entityType;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SyncWizardContext"/> class. 
         /// </summary>
-        public SyncWizardContext(Type typeOfEntity, IUiInteraction uiInteraction)
+        public SyncWizardContext(IUiInteraction uiInteraction)
         {
-            this.entityType = typeOfEntity;
             this.UiProvider = uiInteraction;
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
@@ -86,15 +82,8 @@ namespace Sem.Sync.SharedUI.Common
 
             var fileInfo = this.ScanFiles(Directory.GetCurrentDirectory());
 
-            this.ClientsSource = from x in fileInfo
-                                 where (x.ReadWrite & 1) == 1
-                                 orderby x.DisplayName
-                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
-
-            this.ClientsTarget = from x in fileInfo
-                                 where (x.ReadWrite & 2) == 2
-                                 orderby x.DisplayName
-                                 select new KeyValuePair<string, string>(x.ClassName, x.DisplayName);
+            this.ClientsSource = ConnectorListToKeyValuePiars(fileInfo, 1);
+            this.ClientsTarget = ConnectorListToKeyValuePiars(fileInfo, 2);
 
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
             Tools.EnsurePathExist(WorkingFolderTemplates);
@@ -103,6 +92,14 @@ namespace Sem.Sync.SharedUI.Common
                 .ForEach(file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file)));
 
             this.ReloadWorkflowDataList();
+        }
+
+        private IEnumerable<KeyValuePair<string, string>> ConnectorListToKeyValuePiars(IEnumerable<ConnectorTypeDescription> fileInfo, int capable)
+        {
+            return (from x in fileInfo
+                   where (x.ReadWrite & capable) == capable
+                   orderby x.DisplayName
+                   select new KeyValuePair<string, string>(x.ClassName, "[" + x.TypeName + "] " + x.DisplayName)).OrderBy(x => x.Value);
         }
 
         /// <summary>
@@ -439,26 +436,29 @@ namespace Sem.Sync.SharedUI.Common
                             ? new ConnectorDescriptionAttribute()
                             : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
 
-                    var fullName =
-                        exportedType.IsGenericType
-                            ? exportedType.FullName.Replace("`1", " of " + entityType.Name)
-                            : exportedType.FullName;
-
-                    var nameToUse =
-                        exportedType.IsGenericType
-                            ? (attribute.DisplayName ?? fullName) + " of " + entityType.Name
-                            : attribute.DisplayName ?? fullName;
-
-                    if (!attribute.Internal && (attribute.CanRead(entityType) || attribute.CanWrite(entityType)))
+                    foreach (var type in new[] { typeof(StdContact), typeof(StdCalendarItem) })
                     {
-                        yield return
-                            new ConnectorTypeDescription
-                                {
-                                    ClassName = fullName,
-                                    DisplayName = nameToUse,
-                                    ReadWrite = attribute.CanRead(entityType) ? (attribute.CanWrite(entityType) ? 3 : 1) : 2
-                                };
+
+                        var fullName =
+                            exportedType.IsGenericType
+                                ? exportedType.FullName.Replace("`1", " of " + type.Name)
+                                : exportedType.FullName;
+
+                        var nameToUse = attribute.DisplayName ?? fullName.Replace("`1", "");
+
+                        if (!attribute.Internal && (attribute.CanRead(type) || attribute.CanWrite(type)))
+                        {
+                            yield return
+                                new ConnectorTypeDescription
+                                    {
+                                        ClassName = fullName,
+                                        DisplayName = nameToUse,
+                                        ReadWrite = attribute.CanRead(type) ? (attribute.CanWrite(type) ? 3 : 1) : 2,
+                                        TypeName = type.Name
+                                    };
+                        }
                     }
+
                 }
             }
         }
@@ -592,5 +592,6 @@ namespace Sem.Sync.SharedUI.Common
         public string ClassName;
         public string DisplayName;
         public int ReadWrite;
+        public string TypeName;
     }
 }

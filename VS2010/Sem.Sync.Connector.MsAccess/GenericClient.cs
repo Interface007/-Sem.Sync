@@ -280,7 +280,7 @@ namespace Sem.Sync.Connector.MsAccess
                 return SqlDatabaseNullString;
             }
 
-            if (mappingItem.NullIfDefault && (toBeFormatted == toBeFormatted.GetType().GetConstructor(new Type[] { })))
+            if (mappingItem.NullIfDefault && (toBeFormatted.Equals(toBeFormatted.GetType().GetConstructor(new Type[] { }))))
             {
                 return SqlDatabaseNullString;
             }

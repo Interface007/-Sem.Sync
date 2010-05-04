@@ -426,10 +426,10 @@ namespace Sem.Sync.SyncBase
         /// specified, a list of such entries will be created by searching the object 
         /// recursively for properties.
         /// </summary>
-        /// <typeparam name="T"> The type to create the definition for </typeparam>
         /// <param name="columnDefinitionFile"> the file that does contain a list of <see cref="ColumnDefinition"/> </param>
+        /// <param name="type">The type to create the definition for</param>
         /// <returns> a list of <see cref="ColumnDefinition"/> to describe the columns </returns>
-        protected List<ColumnDefinition> GetColumnDefinition<T>(string columnDefinitionFile)
+        protected List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile, Type type)
         {
             var result = new List<ColumnDefinition>();
             var definitionFileName = columnDefinitionFile.Replace(".{write}", string.Empty);
@@ -447,8 +447,8 @@ namespace Sem.Sync.SyncBase
                 }
             }
 
-            this.LogProcessingEvent("building column definition from type {0}...", typeof(T).Name);
-            result = (from x in Tools.GetPropertyList(string.Empty, typeof(T)) select new ColumnDefinition(x)).ToList();
+            this.LogProcessingEvent("building column definition from type {0}...", type.Name);
+            result = (from x in Tools.GetPropertyList(string.Empty, type) select new ColumnDefinition(x)).ToList();
 
             if (!string.IsNullOrEmpty(columnDefinitionFile) && Path.GetExtension(columnDefinitionFile) == ".{write}")
             {

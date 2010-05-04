@@ -13,6 +13,7 @@ namespace Sem.Sync.Connector.Outlook2010
 
     using Microsoft.Office.Interop.Outlook;
 
+    using Sem.Sync.Connector.Outlook2010.Properties;
     using Sem.Sync.SyncBase;
 
     /// <summary>
@@ -44,7 +45,7 @@ namespace Sem.Sync.Connector.Outlook2010
                     throw new ArgumentOutOfRangeException(
                         "status", 
                         status, 
-                        "there is no translation for this value into the SemSync namespace.");
+                        Resources.NoValueTranslationMessage);
             }
         }
 
@@ -112,7 +113,7 @@ namespace Sem.Sync.Connector.Outlook2010
                     throw new ArgumentOutOfRangeException(
                         "status",
                         status,
-                        "there is no translation for this value into the SemSync namespace.");
+                        Resources.NoValueTranslationMessage);
             }
         }
 

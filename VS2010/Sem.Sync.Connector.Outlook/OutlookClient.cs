@@ -20,6 +20,7 @@ namespace Sem.Sync.Connector.Outlook
     using Microsoft.Win32;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
@@ -378,8 +379,10 @@ namespace Sem.Sync.Connector.Outlook
         /// <param name="appointmentList"> The appointment List. </param>
         /// <returns> a value indicating whether the element has been written to outlook  </returns>
         /// <exception cref="ArgumentNullException"> in case of contactsEnum being null  </exception>
-        internal static bool WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
+        internal static SaveAction WriteCalendarItemToOutlook(Items appointmentEnum, StdCalendarItem stdCalendarItem, IEnumerable<AppointmentItemContainer> appointmentList)
         {
+            var actionDone = SaveAction.None;
+
             if (appointmentEnum == null)
             {
                 throw new ArgumentNullException("appointmentEnum");
@@ -395,20 +398,20 @@ namespace Sem.Sync.Connector.Outlook
                                       select x.Item).FirstOrDefault();
 
             if (outlookAppointment == null)
-            { 
-                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem); 
+            {
+                outlookAppointment = (AppointmentItem)appointmentEnum.Add(OlItemType.olAppointmentItem);
+                actionDone = SaveAction.Create;
             }
 
             // convert StdContact to Outlook contact
             if (ConvertToNativeAppointment(stdCalendarItem, outlookAppointment))
             {
+                actionDone = actionDone == SaveAction.None ? SaveAction.Update : actionDone;
                 outlookAppointment.Save();
-                GCRelevantCall();
-                return true;
             }
 
             GCRelevantCall();
-            return false;
+            return actionDone;
         }
 
         /// <summary>
@@ -432,8 +435,8 @@ namespace Sem.Sync.Connector.Outlook
 
             var stdOldAppointment = ConvertToStandardCalendarItem(appointment, null);
 
-            SyncTools.ClearNulls(stdNewAppointment, typeof(StdCalendarItem));
-            SyncTools.ClearNulls(stdOldAppointment, typeof(StdCalendarItem));
+            stdNewAppointment.NormalizeContent();
+            stdOldAppointment.NormalizeContent();
 
             var dirty = false;
             MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
@@ -646,9 +649,11 @@ namespace Sem.Sync.Connector.Outlook
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
                         }
-
-                        // clean up the temp file
-                        File.Delete(fullName);
+                        finally
+                        {
+                            // clean up the temp file
+                            File.Delete(fullName);
+                        }
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
@@ -682,20 +687,29 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             var folderReg = reg.GetValue("OutlookSecureTempFolder");
-            if (folderReg == null)
+            if (folderReg == null || !Directory.Exists(folderReg.ToString()))
             {
                 return;
             }
 
             foreach (var picturePath in Directory.GetFiles(folderReg.ToString(), "Contact*.jpg"))
             {
-                try
+                var failCounter = 0;
+                while (true)
                 {
-                    File.Delete(picturePath);
-                }
-                catch (IOException)
-                {
-                    // LogProcessingEvent("problem to clean the outlook temp folder " + picturePath + ": " + ex.Message);
+                    try
+                    {
+                        File.Delete(picturePath);
+                        break;
+                    }
+                    catch (IOException ex)
+                    {
+                        failCounter++;
+                        if (failCounter > 3)
+                        {
+                            throw new TechnicalException("problem to clean the outlook temp folder " + picturePath + ": " + ex.Message);
+                        }
+                    }
                 }
             }
         }
@@ -856,5 +870,12 @@ namespace Sem.Sync.Connector.Outlook
 
             return newId;
         }
+    }
+
+    internal enum SaveAction
+    {
+        None,
+        Update,
+        Create
     }
 }

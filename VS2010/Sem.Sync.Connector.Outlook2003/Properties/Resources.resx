@@ -162,7 +162,43 @@
   <data name="MissingInteropQuestionTitle" xml:space="preserve">
     <value>File not found</value>
   </data>
+	<data name="UserInfoLoggingOn">
+		<value xml:space="preserve">logging on ...</value>
+	</data>
 	<data name="NoValueTranslationMessage">
 		<value xml:space="preserve">there is no translation for this value into the SemSync namespace.</value>
+	</data>
+	<data name="UserInfoPreparingList">
+		<value xml:space="preserve">preparing list ...</value>
+	</data>
+	<data name="UserInfoComparing">
+		<value xml:space="preserve">comparing ...</value>
+	</data>
+	<data name="UserInfoRemoving">
+		<value xml:space="preserve">removing ...</value>
+	</data>
+	<data name="UserInfoErrorAtName">
+		<value xml:space="preserve">Error at name {0}: {1}</value>
+	</data>
+	<data name="UserInfoRemoveDuplicatesFinished">
+		<value xml:space="preserve">Remove duplicates finished</value>
+	</data>
+	<data name="UserInfoNoOutlookFolderSelected">
+		<value xml:space="preserve">no outlook folder selected</value>
+	</data>
+	<data name="UserInfoReading">
+		<value><![CDATA[reading ... ]]></value>
+	</data>
+	<data name="UserInfoProblemAccessingStore">
+		<value xml:space="preserve">problem accessing outlook store at name {0}: {1}</value>
+	</data>
+	<data name="UserInfoAddingEntries">
+		<value xml:space="preserve">adding/updating {0} elements ...</value>
+	</data>
+	<data name="UserInfoSearchingElementInStore">
+		<value xml:space="preserve">searching ...</value>
+	</data>
+	<data name="UserInfoElementsAdded">
+		<value xml:space="preserve">{0} elements added, {1} elements updated</value>
 	</data>
 </root>

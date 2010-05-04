@@ -252,5 +252,23 @@
         </reference>
       </references>
     </layer>
+    <layer Id="f4921e59-a611-44e1-a69c-642f93c81fbb" name="Commands">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="553ea4af-b373-42e6-abdd-054bf87e312e" direction="Forward">
+          <layerMoniker Id="e39d15cc-c7c0-4e36-979e-a1fae8a0f194" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="16e48a6a-3061-4a34-bfee-41f2eb3dd5b0" name="Sem.Sync.SyncBase.Commands">
+          <ArtifactNode Label="Sem.Sync.SyncBase.Commands" Category="CodeSchema_Project" Id="(Assembly=../Sem.Sync.SyncBase.Commands/Sem.Sync.SyncBase.Commands.csproj)">
+            <Category Ref="CodeSchema_SourceFile" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=../bin/Sem.Sync.SyncBase.Commands.dll)" Label="Sem.Sync.SyncBase.Commands.dll" Category="FileSystem.Category.FileOfType.dll">
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
   </layers>
 </layerModel>

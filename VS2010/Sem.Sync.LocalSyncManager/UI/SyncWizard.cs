@@ -367,7 +367,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         {
             var form = new SyncWizard
                     {
-                        DataContext = new SyncWizardContext(typeof(StdCalendarItem), this.DataContext.UiProvider)
+                        DataContext = new SyncWizardContext(this.DataContext.UiProvider)
                     };
 
             form.Show();

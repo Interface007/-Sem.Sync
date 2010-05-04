@@ -142,7 +142,7 @@
     <value>Problem beim Zugriff auf Outlook bei Name {0}: {1}</value>
   </data>
   <data name="uiReadingContact" xml:space="preserve">
-    <value>lese ...</value>
+    <value>lese {0} ...</value>
   </data>
   <data name="uiRemoveDuplicates" xml:space="preserve">
     <value>Enfernen von Duplikaten beendet.</value>
