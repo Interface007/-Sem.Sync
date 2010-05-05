@@ -18,14 +18,17 @@ namespace Sem.Sync.Connector.Statistic
     using SyncBase.Helpers;
 
     /// <summary>
-    /// Implements some of the statistical information.
+    /// Implements a list of statistical information results.
     /// </summary>
     [XmlInclude(typeof(StdCalendarItemResult))]
     [XmlInclude(typeof(StdContactResult))]
     public class ValueAnalysisCounter
     {
-        private ArrayList internalItems = new ArrayList();
+        private readonly ArrayList internalItems = new ArrayList();
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ValueAnalysisCounter"/> class.
+        /// </summary>
         public ValueAnalysisCounter()
         {
         }
@@ -42,6 +45,9 @@ namespace Sem.Sync.Connector.Statistic
             this.AddItem(StdContactResult.ValueAnalysisCounterStdContact(elements.ToStdContacts()));
         }
         
+        /// <summary>
+        /// Indexer to access the result elements.
+        /// </summary>
         [XmlElement("AnalysisResult")]
         public object[] AnalysiResults
         {
@@ -68,6 +74,11 @@ namespace Sem.Sync.Connector.Statistic
             }
         }
 
+        /// <summary>
+        /// Adds a new item to the result list. NULL values will be ignored.
+        /// </summary>
+        /// <param name="item">the item to be added</param>
+        /// <returns>the index of the new item - -1 in case of a NULL item that has not been added</returns>
         public int AddItem(object item)
         {
             return 

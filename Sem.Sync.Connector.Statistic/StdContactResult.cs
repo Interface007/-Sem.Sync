@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sem.Sync.Connector.Statistic
+﻿namespace Sem.Sync.Connector.Statistic
 {
+    using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
 
     using Sem.GenericHelpers.Entities;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 
+    /// <summary>
+    /// Calculates and represents some statistic information about the contacts.
+    /// </summary>
     public class StdContactResult
     {
+        public List<KeyValuePair> BusinessCompanies { get; set; }
+
         public static StdContactResult ValueAnalysisCounterStdContact(ICollection<StdContact> contacts)
         {
             if (contacts == null)
@@ -49,8 +52,7 @@ namespace Sem.Sync.Connector.Statistic
                                                        {
                                                            Key = g.Key,
                                                            Value = g.Count().ToString(CultureInfo.CurrentCulture)
-                                                       }).Take(10).
-                        ToList(),
+                                                       }).Take(10).ToList(),
                     Top10CitiesBusiness = (from x in contacts
                                            where
                                                x.BusinessAddressPrimary != null &&
@@ -63,8 +65,18 @@ namespace Sem.Sync.Connector.Statistic
                                                        {
                                                            Key = g.Key,
                                                            Value = g.Count().ToString(CultureInfo.CurrentCulture)
-                                                       }).Take(10).
-                        ToList()
+                                                       }).Take(10).ToList(),
+                    BusinessCompanies = (from x in contacts
+                                         where !string.IsNullOrEmpty(x.BusinessCompanyName)
+                                         group x by x.BusinessCompanyName
+                                         into g
+                                         orderby g.Count() descending
+                                         select
+                                            new KeyValuePair
+                                                {
+                                                    Key = g.Key,
+                                                    Value = g.Count().ToString(CultureInfo.CurrentCulture)
+                                                }).ToList()
                 };
         }
 

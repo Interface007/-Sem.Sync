@@ -28,7 +28,10 @@ namespace Sem.Sync.SyncBase.DetailData
         {
             this.BusinessCompanyName = new List<KeyValuePair>();
             this.BusinessHomepage = new List<KeyValuePair>();
+            this.City = new List<KeyValuePair>();
         }
+
+        public List<KeyValuePair> City { get; set; }
 
         /// <summary>
         /// Gets or sets the list of permutations of company names with replacement strings.

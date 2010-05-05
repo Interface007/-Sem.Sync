@@ -67,6 +67,19 @@ namespace Sem.Sync.Connector.Statistic
             foreach (var info in myType.GetProperties())
             {
                 var infoName = root + info.Name;
+                if (info.PropertyType.IsValueType)
+                {
+                    if (info.PropertyType.IsEnum && ((int)info.GetValue(element, null)) == 0)
+                    {
+                        continue;
+                    }
+                }
+
+                if (info.PropertyType.Name == "String" && string.IsNullOrEmpty((string)info.GetValue(element, null)))
+                {
+                    continue;
+                }
+
                 if (info.GetValue(element, null) == null)
                 {
                     continue;
@@ -76,10 +89,10 @@ namespace Sem.Sync.Connector.Statistic
                 {
                     propList.Add(infoName, 0);
                 }
-                
+
                 propList[infoName]++;
 
-                if (info.PropertyType.IsClass 
+                if (info.PropertyType.IsClass
                     && !info.PropertyType.IsPrimitive
                     && !info.PropertyType.IsArray
                     && !info.PropertyType.Name.IsOneOf("String", "DateTime"))

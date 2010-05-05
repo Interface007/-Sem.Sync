@@ -319,6 +319,35 @@ namespace Sem.Sync.SyncBase
                         }
                     }
                 }
+
+                if (dictionary.City != null)
+                {
+                    foreach (var item in dictionary.City)
+                    {
+                        var value = item.Value;
+                        var key = item.Key;
+
+                        if (this.PersonalAddressPrimary != null && this.PersonalAddressPrimary.CityName == key)
+                        {
+                            this.PersonalAddressPrimary.CityName = value;
+                        }
+
+                        if (this.BusinessAddressPrimary != null && this.BusinessAddressPrimary.CityName == key)
+                        {
+                            this.BusinessAddressPrimary.CityName = value;
+                        }
+
+                        if (this.PersonalAddressSecondary != null && this.PersonalAddressSecondary.CityName == key)
+                        {
+                            this.PersonalAddressSecondary.CityName = value;
+                        }
+
+                        if (this.BusinessAddressSecondary != null && this.BusinessAddressSecondary.CityName == key)
+                        {
+                            this.BusinessAddressSecondary.CityName = value;
+                        }
+                    }
+                }
             }
 
             if (!string.IsNullOrEmpty(this.BusinessCompanyName))
