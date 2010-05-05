@@ -174,7 +174,6 @@ namespace Sem.Sync.Connector.Outlook2010
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
-            var minimumDate = DateTime.Now;
 
             // get a connection to outlook 
             LogProcessingEvent(Resources.UserInfoLoggingOn);
@@ -208,7 +207,7 @@ namespace Sem.Sync.Connector.Outlook2010
                         try
                         {
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
-                            if (calendarStdItem != null && calendarStdItem.Start > minimumDate)
+                            if (calendarStdItem != null) // && calendarStdItem.Start > minimumDate)
                             {
                                 currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
 

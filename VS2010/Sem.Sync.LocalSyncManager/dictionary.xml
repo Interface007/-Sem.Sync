@@ -7,6 +7,7 @@
     <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
     <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH"/>
     <KeyValuePair Key="Avanade Deutschland GmbH (Accenture / Microsoft Joint Venture)" Value="Avanade Deutschland GmbH"/>
+    <KeyValuePair Key="Avanade GmbH" Value="Avanade Deutschland GmbH"/>
     <KeyValuePair Key="Avanade" Value="Avanade Deutschland GmbH"/>
     
     <KeyValuePair Key="Accenture" Value="Accenture GmbH"/>
@@ -23,4 +24,12 @@
     <KeyValuePair Key="http://www.avanade.com" Value="http://www.avanade.de"/>
     <KeyValuePair Key="https://www.commerzbank.de/" Value="http://www.commerzbank.de"    />
   </BusinessHomepage>
+  <City>
+    <KeyValuePair Key="Frankfurt, Germany" Value="Frankfurt am Main"    />
+    <KeyValuePair Key="Frankfurt/Main" Value="Frankfurt am Main"    />
+    <KeyValuePair Key="Frankfurt" Value="Frankfurt am Main"    />
+    <KeyValuePair Key="Kronberg" Value="Kronberg im Taunus"    />
+    <KeyValuePair Key="Kronberg i. T." Value="Kronberg im Taunus"    />
+    <KeyValuePair Key="Wetzlar, Hessen" Value="Wetzlar"    />
+  </City>
 </ReplacementLists>

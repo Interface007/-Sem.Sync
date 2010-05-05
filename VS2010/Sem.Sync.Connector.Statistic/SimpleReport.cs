@@ -35,8 +35,7 @@ namespace Sem.Sync.Connector.Statistic
         NeedsCredentials = false, 
         DisplayName = "Simple Report")]
     [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemPath)]
-    public class SimpleReport<T> : StdClient
-        where T : StdElement, new()
+    public class SimpleReport : StdClient
     {
         /// <summary>
         /// Writes a range of elements to the standard connector.
@@ -57,6 +56,11 @@ namespace Sem.Sync.Connector.Statistic
         /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            this.LogProcessingEvent("preparing data...");
+            elements.ForEach(x => x.NormalizeContent());
+
+            this.LogProcessingEvent("calculating statistics...");
+
             var statistic = new SimpleStatisticResult
                 {
                     NumberOfElements = elements.Count,
@@ -64,7 +68,10 @@ namespace Sem.Sync.Connector.Statistic
                     ValueAnalysis = new ValueAnalysisCounter(elements),
                 };
 
+            this.LogProcessingEvent("saving statistic file...");
             Tools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"), typeof(KeyValuePair), typeof(ValueAnalysisCounter));
+
+            this.LogProcessingEvent("writing finished");
         }
     }
 }
