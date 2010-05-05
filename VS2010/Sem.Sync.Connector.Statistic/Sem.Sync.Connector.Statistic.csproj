@@ -118,13 +118,12 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PropertyUsageCounter.cs" />
-    <Compile Include="SimpleReport.cs" />
+    <Compile Include="AnalysisModule\PropertyUsage.cs" />
+    <Compile Include="SimpleReportClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleStatisticResult.cs" />
-    <Compile Include="StdCalendarItemResult.cs" />
-    <Compile Include="StdContactResult.cs" />
-    <Compile Include="ValueAnalysisCounter.cs" />
+    <Compile Include="AnalysisModule\StdCalendarItems.cs" />
+    <Compile Include="AnalysisModule\StdContacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
