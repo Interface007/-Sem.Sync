@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyUsageCounter.cs" company="Sven Erik Matzen">
+// <copyright file="PropertyUsage.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
@@ -7,27 +7,27 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic
+namespace Sem.Sync.Connector.Statistic.AnalysisModule
 {
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
 
-    using GenericHelpers.Entities;
-
-    using SyncBase.Helpers;
+    using Sem.GenericHelpers.Entities;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// Analyzes the usage of properties by count
     /// </summary>
-    internal static class PropertyUsageCounter
+    public static class PropertyUsage
     {
         /// <summary>
         /// Analyzes the usage of properties by count
         /// </summary>
         /// <param name="elements"> The elements to be analyzed. </param>
         /// <returns> a list of key value pairs containing the properties and the usage count </returns>
-        internal static List<KeyValuePair> GetPropertyUsage(ICollection elements)
+        public static List<KeyValuePair> GetAnalysisItemResult(ICollection elements)
         {
             var result = new List<KeyValuePair>();
             var propList = new Dictionary<string, int>();
@@ -38,13 +38,9 @@ namespace Sem.Sync.Connector.Statistic
                     AddPropertyCounts(element, "\\", propList);
                 }
 
-                foreach (var i in propList)
-                {
-                    if (i.Value > 0)
-                    {
-                        result.Add(new KeyValuePair { Key = i.Key, Value = i.Value.ToString(CultureInfo.CurrentCulture) });
-                    }
-                }
+                result.AddRange(from i in propList
+                                where i.Value > 0
+                                select new KeyValuePair { Key = i.Key, Value = i.Value.ToString(CultureInfo.CurrentCulture) });
             }
 
             return result;

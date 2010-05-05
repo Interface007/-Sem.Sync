@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SimpleReport.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// <copyright file="SimpleReportClient.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <author>Sven Erik Matzen</author>
 // <summary>
@@ -35,7 +35,7 @@ namespace Sem.Sync.Connector.Statistic
         NeedsCredentials = false, 
         DisplayName = "Simple Report")]
     [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemPath)]
-    public class SimpleReport : StdClient
+    public class SimpleReportClient : StdClient
     {
         /// <summary>
         /// Writes a range of elements to the standard connector.
@@ -61,15 +61,10 @@ namespace Sem.Sync.Connector.Statistic
 
             this.LogProcessingEvent("calculating statistics...");
 
-            var statistic = new SimpleStatisticResult
-                {
-                    NumberOfElements = elements.Count,
-                    PropertyUsage = PropertyUsageCounter.GetPropertyUsage(elements),
-                    ValueAnalysis = new ValueAnalysisCounter(elements),
-                };
+            var statistic = new SimpleStatisticResult(elements);
 
             this.LogProcessingEvent("saving statistic file...");
-            Tools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"), typeof(KeyValuePair), typeof(ValueAnalysisCounter));
+            Tools.SaveToFile(statistic, Path.Combine(clientFolderName, this.FriendlyClientName + ".xml"));
 
             this.LogProcessingEvent("writing finished");
         }
