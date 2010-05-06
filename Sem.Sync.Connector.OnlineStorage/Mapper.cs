@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Sem.Sync.Connector.OnlineStorage
 {
@@ -12,12 +10,22 @@ namespace Sem.Sync.Connector.OnlineStorage
             throw new NotImplementedException();
         }
 
+        internal static SyncBase.StdElement ToStdElementBase(this Sem.Sync.Connector.OnlineStorage.ContactService2.StdContact contact)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static SyncBase.StdElement ToStdElementBase(this Sem.Sync.Connector.OnlineStorage.Cloud.StdContact contact)
         {
             throw new NotImplementedException();
         }
 
         internal static List<Sem.Sync.Connector.OnlineStorage.OnlineStorage.StdContact> ToStdContactsService(this List<Sem.Sync.SyncBase.StdElement> contact)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static List<ContactService2.StdContact> ToStdContactsService2(this List<Sem.Sync.SyncBase.StdElement> contact)
         {
             throw new NotImplementedException();
         }
