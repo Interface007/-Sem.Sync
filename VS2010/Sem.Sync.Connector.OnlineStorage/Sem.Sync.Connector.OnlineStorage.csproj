@@ -134,6 +134,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\ContactService2\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\OnlineStorage\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -155,6 +160,35 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Service References\ContactService2\ContactService.wsdl" />
+    <None Include="Service References\ContactService2\ContactService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService1.wsdl" />
+    <None Include="Service References\ContactService2\ContactService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\ContactService7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ContactService2\Sem.Sync.Connector.OnlineStorage.ContactService2.ContactListContainer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\OnlineStorage\ContactService.wsdl" />
     <None Include="Service References\OnlineStorage\ContactService.xsd" />
     <None Include="Service References\OnlineStorage\ContactService1.xsd" />
@@ -162,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Cloud\" />
+    <WCFMetadataStorage Include="Service References\ContactService2\" />
     <WCFMetadataStorage Include="Service References\OnlineStorage\" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +268,21 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactService2\ContactService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactService2\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactService2\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactService2\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

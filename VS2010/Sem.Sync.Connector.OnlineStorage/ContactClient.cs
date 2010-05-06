@@ -11,12 +11,12 @@
 namespace Sem.Sync.Connector.OnlineStorage
 {
     using System.Collections.Generic;
+    using System.Linq;
 
-    using OnlineStorage;
+    using ContactService2;
 
     using SyncBase;
     using SyncBase.Attributes;
-    using SyncBase.Helpers;
 
     /// <summary>
     /// Implements a sample client for the sample online storage (accessed via WCF).
@@ -44,12 +44,9 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <returns>the list of contacts that has been read from the online storage</returns>
         protected override List<Sem.Sync.SyncBase.StdElement> ReadFullList(string clientFolderName, List<Sem.Sync.SyncBase.StdElement> result)
         {
-            var client = new OnlineStorage.ContactClient();
+            var client = new ContactService2.ContactServiceClient();
             var contacts = client.GetAll(clientFolderName).ContactList;
-            foreach (var contact in contacts)
-            {
-                result.Add(contact.ToStdElementBase());
-            }
+            result.AddRange(contacts.Select(contact => contact.ToStdElementBase()));
 
             return result;
         }
@@ -62,11 +59,11 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<Sem.Sync.SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var client = new OnlineStorage.ContactClient();
+            var client = new ContactService2.ContactServiceClient();
             client.WriteFullList(
                 new ContactListContainer
                     {
-                        ContactList = elements.ToStdContactsService().ToArray()
+                        ContactList = elements.ToStdContactsService2().ToArray()
                                      }, 
                                      clientFolderName, 
                                      skipIfExisting);

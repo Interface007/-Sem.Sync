@@ -1,4 +1,3 @@
 ﻿<%@ ServiceHost Language="C#" Debug="true" 
     Service="Sem.Sync.OnlineStorage.ContactService" 
-    Factory="Sem.Sync.OnlineStorage.SyncServiceHostFactory"
     CodeBehind="ContactService.svc.cs" %>
