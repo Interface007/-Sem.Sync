@@ -42,10 +42,10 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="clientFolderName">represents a path to the data</param>
         /// <param name="result">the list that will be filled with the contacts</param>
         /// <returns>the list of contacts that has been read from the online storage</returns>
-        protected override List<Sem.Sync.SyncBase.StdElement> ReadFullList(string clientFolderName, List<Sem.Sync.SyncBase.StdElement> result)
+        protected override List<SyncBase.StdElement> ReadFullList(string clientFolderName, List<SyncBase.StdElement> result)
         {
-            var client = new ContactService2.ContactServiceClient();
-            var contacts = client.GetAll(clientFolderName).ContactList;
+            var client = new ContactServiceClient();
+            var contacts = client.GetAll(clientFolderName, 1, 10).ContactList;
             result.AddRange(contacts.Select(contact => contact.ToStdElementBase()));
 
             return result;
@@ -57,16 +57,16 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="elements"> The elements to be written. </param>
         /// <param name="clientFolderName"> represents a path to the data </param>
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
-        protected override void WriteFullList(List<Sem.Sync.SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var client = new ContactService2.ContactServiceClient();
             client.WriteFullList(
                 new ContactListContainer
                     {
                         ContactList = elements.ToStdContactsService2().ToArray()
-                                     }, 
-                                     clientFolderName, 
-                                     skipIfExisting);
+                    },
+                    clientFolderName,
+                    skipIfExisting);
         }
     }
 }

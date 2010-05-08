@@ -40,6 +40,14 @@ namespace Sem.Sync.Connector.OnlineStorage.ContactService2 {
         
         private StdContact[] contactListField;
         
+        private int firstElementIndexField;
+        
+        private bool firstElementIndexFieldSpecified;
+        
+        private int totalElementsField;
+        
+        private bool totalElementsFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(IsNullable=true, Order=0)]
         [System.Xml.Serialization.XmlArrayItemAttribute(Namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase")]
@@ -50,6 +58,54 @@ namespace Sem.Sync.Connector.OnlineStorage.ContactService2 {
             set {
                 this.contactListField = value;
                 this.RaisePropertyChanged("ContactList");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public int FirstElementIndex {
+            get {
+                return this.firstElementIndexField;
+            }
+            set {
+                this.firstElementIndexField = value;
+                this.RaisePropertyChanged("FirstElementIndex");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool FirstElementIndexSpecified {
+            get {
+                return this.firstElementIndexFieldSpecified;
+            }
+            set {
+                this.firstElementIndexFieldSpecified = value;
+                this.RaisePropertyChanged("FirstElementIndexSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public int TotalElements {
+            get {
+                return this.totalElementsField;
+            }
+            set {
+                this.totalElementsField = value;
+                this.RaisePropertyChanged("TotalElements");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool TotalElementsSpecified {
+            get {
+                return this.totalElementsFieldSpecified;
+            }
+            set {
+                this.totalElementsFieldSpecified = value;
+                this.RaisePropertyChanged("TotalElementsSpecified");
             }
         }
         
@@ -2266,11 +2322,19 @@ namespace Sem.Sync.Connector.OnlineStorage.ContactService2 {
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string clientFolderName;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage", Order=1)]
+        public int startElementIndex;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage", Order=2)]
+        public int countOfElements;
+        
         public GetAllRequest() {
         }
         
-        public GetAllRequest(string clientFolderName) {
+        public GetAllRequest(string clientFolderName, int startElementIndex, int countOfElements) {
             this.clientFolderName = clientFolderName;
+            this.startElementIndex = startElementIndex;
+            this.countOfElements = countOfElements;
         }
     }
     
@@ -2368,9 +2432,11 @@ namespace Sem.Sync.Connector.OnlineStorage.ContactService2 {
             return base.Channel.GetAll(request);
         }
         
-        public Sem.Sync.Connector.OnlineStorage.ContactService2.ContactListContainer GetAll(string clientFolderName) {
+        public Sem.Sync.Connector.OnlineStorage.ContactService2.ContactListContainer GetAll(string clientFolderName, int startElementIndex, int countOfElements) {
             Sem.Sync.Connector.OnlineStorage.ContactService2.GetAllRequest inValue = new Sem.Sync.Connector.OnlineStorage.ContactService2.GetAllRequest();
             inValue.clientFolderName = clientFolderName;
+            inValue.startElementIndex = startElementIndex;
+            inValue.countOfElements = countOfElements;
             Sem.Sync.Connector.OnlineStorage.ContactService2.GetAllResponse retVal = ((Sem.Sync.Connector.OnlineStorage.ContactService2.IContactService)(this)).GetAll(inValue);
             return retVal.GetAllResult;
         }
