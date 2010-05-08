@@ -23,6 +23,8 @@
         /// Reads the contacts from a contact store specified in the parameter <paramref name="clientFolderName"/>.
         /// </summary>
         /// <param name="clientFolderName"> The client folder name. </param>
+        /// <param name="startElementIndex">the 0 based first element index for the result set</param>
+        /// <param name="countOfElements">the number of elements to read</param>
         /// <returns> A contact list container with the contacts from the folder. </returns>
         public ContactListContainer GetAll(string clientFolderName, int startElementIndex, int countOfElements)
         {
@@ -30,7 +32,7 @@
 
             var stdContacts = new ContactListContainer
             {
-                ContactList = (List<StdContact>)(from x in contactList  select x),
+                ContactList = (List<StdContact>)(from x in contactList select x).Take(countOfElements).ToList(),
                 FirstElementIndex = startElementIndex,
                 TotalElements = contactList.Count
             };

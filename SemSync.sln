@@ -492,7 +492,6 @@ Global
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Development MeinVZ|Any CPU.ActiveCfg = Development MeinVZ|Any CPU
 		{D5963ECC-B62A-49AA-8627-87F95867D8A8}.Development MeinVZ|Mixed Platforms.ActiveCfg = Development MeinVZ|Any CPU
