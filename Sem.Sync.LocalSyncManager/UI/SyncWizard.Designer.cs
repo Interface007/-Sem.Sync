@@ -85,14 +85,12 @@
             this.openCommandsViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.starteSynchronisationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.whatToSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cboWorkFlowData = new System.Windows.Forms.ComboBox();
             this.contextDataWorkflowData = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.LogList = new System.Windows.Forms.ListBox();
             this.versionLabel = new System.Windows.Forms.Label();
-            this.switchToContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.switchToCalendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).BeginInit();
             this.pnlProgress.SuspendLayout();
@@ -387,8 +385,7 @@
             this.toolStripMenuItem1,
             this.openCommandsViewToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.starteSynchronisationToolStripMenuItem,
-            this.whatToSyncToolStripMenuItem});
+            this.starteSynchronisationToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
@@ -422,14 +419,6 @@
             this.starteSynchronisationToolStripMenuItem.Name = "starteSynchronisationToolStripMenuItem";
             resources.ApplyResources(this.starteSynchronisationToolStripMenuItem, "starteSynchronisationToolStripMenuItem");
             // 
-            // whatToSyncToolStripMenuItem
-            // 
-            this.whatToSyncToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.switchToContactsToolStripMenuItem,
-            this.switchToCalendarToolStripMenuItem});
-            this.whatToSyncToolStripMenuItem.Name = "whatToSyncToolStripMenuItem";
-            resources.ApplyResources(this.whatToSyncToolStripMenuItem, "whatToSyncToolStripMenuItem");
-            // 
             // cboWorkFlowData
             // 
             this.cboWorkFlowData.DataSource = this.contextDataWorkflowData;
@@ -453,22 +442,19 @@
             resources.ApplyResources(this.versionLabel, "versionLabel");
             this.versionLabel.Name = "versionLabel";
             // 
-            // switchToContactsToolStripMenuItem
+            // button1
             // 
-            this.switchToContactsToolStripMenuItem.Name = "switchToContactsToolStripMenuItem";
-            resources.ApplyResources(this.switchToContactsToolStripMenuItem, "switchToContactsToolStripMenuItem");
-            // 
-            // switchToCalendarToolStripMenuItem
-            // 
-            this.switchToCalendarToolStripMenuItem.Name = "switchToCalendarToolStripMenuItem";
-            resources.ApplyResources(this.switchToCalendarToolStripMenuItem, "switchToCalendarToolStripMenuItem");
-            this.switchToCalendarToolStripMenuItem.Click += new System.EventHandler(this.SwitchToCalendarToolStripMenuItem_Click);
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // SyncWizard
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.LogList);
             this.Controls.Add(this.label1);
@@ -583,8 +569,6 @@
         private System.Windows.Forms.CheckBox chkShowImage;
         private System.Windows.Forms.ToolStripMenuItem openExceptionFolderToolStripMenuItem;
         private System.Windows.Forms.Label versionLabel;
-        private System.Windows.Forms.ToolStripMenuItem whatToSyncToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem switchToContactsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem switchToCalendarToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }

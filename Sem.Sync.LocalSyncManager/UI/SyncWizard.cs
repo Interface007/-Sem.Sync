@@ -358,19 +358,9 @@ namespace Sem.Sync.LocalSyncManager.UI
             }
         }
 
-        /// <summary>
-        /// handels the menu click event
-        /// </summary>
-        /// <param name="sender"> The sender. </param>
-        /// <param name="e"> The event parameters. </param>
-        private void SwitchToCalendarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            var form = new SyncWizard
-                    {
-                        DataContext = new SyncWizardContext(this.DataContext.UiProvider)
-                    };
-
-            form.Show();
+            this.DataContext.SwapSourceAndTarget();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
     using Microsoft.Exchange.WebServices.Data;
 
     using Sem.GenericHelpers;
-    
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 
@@ -95,7 +95,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                         };
 
             result.ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.ExchangeWs, contact.Id.UniqueId);
-            
+
             result.Name = new PersonName
                               {
                                   LastName = contact.Surname,
@@ -106,7 +106,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                               };
 
             ExceptionHandler.Suppress(
-                () => result.DateOfBirth = contact.Birthday ?? new DateTime(), 
+                () => result.DateOfBirth = contact.Birthday ?? new DateTime(),
                 (ServiceObjectPropertyException ex) => true);
 
             result.AdditionalTextData = contact.Body;
@@ -116,14 +116,14 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             result.BusinessDepartment = contact.Department;
             result.BusinessPosition = contact.JobTitle;
             result.BusinessHomepage = contact.BusinessHomePage;
-            
+
             result.BusinessAddressPrimary = GetAddress(contact, PhysicalAddressKey.Business).ToAddressDetail(GetPhone(contact, PhoneNumberKey.BusinessPhone));
             result.PersonalAddressPrimary = GetAddress(contact, PhysicalAddressKey.Home).ToAddressDetail(GetPhone(contact, PhoneNumberKey.HomePhone));
             result.PersonalAddressSecondary = GetAddress(contact, PhysicalAddressKey.Other).ToAddressDetail(GetPhone(contact, PhoneNumberKey.HomePhone2));
 
             result.BusinessPhoneMobile = new PhoneNumber(GetPhone(contact, PhoneNumberKey.MobilePhone));
             result.PersonalPhoneMobile = new PhoneNumber(GetPhone(contact, PhoneNumberKey.OtherTelephone));
-            
+
             result.BusinessEmailPrimary = contact.GetEMail(EmailAddressKey.EmailAddress1);
             result.PersonalEmailPrimary = contact.GetEMail(EmailAddressKey.EmailAddress2);
             result.PersonalEmailSecondary = contact.GetEMail(EmailAddressKey.EmailAddress3);
@@ -158,7 +158,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                 {
                     exchangeContact.GivenName = stdContact.Name.FirstName;
                 }
-                
+
                 if (!string.IsNullOrEmpty(stdContact.Name.MiddleName))
                 {
                     exchangeContact.MiddleName = stdContact.Name.MiddleName;
@@ -226,6 +226,14 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress1, stdContact.BusinessEmailPrimary);
             exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress2, stdContact.PersonalEmailPrimary);
             exchangeContact.SetEmailAddress(EmailAddressKey.EmailAddress3, stdContact.PersonalEmailSecondary);
+
+            if (exchangeContact.Service.ServerInfo.MajorVersion > 9)
+            {
+                if (stdContact.PictureData != null && stdContact.PictureData.GetUpperBound(0) > 100)
+                {
+                    exchangeContact.SetContactPicture(stdContact.PictureData);
+                }
+            }
 
             return exchangeContact;
         }
