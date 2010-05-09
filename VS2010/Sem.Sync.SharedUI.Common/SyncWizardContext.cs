@@ -263,6 +263,15 @@ namespace Sem.Sync.SharedUI.Common
             this.SetupPropertyChanged(true);
         }
 
+        public void SwapSourceAndTarget()
+        {
+            var source = this.Source;
+            this.Source = this.Target;
+            this.Target = source;
+
+            this.RaisePropertyChanged("CurrentSyncWorkflowData");
+        }
+
         /// <summary>
         /// Saves the current workflow data of this object into a file.
         /// </summary>

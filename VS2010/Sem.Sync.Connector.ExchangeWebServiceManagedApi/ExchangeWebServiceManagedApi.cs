@@ -134,7 +134,8 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                 {
                     this.LogProcessingEvent(contact, Properties.Resources.UpdatingContact);
                     var exchangeContact = contact.ToExchangeContact(service);
-                    exchangeContact.UpdateFromStdContact(contact);
+                    exchangeContact.Save();
+                    //// exchangeContact.UpdateFromStdContact(contact);
                 }
             }
         }
