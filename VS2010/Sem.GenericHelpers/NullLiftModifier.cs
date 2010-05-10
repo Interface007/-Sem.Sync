@@ -10,7 +10,6 @@
 namespace Sem.GenericHelpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     /// <summary>
@@ -58,8 +57,8 @@ namespace Sem.GenericHelpers
             var valueType = memberAccessExpression.Expression.Type;
             var memberType = memberAccessExpression.Type;
 
-            var valueNull = GetNullMember(valueType);
-            var memberNull = GetNullMember(memberType);
+            var valueNull = valueType.GetDefaultValue();
+            var memberNull = memberType.GetDefaultValue();
 
             var nullTest = Expression.Equal(
                 memberAccessExpression.Expression,
@@ -69,24 +68,6 @@ namespace Sem.GenericHelpers
                 nullTest, 
                 Expression.Constant(memberNull, memberType), 
                 memberAccessExpression);
-        }
-
-        private static object GetNullMember(Type memberType)
-        {
-            if (memberType.IsValueType)
-            {
-                if (memberType.Name == "DateTime")
-                {
-                    return new System.DateTime();
-                }
-
-                if (memberType.BaseType.Name == "Enum")
-                {
-                    return Enum.GetValues(memberType).GetValue(0);
-                }
-            }
-
-            return null;
         }
     }
 }

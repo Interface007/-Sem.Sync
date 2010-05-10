@@ -168,5 +168,10 @@ namespace Sem.GenericHelpers
         {
             return string.IsNullOrEmpty(toCheck) ? defaultValue : toCheck;
         }
+        
+        public static object GetDefaultValue(this Type thisType)
+        {
+            return thisType.IsValueType ? Activator.CreateInstance(thisType) : null;
+        }
     }
 }
