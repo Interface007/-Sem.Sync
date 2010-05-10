@@ -205,6 +205,13 @@ namespace Sem.Sync.Test
             Assert.IsTrue(dirty);
             Assert.AreEqual(new DateTime(2010, 7, 6), source2.myProp9);
             Assert.AreEqual(new DateTime(2010, 7, 6), source1.myProp10.myProp9);
+
+            // access property of nullable type that is NULL
+            // in this case we will get the default value of the value type property or NULL in case of a nullable type
+            source1.myProp10.myProp6 = null;
+            source2.myProp8 = 0;
+            MappingHelper.MapIfDiffers(ref dirty, source1, source2, y => y.myProp10.myProp6.Value.Year, x => source2.myProp8 = x);
+            Assert.AreEqual(0, source2.myProp8);
         }
 
         [TestMethod]
