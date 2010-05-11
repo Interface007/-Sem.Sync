@@ -18,7 +18,9 @@ namespace Sem.Sync.SyncBase
     /// is needed to successfully sync all kind of the entities.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification = "overriding IComparable is just for sorting!"),
-    Serializable]
+    Serializable, 
+    XmlInclude(typeof(StdContact)), 
+    XmlInclude(typeof(StdCalendarItem))]
     public abstract class StdElement : IComparable<StdElement>
     {
         /// <summary>

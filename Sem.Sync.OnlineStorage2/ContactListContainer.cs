@@ -9,10 +9,7 @@
 
 namespace Sem.Sync.OnlineStorage2
 {
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
-
-    using SyncBase;
 
     /// <summary>
     /// a data contract class that contains one or more contacts in a list.
@@ -24,7 +21,7 @@ namespace Sem.Sync.OnlineStorage2
         /// Gets or sets the list of contacts.
         /// </summary>
         [DataMember]
-        public List<StdContact> ContactList { get; set; }
+        public string ContactList { get; set; }
 
         [DataMember]
         public int TotalElements { get; set; }
