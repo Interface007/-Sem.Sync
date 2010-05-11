@@ -2,9 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml;
+    using System.Xml.Linq;
 
     using Connector.Filesystem;
 
+    using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
 
     using SyncBase.Helpers;
@@ -32,7 +35,7 @@
 
             var stdContacts = new ContactListContainer
             {
-                ContactList = (List<StdContact>)(from x in contactList select x).Take(countOfElements).ToList(),
+                ContactList = Tools.SaveToString((from x in contactList select x).Take(countOfElements).ToList()),
                 FirstElementIndex = startElementIndex,
                 TotalElements = contactList.Count
             };
@@ -49,7 +52,7 @@
         /// <returns> A value indicating whether the operation was successfull. </returns>
         public bool WriteFullList(ContactListContainer elements, string clientFolderName, bool skipIfExisting)
         {
-            new ContactClient().WriteRange(elements.ContactList.ToStdElements(), this.storagePath);
+            new ContactClient().WriteRange(Tools.LoadFromString<List<StdContact>>(elements.ContactList).ToStdElements(), this.storagePath);
             return true;
         }
     }

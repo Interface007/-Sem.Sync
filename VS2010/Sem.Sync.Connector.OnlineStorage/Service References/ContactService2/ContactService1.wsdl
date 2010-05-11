@@ -5,11 +5,6 @@
       <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd0" namespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" />
       <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.OnlineStorage2" />
-      <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase" />
-      <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.SyncBase.DetailData" />
-      <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Sem.GenericHelpers" />
-      <xsd:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd7" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IContactService_GetAll_InputMessage">

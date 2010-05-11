@@ -15,6 +15,7 @@ namespace Sem.GenericHelpers
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.IO.Compression;
     using System.Linq;
     using System.Reflection;
     using System.Security.Cryptography;
@@ -188,6 +189,11 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static string SaveToString<T>(T source) where T : class
         {
+            return SaveToString(source, false);
+        }
+
+        public static string SaveToString<T>(T source, bool compress) where T : class
+        {
             var formatter = new XmlSerializer(typeof(T));
             var result = new StringBuilder();
             if (source != null)
@@ -205,6 +211,20 @@ namespace Sem.GenericHelpers
                 catch (Exception ex)
                 {
                     DebugWriteLine(ex.Message);
+                }
+            }
+
+            if (compress)
+            {
+                using (var memStream = new MemoryStream())
+                {
+                    var compressor = new System.IO.Compression.GZipStream(memStream, CompressionMode.Compress);
+                    var array = Encoding.UTF8.GetBytes(result.ToString());
+                    compressor.Write(array, 0, array.Length);
+                    memStream.Seek(0, SeekOrigin.Begin);
+
+                    ////memStream.Read(array, 0, memStream.Length);
+                    ////return Convert.ToBase64String()
                 }
             }
 

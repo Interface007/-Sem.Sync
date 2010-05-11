@@ -14,6 +14,8 @@
         /// </summary>
         /// <param name="clientFolderName"> The client folder name from where to read the contacts - this is a 
         /// logical folder, not a physical path on the server. </param>
+        /// <param name="startElementIndex">zero based index of the first element</param>
+        /// <param name="countOfElements">number of elements in the result set</param>
         /// <returns> a container structure that holds a list of contacts </returns>
         [OperationContract]
         ContactListContainer GetAll(string clientFolderName, int startElementIndex, int countOfElements);

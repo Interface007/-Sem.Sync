@@ -15,6 +15,8 @@ namespace Sem.Sync.Connector.OnlineStorage
 
     using ContactService2;
 
+    using Sem.GenericHelpers;
+
     using SyncBase;
     using SyncBase.Attributes;
 
@@ -45,8 +47,8 @@ namespace Sem.Sync.Connector.OnlineStorage
         protected override List<SyncBase.StdElement> ReadFullList(string clientFolderName, List<SyncBase.StdElement> result)
         {
             var client = new ContactServiceClient();
-            var contacts = client.GetAll(clientFolderName, 1, 10).ContactList;
-            result.AddRange(contacts.Select(contact => contact.ToStdElementBase()));
+            var contacts = Tools.LoadFromString<List<StdContact>>(client.GetAll(clientFolderName, 1, 10).ContactList);
+            result.AddRange(contacts);
 
             return result;
         }
@@ -63,7 +65,7 @@ namespace Sem.Sync.Connector.OnlineStorage
             client.WriteFullList(
                 new ContactListContainer
                     {
-                        ContactList = elements.ToStdContactsService2().ToArray()
+                        ContactList = Tools.SaveToString(elements)
                     },
                     clientFolderName,
                     skipIfExisting);

@@ -125,21 +125,10 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="ContactClient.cs" />
-    <Compile Include="CloudClient.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\Cloud\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\ContactService2\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\OnlineStorage\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -171,86 +160,17 @@
     <None Include="Service References\ContactService2\ContactService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ContactService2\ContactService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ContactService2\ContactService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ContactService2\ContactService5.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ContactService2\ContactService6.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ContactService2\ContactService7.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\ContactService2\Sem.Sync.Connector.OnlineStorage.ContactService2.ContactListContainer.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\OnlineStorage\ContactService.wsdl" />
-    <None Include="Service References\OnlineStorage\ContactService.xsd" />
-    <None Include="Service References\OnlineStorage\ContactService1.xsd" />
-    <None Include="Service References\OnlineStorage\ContactService2.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Cloud\" />
     <WCFMetadataStorage Include="Service References\ContactService2\" />
-    <WCFMetadataStorage Include="Service References\OnlineStorage\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OnlineStorage\ContactService.disco" />
-    <None Include="Service References\OnlineStorage\ContactService3.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OnlineStorage\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OnlineStorage\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Cloud\Storage.xsd" />
-    <None Include="Service References\OnlineStorage\ContactService1.wsdl" />
-    <None Include="Service References\OnlineStorage\ContactService4.xsd" />
-    <None Include="Service References\OnlineStorage\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
       <Link>Properties\CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Cloud\Storage.disco" />
-    <None Include="Service References\Cloud\Storage.wsdl" />
-    <None Include="Service References\Cloud\Storage1.wsdl" />
-    <None Include="Service References\Cloud\Storage1.xsd" />
-    <None Include="Service References\Cloud\Storage2.xsd" />
-    <None Include="Service References\Cloud\Storage3.xsd" />
-    <None Include="Service References\Cloud\Storage5.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Cloud\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Cloud\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Cloud\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\Cloud\Sem.Sync.Connector.OnlineStorage.Cloud.ContactListContainer.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\Cloud\Storage4.xsd" />
-    <None Include="Service References\OnlineStorage\ContactService5.xsd" />
-    <None Include="Service References\OnlineStorage\Sem.Sync.Connector.OnlineStorage.OnlineStorage.ContactListContainer.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
