@@ -189,11 +189,6 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static string SaveToString<T>(T source) where T : class
         {
-            return SaveToString(source, false);
-        }
-
-        public static string SaveToString<T>(T source, bool compress) where T : class
-        {
             var formatter = new XmlSerializer(typeof(T));
             var result = new StringBuilder();
             if (source != null)
@@ -214,21 +209,62 @@ namespace Sem.GenericHelpers
                 }
             }
 
+            return result.ToString();
+        }
+
+        public static string SaveToString<T>(T source, bool compress) where T : class
+        {
+            var result = SaveToString(source);
+
             if (compress)
             {
-                using (var memStream = new MemoryStream())
-                {
-                    var compressor = new System.IO.Compression.GZipStream(memStream, CompressionMode.Compress);
-                    var array = Encoding.UTF8.GetBytes(result.ToString());
-                    compressor.Write(array, 0, array.Length);
-                    memStream.Seek(0, SeekOrigin.Begin);
-
-                    ////memStream.Read(array, 0, memStream.Length);
-                    ////return Convert.ToBase64String()
-                }
+                return "#GZIP#" + Compress(result);
             }
 
-            return result.ToString();
+            return result;
+        }
+
+        public static string Compress(string text)
+        {
+            var buffer = Encoding.UTF8.GetBytes(text);
+
+            using (var ms = new MemoryStream())
+            {
+                using (var zip = new GZipStream(ms, CompressionMode.Compress, true))
+                {
+                    zip.Write(buffer, 0, buffer.Length);
+                }
+
+                ms.Position = 0;
+                var compressed = new byte[ms.Length];
+                ms.Read(compressed, 0, compressed.Length);
+                
+                var gzBuffer = new byte[compressed.Length + 4];
+                System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
+                System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+                
+                return Convert.ToBase64String(gzBuffer);
+            }
+        }
+
+        public static string Decompress(string compressedText)
+        {
+            byte[] gzBuffer = Convert.FromBase64String(compressedText);
+            using (var ms = new MemoryStream())
+            {
+                var msgLength = BitConverter.ToInt32(gzBuffer, 0);
+                ms.Write(gzBuffer, 4, (gzBuffer.Length - 4));
+
+                var buffer = new byte[msgLength];
+
+                ms.Position = 0;
+                using (var zip = new GZipStream(ms, CompressionMode.Decompress))
+                {
+                    zip.Read(buffer, 0, buffer.Length);
+                }
+
+                return Encoding.UTF8.GetString(buffer);
+            }
         }
 
         /// <summary>
@@ -704,8 +740,8 @@ namespace Sem.GenericHelpers
 
                 default:
                     propInfo.SetValue(
-                        objectToWriteTo, 
-                        valueString, 
+                        objectToWriteTo,
+                        valueString,
                         isIndexed ? CreateIndexerValue(parameter) : null);
 
                     break;
@@ -722,8 +758,14 @@ namespace Sem.GenericHelpers
         {
             var formatter = new XmlSerializer(typeof(T));
             var result = default(T);
+
             if (!string.IsNullOrEmpty(serialized))
             {
+                if (serialized.StartsWith("#GZIP#"))
+                {
+                    serialized = Decompress(serialized.Substring(6));
+                }
+
                 try
                 {
                     var reader = new StringReader(serialized);
