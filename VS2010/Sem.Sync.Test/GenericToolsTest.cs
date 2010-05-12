@@ -25,6 +25,7 @@ namespace Sem.Sync.Test
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
     using Sem.Sync.Test.DataGenerator;
     using System.Runtime.Serialization.Formatters.Binary;
 
@@ -97,6 +98,45 @@ namespace Sem.Sync.Test
         /// information about and functionality for the current test run.
         /// </summary>
         public TestContext TestContext { get; set; }
+
+        [TestMethod]
+        public void CompressedSerialization()
+        {
+            var testData = DataGenerator.Contacts.GetStandardContactList(true);
+            var serialized = Tools.SaveToString(testData, true);
+            var deserilizd = Tools.LoadFromString<List<StdContact>>(serialized);
+
+            var binFormatter = new BinaryFormatter();
+
+            using (var memStreamOriginal = new MemoryStream())
+            using (var memStreamCopy = new MemoryStream())
+            {
+                binFormatter.Serialize(memStreamOriginal, testData);
+                var checkOriginal = Convert.ToBase64String(memStreamOriginal.ToArray());
+                binFormatter.Serialize(memStreamCopy, deserilizd);
+                var checkCopy = Convert.ToBase64String(memStreamCopy.ToArray());
+
+                Assert.AreEqual(checkCopy, checkOriginal);
+            }
+        }
+
+        [TestMethod]
+        public void CompressionTest()
+        {
+            var probe = "";
+            for (var i = 0; i < 19999; i++)
+            {
+                Assert.AreEqual(probe, Tools.Decompress(Tools.Compress(probe)));
+                probe += "-";
+            }
+
+            probe = "";
+            for (byte i = 0; i < 255; i++)
+            {
+                Assert.AreEqual(probe, Tools.Decompress(Tools.Compress(probe)));
+                probe += Encoding.UTF8.GetString(new []{i});
+            }
+        }
 
         /// <summary>
         /// Tests the functionality to read object paths from an object
