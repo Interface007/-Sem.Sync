@@ -14,7 +14,6 @@ namespace Sem.Sync.Connector.Outlook2010
 
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using Microsoft.Office.Interop.Outlook;
@@ -174,9 +173,6 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            Contract.Requires<ArgumentNullException>(result != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(clientFolderName));
-
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
