@@ -27,6 +27,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// the credentials. The credentials are serialized in a save manner by encrypting
     /// them with the current users .net encryption key.
     /// </summary>
+    [Serializable]
     public class ConnectorInformation : INotifyPropertyChanged
     {
         /// <summary>

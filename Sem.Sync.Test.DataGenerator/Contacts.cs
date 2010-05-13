@@ -67,7 +67,7 @@ namespace Sem.Sync.Test.DataGenerator
                                 Name = new PersonName("Kati Katze"),
                                 Id = new Guid("{7EAA8009-BBF6-4adf-8F6B-1275F2CA52AE}"),
                                 ExternalIdentifier =
-                                    new ProfileIdentifiers(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
+                                    new ProfileIdentifierDictionary(ProfileIdentifierType.Default, Guid.NewGuid().ToString()),
                                 PersonalAddressPrimary =
                                     new AddressDetail(
                                     OneOf(
@@ -423,7 +423,7 @@ namespace Sem.Sync.Test.DataGenerator
                             new MatchingEntry
                                 {
                                     Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"),
-                                    ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "Matched")
+                                    ProfileId = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "Matched")
                                 }  
                        };
         }
@@ -535,17 +535,17 @@ namespace Sem.Sync.Test.DataGenerator
                         new StdContact
                             {
                                 Name = "matchable1",
-                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "matchable1")
                             },
                         new StdContact
                             {
                                 Name = "matchable2",
-                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "matchable2")
                             },
                         new StdContact
                             {
                                 Name = "unmatchable",
-                                ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1")
+                                ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "orphan1")
                             },
                     });
         }
@@ -558,17 +558,17 @@ namespace Sem.Sync.Test.DataGenerator
                         new MatchingEntry
                             {
                                 Id = new Guid("{A1445F74-6C24-47a3-97E9-9A3E2FA35B17}"),
-                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
+                                ProfileId = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "orphan1bl")
                             },
                         new MatchingEntry
                             {
                                 Id = new Guid("{2191B8BB-40AE-4052-B8AC-89776BB47865}"),
-                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable1")
+                                ProfileId = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "matchable1")
                             },
                         new MatchingEntry
                             {
                                 Id = new Guid("{B79B71B6-2FE5-492b-B5B1-8C373D6F4D64}"),
-                                ProfileId = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, "matchable2")
+                                ProfileId = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "matchable2")
                             }
                     });
         }
@@ -606,7 +606,7 @@ namespace Sem.Sync.Test.DataGenerator
                              {
                                  Name = new PersonName(profileId),
                                  Id = new Guid(id),
-                                 ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.XingNameProfileId, profileId),
+                                 ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId),
                              };
             return result;
         }

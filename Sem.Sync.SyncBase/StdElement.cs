@@ -58,7 +58,7 @@ namespace Sem.Sync.SyncBase
 
                 if (this.ExternalIdentifier == null)
                 {
-                    this.ExternalIdentifier = new ProfileIdentifiers();
+                    this.ExternalIdentifier = new ProfileIdentifierDictionary();
                 }
 
                 this.ExternalIdentifier.SetProfileId(ProfileIdentifierType.Default, value.ToString("B")); 
@@ -72,13 +72,13 @@ namespace Sem.Sync.SyncBase
         [ComparisonModifier(SkipCompare = true, SkipMerge = true)]
         public SyncData InternalSyncData { get; set; }
 
-        private ProfileIdentifiers externalIdentifier;
+        private ProfileIdentifierDictionary externalIdentifier;
 
         /// <summary>
         /// Gets or sets the list of ExternalIdentifier to match one calendar entry to multiple external systems.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "serialization")]
-        public ProfileIdentifiers ExternalIdentifier
+        public ProfileIdentifierDictionary ExternalIdentifier
         {
             get { return externalIdentifier; }
             set

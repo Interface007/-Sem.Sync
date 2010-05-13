@@ -10,9 +10,12 @@
 
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+
     /// <summary>
     /// Entry of an unspecific image with data and a name
     /// </summary>
+    [Serializable]
     public class ImageEntry
     {
         /// <summary>

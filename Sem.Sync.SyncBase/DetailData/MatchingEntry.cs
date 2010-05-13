@@ -13,13 +13,14 @@ namespace Sem.Sync.SyncBase.DetailData
     /// does contain the StdElements ID and a set of profile identifiers. So you can use 
     /// this as a lookup entry inside a list to lookup the std ID of a specific profile ID.
     /// </summary>
+    [Serializable]
     public class MatchingEntry : StdElement
     {
         /// <summary>
         /// Gets or sets a set of profile identifiers.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "This class will be used in XML-Serialization, what means that a ReadOnly property will add a bunch of complexity.")]
-        public ProfileIdentifiers ProfileId { get; set; }
+        public ProfileIdentifierDictionary ProfileId { get; set; }
 
         /// <summary>
         /// This method is not implemented and will trow a <see cref="NotImplementedException"/>.

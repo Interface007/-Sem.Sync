@@ -8,6 +8,7 @@ namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -26,17 +27,13 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Determines if a string is equal to one of the parameter strings.
         /// </summary>
-        /// <param name="theString">the string to test</param>
+        /// <param name="value">the string to test</param>
         /// <param name="candidates">the candidate string this string is compared to</param>
         /// <returns>true if the string is equal to one of the candidates</returns>
-        public static bool IsOneOf(this string theString, params string[] candidates)
+        public static bool IsOneOf(this string value, params string[] candidates)
         {
-            if (candidates == null)
-            {
-                throw new ArgumentNullException("candidates");
-            }
-
-            return candidates.Contains(theString);
+            Contract.Requires<ArgumentNullException>(candidates != null, "the array of strings must not be null");
+            return candidates.Contains(value);
         }
 
         /// <summary>
@@ -156,10 +153,10 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
 
                         case "ProfileIdentifiers":
-                            var targetProfiles = targetValue as ProfileIdentifiers;
+                            var targetProfiles = targetValue as ProfileIdentifierDictionary;
                             if (targetProfiles != null)
                             {
-                                (sourceValue as ProfileIdentifiers)
+                                (sourceValue as ProfileIdentifierDictionary)
                                     .ForEach(x => targetProfiles.SetProfileId(x.Key, x.Value, true));
                             }
                             
@@ -281,11 +278,8 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>The saved list.</returns>
         public static List<T> SaveTo<T>(this List<T> elementList, string destinationFile, Type[] extraTypes)
         {
-            if (destinationFile == null)
-            {
-                throw new ArgumentNullException("destinationFile");
-            }
-
+            Contract.Requires<ArgumentNullException>(string.IsNullOrWhiteSpace(destinationFile), "destination file name must specify a valid path");
+            
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
             Tools.EnsurePathExist(Path.GetDirectoryName(destinationFile));
@@ -323,10 +317,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>The list loaded from the file system.</returns>
         public static List<T> LoadFrom<T>(this List<T> elementList, string sourceFile, Type[] extraTypes)
         {
-            if (sourceFile == null)
-            {
-                throw new ArgumentNullException("sourceFile");
-            }
+            Contract.Requires<ArgumentNullException>(sourceFile != null);
 
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
@@ -351,21 +342,18 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </summary>
         /// <typeparam name="T">the type of elements in this list</typeparam>
         /// <param name="elementList">the list instance that should be deserialized to</param>
-        /// <param name="sourceString">the source string for the de-serialization</param>
+        /// <param name="value">the source string for the de-serialization</param>
         /// <param name="extraTypes">you need to add types that are used in the list here</param>
         /// <returns>The list loaded from the string.</returns>
-// ReSharper disable RedundantAssignment
-        public static T LoadFromString<T>(this T elementList, string sourceString, params Type[] extraTypes)
-// ReSharper restore RedundantAssignment
+//// ReSharper disable RedundantAssignment
+        public static T LoadFromString<T>(this T elementList, string value, params Type[] extraTypes)
+//// ReSharper restore RedundantAssignment
         {
-            if (string.IsNullOrEmpty(sourceString))
-            {
-                throw new ArgumentNullException("sourceString");
-            }
-
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(value));
+            
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(T), extraTypes);
-            var reader = new StringReader(sourceString);
+            var reader = new StringReader(value);
             elementList = (T)formatter.Deserialize(reader);
             
             return elementList;
@@ -499,29 +487,31 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Performs a lookup of a <see cref="StdContact"/> by the <see cref="StdElement.Id"/>.
+        /// Performs a lookup of a <see cref="StdElement"/> by the <see cref="StdElement.Id"/>.
         /// </summary>
         /// <param name="list">the list to be searched</param>
-        /// <param name="uid">the id of the contect to be returned</param>
+        /// <param name="idToSearch">the id of the contect to be returned</param>
+        /// <typeparam name="T">The type of element to find</typeparam>
         /// <returns>the contact with that id or null if there is no such contact inside the list</returns>
-        public static StdContact GetContactById(this List<StdContact> list, string uid)
+        public static T GetElementById<T>(this IEnumerable<StdElement> list, Guid idToSearch)
+            where T : StdElement
         {
-            var idToSearch = new Guid(uid);
             var result = (from x in list where x.Id == idToSearch select x).FirstOrDefault();
-            return result;
+            return result as T;
         }
 
         /// <summary>
         /// Performs a lookup of a <see cref="StdElement"/> by the <see cref="StdElement.Id"/>.
         /// </summary>
         /// <param name="list">the list to be searched</param>
-        /// <param name="uid">the id of the contect to be returned</param>
+        /// <param name="identifier">the id of the contect to be returned</param>
+        /// <typeparam name="T">The type of element to find</typeparam>
         /// <returns>the contact with that id or null if there is no such contact inside the list</returns>
-        public static StdContact GetContactById(this List<StdElement> list, string uid)
+        public static T GetElementById<T>(this IEnumerable<StdElement> list, string identifier)
+            where T : StdElement
         {
-            var idToSearch = new Guid(uid);
-            var result = (from x in list where x.Id == idToSearch select x).FirstOrDefault();
-            return result as StdContact;
+            var idToSearch = new Guid(identifier);
+            return GetElementById<T>(list, idToSearch);
         }
     }
 }

@@ -15,12 +15,13 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// Describes a time span spent to earn some knowledge and/or a certificate
     /// </summary>
+    [Serializable]
     public class EducationEntry
     {
         /// <summary>
         /// Gets or sets the name of the institute that does provide the knowledge.
         /// </summary>
-        public string EnducationInstituteName { get; set; }
+        public string EducationInstituteName { get; set; }
 
         /// <summary>
         /// Gets or sets the country where the knowledge has been accquired.

@@ -10,9 +10,12 @@
 
 namespace Sem.Sync.SyncBase.DetailData
 {
+    using System;
+
     /// <summary>
     /// Describes the know how about reading, talking and writing languages
     /// </summary>
+    [Serializable]
     public class LanguageKnowledge
     {
         /// <summary>

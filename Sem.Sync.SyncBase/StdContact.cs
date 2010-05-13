@@ -185,7 +185,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Gets or sets the knowledge levels for different languages.
         /// </summary>
-        public List<LanguageKnowledge> LanguageKnowledges { get; set; }
+        public List<LanguageKnowledge> LanguageKnowledge { get; set; }
 
         /// <summary>
         /// Gets or sets a list of image data for this contact.

@@ -19,6 +19,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// connect two "known" contacts to each other. It's NOT intended to describe 
     /// "real world relationship status" like marriage.
     /// </summary>
+    [Serializable]
     public class ContactReference
     {
         /// <summary>

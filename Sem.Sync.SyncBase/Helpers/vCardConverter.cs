@@ -104,9 +104,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// converts a vCard into a standard contact.
         /// </summary>
         /// <param name="vCard"> The vCard. </param>
-        /// <param name="useIndetifierAs"> This value determines the meaning of the identifier. </param>
+        /// <param name="useIndentifierAs"> This value determines the meaning of the identifier. </param>
         /// <returns>a StdContact representation of the vCard</returns>
-        public StdContact VCardToStdContact(byte[] vCard, ProfileIdentifierType useIndetifierAs)
+        public StdContact VCardToStdContact(byte[] vCard, ProfileIdentifierType useIndentifierAs)
         {
             if (vCard == null)
             {
@@ -311,7 +311,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "UID":
-                        contact.ExternalIdentifier.SetProfileId(useIndetifierAs, value);
+                        contact.ExternalIdentifier.SetProfileId(useIndentifierAs, value);
                         break;
 
                     case "X-MATZEN-STDUID":
@@ -384,7 +384,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="binaryData"> The binary data extracted if the encoding was for binary data. </param>
         private static void DecodeData(string propertyDescription, ref string value, ref byte[] binaryData)
         {
-            var encoding = PropertyAttribute(propertyDescription, "ENCODING", string.Empty).ConcatElementsToString(string.Empty);
+            var encoding = string.Concat(PropertyAttribute(propertyDescription, "ENCODING", string.Empty));
             if (string.IsNullOrEmpty(encoding))
             {
                 return;

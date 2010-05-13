@@ -299,7 +299,7 @@ namespace Sem.Sync.Connector.Outlook2010
                     InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier =
-                        new ProfileIdentifiers
+                        new ProfileIdentifierDictionary
                             (
                                 ProfileIdentifierType.MicrosoftOutlookId,
                                 outlookItem.GlobalAppointmentID
@@ -590,7 +590,7 @@ namespace Sem.Sync.Connector.Outlook2010
                 (stdOldContact.Categories == null ||
                 stdNewContact.Categories.Count != stdOldContact.Categories.Count))
             {
-                outlookContact.Categories = stdNewContact.Categories.MergeList(stdOldContact.Categories).ConcatElementsToString(";");
+                outlookContact.Categories = string.Join(";", stdNewContact.Categories.MergeList(stdOldContact.Categories));
                 dirty = true;
             }
 

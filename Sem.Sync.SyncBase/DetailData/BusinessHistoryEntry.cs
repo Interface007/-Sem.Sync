@@ -15,6 +15,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// This class describes a time span in the business carreer
     /// </summary>
+    [Serializable]
     public class BusinessHistoryEntry
     {
         /// <summary>

@@ -126,22 +126,22 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         /// <param name="exception"> The exception.  </param>
         /// <param name="message"> The message. </param>
-        /// <param name="parameterStrings"> The parameter Strings. </param>
-        protected void LogException(Exception exception, string message, params string[] parameterStrings)
+        /// <param name="parameters"> The parameter Strings. </param>
+        protected void LogException(Exception exception, string message, params string[] parameters)
         {
             // throw an exception if this one is a ProcessAbortException
             ThrowOnException(exception as ProcessAbortException);
 
             // combine the specified parameters with the message of the exception to 
             // build a param array for the format function
-            var parameters = new string[parameterStrings.Length + 1];
+            var messages = new string[parameters.Length + 1];
             parameters[0] = exception.Message;
-            for (var i = 0; i < parameterStrings.Length - 1; i++)
+            for (var i = 0; i < parameters.Length - 1; i++)
             {
-                parameters[i + 1] = parameterStrings[i];
+                messages[i + 1] = parameters[i];
             }
 
-            ExceptionHandler.HandleException(new TechnicalException(string.Format(CultureInfo.CurrentCulture, message, parameters), exception));
+            ExceptionHandler.HandleException(new TechnicalException(string.Format(CultureInfo.CurrentCulture, message, messages), exception));
 
             this.LogProcessingEvent(message, parameters);
         }

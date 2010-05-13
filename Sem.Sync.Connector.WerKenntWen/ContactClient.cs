@@ -21,6 +21,8 @@ namespace Sem.Sync.Connector.WerKenntWen
     using GenericHelpers;
     using GenericHelpers.Entities;
 
+    using Sem.Sync.SyncBase.Properties;
+
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
@@ -212,19 +214,19 @@ namespace Sem.Sync.Connector.WerKenntWen
 
                 if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                 {
-                    LogProcessingEvent("Log-In ist fehlgeschlagen.", this.LogOnUserId);
+                    LogProcessingEvent(Resources.LogMessageLoginFailed, this.LogOnUserId);
                     return result;
                 }
 
                 // we did succeed to log on - tell the user and try reading the data again.
-                LogProcessingEvent("Login erfolgreich", this.LogOnUserId);
+                LogProcessingEvent(Resources.LogMessageLoginSucceeded, this.LogOnUserId);
             }
 
             // we use regular expressions to extract the urls to the vCards
             var urlExtractor = new Regex(PatternGetDataUrls, RegexOptions.Singleline);
             var matches = urlExtractor.Matches(contactListContent);
 
-            LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
+            LogProcessingEvent(Resources.LogMessageAddedContact, matches.Count, result.Count);
 
             // add the matches to the result
             foreach (Match match in matches)

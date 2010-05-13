@@ -153,7 +153,7 @@ namespace Sem.Sync.Connector.MsAccess
                     try
                     {
                         var currentItem = item;
-                        var id = (from l in lookupColumns 
+                        var id = (from l in lookupColumns
                                   select GetPrimaryKeyForEntity(con, description, l, currentItem))
                                   .Where(x => !string.IsNullOrEmpty(x))
                                   .FirstOrDefault();
@@ -170,6 +170,7 @@ namespace Sem.Sync.Connector.MsAccess
                                 using (var cmd = con.CreateCommand())
                                 {
                                     cmd.CommandText = string.Format(
+                                        CultureInfo.InvariantCulture, 
                                         SqlStatementUpdate,
                                         mappingItem.Title,
                                         FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.Selector), mappingItem),
@@ -240,11 +241,12 @@ namespace Sem.Sync.Connector.MsAccess
             using (var cmd = connection.CreateCommand())
             {
                 var text = string.Format(
-                   SqlStatementSelectPk,
-                   description.GetPrimaryKeyName(),
-                   description.MainTable,
-                   fieldMapping.Title,
-                   FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping));
+                    CultureInfo.InvariantCulture,
+                    SqlStatementSelectPk,
+                    description.GetPrimaryKeyName(),
+                    description.MainTable,
+                    fieldMapping.Title,
+                    FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping));
 
                 cmd.CommandText = text;
                 var result = cmd.ExecuteScalar();
@@ -307,6 +309,7 @@ namespace Sem.Sync.Connector.MsAccess
             if (!description.DatabasePath.Contains("="))
             {
                 return string.Format(
+                    CultureInfo.InvariantCulture,
                     "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False",
                     description.DatabasePath);
             }
@@ -331,10 +334,11 @@ namespace Sem.Sync.Connector.MsAccess
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = string.Format(
+                    CultureInfo.InvariantCulture,
                     SqlStatementInsertRow,
                     description.MainTable,
-                    "[" + insertColumns.ConcatElementsToString("],[") + "]",
-                    values.ConcatElementsToString(","));
+                    "[" + string.Join("],[", insertColumns) + "]",
+                    string.Join(",", values));
                 try
                 {
                     cmd.ExecuteNonQuery();

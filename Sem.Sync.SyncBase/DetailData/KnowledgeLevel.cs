@@ -18,7 +18,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// The knowledge is not known
         /// </summary>
-        unknown = 0,
+        Unknown = 0,
 
         /// <summary>
         /// The person is a beginner in this field - not able to work in this field without a more expirienced person

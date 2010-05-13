@@ -18,6 +18,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// Defines a concrete workflow based on a template.
     /// </summary>
+    [Serializable]
     [XmlInclude(typeof(Credentials))]
     [XmlInclude(typeof(KeyValuePair<string, string>))]
     public class SyncWorkFlow

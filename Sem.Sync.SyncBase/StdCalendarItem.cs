@@ -26,7 +26,7 @@ namespace Sem.Sync.SyncBase
         {
             if (this.ExternalIdentifier == null)
             {
-                this.ExternalIdentifier = new ProfileIdentifiers();
+                this.ExternalIdentifier = new ProfileIdentifierDictionary();
             }
         }
 

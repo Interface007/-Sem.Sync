@@ -162,7 +162,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                     break;
 
                 case "TimeSpan":
-                    memberToSet.SetValue(propObject, TimeSpan.Parse(newValue), null);
+                    memberToSet.SetValue(propObject, TimeSpan.Parse(newValue, CultureInfo.InvariantCulture), null);
                     break;
 
                 case "DateTime":

@@ -600,7 +600,7 @@ namespace Sem.Sync.SyncBase.DetailData
         Qatar = 974,
         
         /// <summary>The country code to establish a phone call to RéunionIsland</summary>
-        RéunionIsland = 262,
+        ReunionIsland = 262,
         
         /// <summary>The country code to establish a phone call to Romania</summary>
         Romania = 40,

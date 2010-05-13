@@ -24,7 +24,7 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// </summary>
         /// <param name="sourceClient">the source connector - in most cases this will be the connector that does provide data</param>
         /// <param name="targetClient">the target connector - in most cases this will be the connector that does receive data</param>
-        /// <param name="baseliClient">the baseline connector - in most cases this will be the connector that does provide reference data</param>
+        /// <param name="baselineClient">the baseline connector - in most cases this will be the connector that does provide reference data</param>
         /// <param name="sourceStorePath">the logical path inside the source store</param>
         /// <param name="targetStorePath">the logical path inside the target store</param>
         /// <param name="baselineStorePath">the logical path inside the baseline store</param>
@@ -33,7 +33,7 @@ namespace Sem.Sync.SyncBase.Interfaces
         bool ExecuteCommand(
             IClientBase sourceClient,
             IClientBase targetClient,
-            IClientBase baseliClient,
+            IClientBase baselineClient,
             string sourceStorePath,
             string targetStorePath,
             string baselineStorePath,

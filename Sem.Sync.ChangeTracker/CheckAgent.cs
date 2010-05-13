@@ -12,6 +12,7 @@ namespace Sem.Sync.ChangeTracker
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using System.Threading;
 
@@ -199,7 +200,7 @@ namespace Sem.Sync.ChangeTracker
                 return;
             }
 
-            changeSet.DisplayName = string.Format("{0} has {1} properties changed.", baselineContact.Name, changeSet.ChangedProperties.Count);
+            changeSet.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} has {1} properties changed.", baselineContact.Name, changeSet.ChangedProperties.Count);
             this.DetectedChanges.Add(changeSet);
 
             while (this.DetectedChanges.Count > this.MaxEntries)

@@ -201,4 +201,7 @@
 	<data name="UserInfoElementsAdded">
 		<value xml:space="preserve">{0} elements added, {1} elements updated</value>
 	</data>
+	<data name="UserInfoElementCannotBeSaved">
+		<value xml:space="preserve">one item cannot be saved</value>
+	</data>
 </root>

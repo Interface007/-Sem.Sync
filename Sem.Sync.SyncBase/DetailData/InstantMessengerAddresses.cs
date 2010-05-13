@@ -31,7 +31,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// start with the sequence "msn:".</param>
         public InstantMessengerAddresses(string imAddresses)
         {
-            if ((imAddresses != null) && imAddresses.StartsWith("msn:", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(imAddresses) && imAddresses.StartsWith("msn:", StringComparison.OrdinalIgnoreCase))
             {
                 this.MsnMessenger = imAddresses;
             }
