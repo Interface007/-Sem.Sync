@@ -155,7 +155,7 @@ namespace Sem.Sync.Connector.Google
                                 Id = semSyncId,
                                 Name = new PersonName(googleContact.Title),
                                 ExternalIdentifier =
-                                    new ProfileIdentifiers(ProfileIdentifierType.Google, googleContact.Id)
+                                    new ProfileIdentifierDictionary(ProfileIdentifierType.Google, googleContact.Id)
                             };
 
                         this.LogProcessingEvent("mapping contact {0} ...", stdEntry.Name.ToString());

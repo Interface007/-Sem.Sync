@@ -14,6 +14,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// <summary>
     /// Describes a single earned business certificate like "Microsoft Certified Technology Specialist WinForms Developer"
     /// </summary>
+    [Serializable]
     public class BusinessCertificate
     {
         /// <summary>

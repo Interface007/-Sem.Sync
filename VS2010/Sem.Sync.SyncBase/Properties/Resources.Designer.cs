@@ -79,6 +79,51 @@ namespace Sem.Sync.SyncBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to füge Kontakte hinzu....
+        /// </summary>
+        public static string LogMessageAddedContact {
+            get {
+                return ResourceManager.GetString("LogMessageAddedContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to füge Kontakte hinzu....
+        /// </summary>
+        public static string LogMessageAddingContact {
+            get {
+                return ResourceManager.GetString("LogMessageAddingContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Benötige die Log-In-Daten..
+        /// </summary>
+        public static string LogMessageCredentialsNeeded {
+            get {
+                return ResourceManager.GetString("LogMessageCredentialsNeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log-In ist fehlgeschlagen..
+        /// </summary>
+        public static string LogMessageLoginFailed {
+            get {
+                return ResourceManager.GetString("LogMessageLoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login erfolgreich.
+        /// </summary>
+        public static string LogMessageLoginSucceeded {
+            get {
+                return ResourceManager.GetString("LogMessageLoginSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to exception while execution: 
         ///{0}.
         /// </summary>

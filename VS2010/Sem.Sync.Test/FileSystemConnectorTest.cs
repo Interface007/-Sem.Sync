@@ -82,11 +82,11 @@ namespace Sem.Sync.Test
             var listWithTwoContacts = connector.GetAll(Path.Combine(tempFolder, "file1")).ToStdContacts();
 
             Assert.AreEqual(2, listWithTwoContacts.Count);
-            Assert.AreEqual(0, listWithTwoContacts.GetContactById(ContactWithoutPicture).PictureData.Length);
-            Assert.AreEqual(2090, listWithTwoContacts.GetContactById(ContactWithPicture).PictureData.Length);
-            Assert.AreEqual("Sven", listWithTwoContacts.GetContactById(ContactWithPicture).Name.FirstName);
-            Assert.AreEqual(Gender.Male, listWithTwoContacts.GetContactById(ContactWithPicture).PersonGender);
-            Assert.AreEqual(Gender.Female, listWithTwoContacts.GetContactById(ContactWithoutPicture).PersonGender);
+            Assert.AreEqual(0, listWithTwoContacts.GetElementById<StdContact>(ContactWithoutPicture).PictureData.Length);
+            Assert.AreEqual(2090, listWithTwoContacts.GetElementById<StdContact>(ContactWithPicture).PictureData.Length);
+            Assert.AreEqual("Sven", listWithTwoContacts.GetElementById<StdContact>(ContactWithPicture).Name.FirstName);
+            Assert.AreEqual(Gender.Male, listWithTwoContacts.GetElementById<StdContact>(ContactWithPicture).PersonGender);
+            Assert.AreEqual(Gender.Female, listWithTwoContacts.GetElementById<StdContact>(ContactWithoutPicture).PersonGender);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Sem.Sync.Test
             vcardConnector = new ContactClientVCards(true);
             vcardConnector.WriteRange(originalList, path1);
 
-            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetContactById(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
+            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetElementById<StdContact>(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Sem.Sync.Test
             vcardConnector = new ContactClientVCards(true);
             vcardConnector.WriteRange(originalList, path1);
 
-            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetContactById(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
+            Assert.IsTrue(File.Exists(Path.Combine(tempFolder, "vCards\\" + SyncTools.NormalizeFileName(originalList.GetElementById<StdContact>(ContactWithPicture).ToStringSimple())) + "-ContactPicture.jpg"));
         }
 
         // todo: This test must be rewritten because of the way the data is now handled
@@ -304,11 +304,11 @@ namespace Sem.Sync.Test
         /// <param name="skipPicture"> A value specifying whether to skip the picture comparison or not. </param>
         private static void AssertOriginalAndCopyCompare(List<StdElement> originalList, List<StdElement> copyList, bool skipPicture)
         {
-            var withoutPictureOriginal = originalList.GetContactById("9c8a9b29-2fda-44f3-8324-62b983468a7e");
-            var withoutPictureCopy = copyList.GetContactById("9c8a9b29-2fda-44f3-8324-62b983468a7e");
+            var withoutPictureOriginal = originalList.GetElementById<StdContact>("9c8a9b29-2fda-44f3-8324-62b983468a7e");
+            var withoutPictureCopy = copyList.GetElementById<StdContact>("9c8a9b29-2fda-44f3-8324-62b983468a7e");
 
-            var withPictureOriginal = originalList.GetContactById("929e2981-ee94-4e1f-adb0-240cb8a9afd6");
-            var withPictureCopy = copyList.GetContactById("929e2981-ee94-4e1f-adb0-240cb8a9afd6");
+            var withPictureOriginal = originalList.GetElementById<StdContact>("929e2981-ee94-4e1f-adb0-240cb8a9afd6");
+            var withPictureCopy = copyList.GetElementById<StdContact>("929e2981-ee94-4e1f-adb0-240cb8a9afd6");
 
             Assert.AreEqual(withoutPictureOriginal.AdditionalTextData, withoutPictureCopy.AdditionalTextData);
             Assert.AreEqual(withoutPictureOriginal.Name.FirstName, withoutPictureCopy.Name.FirstName);

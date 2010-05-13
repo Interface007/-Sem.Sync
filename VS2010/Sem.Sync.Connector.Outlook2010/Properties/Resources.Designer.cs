@@ -223,6 +223,15 @@ namespace Sem.Sync.Connector.Outlook2010.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to one item cannot be saved.
+        /// </summary>
+        internal static string UserInfoElementCannotBeSaved {
+            get {
+                return ResourceManager.GetString("UserInfoElementCannotBeSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} elements added, {1} elements updated.
         /// </summary>
         internal static string UserInfoElementsAdded {

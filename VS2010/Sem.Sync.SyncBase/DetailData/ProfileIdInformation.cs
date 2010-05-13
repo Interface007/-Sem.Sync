@@ -22,6 +22,7 @@ namespace Sem.Sync.SyncBase.DetailData
     /// It also contains a resource locator which is additional information to access the
     /// contact information inside the target system.
     /// </summary>
+    [Serializable]
     public class ProfileIdInformation : IComparable<ProfileIdInformation>
     {
         /// <summary>
@@ -163,18 +164,18 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         /// Implements the <see cref="IComparable"/> interface.
         /// </summary>
-        /// <param name="other"> The other instance to compare to. </param>
+        /// <param name="obj"> The other instance to compare to. </param>
         /// <returns> A value indicating how this instance compares to the other - see <see cref="IComparable"/> for more details.</returns>
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
             ProfileIdInformation otherInstance;
-            if (other.GetType().Name == "String")
+            if (obj.GetType().Name == "String")
             {
-                otherInstance = (string)other;
+                otherInstance = (string)obj;
             }
             else
             {
-                otherInstance = other as ProfileIdInformation;
+                otherInstance = obj as ProfileIdInformation;
             }
 
             return this.CompareTo(otherInstance) == 0;

@@ -262,19 +262,6 @@ namespace Sem.Sync.Test
         }
 
         /// <summary>
-        /// performs a basic test for the "is one of" method
-        /// </summary>
-        [TestMethod]
-        public void ConcatElementsToStringTest()
-        {
-            Assert.AreEqual("hello world", (new List<string> { "hello", "world" }).ConcatElementsToString(" "));
-            Assert.AreEqual("hello world", (new List<string> { "hello world" }).ConcatElementsToString(" "));
-            Assert.AreEqual("hello world !", (new List<string> { "hello", "world", "!" }).ConcatElementsToString(" "));
-            Assert.AreEqual("hello-world-!", (new List<string> { "hello", "world", "!" }).ConcatElementsToString("-"));
-            Assert.AreEqual(string.Empty, (new List<string>()).ConcatElementsToString("-"));
-        }
-
-        /// <summary>
         /// Tests if the extension method NewIfNull does run correctly
         /// </summary>
         [TestMethod]

@@ -14,6 +14,7 @@ namespace Sem.Sync.Connector.Outlook
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using Microsoft.Office.Interop.Outlook;
@@ -173,6 +174,9 @@ namespace Sem.Sync.Connector.Outlook
         /// <returns>The list with the newly added elements</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            Contract.Requires<ArgumentNullException>(result != null);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(clientFolderName));
+
             var currentElementName = string.Empty;
             var minimumDate = DateTime.Now;
 
@@ -185,7 +189,7 @@ namespace Sem.Sync.Connector.Outlook
             {
                 if (clientFolderName.Contains(":"))
                 {
-                    clientFolderName = clientFolderName.Substring(0, clientFolderName.IndexOf(":"));
+                    clientFolderName = clientFolderName.Substring(0, clientFolderName.IndexOf(":", StringComparison.Ordinal));
                 }
 
                 // select a folder

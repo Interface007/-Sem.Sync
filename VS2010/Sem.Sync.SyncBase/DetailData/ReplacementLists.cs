@@ -31,6 +31,9 @@ namespace Sem.Sync.SyncBase.DetailData
             this.City = new List<KeyValuePair>();
         }
 
+        /// <summary>
+        /// Gets or sets the list of permutations of city names with replacement strings.
+        /// </summary>
         public List<KeyValuePair> City { get; set; }
 
         /// <summary>

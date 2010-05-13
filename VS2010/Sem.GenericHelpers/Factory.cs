@@ -27,6 +27,7 @@ namespace Sem.GenericHelpers
     /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");</code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
+    [Serializable]
     public class Factory
     {
         /// <summary>

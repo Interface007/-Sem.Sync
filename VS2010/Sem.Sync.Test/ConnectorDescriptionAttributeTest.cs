@@ -35,6 +35,8 @@
             Assert.IsFalse(target.CanWriteCalendarEntries);
             Assert.IsFalse(target.CanRead(typeof(StdCalendarItem)));
             Assert.IsFalse(target.CanWrite(typeof(StdCalendarItem)));
+            Assert.IsFalse(target.CanRead(typeof(StdCalendarItem)));
+            Assert.IsFalse(target.CanWrite(typeof(StdCalendarItem)));
         }
 
         /// <summary>

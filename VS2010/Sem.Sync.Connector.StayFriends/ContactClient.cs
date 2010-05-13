@@ -19,6 +19,8 @@ namespace Sem.Sync.Connector.StayFriends
     using GenericHelpers;
     using GenericHelpers.Entities;
 
+    using Sem.Sync.SyncBase.Properties;
+
     using SyncBase;
     using SyncBase.Attributes;
     using SyncBase.DetailData;
@@ -198,11 +200,11 @@ namespace Sem.Sync.Connector.StayFriends
 
                     if (string.IsNullOrEmpty(this.LogOnPassword))
                     {
-                        QueryForLogOnCredentials("StayFriends benötigt die Log-In-Daten.");
+                        QueryForLogOnCredentials(Resources.LogMessageCredentialsNeeded);
                     }
 
                     // tell the user that we need to log on
-                    LogProcessingEvent("StayFriends benötigt die Log-In-Daten.", this.LogOnUserId);
+                    LogProcessingEvent(Resources.LogMessageCredentialsNeeded, this.LogOnUserId);
 
                     // prepare the post data for log on
                     var postData = HttpHelper.PreparePostData(
@@ -214,18 +216,18 @@ namespace Sem.Sync.Connector.StayFriends
 
                     if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {
-                        LogProcessingEvent("Log-In ist fehlgeschlagen.", this.LogOnUserId);
+                        LogProcessingEvent(Resources.LogMessageLoginFailed, this.LogOnUserId);
                         return result;
                     }
 
                     // we did succeed to log on - tell the user and try reading the data again.
-                    LogProcessingEvent("Login erfolgreich", this.LogOnUserId);
+                    LogProcessingEvent(Resources.LogMessageLoginSucceeded, this.LogOnUserId);
                 }
 
                 // we use regular expressions to extract the urls to the vCards
                 var matches = Regex.Matches(contactListContent, PatternGetDataUrls, RegexOptions.Singleline);
 
-                LogProcessingEvent("füge Kontakte hinzu...", matches.Count, result.Count);
+                LogProcessingEvent(Resources.LogMessageAddingContact, matches.Count, result.Count);
 
                 // add the matches to the result
                 foreach (Match match in matches)

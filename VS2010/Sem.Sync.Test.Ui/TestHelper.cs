@@ -12,7 +12,7 @@ namespace Sem.Sync.Test.Ui
 
     public static class TestHelper
     {
-        public static bool Exist(this List<MatchView> list, Guid id)
+        public static bool Exist(this IList<MatchView> list, Guid id)
         {
             return (from x in list
                  where x.BaselineId == id

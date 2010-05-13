@@ -232,4 +232,19 @@
 	<data name="UiDispatcher_AskForLogOnCredentials_Please_enter_the_user_password">
 		<value xml:space="preserve">Please enter the user password</value>
 	</data>
+	<data name="LogMessageAddingContact">
+		<value xml:space="preserve">füge Kontakte hinzu...</value>
+	</data>
+	<data name="LogMessageLoginSucceeded">
+		<value xml:space="preserve">Login erfolgreich</value>
+	</data>
+	<data name="LogMessageLoginFailed">
+		<value xml:space="preserve">Log-In ist fehlgeschlagen.</value>
+	</data>
+	<data name="LogMessageCredentialsNeeded">
+		<value xml:space="preserve">Benötige die Log-In-Daten.</value>
+	</data>
+	<data name="LogMessageAddedContact">
+		<value xml:space="preserve">füge Kontakte hinzu...</value>
+	</data>
 </root>

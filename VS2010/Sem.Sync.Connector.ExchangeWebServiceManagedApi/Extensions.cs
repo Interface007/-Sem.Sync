@@ -94,7 +94,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                             DateOfLastChange = element.LastModifiedTime
                                         };
 
-            result.ExternalIdentifier = new ProfileIdentifiers(ProfileIdentifierType.ExchangeWs, contact.Id.UniqueId);
+            result.ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.ExchangeWs, contact.Id.UniqueId);
 
             result.Name = new PersonName
                               {

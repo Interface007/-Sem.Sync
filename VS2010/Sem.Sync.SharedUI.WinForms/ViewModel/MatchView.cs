@@ -25,7 +25,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
 
         public MatchView(StdElement sourceElement, StdElement targetElement)
         {
-            var sourceContact = targetElement as StdContact;
+            var sourceContact = sourceElement as StdContact;
             var targetContact = targetElement as StdContact;
 
             ContactName = sourceContact != null ? sourceContact.GetFullName() : sourceElement.ToString();

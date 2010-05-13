@@ -12,6 +12,7 @@ namespace Sem.Sync.Connector.Outlook2003
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
@@ -299,7 +300,7 @@ namespace Sem.Sync.Connector.Outlook2003
                     InternalSyncData = new SyncData { DateOfLastChange = outlookItem.LastModificationTime },
                     Location = outlookItem.Location,
                     ExternalIdentifier =
-                        new ProfileIdentifiers
+                        new ProfileIdentifierDictionary
                             (
                                 ProfileIdentifierType.MicrosoftOutlookId,
                                 outlookItem.EntryID
@@ -509,15 +510,8 @@ namespace Sem.Sync.Connector.Outlook2003
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "this is only multiple if-statements - that's not really complex")]
         private static bool ConvertToNativeContact(StdContact stdNewContact, ContactItem outlookContact)
         {
-            if (stdNewContact == null)
-            {
-                throw new ArgumentNullException("stdNewContact");
-            }
-
-            if (outlookContact == null)
-            {
-                throw new ArgumentNullException("outlookContact");
-            }
+            Contract.Requires<ArgumentNullException>(stdNewContact != null);
+            Contract.Requires<ArgumentNullException>(outlookContact != null);
 
             var dirty = false;
             var stdOldContact = ConvertToStandardContact(outlookContact, null);
@@ -590,7 +584,7 @@ namespace Sem.Sync.Connector.Outlook2003
                 (stdOldContact.Categories == null ||
                 stdNewContact.Categories.Count != stdOldContact.Categories.Count))
             {
-                outlookContact.Categories = stdNewContact.Categories.MergeList(stdOldContact.Categories).ConcatElementsToString(";");
+                outlookContact.Categories = string.Join(";", stdNewContact.Categories.MergeList(stdOldContact.Categories));
                 dirty = true;
             }
 

@@ -62,7 +62,7 @@ namespace Sem.Sync.Connector.Statistic
         /// Gets or sets result elements.
         /// </summary>
         [XmlElement("AnalysisResult")]
-        public object[] AnalysiResults
+        public object[] AnalysisResults
         {
             get
             {

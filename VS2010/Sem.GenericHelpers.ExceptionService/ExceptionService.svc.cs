@@ -13,6 +13,7 @@ namespace Sem.GenericHelpers.ExceptionService
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.IO;
     using System.ServiceModel.Activation;
 
@@ -48,7 +49,7 @@ namespace Sem.GenericHelpers.ExceptionService
             }
 
             // don't accept more than 1 message per minute = 56 MByte per day maximum
-            var fileNamePattern = string.Format("{0:yyyy-MM-dd-HH-mm}*.*", DateTime.Now);
+            var fileNamePattern = string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd-HH-mm}*.*", DateTime.Now);
             if (Directory.GetFiles(DestinationFolder, fileNamePattern, SearchOption.AllDirectories).Length > 0)
             {
                 return false;
@@ -61,7 +62,7 @@ namespace Sem.GenericHelpers.ExceptionService
             }
 
             // the file name does contain a fresh GUID, so it is unique.
-            var fileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-{1}.xml", DateTime.Now, Guid.NewGuid().ToString("N"));
+            var fileName = string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd-HH-mm-ss}-{1}.xml", DateTime.Now, Guid.NewGuid().ToString("N"));
             File.WriteAllText(Path.Combine(DestinationFolder, fileName), exceptionData);
 
             return true;

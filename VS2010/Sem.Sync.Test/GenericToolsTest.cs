@@ -102,21 +102,18 @@ namespace Sem.Sync.Test
         [TestMethod]
         public void CompressedSerialization()
         {
-            var testData = DataGenerator.Contacts.GetStandardContactList(true);
+            var testData = Contacts.GetStandardContactList(true);
             var serialized = Tools.SaveToString(testData, true);
             var deserilizd = Tools.LoadFromString<List<StdContact>>(serialized);
 
-            var binFormatter = new BinaryFormatter();
-
-            using (var memStreamOriginal = new MemoryStream())
-            using (var memStreamCopy = new MemoryStream())
+            foreach (var stdContact in testData)
             {
-                binFormatter.Serialize(memStreamOriginal, testData);
-                var checkOriginal = Convert.ToBase64String(memStreamOriginal.ToArray());
-                binFormatter.Serialize(memStreamCopy, deserilizd);
-                var checkCopy = Convert.ToBase64String(memStreamCopy.ToArray());
-
-                Assert.AreEqual(checkCopy, checkOriginal);
+                foreach (var propertyName in Tools.GetPropertyList(string.Empty, typeof(StdContact)))
+                {
+                    Assert.AreEqual(
+                        Tools.GetPropertyValueString(stdContact, propertyName),
+                        Tools.GetPropertyValueString(deserilizd.GetElementById<StdContact>(stdContact.Id), propertyName));
+                }    
             }
         }
 

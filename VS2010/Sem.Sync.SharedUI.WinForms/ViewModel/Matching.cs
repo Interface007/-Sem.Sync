@@ -144,7 +144,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             var element = this.GetBaselineElementById(targetId);
             if (element == null)
             {
-                element = new MatchingEntry { Id = targetId, ProfileId = new ProfileIdentifiers(this.Profile, sourceProfileId) };
+                element = new MatchingEntry { Id = targetId, ProfileId = new ProfileIdentifierDictionary(this.Profile, sourceProfileId) };
                 this.BaseLine.Add(element);
             }
 
@@ -153,7 +153,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
             // check if there is a profile class for the target element
             if (this.currentTargetElement.ExternalIdentifier == null)
             {
-                this.currentTargetElement.ExternalIdentifier = new ProfileIdentifiers();
+                this.currentTargetElement.ExternalIdentifier = new ProfileIdentifierDictionary();
             }
 
             // set the profile id for the target element, too

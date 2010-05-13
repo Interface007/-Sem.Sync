@@ -16,22 +16,22 @@ namespace Sem.Sync.SyncBase.DetailData
     /// have only one identifier of a specific type. This may be a problem in case of Active Directory.
     /// </summary>
     [Serializable]
-    public class ProfileIdentifiers : SerializableDictionary<ProfileIdentifierType, ProfileIdInformation>
+    public class ProfileIdentifierDictionary : SerializableDictionary<ProfileIdentifierType, ProfileIdInformation>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProfileIdentifiers"/> class. 
+        /// Initializes a new instance of the <see cref="ProfileIdentifierDictionary"/> class. 
         /// </summary>
-        public ProfileIdentifiers()
+        public ProfileIdentifierDictionary()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProfileIdentifiers"/> class and
+        /// Initializes a new instance of the <see cref="ProfileIdentifierDictionary"/> class and
         /// sets one of the identifiers.
         /// </summary>
         /// <param name="type">the identifier to set</param>
         /// <param name="profileId">the value to set for the identifier</param>
-        public ProfileIdentifiers(ProfileIdentifierType type, ProfileIdInformation profileId)
+        public ProfileIdentifierDictionary(ProfileIdentifierType type, ProfileIdInformation profileId)
         {
             this.Add(type, profileId);
         }
@@ -62,13 +62,13 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         /// <param name="type"> the profile type to set </param>
         /// <param name="newValue"> the new profile id </param>
-        /// <param name="dontOverwriteExisting"> If set to true, an existing value will not be overwritten. </param>
+        /// <param name="doNotOverwriteExisting"> If set to true, an existing value will not be overwritten. </param>
         /// <returns> The profile id that does exist in the dictionary after this operation. </returns>
-        public ProfileIdInformation SetProfileId(ProfileIdentifierType type, ProfileIdInformation newValue, bool dontOverwriteExisting)
+        public ProfileIdInformation SetProfileId(ProfileIdentifierType type, ProfileIdInformation newValue, bool doNotOverwriteExisting)
         {
             if (this.ContainsKey(type))
             {
-                if (dontOverwriteExisting)
+                if (doNotOverwriteExisting)
                 {
                     return this[type];
                 }
@@ -88,7 +88,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         /// <param name="other">the set to test for</param>
         /// <returns>true in case of min. one matches</returns>
-        public bool MatchesAny(ProfileIdentifiers other)
+        public bool MatchesAny(ProfileIdentifierDictionary other)
         {
             return other.Any(identifier => this.GetProfileId(identifier.Key) == identifier.Value);
         }
@@ -97,26 +97,26 @@ namespace Sem.Sync.SyncBase.DetailData
         /// Implements a comparison to determine if the provile identifier describes the same person. This means if ANY of the
         /// indentifiers is equal to the other object.
         /// </summary>
-        /// <param name="other"> The "other" object. </param>
+        /// <param name="obj"> The "other" object. </param>
         /// <returns> true if one of the identifiers matches </returns>
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, other))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
-            if (other.GetType() != typeof(ProfileIdentifiers))
+            if (obj.GetType() != typeof(ProfileIdentifierDictionary))
             {
                 return false;
             }
 
-            return this.Equals((ProfileIdentifiers)other);
+            return this.Equals((ProfileIdentifierDictionary)obj);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         /// <param name="other">the "other" object</param>
         /// <returns>true if one of the identifiers matches</returns>
-        public bool Equals(ProfileIdentifiers other)
+        public bool Equals(ProfileIdentifierDictionary other)
         {
             if (ReferenceEquals(null, other))
             {

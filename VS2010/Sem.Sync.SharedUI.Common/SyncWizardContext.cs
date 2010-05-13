@@ -12,13 +12,11 @@
 namespace Sem.Sync.SharedUI.Common
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reflection;
 
     using GenericHelpers;
@@ -70,6 +68,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="SyncWizardContext"/> class. 
         /// </summary>
+        /// <param name="uiInteraction"> The ui-interaction class to be used. </param>
         public SyncWizardContext(IUiInteraction uiInteraction)
         {
             this.UiProvider = uiInteraction;
@@ -92,14 +91,6 @@ namespace Sem.Sync.SharedUI.Common
                 .ForEach(file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file)));
 
             this.ReloadWorkflowDataList();
-        }
-
-        private IEnumerable<KeyValuePair<string, string>> ConnectorListToKeyValuePiars(IEnumerable<ConnectorTypeDescription> fileInfo, int capable)
-        {
-            return (from x in fileInfo
-                   where (x.ReadWrite & capable) == capable
-                   orderby x.DisplayName
-                   select new KeyValuePair<string, string>(x.ClassName, "[" + x.TypeName + "] " + x.DisplayName)).OrderBy(x => x.Value);
         }
 
         /// <summary>
@@ -195,6 +186,29 @@ namespace Sem.Sync.SharedUI.Common
         public IUiInteraction UiProvider { get; set; }
 
         /// <summary>
+        /// Resolves path tokens like application folder and working folder.
+        /// </summary>
+        /// <param name="path"> The path containing token. </param>
+        /// <returns> the valid resolved path </returns>
+        public static string ResolvePath(string path)
+        {
+            var engine = new SyncEngine
+            {
+                WorkingFolder = Config.WorkingFolder
+            };
+
+            return engine.ReplacePathToken(path);
+        }
+
+        /// <summary>
+        /// Opens the folder for the exceptrion log files using the standard process for folders (Windows Explorer on most systems).
+        /// </summary>
+        public static void OpenExceptionFolder()
+        {
+            System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
+        }
+        
+        /// <summary>
         /// Opens the current working folder using the explorer
         /// </summary>
         public void OpenWorkingFolder()
@@ -205,29 +219,6 @@ namespace Sem.Sync.SharedUI.Common
                              };
 
             engine.OpenWorkingFolder();
-        }
-
-        /// <summary>
-        /// Resolves path tokens like application folder and working folder.
-        /// </summary>
-        /// <param name="path"> The path containing token. </param>
-        /// <returns> the valid resolved path </returns>
-        public static string ResolvePath(string path)
-        {
-            var engine = new SyncEngine
-                             {
-                                 WorkingFolder = Config.WorkingFolder
-                             };
-
-            return engine.ReplacePathToken(path);
-        }
-
-        /// <summary>
-        /// Opens the folder for the exceptrion log files using the standard process for folders (Windows Explorer on most systems).
-        /// </summary>
-        public void OpenExceptionFolder()
-        {
-            System.Diagnostics.Process.Start(ExceptionHandler.ExceptionWriter[0].Destination);
         }
 
         /// <summary>
@@ -447,13 +438,12 @@ namespace Sem.Sync.SharedUI.Common
 
                     foreach (var type in new[] { typeof(StdContact), typeof(StdCalendarItem) })
                     {
-
                         var fullName =
                             exportedType.IsGenericType
                                 ? exportedType.FullName.Replace("`1", " of " + type.Name)
                                 : exportedType.FullName;
 
-                        var nameToUse = attribute.DisplayName ?? fullName.Replace("`1", "");
+                        var nameToUse = attribute.DisplayName ?? fullName.Replace("`1", string.Empty);
 
                         if (!attribute.Internal && (attribute.CanRead(type) || attribute.CanWrite(type)))
                         {
@@ -467,7 +457,6 @@ namespace Sem.Sync.SharedUI.Common
                                     };
                         }
                     }
-
                 }
             }
         }
@@ -594,13 +583,13 @@ namespace Sem.Sync.SharedUI.Common
 
             return returnvalue;
         }
-    }
-
-    internal class ConnectorTypeDescription
-    {
-        public string ClassName;
-        public string DisplayName;
-        public int ReadWrite;
-        public string TypeName;
+        
+        private static IEnumerable<KeyValuePair<string, string>> ConnectorListToKeyValuePiars(IEnumerable<ConnectorTypeDescription> fileInfo, int capable)
+        {
+            return (from x in fileInfo
+                    where (x.ReadWrite & capable) == capable
+                    orderby x.DisplayName
+                    select new KeyValuePair<string, string>(x.ClassName, "[" + x.TypeName + "] " + x.DisplayName)).OrderBy(x => x.Value);
+        }
     }
 }

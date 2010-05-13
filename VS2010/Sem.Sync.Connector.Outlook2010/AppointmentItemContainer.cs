@@ -49,12 +49,9 @@ namespace Sem.Sync.Connector.Outlook2010
             get
             {
                 // check cache and read from item, if empty
-                if (this.subject == null)
-                {
-                    this.subject = this.Item.Subject ?? string.Empty;
-                }
-
-                return this.subject;
+                return 
+                    this.subject 
+                    ?? (this.subject = this.Item.Subject ?? string.Empty);
             }
         }
 

@@ -211,7 +211,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
                 
                 case "ProfileIdentifiers":
-                    isDefined = ((ProfileIdentifiers)item).Count > 0;
+                    isDefined = ((ProfileIdentifierDictionary)item).Count > 0;
                     break;
 
                 default:
@@ -294,17 +294,17 @@ namespace Sem.Sync.SyncBase.Helpers
                     break;
                 }
 
-                var conflict = MergePropertyConflict.None;
+                var conflict = MergePropertyConflicts.None;
                 var sourceString = string.Empty;
                 var targetString = string.Empty;
                 var baselineString = string.Empty;
 
                 if (container.SourceProperty == null && container.TargetProperty == null && container.BaselineProperty == null) continue;
-                if (container.SourceProperty == null && container.TargetProperty == null) conflict = MergePropertyConflict.BothChangedIdentically;
-                if (container.SourceProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.SourceChanged;
-                if (container.SourceProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.SourceChanged;
-                if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflict.TargetChanged;
-                if (container.TargetProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflict.TargetChanged;
+                if (container.SourceProperty == null && container.TargetProperty == null) conflict = MergePropertyConflicts.BothChangedIdentically;
+                if (container.SourceProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflicts.SourceChanged;
+                if (container.SourceProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflicts.SourceChanged;
+                if (container.TargetProperty != null && container.BaselineProperty == null) conflict = conflict | MergePropertyConflicts.TargetChanged;
+                if (container.TargetProperty == null && container.BaselineProperty != null) conflict = conflict | MergePropertyConflicts.TargetChanged;
 
                 var typeName = item.PropertyType.Name;
                 if (item.PropertyType.BaseType.FullName == "System.Enum")
@@ -332,10 +332,10 @@ namespace Sem.Sync.SyncBase.Helpers
                             sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
 
                         if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
-                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflict.BothChangedIdentically;
+                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflicts.BothChangedIdentically;
 
-                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.SourceChanged;
-                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
+                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflicts.SourceChanged;
+                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflicts.TargetChanged;
                         break;
 
                     case "List`1":
@@ -343,24 +343,24 @@ namespace Sem.Sync.SyncBase.Helpers
                         var targetList = (container.TargetProperty == null ? null : item.GetValue(container.TargetProperty, null)) as List<string>;
                         var baselineList = (container.BaselineProperty == null ? null : item.GetValue(container.BaselineProperty, null)) as List<string>;
 
-                        sourceString = sourceList == null ? string.Empty : sourceList.ConcatElementsToString(",");
-                        targetString = targetList == null ? string.Empty : targetList.ConcatElementsToString(",");
-                        baselineString = baselineList == null ? string.Empty : baselineList.ConcatElementsToString(",");
+                        sourceString = sourceList == null ? string.Empty : string.Join(",", sourceList);
+                        targetString = targetList == null ? string.Empty : string.Join(",", targetList);
+                        baselineString = baselineList == null ? string.Empty : string.Join(",", baselineList);
 
                         if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
                             sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) continue;
 
                         if (sourceString.Equals(targetString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture) &&
-                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflict.BothChangedIdentically;
+                            !sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = MergePropertyConflicts.BothChangedIdentically;
 
-                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.SourceChanged;
-                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflict.TargetChanged;
+                        if (!sourceString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflicts.SourceChanged;
+                        if (!targetString.Equals(baselineString, comparison.CaseInsensitive ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture)) conflict = conflict | MergePropertyConflicts.TargetChanged;
                         break;
 
                     case "SerializableDictionary`2":
                     case "ProfileIdentifiers":
                         // don't compare the profile identifiers
-                        conflict = MergePropertyConflict.None;
+                        conflict = MergePropertyConflicts.None;
                         break;
 
                     case "Byte[]":
@@ -383,13 +383,13 @@ namespace Sem.Sync.SyncBase.Helpers
                                 skipIdenticalChanges));
 
                         // we did already add the results for this property, so skip it now
-                        conflict = MergePropertyConflict.None;
+                        conflict = MergePropertyConflicts.None;
                         break;
                 }
 
                 // add to result, if it's not "Default" and not an ignorable indentical change
-                if (conflict != MergePropertyConflict.None
-                    && (!skipIdenticalChanges || conflict != MergePropertyConflict.BothChangedIdentically))
+                if (conflict != MergePropertyConflicts.None
+                    && (!skipIdenticalChanges || conflict != MergePropertyConflicts.BothChangedIdentically))
                 {
                     result.Add(new MergeConflict
                                    {

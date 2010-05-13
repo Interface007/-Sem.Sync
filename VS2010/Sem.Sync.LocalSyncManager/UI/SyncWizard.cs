@@ -81,7 +81,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
-            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenExceptionFolder();
+            this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenExceptionFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();

@@ -239,21 +239,21 @@ namespace Sem.GenericHelpers
                 var compressed = new byte[ms.Length];
                 ms.Read(compressed, 0, compressed.Length);
                 
-                var gzBuffer = new byte[compressed.Length + 4];
-                System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
-                System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+                var gzipBuffer = new byte[compressed.Length + 4];
+                Buffer.BlockCopy(compressed, 0, gzipBuffer, 4, compressed.Length);
+                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzipBuffer, 0, 4);
                 
-                return Convert.ToBase64String(gzBuffer);
+                return Convert.ToBase64String(gzipBuffer);
             }
         }
 
         public static string Decompress(string compressedText)
         {
-            byte[] gzBuffer = Convert.FromBase64String(compressedText);
+            var gzipBuffer = Convert.FromBase64String(compressedText);
             using (var ms = new MemoryStream())
             {
-                var msgLength = BitConverter.ToInt32(gzBuffer, 0);
-                ms.Write(gzBuffer, 4, (gzBuffer.Length - 4));
+                var msgLength = BitConverter.ToInt32(gzipBuffer, 0);
+                ms.Write(gzipBuffer, 4, (gzipBuffer.Length - 4));
 
                 var buffer = new byte[msgLength];
 
@@ -342,7 +342,7 @@ namespace Sem.GenericHelpers
         public static Credentials GetCredentials(string name)
         {
             var serialized = GetRegValue("Software\\Sem.Sync\\Credentials", name, string.Empty);
-            return Tools.LoadFromString<Credentials>(serialized);
+            return LoadFromString<Credentials>(serialized);
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace Sem.GenericHelpers
             var value = GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty;
             if (value.GetType() == typeof(List<string>))
             {
-                value = ((List<string>)value).ConcatElementsToString("|");
+                value = string.Join("|", (List<string>)value);
             }
 
             return value.ToString();

@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="ChangeInfo.cs" />
     <Compile Include="CheckAgent.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
