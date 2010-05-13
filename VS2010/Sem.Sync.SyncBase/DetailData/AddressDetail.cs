@@ -7,7 +7,6 @@
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.Text.RegularExpressions;
 
     using GenericHelpers;
@@ -68,8 +67,6 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <param name="address">the string representation of an address</param>
         public AddressDetail(string address)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(address));
-
             var lines = address.Split('\n');
             foreach (var parts in lines)
             {

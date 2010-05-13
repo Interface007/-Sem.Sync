@@ -8,7 +8,6 @@ namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -32,7 +31,6 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>true if the string is equal to one of the candidates</returns>
         public static bool IsOneOf(this string value, params string[] candidates)
         {
-            Contract.Requires<ArgumentNullException>(candidates != null, "the array of strings must not be null");
             return candidates.Contains(value);
         }
 
@@ -278,8 +276,6 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>The saved list.</returns>
         public static List<T> SaveTo<T>(this List<T> elementList, string destinationFile, Type[] extraTypes)
         {
-            Contract.Requires<ArgumentNullException>(string.IsNullOrWhiteSpace(destinationFile), "destination file name must specify a valid path");
-            
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
             Tools.EnsurePathExist(Path.GetDirectoryName(destinationFile));
@@ -317,8 +313,6 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <returns>The list loaded from the file system.</returns>
         public static List<T> LoadFrom<T>(this List<T> elementList, string sourceFile, Type[] extraTypes)
         {
-            Contract.Requires<ArgumentNullException>(sourceFile != null);
-
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(List<T>), extraTypes);
 
@@ -345,12 +339,8 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <param name="value">the source string for the de-serialization</param>
         /// <param name="extraTypes">you need to add types that are used in the list here</param>
         /// <returns>The list loaded from the string.</returns>
-//// ReSharper disable RedundantAssignment
         public static T LoadFromString<T>(this T elementList, string value, params Type[] extraTypes)
-//// ReSharper restore RedundantAssignment
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(value));
-            
             // the xml serializer needs the additional type of the element
             var formatter = new XmlSerializer(typeof(T), extraTypes);
             var reader = new StringReader(value);

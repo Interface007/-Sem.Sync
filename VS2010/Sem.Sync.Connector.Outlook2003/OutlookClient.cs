@@ -12,7 +12,6 @@ namespace Sem.Sync.Connector.Outlook2003
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
@@ -510,9 +509,6 @@ namespace Sem.Sync.Connector.Outlook2003
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "this is only multiple if-statements - that's not really complex")]
         private static bool ConvertToNativeContact(StdContact stdNewContact, ContactItem outlookContact)
         {
-            Contract.Requires<ArgumentNullException>(stdNewContact != null);
-            Contract.Requires<ArgumentNullException>(outlookContact != null);
-
             var dirty = false;
             var stdOldContact = ConvertToStandardContact(outlookContact, null);
             var gender = stdNewContact.PersonGender ==
