@@ -145,15 +145,18 @@ namespace Sem.Sync.Connector.WerKenntWen
         {
             var wkwContacts = this.GetUrlList();
 
-            for (int i = 0; i < 3; i++)
+            foreach (var item in wkwContacts)
             {
-                foreach (var item in wkwContacts)
+                var contact = this.DownloadContact(item, item.Replace("/", "_").Replace("?", "_"));
+                if (result.Contains(contact))
                 {
-                    var contact = this.DownloadContact(item, item.Replace("/", "_").Replace("?", "_"));
-                    if (contact != null)
-                    {
-                        result.Add(contact);
-                    }
+                    LogProcessingEvent(contact, "double contact skipped");
+                    continue;
+                }
+
+                if (contact != null)
+                {
+                    result.Add(contact);
                 }
             }
 
@@ -231,7 +234,11 @@ namespace Sem.Sync.Connector.WerKenntWen
             // add the matches to the result
             foreach (Match match in matches)
             {
-                result.Add(match.Groups[1].ToString());
+                var value = match.Groups[1].ToString();
+                if (!result.Contains(value))
+                { 
+                    result.Add(value); 
+                }
             }
 
             return result;

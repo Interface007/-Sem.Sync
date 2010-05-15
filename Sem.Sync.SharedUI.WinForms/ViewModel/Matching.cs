@@ -390,7 +390,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                         break;
 
                     case "SerializableDictionary`2":
-                    case "ProfileIdentifiers":
+                    case "ProfileIdentifierDictionary":
                     case "List`1":
                     case "Byte[]":
                         break;

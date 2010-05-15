@@ -871,7 +871,7 @@ namespace Sem.GenericHelpers
 
             var resultList = new List<string>();
 
-            if (type.Name == "ProfileIdentifiers")
+            if (type.Name == "ProfileIdentifierDictionary")
             {
                 return resultList;
             }

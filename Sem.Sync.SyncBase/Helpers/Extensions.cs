@@ -150,7 +150,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             (sourceValue as List<KeyValuePair<string, ProfileIdInformation>>).MergeList(targetValue as List<KeyValuePair<string, ProfileIdInformation>>);
                             break;
 
-                        case "ProfileIdentifiers":
+                        case "ProfileIdentifierDictionary":
                             var targetProfiles = targetValue as ProfileIdentifierDictionary;
                             if (targetProfiles != null)
                             {
