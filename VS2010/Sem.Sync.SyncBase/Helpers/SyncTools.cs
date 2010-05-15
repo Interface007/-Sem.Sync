@@ -210,7 +210,7 @@ namespace Sem.Sync.SyncBase.Helpers
                     isDefined = ((IList)item).Count > 0;
                     break;
                 
-                case "ProfileIdentifiers":
+                case "ProfileIdentifierDictionary":
                     isDefined = ((ProfileIdentifierDictionary)item).Count > 0;
                     break;
 
@@ -225,7 +225,7 @@ namespace Sem.Sync.SyncBase.Helpers
                             "AddressDetail",
                             "PersonName",
                             "StdContact",
-                            "ProfileIdentifiers",
+                            "ProfileIdentifierDictionary",
                             "ProfileIdInformation",
                             "InstantMessengerAddresses"))
                     {
@@ -358,7 +358,7 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "SerializableDictionary`2":
-                    case "ProfileIdentifiers":
+                    case "ProfileIdentifierDictionary":
                         // don't compare the profile identifiers
                         conflict = MergePropertyConflicts.None;
                         break;

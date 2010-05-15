@@ -117,7 +117,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="exception"> The exception. </param>
         protected void LogException(Exception exception)
         {
-            this.LogException(exception, "Error while executing client: {0}");
+            this.LogException(exception, "Error while executing client");
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Sem.Sync.SyncBase
             // combine the specified parameters with the message of the exception to 
             // build a param array for the format function
             var messages = new string[parameters.Length + 1];
-            parameters[0] = exception.Message;
+            messages[0] = exception.Message;
             for (var i = 0; i < parameters.Length - 1; i++)
             {
                 messages[i + 1] = parameters[i];
