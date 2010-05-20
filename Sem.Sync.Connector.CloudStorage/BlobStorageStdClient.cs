@@ -13,11 +13,11 @@ namespace Sem.Sync.Connector.CloudStorage
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Serialization;
-    
+
     using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.ServiceRuntime;
     using Microsoft.WindowsAzure.StorageClient;
-    
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
@@ -29,9 +29,11 @@ namespace Sem.Sync.Connector.CloudStorage
     [ConnectorDescription(CanReadContacts = false, CanWriteContacts = false, DisplayName = "Azure Cloud Blob Storage")]
     public class BlobStorageStdClient : StdClient
     {
+        #region Properties
+
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        ///   Gets the user readable name of the client implementation. This name should
+        ///   be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public override string FriendlyClientName
         {
@@ -41,14 +43,24 @@ namespace Sem.Sync.Connector.CloudStorage
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
+        /// <param name="clientFolderName">
+        /// the information from where inside the source the elements should be read - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="result">
+        /// The list of elements that should get the elements. The elements should be added to
+        ///   the list instead of replacing it.
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var accountInfo = CloudStorageAccount.FromConfigurationSetting("semsync");
@@ -87,10 +99,16 @@ namespace Sem.Sync.Connector.CloudStorage
         /// <summary>
         /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        /// <param name="elements">
+        /// the list of elements that should be written to the target system.
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information to where inside the source the elements should be written - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// specifies whether existing elements should be updated or simply left as they are
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var accountInfo = CloudStorageAccount.FromConfigurationSetting("semsync");
@@ -104,13 +122,11 @@ namespace Sem.Sync.Connector.CloudStorage
 
             var blob = container.GetBlockBlobReference(clientFolderName);
 
-            var blobText = elements.SaveToString(
-                new[]
-                    {
-                        typeof(StdContact)
-                    });
+            var blobText = elements.SaveToString(new[] { typeof(StdContact) });
 
             blob.UploadText(blobText);
         }
+
+        #endregion
     }
 }

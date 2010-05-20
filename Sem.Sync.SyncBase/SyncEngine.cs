@@ -2,9 +2,9 @@
 // <copyright file="SyncEngine.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   
+//   The sync engine is the heart of the library. This engine does coordinate the work in
+//   processes between the connectors.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,130 +17,126 @@ namespace Sem.Sync.SyncBase
     using System.IO;
     using System.Reflection;
 
-    using Binding;
-
-    using GenericHelpers;
-    using GenericHelpers.EventArgs;
-    using GenericHelpers.Exceptions;
-    using GenericHelpers.Interfaces;
-
-    using Interfaces;
-
-    using Properties;
+    using Sem.GenericHelpers;
+    using Sem.GenericHelpers.EventArgs;
+    using Sem.GenericHelpers.Exceptions;
+    using Sem.GenericHelpers.Interfaces;
+    using Sem.Sync.SyncBase.Binding;
+    using Sem.Sync.SyncBase.Interfaces;
+    using Sem.Sync.SyncBase.Properties;
 
     /// <summary>
     /// The sync engine is the heart of the library. This engine does coordinate the work in
-    /// processes between the connectors. 
+    ///   processes between the connectors.
     /// </summary>
     /// <remarks>
-    /// <para>Using the <see cref="Execute(Sem.Sync.SyncBase.SyncDescription)"/> method
-    /// the calling process can execute a single <see cref="SyncDescription"/> which represents a single
-    /// part of work. The command that can be executed are described inside the enumeration <see cref="SyncCommand"/>.</para>
-    /// <para>The overload <see cref="Execute(Sem.Sync.SyncBase.Binding.SyncCollection)"/> does provide
-    /// a way to execute a collection of <see cref="SyncDescription"/> in a sequence.</para>
+    /// <para>
+    /// Using the <see cref="Execute(Sem.Sync.SyncBase.SyncDescription)"/> method
+    ///     the calling process can execute a single <see cref="SyncDescription"/> which represents a single
+    ///     part of work. The command that can be executed are described inside the enumeration <see cref="SyncCommand"/>.
+    /// </para>
+    /// <para>
+    /// The overload <see cref="Execute(Sem.Sync.SyncBase.Binding.SyncCollection)"/> does provide
+    ///     a way to execute a collection of <see cref="SyncDescription"/> in a sequence.
+    /// </para>
     /// </remarks>
     public class SyncEngine : SyncComponent
     {
-        #region fields
+        #region Constants and Fields
 
         /// <summary>
-        /// the factory to create the classes
+        ///   the factory to create the classes
         /// </summary>
         private readonly Factory factory = new Factory("Sem.Sync.SyncBase");
 
         /// <summary>
-        /// will be set when the first command is executed
-        /// </summary>
-        private bool versionOutdated;
-
-        /// <summary>
-        /// flag for already executed version check
-        /// </summary>
-        private bool versionChecked;
-
-        /// <summary>
-        /// the number of commands in the sequence
+        ///   the number of commands in the sequence
         /// </summary>
         private int numberOfCommandsInSequence;
 
         /// <summary>
-        /// the percentage of work already done
+        ///   the percentage of work already done
         /// </summary>
         private int percentageOfSequenceDone;
 
-        #endregion
-
-        #region events
+        /// <summary>
+        ///   flag for already executed version check
+        /// </summary>
+        private bool versionChecked;
 
         /// <summary>
-        /// Will be raised in the event of needed log on credentials
+        ///   will be set when the first command is executed
+        /// </summary>
+        private bool versionOutdated;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        ///   Will be raised in the event of needed log on credentials
         /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogOnCredentialsEvent;
 
         #endregion
 
+        #region Properties
+
         /// <summary>
-        /// Gets or sets a value indicating whether to skip logging and progress reporting 
-        /// in order to speed up processing.
+        ///   Gets or sets a value indicating whether to skip logging and progress reporting 
+        ///   in order to speed up processing.
         /// </summary>
         public bool SkipLogging { get; set; }
 
         /// <summary>
-        /// Gets or sets a value that represents the file system working folder. Use 
-        /// {FS:WorkingFolder} inside the source or target path to access this directory.
-        /// The user of this class is responsible to use specify a usefull working folder.
+        ///   Gets or sets a value that represents the file system working folder. Use 
+        ///   {FS:WorkingFolder} inside the source or target path to access this directory.
+        ///   The user of this class is responsible to use specify a usefull working folder.
         /// </summary>
         public string WorkingFolder { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// execute the commands stored inside the list
         /// </summary>
-        /// <param name="syncList"> the list to execute </param>
-        /// <returns> a value specifying if the execution should continue </returns>
+        /// <param name="syncList">
+        /// the list to execute 
+        /// </param>
+        /// <returns>
+        /// a value specifying if the execution should continue 
+        /// </returns>
         public bool Execute(SyncCollection syncList)
         {
             var itemsDone = 0;
             this.numberOfCommandsInSequence = syncList.Count;
 
-            LogProcessingEvent(
+            this.LogProcessingEvent(
                 string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
 
             foreach (var item in syncList)
             {
                 this.percentageOfSequenceDone = itemsDone * 100 / this.numberOfCommandsInSequence;
-                UpdateProgress(this.percentageOfSequenceDone);
+                this.UpdateProgress(this.percentageOfSequenceDone);
                 if (!this.Execute(item))
                 {
-                    LogProcessingEvent(Resources.uiProcessingCanceled);
-                    UpdateProgress(0);
+                    this.LogProcessingEvent(Resources.uiProcessingCanceled);
+                    this.UpdateProgress(0);
                     return false;
                 }
 
                 itemsDone++;
             }
 
-            UpdateProgress(100);
+            this.UpdateProgress(100);
             return true;
         }
 
         /// <summary>
-        /// Replaces known string token like the token {FS:WorkingFolder} that represents the
-        /// current working folder for the file system
-        /// </summary>
-        /// <param name="path">the string that might contain token</param>
-        /// <returns>the processed string containing the token values instead of the token</returns>
-        public string ReplacePathToken(string path)
-        {
-            return
-                (path ?? string.Empty)
-                .Replace("{FS:WorkingFolder}", this.WorkingFolder)
-                .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase))
-                .Replace("file:\\", string.Empty);
-        }
-
-        /// <summary>
         /// Executes a command that (mostly) have a source and a target - see the documentations 
-        /// of SyncCommand enumeration
+        ///   of SyncCommand enumeration
         /// </summary>
         /// <param name="item">
         /// a synchronisation command that includes the source, destination, parameters and a command
@@ -148,14 +144,15 @@ namespace Sem.Sync.SyncBase
         /// <returns>
         /// a value whether the execution should continue (true) or should abort (false)
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", 
             Justification =
-                "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
+                "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue."
+            )]
         public bool Execute(SyncDescription item)
         {
             if (!this.versionChecked)
             {
-                LogProcessingEvent("checking version of engine...");
+                this.LogProcessingEvent("checking version of engine...");
                 this.versionOutdated = !new VersionCheck().Check(this.UiProvider);
                 this.versionChecked = true;
             }
@@ -169,7 +166,7 @@ namespace Sem.Sync.SyncBase
 
             if (this.versionOutdated)
             {
-                LogProcessingEvent("Version of sync engine is outdated - please update!");
+                this.LogProcessingEvent("Version of sync engine is outdated - please update!");
             }
 
             // process paths to replace token
@@ -182,8 +179,8 @@ namespace Sem.Sync.SyncBase
                 var command =
                     this.factory.GetNewObject<ISyncCommand>(
                         string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase.Commands",
+                            CultureInfo.CurrentCulture, 
+                            "Sem.Sync.SyncBase.Commands.{0}, Sem.Sync.SyncBase.Commands", 
                             item.Command));
                 var commandAsComponent = command as SyncComponent;
 
@@ -199,12 +196,12 @@ namespace Sem.Sync.SyncBase
 
                     // execute the command with the connectors
                     continueExecution = command.ExecuteCommand(
-                        sourceClient,
-                        targetClient,
-                        baseliClient,
-                        sourceStorePath,
-                        targetStorePath,
-                        baselineStorePath,
+                        sourceClient, 
+                        targetClient, 
+                        baseliClient, 
+                        sourceStorePath, 
+                        targetStorePath, 
+                        baselineStorePath, 
                         this.ReplacePathToken(item.CommandParameter));
 
                     this.WireUpEvents(commandAsComponent, false);
@@ -216,8 +213,8 @@ namespace Sem.Sync.SyncBase
 
                 ExceptionHandler.HandleException(
                     new TechnicalException(
-                        "exception while processing SyncDescription",
-                        ex,
+                        "exception while processing SyncDescription", 
+                        ex, 
                         new KeyValuePair<string, object>("SyncDescription", item)));
                 this.LogException(ex);
             }
@@ -233,11 +230,47 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Opens the working folder for this engine instance
+        /// </summary>
+        public void OpenWorkingFolder()
+        {
+            this.Execute(
+                new SyncDescription
+                    {
+                       Command = SyncCommand.OpenDocument.ToString(), CommandParameter = "{FS:WorkingFolder}" 
+                    });
+        }
+
+        /// <summary>
+        /// Replaces known string token like the token {FS:WorkingFolder} that represents the
+        ///   current working folder for the file system
+        /// </summary>
+        /// <param name="path">
+        /// the string that might contain token
+        /// </param>
+        /// <returns>
+        /// the processed string containing the token values instead of the token
+        /// </returns>
+        public string ReplacePathToken(string path)
+        {
+            return
+                (path ?? string.Empty).Replace("{FS:WorkingFolder}", this.WorkingFolder).Replace(
+                    "{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase)).Replace(
+                        "file:\\", string.Empty);
+        }
+
+        /// <summary>
         /// Generates a connector and inserts some information
         /// </summary>
-        /// <param name="typeName"> The type name to generate. </param>
-        /// <param name="credentials"> The credentials to add to the connector . </param>
-        /// <returns> The connector that is set up </returns>
+        /// <param name="typeName">
+        /// The type name to generate. 
+        /// </param>
+        /// <param name="credentials">
+        /// The credentials to add to the connector . 
+        /// </param>
+        /// <returns>
+        /// The connector that is set up 
+        /// </returns>
         public StdClient SetupConnector(string typeName, ICredentialAware credentials)
         {
             var client = this.factory.GetNewObject<StdClient>(typeName);
@@ -251,11 +284,78 @@ namespace Sem.Sync.SyncBase
             return client;
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the exception is highly propable from a missing interop assembly and opens a link for the download.
+        /// </summary>
+        /// <param name="ex">
+        /// The exception to check. 
+        /// </param>
+        private void CheckForInteropAssemblies(FileNotFoundException ex)
+        {
+            if (ex == null || !ex.Message.Contains("Microsoft.Office.Interop"))
+            {
+                return;
+            }
+
+            if (!this.UiProvider.AskForConfirm(Resources.MissingInteropQuestion, Resources.MissingInteropQuestionTitle))
+            {
+                return;
+            }
+
+            // todo: we need to lookup the installed version instead of parsing the exception!
+
+            // Office 2003
+            if (ex.Message.Contains("Version=11"))
+            {
+                Process.Start(
+                    "http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
+            }
+
+            // Office 2007
+            if (ex.Message.Contains("Version=12"))
+            {
+                Process.Start(
+                    "http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
+            }
+
+            // Office 2010
+            if (ex.Message.Contains("Version=14"))
+            {
+                Process.Start("http://go.microsoft.com/fwlink/?LinkId=166026");
+            }
+        }
+
+        /// <summary>
+        /// Handels the <see cref="SyncComponent.ProgressEvent"/>.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender object. 
+        /// </param>
+        /// <param name="e">
+        /// The event argument. 
+        /// </param>
+        private void HandleProgressEvent(object sender, ProgressEventArgs e)
+        {
+            if (!this.SkipLogging)
+            {
+                this.UpdateProgress(
+                    this.percentageOfSequenceDone + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
+            }
+        }
+
         /// <summary>
         /// attached or detaches event handlers between sync engine and client implementation
         /// </summary>
-        /// <param name="component">the client/command that provides events this engine should subscribe to</param>
-        /// <param name="addEvent">a value to specify if the events should be attached (true) or detached (false)</param>
+        /// <param name="component">
+        /// the client/command that provides events this engine should subscribe to
+        /// </param>
+        /// <param name="addEvent">
+        /// a value to specify if the events should be attached (true) or detached (false)
+        /// </param>
         private void WireUpEvents(SyncComponent component, bool addEvent)
         {
             if (component == null)
@@ -293,68 +393,6 @@ namespace Sem.Sync.SyncBase
             }
         }
 
-        /// <summary>
-        /// Handels the <see cref="SyncComponent.ProgressEvent"/>.
-        /// </summary>
-        /// <param name="sender"> The sender object. </param>
-        /// <param name="e"> The event argument. </param>
-        private void HandleProgressEvent(object sender, ProgressEventArgs e)
-        {
-            if (!this.SkipLogging)
-            {
-                this.UpdateProgress(
-                    this.percentageOfSequenceDone + (e.PercentageDone / (this.numberOfCommandsInSequence + 1)));
-            }
-        }
-
-        /// <summary>
-        /// Checks if the exception is highly propable from a missing interop assembly and opens a link for the download.
-        /// </summary>
-        /// <param name="ex"> The exception to check. </param>
-        private void CheckForInteropAssemblies(FileNotFoundException ex)
-        {
-            if (ex == null || !ex.Message.Contains("Microsoft.Office.Interop"))
-            {
-                return;
-            }
-
-            if (!this.UiProvider.AskForConfirm(Resources.MissingInteropQuestion, Resources.MissingInteropQuestionTitle))
-            {
-                return;
-            }
-
-            // todo: we need to lookup the installed version instead of parsing the exception!
-
-            // Office 2003
-            if (ex.Message.Contains("Version=11"))
-            {
-                Process.Start("http://www.microsoft.com/downloads/details.aspx?familyid=3c9a983a-ac14-4125-8ba0-d36d67e0f4ad&displaylang=en");
-            }
-
-            // Office 2007
-            if (ex.Message.Contains("Version=12"))
-            {
-                Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyID=59daebaa-bed4-4282-a28c-b864d8bfa513&displaylang=en");
-            }
-
-            // Office 2010
-            if (ex.Message.Contains("Version=14"))
-            {
-                Process.Start("http://go.microsoft.com/fwlink/?LinkId=166026");
-            }
-        }
-
-        /// <summary>
-        /// Opens the working folder for this engine instance
-        /// </summary>
-        public void OpenWorkingFolder()
-        {
-            this.Execute(
-                new SyncDescription
-                    {
-                        Command = SyncCommand.OpenDocument.ToString(),
-                        CommandParameter = "{FS:WorkingFolder}"
-                    });
-        }
+        #endregion
     }
 }

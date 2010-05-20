@@ -11,27 +11,54 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
-    using Interfaces;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// This command deletes files specified by one or more path pattern separated by a line break
     /// </summary>
     public class DeleteElements : SyncComponent, ISyncCommand
     {
+        #region Implemented Interfaces
+
+        #region ISyncCommand
+
         /// <summary>
         /// This command deletes files specified by one or more path pattern separated by a line break.
-        /// Deletes files from a folder using a search pattern. Use "*" as a place holder for any 
-        /// number of any chars; use "?" as a placeholder for a single char.
+        ///   Deletes files from a folder using a search pattern. Use "*" as a place holder for any 
+        ///   number of any chars; use "?" as a placeholder for a single char.
         /// </summary>
-        /// <param name="sourceClient">The source client.</param>
-        /// <param name="targetClient">The target client.</param>
-        /// <param name="baseliClient">The baseline client.</param>
-        /// <param name="sourceStorePath">The source storage path.</param>
-        /// <param name="targetStorePath">The target storage path.</param>
-        /// <param name="baselineStorePath">The baseline storage path.</param>
-        /// <param name="commandParameter">The command parameter.</param>
-        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" </returns>
-        public bool ExecuteCommand(IClientBase sourceClient, IClientBase targetClient, IClientBase baseliClient, string sourceStorePath, string targetStorePath, string baselineStorePath, string commandParameter)
+        /// <param name="sourceClient">
+        /// The source client.
+        /// </param>
+        /// <param name="targetClient">
+        /// The target client.
+        /// </param>
+        /// <param name="baseliClient">
+        /// The baseline client.
+        /// </param>
+        /// <param name="sourceStorePath">
+        /// The source storage path.
+        /// </param>
+        /// <param name="targetStorePath">
+        /// The target storage path.
+        /// </param>
+        /// <param name="baselineStorePath">
+        /// The baseline storage path.
+        /// </param>
+        /// <param name="commandParameter">
+        /// The command parameter.
+        /// </param>
+        /// <returns>
+        /// True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" 
+        /// </returns>
+        public bool ExecuteCommand(
+            IClientBase sourceClient, 
+            IClientBase targetClient, 
+            IClientBase baseliClient, 
+            string sourceStorePath, 
+            string targetStorePath, 
+            string baselineStorePath, 
+            string commandParameter)
         {
             if (string.IsNullOrEmpty(targetStorePath))
             {
@@ -55,5 +82,9 @@ namespace Sem.Sync.SyncBase.Commands
             this.LogProcessingEvent("elements deleted from storage path {0}", targetStorePath);
             return true;
         }
+
+        #endregion
+
+        #endregion
     }
 }

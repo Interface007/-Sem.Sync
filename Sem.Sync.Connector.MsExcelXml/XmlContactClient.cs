@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ContactClient type.
+//   Writes a list of "something" into an excel XML file - does explicitly NOT support XSLX-Files!
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,28 +14,29 @@ namespace Sem.Sync.Connector.MsExcelXml
     using System.Text;
 
     using Sem.Sync.SyncBase;
-    using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// Writes a list of "something" into an excel XML file - does explicitly NOT support XSLX-Files!
     /// </summary>
-    [ConnectorDescription(
-        DisplayName = "Microsoft Excel Xml Spreadsheet 2003",
-        CanReadContacts = true,
-        CanWriteContacts = true,
-        Internal = false)]
-    [ClientStoragePathDescription(
-        Mandatory = true, 
-        ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
+    [ConnectorDescription(DisplayName = "Microsoft Excel Xml Spreadsheet 2003", CanReadContacts = true, 
+        CanWriteContacts = true, Internal = false)]
+    [ClientStoragePathDescription(Mandatory = true, ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class XmlContactClient : StdClient
     {
+        #region Public Methods
+
         /// <summary>
         /// Exporting / writing will simply overwrite the destination, so we should override this method in order 
-        /// to not read from the target before writing to it.
+        ///   to not read from the target before writing to it.
         /// </summary>
-        /// <param name="elements"> The elements. </param>
-        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <param name="elements">
+        /// The elements. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The client folder name. 
+        /// </param>
         public override void AddRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, false);
@@ -44,19 +45,33 @@ namespace Sem.Sync.Connector.MsExcelXml
         /// <summary>
         /// Reads all elements from the excel file
         /// </summary>
-        /// <param name="clientFolderName"> The path to the excel file. </param>
-        /// <returns> the list of contacts </returns>
+        /// <param name="clientFolderName">
+        /// The path to the excel file. 
+        /// </param>
+        /// <returns>
+        /// the list of contacts 
+        /// </returns>
         public override List<StdElement> GetAll(string clientFolderName)
         {
             return ExcelXml.ImportFromWorksheetXml<StdContact>(File.ReadAllText(clientFolderName)).ToStdElements();
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Writes the elements to the destination.
         /// </summary>
-        /// <param name="elements"> The elements. </param>
-        /// <param name="clientFolderName"> The name of the file to write to. </param>
-        /// <param name="skipIfExisting"> The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. </param>
+        /// <param name="elements">
+        /// The elements. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The name of the file to write to. 
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. 
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (File.Exists(clientFolderName))
@@ -66,5 +81,7 @@ namespace Sem.Sync.Connector.MsExcelXml
 
             File.WriteAllText(clientFolderName, ExcelXml.ExportToWorksheetXml(elements.ToStdContacts()), Encoding.UTF8);
         }
+
+        #endregion
     }
 }

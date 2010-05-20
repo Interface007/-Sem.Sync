@@ -3,7 +3,9 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Writes a list of "something" into an excel OpenXml file
+//   Writes a list of "something" into an excel OpenXml file. The <see cref="StdElement.Id" />
+//   MUST be specified, because there is no such thing as a unique row identifier
+//   in Microsoft ExCel.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,29 +23,30 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
     /// <summary>
     /// Writes a list of "something" into an excel OpenXml file. The <see cref="StdElement.Id"/> 
-    /// MUST be specified, because there is no such thing as a unique row identifier 
-    /// in Microsoft ExCel.
+    ///   MUST be specified, because there is no such thing as a unique row identifier 
+    ///   in Microsoft ExCel.
     /// </summary>
-    [ConnectorDescription(
-        DisplayName = "Microsoft Excel OpenXml",
-        CanReadContacts = true,
-        CanWriteContacts = true,
-        CanReadCalendarEntries = true,
-        CanWriteCalendarEntries = true,
-        Internal = false)]
-    [ClientStoragePathDescription(
-        Mandatory = true,
-        ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
+    /// <typeparam name="T">
+    /// </typeparam>
+    [ConnectorDescription(DisplayName = "Microsoft Excel OpenXml", CanReadContacts = true, CanWriteContacts = true, 
+        CanReadCalendarEntries = true, CanWriteCalendarEntries = true, Internal = false)]
+    [ClientStoragePathDescription(Mandatory = true, ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class XmlContactClient<T> : StdClient
         where T : StdElement, new()
     {
+        #region Public Methods
+
         /// <summary>
         /// Exporting / writing will simply overwrite the destination, so we should override this method in order 
-        /// to not read from the target before writing to it.
+        ///   to not read from the target before writing to it.
         /// </summary>
-        /// <param name="elements"> The elements. </param>
-        /// <param name="clientFolderName"> The client folder name. </param>
-        public override void AddRange(System.Collections.Generic.List<StdElement> elements, string clientFolderName)
+        /// <param name="elements">
+        /// The elements. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The client folder name. 
+        /// </param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, false);
         }
@@ -51,8 +54,12 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
         /// <summary>
         /// Reads all elements from the excel file
         /// </summary>
-        /// <param name="clientFolderName"> The path to the excel file. </param>
-        /// <returns> the list of contacts </returns>
+        /// <param name="clientFolderName">
+        /// The path to the excel file. 
+        /// </param>
+        /// <returns>
+        /// the list of contacts 
+        /// </returns>
         public override List<StdElement> GetAll(string clientFolderName)
         {
             var result = new List<StdElement>();
@@ -75,9 +82,9 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             }
 
             this.LogProcessingEvent(
-                "{0} values found in {1} rows and {2} columns.",
-                valueArray.Length,
-                valueArray.GetLength(0),
+                "{0} values found in {1} rows and {2} columns.", 
+                valueArray.Length, 
+                valueArray.GetLength(0), 
                 valueArray.GetLength(1));
 
             var exceptionCounter = 0;
@@ -97,7 +104,8 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                     }
                     catch (Exception ex)
                     {
-                        exceptionFile = WriteExceptionFile(valueArray, rowId, colId, newElement, exceptionFile, exceptionReport, ex);
+                        exceptionFile = WriteExceptionFile(
+                            valueArray, rowId, colId, newElement, exceptionFile, exceptionReport, ex);
                         exceptionCounter++;
                     }
 
@@ -117,7 +125,10 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                     exceptionFile.Close();
                 }
 
-                this.LogProcessingEvent("{0} exceptions while reading data ... see exception report ({1}) for details.", exceptionCounter, exceptionReport);
+                this.LogProcessingEvent(
+                    "{0} exceptions while reading data ... see exception report ({1}) for details.", 
+                    exceptionCounter, 
+                    exceptionReport);
             }
 
             this.LogProcessingEvent("cleaning up entities");
@@ -127,12 +138,22 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             return result;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Writes the elements to the destination.
         /// </summary>
-        /// <param name="elements"> The elements. </param>
-        /// <param name="clientFolderName"> The name of the file to write to. </param>
-        /// <param name="skipIfExisting"> The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. </param>
+        /// <param name="elements">
+        /// The elements. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The name of the file to write to. 
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// The flag whether to skip the item if it exist - in this case it's simply ignored, because the target will be overwritten. 
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             if (File.Exists(clientFolderName))
@@ -143,7 +164,8 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
             var mapping = this.GetColumnDefinition(mappingFileName, typeof(T));
 
-            this.LogProcessingEvent("preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
+            this.LogProcessingEvent(
+                "preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
             CleanUpEntities(elements);
 
             var matrix = new string[elements.Count + 2, mapping.Count + 1];
@@ -179,20 +201,45 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
         /// <summary>
         /// Writes the exception together with some meta information to an <see cref="XmlWriter"/>. If that <see cref="XmlWriter"/> is
-        /// null, a new instance of an <see cref="XmlWriter"/> is being created for writing into the file specified as the parameter
-        /// <paramref name="exceptionReportFileName"/>.
+        ///   null, a new instance of an <see cref="XmlWriter"/> is being created for writing into the file specified as the parameter
+        ///   <paramref name="exceptionReportFileName"/>.
         /// </summary>
-        /// <remarks>While creating the exception file a start tag is being written for the root element. The calling method is 
-        /// responsible to write the corresponding closing tag in order to finish the file.</remarks>
-        /// <param name="valueArray"> The value array working with while the exception has been thrown. </param>
-        /// <param name="rowId"> The row id of the data row that caused the exception. </param>
-        /// <param name="colId"> The col id of the data column that caused the exception.  </param>
-        /// <param name="newElement"> The element that is being processed while the exception did occure. </param>
-        /// <param name="exceptionFile"> The <see cref="XmlWriter"/> for the exception file - if this element is NULL, a new file stream will be created. </param>
-        /// <param name="exceptionReportFileName"> The exception report file name - in case of a null reference in the parameter <paramref name="exceptionFile"/> this file name will be used to create a new file stream for the XmlWriter. </param>
-        /// <param name="ex"> The exception to be written to the file. </param>
-        /// <returns> The instance of the <see cref="XmlWriter"/> that has been utilized to write the exception. </returns>
-        private static XmlWriter WriteExceptionFile(string[,] valueArray, int rowId, int colId, StdElement newElement, XmlWriter exceptionFile, string exceptionReportFileName, Exception ex)
+        /// <remarks>
+        /// While creating the exception file a start tag is being written for the root element. The calling method is 
+        ///   responsible to write the corresponding closing tag in order to finish the file.
+        /// </remarks>
+        /// <param name="valueArray">
+        /// The value array working with while the exception has been thrown. 
+        /// </param>
+        /// <param name="rowId">
+        /// The row id of the data row that caused the exception. 
+        /// </param>
+        /// <param name="colId">
+        /// The col id of the data column that caused the exception.  
+        /// </param>
+        /// <param name="newElement">
+        /// The element that is being processed while the exception did occure. 
+        /// </param>
+        /// <param name="exceptionFile">
+        /// The <see cref="XmlWriter"/> for the exception file - if this element is NULL, a new file stream will be created. 
+        /// </param>
+        /// <param name="exceptionReportFileName">
+        /// The exception report file name - in case of a null reference in the parameter <paramref name="exceptionFile"/> this file name will be used to create a new file stream for the XmlWriter. 
+        /// </param>
+        /// <param name="ex">
+        /// The exception to be written to the file. 
+        /// </param>
+        /// <returns>
+        /// The instance of the <see cref="XmlWriter"/> that has been utilized to write the exception. 
+        /// </returns>
+        private static XmlWriter WriteExceptionFile(
+            string[,] valueArray, 
+            int rowId, 
+            int colId, 
+            StdElement newElement, 
+            XmlWriter exceptionFile, 
+            string exceptionReportFileName, 
+            Exception ex)
         {
             if (exceptionFile == null)
             {
@@ -219,5 +266,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
 
             return exceptionFile;
         }
+
+        #endregion
     }
 }

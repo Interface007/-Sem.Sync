@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1" >
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1">
   
   <!-- *** GLOBAL VARIABLES *** -->
 
@@ -31,29 +32,29 @@
         <xsl:attribute name="show-container">true</xsl:attribute>
       </xsl:if>
     </referenceLink>
-    <xsl:apply-templates select="specialization" mode="link"/>
+    <xsl:apply-templates select="specialization" mode="link" />
   </xsl:template>
 
   <xsl:template match="specialization" mode="link">
     <span class="languageSpecificText">
-    <span class="cs">&lt;</span>
-    <span class="vb">
-      <xsl:text>(Of </xsl:text>
-    </span>
-    <span class="cpp">&lt;</span>
-    <span class="nu">(</span>
+      <span class="cs">&lt;</span>
+      <span class="vb">
+        <xsl:text>(Of</xsl:text>
+      </span>
+      <span class="cpp">&lt;</span>
+      <span class="nu">(</span>
     </span>
     <xsl:for-each select="*">
       <xsl:apply-templates select="." mode="link" />
       <xsl:if test="position() != last()">
-        <xsl:text>, </xsl:text>
+        <xsl:text>,</xsl:text>
       </xsl:if>
     </xsl:for-each>
     <span class="languageSpecificText">
-    <span class="cs">&gt;</span>
-    <span class="vb">)</span>
-    <span class="cpp">&gt;</span>
-    <span class="nu">)</span>
+      <span class="cs">&gt;</span>
+      <span class="vb">)</span>
+      <span class="cpp">&gt;</span>
+      <span class="nu">)</span>
     </span>
   </xsl:template>
 
@@ -69,7 +70,7 @@
       <span class="cpp">
         <xsl:if test="number(@rank) &gt; 1">
           <xsl:text>,</xsl:text>
-          <xsl:value-of select="@rank"/>
+          <xsl:value-of select="@rank" />
         </xsl:if>
         <xsl:text>&gt;</xsl:text>
       </span>
@@ -111,11 +112,15 @@
     <xsl:choose>
       <xsl:when test="@api">
         <referenceLink target="{@api}">
-          <span class="typeparam"><xsl:value-of select="@name" /></span>
+          <span class="typeparam">
+            <xsl:value-of select="@name" />
+          </span>
         </referenceLink>
       </xsl:when>
       <xsl:otherwise>
-        <span class="typeparam"><xsl:value-of select="@name" /></span>
+        <span class="typeparam">
+          <xsl:value-of select="@name" />
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -149,7 +154,7 @@
       <xsl:for-each select="parameters/parameter">
         <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template" mode="plain" />
         <xsl:if test="position() != last()">
-          <xsl:text>, </xsl:text>
+          <xsl:text>,</xsl:text>
         </xsl:if>
       </xsl:for-each>
       <xsl:text>)</xsl:text>
@@ -183,26 +188,26 @@
     <xsl:for-each select="*">
       <xsl:apply-templates select="." mode="plain" />
       <xsl:if test="position() != last()">
-        <xsl:text>, </xsl:text>
+        <xsl:text>,</xsl:text>
       </xsl:if>
     </xsl:for-each>
     <xsl:text>)</xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="arrayOf" mode="plain">
-    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain"/>
+    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain" />
     <xsl:text>[</xsl:text>
     <xsl:if test="number(@rank) &gt; 1">,</xsl:if>
     <xsl:text>]</xsl:text>
   </xsl:template>
 
   <xsl:template match="pointerTo" mode="plain">
-    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain"/>
+    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain" />
     <xsl:text>*</xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="referenceTo" mode="plain">
-    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain"/>
+    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="plain" />
   </xsl:template>
 
   <xsl:template match="template" mode="plain">
@@ -214,9 +219,9 @@
     <xsl:if test="parameters/parameter">
       <xsl:text>(</xsl:text>
       <xsl:for-each select="parameters/parameter">
-        <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template" mode="decorated"/>
+        <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template" mode="decorated" />
         <xsl:if test="position() != last()">
-          <xsl:text>, </xsl:text>
+          <xsl:text>,</xsl:text>
         </xsl:if>
       </xsl:for-each>
       <xsl:text>)</xsl:text>
@@ -228,10 +233,10 @@
     <xsl:if test="type|(containers/type)">
       <xsl:apply-templates select="type|(containers/type)" mode="decorated" />
       <span class="languageSpecificText">
-      <span class="cs">.</span>
-      <span class="vb">.</span>
-      <span class="cpp">::</span>
-      <span class="nu">.</span>
+        <span class="cs">.</span>
+        <span class="vb">.</span>
+        <span class="cpp">::</span>
+        <span class="nu">.</span>
       </span>
     </xsl:if>
     <xsl:value-of select="apidata/@name" />
@@ -244,31 +249,31 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
+
   <xsl:template match="type" mode="decorated">
     <xsl:call-template name="typeNameDecorated" />
   </xsl:template>
-  
+
   <xsl:template match="specialization|templates" mode="decorated">
     <span class="languageSpecificText">
-    <span class="cs">&lt;</span>
-    <span class="vb">
-      <xsl:text>(Of </xsl:text>
-    </span>
-    <span class="cpp">&lt;</span>
-    <span class="nu">(</span>
+      <span class="cs">&lt;</span>
+      <span class="vb">
+        <xsl:text>(Of</xsl:text>
+      </span>
+      <span class="cpp">&lt;</span>
+      <span class="nu">(</span>
     </span>
     <xsl:for-each select="*">
       <xsl:apply-templates select="." mode="decorated" />
       <xsl:if test="position() != last()">
-        <xsl:text>, </xsl:text>
+        <xsl:text>,</xsl:text>
       </xsl:if>
     </xsl:for-each>
     <span class="languageSpecificText">
-    <span class="cs">&gt;</span>
-    <span class="vb">)</span>
-    <span class="cpp">&gt;</span>
-    <span class="nu">)</span>
+      <span class="cs">&gt;</span>
+      <span class="vb">)</span>
+      <span class="cpp">&gt;</span>
+      <span class="nu">)</span>
     </span>
   </xsl:template>
 
@@ -281,7 +286,7 @@
       <span class="cpp">
         <xsl:if test="number(@rank) &gt; 1">
           <xsl:text>,</xsl:text>
-          <xsl:value-of select="@rank"/>
+          <xsl:value-of select="@rank" />
         </xsl:if>
         <xsl:text>&gt;</xsl:text>
       </span>
@@ -304,17 +309,19 @@
   </xsl:template>
 
   <xsl:template match="pointerTo" mode="decorated">
-    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="decorated"/>
+    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="decorated" />
     <xsl:text>*</xsl:text>
   </xsl:template>
 
   <xsl:template match="referenceTo" mode="decorated">
-    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="decorated"/>
+    <xsl:apply-templates select="type|arrayOf|pointerTo|referenceTo|template|specialization|templates" mode="decorated" />
     <span class="cpp">%</span>
   </xsl:template>
 
   <xsl:template match="template" mode="decorated">
-    <span class="typeparameter"><xsl:value-of select="@name" /></span>
+    <span class="typeparameter">
+      <xsl:value-of select="@name" />
+    </span>
   </xsl:template>
   
   <!-- when positioned on a parameterized api, produces a (plain) comma-seperated list of parameter names-->
@@ -324,11 +331,11 @@
       <xsl:for-each select="parameters/parameter">
         <xsl:value-of select="@name" />
         <xsl:if test="position() != last()">
-          <xsl:text>, </xsl:text>
+          <xsl:text>,</xsl:text>
         </xsl:if>
       </xsl:for-each>
       <xsl:text>)</xsl:text>
     </xsl:if>
   </xsl:template>
-  
+
 </xsl:stylesheet>

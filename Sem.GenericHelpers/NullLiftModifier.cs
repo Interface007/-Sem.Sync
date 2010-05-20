@@ -3,48 +3,47 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the NullLiftModifier type.
+//   The method that kicks off the tree walk is protected, so we need to
+//   define a public method that provides access to it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.GenericHelpers
 {
-    using System;
     using System.Linq.Expressions;
 
     /// <summary>
     /// The method that kicks off the tree walk is protected, so we need to 
-    /// define a public method that provides access to it.
+    ///   define a public method that provides access to it.
     /// </summary>
     public class NullLiftModifier : ExpressionVisitor
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The modify.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public Expression Modify(Expression expression)
         {
-            return Visit(expression);
+            return this.Visit(expression);
         }
 
-        protected override Expression VisitMethodCall(MethodCallExpression originalExpression)
-        {
-            var invocationExpression = (MethodCallExpression)base.VisitMethodCall(originalExpression);
-            var argument = invocationExpression.Object;
+        #endregion
 
-            if (argument == null)
-            {
-                return invocationExpression;
-            }
-            
-            Expression nullTest = Expression.Equal(
-                argument,
-                Expression.Constant(null, argument.Type));
-
-            return Expression.Condition(nullTest, Expression.Constant(null, invocationExpression.Method.ReturnType), invocationExpression);
-        }
+        #region Methods
 
         /// <summary>
         /// Change how '.' performs member access.
         /// </summary>
-        /// <param name="originalExpression"></param>
-        /// <returns></returns>
+        /// <param name="originalExpression">
+        /// </param>
+        /// <returns>
+        /// </returns>
         protected override Expression VisitMemberAccess(MemberExpression originalExpression)
         {
             var memberAccessExpression = (MemberExpression)base.VisitMemberAccess(originalExpression);
@@ -61,13 +60,35 @@ namespace Sem.GenericHelpers
             var memberNull = memberType.GetDefaultValue();
 
             var nullTest = Expression.Equal(
-                memberAccessExpression.Expression,
-                Expression.Constant(valueNull, valueType));
+                memberAccessExpression.Expression, Expression.Constant(valueNull, valueType));
+
+            return Expression.Condition(nullTest, Expression.Constant(memberNull, memberType), memberAccessExpression);
+        }
+
+        /// <summary>
+        /// The visit method call.
+        /// </summary>
+        /// <param name="originalExpression">
+        /// The original expression.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        protected override Expression VisitMethodCall(MethodCallExpression originalExpression)
+        {
+            var invocationExpression = (MethodCallExpression)base.VisitMethodCall(originalExpression);
+            var argument = invocationExpression.Object;
+
+            if (argument == null)
+            {
+                return invocationExpression;
+            }
+
+            Expression nullTest = Expression.Equal(argument, Expression.Constant(null, argument.Type));
 
             return Expression.Condition(
-                nullTest, 
-                Expression.Constant(memberNull, memberType), 
-                memberAccessExpression);
+                nullTest, Expression.Constant(null, invocationExpression.Method.ReturnType), invocationExpression);
         }
+
+        #endregion
     }
 }

@@ -7,23 +7,24 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Sem.Sync.SyncBase.Properties;
-
 namespace Sem.Sync.ConsoleClient
 {
     using System;
     using System.IO;
     using System.Reflection;
-    using GenericHelpers.EventArgs;
 
-    using SyncBase;
-    using SyncBase.Binding;
+    using Sem.GenericHelpers.EventArgs;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Binding;
+    using Sem.Sync.SyncBase.Properties;
 
     /// <summary>
     /// Main execution class that will run the program.
     /// </summary>
     public static class Program
     {
+        #region Public Methods
+
         /// <summary>
         /// Executes the list of commands specified as a path to the file containing the serialized list in the first parameter.
         /// </summary>
@@ -37,6 +38,7 @@ namespace Sem.Sync.ConsoleClient
             {
                 args = new[] { @"{FS:ApplicationFolder}\A Copy OutlookCal to Xml.SyncList" };
             }
+
 #endif
 
             if (args.Length >= 1)
@@ -44,7 +46,8 @@ namespace Sem.Sync.ConsoleClient
                 var success = false;
                 try
                 {
-                    var defaultBaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
+                    var defaultBaseFolder =
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SemSyncCmd");
                     Console.WriteLine(Resources.MessageInfoWorkingFolder, defaultBaseFolder);
 
                     // setup the sync engine
@@ -89,22 +92,31 @@ namespace Sem.Sync.ConsoleClient
             else
             {
                 Console.WriteLine(
-                    Resources.MessageInfoUsage,
+                    Resources.MessageInfoUsage, 
                     Path.GetFileNameWithoutExtension(Assembly.GetAssembly(typeof(Program)).CodeBase));
             }
 
 #if (DEBUG)
+
             // wait for user input if in debug build
             Console.WriteLine(Resources.MessageInfoCloseWithEnter);
             Console.ReadLine();
 #endif
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Logs the processing event
         /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="e"> The processing event arguments that do include the message to be logged. </param>
+        /// <param name="sender">
+        /// The sender of the event.
+        /// </param>
+        /// <param name="e">
+        /// The processing event arguments that do include the message to be logged. 
+        /// </param>
         private static void ProcessingEvent(object sender, ProcessingEventArgs e)
         {
             Console.WriteLine(e.Message + (e.Item == null ? string.Empty : " " + e.Item));
@@ -113,11 +125,17 @@ namespace Sem.Sync.ConsoleClient
         /// <summary>
         /// Logs the progress event
         /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="e"> The processing event arguments that do include the percentageof work done. </param>
+        /// <param name="sender">
+        /// The sender of the event.
+        /// </param>
+        /// <param name="e">
+        /// The processing event arguments that do include the percentageof work done. 
+        /// </param>
         private static void ProgressEvent(object sender, ProgressEventArgs e)
         {
             Console.WriteLine(Resources.MessageInfoProgress, e.PercentageDone);
         }
+
+        #endregion
     }
 }

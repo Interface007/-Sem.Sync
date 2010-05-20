@@ -1,5 +1,4 @@
-<content xml:space="preserve"
- xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+<content xml:space="preserve" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
 
 	<!-- paths -->
 	<item id="iconPath">../icons/{0}</item>
@@ -17,7 +16,7 @@
 	<item id="xnaDocSetAttribute">XNA</item>
 
   	<!-- header -->
-	<item id="header"><font color="DarkGray"></font><p/> </item>
+	<item id="header"><font color="DarkGray"></font><p /> </item>
   
   <!-- freshness date -->
   <item id="UpdateTitle"><font color="DarkGray">Updated: {0}</font></item>
@@ -85,7 +84,7 @@
   	
   
    <!-- dynamic Link Information -->
-  <item id="mshelpKTable"><MSHelp:ktable keywords='{0}' locHeader='Location' topicHeader = 'Topic' disambiguator='table' indexMoniker='!DefaultDynamicLinkIndex' /></item>
+  <item id="mshelpKTable"><MSHelp:ktable keywords='{0}' locHeader='Location' topicHeader='Topic' disambiguator='table' indexMoniker='!DefaultDynamicLinkIndex' /></item>
 
   <item id="dynamicLinkInlinePreFixText">For more information, see </item>
   <item id="dynamicLinkInlinePostFixText">.</item>
@@ -106,13 +105,13 @@
   <item id="xmlLang">Xml</item>
   <item id="JavaScript">JavaScript</item>
   <item id="html">Html</item>
-  <item id="visualbasicANDcsharp"><include item="VisualBasic"/> and <include item="CSharp"/></item>
+  <item id="visualbasicANDcsharp"><include item="VisualBasic" /> and <include item="CSharp" /></item>
   <item id="other"></item>
   <item id="XAML">XAML</item>
   <item id="usage">Usage</item>
   <item id="AspNet">ASP.NET</item>
-  <item id="VisualBasicDeclaration"><include item="VisualBasic"/> (Declaration)</item>
-  <item id="VisualBasicUsage"><include item="VisualBasic"/> (<include item="usage"/>)</item>
+  <item id="VisualBasicDeclaration"><include item="VisualBasic" /> (Declaration)</item>
+  <item id="VisualBasicUsage"><include item="VisualBasic" /> (<include item="usage" />)</item>
   
   <item id="dropdownSeparator"><span>&#160;&#160;&#160;&#160;</span></item>
   <item id="nsrLinkSeparator"> </item>
@@ -243,7 +242,7 @@
 <item id="MailToLink">javascript:SubmitFeedback('<include item="feedback_alias" />','<include item="feedback_product" />','<include item="feedback_deliverable" />','<include item="feedback_fileVersion" />','<include item="feedback_topicVersion" />','<include item="feedback_body" />','<include item="feedback_subject" />');</item> 
 -->
   
-<item id="copyrightStatement"><include item="copyrightText"/></item>
+<item id="copyrightStatement"><include item="copyrightText" /></item>
 
 <item id="copyrightText">&#169; 2009 Sven Erik Matzen. All rights reserved.</item> 
 

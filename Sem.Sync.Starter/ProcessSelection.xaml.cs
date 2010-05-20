@@ -7,87 +7,86 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Sem.GenericHelpers.Exceptions;
-using Sem.Sync.SyncBase;
-
 namespace Sem.Sync.Starter
 {
     using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
-    
-    using SharedUI.Common;
+
+    using Sem.GenericHelpers.Exceptions;
+    using Sem.Sync.SharedUI.Common;
 
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class ProcessSelection
     {
-        /// <summary>
-        /// The height of the buttons for the connectors
-        /// </summary>
-        private const int ButtonWidthConnectors = 90;
+        #region Constants and Fields
 
         /// <summary>
-        /// The height of the buttons for the connectors
+        ///   The height of the buttons for the connectors
         /// </summary>
         private const int ButtonHeightConnectors = 60;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelection"/> class.
+        ///   The height of the buttons for the connectors
+        /// </summary>
+        private const int ButtonWidthConnectors = 90;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "ProcessSelection" /> class.
         /// </summary>
         public ProcessSelection()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.DataContext = new SyncWizardContext(ExceptionHandler.UserInterface);
 
             this.Network = new List<Button>();
             foreach (var source in ((SyncWizardContext)this.DataContext).SyncWorkflowData)
             {
                 var button = new Button
-                {
-                    Width = ButtonWidthConnectors,
-                    Height = ButtonHeightConnectors,
-                    Content = source.Value,
-                    Tag = source,
-                };
+                    {
+                        Width = ButtonWidthConnectors, 
+                        Height = ButtonHeightConnectors, 
+                        Content = source.Value, 
+                        Tag = source, 
+                    };
 
                 button.Click += this.ButtonClickHandler;
 
                 this.Network.Add(button);
-                LayoutRoot.Children.Add(button);
+                this.LayoutRoot.Children.Add(button);
             }
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the list of network.
+        ///   Gets or sets the list of network.
         /// </summary>
         private List<Button> Network { get; set; }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// arranges the buttons on resizing the window
         /// </summary>
-        /// <param name="sizeInfo"> The size info. </param>
+        /// <param name="sizeInfo">
+        /// The size info. 
+        /// </param>
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             this.ArrangeElements();
             base.OnRenderSizeChanged(sizeInfo);
-        }
-
-        /// <summary>
-        /// Handels the click event for the buttons
-        /// </summary>
-        /// <param name="sender"> The sender object. </param>
-        /// <param name="e"> The event arguments. </param>
-        private void ButtonClickHandler(object sender, EventArgs e)
-        {
-          var clicked = (Button) sender;
-          var process = (KeyValuePair<string, string>) clicked.Tag;
-          if (MessageBox.Show("Starting process: " + process.Value, "Sync-Process", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-          {
-              ((SyncWizardContext)this.DataContext).Run(process.Key);
-          }
         }
 
         /// <summary>
@@ -107,12 +106,33 @@ namespace Sem.Sync.Starter
             {
                 var index = 360 * i * Math.PI / 180 / count;
                 button.Margin = new Thickness
-                {
-                    Left = (int)(midX * Math.Cos(index)),
-                    Top = (int)(midY * Math.Sin(index)),
-                };
+                    {
+                       Left = (int)(midX * Math.Cos(index)), Top = (int)(midY * Math.Sin(index)), 
+                    };
                 i++;
             }
         }
+
+        /// <summary>
+        /// Handels the click event for the buttons
+        /// </summary>
+        /// <param name="sender">
+        /// The sender object. 
+        /// </param>
+        /// <param name="e">
+        /// The event arguments. 
+        /// </param>
+        private void ButtonClickHandler(object sender, EventArgs e)
+        {
+            var clicked = (Button)sender;
+            var process = (KeyValuePair<string, string>)clicked.Tag;
+            if (MessageBox.Show("Starting process: " + process.Value, "Sync-Process", MessageBoxButton.OKCancel) ==
+                MessageBoxResult.OK)
+            {
+                ((SyncWizardContext)this.DataContext).Run(process.Key);
+            }
+        }
+
+        #endregion
     }
 }

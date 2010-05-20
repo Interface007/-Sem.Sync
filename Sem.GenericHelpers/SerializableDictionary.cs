@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the SerializableDictionary type.
+//   The serializable dictionary.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,19 +11,43 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml;
     using System.Xml.Linq;
+    using System.Xml.Schema;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// The serializable dictionary.
+    /// </summary>
+    /// <typeparam name="TKey">
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// </typeparam>
     [XmlRoot("dictionary")]
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
-        public System.Xml.Schema.XmlSchema GetSchema()
+        #region Implemented Interfaces
+
+        #region IXmlSerializable
+
+        /// <summary>
+        /// The get schema.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        /// <summary>
+        /// The read xml.
+        /// </summary>
+        /// <param name="reader">
+        /// The reader.
+        /// </param>
+        public void ReadXml(XmlReader reader)
         {
             var keySerializer = new XmlSerializer(typeof(TKey));
             var valueSerializer = new XmlSerializer(typeof(TValue));
@@ -68,18 +92,13 @@ namespace Sem.GenericHelpers
             reader.ReadEndElement();
         }
 
-        protected virtual string TranslateKey(string keyName)
-        {
-            return keyName;
-        }
-
-        protected virtual TValue CreateNewValueItem(string value)
-        {
-            var valueSerializer = new XmlSerializer(typeof(TValue));
-            return (TValue)valueSerializer.Deserialize(XDocument.Parse(value).CreateReader());
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
+        /// <summary>
+        /// The write xml.
+        /// </summary>
+        /// <param name="writer">
+        /// The writer.
+        /// </param>
+        public void WriteXml(XmlWriter writer)
         {
             var keySerializer = new XmlSerializer(typeof(TKey));
             var valueSerializer = new XmlSerializer(typeof(TValue));
@@ -100,5 +119,41 @@ namespace Sem.GenericHelpers
                 writer.WriteEndElement();
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The create new value item.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        protected virtual TValue CreateNewValueItem(string value)
+        {
+            var valueSerializer = new XmlSerializer(typeof(TValue));
+            return (TValue)valueSerializer.Deserialize(XDocument.Parse(value).CreateReader());
+        }
+
+        /// <summary>
+        /// The translate key.
+        /// </summary>
+        /// <param name="keyName">
+        /// The key name.
+        /// </param>
+        /// <returns>
+        /// The translate key.
+        /// </returns>
+        protected virtual string TranslateKey(string keyName)
+        {
+            return keyName;
+        }
+
+        #endregion
     }
 }

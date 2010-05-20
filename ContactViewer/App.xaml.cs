@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the App type.
+//   Main application class
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,8 +17,10 @@ namespace ContactViewer
     /// </summary>
     public partial class App : Application
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="App"/> class.
+        ///   Initializes a new instance of the <see cref = "App" /> class.
         /// </summary>
         public App()
         {
@@ -26,13 +28,19 @@ namespace ContactViewer
             this.Exit += this.Application_Exit;
             this.UnhandledException += this.Application_UnhandledException;
 
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Error handling method
         /// </summary>
-        /// <param name="e"> The exception arguments. </param>
+        /// <param name="e">
+        /// The exception arguments. 
+        /// </param>
         private static void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
         {
             try
@@ -40,7 +48,8 @@ namespace ContactViewer
                 var errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
                 errorMsg = errorMsg.Replace('"', '\'').Replace("\r\n", @"\n");
 
-                System.Windows.Browser.HtmlPage.Window.Eval("throw new Error(\"Unhandled Error in Silverlight 2 Application " + errorMsg + "\");");
+                System.Windows.Browser.HtmlPage.Window.Eval(
+                    "throw new Error(\"Unhandled Error in Silverlight 2 Application " + errorMsg + "\");");
             }
             catch (Exception)
             {
@@ -48,29 +57,41 @@ namespace ContactViewer
         }
 
         /// <summary>
+        /// handels the application exit event.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender. 
+        /// </param>
+        /// <param name="e">
+        /// The empty event arguments. 
+        /// </param>
+        private void Application_Exit(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
         /// Handels the application startup event to initialize vital objects.
         /// </summary>
-        /// <param name="sender"> The sender. </param>
-        /// <param name="e"> The empty event arguments. </param>
+        /// <param name="sender">
+        /// The sender. 
+        /// </param>
+        /// <param name="e">
+        /// The empty event arguments. 
+        /// </param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             this.RootVisual = new Page { DataContext = new ViewModel() };
         }
 
         /// <summary>
-        /// handels the application exit event.
-        /// </summary>
-        /// <param name="sender"> The sender. </param>
-        /// <param name="e"> The empty event arguments. </param>
-        private void Application_Exit(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
         /// Handels application error events
         /// </summary>
-        /// <param name="sender"> The sender. </param>
-        /// <param name="e"> The error arguments. </param>
+        /// <param name="sender">
+        /// The sender. 
+        /// </param>
+        /// <param name="e">
+        /// The error arguments. 
+        /// </param>
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // If the app is running outside of the debugger then report the exception using
@@ -88,5 +109,7 @@ namespace ContactViewer
             e.Handled = true;
             Deployment.Current.Dispatcher.BeginInvoke(() => ReportErrorToDOM(e));
         }
+
+        #endregion
     }
 }

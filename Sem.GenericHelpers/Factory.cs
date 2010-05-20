@@ -1,9 +1,12 @@
-﻿//-----------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Factory.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   This class implements a simple class-factory that does support generic types.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.GenericHelpers
 {
     using System;
@@ -16,22 +19,28 @@ namespace Sem.GenericHelpers
     /// </summary>
     /// <remarks>
     /// The factory does support simple as well as generic types. Another feature is simply specifying
-    /// the type name including the namespace if the namespace name matches the assembly name. In case of 
-    /// generic types you may omit the "`1" specification as this will be added automatically when using 
-    /// the " of "-string to specify using a generic type.
+    ///   the type name including the namespace if the namespace name matches the assembly name. In case of 
+    ///   generic types you may omit the "`1" specification as this will be added automatically when using 
+    ///   the " of "-string to specify using a generic type.
     /// </remarks>
     /// <example>
     /// creating a new source object using the simple type specification:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact");</code>
+    ///   <code>
+    /// var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact");
+    /// </code>
     /// creating a new source object using the generic type specification by using the " of "-substring:
-    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");</code>
+    ///   <code>
+    /// var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");
+    /// </code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
     [Serializable]
     public class Factory
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Factory"/> class.
+        ///   Initializes a new instance of the <see cref = "Factory" /> class.
         /// </summary>
         public Factory()
         {
@@ -40,24 +49,101 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Initializes a new instance of the <see cref="Factory"/> class and set the default name space.
         /// </summary>
-        /// <param name="defaultNamespace">the default name space for class names that do not have a name space specified.</param>
+        /// <param name="defaultNamespace">
+        /// the default name space for class names that do not have a name space specified.
+        /// </param>
         public Factory(string defaultNamespace)
         {
             this.DefaultNamespace = defaultNamespace;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the default name space for class names that do not have a name space specified.
+        ///   Gets or sets the default name space for class names that do not have a name space specified.
         /// </summary>
         public string DefaultNamespace { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// processes a class name to make it full qualifies include in the assembly name
+        /// </summary>
+        /// <param name="className">
+        /// The class name that may need processing.
+        /// </param>
+        /// <returns>
+        /// the processed full qualified class name
+        /// </returns>
+        public string EnrichClassName(string className)
+        {
+            var returnValue = new StringBuilder();
+            var isFirstFragement = true;
+            var names = className.Split(new[] { " of " }, StringSplitOptions.None);
+            foreach (var name in names)
+            {
+                if (!isFirstFragement)
+                {
+                    returnValue.Append(" of ");
+                }
+
+                if (!name.Contains(","))
+                {
+                    string assemblyName;
+                    if (!name.Contains("."))
+                    {
+                        if (string.IsNullOrEmpty(this.DefaultNamespace))
+                        {
+                            throw new ConfigurationErrorsException(
+                                "This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
+                        }
+
+                        assemblyName = this.DefaultNamespace.Trim();
+                        returnValue.Append(assemblyName).Append(".");
+                    }
+                    else
+                    {
+                        assemblyName = name.Substring(0, name.LastIndexOf(".", StringComparison.Ordinal)).Trim();
+                    }
+
+                    returnValue.Append(name.Trim()).Append(", ").Append(assemblyName);
+                }
+                else
+                {
+                    returnValue.Append(name.Trim());
+                }
+
+                isFirstFragement = false;
+            }
+
+            var result = returnValue.ToString();
+            if (result.StartsWith("{", StringComparison.Ordinal) && result.EndsWith("}", StringComparison.Ordinal))
+            {
+                result = ConfigurationManager.AppSettings["factoryName-" + result.Substring(1, result.Length - 2)];
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Create an object by using the class name.
         /// </summary>
-        /// <typeparam name="T">the name of the type to cast to</typeparam>
-        /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
-        /// <returns>a new instance of the class specified with the class name</returns>
-        /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
+        /// <typeparam name="T">
+        /// the name of the type to cast to
+        /// </typeparam>
+        /// <param name="className">
+        /// full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.
+        /// </param>
+        /// <returns>
+        /// a new instance of the class specified with the class name
+        /// </returns>
+        /// <remarks>
+        /// see the class definition <see cref="Factory"/> for an example
+        /// </remarks>
         public T GetNewObject<T>(string className)
         {
             if (string.IsNullOrEmpty(className))
@@ -82,9 +168,15 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Create an object by using the class name.
         /// </summary>
-        /// <param name="className">full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
-        /// <returns>a new instance of the class specified with the class name</returns>
-        /// <remarks>see the class definition <see cref="Factory"/> for an example</remarks>
+        /// <param name="className">
+        /// full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.
+        /// </param>
+        /// <returns>
+        /// a new instance of the class specified with the class name
+        /// </returns>
+        /// <remarks>
+        /// see the class definition <see cref="Factory"/> for an example
+        /// </remarks>
         public object GetNewObject(string className)
         {
             var type = Type.GetType(this.EnrichClassName(className), false, true);
@@ -95,6 +187,7 @@ namespace Sem.GenericHelpers
                 switch (className)
                 {
                     case "Sem.Sync.Connector.Outlook.CalendarClient":
+
                         // the standard connector for outlook is for outlook 2008 - that
                         // one is not compatible with outlook 2003, so we do fall back
                         // to outlook 2003 if the standard one cannot be created.
@@ -102,6 +195,7 @@ namespace Sem.GenericHelpers
                         break;
 
                     case "Sem.Sync.Connector.Outlook.ContactClient":
+
                         // the standard connector for outlook is for outlook 2008 - that
                         // one is not compatible with outlook 2003, so we do fall back
                         // to outlook 2003 if the standard one cannot be created.
@@ -119,9 +213,15 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Creates an instance of an generic type.
         /// </summary>
-        /// <param name="genericClassName">full class name of the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
-        /// <param name="className">full class name of the type parameter for the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.</param>
-        /// <returns>a new instance of the class specified with the class name</returns>
+        /// <param name="genericClassName">
+        /// full class name of the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.
+        /// </param>
+        /// <param name="className">
+        /// full class name of the type parameter for the generic type: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.
+        /// </param>
+        /// <returns>
+        /// a new instance of the class specified with the class name
+        /// </returns>
         public object GetNewObject(string genericClassName, string className)
         {
             var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
@@ -129,7 +229,10 @@ namespace Sem.GenericHelpers
 
             if (classType == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), "className");
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), 
+                    "className");
             }
 
             var typeParams = new[] { classType };
@@ -138,61 +241,6 @@ namespace Sem.GenericHelpers
             return Activator.CreateInstance(constructedType);
         }
 
-        /// <summary>
-        /// processes a class name to make it full qualifies include in the assembly name
-        /// </summary>
-        /// <param name="className">The class name that may need processing.</param>
-        /// <returns>the processed full qualified class name</returns>
-        public string EnrichClassName(string className)
-        {
-            var returnValue = new StringBuilder();
-            var isFirstFragement = true;
-            var names = className.Split(new[] { " of " }, StringSplitOptions.None);
-            foreach (var name in names)
-            {
-                if (!isFirstFragement)
-                {
-                    returnValue.Append(" of ");
-                }
-
-                if (!name.Contains(","))
-                {
-                    string assemblyName;
-                    if (!name.Contains("."))
-                    {
-                        if (string.IsNullOrEmpty(this.DefaultNamespace))
-                        {
-                            throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
-                        }
-
-                        assemblyName = this.DefaultNamespace.Trim();
-                        returnValue.Append(assemblyName).Append(".");
-                    }
-                    else
-                    {
-                        assemblyName = name.Substring(0, name.LastIndexOf(".", StringComparison.Ordinal)).Trim();
-                    }
-
-                    returnValue
-                        .Append(name.Trim())
-                        .Append(", ")
-                        .Append(assemblyName);
-                }
-                else
-                {
-                    returnValue.Append(name.Trim());
-                }
-
-                isFirstFragement = false;
-            }
-
-            var result = returnValue.ToString();
-            if (result.StartsWith("{", StringComparison.Ordinal) && result.EndsWith("}", StringComparison.Ordinal))
-            {
-                result = ConfigurationManager.AppSettings["factoryName-" + result.Substring(1, result.Length - 2)];
-            }
-
-            return result;
-        }
+        #endregion
     }
 }

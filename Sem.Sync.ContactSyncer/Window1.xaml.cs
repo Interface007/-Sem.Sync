@@ -16,12 +16,16 @@ namespace Sem.Sync.ContactSyncer
     /// </summary>
     public partial class Window1 : Window
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Window1"/> class.
+        ///   Initializes a new instance of the <see cref = "Window1" /> class.
         /// </summary>
         public Window1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
+        #endregion
     }
 }

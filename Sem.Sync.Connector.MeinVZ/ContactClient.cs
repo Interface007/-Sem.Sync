@@ -1,10 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ContactClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
 //   This class is the client base class for handling contacts of the MeinVZ/StudiVZ social network.
+//   See the classes <see cref="MeinVZContacts" /> and <see cref="StudiVzContacts" /> for concrete
+//   implementation of the <see cref="StdClient" />.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,119 +19,116 @@ namespace Sem.Sync.Connector.MeinVZ
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    using GenericHelpers;
-    using GenericHelpers.Exceptions;
-
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.DetailData;
+    using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Exceptions;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client base class for handling contacts of the MeinVZ/StudiVZ social network.
-    /// See the classes <see cref="MeinVZContacts"/> and <see cref="StudiVzContacts"/> for concrete 
-    /// implementation of the <see cref="StdClient"/>.
+    ///   See the classes <see cref="MeinVZContacts"/> and <see cref="StudiVzContacts"/> for concrete 
+    ///   implementation of the <see cref="StdClient"/>.
     /// </summary>
-    [ClientStoragePathDescription(
-        Irrelevant = true,
-        ReferenceType = ClientPathType.Undefined)]
+    [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
     //// specifying the connector description as no-read and no-write will hide it from the GUI
-    [ConnectorDescription(DisplayName = "MeinVZ-Base-Client",
-        CanReadContacts = false,
-        CanWriteContacts = false,
-        MatchingIdentifier = ProfileIdentifierType.MeinVZ,
-        NeedsCredentials = true)]
+    [ConnectorDescription(DisplayName = "MeinVZ-Base-Client", CanReadContacts = false, CanWriteContacts = false, 
+        MatchingIdentifier = ProfileIdentifierType.MeinVZ, NeedsCredentials = true)]
     public abstract class ContactClient : StdClient
     {
-        #region string resources for processing the pages
+        #region Constants and Fields
 
         /// <summary>
-        /// Detection string to parse the content of a request if we need to logon
+        ///   regex to extract additional information
         /// </summary>
-        private const string HttpDetectionStringLogonNeeded = "form id=\"Loginbox\"";
+        private const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
 
         /// <summary>
-        /// data string to be posted to logon into the site
-        /// </summary>
-        private const string HttpDataLogonRequest
-            = "email={0}&"
-            + "password={1}&"
-            + "login=Einloggen&jsEnabled=false&"
-            + "formkey={2}&"
-            + "iv={3}";
-
-        /// <summary>
-        /// regex to extract the form key for the log on
+        ///   regex to extract the form key for the log on
         /// </summary>
         private const string ExtractorFormKey = "<input type=\"hidden\" name=\"formkey\" value=\"([a-zA-Z0-9_-]*)\" />";
 
         /// <summary>
-        /// regex to extract the iv for the log on
+        ///   regex to extract the url to the "Friends List"
+        /// </summary>
+        private const string ExtractorFriendUrls =
+            "<a href=\"(/Friends/All/[a-zA-Z0-9_-]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
+
+        /// <summary>
+        ///   regex to extract the iv for the log on
         /// </summary>
         private const string ExtractorIv = "<input type=\"hidden\" name=\"iv\" value=\"([a-zA-Z0-9_-]*)\" />";
 
         /// <summary>
-        /// regex to extract the url to the "Friends List"
-        /// </summary>
-        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-zA-Z0-9_-]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
-
-        /// <summary>
-        /// regex to extract the urls to the friends profiles
+        ///   regex to extract the urls to the friends profiles
         /// </summary>
         private const string ExtractorProfileUrls = "<a href=\"(/Profile/[a-zA-Z0-9_-]*)\"";
 
         /// <summary>
-        /// regex to extract additional information
+        ///   data string to be posted to logon into the site
         /// </summary>
-        private const string ContactContentSelector = "<dt>([a-zA-Z: ]*)</dt>.*?<dd>\\s*(.*?)\\s*</dd>";
-
-        #endregion
+        private const string HttpDataLogonRequest =
+            "email={0}&" + "password={1}&" + "login=Einloggen&jsEnabled=false&" + "formkey={2}&" + "iv={3}";
 
         /// <summary>
-        /// http requester object that will read the data from the site
+        ///   Detection string to parse the content of a request if we need to logon
+        /// </summary>
+        private const string HttpDetectionStringLogonNeeded = "form id=\"Loginbox\"";
+
+        /// <summary>
+        ///   http requester object that will read the data from the site
         /// </summary>
         private readonly HttpHelper httpRequester;
 
-        #region ctors
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class. 
-        /// This parametrized constructore does accept a "ready to use" http-requester. 
-        /// This way you can specify a requester with properties that differ from 
-        /// default/config-file properties.
+        ///   This parametrized constructore does accept a "ready to use" http-requester. 
+        ///   This way you can specify a requester with properties that differ from 
+        ///   default/config-file properties.
         /// </summary>
-        /// <param name="preconfiguredHttpHelper">the preconfigured http-helper class</param>
+        /// <param name="preconfiguredHttpHelper">
+        /// the preconfigured http-helper class
+        /// </param>
         protected ContactClient(HttpHelper preconfiguredHttpHelper)
         {
             this.httpRequester = preconfiguredHttpHelper;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactClient"/> class. 
-        /// The default constructor will create and configure a new http-requester by reading 
-        /// the config file. Use the parametrized constructor to provide a "ready-to-use"
-        /// http-requester.
+        ///   Initializes a new instance of the <see cref = "ContactClient" /> class. 
+        ///   The default constructor will create and configure a new http-requester by reading 
+        ///   the config file. Use the parametrized constructor to provide a "ready-to-use"
+        ///   http-requester.
         /// </summary>
         protected ContactClient()
         {
             this.HttpDetectionStringLogOnFailed = "action=\"https://secure.meinvz.net/Login\"";
             this.HttpUrlLogOnRequest = "https://secure.meinvz.net/Login";
             this.HttpUrlBaseAddress = "http://www.meinvz.net";
-            this.ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
+            this.ContactImageSelector =
+                "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
 
             this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
-            {
-                UseCache = this.GetConfigValueBoolean("UseCache"),
-                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
-            };
+                {
+                    UseCache = this.GetConfigValueBoolean("UseCache"), 
+                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"), 
+                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
+                };
         }
 
         #endregion
 
+        #region Properties
+
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        ///   Gets the user readable name of the client implementation. This name should
+        ///   be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public override string FriendlyClientName
         {
@@ -141,7 +139,17 @@ namespace Sem.Sync.Connector.MeinVZ
         }
 
         /// <summary>
-        /// Gets the HttpRequester.
+        ///   Gets or sets the extraction string for the image.
+        /// </summary>
+        protected string ContactImageSelector { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the detection string to detect if we did fail to logon
+        /// </summary>
+        protected string HttpDetectionStringLogOnFailed { get; set; }
+
+        /// <summary>
+        ///   Gets the HttpRequester.
         /// </summary>
         protected HttpHelper HttpRequester
         {
@@ -152,33 +160,33 @@ namespace Sem.Sync.Connector.MeinVZ
         }
 
         /// <summary>
-        /// Gets or sets the extraction string for the image.
-        /// </summary>
-        protected string ContactImageSelector { get; set; }
-
-        /// <summary>
-        /// Gets or sets the detection string to detect if we did fail to logon
-        /// </summary>
-        protected string HttpDetectionStringLogOnFailed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the base address to communicate with the site
+        ///   Gets or sets the base address to communicate with the site
         /// </summary>
         protected string HttpUrlBaseAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the relative url to log on
+        ///   Gets or sets the relative url to log on
         /// </summary>
         protected string HttpUrlLogOnRequest { get; set; }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
+        /// <param name="clientFolderName">
+        /// the information from where inside the source the elements should be read - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="result">
+        /// The list of elements that should get the elements. The elements should be added to
+        ///   the list instead of replacing it.
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             this.httpRequester.UiDispatcher = this.UiDispatcher;
@@ -193,9 +201,15 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Maps a key value pair extracted from the web page to the <see cref="StdContact"/>.
         /// </summary>
-        /// <param name="result"> The resulting <see cref="StdContact"/>. </param>
-        /// <param name="value"> The value part of the pair. </param>
-        /// <param name="key"> The key part of the pair. </param>
+        /// <param name="result">
+        /// The resulting <see cref="StdContact"/>. 
+        /// </param>
+        /// <param name="value">
+        /// The value part of the pair. 
+        /// </param>
+        /// <param name="key">
+        /// The key part of the pair. 
+        /// </param>
         private static void MapKeyValuePair(StdContact result, string value, string key)
         {
             switch (key)
@@ -292,8 +306,12 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Convert MeinVZ contact url to <see cref="StdContact"/>
         /// </summary>
-        /// <param name="contactUrl"> The contact url. </param>
-        /// <returns> the downloaded information inserted into a <see cref="StdContact"/> </returns>
+        /// <param name="contactUrl">
+        /// The contact url. 
+        /// </param>
+        /// <returns>
+        /// the downloaded information inserted into a <see cref="StdContact"/> 
+        /// </returns>
         private StdContact DownloadContact(string contactUrl)
         {
             var result = new StdContact();
@@ -331,14 +349,16 @@ namespace Sem.Sync.Connector.MeinVZ
                 catch (Exception ex)
                 {
                     throw new TechnicalException(
-                        "Problem mapping key value pair from web page.",
-                        ex,
-                        new KeyValuePair<string, object>("key", key),
+                        "Problem mapping key value pair from web page.", 
+                        ex, 
+                        new KeyValuePair<string, object>("key", key), 
                         new KeyValuePair<string, object>("value", value));
                 }
             }
 
-            result.ExternalIdentifier.SetProfileId(ProfileIdentifierType.MeinVZ, contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+            result.ExternalIdentifier.SetProfileId(
+                ProfileIdentifierType.MeinVZ, 
+                contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
             return result;
         }
@@ -346,7 +366,9 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         /// Ready a list of data locations - this will also establish the logon
         /// </summary>
-        /// <returns>a list of urls for the data to be downloaded</returns>
+        /// <returns>
+        /// a list of urls for the data to be downloaded
+        /// </returns>
         private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
@@ -358,15 +380,18 @@ namespace Sem.Sync.Connector.MeinVZ
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                if (this.httpRequester.GetExtract(string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
+                if (this.httpRequester.GetExtract(
+                    string.Empty, ExtractorFriendUrls, out extractedData, "FriendUrls", string.Empty))
                 {
-                    if (extractedData.Count > 0 && this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
+                    if (extractedData.Count > 0 &&
+                        this.httpRequester.GetExtract(extractedData[0], ExtractorProfileUrls, out result))
                     {
                         var n = 2;
                         while (true)
                         {
                             List<string> result2;
-                            this.httpRequester.GetExtract(extractedData[0].Replace("/tid/103", "/p/" + n), ExtractorProfileUrls, out result2);
+                            this.httpRequester.GetExtract(
+                                extractedData[0].Replace("/tid/103", "/p/" + n), ExtractorProfileUrls, out result2);
                             if (result2.Count == 0)
                             {
                                 break;
@@ -382,14 +407,15 @@ namespace Sem.Sync.Connector.MeinVZ
 
                 if (string.IsNullOrEmpty(this.LogOnPassword))
                 {
-                    QueryForLogOnCredentials("needs some credentials");
+                    this.QueryForLogOnCredentials("needs some credentials");
                 }
 
                 var logInResponse = string.Empty;
 
                 try
                 {
-                    var matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
+                    var matches = Regex.Matches(
+                        this.httpRequester.LastExtractContent, ExtractorFormKey, RegexOptions.Singleline);
                     var formKey = matches[0].Groups[1].Captures[0].ToString();
 
                     matches = Regex.Matches(this.httpRequester.LastExtractContent, ExtractorIv, RegexOptions.Singleline);
@@ -397,11 +423,7 @@ namespace Sem.Sync.Connector.MeinVZ
 
                     // prepare the post data for log on
                     var postData = HttpHelper.PreparePostData(
-                        HttpDataLogonRequest,
-                        this.LogOnUserId,
-                        this.LogOnPassword,
-                        formKey,
-                        iv);
+                        HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword, formKey, iv);
 
                     // post to get the cookies
                     logInResponse = this.httpRequester.GetContentPost(this.HttpUrlLogOnRequest, "logOn", postData);
@@ -415,14 +437,16 @@ namespace Sem.Sync.Connector.MeinVZ
                 {
                     throw new TechnicalException(
                         "Problem reading MeinVZ content", 
-                        ex,
-                        new KeyValuePair<string, object>("lastcontent", this.httpRequester.LastExtractContent),
-                        new KeyValuePair<string, object>("userid", this.LogOnUserId),
+                        ex, 
+                        new KeyValuePair<string, object>("lastcontent", this.httpRequester.LastExtractContent), 
+                        new KeyValuePair<string, object>("userid", this.LogOnUserId), 
                         new KeyValuePair<string, object>("loginresponse", logInResponse));
                 }
             }
 
             return result;
         }
+
+        #endregion
     }
 }

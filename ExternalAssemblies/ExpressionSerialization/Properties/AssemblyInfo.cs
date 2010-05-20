@@ -1,5 +1,14 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -23,11 +32,9 @@ using System.Runtime.InteropServices;
 [assembly: Guid("e4b7bd30-828b-4d56-9c11-21473ec8e046")]
 
 // Version information for an assembly consists of the following four values:
-//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
-//
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

@@ -1,9 +1,13 @@
-﻿//-----------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="StdClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   This class can (should) be used as a base class for "client" classes. It already implements some of the aspects
+//   of such a client class, so you only need to implement the specific methods.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase
 {
     using System;
@@ -17,7 +21,6 @@ namespace Sem.Sync.SyncBase
     using Sem.GenericHelpers.Entities;
     using Sem.GenericHelpers.EventArgs;
     using Sem.GenericHelpers.Interfaces;
-
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Interfaces;
@@ -25,55 +28,51 @@ namespace Sem.Sync.SyncBase
 
     /// <summary>
     /// This class can (should) be used as a base class for "client" classes. It already implements some of the aspects 
-    /// of such a client class, so you only need to implement the specific methods.
+    ///   of such a client class, so you only need to implement the specific methods.
     /// </summary>
     public abstract class StdClient : SyncComponent, IClientBase
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="StdClient"/> class. This will also read the saved credentials 
-        /// for this Client type from the app.config file.
+        ///   Initializes a new instance of the <see cref = "StdClient" /> class. This will also read the saved credentials 
+        ///   for this Client type from the app.config file.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", 
+            "CA2214:DoNotCallOverridableMethodsInConstructors", 
+            Justification =
+                "The virtual method that is called is a property that always should just return a string value and does not need any class initialization."
+            )]
         protected StdClient()
         {
             this.LogOnUserId = this.GetConfigValue("LogonUserId");
             this.LogOnPassword = this.GetConfigValue("LogonPassword");
         }
 
+        #endregion
+
+        #region Events
+
         /// <summary>
-        /// Informs the subscriber of this event that we need some credentials.
+        ///   Informs the subscriber of this event that we need some credentials.
         /// </summary>
         public event EventHandler<QueryForLogOnCredentialsEventArgs> QueryForLogonCredentialsEvent;
 
-        /// <summary>
-        /// Gets or sets the domain part of the user credentials to access the target system
-        /// </summary>
-        public IUiInteraction UiDispatcher { get; set; }
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the domain part of the user credentials to access the target system
-        /// </summary>
-        public string LogOnDomain { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user id part of the user credentials to access the target system
-        /// </summary>
-        public string LogOnUserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the password part of the user credentials to access the target system
-        /// </summary>
-        public string LogOnPassword { get; set; }
-
-        /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        ///   Gets the user readable name of the client implementation. This name should
+        ///   be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public virtual string FriendlyClientName
         {
             get
             {
-                var attributes = this.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false) as ConnectorDescriptionAttribute[];
+                var attributes =
+                    this.GetType().GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false) as
+                    ConnectorDescriptionAttribute[];
                 if (attributes != null && attributes.Length > 0)
                 {
                     foreach (var attribute in attributes)
@@ -90,146 +89,44 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// virtual method that should be (optionally) implemented by the client to remove duplicate entities
+        ///   Gets or sets the domain part of the user credentials to access the target system
         /// </summary>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void RemoveDuplicates(string clientFolderName)
-        {
-        }
+        public string LogOnDomain { get; set; }
 
         /// <summary>
-        /// Deletes a list/collection of entities stecified by the identifiers.
+        ///   Gets or sets the password part of the user credentials to access the target system
         /// </summary>
-        /// <param name="elementsToDelete">
-        /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
-        /// only the id read from <see cref="StdElement.ExternalIdentifier"/> is needed to delete an element.
-        /// </param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
-        {
-        }
+        public string LogOnPassword { get; set; }
 
         /// <summary>
-        /// Overridable implementation of the process of retrieving the full list of elements. In the
-        /// default implementation this calls <see cref="BeforeStorageAccess"/> and 
-        /// <see cref="ReadFullList"/> to get the elements and performs sorting and logging calls. 
-        /// Override this method if you need additional control over the read process.
+        ///   Gets or sets the user id part of the user credentials to access the target system
         /// </summary>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <returns>The list with the newly added elements</returns>
-        public virtual List<StdElement> GetAll(string clientFolderName)
-        {
-            var result = new List<StdElement>();
-
-            LogProcessingEvent(Resources.uiReadingElements);
-            this.BeforeStorageAccess(clientFolderName);
-            result = this.ReadFullList(clientFolderName, result);
-
-            this.LogProcessingEvent(Resources.uiSorting);
-            result.Sort();
-            this.LogProcessingEvent(Resources.uiSorted);
-
-            return result;
-        }
+        public string LogOnUserId { get; set; }
 
         /// <summary>
-        /// Overridable implementation of the process of writing a single element. In the
-        /// default implementation this calls <see cref="GetAll"/>, WriteElement and 
-        /// <see cref="WriteRange"/> to write the element and performs logging calls. 
+        ///   Gets or sets the domain part of the user credentials to access the target system
         /// </summary>
-        /// <param name="element">the element to be added</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void AddItem(StdElement element, string clientFolderName)
-        {
-            this.LogProcessingEvent(element, Resources.uiAddingElement);
-            var data = this.GetAll(clientFolderName);
-            WriteElement(data, element);
-            this.WriteRange(data, clientFolderName);
-            this.LogProcessingEvent(element, Resources.uiElementAdded);
-        }
+        public IUiInteraction UiDispatcher { get; set; }
 
-        /// <summary>
-        /// Implementation of the process of writing a multiple elements by specifying a list of elements. 
-        /// If the elements are already in place, they will be overridden.
-        /// </summary>
-        /// <param name="elements">the elements to be added in a list of elements</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void AddRange(List<StdElement> elements, string clientFolderName)
-        {
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
-            var data = this.GetAll(clientFolderName);
-            WriteElementRange(data, elements);
-            this.WriteRange(data, clientFolderName);
-            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
-        }
+        #endregion
 
-        /// <summary>
-        /// Implementation of the process of writing a single element and skipping this process if this 
-        /// element is already present. If the element does not exist, it will be added. If it does exist
-        /// the element will not be added and not be overridden.
-        /// </summary>
-        /// <param name="element">the element to be added</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void MergeMissingItem(StdElement element, string clientFolderName)
-        {
-            LogProcessingEvent(element, Resources.uiAddingMissingElement);
-            var data = this.GetAll(clientFolderName);
-            var added = WriteElement(data, element, true);
-            this.WriteRange(data, clientFolderName);
-            LogProcessingEvent(element, added ? Resources.uiElementAdded : Resources.uiElementSkipped);
-        }
-
-        /// <summary>
-        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
-        /// skipping this process if an element is already present. Missing elements will be added, existing 
-        /// elements will not be altered.
-        /// </summary>
-        /// <param name="elements">the elements to be added in a list of elements</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void MergeMissingRange(List<StdElement> elements, string clientFolderName)
-        {
-            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
-            var data = this.GetAll(clientFolderName);
-            WriteElementRange(data, elements, true);
-            data.Sort();
-            this.WriteRange(data, clientFolderName);
-            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
-        }
-
-        /// <summary>
-        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
-        /// overwriting the elements if they do already exist. Missing elements will be added, existing 
-        /// elements will overwritten with the new elements.
-        /// </summary>
-        /// <param name="elements">the elements to be added in a list of elements</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public virtual void WriteRange(List<StdElement> elements, string clientFolderName)
-        {
-            LogProcessingEvent(Resources.uiWritingElements);
-            this.BeforeStorageAccess(clientFolderName);
-            this.WriteFullList(elements, clientFolderName, false);
-            ////LogProcessingEvent(Resources.uiWritingElementsDone);
-        }
+        #region Public Methods
 
         /// <summary>
         /// Normalizes the information inside the list. This includes removing leading and tailing white space etc.
-        /// This default implementation does simply call the NormalizeContent() method of the elements.
+        ///   This default implementation does simply call the NormalizeContent() method of the elements.
         /// </summary>
-        /// <param name="elements">the list of elements to be normalized</param>
-        /// <returns>a list of processed elements</returns>
+        /// <param name="elements">
+        /// the list of elements to be normalized
+        /// </param>
+        /// <returns>
+        /// a list of processed elements
+        /// </returns>
         public virtual List<StdElement> Normalize(List<StdElement> elements)
         {
             foreach (var element in elements)
             {
-                LogProcessingEvent(element, Resources.uiNormalizing);
+                this.LogProcessingEvent(element, Resources.uiNormalizing);
                 element.NormalizeContent();
             }
 
@@ -246,6 +143,180 @@ namespace Sem.Sync.SyncBase
         {
             return this.FriendlyClientName;
         }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IClientBase
+
+        /// <summary>
+        /// Overridable implementation of the process of writing a single element. In the
+        ///   default implementation this calls <see cref="GetAll"/>, WriteElement and 
+        ///   <see cref="WriteRange"/> to write the element and performs logging calls.
+        /// </summary>
+        /// <param name="element">
+        /// the element to be added
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void AddItem(StdElement element, string clientFolderName)
+        {
+            this.LogProcessingEvent(element, Resources.uiAddingElement);
+            var data = this.GetAll(clientFolderName);
+            WriteElement(data, element);
+            this.WriteRange(data, clientFolderName);
+            this.LogProcessingEvent(element, Resources.uiElementAdded);
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements. 
+        ///   If the elements are already in place, they will be overridden.
+        /// </summary>
+        /// <param name="elements">
+        /// the elements to be added in a list of elements
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.LogProcessingEvent(
+                string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            var data = this.GetAll(clientFolderName);
+            WriteElementRange(data, elements);
+            this.WriteRange(data, clientFolderName);
+
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
+        }
+
+        /// <summary>
+        /// Deletes a list/collection of entities stecified by the identifiers.
+        /// </summary>
+        /// <param name="elementsToDelete">
+        /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
+        ///   only the id read from <see cref="StdElement.ExternalIdentifier"/> is needed to delete an element.
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
+        {
+        }
+
+        /// <summary>
+        /// Overridable implementation of the process of retrieving the full list of elements. In the
+        ///   default implementation this calls <see cref="BeforeStorageAccess"/> and 
+        ///   <see cref="ReadFullList"/> to get the elements and performs sorting and logging calls. 
+        ///   Override this method if you need additional control over the read process.
+        /// </summary>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
+        public virtual List<StdElement> GetAll(string clientFolderName)
+        {
+            var result = new List<StdElement>();
+
+            this.LogProcessingEvent(Resources.uiReadingElements);
+            this.BeforeStorageAccess(clientFolderName);
+            result = this.ReadFullList(clientFolderName, result);
+
+            this.LogProcessingEvent(Resources.uiSorting);
+            result.Sort();
+            this.LogProcessingEvent(Resources.uiSorted);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a single element and skipping this process if this 
+        ///   element is already present. If the element does not exist, it will be added. If it does exist
+        ///   the element will not be added and not be overridden.
+        /// </summary>
+        /// <param name="element">
+        /// the element to be added
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void MergeMissingItem(StdElement element, string clientFolderName)
+        {
+            this.LogProcessingEvent(element, Resources.uiAddingMissingElement);
+            var data = this.GetAll(clientFolderName);
+            var added = WriteElement(data, element, true);
+            this.WriteRange(data, clientFolderName);
+            this.LogProcessingEvent(element, added ? Resources.uiElementAdded : Resources.uiElementSkipped);
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        ///   skipping this process if an element is already present. Missing elements will be added, existing 
+        ///   elements will not be altered.
+        /// </summary>
+        /// <param name="elements">
+        /// the elements to be added in a list of elements
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void MergeMissingRange(List<StdElement> elements, string clientFolderName)
+        {
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            var data = this.GetAll(clientFolderName);
+            WriteElementRange(data, elements, true);
+            data.Sort();
+            this.WriteRange(data, clientFolderName);
+
+            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
+        }
+
+        /// <summary>
+        /// virtual method that should be (optionally) implemented by the client to remove duplicate entities
+        /// </summary>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void RemoveDuplicates(string clientFolderName)
+        {
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        ///   overwriting the elements if they do already exist. Missing elements will be added, existing 
+        ///   elements will overwritten with the new elements.
+        /// </summary>
+        /// <param name="elements">
+        /// the elements to be added in a list of elements
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public virtual void WriteRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.LogProcessingEvent(Resources.uiWritingElements);
+            this.BeforeStorageAccess(clientFolderName);
+            this.WriteFullList(elements, clientFolderName, false);
+
+            ////LogProcessingEvent(Resources.uiWritingElementsDone);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Performs a cleanup of the elements of the list
@@ -276,14 +347,18 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Extracts the column definition file name of a multi line parameter
         /// </summary>
-        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
-        /// <returns> the file name of the column definition file</returns>
+        /// <param name="clientFolderName">
+        /// The client folder name that may contain two lines. 
+        /// </param>
+        /// <returns>
+        /// the file name of the column definition file
+        /// </returns>
         protected static string GetColumnDefinitionFileName(string clientFolderName)
         {
             var fileName = clientFolderName.Contains("\n") || clientFolderName.Contains("|")
-                       ? clientFolderName.Split(
-                             new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
-                       : string.Empty;
+                               ? clientFolderName.Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].
+                                     Trim()
+                               : string.Empty;
 
             if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
             {
@@ -296,8 +371,12 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Extracts the source/target file name of a multi line parameter
         /// </summary>
-        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
-        /// <returns> the source/target file name </returns>
+        /// <param name="clientFolderName">
+        /// The client folder name that may contain two lines. 
+        /// </param>
+        /// <returns>
+        /// the source/target file name 
+        /// </returns>
         protected static string GetFileName(string clientFolderName)
         {
             var fileName = clientFolderName;
@@ -310,139 +389,45 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
-        /// Credentials.
-        /// </summary>
-        /// <param name="message">the message to be displayed to the user</param>
-        protected void QueryForLogOnCredentials(string message)
-        {
-            if (this.UiDispatcher != null)
-            {
-                var logonCredentialRequest = new LogonCredentialRequest(this, message, message);
-                this.UiDispatcher.AskForLogOnCredentials(logonCredentialRequest);
-                return;
-            }
-
-            if (this.QueryForLogonCredentialsEvent == null)
-            {
-                return;
-            }
-
-            var args = new QueryForLogOnCredentialsEventArgs
-            {
-                MessageForUser = message,
-                LogonUserId = this.LogOnUserId,
-                LogonPassword = this.LogOnPassword,
-            };
-
-            this.QueryForLogonCredentialsEvent(this, args);
-        }
-
-        /// <summary>
-        /// Reads a value from the app config file, returns string.Empty if the value is not set.
-        /// This does concatenates the specified value name with the FriendlyClientName to make the 
-        /// name unique for this client type.
-        /// </summary>
-        /// <param name="configName">the name of the value</param>
-        /// <returns>the value read from the config file - string.Empty, if there is no such value.</returns>
-        protected string GetConfigValue(string configName)
-        {
-            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
-            return value ?? string.Empty;
-        }
-
-        /// <summary>
-        /// Reads a value from the app config file, returns string.Empty if the value is not set.
-        /// This does concatenates the specified value name with the FriendlyClientName to make the 
-        /// name unique for this client type.
-        /// </summary>
-        /// <param name="configName">the name of the value</param>
-        /// <returns>the value read from the config file - false, if there is no such value.</returns>
-        protected bool GetConfigValueBoolean(string configName)
-        {
-            return this.GetConfigValueBoolean(configName, false);
-        }
-
-        /// <summary>
-        /// Reads a value from the app config file, returns string.Empty if the value is not set.
-        /// This does concatenates the specified value name with the FriendlyClientName to make the 
-        /// name unique for this client type.
-        /// </summary>
-        /// <param name="configName">the name of the value</param>
-        /// <param name="defaultValue">the value to be returned if no value is specified in the config file</param>
-        /// <returns>the value read from the config file - false, if there is no such value.</returns>
-        protected bool GetConfigValueBoolean(string configName, bool defaultValue)
-        {
-            var value = this.GetConfigValue(configName);
-            if (string.IsNullOrEmpty(value))
-            {
-                return defaultValue;
-            }
-
-            // in case of a non-parsable value, TryParse returns "false", so we can simply return
-            // the AND operation of TryParse and the parsed return value (if there is one).
-            bool returnValue;
-            return bool.TryParse(value, out returnValue) && returnValue;
-        }
-
-        /// <summary>
-        /// Virtual read method for full list of elements - this is part of the minimum that needs to be overridden
-        /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
-        protected virtual List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
-        {
-            throw new NotImplementedException("Reading contacts has not been implemented for this connector.");
-        }
-
-        /// <summary>
-        /// Virtual write method for full list of elements - this is part of the minimum that needs to be overridden
-        /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
-        protected virtual void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
-        {
-            throw new NotImplementedException("Writing contacts has not been implemented for this connector.");
-        }
-
-        /// <summary>
         /// Virtual method that will be called just before accessing the target/source systems storage path. This
-        /// enables concrete client implementations to do checks and preparations needed to access the target system
+        ///   enables concrete client implementations to do checks and preparations needed to access the target system
         /// </summary>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
         protected virtual void BeforeStorageAccess(string clientFolderName)
         {
         }
 
         /// <summary>
         /// Read the column definition from the column definition file specified with the
-        /// parameter <paramref name="columnDefinitionFile"/>. If there is no such file 
-        /// specified, a list of such entries will be created by searching the object 
-        /// recursively for properties.
+        ///   parameter <paramref name="columnDefinitionFile"/>. If there is no such file 
+        ///   specified, a list of such entries will be created by searching the object 
+        ///   recursively for properties.
         /// </summary>
-        /// <param name="columnDefinitionFile"> the file that does contain a list of <see cref="ColumnDefinition"/> </param>
-        /// <param name="type">The type to create the definition for</param>
-        /// <returns> a list of <see cref="ColumnDefinition"/> to describe the columns </returns>
+        /// <param name="columnDefinitionFile">
+        /// the file that does contain a list of <see cref="ColumnDefinition"/> 
+        /// </param>
+        /// <param name="type">
+        /// The type to create the definition for
+        /// </param>
+        /// <returns>
+        /// a list of <see cref="ColumnDefinition"/> to describe the columns 
+        /// </returns>
         protected List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile, Type type)
         {
             var result = new List<ColumnDefinition>();
             var definitionFileName = columnDefinitionFile.Replace(".{write}", string.Empty);
             this.LogProcessingEvent("reading/building column definition");
 
-            if (
-                !string.IsNullOrEmpty(columnDefinitionFile)
-                && File.Exists(definitionFileName))
+            if (!string.IsNullOrEmpty(columnDefinitionFile) && File.Exists(definitionFileName))
             {
                 result = result.LoadFrom(definitionFileName, new[] { typeof(ColumnDefinition) });
                 if (result.LongCount() > 0)
                 {
-                    this.LogProcessingEvent("definition file with {0} columns used ({1}).", result.LongCount(), definitionFileName);
+                    this.LogProcessingEvent(
+                        "definition file with {0} columns used ({1}).", result.LongCount(), definitionFileName);
                     return result;
                 }
             }
@@ -460,10 +445,141 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        ///   This does concatenates the specified value name with the FriendlyClientName to make the 
+        ///   name unique for this client type.
+        /// </summary>
+        /// <param name="configName">
+        /// the name of the value
+        /// </param>
+        /// <returns>
+        /// the value read from the config file - string.Empty, if there is no such value.
+        /// </returns>
+        protected string GetConfigValue(string configName)
+        {
+            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
+            return value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        ///   This does concatenates the specified value name with the FriendlyClientName to make the 
+        ///   name unique for this client type.
+        /// </summary>
+        /// <param name="configName">
+        /// the name of the value
+        /// </param>
+        /// <returns>
+        /// the value read from the config file - false, if there is no such value.
+        /// </returns>
+        protected bool GetConfigValueBoolean(string configName)
+        {
+            return this.GetConfigValueBoolean(configName, false);
+        }
+
+        /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        ///   This does concatenates the specified value name with the FriendlyClientName to make the 
+        ///   name unique for this client type.
+        /// </summary>
+        /// <param name="configName">
+        /// the name of the value
+        /// </param>
+        /// <param name="defaultValue">
+        /// the value to be returned if no value is specified in the config file
+        /// </param>
+        /// <returns>
+        /// the value read from the config file - false, if there is no such value.
+        /// </returns>
+        protected bool GetConfigValueBoolean(string configName, bool defaultValue)
+        {
+            var value = this.GetConfigValue(configName);
+            if (string.IsNullOrEmpty(value))
+            {
+                return defaultValue;
+            }
+
+            // in case of a non-parsable value, TryParse returns "false", so we can simply return
+            // the AND operation of TryParse and the parsed return value (if there is one).
+            bool returnValue;
+            return bool.TryParse(value, out returnValue) && returnValue;
+        }
+
+        /// <summary>
+        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
+        ///   Credentials.
+        /// </summary>
+        /// <param name="message">
+        /// the message to be displayed to the user
+        /// </param>
+        protected void QueryForLogOnCredentials(string message)
+        {
+            if (this.UiDispatcher != null)
+            {
+                var logonCredentialRequest = new LogonCredentialRequest(this, message, message);
+                this.UiDispatcher.AskForLogOnCredentials(logonCredentialRequest);
+                return;
+            }
+
+            if (this.QueryForLogonCredentialsEvent == null)
+            {
+                return;
+            }
+
+            var args = new QueryForLogOnCredentialsEventArgs
+                {
+                   MessageForUser = message, LogonUserId = this.LogOnUserId, LogonPassword = this.LogOnPassword, 
+                };
+
+            this.QueryForLogonCredentialsEvent(this, args);
+        }
+
+        /// <summary>
+        /// Virtual read method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="clientFolderName">
+        /// the information from where inside the source the elements should be read - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="result">
+        /// The list of elements that should get the elements. The elements should be added to
+        ///   the list instead of replacing it.
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
+        protected virtual List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        {
+            throw new NotImplementedException("Reading contacts has not been implemented for this connector.");
+        }
+
+        /// <summary>
+        /// Virtual write method for full list of elements - this is part of the minimum that needs to be overridden
+        /// </summary>
+        /// <param name="elements">
+        /// the list of elements that should be written to the target system.
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information to where inside the source the elements should be written - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// specifies whether existing elements should be updated or simply left as they are
+        /// </param>
+        protected virtual void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            throw new NotImplementedException("Writing contacts has not been implemented for this connector.");
+        }
+
+        /// <summary>
         /// Writes a single element to the list of elements; overwrites an existing element with the same id
         /// </summary>
-        /// <param name="list">the list of elements the new element should be added to</param>
-        /// <param name="element">the new element that should be added</param>
+        /// <param name="list">
+        /// the list of elements the new element should be added to
+        /// </param>
+        /// <param name="element">
+        /// the new element that should be added
+        /// </param>
         private static void WriteElement(ICollection<StdElement> list, StdElement element)
         {
             WriteElement(list, element, false);
@@ -472,10 +588,18 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Writes a single element to the list of elements
         /// </summary>
-        /// <param name="list">the list of elements the new element should be added to</param>
-        /// <param name="element">the new element that should be added</param>
-        /// <param name="skipIfExisting">if false: overwrites an existing element with the same id</param>
-        /// <returns>true if writing was successfull, false if the entry has been skipped</returns>
+        /// <param name="list">
+        /// the list of elements the new element should be added to
+        /// </param>
+        /// <param name="element">
+        /// the new element that should be added
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// if false: overwrites an existing element with the same id
+        /// </param>
+        /// <returns>
+        /// true if writing was successfull, false if the entry has been skipped
+        /// </returns>
         private static bool WriteElement(ICollection<StdElement> list, StdElement element, bool skipIfExisting)
         {
             var asContact = element as StdContact;
@@ -485,16 +609,12 @@ namespace Sem.Sync.SyncBase
             {
                 listEntry = (from entry in list
                              where
-                             entry.Id == element.Id
-                             || entry.ExternalIdentifier.Equals(asContact.ExternalIdentifier)
+                                 entry.Id == element.Id || entry.ExternalIdentifier.Equals(asContact.ExternalIdentifier)
                              select entry).FirstOrDefault();
             }
             else
             {
-                listEntry = (from entry in list
-                             where
-                             entry.Id == element.Id
-                             select entry).FirstOrDefault();
+                listEntry = (from entry in list where entry.Id == element.Id select entry).FirstOrDefault();
             }
 
             if (listEntry != null)
@@ -514,8 +634,12 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Writes a list of elements to the list of elements; overwrites an existing element with the same id
         /// </summary>
-        /// <param name="list">the list of elements the new element should be added to</param>
-        /// <param name="elements">the new elements that should be added</param>
+        /// <param name="list">
+        /// the list of elements the new element should be added to
+        /// </param>
+        /// <param name="elements">
+        /// the new elements that should be added
+        /// </param>
         private static void WriteElementRange(ICollection<StdElement> list, IEnumerable<StdElement> elements)
         {
             WriteElementRange(list, elements, false);
@@ -524,15 +648,24 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Writes a list of elements to the list of elements
         /// </summary>
-        /// <param name="list">the list of elements the new element should be added to</param>
-        /// <param name="elements">the new elements that should be added</param>
-        /// <param name="skipIfExisting">if false: overwrites an existing element with the same id</param>
-        private static void WriteElementRange(ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting)
+        /// <param name="list">
+        /// the list of elements the new element should be added to
+        /// </param>
+        /// <param name="elements">
+        /// the new elements that should be added
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// if false: overwrites an existing element with the same id
+        /// </param>
+        private static void WriteElementRange(
+            ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting)
         {
             foreach (var element in elements)
             {
                 WriteElement(list, element, skipIfExisting);
             }
         }
+
+        #endregion
     }
 }

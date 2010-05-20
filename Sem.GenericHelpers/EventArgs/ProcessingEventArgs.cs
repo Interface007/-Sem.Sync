@@ -1,9 +1,12 @@
-//-----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProcessingEventArgs.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   Event argument while processing some work
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.GenericHelpers.EventArgs
 {
     /// <summary>
@@ -11,8 +14,10 @@ namespace Sem.GenericHelpers.EventArgs
     /// </summary>
     public class ProcessingEventArgs : System.EventArgs
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessingEventArgs"/> class.
+        ///   Initializes a new instance of the <see cref = "ProcessingEventArgs" /> class.
         /// </summary>
         public ProcessingEventArgs()
         {
@@ -29,19 +34,25 @@ namespace Sem.GenericHelpers.EventArgs
             this.Message = message;
         }
 
-        /// <summary>
-        /// Gets or sets the item that is related to the current work.
-        /// </summary>
-        public object Item { get; set; }
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether the engine should cancel current execution.
+        ///   Gets or sets a value indicating whether the engine should cancel current execution.
         /// </summary>
         public bool Cancel { get; set; }
 
         /// <summary>
-        /// Gets or sets the message describing the event.
+        ///   Gets or sets the item that is related to the current work.
+        /// </summary>
+        public object Item { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the message describing the event.
         /// </summary>
         public string Message { get; set; }
+
+        #endregion
     }
 }

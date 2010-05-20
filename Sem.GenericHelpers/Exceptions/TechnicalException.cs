@@ -18,15 +18,17 @@ namespace Sem.GenericHelpers.Exceptions
 
     /// <summary>
     /// Technical exception class. This class provides information for the exception handling class <see cref="ExceptionHandler"/>
-    /// including access to entities that might help to reproduce and fix the problem. Always add the causing exception as
-    /// the inner exception in order to provide information about the root cause of this exception. Keep in mind that 
-    /// <see cref="RelatedEntities"/> will be serialized and may contain business information.
+    ///   including access to entities that might help to reproduce and fix the problem. Always add the causing exception as
+    ///   the inner exception in order to provide information about the root cause of this exception. Keep in mind that 
+    ///   <see cref="RelatedEntities"/> will be serialized and may contain business information.
     /// </summary>
     [Serializable]
     public class TechnicalException : Exception
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="TechnicalException"/> class.
+        ///   Initializes a new instance of the <see cref = "TechnicalException" /> class.
         /// </summary>
         public TechnicalException()
         {
@@ -36,7 +38,9 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message"> The message. </param>
+        /// <param name="message">
+        /// The message. 
+        /// </param>
         public TechnicalException(string message)
             : base(message)
         {
@@ -45,8 +49,12 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message"> The message. </param>
-        /// <param name="innerException"> The inner exception. </param>
+        /// <param name="message">
+        /// The message. 
+        /// </param>
+        /// <param name="innerException">
+        /// The inner exception. 
+        /// </param>
         public TechnicalException(string message, Exception innerException)
             : base(message, innerException)
         {
@@ -55,10 +63,17 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message"> The message of the exception. </param>
-        /// <param name="innerException"> The inner (causing) exception. </param>
-        /// <param name="relatedEntities"> The related entities - add entitries to the exception that might help reproduce the exception. </param>
-        public TechnicalException(string message, Exception innerException, params KeyValuePair<string, object>[] relatedEntities)
+        /// <param name="message">
+        /// The message of the exception. 
+        /// </param>
+        /// <param name="innerException">
+        /// The inner (causing) exception. 
+        /// </param>
+        /// <param name="relatedEntities">
+        /// The related entities - add entitries to the exception that might help reproduce the exception. 
+        /// </param>
+        public TechnicalException(
+            string message, Exception innerException, params KeyValuePair<string, object>[] relatedEntities)
             : base(message, innerException)
         {
             this.RelatedEntities = new List<KeyValuePair<string, object>>(relatedEntities);
@@ -67,16 +82,26 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="info"> The serialization info. </param>
-        /// <param name="context"> The streaming context. </param>
+        /// <param name="info">
+        /// The serialization info. 
+        /// </param>
+        /// <param name="context">
+        /// The streaming context. 
+        /// </param>
         protected TechnicalException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-        
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets exception related entities that should be logged.
+        ///   Gets exception related entities that should be logged.
         /// </summary>
         public List<KeyValuePair<string, object>> RelatedEntities { get; private set; }
+
+        #endregion
     }
 }

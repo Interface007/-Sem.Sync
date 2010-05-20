@@ -12,7 +12,7 @@ namespace Sem.Sync.Cloud
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
-    using SyncBase;
+    using Sem.Sync.SyncBase;
 
     /// <summary>
     /// The container structure to transport information between client and cloud
@@ -20,16 +20,20 @@ namespace Sem.Sync.Cloud
     [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public class ContactListContainer : ResultBase
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the list of StdContact elements.
+        ///   Gets or sets the list of StdContact elements.
         /// </summary>
         [DataMember]
         public List<StdContact> ContactList { get; set; }
 
         /// <summary>
-        /// Gets or sets the authentiaction credentials.
+        ///   Gets or sets the authentiaction credentials.
         /// </summary>
         [DataMember]
         public CloudCredentials Credentials { get; set; }
+
+        #endregion
     }
 }

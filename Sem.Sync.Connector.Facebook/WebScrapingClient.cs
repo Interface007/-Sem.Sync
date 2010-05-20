@@ -1,10 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="WebScrapingClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ContactClient type.
+//   WebScaping implementation of a FaceBook StdClient
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,45 +13,49 @@ namespace Sem.Sync.Connector.Facebook
     using System.Globalization;
     using System.Text.RegularExpressions;
 
-    using GenericHelpers;
-
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.DetailData;
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// WebScaping implementation of a FaceBook StdClient
     /// </summary>
-    [ClientStoragePathDescription(
-        Irrelevant = true,
-        ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(
-        DisplayName = "Facebook (WS)",
-        Internal = false,
-        CanReadContacts = true,
-        CanWriteContacts = false,
-        NeedsCredentials = true,
-        NeedsCredentialsDomain = false,
+    [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
+    [ConnectorDescription(DisplayName = "Facebook (WS)", Internal = false, CanReadContacts = true, 
+        CanWriteContacts = false, NeedsCredentials = true, NeedsCredentialsDomain = false, 
         MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class WebScrapingClient : WebScrapingBaseClient
     {
+        #region Constants and Fields
+
         /// <summary>
-        /// magic secret for facebook
+        ///   magic secret for facebook
         /// </summary>
         private readonly string facebookLsd;
 
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebScrapingClient"/> class.
+        ///   Initializes a new instance of the <see cref = "WebScrapingClient" /> class.
         /// </summary>
         public WebScrapingClient()
             : base("http://www.facebook.com/")
         {
             var content = this.HttpRequester.GetContent(string.Empty);
-            this.facebookLsd = Regex.Match(content, @"name=""lsd"" value=""(?<lsd>.*?)"" autocomplete=""off""").Groups["lsd"].ToString();
+            this.facebookLsd =
+                Regex.Match(content, @"name=""lsd"" value=""(?<lsd>.*?)"" autocomplete=""off""").Groups["lsd"].ToString(
+                    );
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets the WebSideParameters which defines how to deal with the site.
+        ///   Gets the WebSideParameters which defines how to deal with the site.
         /// </summary>
         protected override WebSideParameters WebSideParameters
         {
@@ -60,30 +63,44 @@ namespace Sem.Sync.Connector.Facebook
             {
                 return new WebSideParameters
                     {
-                        ImagePlaceholderUrl = "silhouette.gif",
-                        HttpDetectionStringLogOnNeeded = @"""errorSummary"":""Not Logged In""",
-                        HttpUrlContactDownload = "/profile.php?id={0}",
-                        ProfileIdentifierType = ProfileIdentifierType.FacebookProfileId,
-                        HttpUrlLogOnRequest = "https://login.facebook.com/login.php?login_attempt=1",
-                        HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1",
-                        HttpDetectionStringLogOnFailed = "no such string available",
-                        ExtractorProfilePictureUrl = @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""",
-                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*",
-                        HttpDataLogOnRequest = "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" + this.facebookLsd,
+                        ImagePlaceholderUrl = "silhouette.gif", 
+                        HttpDetectionStringLogOnNeeded = @"""errorSummary"":""Not Logged In""", 
+                        HttpUrlContactDownload = "/profile.php?id={0}", 
+                        ProfileIdentifierType = ProfileIdentifierType.FacebookProfileId, 
+                        HttpUrlLogOnRequest = "https://login.facebook.com/login.php?login_attempt=1", 
+                        HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1", 
+                        HttpDetectionStringLogOnFailed = "no such string available", 
+                        ExtractorProfilePictureUrl =
+                            @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""", 
+                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*", 
+                        HttpDataLogOnRequest =
+                            "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" +
+                            this.facebookLsd, 
                     };
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Converts downloaded data into a StdContact structure.
         /// </summary>
-        /// <param name="contactUrl"> The contact url. </param>
-        /// <param name="content"> The content. </param>
-        /// <returns> a new StdClient created from the data provided </returns>
+        /// <param name="contactUrl">
+        /// The contact url. 
+        /// </param>
+        /// <param name="content">
+        /// The content. 
+        /// </param>
+        /// <returns>
+        /// a new StdClient created from the data provided 
+        /// </returns>
         protected override StdContact ConvertToStdContact(string contactUrl, string content)
         {
             var result = new StdContact();
-            var values = Regex.Matches(content, @"\<h1 id=\\""profile_name\\"">(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
+            var values = Regex.Matches(
+                content, @"\<h1 id=\\""profile_name\\"">(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
 
             if (values.Count == 0 || values[0].Groups.Count <= 1)
             {
@@ -101,15 +118,15 @@ namespace Sem.Sync.Connector.Facebook
             }
 
             values = Regex.Matches(
-                content,
-                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
+                content, 
+                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>", 
                 RegexOptions.Singleline);
 
             if (values.Count == 0)
             {
                 values = Regex.Matches(
-                    content,
-                    @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>",
+                    content, 
+                    @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>", 
                     RegexOptions.Singleline);
             }
 
@@ -126,7 +143,7 @@ namespace Sem.Sync.Connector.Facebook
                         DateTime dtvalue;
                         if (DateTime.TryParse(
                             value, 
-                            CultureInfo.CurrentCulture,
+                            CultureInfo.CurrentCulture, 
                             DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, 
                             out dtvalue))
                         {
@@ -163,22 +180,27 @@ namespace Sem.Sync.Connector.Facebook
                         break;
 
                     case "networks":
+
                         // TODO: add this to the StdContact object model - contains a separated list of freetext
                         break;
 
                     case "political_views":
+
                         // TODO: add this to the StdContact object model
                         break;
 
                     case "religious_views":
+
                         // TODO: add this to the StdContact object model
                         break;
 
                     case "siblings":
+
                         // TODO: add this to the StdContact object model - contains a name
                         break;
 
                     case "current_city":
+
                         // this describes the city the person is currently located (different to the home town) - 
                         // TODO: we might find a usefull way to deal with it.
                         break;
@@ -210,9 +232,15 @@ namespace Sem.Sync.Connector.Facebook
         /// <summary>
         /// Determines the ralationship status by interpreting the value from facebook
         /// </summary>
-        /// <param name="key"> The key of the status. </param>
-        /// <param name="value"> The value of the status. </param>
-        /// <returns> the relationship status </returns>
+        /// <param name="key">
+        /// The key of the status. 
+        /// </param>
+        /// <param name="value">
+        /// The value of the status. 
+        /// </param>
+        /// <returns>
+        /// the relationship status 
+        /// </returns>
         private static RelationshipStatus GetRelationshipStatus(string key, string value)
         {
             var status = RelationshipStatus.Undefined;
@@ -243,8 +271,12 @@ namespace Sem.Sync.Connector.Facebook
         /// <summary>
         /// Extracts the value from a match.
         /// </summary>
-        /// <param name="match"> The match containing the value. </param>
-        /// <returns> the extracted value </returns>
+        /// <param name="match">
+        /// The match containing the value. 
+        /// </param>
+        /// <returns>
+        /// the extracted value 
+        /// </returns>
         private static string GetValue(Match match)
         {
             var value = match.Groups["value"].ToString();
@@ -259,7 +291,7 @@ namespace Sem.Sync.Connector.Facebook
             }
 
             value = value.Replace("\\/", "/");
-            
+
             if (value.Contains("\\u"))
             {
                 var code = value.Substring(value.IndexOf("\\u", StringComparison.OrdinalIgnoreCase) + 2, 4);
@@ -271,5 +303,7 @@ namespace Sem.Sync.Connector.Facebook
 
             return value;
         }
+
+        #endregion
     }
 }

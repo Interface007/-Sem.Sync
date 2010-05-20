@@ -14,24 +14,30 @@ namespace Sem.Sync.SharedUI.WinForms.Controls
     using System.IO;
     using System.Windows.Forms;
 
-    using SyncBase;
-    using SyncBase.DetailData;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// defines a user control representing a contact entry as a business card
     /// </summary>
     public partial class ContactCardView : UserControl
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactCardView"/> class.
+        ///   Initializes a new instance of the <see cref = "ContactCardView" /> class.
         /// </summary>
         public ContactCardView()
         {
             this.InitializeComponent();
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Sets the contact information to be shown
+        ///   Sets the contact information to be shown
         /// </summary>
         public StdContact Contact
         {
@@ -62,5 +68,7 @@ namespace Sem.Sync.SharedUI.WinForms.Controls
                 this.BusinessAddress.Address = contact.BusinessAddressPrimary;
             }
         }
+
+        #endregion
     }
 }

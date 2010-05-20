@@ -6,6 +6,7 @@
 //   status of a calendar entry or a person
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase
 {
     /// <summary>
@@ -14,28 +15,28 @@ namespace Sem.Sync.SyncBase
     public enum BusyStatus
     {
         /// <summary>
-        /// the status is not known
+        ///   the status is not known
         /// </summary>
-        Undefined = 0,
+        Undefined = 0, 
 
         /// <summary>
-        /// the calendar item is not blocking other activities
+        ///   the calendar item is not blocking other activities
         /// </summary>
-        Free = 1,
+        Free = 1, 
 
         /// <summary>
-        /// the calendar item is tentative
+        ///   the calendar item is tentative
         /// </summary>
-        Tentative = 2,
+        Tentative = 2, 
 
         /// <summary>
-        /// the person is blocked from other activities (not accepting new tasks)
+        ///   the person is blocked from other activities (not accepting new tasks)
         /// </summary>
-        Busy = 3,
+        Busy = 3, 
 
         /// <summary>
-        /// the person is out of office (not event able to accept new tasks in the office)
+        ///   the person is out of office (not event able to accept new tasks in the office)
         /// </summary>
-        OutOfOffice = 4,
+        OutOfOffice = 4, 
     }
 }

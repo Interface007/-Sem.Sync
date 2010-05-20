@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Collections;
-using System.Xml.Linq;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryService.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The i query service.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ExpressionSerialization
 {
+    /// <summary>
+    /// The i query service.
+    /// </summary>
     public interface IQueryService
     {
     }
-   
 }

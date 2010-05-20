@@ -1,7 +1,17 @@
-﻿namespace Sem.Sync.Test
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PersonNameClassTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Summary description for PersonNameClassTest
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SyncBase.DetailData;
+
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Summary description for PersonNameClassTest
@@ -9,24 +19,21 @@
     [TestClass]
     public class PersonNameClassTest
     {
-        private TestContext testContextInstance;
+        #region Properties
+
+        ///<summary>
+        ///  Gets or sets the test context which provides
+        ///  information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return this.testContextInstance;
-            }
-            set
-            {
-                this.testContextInstance = value;
-            }
-        }
-
+        /// The constructor test.
+        /// </summary>
         [TestMethod]
         public void ConstructorTest()
         {
@@ -78,6 +85,9 @@
             Assert.AreEqual("Matzen (Dr.), Sven Erik", name.ToString());
         }
 
+        /// <summary>
+        /// The to string test.
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -98,5 +108,7 @@
             name = new PersonName("Matzen (Dr.), Sven Erik");
             Assert.AreEqual("Matzen (Dr.), Sven Erik", name.ToString());
         }
+
+        #endregion
     }
 }

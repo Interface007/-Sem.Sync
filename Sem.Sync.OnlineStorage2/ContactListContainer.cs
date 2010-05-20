@@ -17,16 +17,26 @@ namespace Sem.Sync.OnlineStorage2
     [DataContract]
     public class ContactListContainer
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the list of contacts.
+        ///   Gets or sets the list of contacts.
         /// </summary>
         [DataMember]
         public string ContactList { get; set; }
 
+        /// <summary>
+        /// Gets or sets FirstElementIndex.
+        /// </summary>
+        [DataMember]
+        public int FirstElementIndex { get; set; }
+
+        /// <summary>
+        /// Gets or sets TotalElements.
+        /// </summary>
         [DataMember]
         public int TotalElements { get; set; }
 
-        [DataMember]
-        public int FirstElementIndex { get; set; }
+        #endregion
     }
 }

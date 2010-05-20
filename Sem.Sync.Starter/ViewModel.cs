@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ViewModel type.
+//   View of the model to interact with
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

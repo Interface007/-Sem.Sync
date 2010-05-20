@@ -1,14 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1" 
-				xmlns:MSHelp="http://msdn.microsoft.com/mshelp"
-        xmlns:mshelp="http://msdn.microsoft.com/mshelp"
-				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-				xmlns:xlink="http://www.w3.org/1999/xlink"
-        xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-        >
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 
   <msxsl:script language="C#" implements-prefix="ddue">
     <msxsl:using namespace="System" />
-    <msxsl:using namespace="System.Globalization"/>
+    <msxsl:using namespace="System.Globalization" />
     <msxsl:using namespace="System.Text.RegularExpressions" />
     <![CDATA[
 			public static string ToUpper(string id) {
@@ -80,7 +74,7 @@
   <xsl:template match="ddue:relatedTopics" mode="seeAlso">
     <xsl:param name="autoGenerateLinks" select="'false'" />
 
-    <xsl:if test="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $HowTo or ddue:ToUpper(@topicType_id) = $Walkthrough or ddue:ToUpper(@topicType_id) = $Sample or ddue:ToUpper(@topicType_id) = $Troubleshooting) and ddue:GuidChecker(@xlink:href) = 'True']" >
+    <xsl:if test="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $HowTo or ddue:ToUpper(@topicType_id) = $Walkthrough or ddue:ToUpper(@topicType_id) = $Sample or ddue:ToUpper(@topicType_id) = $Troubleshooting) and ddue:GuidChecker(@xlink:href) = 'True']">
       <xsl:call-template name="seeAlsoSubSection">
         <xsl:with-param name="headerGroup" select="'SeeAlsoTasks'" />
         <xsl:with-param name="members" select="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $HowTo or ddue:ToUpper(@topicType_id) = $Walkthrough or ddue:ToUpper(@topicType_id) = $Sample or ddue:ToUpper(@topicType_id) = $Troubleshooting) and ddue:GuidChecker(@xlink:href) = 'True']" />
@@ -91,7 +85,7 @@
     <xsl:if test="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $Conceptual or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewArchitecture or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewCodeDirectory or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewScenarios or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewTechnologySummary) and ddue:GuidChecker(@xlink:href) = 'True']">
       <xsl:call-template name="seeAlsoSubSection">
         <xsl:with-param name="headerGroup" select="'SeeAlsoConcepts'" />
-        <xsl:with-param name="members" select="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $Conceptual or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewArchitecture or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewCodeDirectory or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewScenarios or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewTechnologySummary) and ddue:GuidChecker(@xlink:href) = 'True']" /> 
+        <xsl:with-param name="members" select="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) = $Conceptual or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewArchitecture or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewCodeDirectory or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewScenarios or ddue:ToUpper(@topicType_id) = $SDKTechnologyOverviewTechnologySummary) and ddue:GuidChecker(@xlink:href) = 'True']" />
         <xsl:with-param name="autoGenerateLinks" select="'false'" />
       </xsl:call-template>
     </xsl:if>
@@ -111,18 +105,18 @@
                   ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewScenarios and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewTechnologySummary and ddue:ToUpper(@topicType_id) != $ReferenceWithoutSyntax and ddue:ToUpper(@topicType_id) != $ReferenceWithSyntax and ddue:ToUpper(@topicType_id) != $XMLReference and ddue:ToUpper(@topicType_id) != $ErrorMessage and ddue:ToUpper(@topicType_id) != $UIReference and 
                   ddue:GuidChecker(@xlink:href) = 'True') or (not(@topicType_id) and ddue:GuidChecker(@xlink:href) = 'True')] or
                   ddue:dynamicLink[@type = 'inline'] or
-                  ddue:externalLink" >
+                  ddue:externalLink">
       <xsl:call-template name="seeAlsoSubSection">
         <xsl:with-param name="headerGroup" select="'SeeAlsoOtherResources'" />
-          <xsl:with-param name="members" select="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) != $HowTo and ddue:ToUpper(@topicType_id) != $Walkthrough and ddue:ToUpper(@topicType_id) != $Sample and ddue:ToUpper(@topicType_id) != $Troubleshooting and ddue:ToUpper(@topicType_id) != $Conceptual and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewArchitecture and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewCodeDirectory and 
+        <xsl:with-param name="members" select="(ddue:link | ddue:legacyLink)[(ddue:ToUpper(@topicType_id) != $HowTo and ddue:ToUpper(@topicType_id) != $Walkthrough and ddue:ToUpper(@topicType_id) != $Sample and ddue:ToUpper(@topicType_id) != $Troubleshooting and ddue:ToUpper(@topicType_id) != $Conceptual and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewArchitecture and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewCodeDirectory and 
                                                  ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewScenarios and ddue:ToUpper(@topicType_id) != $SDKTechnologyOverviewTechnologySummary and ddue:ToUpper(@topicType_id) != $ReferenceWithoutSyntax and ddue:ToUpper(@topicType_id) != $ReferenceWithSyntax and ddue:ToUpper(@topicType_id) != $XMLReference and ddue:ToUpper(@topicType_id) != $ErrorMessage and ddue:ToUpper(@topicType_id) != $UIReference and 
                                                  ddue:GuidChecker(@xlink:href) = 'True') or (not(@topicType_id) and ddue:GuidChecker(@xlink:href) = 'True')] |
                                                  ddue:dynamicLink[@type = 'inline'] |
                                                  ddue:externalLink" />
-          <xsl:with-param name="autoGenerateLinks" select="'false'" />
-        </xsl:call-template>
-      </xsl:if>
-      
+        <xsl:with-param name="autoGenerateLinks" select="'false'" />
+      </xsl:call-template>
+    </xsl:if>
+
   </xsl:template>
 
   <xsl:template name="seeAlsoSubSection">
@@ -131,11 +125,11 @@
     <xsl:param name="autoGenerateLinks" />
     <xsl:call-template name="subSection">
       <xsl:with-param name="title">
-        <include item="{$headerGroup}"/>
+        <include item="{$headerGroup}" />
       </xsl:with-param>
       <xsl:with-param name="content">
         <xsl:if test="$autoGenerateLinks='true'">
-          <xsl:call-template name="autogenSeeAlsoLinks"/>
+          <xsl:call-template name="autogenSeeAlsoLinks" />
         </xsl:if>
         <xsl:for-each select="$members">
           <div class="seeAlsoStyle">

@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ContactClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ContactClient type.
+//   connector to Active Directory via LDAP. Use the clientFolderName parameter of the <see cref="ReadFullList" /> method
+//   to specify an LDAP query that contains the users to be read (writing is notg implemented).
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,29 +18,34 @@ namespace Sem.Sync.Connector.ActiveDirectory
     using System.Linq;
     using System.Text;
 
-    using GenericHelpers;
-
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.DetailData;
-    using SyncBase.Helpers;
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// connector to Active Directory via LDAP. Use the clientFolderName parameter of the <see cref="ReadFullList"/> method
-    /// to specify an LDAP query that contains the users to be read (writing is notg implemented).
+    ///   to specify an LDAP query that contains the users to be read (writing is notg implemented).
     /// </summary>
     [ClientStoragePathDescription(ReferenceType = ClientPathType.Undefined, Mandatory = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true, 
         DisplayName = "Active Directory", MatchingIdentifier = ProfileIdentifierType.ActiveDirectoryId)]
     public class ContactClient : StdClient
     {
+        #region Constants and Fields
+
         /// <summary>
-        /// registry path to store credentials
+        ///   registry path to store credentials
         /// </summary>
         private const string RegBasePath = "software\\Sem.Sync\\ActiveDirectoryConnector";
 
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactClient"/> class.
+        ///   Initializes a new instance of the <see cref = "ContactClient" /> class.
         /// </summary>
         public ContactClient()
         {
@@ -49,37 +54,58 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactClient"/> class and initializes the
-        /// path to save the data to.
+        ///   path to save the data to.
         /// </summary>
-        /// <param name="dumpDataToFolder"> The folder that should get the data. </param>
+        /// <param name="dumpDataToFolder">
+        /// The folder that should get the data. 
+        /// </param>
         public ContactClient(string dumpDataToFolder)
         {
             this.DumpPath = dumpDataToFolder;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets the user friendly name of this connector
+        ///   Gets the user friendly name of this connector
         /// </summary>
         public override string FriendlyClientName
         {
-            get { return "Active-Directory-Connector"; }
+            get
+            {
+                return "Active-Directory-Connector";
+            }
         }
 
         /// <summary>
-        /// Gets or sets path to be used to save the data (might be null or empty).
+        ///   Gets or sets path to be used to save the data (might be null or empty).
         /// </summary>
         private string DumpPath { get; set; }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Reads a full list depending on the <paramref name="clientFolderName"/> parameter. The parameter
-        /// should contain a valid LDAP query that returns users or groups with users. The following sample
-        /// selects all users that are directly or indirectly member of the AD group MyGroupName inside the 
-        /// OU Unit of domain company.de
-        /// <code>(memberOf=CN=MyGroupName,OU=Unit,DC=company,DC=de)</code>
+        ///   should contain a valid LDAP query that returns users or groups with users. The following sample
+        ///   selects all users that are directly or indirectly member of the AD group MyGroupName inside the 
+        ///   OU Unit of domain company.de
+        ///   <code>
+        /// (memberOf=CN=MyGroupName,OU=Unit,DC=company,DC=de)
+        ///   </code>
         /// </summary>
-        /// <param name="clientFolderName">a filter expression for the active directory query</param>
-        /// <param name="result">a list to add the resulting contacts</param>
-        /// <returns>the list with added contacts</returns>
+        /// <param name="clientFolderName">
+        /// a filter expression for the active directory query
+        /// </param>
+        /// <param name="result">
+        /// a list to add the resulting contacts
+        /// </param>
+        /// <returns>
+        /// the list with added contacts
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             while (true)
@@ -118,7 +144,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                         this.QueryForLogOnCredentials("LDAP needs credentials for " + domainController);
                         continue;
                     }
-                    
+
                     this.LogException(ex);
                     break;
                 }
@@ -135,111 +161,69 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <summary>
         /// Extract contact information from an Active Directory entry
         /// </summary>
-        /// <param name="searchItem">the Active Directory entry to process</param>
-        /// <returns>a standard contact entity</returns>
+        /// <param name="searchItem">
+        /// the Active Directory entry to process
+        /// </param>
+        /// <returns>
+        /// a standard contact entity
+        /// </returns>
         private static StdContact ConvertToContact(SearchResult searchItem)
         {
             var result = new StdContact
-            {
-                Id = Guid.NewGuid(),
-                InternalSyncData = new SyncData
                 {
-                    DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"),
-                    DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"),
-                },
-                BusinessAddressPrimary = new AddressDetail
-                {
-                    CountryName = GetPropString(searchItem.Properties, "co"),
-                    StateName = GetPropString(searchItem.Properties, "st"),
-                    PostalCode = GetPropString(searchItem.Properties, "postalcode"),
-                    CityName = GetPropString(searchItem.Properties, "l"),
-                    StreetName = GetPropString(searchItem.Properties, "streetaddress"),
-                    Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")),
-                    Room = GetPropString(searchItem.Properties, "physicaldeliveryofficename", "roomnumber"),
-                },
-                BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")),
-                BusinessPosition = GetPropString(searchItem.Properties, "title"),
-                BusinessCompanyName = GetPropString(searchItem.Properties, "company"),
-                BusinessDepartment = GetPropString(searchItem.Properties, "department"),
-                BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"),
+                    Id = Guid.NewGuid(), 
+                    InternalSyncData =
+                        new SyncData
+                            {
+                                DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"), 
+                                DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"), 
+                            }, 
+                    BusinessAddressPrimary =
+                        new AddressDetail
+                            {
+                                CountryName = GetPropString(searchItem.Properties, "co"), 
+                                StateName = GetPropString(searchItem.Properties, "st"), 
+                                PostalCode = GetPropString(searchItem.Properties, "postalcode"), 
+                                CityName = GetPropString(searchItem.Properties, "l"), 
+                                StreetName = GetPropString(searchItem.Properties, "streetaddress"), 
+                                Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")), 
+                                Room = GetPropString(searchItem.Properties, "physicaldeliveryofficename", "roomnumber"), 
+                            }, 
+                    BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")), 
+                    BusinessPosition = GetPropString(searchItem.Properties, "title"), 
+                    BusinessCompanyName = GetPropString(searchItem.Properties, "company"), 
+                    BusinessDepartment = GetPropString(searchItem.Properties, "department"), 
+                    BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"), 
+                    PersonalAddressPrimary =
+                        new AddressDetail
+                            {
+                               Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")), 
+                            }, 
+                    Name =
+                        new PersonName
+                            {
+                                FirstName = GetPropString(searchItem.Properties, "givenname"), 
+                                LastName = GetPropString(searchItem.Properties, "sn"), 
+                            }, 
+                    PersonGender = SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")), 
+                    AdditionalTextData = GetPropString(searchItem.Properties, "info"), 
+                };
 
-                PersonalAddressPrimary = new AddressDetail
-                {
-                    Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")),
-                },
-                Name = new PersonName
-                {
-                    FirstName = GetPropString(searchItem.Properties, "givenname"),
-                    LastName = GetPropString(searchItem.Properties, "sn"),
-                },
-                PersonGender =
-                    SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
-
-                AdditionalTextData = GetPropString(searchItem.Properties, "info"),               
-            };
-
-            result.ExternalIdentifier.SetProfileId(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
+            result.ExternalIdentifier.SetProfileId(
+                ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
 
             return result;
         }
 
         /// <summary>
-        /// extracts the first element of a property collection as string
-        /// </summary>
-        /// <param name="thePropertyCollection">the result property collection to search</param>
-        /// <param name="propName">the name of the property to extract</param>
-        /// <returns>the string that has been extracted</returns>
-        private static string GetPropString(ResultPropertyCollection thePropertyCollection, string propName)
-        {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
-                thePropertyCollection[propName].Count > 0)
-            {
-                return thePropertyCollection[propName][0].ToString();
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// extracts the first element of a property collection as string
-        /// </summary>
-        /// <param name="thePropertyCollection">the result property collection to search</param>
-        /// <param name="propNamesByPriotity">the name of the property to extract</param>
-        /// <returns>the string that has been extracted</returns>
-        private static string GetPropString(ResultPropertyCollection thePropertyCollection, params string[] propNamesByPriotity)
-        {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0)
-            {
-                return (from name in propNamesByPriotity
-                        where thePropertyCollection[name].Count > 0
-                        select thePropertyCollection[name][0].ToString()).FirstOrDefault();
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// extracts the first element of a property collection as string
-        /// </summary>
-        /// <param name="thePropertyCollection">the result property collection to search</param>
-        /// <param name="propName">the name of the property to extract</param>
-        /// <returns>the date that has been extracted</returns>
-        private static DateTime GetPropDate(ResultPropertyCollection thePropertyCollection, string propName)
-        {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
-                thePropertyCollection[propName].Count > 0)
-            {
-                return (DateTime)thePropertyCollection[propName][0];
-            }
-
-            return new DateTime();
-        }
-
-        /// <summary>
         /// dump active directory information to the file system.
         /// </summary>
-        /// <param name="searchItem">the active directory entry to process</param>
-        /// <param name="path">the file system path to write to</param>
+        /// <param name="searchItem">
+        /// the active directory entry to process
+        /// </param>
+        /// <param name="path">
+        /// the file system path to write to
+        /// </param>
         private static void DumpUserInformation(SearchResult searchItem, string path)
         {
             var content = new StringBuilder();
@@ -264,8 +248,12 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <summary>
         /// lookup the list of domain controllers for the specified domain
         /// </summary>
-        /// <param name="domainName"> The domain Name to get the DC for. </param>
-        /// <returns> The list of DCs in this domain. </returns>
+        /// <param name="domainName">
+        /// The domain Name to get the DC for. 
+        /// </param>
+        /// <returns>
+        /// The list of DCs in this domain. 
+        /// </returns>
         private static List<string> GetDCs(string domainName)
         {
             var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
@@ -275,18 +263,131 @@ namespace Sem.Sync.Connector.ActiveDirectory
         }
 
         /// <summary>
+        /// extracts the first element of a property collection as string
+        /// </summary>
+        /// <param name="thePropertyCollection">
+        /// the result property collection to search
+        /// </param>
+        /// <param name="propName">
+        /// the name of the property to extract
+        /// </param>
+        /// <returns>
+        /// the date that has been extracted
+        /// </returns>
+        private static DateTime GetPropDate(ResultPropertyCollection thePropertyCollection, string propName)
+        {
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
+                thePropertyCollection[propName].Count > 0)
+            {
+                return (DateTime)thePropertyCollection[propName][0];
+            }
+
+            return new DateTime();
+        }
+
+        /// <summary>
+        /// extracts the first element of a property collection as string
+        /// </summary>
+        /// <param name="thePropertyCollection">
+        /// the result property collection to search
+        /// </param>
+        /// <param name="propName">
+        /// the name of the property to extract
+        /// </param>
+        /// <returns>
+        /// the string that has been extracted
+        /// </returns>
+        private static string GetPropString(ResultPropertyCollection thePropertyCollection, string propName)
+        {
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
+                thePropertyCollection[propName].Count > 0)
+            {
+                return thePropertyCollection[propName][0].ToString();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// extracts the first element of a property collection as string
+        /// </summary>
+        /// <param name="thePropertyCollection">
+        /// the result property collection to search
+        /// </param>
+        /// <param name="propNamesByPriotity">
+        /// the name of the property to extract
+        /// </param>
+        /// <returns>
+        /// the string that has been extracted
+        /// </returns>
+        private static string GetPropString(
+            ResultPropertyCollection thePropertyCollection, params string[] propNamesByPriotity)
+        {
+            if (thePropertyCollection != null && thePropertyCollection.Count > 0)
+            {
+                return (from name in propNamesByPriotity
+                        where thePropertyCollection[name].Count > 0
+                        select thePropertyCollection[name][0].ToString()).FirstOrDefault();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Adds a new AD serach result entry to a list of StdElement
+        /// </summary>
+        /// <param name="result">
+        /// The result list that should get this entry. 
+        /// </param>
+        /// <param name="searchItem">
+        /// The search result item. 
+        /// </param>
+        private void AddContactFromSearchResult(ICollection<StdElement> result, SearchResult searchItem)
+        {
+            var newContact = ConvertToContact(searchItem);
+
+            if (string.IsNullOrEmpty(newContact.ToStringSimple()))
+            {
+                return;
+            }
+
+            var existing = from x in result
+                           where
+                               x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
+                               newContact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
+                           select x;
+
+            if (existing.Count() != 0)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(this.DumpPath))
+            {
+                DumpUserInformation(
+                    searchItem, 
+                    Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
+            }
+
+            this.LogProcessingEvent(newContact, "adding new element");
+            result.Add(newContact);
+        }
+
+        /// <summary>
         /// Searches a directory entry recursively for users
         /// </summary>
-        /// <param name="query"> The AD filter query. </param>
-        /// <param name="result"> The result list of entries that will be extended. </param>
-        /// <param name="entry"> The AD entry that is the base of the query. </param>
+        /// <param name="query">
+        /// The AD filter query. 
+        /// </param>
+        /// <param name="result">
+        /// The result list of entries that will be extended. 
+        /// </param>
+        /// <param name="entry">
+        /// The AD entry that is the base of the query. 
+        /// </param>
         private void AddContactsFromAdFilter(string query, List<StdElement> result, DirectoryEntry entry)
         {
-            var search = new DirectorySearcher(entry)
-            {
-                Filter = query,
-                SearchScope = SearchScope.Subtree,
-            };
+            var search = new DirectorySearcher(entry) { Filter = query, SearchScope = SearchScope.Subtree, };
 
             this.LogProcessingEvent("receiving data ...");
             var resultList = search.FindAll();
@@ -301,51 +402,16 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 {
                     if (searchItem.Properties["objectclass"].Contains("group"))
                     {
-                        this.AddContactsFromAdFilter("memberof=" + searchItem.Properties["distinguishedname"][0], result, entry);
+                        this.AddContactsFromAdFilter(
+                            "memberof=" + searchItem.Properties["distinguishedname"][0], result, entry);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Adds a new AD serach result entry to a list of StdElement
-        /// </summary>
-        /// <param name="result"> The result list that should get this entry. </param>
-        /// <param name="searchItem"> The search result item. </param>
-        private void AddContactFromSearchResult(ICollection<StdElement> result, SearchResult searchItem)
-        {
-            var newContact = ConvertToContact(searchItem);
-
-            if (string.IsNullOrEmpty(newContact.ToStringSimple()))
-            {
-                return;
-            }
-
-            var existing =
-                from x in result
-                where x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) ==
-                      newContact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId)
-                select x;
-
-            if (existing.Count() != 0)
-            {
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(this.DumpPath))
-            {
-                DumpUserInformation(
-                    searchItem,
-                    Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
-            }
-
-            this.LogProcessingEvent(newContact, "adding new element");
-            result.Add(newContact);
-        }
-
-        /// <summary>
         /// retrieves credentials from the registry if there is something configured,
-        /// otherwise we will ask the user or use the currently loged in user account
+        ///   otherwise we will ask the user or use the currently loged in user account
         /// </summary>
         private void PrepareCredentials()
         {
@@ -360,7 +426,8 @@ namespace Sem.Sync.Connector.ActiveDirectory
             if (string.IsNullOrEmpty(this.LogOnUserId) || this.LogOnPassword == "{ask}")
             {
                 this.LogOnPassword = string.Empty;
-                this.QueryForLogOnCredentials("Please provide logon credentials for LDAP query.\nPress cancle to use current user.");
+                this.QueryForLogOnCredentials(
+                    "Please provide logon credentials for LDAP query.\nPress cancle to use current user.");
             }
 
             // if we have a user name and it does contain a backslash, we need to split the domain from the user name
@@ -388,5 +455,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
                 this.LogOnDomain = this.LogOnDomain.Split('\\')[0];
             }
         }
+
+        #endregion
     }
 }

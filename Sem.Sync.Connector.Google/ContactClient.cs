@@ -1,10 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ContactClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   This class is the client class for handling contacts via the Google Data API
+//   This class is the client class for handling contacts from the Google Data API. The implementation does
+//   support read and write of contact elements. Currently there's no support for a "clientFolderName" to
+//   filter some data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,75 +17,67 @@ namespace Sem.Sync.Connector.Google
     using System.Collections.Generic;
     using System.Linq;
 
-    using GenericHelpers;
-
     using global::Google.Contacts;
     using global::Google.GData.Client;
     using global::Google.GData.Contacts;
 
-    using SyncBase;
-    using SyncBase.Attributes;
-    using SyncBase.DetailData;
-    using SyncBase.Helpers;
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling contacts from the Google Data API. The implementation does
-    /// support read and write of contact elements. Currently there's no support for a "clientFolderName" to
-    /// filter some data.
+    ///   support read and write of contact elements. Currently there's no support for a "clientFolderName" to
+    ///   filter some data.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(
-        DisplayName = "Google Mail Contacts Client", 
-        CanReadContacts = true, 
-        CanWriteContacts = true,
-        MatchingIdentifier = ProfileIdentifierType.Google,
-        NeedsCredentialsDomain = false, 
-        NeedsCredentials = true)]
+    [ConnectorDescription(DisplayName = "Google Mail Contacts Client", CanReadContacts = true, CanWriteContacts = true, 
+        MatchingIdentifier = ProfileIdentifierType.Google, NeedsCredentialsDomain = false, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
-        #region const
+        #region Constants and Fields
 
         /// <summary>
-        /// The qualifier for the attribute "work"
-        /// </summary>
-        private const string GoogleSchemaQualifierWork = "work";
-
-        /// <summary>
-        /// The qualifier for the attribute "home"
+        ///   The qualifier for the attribute "home"
         /// </summary>
         private const string GoogleSchemaQualifierHome = "home";
 
         /// <summary>
-        /// The qualifier for the attribute "home"
+        ///   The qualifier for the attribute "home"
         /// </summary>
         private const string GoogleSchemaQualifierMobile = "mobile";
 
-        #endregion const
-
-        #region members
-
         /// <summary>
-        /// The settings instance
+        ///   The qualifier for the attribute "work"
         /// </summary>
-        private RequestSettings settings;
+        private const string GoogleSchemaQualifierWork = "work";
 
         /// <summary>
-        /// The requester object for the google api
+        ///   An URI representing the currently logged in user
+        /// </summary>
+        private Uri contactsUri;
+
+        /// <summary>
+        ///   The requester object for the google api
         /// </summary>
         private ContactsRequest requester;
 
         /// <summary>
-        /// An URI representing the currently logged in user
+        ///   The settings instance
         /// </summary>
-        private Uri contactsUri;
+        private RequestSettings settings;
 
-        #endregion members
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        ///   Gets the user readable name of the client implementation. This name should
+        ///   be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public override string FriendlyClientName
         {
@@ -94,23 +87,37 @@ namespace Sem.Sync.Connector.Google
             }
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
-        /// Deletes a list of Contact IDs. 
+        /// Deletes a list of Contact IDs.
         /// </summary>
-        /// <param name="elementsToDelete"> The identifiers. </param>
-        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <param name="elementsToDelete">
+        /// The identifiers. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The client folder name. 
+        /// </param>
         public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
             elementsToDelete.ForEach(
                 x =>
-                this.requester.Get<Contact>(new Uri(((StdContact)x).ExternalIdentifier.GetProfileId(ProfileIdentifierType.Google))).Entries.
-                    ForEach(this.requester.Delete));
+                this.requester.Get<Contact>(new Uri(x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.Google))).
+                    Entries.ForEach(this.requester.Delete));
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// logs the exception to the console and the <see cref="SyncComponent.LogProcessingEvent(object,Sem.GenericHelpers.EventArgs.ProcessingEventArgs)"/>.
         /// </summary>
-        /// <param name="exception"> The exception. </param>
+        /// <param name="exception">
+        /// The exception. 
+        /// </param>
         internal void LogError(Exception exception)
         {
             var message = exception.Message;
@@ -126,11 +133,17 @@ namespace Sem.Sync.Connector.Google
 
         /// <summary>
         /// Overrides the method to read the full list of data. This will read ALL data from the Google Contacts
-        /// account, even if it has already been downloaded in the past.
+        ///   account, even if it has already been downloaded in the past.
         /// </summary>
-        /// <param name="clientFolderName">the parameter clientFolderName is ignored by this connector implementation</param>
-        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
-        /// <returns>The list with the added contacts</returns>
+        /// <param name="clientFolderName">
+        /// the parameter clientFolderName is ignored by this connector implementation
+        /// </param>
+        /// <param name="result">
+        /// A list of StdElements that will get the new imported entries.
+        /// </param>
+        /// <returns>
+        /// The list with the added contacts
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             try
@@ -152,8 +165,8 @@ namespace Sem.Sync.Connector.Google
 
                         var stdEntry = new StdContact
                             {
-                                Id = semSyncId,
-                                Name = new PersonName(googleContact.Title),
+                                Id = semSyncId, 
+                                Name = new PersonName(googleContact.Title), 
                                 ExternalIdentifier =
                                     new ProfileIdentifierDictionary(ProfileIdentifierType.Google, googleContact.Id)
                             };
@@ -191,9 +204,15 @@ namespace Sem.Sync.Connector.Google
         /// <summary>
         /// Overrides the method to write the full list of data.
         /// </summary>
-        /// <param name="elements"> The elements to be exported. </param>
-        /// <param name="clientFolderName">The parameter clientFolderName is ignored in this connector implementation.</param>
-        /// <param name="skipIfExisting">The parameter skipIfExisting is ignored in this connector implementation.</param>
+        /// <param name="elements">
+        /// The elements to be exported. 
+        /// </param>
+        /// <param name="clientFolderName">
+        /// The parameter clientFolderName is ignored in this connector implementation.
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// The parameter skipIfExisting is ignored in this connector implementation.
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             GoogleContactMappingExtensions.GenericUIResponder = this.UiDispatcher;
@@ -212,7 +231,9 @@ namespace Sem.Sync.Connector.Google
                         try
                         {
                             // we need to replace the "base" inside the url with a "full" to get the correct "projection" for extended properties
-                            googleContact = this.requester.Retrieve<Contact>(new Uri(((string)googleId).Replace(@"/base/", @"/full/")));
+                            googleContact =
+                                this.requester.Retrieve<Contact>(
+                                    new Uri(((string)googleId).Replace(@"/base/", @"/full/")));
                         }
                         catch (GDataRequestException ex)
                         {
@@ -274,7 +295,7 @@ namespace Sem.Sync.Connector.Google
 
         /// <summary>
         /// Initializes the object after calling the <see cref="StdClient.ReadFullList"/> or <see cref="StdClient.WriteFullList"/> method.
-        /// This performs a setup of the requester to query the Google Data API.
+        ///   This performs a setup of the requester to query the Google Data API.
         /// </summary>
         private void EnsureInitialization()
         {
@@ -283,7 +304,10 @@ namespace Sem.Sync.Connector.Google
                 var userName = this.LogOnUserId;
                 var passWord = this.LogOnPassword;
 
-                this.settings = new RequestSettings("Sem.Sync.Connector.Google", userName, passWord) { AutoPaging = true };
+                this.settings = new RequestSettings("Sem.Sync.Connector.Google", userName, passWord)
+                    {
+                       AutoPaging = true 
+                    };
             }
 
             this.requester = this.requester ?? new ContactsRequest(this.settings);
@@ -294,5 +318,7 @@ namespace Sem.Sync.Connector.Google
                     ContactsQuery.CreateContactsUri(this.LogOnUserId, GroupsQuery.fullProjection));
             }
         }
+
+        #endregion
     }
 }

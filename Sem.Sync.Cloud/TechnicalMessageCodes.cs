@@ -15,22 +15,22 @@ namespace Sem.Sync.Cloud
     public enum TechnicalMessageCode
     {
         /// <summary>
-        /// This is a pure informational message and does not 
-        /// report an error or exception.
+        ///   This is a pure informational message and does not 
+        ///   report an error or exception.
         /// </summary>
-        InformationalMessage = 0,
+        InformationalMessage = 0, 
 
         /// <summary>
-        /// On the server side an exception has been thrown.
-        /// No data has been altered while this roundtrip.
+        ///   On the server side an exception has been thrown.
+        ///   No data has been altered while this roundtrip.
         /// </summary>
-        ExceptionWhileServerActionNoDataAltered = 1,
+        ExceptionWhileServerActionNoDataAltered = 1, 
 
         /// <summary>
-        /// On the server side an exception has been thrown.
-        /// Data has been altered while this roundtrip and needs to be
-        /// compensated.
+        ///   On the server side an exception has been thrown.
+        ///   Data has been altered while this roundtrip and needs to be
+        ///   compensated.
         /// </summary>
-        ExceptionWhileServerActionDataHasBeenAltered = 2,
+        ExceptionWhileServerActionDataHasBeenAltered = 2, 
     }
 }

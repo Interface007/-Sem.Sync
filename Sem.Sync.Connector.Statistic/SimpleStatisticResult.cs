@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the SimpleStatisticResult type.
+//   Defines a result set for the simple statistic
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,8 +13,7 @@ namespace Sem.Sync.Connector.Statistic
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    using GenericHelpers.Entities;
-
+    using Sem.GenericHelpers.Entities;
     using Sem.Sync.Connector.Statistic.AnalysisModule;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Helpers;
@@ -27,14 +26,20 @@ namespace Sem.Sync.Connector.Statistic
     [XmlInclude(typeof(List<KeyValuePair>))]
     public class SimpleStatisticResult
     {
+        #region Constants and Fields
+
         /// <summary>
-        /// the internal array list to store the result sets
+        ///   the internal array list to store the result sets
         /// </summary>
         private readonly ArrayList internalItems = new ArrayList();
 
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleStatisticResult"/> class.
-        /// The default constructor is to support XML serialization.
+        ///   Initializes a new instance of the <see cref = "SimpleStatisticResult" /> class.
+        ///   The default constructor is to support XML serialization.
         /// </summary>
         public SimpleStatisticResult()
         {
@@ -42,9 +47,11 @@ namespace Sem.Sync.Connector.Statistic
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleStatisticResult"/> class and populates
-        /// the internal list with results from the analysis modules.
+        ///   the internal list with results from the analysis modules.
         /// </summary>
-        /// <param name="elements"> The elements. </param>
+        /// <param name="elements">
+        /// The elements. 
+        /// </param>
         public SimpleStatisticResult(List<StdElement> elements)
         {
             this.NumberOfElements = elements.Count;
@@ -53,13 +60,12 @@ namespace Sem.Sync.Connector.Statistic
             this.AddItem(StdContacts.GetAnalysisItemResult(elements.ToStdContacts()));
         }
 
-        /// <summary>
-        /// Gets or sets the number of elements.
-        /// </summary>
-        public int NumberOfElements { get; set; }
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets or sets result elements.
+        ///   Gets or sets result elements.
         /// </summary>
         [XmlElement("AnalysisResult")]
         public object[] AnalysisResults
@@ -88,16 +94,28 @@ namespace Sem.Sync.Connector.Statistic
         }
 
         /// <summary>
+        ///   Gets or sets the number of elements.
+        /// </summary>
+        public int NumberOfElements { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
         /// Adds a new item to the result list. NULL values will be ignored.
         /// </summary>
-        /// <param name="item">the item to be added</param>
-        /// <returns>the index of the new item - -1 in case of a NULL item that has not been added</returns>
+        /// <param name="item">
+        /// the item to be added
+        /// </param>
+        /// <returns>
+        /// the index of the new item - -1 in case of a NULL item that has not been added
+        /// </returns>
         public int AddItem(object item)
         {
-            return
-                item != null
-                ? this.internalItems.Add(item)
-                : -1;
+            return item != null ? this.internalItems.Add(item) : -1;
         }
+
+        #endregion
     }
 }

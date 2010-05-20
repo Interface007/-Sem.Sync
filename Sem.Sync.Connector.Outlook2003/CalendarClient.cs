@@ -1,8 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CalendarClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
 //   This class is the client class for handling outlook calendar items
 // </summary>
@@ -16,6 +15,8 @@ namespace Sem.Sync.Connector.Outlook2003
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Runtime.InteropServices;
+
     using Microsoft.Office.Interop.Outlook;
 
     using Sem.Sync.Connector.Outlook2003.Properties;
@@ -23,75 +24,150 @@ namespace Sem.Sync.Connector.Outlook2003
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Helpers;
 
+    using Exception = System.Exception;
+
     #endregion usings
 
     /// <summary>
     /// This class is the client class for handling outlook calendar items
     /// </summary>
-    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003",
-        CanReadContacts = false,
-        CanWriteContacts = false,
-        CanReadCalendarEntries = true,
-        CanWriteCalendarEntries = true)]
+    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003", CanReadContacts = false, CanWriteContacts = false, 
+        CanReadCalendarEntries = true, CanWriteCalendarEntries = true)]
     public class CalendarClient : StdClient
     {
+        #region Properties
+
         /// <summary>
-        /// Gets the ui friendly name of this connector
+        ///   Gets the ui friendly name of this connector
         /// </summary>
         public override string FriendlyClientName
         {
-            get { return "Outlook-Calendar-Connector"; }
+            get
+            {
+                return "Outlook-Calendar-Connector";
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="element">
+        /// the element to add
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the outlook folder to use
+        /// </param>
+        public override void AddItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
+        /// </summary>
+        /// <param name="elements">
+        /// list of all the elements to add
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the outlook folder to use
+        /// </param>
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a single element and skipping this process if this 
+        ///   element is already present. If the element does not exist, it will be added. If it does exist
+        ///   the element will not be added and not be overridden.
+        /// </summary>
+        /// <param name="element">
+        /// the element to be added
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public override void MergeMissingItem(StdElement element, string clientFolderName)
+        {
+            var elements = new List<StdElement> { element };
+            this.WriteFullList(elements, clientFolderName, true);
+        }
+
+        /// <summary>
+        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
+        ///   skipping this process if an element is already present. Missing elements will be added, existing 
+        ///   elements will not be altered.
+        /// </summary>
+        /// <param name="elements">
+        /// the elements to be added in a list of elements
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information where inside the source the elements reside - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, true);
         }
 
         /// <summary>
         /// detects duplicates and removes them from the calendar
         /// </summary>
-        /// <param name="clientFolderName">the path to the outlook folder to process</param>
+        /// <param name="clientFolderName">
+        /// the path to the outlook folder to process
+        /// </param>
         public override void RemoveDuplicates(string clientFolderName)
         {
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
-            LogProcessingEvent(Resources.UserInfoLoggingOn);
+            this.LogProcessingEvent(Resources.UserInfoLoggingOn);
             var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
             try
             {
-                var calendarItems = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
+                var calendarItems = OutlookClient.GetOutlookMapiFolder(
+                    outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
-                LogProcessingEvent(Resources.UserInfoPreparingList);
+                this.LogProcessingEvent(Resources.UserInfoPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<AppointmentItem>()
-                                      orderby a.Subject, a.Start
+                                      orderby a.Subject , a.Start
                                       select a;
 
                 AppointmentItem lastItem = null;
                 var lastPersonName = string.Empty;
-                foreach (var item in outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm", CultureInfo.InvariantCulture)))
+                foreach (
+                    var item in
+                        outlookItemList.OrderBy(x => x.Start.ToString("MM.dd-hh:mm", CultureInfo.InvariantCulture)))
                 {
                     var subject = item.Subject;
 
-                    var personName =
-                            string.IsNullOrEmpty(subject)
-                            ? string.Empty
-                            : subject.StartsWith("Geburtstag von ", StringComparison.OrdinalIgnoreCase)
-                            ? subject.Substring(15)
-                            : subject.EndsWith("'s Birthday", StringComparison.OrdinalIgnoreCase)
-                            ? subject.Substring(0, subject.Length - 11)
-                            : string.Empty;
+                    var personName = string.IsNullOrEmpty(subject)
+                                         ? string.Empty
+                                         : subject.StartsWith("Geburtstag von ", StringComparison.OrdinalIgnoreCase)
+                                               ? subject.Substring(15)
+                                               : subject.EndsWith("'s Birthday", StringComparison.OrdinalIgnoreCase)
+                                                     ? subject.Substring(0, subject.Length - 11)
+                                                     : string.Empty;
 
                     if (lastItem != null)
                     {
                         var stdItem = OutlookClient.ConvertToStandardCalendarItem(item, null);
-                        LogProcessingEvent(stdItem, "comparing ...");
+                        this.LogProcessingEvent(stdItem, "comparing ...");
 
                         if (!string.IsNullOrEmpty(personName))
                         {
-                            if (lastPersonName == personName
-                                && lastItem.Start == item.Start
-                                && lastItem.Body == item.Body)
+                            if (lastPersonName == personName && lastItem.Start == item.Start &&
+                                lastItem.Body == item.Body)
                             {
-                                LogProcessingEvent(stdItem, Resources.UserInfoRemoving);
+                                this.LogProcessingEvent(stdItem, Resources.UserInfoRemoving);
 
                                 item.Delete();
                                 continue;
@@ -103,81 +179,45 @@ namespace Sem.Sync.Connector.Outlook2003
                     lastPersonName = personName;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
+                this.LogProcessingEvent(
+                    string.Format(
+                        CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
             }
             finally
             {
                 outlookNamespace.Logoff();
             }
 
-            LogProcessingEvent(Resources.UserInfoRemoveDuplicatesFinished);
+            this.LogProcessingEvent(Resources.UserInfoRemoveDuplicatesFinished);
         }
 
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="element">the element to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            this.WriteFullList(elements, clientFolderName, false);
-        }
+        #endregion
 
-        /// <summary>
-        /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
-        /// </summary>
-        /// <param name="elements">list of all the elements to add</param>
-        /// <param name="clientFolderName">the outlook folder to use</param>
-        public override void AddRange(List<StdElement> elements, string clientFolderName)
-        {
-            this.WriteFullList(elements, clientFolderName, false);
-        }
-
-        /// <summary>
-        /// Implementation of the process of writing a single element and skipping this process if this 
-        /// element is already present. If the element does not exist, it will be added. If it does exist
-        /// the element will not be added and not be overridden.
-        /// </summary>
-        /// <param name="element">the element to be added</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public override void MergeMissingItem(StdElement element, string clientFolderName)
-        {
-            var elements = new List<StdElement> { element };
-            this.WriteFullList(elements, clientFolderName, true);
-        }
-
-        /// <summary>
-        /// Implementation of the process of writing a multiple elements by specifying a list of elements and 
-        /// skipping this process if an element is already present. Missing elements will be added, existing 
-        /// elements will not be altered.
-        /// </summary>
-        /// <param name="elements">the elements to be added in a list of elements</param>
-        /// <param name="clientFolderName">the information where inside the source the elements reside - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        public override void MergeMissingRange(List<StdElement> elements, string clientFolderName)
-        {
-            this.WriteFullList(elements, clientFolderName, true);
-        }
+        #region Methods
 
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="clientFolderName">the information from where inside the source the elements should be read - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="result">The list of elements that should get the elements. The elements should be added to
-        /// the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
+        /// <param name="clientFolderName">
+        /// the information from where inside the source the elements should be read - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="result">
+        /// The list of elements that should get the elements. The elements should be added to
+        ///   the list instead of replacing it.
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var currentElementName = string.Empty;
             var minimumDate = DateTime.Now;
 
             // get a connection to outlook 
-            LogProcessingEvent(Resources.UserInfoLoggingOn);
+            this.LogProcessingEvent(Resources.UserInfoLoggingOn);
             var outlookNamespace = OutlookClient.GetNamespace();
 
             // we need to log off from outlook in order to clean up the session
@@ -185,16 +225,18 @@ namespace Sem.Sync.Connector.Outlook2003
             {
                 if (clientFolderName.Contains(":"))
                 {
-                    clientFolderName = clientFolderName.Substring(0, clientFolderName.IndexOf(":", StringComparison.Ordinal));
+                    clientFolderName = clientFolderName.Substring(
+                        0, clientFolderName.IndexOf(":", StringComparison.Ordinal));
                 }
 
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(
+                    outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)
                 {
-                    LogProcessingEvent(Resources.UserInfoNoOutlookFolderSelected);
+                    this.LogProcessingEvent(Resources.UserInfoNoOutlookFolderSelected);
                 }
                 else
                 {
@@ -210,19 +252,27 @@ namespace Sem.Sync.Connector.Outlook2003
                             var calendarStdItem = calendarItems[itemIndex] as AppointmentItem;
                             if (calendarStdItem != null && calendarStdItem.Start > minimumDate)
                             {
-                                currentElementName = calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) + " - " + calendarStdItem.Subject;
+                                currentElementName =
+                                    calendarStdItem.Start.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.CurrentCulture) +
+                                    " - " + calendarStdItem.Subject;
 
-                                LogProcessingEvent(Resources.UserInfoReading + currentElementName);
+                                this.LogProcessingEvent(Resources.UserInfoReading + currentElementName);
 
-                                result.Add(OutlookClient.ConvertToStandardCalendarItem(calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
+                                result.Add(
+                                    OutlookClient.ConvertToStandardCalendarItem(
+                                        calendarStdItem, result.ToOtherType<StdElement, StdCalendarItem>()));
                             }
                         }
-                        catch (System.Runtime.InteropServices.COMException ex)
+                        catch (COMException ex)
                         {
-                            if (ex.ErrorCode == -1285291755 ||
-                                ex.ErrorCode == -2147221227)
+                            if (ex.ErrorCode == -1285291755 || ex.ErrorCode == -2147221227)
                             {
-                                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoProblemAccessingStore, currentElementName, ex.Message));
+                                this.LogProcessingEvent(
+                                    string.Format(
+                                        CultureInfo.CurrentCulture, 
+                                        Resources.UserInfoProblemAccessingStore, 
+                                        currentElementName, 
+                                        ex.Message));
                             }
                             else
                             {
@@ -232,9 +282,11 @@ namespace Sem.Sync.Connector.Outlook2003
                     }
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
+                this.LogProcessingEvent(
+                    string.Format(
+                        CultureInfo.CurrentCulture, Resources.UserInfoErrorAtName, currentElementName, ex.Message));
             }
             finally
             {
@@ -247,17 +299,26 @@ namespace Sem.Sync.Connector.Outlook2003
         /// <summary>
         /// Abstract write method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="elements">the list of elements that should be written to the target system.</param>
-        /// <param name="clientFolderName">the information to where inside the source the elements should be written - 
-        /// This does not need to be a real "path", but need to be something that can be expressed as a string</param>
-        /// <param name="skipIfExisting">specifies whether existing elements should be updated or simply left as they are</param>
+        /// <param name="elements">
+        /// the list of elements that should be written to the target system.
+        /// </param>
+        /// <param name="clientFolderName">
+        /// the information to where inside the source the elements should be written - 
+        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// specifies whether existing elements should be updated or simply left as they are
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoAddingEntries, elements.Count));
+            this.LogProcessingEvent(
+                string.Format(CultureInfo.CurrentCulture, Resources.UserInfoAddingEntries, elements.Count));
 
             // create outlook instance and get the folder
             var outlookNamespace = OutlookClient.GetNamespace();
-            var appointmentEnum = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
+            var appointmentEnum =
+                OutlookClient.GetOutlookMapiFolder(
+                    outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar).Items;
 
             // extract the contacts that do already exist
             var appointmentList = OutlookClient.GetAppointmentsList(appointmentEnum);
@@ -268,8 +329,10 @@ namespace Sem.Sync.Connector.Outlook2003
             foreach (var element in elements)
             {
                 // find outlook contact with matching id, create new if needed
-                LogProcessingEvent(element, Resources.UserInfoSearchingElementInStore);
-                switch (OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, appointmentList))
+                this.LogProcessingEvent(element, Resources.UserInfoSearchingElementInStore);
+                switch (
+                    OutlookClient.WriteCalendarItemToOutlook(appointmentEnum, (StdCalendarItem)element, appointmentList)
+                    )
                 {
                     case SaveAction.None:
                         break;
@@ -285,7 +348,10 @@ namespace Sem.Sync.Connector.Outlook2003
             }
 
             outlookNamespace.Logoff();
-            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.UserInfoElementsAdded, added, updated));
+            this.LogProcessingEvent(
+                string.Format(CultureInfo.CurrentCulture, Resources.UserInfoElementsAdded, added, updated));
         }
+
+        #endregion
     }
 }

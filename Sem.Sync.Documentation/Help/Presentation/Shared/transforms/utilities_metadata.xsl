@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1"
-		xmlns:msxsl="urn:schemas-microsoft-com:xslt" >
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.1" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 
   <xsl:template name="typeNameWithTicks">
     <xsl:for-each select="type|(containers/type)">
@@ -10,17 +10,17 @@
     <xsl:value-of select="apidata/@name" />
     <xsl:if test="boolean(templates/template)">
       <xsl:text>`</xsl:text>
-      <xsl:value-of select="count(templates/template)"/>
+      <xsl:value-of select="count(templates/template)" />
     </xsl:if>
   </xsl:template>
-  
+
   <xsl:template name="qualifiedTextNames">
     <xsl:choose>
       <!-- explicit interface implementations -->
       <xsl:when test="memberdata[@visibility='private'] and proceduredata[@virtual = 'true']">
         <xsl:variable name="left">
           <xsl:for-each select="containers/type">
-            <xsl:call-template name="textNames"/>
+            <xsl:call-template name="textNames" />
           </xsl:for-each>
         </xsl:variable>
         <xsl:variable name="right">
@@ -37,7 +37,7 @@
       <xsl:when test="apidata/@group='member' and containers/type">
         <xsl:variable name="left">
           <xsl:for-each select="containers/type">
-            <xsl:call-template name="textNames"/>
+            <xsl:call-template name="textNames" />
           </xsl:for-each>
         </xsl:variable>
         <xsl:variable name="right">
@@ -52,7 +52,7 @@
       <xsl:when test="typedata and containers/namespace/apidata/@name">
         <xsl:variable name="left">
           <xsl:for-each select="containers/namespace">
-            <xsl:call-template name="simpleTextNames"/>
+            <xsl:call-template name="simpleTextNames" />
           </xsl:for-each>
         </xsl:variable>
         <xsl:variable name="right">
@@ -80,7 +80,7 @@
               <xsl:variable name="language" select="@language" />
               <name language="{$language}">
                 <xsl:apply-templates select="." />
-                <xsl:value-of select="'.'"/>
+                <xsl:value-of select="'.'" />
                 <xsl:apply-templates select="$right/name[@language=$language]" />
               </name>
             </xsl:for-each>
@@ -90,10 +90,10 @@
             <xsl:for-each select="$left/name">
               <xsl:variable name="language" select="@language" />
               <name language="{$language}">
-                  <xsl:apply-templates select="." />
-                  <xsl:value-of select="concat('.', $right/name)"/>
+                <xsl:apply-templates select="." />
+                <xsl:value-of select="concat('.', $right/name)" />
               </name>
-            </xsl:for-each>            
+            </xsl:for-each>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -104,7 +104,7 @@
             <xsl:for-each select="$right/name">
               <xsl:variable name="language" select="@language" />
               <name language="{.}">
-                <xsl:value-of select="concat($left/name, '.')"/>
+                <xsl:value-of select="concat($left/name, '.')" />
                 <xsl:apply-templates select="." />
               </name>
             </xsl:for-each>
@@ -134,10 +134,10 @@
         <name>
           <xsl:choose>
             <xsl:when test="apidata/@subgroup = 'constructor'">
-              <xsl:value-of select="containers/type/apidata/@name"/>
+              <xsl:value-of select="containers/type/apidata/@name" />
             </xsl:when>
             <xsl:otherwise>
-          <xsl:value-of select="apidata/@name"/>
+              <xsl:value-of select="apidata/@name" />
             </xsl:otherwise>
           </xsl:choose>
         </name>
@@ -186,7 +186,7 @@
 
   <!-- produces a VB-style generic template parameter list for inclusion in the index -->
   <xsl:template name="vbTemplateText">
-    <xsl:text>(Of </xsl:text>
+    <xsl:text>(Of</xsl:text>
     <xsl:call-template name="templateText" />
     <xsl:text>)</xsl:text>
   </xsl:template>
@@ -197,13 +197,13 @@
     <xsl:for-each select="*">
       <xsl:apply-templates select="." mode="index" />
       <xsl:if test="not(position()=last())">
-        <xsl:text>%2C </xsl:text>
+        <xsl:text>%2C</xsl:text>
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
-  
-  <xsl:template match="specialization | templates" mode="index" >
+
+  <xsl:template match="specialization | templates" mode="index">
     <xsl:param name="name" />
     <name language="c">
       <xsl:value-of select="$name" />
@@ -214,7 +214,7 @@
       <xsl:call-template name="vbTemplateText" />
     </name>
   </xsl:template>
-  
+
   <xsl:template match="template" mode="index">
     <xsl:value-of select="@name" />
   </xsl:template>
@@ -224,15 +224,15 @@
   </xsl:template>
 
   <xsl:template match="name/name">
-    <xsl:variable name="lang" select="ancestor::*/@language"/>
-    
+    <xsl:variable name="lang" select="ancestor::*/@language" />
+
     <xsl:if test="@language = $lang">
-      <xsl:value-of select="."/>
+      <xsl:value-of select="." />
     </xsl:if>
   </xsl:template>
 
   <xsl:template match="name/text()">
-    <xsl:value-of select="."/>
+    <xsl:value-of select="." />
   </xsl:template>
-  
+
 </xsl:stylesheet>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <xs:schema xmlns:tns="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" elementFormDefault="qualified" targetNamespace="http://svenerikmatzen.com/Sem/Sync/OnlineStorage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:39806/ContactService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Sem.Sync.OnlineStorage2" />
   <xs:element name="GetAll">

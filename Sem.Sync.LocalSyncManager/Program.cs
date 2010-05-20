@@ -1,22 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the Program type.
+//   main program execution class
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using Sem.Sync.SyncBase;
 
 namespace Sem.Sync.LocalSyncManager
 {
     using System;
     using System.Windows.Forms;
 
-    using GenericHelpers.Exceptions;
-
+    using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.LocalSyncManager.UI;
     using Sem.Sync.SharedUI.Common;
     using Sem.Sync.SharedUI.WinForms.Tools;
@@ -26,6 +22,8 @@ namespace Sem.Sync.LocalSyncManager
     /// </summary>
     public static class Program
     {
+        #region Public Methods
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -41,16 +39,14 @@ namespace Sem.Sync.LocalSyncManager
 
             try
             {
-                Application.Run(
-                    new SyncWizard
-                    {
-                        DataContext = new SyncWizardContext(ExceptionHandler.UserInterface)
-                    });
+                Application.Run(new SyncWizard { DataContext = new SyncWizardContext(ExceptionHandler.UserInterface) });
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
             }
         }
+
+        #endregion
     }
 }
