@@ -11,32 +11,24 @@ namespace Sem.Sync.OnlineStorage2
 {
     using System.Runtime.Serialization;
 
+    using Sem.Sync.SyncBase;
+
     /// <summary>
     /// a data contract class that contains one or more contacts in a list.
     /// </summary>
     [DataContract]
     public class ContactListContainer
     {
-        #region Properties
-
         /// <summary>
-        ///   Gets or sets the list of contacts.
+        /// Gets or sets the list of contacts.
         /// </summary>
         [DataMember]
-        public string ContactList { get; set; }
+        public string[] ContactList { get; set; }
 
-        /// <summary>
-        /// Gets or sets FirstElementIndex.
-        /// </summary>
-        [DataMember]
-        public int FirstElementIndex { get; set; }
-
-        /// <summary>
-        /// Gets or sets TotalElements.
-        /// </summary>
         [DataMember]
         public int TotalElements { get; set; }
 
-        #endregion
+        [DataMember]
+        public int FirstElementIndex { get; set; }
     }
 }

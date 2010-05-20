@@ -1,93 +1,64 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ContactService.svc.cs" company="Sven Erik Matzen">
-//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
-// </copyright>
-// <summary>
-//   Service implementation for the <see cref="IContactService" /> interface.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Sem.Sync.OnlineStorage2
+﻿namespace Sem.Sync.OnlineStorage2
 {
     using System.Collections.Generic;
+    using System.Configuration;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
+
+    using Connector.Filesystem;
 
     using Sem.GenericHelpers;
-    using Sem.Sync.Connector.Filesystem;
     using Sem.Sync.SyncBase;
-    using Sem.Sync.SyncBase.Helpers;
+
+    using SyncBase.Helpers;
 
     /// <summary>
     /// Service implementation for the <see cref="IContactService"/> interface.
     /// </summary>
     public class ContactService : IContactService
     {
-        #region Constants and Fields
-
         /// <summary>
-        ///   The file system path to store the information.
+        /// The file system path to store the information.
         /// </summary>
-        private readonly string storagePath = "C:\\ContactsServerData\\Contacts.xml";
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IContactService
+        private readonly string storagePath = ConfigurationManager.AppSettings["storageFolder"];
 
         /// <summary>
         /// Reads the contacts from a contact store specified in the parameter <paramref name="clientFolderName"/>.
         /// </summary>
-        /// <param name="clientFolderName">
-        /// The client folder name. 
-        /// </param>
-        /// <param name="startElementIndex">
-        /// the 0 based first element index for the result set
-        /// </param>
-        /// <param name="countOfElements">
-        /// the number of elements to read
-        /// </param>
-        /// <returns>
-        /// A contact list container with the contacts from the folder. 
-        /// </returns>
-        public ContactListContainer GetAll(string clientFolderName, int startElementIndex, int countOfElements)
+        /// <param name="clientFolderName"> The client folder name. </param>
+        /// <returns> A contact list container with the contacts from the folder. </returns>
+        public Stream GetAll(string clientFolderName)
         {
-            var contactList = new ContactClient().GetAll(this.storagePath).ToStdContacts();
+            var contactList = new ContactClientIndividualFiles().GetAll(this.storagePath).ToStdContacts();
 
-            var stdContacts = new ContactListContainer
-                {
-                    ContactList = Tools.SaveToString((from x in contactList select x).Take(countOfElements).ToList()), 
-                    FirstElementIndex = startElementIndex, 
-                    TotalElements = contactList.Count
-                };
+            var memStream = new MemoryStream();
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(memStream, contactList);
+            memStream.Position = 0;
 
-            return stdContacts;
+            return memStream;
         }
 
         /// <summary>
         /// Writes contacts to a contact store specified in the parameter <paramref name="clientFolderName"/>.
         /// </summary>
-        /// <param name="elements">
-        /// The elements to be written. 
-        /// </param>
-        /// <param name="clientFolderName">
-        /// The client folder name.  
-        /// </param>
-        /// <param name="skipIfExisting">
-        /// Ignored in this implementation. 
-        /// </param>
-        /// <returns>
-        /// A value indicating whether the operation was successfull. 
-        /// </returns>
-        public bool WriteFullList(ContactListContainer elements, string clientFolderName, bool skipIfExisting)
+        /// <param name="elements"> The elements to be written. </param>
+        /// <returns> A value indicating whether the operation was successfull. </returns>
+        public bool WriteFullList(Stream elements)
         {
-            new ContactClient().WriteRange(
-                Tools.LoadFromString<List<StdContact>>(elements.ContactList).ToStdElements(), this.storagePath);
+            var formatter = new BinaryFormatter();
+            using(var stream = new MemoryStream())
+            {
+                elements.CopyTo(stream);
+                stream.Position = 0;
+                var stdContacts = formatter.Deserialize(stream) as List<StdElement>;
+
+                new ContactClientIndividualFiles().WriteRange(stdContacts, this.storagePath);
+
+            }
             return true;
         }
-
-        #endregion
-
-        #endregion
     }
+
 }

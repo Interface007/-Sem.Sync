@@ -18,6 +18,7 @@ namespace Sem.GenericHelpers
     using System.IO.Compression;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Security.Cryptography;
     using System.Text;
     using System.Xml.Serialization;
@@ -32,128 +33,52 @@ namespace Sem.GenericHelpers
     /// </summary>
     public static class Tools
     {
-        #region Constants and Fields
-
         /// <summary>
-        ///   Calculates a SHA1-Checksum
+        /// Calculates a SHA1-Checksum
         /// </summary>
         private static readonly HashAlgorithm Sha1HashProvider = new SHA1CryptoServiceProvider();
 
         /// <summary>
-        ///   caches the allowed Ascii characters for the quoted printable encoding
+        /// caches the allowed Ascii characters for the quoted printable encoding
         /// </summary>
         private static string cachedAllowedAscii = string.Empty;
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
-        /// Returns an enumeration of all elements that are provided and are not null or empty
+        /// Tests for the existence of the specified path and tries to create the path if it's missing
         /// </summary>
-        /// <param name="elements">
-        /// The elements to combine as an enumeration. 
-        /// </param>
-        /// <returns>
-        /// the enumeration of elements 
-        /// </returns>
-        public static IEnumerable<string> CombineNonEmpty(params string[] elements)
+        /// <param name="filePath">The path to check</param>
+        public static void EnsurePathExist(string filePath)
         {
-            return elements.Where(element => !string.IsNullOrEmpty(element));
-        }
-
-        /// <summary>
-        /// The compress.
-        /// </summary>
-        /// <param name="text">
-        /// The text.
-        /// </param>
-        /// <returns>
-        /// The compress.
-        /// </returns>
-        public static string Compress(string text)
-        {
-            var buffer = Encoding.UTF8.GetBytes(text);
-
-            using (var ms = new MemoryStream())
+            if (string.IsNullOrEmpty(filePath))
             {
-                using (var zip = new GZipStream(ms, CompressionMode.Compress, true))
+                return;
+            }
+
+            if (!filePath.EndsWith("\\", StringComparison.Ordinal))
+            {
+                filePath += "\\";
+            }
+
+            var n = filePath.IndexOf("\\", StringComparison.Ordinal);
+            while (n > 0)
+            {
+                if (!Directory.Exists(filePath.Substring(0, n)))
                 {
-                    zip.Write(buffer, 0, buffer.Length);
+                    Directory.CreateDirectory(filePath.Substring(0, n));
                 }
 
-                ms.Position = 0;
-                var compressed = new byte[ms.Length];
-                ms.Read(compressed, 0, compressed.Length);
-
-                var gzipBuffer = new byte[compressed.Length + 4];
-                Buffer.BlockCopy(compressed, 0, gzipBuffer, 4, compressed.Length);
-                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzipBuffer, 0, 4);
-
-                return Convert.ToBase64String(gzipBuffer);
-            }
-        }
-
-        /// <summary>
-        /// Logging method that will be removed in the release build
-        /// </summary>
-        /// <param name="message">
-        /// The message to be logged.  
-        /// </param>
-        /// <param name="parameters">
-        /// The parameters. 
-        /// </param>
-        [Conditional("DEBUG")]
-        public static void DebugWriteLine(string message, params object[] parameters)
-        {
-            Console.WriteLine(string.Format(CultureInfo.InvariantCulture, message, parameters));
-        }
-
-        /// <summary>
-        /// Logging method that will be removed in the release build
-        /// </summary>
-        /// <param name="message">
-        /// The message to be logged. 
-        /// </param>
-        [Conditional("DEBUG")]
-        public static void DebugWriteLine(string message)
-        {
-            DebugWriteLine(true, message);
-        }
-
-        /// <summary>
-        /// Logging method that will be removed in the release build
-        /// </summary>
-        /// <param name="condition">
-        /// The condition (must be true in order to write the line). 
-        /// </param>
-        /// <param name="message">
-        /// The message to be logged.  
-        /// </param>
-        /// <param name="parameters">
-        /// The parameters to be inserted into the message. 
-        /// </param>
-        [Conditional("DEBUG")]
-        public static void DebugWriteLine(bool condition, string message, params object[] parameters)
-        {
-            if (condition)
-            {
-                DebugWriteLine(message, parameters);
+                n = filePath.IndexOf("\\", n + 1, StringComparison.Ordinal);
             }
         }
 
         /// <summary>
         /// Encodes a not QP-Encoded string.
-        ///   Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
-        ///   Darstellung mit einem vorangestellten =
-        ///   Bsp.: aus "ü" wird "=FC"
+        /// Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+        /// Darstellung mit einem vorangestellten =
+        /// Bsp.: aus "ü" wird "=FC"
         /// </summary>
-        /// <param name="value">
-        /// The string which should be encoded.
-        /// </param>
-        /// <returns>
-        /// The encoded string
-        /// </returns>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
         public static string DecodeFromQuotedPrintable(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -194,46 +119,13 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// The decompress.
-        /// </summary>
-        /// <param name="compressedText">
-        /// The compressed text.
-        /// </param>
-        /// <returns>
-        /// The decompress.
-        /// </returns>
-        public static string Decompress(string compressedText)
-        {
-            var gzipBuffer = Convert.FromBase64String(compressedText);
-            using (var ms = new MemoryStream())
-            {
-                var msgLength = BitConverter.ToInt32(gzipBuffer, 0);
-                ms.Write(gzipBuffer, 4, gzipBuffer.Length - 4);
-
-                var buffer = new byte[msgLength];
-
-                ms.Position = 0;
-                using (var zip = new GZipStream(ms, CompressionMode.Decompress))
-                {
-                    zip.Read(buffer, 0, buffer.Length);
-                }
-
-                return Encoding.UTF8.GetString(buffer);
-            }
-        }
-
-        /// <summary>
         /// Encodes a not QP-Encoded string.
-        ///   Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
-        ///   Darstellung mit einem vorangestellten =
-        ///   Bsp.: aus "ü" wird "=FC"
+        /// Alle nicht im Ascii-Zeichnsatz enthaltenen Zeichen werden ersetzt durch die hexadezimale 
+        /// Darstellung mit einem vorangestellten =
+        /// Bsp.: aus "ü" wird "=FC"
         /// </summary>
-        /// <param name="value">
-        /// The string which should be encoded.
-        /// </param>
-        /// <returns>
-        /// The encoded string
-        /// </returns>
+        /// <param name="value">The string which should be encoded.</param>
+        /// <returns>The encoded string</returns>
         public static string EncodeToQuotedPrintable(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -260,44 +152,239 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Tests for the existence of the specified path and tries to create the path if it's missing
+        /// Saves the entity to the file system
         /// </summary>
-        /// <param name="filePath">
-        /// The path to check
-        /// </param>
-        public static void EnsurePathExist(string filePath)
+        /// <typeparam name="T">the type that should be serialized</typeparam>
+        /// <param name="source">the source object that should be serialized</param>
+        /// <param name="fileName">the destination file name that should get the serialized entity</param>
+        public static void SaveToFile<T>(T source, string fileName)
         {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                return;
-            }
+            SaveToFile(source, fileName, typeof(KeyValuePair));
+        }
 
-            if (!filePath.EndsWith("\\", StringComparison.Ordinal))
-            {
-                filePath += "\\";
-            }
+        /// <summary>
+        /// Saves the entity to the file system
+        /// </summary>
+        /// <typeparam name="T">the type that should be serialized</typeparam>
+        /// <param name="source">the source object that should be serialized</param>
+        /// <param name="fileName">the destination file name that should get the serialized entity</param>
+        /// <param name="additionalTypes">specifies additional types for serialization</param>
+        public static void SaveToFile<T>(T source, string fileName, params Type[] additionalTypes)
+        {
+            var formatter = new XmlSerializer(typeof(T), additionalTypes);
 
-            var n = filePath.IndexOf("\\", StringComparison.Ordinal);
-            while (n > 0)
+            EnsurePathExist(Path.GetDirectoryName(fileName));
+            using (var file = new FileStream(fileName, FileMode.Create))
             {
-                if (!Directory.Exists(filePath.Substring(0, n)))
+                formatter.Serialize(file, source);
+            }
+        }
+
+        /// <summary>
+        /// Serializes an object to a string
+        /// </summary>
+        /// <param name="source"> The source object to be serialized. </param>
+        /// <typeparam name="T"> The type that will be serialized (automatically detected by type invariance)</typeparam>
+        /// <returns>
+        /// The serialized object as a string
+        /// </returns>
+        public static string SaveToString<T>(T source) where T : class
+        {
+            var formatter = new XmlSerializer(typeof(T));
+            var result = new StringBuilder();
+            if (source != null)
+            {
+                try
                 {
-                    Directory.CreateDirectory(filePath.Substring(0, n));
+                    var writer = new StringWriter(result, CultureInfo.CurrentCulture);
+                    formatter.Serialize(writer, source);
+                    writer.Flush();
+                    writer.Close();
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    DebugWriteLine(ex.Message);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        public static string SaveToString<T>(T source, bool compress) where T : class
+        {
+            if (compress)
+            {
+                var formatter = new BinaryFormatter();
+                using (var stream = new MemoryStream())
+                {
+                    formatter.Serialize(stream, source);
+                    return "#GZIP#" + Compress(stream);
+                }
+            }
+
+            var result = SaveToString(source);
+            return result;
+        }
+
+        public static string Compress(string text)
+        {
+            var buffer = Encoding.UTF8.GetBytes(text);
+
+            using (var ms = new MemoryStream())
+            {
+                using (var zip = new DeflateStream(ms, CompressionMode.Compress, true))
+                {
+                    zip.Write(buffer, 0, buffer.Length);
                 }
 
-                n = filePath.IndexOf("\\", n + 1, StringComparison.Ordinal);
+                ms.Position = 0;
+                var compressed = new byte[ms.Length];
+                ms.Read(compressed, 0, compressed.Length);
+
+                var gzipBuffer = new byte[compressed.Length + 4];
+                Buffer.BlockCopy(compressed, 0, gzipBuffer, 4, compressed.Length);
+                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzipBuffer, 0, 4);
+
+                return Convert.ToBase64String(gzipBuffer);
+            }
+        }
+
+        public static string Compress(Stream toBeCompressed)
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var zip = new DeflateStream(ms, CompressionMode.Compress, true))
+                {
+                    toBeCompressed.Seek(0, SeekOrigin.Begin);
+                    toBeCompressed.CopyTo(zip);
+                }
+
+                ms.Position = 0;
+                var compressed = new byte[ms.Length];
+                ms.Read(compressed, 0, compressed.Length);
+
+                var gzipBuffer = new byte[compressed.Length + 4];
+                Buffer.BlockCopy(compressed, 0, gzipBuffer, 4, compressed.Length);
+                Buffer.BlockCopy(BitConverter.GetBytes(toBeCompressed.Length), 0, gzipBuffer, 0, 4);
+
+                return Convert.ToBase64String(gzipBuffer);
+            }
+        }
+
+        private static Stream DecompressToStream(string compressedText)
+        {
+            var gzipBuffer = Convert.FromBase64String(compressedText);
+            using (var ms = new MemoryStream())
+            {
+                ms.Write(gzipBuffer, 4, (gzipBuffer.Length - 4));
+
+                var result = new MemoryStream();
+                
+                ms.Position = 0;
+                using (var zip = new DeflateStream(ms, CompressionMode.Decompress))
+                {
+                    zip.CopyTo(result);
+                }
+
+                return result;
+            }
+        }
+        
+        public static string Decompress(string compressedText)
+        {
+            var gzipBuffer = Convert.FromBase64String(compressedText);
+            using (var ms = new MemoryStream())
+            {
+                var msgLength = BitConverter.ToInt32(gzipBuffer, 0);
+                ms.Write(gzipBuffer, 4, (gzipBuffer.Length - 4));
+
+                var buffer = new byte[msgLength];
+
+                ms.Position = 0;
+                using (var zip = new DeflateStream(ms, CompressionMode.Decompress))
+                {
+                    zip.Read(buffer, 0, buffer.Length);
+                }
+
+                return Encoding.UTF8.GetString(buffer);
+            }
+        }
+
+        /// <summary>
+        /// Loads an entity from the file system.
+        /// </summary>
+        /// <typeparam name="T">the type of the entity that should be loaded</typeparam>
+        /// <param name="fileName">the source file that should be deserialized</param>
+        /// <returns>the deserialized entity - null if there was nothing valid to deserialize</returns>
+        public static T LoadFromFile<T>(string fileName)
+        {
+            var formatter = new XmlSerializer(typeof(T));
+            var result = default(T);
+            if (File.Exists(fileName))
+            {
+                using (var fileStream = new FileStream(fileName, FileMode.Open))
+                {
+                    try
+                    {
+                        result = (T)formatter.Deserialize(fileStream);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+                    catch (IOException)
+                    {
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugWriteLine(ex.Message);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reads a value from the registry and also ensures that the registry key does exist
+        /// </summary>
+        /// <param name="pathToValue">the path inside the registry to the value</param>
+        /// <param name="keyName">the name of the value</param>
+        /// <param name="defaultValue">this value will be used (and set) if the value is missing - the value is not missing if it's empty</param>
+        /// <returns>the string value of the registry key</returns>
+        public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
+        {
+            using (
+                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
+                             Registry.CurrentUser.CreateSubKey(pathToValue))
+            {
+                if (regKey != null)
+                {
+                    var regValue = regKey.GetValue(keyName);
+                    if (regValue == null)
+                    {
+                        if (defaultValue != null)
+                        {
+                            regKey.SetValue(keyName, defaultValue);
+                        }
+
+                        return defaultValue;
+                    }
+
+                    return regValue.ToString();
+                }
+
+                return string.Empty;
             }
         }
 
         /// <summary>
         /// Gets serialized credentials from the registry.
         /// </summary>
-        /// <param name="name">
-        /// The name of the credentials. 
-        /// </param>
-        /// <returns>
-        /// A deserialized <see cref="Credentials"/> object containing a decrypted password 
-        /// </returns>
+        /// <param name="name"> The name of the credentials. </param>
+        /// <returns> A deserialized <see cref="Credentials"/> object containing a decrypted password </returns>
         public static Credentials GetCredentials(string name)
         {
             var serialized = GetRegValue("Software\\Sem.Sync\\Credentials", name, string.Empty);
@@ -305,102 +392,33 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
-        ///   paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
+        /// Reads a value from the registry and also ensures that the registry key does exist
         /// </summary>
-        /// <param name="parentName">
-        /// the path that should be used as a root path for the string specification of the path
-        /// </param>
-        /// <param name="type">
-        /// the type to be inspected
-        /// </param>
-        /// <returns>
-        /// a list of strings with the paths of properties detected
-        /// </returns>
-        public static List<string> GetPropertyList(string parentName, Type type)
+        /// <param name="pathToValue">the path inside the registry to the value</param>
+        /// <param name="keyName">the name of the value</param>
+        /// <param name="value">this value will be set</param>
+        public static void SetRegValue(string pathToValue, string keyName, string value)
         {
-            if (parentName == null)
+            using (
+                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
+                             Registry.CurrentUser.CreateSubKey(pathToValue))
             {
-                throw new ArgumentNullException("parentName");
-            }
-
-            if (parentName.Length > 0)
-            {
-                parentName += ".";
-            }
-
-            var resultList = new List<string>();
-
-            if (type.Name == "ProfileIdentifierDictionary")
-            {
-                return resultList;
-            }
-
-            var methodsToAdd = from x in type.GetMethods()
-                               where
-                                   x.GetParameters().Length == 0 &&
-                                   x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
-                               select parentName + x.Name + "()";
-
-            resultList.AddRange(methodsToAdd.ToList());
-
-            var members = type.GetProperties();
-
-            foreach (var item in members)
-            {
-                var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType != null && item.PropertyType.BaseType.FullName == "System.Enum")
+                if (regKey != null)
                 {
-                    typeName = "Enum";
-                }
-
-                switch (typeName)
-                {
-                    case "Enum":
-                    case "Guid":
-                    case "String":
-                    case "DateTime":
-                    case "TimeSpan":
-                    case "Boolean":
-                    case "Int32":
-                        resultList.Add(parentName + item.Name);
-                        break;
-
-                    case "Byte[]":
-
-                        // we don't want to save byte arrays to the CSV file (may be some time)
-                        break;
-
-                    case "List`1":
-                        resultList.Add(parentName + item.Name);
-                        break;
-
-                    default:
-                        resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
-                        break;
+                    regKey.SetValue(keyName, value);
                 }
             }
-
-            return resultList;
         }
 
         /// <summary>
         /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
-        ///   to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
-        ///   the entity
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
         /// </summary>
-        /// <typeparam name="T">
-        /// the type of the object to read from
-        /// </typeparam>
-        /// <param name="objectToReadFrom">
-        /// the object to read from
-        /// </param>
-        /// <param name="pathToProperty">
-        /// the path to the property
-        /// </param>
-        /// <returns>
-        /// the value of the property rendered as a string
-        /// </returns>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a string</returns>
         public static object GetPropertyValue<T>(T objectToReadFrom, string pathToProperty)
         {
             if (!Equals(objectToReadFrom, default(T)))
@@ -550,49 +568,13 @@ namespace Sem.GenericHelpers
 
         /// <summary>
         /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
-        ///   to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
-        ///   the entity
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
         /// </summary>
-        /// <typeparam name="T">
-        /// the type of the object to read from
-        /// </typeparam>
-        /// <param name="objectToReadFrom">
-        /// the object to read from
-        /// </param>
-        /// <param name="pathToProperty">
-        /// the path to the property
-        /// </param>
-        /// <returns>
-        /// the value of the property rendered as a boolean
-        /// </returns>
-        public static bool GetPropertyValueBoolean<T>(T objectToReadFrom, string pathToProperty)
-        {
-            var value = GetPropertyValue(objectToReadFrom, pathToProperty);
-            if (value != null && value.GetType() == typeof(bool))
-            {
-                return (bool)value;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
-        ///   to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
-        ///   the entity
-        /// </summary>
-        /// <typeparam name="T">
-        /// the type of the object to read from
-        /// </typeparam>
-        /// <param name="objectToReadFrom">
-        /// the object to read from
-        /// </param>
-        /// <param name="pathToProperty">
-        /// the path to the property
-        /// </param>
-        /// <returns>
-        /// the value of the property rendered as a string
-        /// </returns>
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a string</returns>
         public static string GetPropertyValueString<T>(T objectToReadFrom, string pathToProperty)
         {
             var value = GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty;
@@ -605,171 +587,30 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Reads a value from the registry and also ensures that the registry key does exist
+        /// Reads a property by its path. E.g. you might specify the path "PersonalAddressPrimary.Phone.AreaCode"
+        /// to access the AreaCode property of the Phone property inside the PersonalAddressPrimary property of 
+        /// the entity
         /// </summary>
-        /// <param name="pathToValue">
-        /// the path inside the registry to the value
-        /// </param>
-        /// <param name="keyName">
-        /// the name of the value
-        /// </param>
-        /// <param name="defaultValue">
-        /// this value will be used (and set) if the value is missing - the value is not missing if it's empty
-        /// </param>
-        /// <returns>
-        /// the string value of the registry key
-        /// </returns>
-        public static string GetRegValue(string pathToValue, string keyName, string defaultValue)
+        /// <typeparam name="T">the type of the object to read from</typeparam>
+        /// <param name="objectToReadFrom">the object to read from</param>
+        /// <param name="pathToProperty">the path to the property</param>
+        /// <returns>the value of the property rendered as a boolean</returns>
+        public static bool GetPropertyValueBoolean<T>(T objectToReadFrom, string pathToProperty)
         {
-            using (
-                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
-                             Registry.CurrentUser.CreateSubKey(pathToValue))
+            var value = GetPropertyValue(objectToReadFrom, pathToProperty);
+            if (value != null && value.GetType() == typeof(bool))
             {
-                if (regKey != null)
-                {
-                    var regValue = regKey.GetValue(keyName);
-                    if (regValue == null)
-                    {
-                        if (defaultValue != null)
-                        {
-                            regKey.SetValue(keyName, defaultValue);
-                        }
-
-                        return defaultValue;
-                    }
-
-                    return regValue.ToString();
-                }
-
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the SH a1 hash.
-        /// </summary>
-        /// <param name="text">
-        /// The text to be hashed.
-        /// </param>
-        /// <returns>
-        /// the hash value of the text
-        /// </returns>
-        public static string GetSha1Hash(string text)
-        {
-            var sha1 = Sha1HashProvider;
-
-            string result = null;
-            string temp;
-
-            var arrayData = Encoding.ASCII.GetBytes(text ?? string.Empty);
-            var arrayResult = sha1.ComputeHash(arrayData);
-            foreach (var t in arrayResult)
-            {
-                temp = Convert.ToString(t, 16);
-                if (temp.Length == 1)
-                {
-                    temp = "0" + temp;
-                }
-
-                result += temp;
+                return (bool)value;
             }
 
-            return result;
-        }
-
-        /// <summary>
-        /// Loads an entity from the file system.
-        /// </summary>
-        /// <typeparam name="T">
-        /// the type of the entity that should be loaded
-        /// </typeparam>
-        /// <param name="fileName">
-        /// the source file that should be deserialized
-        /// </param>
-        /// <returns>
-        /// the deserialized entity - null if there was nothing valid to deserialize
-        /// </returns>
-        public static T LoadFromFile<T>(string fileName)
-        {
-            var formatter = new XmlSerializer(typeof(T));
-            var result = default(T);
-            if (File.Exists(fileName))
-            {
-                using (var fileStream = new FileStream(fileName, FileMode.Open))
-                {
-                    try
-                    {
-                        result = (T)formatter.Deserialize(fileStream);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                    }
-                    catch (IOException)
-                    {
-                    }
-                    catch (Exception ex)
-                    {
-                        DebugWriteLine(ex.Message);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Loads a serialized object from a string.
-        /// </summary>
-        /// <param name="serialized">
-        /// The serialized object as a string. 
-        /// </param>
-        /// <typeparam name="T">
-        /// the type to be deserialized 
-        /// </typeparam>
-        /// <returns>
-        /// the deserialized object 
-        /// </returns>
-        public static T LoadFromString<T>(string serialized)
-        {
-            var formatter = new XmlSerializer(typeof(T));
-            var result = default(T);
-
-            if (!string.IsNullOrEmpty(serialized))
-            {
-                if (serialized.StartsWith("#GZIP#"))
-                {
-                    serialized = Decompress(serialized.Substring(6));
-                }
-
-                try
-                {
-                    var reader = new StringReader(serialized);
-                    result = (T)formatter.Deserialize(reader);
-                }
-                catch (InvalidOperationException)
-                {
-                }
-                catch (IOException)
-                {
-                }
-                catch (Exception ex)
-                {
-                    DebugWriteLine(ex.Message);
-                }
-            }
-
-            return result;
+            return false;
         }
 
         /// <summary>
         /// replaces all invalid chars from a file name with a hyphen ("-")
         /// </summary>
-        /// <param name="fileName">
-        /// The file name. 
-        /// </param>
-        /// <returns>
-        /// the file name without any invalid character 
-        /// </returns>
+        /// <param name="fileName"> The file name. </param>
+        /// <returns> the file name without any invalid character </returns>
         public static string ReplaceInvalidFileCharacters(string fileName)
         {
             foreach (var invalidChar in Path.GetInvalidFileNameChars())
@@ -781,129 +622,29 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Saves the entity to the file system
+        /// Sets a property by the complete path specified as a string (like "PersonalAddressPrimary.Phone.AreaCode").
+        /// If one of the objects inside the path is null, it will be initialized with a default instance. If the type
+        /// of that object does not contain a default constructor, an exception will be thrown.
         /// </summary>
-        /// <typeparam name="T">
-        /// the type that should be serialized
-        /// </typeparam>
-        /// <param name="source">
-        /// the source object that should be serialized
-        /// </param>
-        /// <param name="fileName">
-        /// the destination file name that should get the serialized entity
-        /// </param>
-        public static void SaveToFile<T>(T source, string fileName)
+        /// <typeparam name="T">the type of object to write the property to</typeparam>
+        /// <param name="objectToWriteTo">the object that is the root of the path</param>
+        /// <param name="pathToProperty">the path to the property to be set</param>
+        /// <param name="valueString">a string representation of the value to be set</param>
+        public static T SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString)
         {
-            SaveToFile(source, fileName, typeof(KeyValuePair));
-        }
-
-        /// <summary>
-        /// Saves the entity to the file system
-        /// </summary>
-        /// <typeparam name="T">
-        /// the type that should be serialized
-        /// </typeparam>
-        /// <param name="source">
-        /// the source object that should be serialized
-        /// </param>
-        /// <param name="fileName">
-        /// the destination file name that should get the serialized entity
-        /// </param>
-        /// <param name="additionalTypes">
-        /// specifies additional types for serialization
-        /// </param>
-        public static void SaveToFile<T>(T source, string fileName, params Type[] additionalTypes)
-        {
-            var formatter = new XmlSerializer(typeof(T), additionalTypes);
-
-            EnsurePathExist(Path.GetDirectoryName(fileName));
-            using (var file = new FileStream(fileName, FileMode.Create))
-            {
-                formatter.Serialize(file, source);
-            }
-        }
-
-        /// <summary>
-        /// Serializes an object to a string
-        /// </summary>
-        /// <param name="source">
-        /// The source object to be serialized. 
-        /// </param>
-        /// <typeparam name="T">
-        /// The type that will be serialized (automatically detected by type invariance)
-        /// </typeparam>
-        /// <returns>
-        /// The serialized object as a string
-        /// </returns>
-        public static string SaveToString<T>(T source) where T : class
-        {
-            var formatter = new XmlSerializer(typeof(T));
-            var result = new StringBuilder();
-            if (source != null)
-            {
-                try
-                {
-                    var writer = new StringWriter(result, CultureInfo.CurrentCulture);
-                    formatter.Serialize(writer, source);
-                    writer.Flush();
-                    writer.Close();
-                }
-                catch (InvalidOperationException)
-                {
-                }
-                catch (Exception ex)
-                {
-                    DebugWriteLine(ex.Message);
-                }
-            }
-
-            return result.ToString();
-        }
-
-        /// <summary>
-        /// The save to string.
-        /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="compress">
-        /// The compress.
-        /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <returns>
-        /// The save to string.
-        /// </returns>
-        public static string SaveToString<T>(T source, bool compress) where T : class
-        {
-            var result = SaveToString(source);
-
-            if (compress)
-            {
-                return "#GZIP#" + Compress(result);
-            }
-
-            return result;
+            return SetPropertyValue(objectToWriteTo, pathToProperty, valueString, false);
         }
 
         /// <summary>
         /// Sets a property by the complete path specified as a string (like "PersonalAddressPrimary.Phone.AreaCode").
-        ///   If one of the objects inside the path is null, it will be initialized with a default instance. If the type
-        ///   of that object does not contain a default constructor, an exception will be thrown.
+        /// If one of the objects inside the path is null, it will be initialized with a default instance. If the type
+        /// of that object does not contain a default constructor, an exception will be thrown.
         /// </summary>
-        /// <typeparam name="T">
-        /// the type of object to write the property to
-        /// </typeparam>
-        /// <param name="objectToWriteTo">
-        /// the object that is the root of the path
-        /// </param>
-        /// <param name="pathToProperty">
-        /// the path to the property to be set
-        /// </param>
-        /// <param name="valueString">
-        /// a string representation of the value to be set
-        /// </param>
-        public static void SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString)
+        /// <typeparam name="T">the type of object to write the property to</typeparam>
+        /// <param name="objectToWriteTo">the object that is the root of the path</param>
+        /// <param name="pathToProperty">the path to the property to be set</param>
+        /// <param name="valueString">a string representation of the value to be set</param>
+        public static T SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString, bool allowNull)
         {
             if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
             {
@@ -915,7 +656,7 @@ namespace Sem.GenericHelpers
             var isMethod = propName.EndsWith(")", StringComparison.Ordinal) && propName.Contains("(");
             if (isMethod)
             {
-                return;
+                return objectToWriteTo;
             }
 
             var isIndexed = propName.EndsWith("]", StringComparison.Ordinal) && propName.Contains("[");
@@ -930,7 +671,7 @@ namespace Sem.GenericHelpers
             var propInfo = type.GetProperty(propName);
             if (propInfo == null)
             {
-                return;
+                return objectToWriteTo;
             }
 
             // if we need to navigate down the object path
@@ -942,7 +683,7 @@ namespace Sem.GenericHelpers
                     var constructor = propInfo.PropertyType.GetConstructor(new Type[] { });
                     if (constructor == null)
                     {
-                        return;
+                        return objectToWriteTo;
                     }
 
                     propInfo.SetValue(objectToWriteTo, constructor.Invoke(null), null);
@@ -950,17 +691,17 @@ namespace Sem.GenericHelpers
 
                 // recursively call this method
                 SetPropertyValue(
-                    propInfo.GetValue(objectToWriteTo, null), 
-                    pathToProperty.Substring(pathToProperty.IndexOf('.') + 1), 
+                    propInfo.GetValue(objectToWriteTo, null),
+                    pathToProperty.Substring(pathToProperty.IndexOf('.') + 1),
                     valueString);
-                return;
+                return objectToWriteTo;
             }
 
             // we have to deal with special type data (int, datetime) that need to be
             // converted back from string - there is no automated cast in SetValue.
-            if (string.IsNullOrEmpty(valueString))
+            if (string.IsNullOrEmpty(valueString) && !allowNull)
             {
-                return;
+                return objectToWriteTo;
             }
 
             var propType = propInfo.PropertyType;
@@ -968,6 +709,10 @@ namespace Sem.GenericHelpers
 
             switch (destinationType)
             {
+                case "Byte[]":
+                    propInfo.SetValue(objectToWriteTo, Convert.FromBase64String(valueString), null);
+                    break;
+
                 case "TimeSpan":
                     propInfo.SetValue(objectToWriteTo, TimeSpan.Parse(valueString), null);
                     break;
@@ -1019,9 +764,7 @@ namespace Sem.GenericHelpers
                     var sdic = propInfo.GetValue(objectToWriteTo, null) as SerializableDictionary<string, string>;
                     if (sdic == null)
                     {
-                        sdic =
-                            propType.GetConstructor(new Type[] { }).Invoke(null) as
-                            SerializableDictionary<string, string>;
+                        sdic = propType.GetConstructor(new Type[] { }).Invoke(null) as SerializableDictionary<string, string>;
                         propInfo.SetValue(objectToWriteTo, sdic, null);
                     }
 
@@ -1060,50 +803,213 @@ namespace Sem.GenericHelpers
                     break;
 
                 default:
-                    propInfo.SetValue(objectToWriteTo, valueString, isIndexed ? CreateIndexerValue(parameter) : null);
+                    propInfo.SetValue(
+                        objectToWriteTo,
+                        valueString,
+                        isIndexed ? CreateIndexerValue(parameter) : null);
 
                     break;
+            }
+
+            return objectToWriteTo;
+        }
+
+        /// <summary>
+        /// Loads a serialized object from a string.
+        /// </summary>
+        /// <param name="serialized"> The serialized object as a string. </param>
+        /// <typeparam name="T"> the type to be deserialized </typeparam>
+        /// <returns> the deserialized object </returns>
+        public static T LoadFromString<T>(string serialized)
+            where T : class
+        {
+            var result = default(T);
+
+            if (!string.IsNullOrEmpty(serialized))
+            {
+                if (serialized.StartsWith("#GZIP#"))
+                {
+                    var formatter = new BinaryFormatter();
+                    using (var stream = DecompressToStream(serialized.Substring(0, 6)))
+                    {
+                        return formatter.Deserialize(stream) as T;
+                    }
+                    ////serialized = Decompress(serialized.Substring(6));
+                }
+
+                try
+                {
+                    var reader = new StringReader(serialized);
+                    var formatter = new XmlSerializer(typeof(T));
+                    result = (T)formatter.Deserialize(reader);
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    DebugWriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the SH a1 hash.
+        /// </summary>
+        /// <param name="text">The text to be hashed.</param>
+        /// <returns>the hash value of the text</returns>
+        public static string GetSha1Hash(string text)
+        {
+            var sha1 = Sha1HashProvider;
+
+            string result = null;
+            string temp;
+
+            var arrayData = Encoding.ASCII.GetBytes(text ?? string.Empty);
+            var arrayResult = sha1.ComputeHash(arrayData);
+            foreach (byte t in arrayResult)
+            {
+                temp = Convert.ToString(t, 16);
+                if (temp.Length == 1)
+                {
+                    temp = "0" + temp;
+                }
+
+                result += temp;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="message"> The message to be logged.  </param>
+        /// <param name="parameters"> The parameters. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(string message, params object[] parameters)
+        {
+            Console.WriteLine(string.Format(CultureInfo.InvariantCulture, message, parameters));
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="message"> The message to be logged. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(string message)
+        {
+            DebugWriteLine(true, message);
+        }
+
+        /// <summary>
+        /// Logging method that will be removed in the release build
+        /// </summary>
+        /// <param name="condition"> The condition (must be true in order to write the line). </param>
+        /// <param name="message"> The message to be logged.  </param>
+        /// <param name="parameters"> The parameters to be inserted into the message. </param>
+        [Conditional("DEBUG")]
+        public static void DebugWriteLine(bool condition, string message, params object[] parameters)
+        {
+            if (condition)
+            {
+                DebugWriteLine(message, parameters);
             }
         }
 
         /// <summary>
-        /// Reads a value from the registry and also ensures that the registry key does exist
+        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
+        /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
         /// </summary>
-        /// <param name="pathToValue">
-        /// the path inside the registry to the value
-        /// </param>
-        /// <param name="keyName">
-        /// the name of the value
-        /// </param>
-        /// <param name="value">
-        /// this value will be set
-        /// </param>
-        public static void SetRegValue(string pathToValue, string keyName, string value)
+        /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
+        /// <param name="type">the type to be inspected</param>
+        /// <returns>a list of strings with the paths of properties detected</returns>
+        public static List<string> GetPropertyList(string parentName, Type type)
         {
-            using (
-                var regKey = Registry.CurrentUser.OpenSubKey(pathToValue, true) ??
-                             Registry.CurrentUser.CreateSubKey(pathToValue))
+            if (parentName == null)
             {
-                if (regKey != null)
+                throw new ArgumentNullException("parentName");
+            }
+
+            if (parentName.Length > 0)
+            {
+                parentName += ".";
+            }
+
+            var resultList = new List<string>();
+
+            if (type.Name == "ProfileIdentifierDictionary")
+            {
+                return resultList;
+            }
+
+            var methodsToAdd = from x in type.GetMethods()
+                               where
+                                   x.GetParameters().Length == 0 &&
+                                   x.GetCustomAttributes(false).Contains(new AddAsPropertyAttribute())
+                               select parentName + x.Name + "()";
+
+            resultList.AddRange(methodsToAdd.ToList());
+
+            var members = type.GetProperties();
+
+            foreach (var item in members)
+            {
+                var typeName = item.PropertyType.Name;
+                if (item.PropertyType.BaseType != null && item.PropertyType.BaseType.FullName == "System.Enum")
                 {
-                    regKey.SetValue(keyName, value);
+                    typeName = "Enum";
+                }
+
+                switch (typeName)
+                {
+                    case "Enum":
+                    case "Guid":
+                    case "String":
+                    case "DateTime":
+                    case "TimeSpan":
+                    case "Boolean":
+                    case "Int32":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
+                    case "Byte[]":
+                        // we don't want to save byte arrays to the CSV file (may be some time)
+                        break;
+
+                    case "List`1":
+                        resultList.Add(parentName + item.Name);
+                        break;
+
+                    default:
+                        resultList.AddRange(GetPropertyList(parentName + item.Name, item.PropertyType));
+                        break;
                 }
             }
+
+            return resultList;
         }
 
-        #endregion
-
-        #region Methods
+        /// <summary>
+        /// Returns an enumeration of all elements that are provided and are not null or empty
+        /// </summary>
+        /// <param name="elements"> The elements to combine as an enumeration. </param>
+        /// <returns> the enumeration of elements </returns>
+        public static IEnumerable<string> CombineNonEmpty(params string[] elements)
+        {
+            return elements.Where(element => !string.IsNullOrEmpty(element));
+        }
 
         /// <summary>
         /// Assembels an array of indexer parameters for a property get/set invocation.
         /// </summary>
-        /// <param name="parameter">
-        /// The parameter to extract the indexers from. 
-        /// </param>
-        /// <returns>
-        /// an array of call arguments 
-        /// </returns>
+        /// <param name="parameter"> The parameter to extract the indexers from. </param>
+        /// <returns> an array of call arguments </returns>
         private static object[] CreateIndexerValue(string parameter)
         {
             int integerIndexer;
@@ -1112,8 +1018,7 @@ namespace Sem.GenericHelpers
                 return new object[] { integerIndexer };
             }
 
-            if (parameter.StartsWith(@"""", StringComparison.Ordinal) &&
-                parameter.EndsWith(@"""", StringComparison.Ordinal))
+            if (parameter.StartsWith(@"""", StringComparison.Ordinal) && parameter.EndsWith(@"""", StringComparison.Ordinal))
             {
                 return new object[] { parameter.Substring(1, parameter.Length - 2) };
             }
@@ -1130,36 +1035,10 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Gets a string which contains the first 128-characters (ANSII 7 bit).
-        /// </summary>
-        /// <returns>
-        /// The allowed ascii characters. 
-        /// </returns>
-        private static string GetAllowedAscii()
-        {
-            if (string.IsNullOrEmpty(cachedAllowedAscii))
-            {
-                var sb = new StringBuilder(128);
-                for (var i = 0; i < 127; i++)
-                {
-                    sb.Append(Convert.ToChar(i));
-                }
-
-                cachedAllowedAscii = sb.ToString();
-            }
-
-            return cachedAllowedAscii;
-        }
-
-        /// <summary>
         /// Gets the next path of the invocation path - will cut off this part from the path.
         /// </summary>
-        /// <param name="pathToProperty">
-        /// The path to property - the part wil be removed from that string. 
-        /// </param>
-        /// <returns>
-        /// next part of the invocation path to get the property 
-        /// </returns>
+        /// <param name="pathToProperty"> The path to property - the part wil be removed from that string. </param>
+        /// <returns> next part of the invocation path to get the property </returns>
         private static string GetInvokePartFromPath(ref string pathToProperty)
         {
             if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
@@ -1171,7 +1050,8 @@ namespace Sem.GenericHelpers
             var indexOfOpeningBracket = pathToProperty.IndexOfAny(new[] { '[', '(' });
             var indexOfClosingBracket = pathToProperty.IndexOfAny(new[] { ']', ')' });
             var indexOfNextPart = pathToProperty.IndexOf('.');
-            if (indexOfOpeningBracket > 0 && indexOfOpeningBracket < indexOfNextPart &&
+            if (indexOfOpeningBracket > 0 &&
+                indexOfOpeningBracket < indexOfNextPart &&
                 indexOfClosingBracket > indexOfNextPart)
             {
                 indexOfNextPart = indexOfClosingBracket + 1;
@@ -1191,6 +1071,24 @@ namespace Sem.GenericHelpers
             return propName;
         }
 
-        #endregion
+        /// <summary>
+        /// Gets a string which contains the first 128-characters (ANSII 7 bit).
+        /// </summary>
+        /// <returns> The allowed ascii characters. </returns>
+        private static string GetAllowedAscii()
+        {
+            if (string.IsNullOrEmpty(cachedAllowedAscii))
+            {
+                var sb = new StringBuilder(128);
+                for (var i = 0; i < 127; i++)
+                {
+                    sb.Append(Convert.ToChar(i));
+                }
+
+                cachedAllowedAscii = sb.ToString();
+            }
+
+            return cachedAllowedAscii;
+        }
     }
 }
