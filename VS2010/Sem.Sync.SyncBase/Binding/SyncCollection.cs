@@ -2,9 +2,8 @@
 // <copyright file="SyncCollection.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   
+//   implements a binding list for the SyncDescription class
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,7 +13,7 @@ namespace Sem.Sync.SyncBase.Binding
     using System.IO;
     using System.Reflection;
     using System.Xml.Serialization;
-    
+
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase.DetailData;
 
@@ -23,20 +22,25 @@ namespace Sem.Sync.SyncBase.Binding
     /// </summary>
     public class SyncCollection : BindingList<SyncDescription>
     {
+        #region Public Methods
+
         /// <summary>
         /// loads a SyncCollection from the file system.
         /// </summary>
-        /// <param name="pathToFile">path to the file to load</param>
-        /// <returns>a SyncCollection loaded from the disk</returns>
+        /// <param name="pathToFile">
+        /// path to the file to load
+        /// </param>
+        /// <returns>
+        /// a SyncCollection loaded from the disk
+        /// </returns>
         public static SyncCollection LoadSyncList(string pathToFile)
         {
             if (Path.GetExtension(pathToFile).ToUpperInvariant() == ".DSYNCLIST")
             {
                 var workFlow = Tools.LoadFromFile<SyncWorkFlow>(pathToFile);
 
-                var commandsFileName = workFlow
-                    .ReplaceToken(workFlow.Template)
-                    .Replace("{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
+                var commandsFileName = workFlow.ReplaceToken(workFlow.Template).Replace(
+                    "{FS:ApplicationFolder}", Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase));
 
                 if (commandsFileName.StartsWith("file:\\", System.StringComparison.OrdinalIgnoreCase))
                 {
@@ -52,10 +56,22 @@ namespace Sem.Sync.SyncBase.Binding
 
                 foreach (var command in commands)
                 {
-                    command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{source}") ? workFlow.Source.LogonCredentials : command.SourceCredentials;
-                    command.SourceCredentials = (command.SourceConnector != null && command.SourceConnector == "{target}") ? workFlow.Target.LogonCredentials : command.SourceCredentials;
-                    command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{source}") ? workFlow.Source.LogonCredentials : command.TargetCredentials;
-                    command.TargetCredentials = (command.TargetConnector != null && command.TargetConnector == "{target}") ? workFlow.Target.LogonCredentials : command.TargetCredentials;
+                    command.SourceCredentials = (command.SourceConnector != null &&
+                                                 command.SourceConnector == "{source}")
+                                                    ? workFlow.Source.LogonCredentials
+                                                    : command.SourceCredentials;
+                    command.SourceCredentials = (command.SourceConnector != null &&
+                                                 command.SourceConnector == "{target}")
+                                                    ? workFlow.Target.LogonCredentials
+                                                    : command.SourceCredentials;
+                    command.TargetCredentials = (command.TargetConnector != null &&
+                                                 command.TargetConnector == "{source}")
+                                                    ? workFlow.Source.LogonCredentials
+                                                    : command.TargetCredentials;
+                    command.TargetCredentials = (command.TargetConnector != null &&
+                                                 command.TargetConnector == "{target}")
+                                                    ? workFlow.Target.LogonCredentials
+                                                    : command.TargetCredentials;
 
                     command.SourceConnector = workFlow.ReplaceToken(command.SourceConnector);
                     command.TargetConnector = workFlow.ReplaceToken(command.TargetConnector);
@@ -76,15 +92,23 @@ namespace Sem.Sync.SyncBase.Binding
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// overrides the AddNewCore method to create the correct object instance
         /// </summary>
-        /// <returns>a new item of the SyncDescription class</returns>
+        /// <returns>
+        /// a new item of the SyncDescription class
+        /// </returns>
         protected override object AddNewCore()
         {
             var newItem = new SyncDescription();
             this.Add(newItem);
             return newItem;
         }
+
+        #endregion
     }
 }

@@ -1,14 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Page.xaml.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Routes the page control events to the ViewModel ... I know that this does not 100% match 
-//   to the MVVM-Pattern - but who cares ;-)
-//   This impelementation does definitely have problems with huge masses of contacts bacause 
-//   all contacts are transferred at once - non-iterative. This should be changed for use with 
-//   many contacts or when using slow connections.
+//   The page.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,21 +12,53 @@ namespace ContactViewer
     using System.Windows;
     using System.Windows.Controls;
 
+    /// <summary>
+    /// The page.
+    /// </summary>
     public partial class Page
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Page"/> class.
+        /// </summary>
         public Page()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The button_ click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((ViewModel) this.DataContext).SearchForContact();
+            ((ViewModel)this.DataContext).SearchForContact();
         }
 
+        /// <summary>
+        /// The list selection changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ((ViewModel)this.DataContext).CurrentContact = (ViewContact)((ListBox)sender).SelectedItem;
         }
+
+        #endregion
     }
 }

@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProcessCanceledException.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the ProcessCanceledException type.
+//   signals the cancelation of the process through all layers and components
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.GenericHelpers.Exceptions
 {
     using System;
@@ -18,8 +18,10 @@ namespace Sem.GenericHelpers.Exceptions
     [Serializable]
     public class ProcessAbortException : TechnicalException
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
+        ///   Initializes a new instance of the <see cref = "ProcessAbortException" /> class.
         /// </summary>
         public ProcessAbortException()
         {
@@ -28,27 +30,42 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
         /// </summary>
-        /// <param name="message"> The message to be shown for the user. </param>
-        public ProcessAbortException(string message) : base(message)
+        /// <param name="message">
+        /// The message to be shown for the user. 
+        /// </param>
+        public ProcessAbortException(string message)
+            : base(message)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
         /// </summary>
-        /// <param name="message"> The message to be shown to the user. </param>
-        /// <param name="innerException"> The inner exception to be embedded. </param>
-        public ProcessAbortException(string message, Exception innerException) : base(message, innerException)
+        /// <param name="message">
+        /// The message to be shown to the user. 
+        /// </param>
+        /// <param name="innerException">
+        /// The inner exception to be embedded. 
+        /// </param>
+        public ProcessAbortException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessAbortException"/> class.
         /// </summary>
-        /// <param name="info"> The serialization information to reconstruct the exception. </param>
-        /// <param name="context"> The streaming context to reconstruct the exception. </param>
-        protected ProcessAbortException(SerializationInfo info, StreamingContext context) : base(info, context)
+        /// <param name="info">
+        /// The serialization information to reconstruct the exception. 
+        /// </param>
+        /// <param name="context">
+        /// The streaming context to reconstruct the exception. 
+        /// </param>
+        protected ProcessAbortException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
+
+        #endregion
     }
 }

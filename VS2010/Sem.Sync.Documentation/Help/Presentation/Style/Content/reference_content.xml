@@ -178,7 +178,7 @@
 
   <!-- Thread Safety -->
   <item id="ThreadSafety">Thread Safety</item>
-  <item id="ThreadSafetyBP">Any public <include item="staticKeyword"/>  members of this type are thread safe. Any instance members are not guaranteed to be thread safe.</item>
+  <item id="ThreadSafetyBP">Any public <include item="staticKeyword" />  members of this type are thread safe. Any instance members are not guaranteed to be thread safe.</item>
   
   <item id="NotesForImplementers">Notes to Implementers: </item>
   <item id="NotesForCallers">Notes to Callers: </item>
@@ -202,7 +202,7 @@
 	
 	<item id="WinXPPersonal">Windows XP Home Edition</item>
 	<item id="WinXPPro">Windows XP Professional x64 Edition</item>
-	<item id="WinXPSvr"><include item="WinSvr2003"/></item>
+	<item id="WinXPSvr"><include item="WinSvr2003" /></item>
 	<item id="WinXpTablet">Windows XP Tablet PC Edition</item>
 	<item id="WinXpEmbedded">Windows XP Embedded</item>
 	
@@ -210,30 +210,30 @@
 	
 	<item id="MSTV">Microsoft TV</item>
 		
-	<item id="Win9xFamily"><include item="Win95"/>, <include item="Win98"/>, <include item="Win98Se"/>, <include item="WinME"/></item>
-	<item id="WinNt4Family"><include item="WinNT4"/></item>
-	<item id="WinXpFamily"><include item="WinXPPersonal"/>, <include item="WinXPPro"/>, <include item="WinXPSvr"/></item>
-	<item id="WinCE"><include item="WindowsCE"/></item>
-	<item id="Win2K"><include item="WinSvr2000"/></item>
-	<item id="Win2KSvr"><include item="Win2kServer"/></item>
-	<item id="Win2KADC"><include item="Win2kDatacenter"/></item>
+	<item id="Win9xFamily"><include item="Win95" />, <include item="Win98" />, <include item="Win98Se" />, <include item="WinME" /></item>
+	<item id="WinNt4Family"><include item="WinNT4" /></item>
+	<item id="WinXpFamily"><include item="WinXPPersonal" />, <include item="WinXPPro" />, <include item="WinXPSvr" /></item>
+	<item id="WinCE"><include item="WindowsCE" /></item>
+	<item id="Win2K"><include item="WinSvr2000" /></item>
+	<item id="Win2KSvr"><include item="Win2kServer" /></item>
+	<item id="Win2KADC"><include item="Win2kDatacenter" /></item>
 	
-	<item id="WinNt4Server"><include item="WinNT4Svr"/></item>
-	<item id="WinNt4Workstation"><include item="WinNT4Wks"/></item>
-	<item id="Win2kAdvanced"><include item="Win2kDatacenter"/></item>
+	<item id="WinNt4Server"><include item="WinNT4Svr" /></item>
+	<item id="WinNt4Workstation"><include item="WinNT4Wks" /></item>
+	<item id="Win2kAdvanced"><include item="Win2kDatacenter" /></item>
 	<item id="Win2kServerApplianceKit"></item>
-	<item id="WinXpHome"><include item="WinXPPersonal"/></item>
-	<item id="WinXpProfessional"><include item="WinXPPro"/></item>
-	<item id="Win2003Server"><include item="WinXPSvr"/></item>
-	<item id="NETCF"><include item="PocketPC"/>, <include item="SmartPhone"/>, <include item="WindowsCE"/></item>
+	<item id="WinXpHome"><include item="WinXPPersonal" /></item>
+	<item id="WinXpProfessional"><include item="WinXPPro" /></item>
+	<item id="Win2003Server"><include item="WinXPSvr" /></item>
+	<item id="NETCF"><include item="PocketPC" />, <include item="SmartPhone" />, <include item="WindowsCE" /></item>
 	<!-- Platform Notes -->
 
   <item id="Platforms">Platforms</item>
   <!-- Platforms Information --> 
   <item id="SystemRequirementsLinkBoilerplate">
-	  <p/>
+	  <p />
 	  <span>
-		  The <include item="netfw"/> and <include item="netcfw"/> do not support all versions of every platform. For a list of the supported versions, see <conceptualLink target="298275e2-da1d-4618-9f74-6a3567832350"/>.
+		  The <include item="netfw" /> and <include item="netcfw" /> do not support all versions of every platform. For a list of the supported versions, see <conceptualLink target="298275e2-da1d-4618-9f74-6a3567832350" />.
 	  </span>
   </item>
 
@@ -323,9 +323,9 @@
   <item id="expandAll">Expand All</item>
 
   <item id="Example">Example</item>
-  <item id="nonScrollingTypeLinkText">{0} <include item="{1}SubGroup"/></item>
+  <item id="nonScrollingTypeLinkText">{0} <include item="{1}SubGroup" /></item>
   <item id="SeeAlsoNamespaceLinkText">{0} Namespace</item>
-  <item id="SeeAlsoTypeLinkText">{0} <include item="{1}SubGroup"/></item>
+  <item id="SeeAlsoTypeLinkText">{0} <include item="{1}SubGroup" /></item>
   <item id="SeeAlsoMembersLinkText">{0} Members</item>
    <item id="SeeAlsoOverloadLinkText">{0} Overload</item>
   
@@ -351,9 +351,9 @@
   <item id="IncludeXnafwMembers">Include XNA Framework Members</item>
   <item id="memberFrameworksShowAll">Frameworks: Show All</item>
   <item id="memberFrameworksMultiple">Frameworks: Multiple</item>
-  <item id="memberFrameworksNetfw">Frameworks: <include item="netfw"/> Only</item>
-  <item id="memberFrameworksNetcfw">Frameworks: <include item="netcfw"/> Only</item>
-  <item id="memberFrameworksXnafw">Frameworks: <include item="xnafw"/> Only</item>
+  <item id="memberFrameworksNetfw">Frameworks: <include item="netfw" /> Only</item>
+  <item id="memberFrameworksNetcfw">Frameworks: <include item="netcfw" /> Only</item>
+  <item id="memberFrameworksXnafw">Frameworks: <include item="xnafw" /> Only</item>
 
   <item id="requirementsNamespaceLayout">
     <b>Namespace:</b> 
@@ -389,7 +389,7 @@
   	<item id="obsoleteError">Obsolete (does not compile) in {0} and later</item>
   	
 	<!-- APTCA Boilerplate text -->
-	<item id="aptca">Full trust for the immediate caller. This member cannot be used by partially trusted code. For more information, see <conceptualLink target="dd66cd4c-b087-415f-9c3e-94e3a1835f74"/>.</item>
+	<item id="aptca">Full trust for the immediate caller. This member cannot be used by partially trusted code. For more information, see <conceptualLink target="dd66cd4c-b087-415f-9c3e-94e3a1835f74" />.</item>
   
   <item id="ReturnValue">Return Value</item>
   <item id="PropertyValue">Property Value</item>
@@ -487,9 +487,9 @@
   <item id="xamlXmlnsRequirementsLayout"><b>XMLNS for XAML:</b> {0}</item>
   <item id="unmappedXamlXmlns">Not mapped to an xmlns.</item>
 
-  <item id="secondaryFrameworkOverride"><br/><br/>In <include item="{0}"/>, this member is overridden by {1}.</item>
-  <item id="secondaryFrameworkInherited"><br/><br/>In <include item="{0}"/>&#160;<include item="{1}"/>, this member is inherited from {2}<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span></span>{3}.</item>
-  <item id="secondaryFrameworkMember"><br/><br/>In <include item="{0}"/>&#160;<include item="{1}"/>, this member is {2}.</item>
+  <item id="secondaryFrameworkOverride"><br /><br />In <include item="{0}" />, this member is overridden by {1}.</item>
+  <item id="secondaryFrameworkInherited"><br /><br />In <include item="{0}" />&#160;<include item="{1}" />, this member is inherited from {2}<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span></span>{3}.</item>
+  <item id="secondaryFrameworkMember"><br /><br />In <include item="{0}" />&#160;<include item="{1}" />, this member is {2}.</item>
   
   <item id="useBaseSummary">This member overrides {0}.</item>
   <item id="useBaseSee">See {0}.</item>

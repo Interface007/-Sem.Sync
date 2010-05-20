@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the Extensions type.
+//   Static helper class to convert entities
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,14 +21,20 @@ namespace Sem.Sync.Connector.Outlook2010
     /// </summary>
     internal static class Extensions
     {
+        #region Public Methods
+
         /// <summary>
         /// Translates a <see cref="OlBusyStatus"/> into a <see cref="BusyStatus"/>.
         /// </summary>
-        /// <param name="status"> The <see cref="OlBusyStatus"/> to translate into a <see cref="BusyStatus"/>. </param>
+        /// <param name="status">
+        /// The <see cref="OlBusyStatus"/> to translate into a <see cref="BusyStatus"/>. 
+        /// </param>
         /// <returns>
         /// The corresponding <see cref="BusyStatus"/>.
         /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlBusyStatus"/>. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// In case of an unknown <see cref="OlBusyStatus"/>. 
+        /// </exception>
         public static BusyStatus ToBusyStatus(this OlBusyStatus status)
         {
             switch (status)
@@ -42,20 +48,27 @@ namespace Sem.Sync.Connector.Outlook2010
                 case OlBusyStatus.olTentative:
                     return BusyStatus.Tentative;
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        "status", 
-                        status, 
-                        Resources.NoValueTranslationMessage);
+                    throw new ArgumentOutOfRangeException("status", status, Resources.NoValueTranslationMessage);
             }
         }
 
+        /// <summary>
+        /// The to outlook.
+        /// </summary>
+        /// <param name="recurrence">
+        /// The recurrence.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
         public static OlRecurrenceState ToOutlook(this RecurrenceState recurrence)
         {
             switch (recurrence)
             {
                 case RecurrenceState.Onetime:
                     return OlRecurrenceState.olApptNotRecurring;
-                    
+
                 case RecurrenceState.Master:
                     return OlRecurrenceState.olApptMaster;
 
@@ -70,6 +83,16 @@ namespace Sem.Sync.Connector.Outlook2010
             }
         }
 
+        /// <summary>
+        /// The to outlook.
+        /// </summary>
+        /// <param name="status">
+        /// The status.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
         public static OlResponseStatus ToOutlook(this ResponseStatus status)
         {
             switch (status)
@@ -97,6 +120,16 @@ namespace Sem.Sync.Connector.Outlook2010
             }
         }
 
+        /// <summary>
+        /// The to outlook.
+        /// </summary>
+        /// <param name="status">
+        /// The status.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
         public static OlBusyStatus ToOutlook(this BusyStatus status)
         {
             switch (status)
@@ -110,21 +143,22 @@ namespace Sem.Sync.Connector.Outlook2010
                 case BusyStatus.Tentative:
                     return OlBusyStatus.olTentative;
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        "status",
-                        status,
-                        Resources.NoValueTranslationMessage);
+                    throw new ArgumentOutOfRangeException("status", status, Resources.NoValueTranslationMessage);
             }
         }
 
         /// <summary>
         /// Translates a <see cref="OlRecurrenceState"/> into a <see cref="RecurrenceState"/>.
         /// </summary>
-        /// <param name="status"> The <see cref="OlRecurrenceState"/> to translate into a <see cref="RecurrenceState"/>. </param>
+        /// <param name="status">
+        /// The <see cref="OlRecurrenceState"/> to translate into a <see cref="RecurrenceState"/>. 
+        /// </param>
         /// <returns>
         /// The corresponding <see cref="RecurrenceState"/>.
         /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlRecurrenceState"/>. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// In case of an unknown <see cref="OlRecurrenceState"/>. 
+        /// </exception>
         public static RecurrenceState ToRecurrenceState(this OlRecurrenceState status)
         {
             switch (status)
@@ -149,11 +183,15 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// Translates a <see cref="OlResponseStatus"/> into a <see cref="ResponseStatus"/>.
         /// </summary>
-        /// <param name="status"> The <see cref="OlResponseStatus"/> to translate into a <see cref="ResponseStatus"/>. </param>
+        /// <param name="status">
+        /// The <see cref="OlResponseStatus"/> to translate into a <see cref="ResponseStatus"/>. 
+        /// </param>
         /// <returns>
         /// The corresponding <see cref="ResponseStatus"/>.
         /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">In case of an unknown <see cref="OlResponseStatus"/>. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// In case of an unknown <see cref="OlResponseStatus"/>. 
+        /// </exception>
         public static ResponseStatus ToResponseStatus(this OlResponseStatus status)
         {
             switch (status)
@@ -180,5 +218,7 @@ namespace Sem.Sync.Connector.Outlook2010
                     throw new ArgumentOutOfRangeException("status");
             }
         }
+
+        #endregion
     }
 }

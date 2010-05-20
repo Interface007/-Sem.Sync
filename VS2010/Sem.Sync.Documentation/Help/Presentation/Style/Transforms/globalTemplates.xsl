@@ -1,10 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" 
-				xmlns:MSHelp="http://msdn.microsoft.com/mshelp"
-        xmlns:mshelp="http://msdn.microsoft.com/mshelp"
-				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-				xmlns:xlink="http://www.w3.org/1999/xlink"
-        xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-        >
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 
   <xsl:template name="autogenSeeAlsoLinks">
       
@@ -13,10 +7,10 @@
       <xsl:variable name="typeTopicId">
         <xsl:choose>
           <xsl:when test="/document/reference/topicdata/@typeTopicId">
-            <xsl:value-of select="/document/reference/topicdata/@typeTopicId"/>
+            <xsl:value-of select="/document/reference/topicdata/@typeTopicId" />
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="/document/reference/containers/type/@api"/>
+            <xsl:value-of select="/document/reference/containers/type/@api" />
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
@@ -27,10 +21,10 @@
             <parameter>
               <xsl:choose>
                 <xsl:when test="/document/reference/topicdata/@typeTopicId">
-                  <xsl:value-of select="/document/reference/apidata/@subgroup"/>
+                  <xsl:value-of select="/document/reference/apidata/@subgroup" />
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:value-of select="/document/reference/containers/type/apidata/@subgroup"/>
+                  <xsl:value-of select="/document/reference/containers/type/apidata/@subgroup" />
                 </xsl:otherwise>
               </xsl:choose>
             </parameter>
@@ -62,10 +56,10 @@
     <xsl:variable name="allMembersTopicId">
       <xsl:choose>
         <xsl:when test="/document/reference/topicdata/@allMembersTopicId">
-          <xsl:value-of select="/document/reference/topicdata/@allMembersTopicId"/>
+          <xsl:value-of select="/document/reference/topicdata/@allMembersTopicId" />
         </xsl:when>
         <xsl:when test="$group='member' or ($group='list' and $subgroup='overload')">
-          <xsl:value-of select="/document/reference/containers/type/topicdata/@allMembersTopicId"/>
+          <xsl:value-of select="/document/reference/containers/type/topicdata/@allMembersTopicId" />
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
@@ -101,7 +95,7 @@
 
     <!-- a link to the namespace topic -->
     <xsl:variable name="namespaceId">
-      <xsl:value-of select="/document/reference/containers/namespace/@api"/>
+      <xsl:value-of select="/document/reference/containers/namespace/@api" />
     </xsl:variable>
     <xsl:if test="normalize-space($namespaceId)">
       <div class="seeAlsoStyle">
@@ -121,19 +115,19 @@
       </div>
       -->
     </xsl:if>
-   
+
   </xsl:template>
 
   <xsl:variable name="typeId">
     <xsl:choose>
       <xsl:when test="/document/reference/topicdata[@group='api'] and /document/reference/apidata[@group='type']">
-        <xsl:value-of select="$key"/>
+        <xsl:value-of select="$key" />
       </xsl:when>
       <xsl:when test="/document/reference/topicdata/@typeTopicId">
-        <xsl:value-of select="/document/reference/topicdata/@typeTopicId"/>
+        <xsl:value-of select="/document/reference/topicdata/@typeTopicId" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="/document/reference/containers/type/@api"/>
+        <xsl:value-of select="/document/reference/containers/type/@api" />
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -173,10 +167,10 @@
         <table width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <th>
-              <xsl:variable name="codeLangLC" select="translate($codeLang,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz ')"/>
+              <xsl:variable name="codeLangLC" select="translate($codeLang,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz ')" />
               <!-- Added JavaScript to look for AJAX snippets as JScript represents javascript snippets-->
               <xsl:if test="$codeLangLC='visualbasic' or $codeLangLC='csharp' or $codeLangLC='managedcplusplus' or $codeLangLC='jsharp' or $codeLangLC='jscript' or $codeLangLC='javascript' or $codeLangLC='xaml'">
-                <include item="{$codeLang}"/>
+                <include item="{$codeLang}" />
               </xsl:if>
               <xsl:text>&#xa0;</xsl:text>
             </th>
@@ -188,14 +182,17 @@
                     <parameter>copycode.gif</parameter>
                   </includeAttribute>
                 </img>
-                <include item="copyCode"/>
+                <include item="copyCode" />
               </span>
             </th>
           </tr>
           <tr>
             <td colspan="2">
               <!-- alansm: fix bug 321956 - use apply-templates rather than copy-of, so ddue:codeFeaturedElement nodes are transformed -->
-              <pre><xsl:text/><xsl:apply-templates/><!--<xsl:copy-of select="node()"/>--><xsl:text/></pre>
+              <pre>
+                <xsl:text />
+                <xsl:apply-templates /><!--<xsl:copy-of select="node()"/>--><xsl:text />
+              </pre>
             </td>
           </tr>
         </table>
@@ -206,19 +203,19 @@
 
   <!-- sireeshm: fix bug 361746 - use copy-of, so that span class="keyword", "literal" and "comment" nodes are copied to preserve code colorization in snippets -->
   <xsl:template match="ddue:span[@class='keyword' or @class='literal' or @class='comment']">
-    <xsl:copy-of select="."/>
+    <xsl:copy-of select="." />
   </xsl:template>
-  
+
   <xsl:template name="nonScrollingRegionTypeLinks">
     <include item="nonScrollingTypeLinkText">
       <parameter>{0}</parameter>
       <parameter>
         <xsl:choose>
           <xsl:when test="/document/reference/topicdata/@typeTopicId">
-            <xsl:value-of select="/document/reference/apidata/@subgroup"/>
+            <xsl:value-of select="/document/reference/apidata/@subgroup" />
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="/document/reference/containers/type/apidata/@subgroup"/>
+            <xsl:value-of select="/document/reference/containers/type/apidata/@subgroup" />
           </xsl:otherwise>
         </xsl:choose>
       </parameter>
@@ -228,20 +225,20 @@
   <xsl:template name="mshelpCodelangAttributes">
     <xsl:param name="snippets" />
     <xsl:for-each select="$snippets">
-      
+
       <xsl:if test="not(@language=preceding::*/@language)">
         <xsl:variable name="codeLang">
           <xsl:choose>
             <xsl:when test="@language = 'VBScript' or @language = 'vbs'">
               <xsl:text>VBScript</xsl:text>
             </xsl:when>
-            <xsl:when test="@language = 'VisualBasic' or @language = 'vb' or @language = 'vb#' or @language = 'VB' or @language = 'kbLangVB'" >
+            <xsl:when test="@language = 'VisualBasic' or @language = 'vb' or @language = 'vb#' or @language = 'VB' or @language = 'kbLangVB'">
               <xsl:text>kbLangVB</xsl:text>
             </xsl:when>
-            <xsl:when test="@language = 'CSharp' or @language = 'c#' or @language = 'cs' or @language = 'C#'" >
+            <xsl:when test="@language = 'CSharp' or @language = 'c#' or @language = 'cs' or @language = 'C#'">
               <xsl:text>CSharp</xsl:text>
             </xsl:when>
-            <xsl:when test="@language = 'ManagedCPlusPlus' or @language = 'cpp' or @language = 'cpp#' or @language = 'c' or @language = 'c++' or @language = 'C++' or @language = 'kbLangCPP'" >
+            <xsl:when test="@language = 'ManagedCPlusPlus' or @language = 'cpp' or @language = 'cpp#' or @language = 'c' or @language = 'c++' or @language = 'C++' or @language = 'kbLangCPP'">
               <xsl:text>kbLangCPP</xsl:text>
             </xsl:when>
             <xsl:when test="@language = 'JSharp' or @language = 'j#' or @language = 'jsharp' or @language = 'VJ#'">
@@ -289,5 +286,5 @@
     <xsl:param name="codeLang" />
     <MSHelp:Attr Name="codelang" Value="{$codeLang}" />
   </xsl:template>
-  
+
 </xsl:stylesheet>

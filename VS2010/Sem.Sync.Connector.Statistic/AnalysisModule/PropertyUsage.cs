@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the PropertyUsageCounter type.
+//   Analyzes the usage of properties by count
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -22,11 +22,17 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
     /// </summary>
     public static class PropertyUsage
     {
+        #region Public Methods
+
         /// <summary>
         /// Analyzes the usage of properties by count
         /// </summary>
-        /// <param name="elements"> The elements to be analyzed. </param>
-        /// <returns> a list of key value pairs containing the properties and the usage count </returns>
+        /// <param name="elements">
+        /// The elements to be analyzed. 
+        /// </param>
+        /// <returns>
+        /// a list of key value pairs containing the properties and the usage count 
+        /// </returns>
         public static List<KeyValuePair> GetAnalysisItemResult(ICollection elements)
         {
             var result = new List<KeyValuePair>();
@@ -38,20 +44,31 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
                     AddPropertyCounts(element, "\\", propList);
                 }
 
-                result.AddRange(from i in propList
-                                where i.Value > 0
-                                select new KeyValuePair { Key = i.Key, Value = i.Value.ToString(CultureInfo.CurrentCulture) });
+                result.AddRange(
+                    from i in propList
+                    where i.Value > 0
+                    select new KeyValuePair { Key = i.Key, Value = i.Value.ToString(CultureInfo.CurrentCulture) });
             }
 
             return result;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// analyzes an object for property usage
         /// </summary>
-        /// <param name="element"> The element to be analyzed. </param>
-        /// <param name="root"> The root of the property path. </param>
-        /// <param name="propList"> The prop list to be updated. </param>
+        /// <param name="element">
+        /// The element to be analyzed. 
+        /// </param>
+        /// <param name="root">
+        /// The root of the property path. 
+        /// </param>
+        /// <param name="propList">
+        /// The prop list to be updated. 
+        /// </param>
         private static void AddPropertyCounts(object element, string root, IDictionary<string, int> propList)
         {
             var myType = element.GetType();
@@ -88,14 +105,14 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
 
                 propList[infoName]++;
 
-                if (info.PropertyType.IsClass
-                    && !info.PropertyType.IsPrimitive
-                    && !info.PropertyType.IsArray
-                    && !info.PropertyType.Name.IsOneOf("String", "DateTime"))
+                if (info.PropertyType.IsClass && !info.PropertyType.IsPrimitive && !info.PropertyType.IsArray &&
+                    !info.PropertyType.Name.IsOneOf("String", "DateTime"))
                 {
                     AddPropertyCounts(info.GetValue(element, null), root + info.Name + "\\", propList);
                 }
             }
         }
+
+        #endregion
     }
 }

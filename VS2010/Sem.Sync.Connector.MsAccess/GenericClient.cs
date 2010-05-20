@@ -1,12 +1,19 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="GenericClient.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   This class is the client class for handling elements
+//   Class that provides a connector to Microsoft Access Database files. The connector
+//   accepts a configuration file in the "clientFolderName" of the <see cref="ReadFullList" />
+//   and the <see cref="WriteFullList" /> methods. This configuration holds the
+//   path of the database file and the field mapping. Microsoft Access workgroup files are
+//   currently not directly supported.
+//   In the current state the mapper does only support a single table and maps the properties
+//   to the type <see cref="StdContact" /> using property selectors. See the documentation
+//   for a sample how to configure this.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.Connector.MsAccess
 {
     using System;
@@ -17,53 +24,55 @@ namespace Sem.Sync.Connector.MsAccess
     using System.Linq;
     using System.Text;
 
-    using GenericHelpers;
-    using GenericHelpers.Entities;
-    using SyncBase;
-    using SyncBase.Attributes;
+    using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Entities;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
 
     /// <summary>
     /// Class that provides a connector to Microsoft Access Database files. The connector
-    /// accepts a configuration file in the "clientFolderName" of the <see cref="ReadFullList"/>
-    /// and the <see cref="WriteFullList"/> methods. This configuration holds the 
-    /// path of the database file and the field mapping. Microsoft Access workgroup files are
-    /// currently not directly supported.
-    /// In the current state the mapper does only support a single table and maps the properties
-    /// to the type <see cref="StdContact"/> using property selectors. See the documentation 
-    /// for a sample how to configure this.
+    ///   accepts a configuration file in the "clientFolderName" of the <see cref="ReadFullList"/>
+    ///   and the <see cref="WriteFullList"/> methods. This configuration holds the 
+    ///   path of the database file and the field mapping. Microsoft Access workgroup files are
+    ///   currently not directly supported.
+    ///   In the current state the mapper does only support a single table and maps the properties
+    ///   to the type <see cref="StdContact"/> using property selectors. See the documentation 
+    ///   for a sample how to configure this.
     /// </summary>
-    [ConnectorDescription(DisplayName = "Microsoft Acess Database",
-        CanReadContacts = true,
-        CanWriteContacts = true)]
-    [ClientStoragePathDescriptionAttribute(
-        Mandatory = true,
-        Default = "{FS:WorkingFolder}\\sample.config",
+    [ConnectorDescription(DisplayName = "Microsoft Acess Database", CanReadContacts = true, CanWriteContacts = true)]
+    [ClientStoragePathDescriptionAttribute(Mandatory = true, Default = "{FS:WorkingFolder}\\sample.config", 
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     public class GenericClient : StdClient
     {
-        /// <summary>
-        /// The update statement for database uperations
-        /// </summary>
-        private const string SqlStatementUpdate = "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}";
+        #region Constants and Fields
 
         /// <summary>
-        /// The select statement for selecting the primary key value of a specific row
-        /// </summary>
-        private const string SqlStatementSelectPk = "SELECT TOP 1 [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));";
-
-        /// <summary>
-        /// The value string for a NULL value in the database sql dialect
+        ///   The value string for a NULL value in the database sql dialect
         /// </summary>
         private const string SqlDatabaseNullString = "NULL";
 
         /// <summary>
-        /// The insert statement for inserting a new row into the database
+        ///   The insert statement for inserting a new row into the database
         /// </summary>
         private const string SqlStatementInsertRow = "INSERT INTO {0} ({1}) VALUES ({2})";
 
         /// <summary>
-        /// Gets the user readable name of the client implementation. This name should
-        /// be specific enough to let the user know what element store will be accessed.
+        ///   The select statement for selecting the primary key value of a specific row
+        /// </summary>
+        private const string SqlStatementSelectPk = "SELECT TOP 1 [{0}] AS X FROM [{1}] WHERE ((([{1}].[{2}])={3}));";
+
+        /// <summary>
+        ///   The update statement for database uperations
+        /// </summary>
+        private const string SqlStatementUpdate = "UPDATE {2} SET [{0}] = {1} WHERE {4} = {3}";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///   Gets the user readable name of the client implementation. This name should
+        ///   be specific enough to let the user know what element store will be accessed.
         /// </summary>
         public override string FriendlyClientName
         {
@@ -73,15 +82,25 @@ namespace Sem.Sync.Connector.MsAccess
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Reads all data from the configured table and maps it to the <see cref="StdContact"/> entity.
-        /// This method does use an unconditional SELECT * FROM ..., so it might affect performance
-        /// in case of large result sets.
+        ///   This method does use an unconditional SELECT * FROM ..., so it might affect performance
+        ///   in case of large result sets.
         /// </summary>
-        /// <param name="clientFolderName">the configuration file for the data source</param>
-        /// <param name="result">The list of elements that should get the elements. The elements 
-        /// will be added to the list instead of replacing it.</param>
-        /// <returns>The list with the newly added elements</returns>
+        /// <param name="clientFolderName">
+        /// the configuration file for the data source
+        /// </param>
+        /// <param name="result">
+        /// The list of elements that should get the elements. The elements 
+        ///   will be added to the list instead of replacing it.
+        /// </param>
+        /// <returns>
+        /// The list with the newly added elements
+        /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var description = GetDescription(clientFolderName);
@@ -106,13 +125,11 @@ namespace Sem.Sync.Connector.MsAccess
 
                                 if (mappingItem.TransformationFromDatabase != null)
                                 {
-                                    value = mappingItem.TransformationFromDatabase.Compile()(mappingItem, value).ToString();
+                                    value =
+                                        mappingItem.TransformationFromDatabase.Compile()(mappingItem, value).ToString();
                                 }
 
-                                Tools.SetPropertyValue(
-                                    newContact,
-                                    mappingItem.Selector,
-                                    value);
+                                Tools.SetPropertyValue(newContact, mappingItem.Selector, value);
                             }
                             catch (Exception ex)
                             {
@@ -130,12 +147,18 @@ namespace Sem.Sync.Connector.MsAccess
 
         /// <summary>
         /// Writes the information from the <see cref="StdContact"/> entities back to the database table.
-        /// This method has not been optimized yet and does produce a high amount of update statements!
-        /// TODO: Optimize the method to only use one UPDATE statement per row.
+        ///   This method has not been optimized yet and does produce a high amount of update statements!
+        ///   TODO: Optimize the method to only use one UPDATE statement per row.
         /// </summary>
-        /// <param name="elements">the list of elements that will be written to the target system.</param>
-        /// <param name="clientFolderName">configiguration file for the target database and mapping</param>
-        /// <param name="skipIfExisting">this implementation does ignore the skipIfExisting parameter</param>
+        /// <param name="elements">
+        /// the list of elements that will be written to the target system.
+        /// </param>
+        /// <param name="clientFolderName">
+        /// configiguration file for the target database and mapping
+        /// </param>
+        /// <param name="skipIfExisting">
+        /// this implementation does ignore the skipIfExisting parameter
+        /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var description = GetDescription(clientFolderName);
@@ -153,10 +176,9 @@ namespace Sem.Sync.Connector.MsAccess
                     try
                     {
                         var currentItem = item;
-                        var id = (from l in lookupColumns
-                                  select GetPrimaryKeyForEntity(con, description, l, currentItem))
-                                  .Where(x => !string.IsNullOrEmpty(x))
-                                  .FirstOrDefault();
+                        var id =
+                            (from l in lookupColumns select GetPrimaryKeyForEntity(con, description, l, currentItem)).
+                                Where(x => !string.IsNullOrEmpty(x)).FirstOrDefault();
 
                         if (string.IsNullOrEmpty(id))
                         {
@@ -166,21 +188,22 @@ namespace Sem.Sync.Connector.MsAccess
 
                         columns.Where(x => !x.IsAutoValue).ForEach(
                             mappingItem =>
-                            {
-                                using (var cmd = con.CreateCommand())
                                 {
-                                    cmd.CommandText = string.Format(
-                                        CultureInfo.InvariantCulture, 
-                                        SqlStatementUpdate,
-                                        mappingItem.Title,
-                                        FormatForDatabase(Tools.GetPropertyValue(currentItem, mappingItem.Selector), mappingItem),
-                                        description.MainTable,
-                                        id,
-                                        primaryKeyName);
+                                    using (var cmd = con.CreateCommand())
+                                    {
+                                        cmd.CommandText = string.Format(
+                                            CultureInfo.InvariantCulture, 
+                                            SqlStatementUpdate, 
+                                            mappingItem.Title, 
+                                            FormatForDatabase(
+                                                Tools.GetPropertyValue(currentItem, mappingItem.Selector), mappingItem), 
+                                            description.MainTable, 
+                                            id, 
+                                            primaryKeyName);
 
-                                    cmd.ExecuteNonQuery();
-                                }
-                            });
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                });
                     }
                     catch (Exception ex)
                     {
@@ -191,10 +214,51 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
+        /// Formats an object for database operations to SQL synthax
+        /// </summary>
+        /// <param name="toBeFormatted">
+        /// The object to be formatted. 
+        /// </param>
+        /// <param name="mappingItem">
+        /// The mapping item for this object. 
+        /// </param>
+        /// <returns>
+        /// A SQL formatted object. 
+        /// </returns>
+        private static string FormatForDatabase(object toBeFormatted, ColumnDefinition mappingItem)
+        {
+            if (toBeFormatted == null)
+            {
+                return SqlDatabaseNullString;
+            }
+
+            if (mappingItem.NullIfDefault &&
+                toBeFormatted.Equals(toBeFormatted.GetType().GetConstructor(new Type[] { })))
+            {
+                return SqlDatabaseNullString;
+            }
+
+            var returnValue = mappingItem.IsNumericValue
+                                  ? string.Format(CultureInfo.InvariantCulture, "{0}", toBeFormatted)
+                                  : "'" + toBeFormatted.ToString().Replace("'", "''") + "'";
+
+            if (mappingItem.TransformationToDatabase != null)
+            {
+                returnValue = mappingItem.TransformationToDatabase.Compile()(mappingItem, toBeFormatted);
+            }
+
+            return returnValue;
+        }
+
+        /// <summary>
         /// Generates a SQL statement from the table and column description
         /// </summary>
-        /// <param name="description"> The description of the source. </param>
-        /// <returns> a SQL statement string </returns>
+        /// <param name="description">
+        /// The description of the source. 
+        /// </param>
+        /// <returns>
+        /// a SQL statement string 
+        /// </returns>
         private static string GenerateSelectStatement(SourceDescription description)
         {
             var addComma = false;
@@ -223,42 +287,38 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
-        /// Performs a lookup for the PK value of a given entity by querying the table using a specific field mapping
+        /// parses the database path and checks if it's already a complete connection string or just a file name.
+        ///   If the database path does not contain a "=" character it's identified as an OLEDB connection string.
+        ///   In case of being just a database file name, it's interpreted as a path to a Microsoft Access database file.
         /// </summary>
-        /// <param name="connection"> The database connection to the microsoft access database file. </param>
-        /// <param name="description"> The source description including the table name to be used. </param>
-        /// <param name="fieldMapping"> The field mapping. </param>
-        /// <param name="contact"> The contact for find. </param>
-        /// <returns> the primary key value of the entity or null if not in database </returns>
-        private static string GetPrimaryKeyForEntity(OleDbConnection connection, SourceDescription description, ColumnDefinition fieldMapping, StdContact contact)
+        /// <param name="description">
+        /// The source description containing the database path. 
+        /// </param>
+        /// <returns>
+        /// a connection string to open the database 
+        /// </returns>
+        private static string GetConnectionString(SourceDescription description)
         {
-            var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping);
-            if (value == SqlDatabaseNullString)
+            if (!description.DatabasePath.Contains("="))
             {
-                return null;
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False", 
+                    description.DatabasePath);
             }
 
-            using (var cmd = connection.CreateCommand())
-            {
-                var text = string.Format(
-                    CultureInfo.InvariantCulture,
-                    SqlStatementSelectPk,
-                    description.GetPrimaryKeyName(),
-                    description.MainTable,
-                    fieldMapping.Title,
-                    FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping));
-
-                cmd.CommandText = text;
-                var result = cmd.ExecuteScalar();
-                return (result ?? string.Empty).ToString();
-            }
+            return description.DatabasePath;
         }
 
         /// <summary>
         /// Read mapping description from file - create a sample file if it does not exist
         /// </summary>
-        /// <param name="clientFolderName"> The file that does contain the database mapping description </param>
-        /// <returns> a deserialized mapping description </returns>
+        /// <param name="clientFolderName">
+        /// The file that does contain the database mapping description 
+        /// </param>
+        /// <returns>
+        /// a deserialized mapping description 
+        /// </returns>
         private static SourceDescription GetDescription(string clientFolderName)
         {
             if (!File.Exists(clientFolderName))
@@ -270,59 +330,60 @@ namespace Sem.Sync.Connector.MsAccess
         }
 
         /// <summary>
-        /// Formats an object for database operations to SQL synthax
+        /// Performs a lookup for the PK value of a given entity by querying the table using a specific field mapping
         /// </summary>
-        /// <param name="toBeFormatted"> The object to be formatted. </param>
-        /// <param name="mappingItem"> The mapping item for this object. </param>
-        /// <returns> A SQL formatted object. </returns>
-        private static string FormatForDatabase(object toBeFormatted, ColumnDefinition mappingItem)
+        /// <param name="connection">
+        /// The database connection to the microsoft access database file. 
+        /// </param>
+        /// <param name="description">
+        /// The source description including the table name to be used. 
+        /// </param>
+        /// <param name="fieldMapping">
+        /// The field mapping. 
+        /// </param>
+        /// <param name="contact">
+        /// The contact for find. 
+        /// </param>
+        /// <returns>
+        /// the primary key value of the entity or null if not in database 
+        /// </returns>
+        private static string GetPrimaryKeyForEntity(
+            OleDbConnection connection, SourceDescription description, ColumnDefinition fieldMapping, StdContact contact)
         {
-            if (toBeFormatted == null)
+            var value = FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping);
+            if (value == SqlDatabaseNullString)
             {
-                return SqlDatabaseNullString;
+                return null;
             }
 
-            if (mappingItem.NullIfDefault && (toBeFormatted.Equals(toBeFormatted.GetType().GetConstructor(new Type[] { }))))
+            using (var cmd = connection.CreateCommand())
             {
-                return SqlDatabaseNullString;
+                var text = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    SqlStatementSelectPk, 
+                    description.GetPrimaryKeyName(), 
+                    description.MainTable, 
+                    fieldMapping.Title, 
+                    FormatForDatabase(Tools.GetPropertyValue(contact, fieldMapping.Selector), fieldMapping));
+
+                cmd.CommandText = text;
+                var result = cmd.ExecuteScalar();
+                return (result ?? string.Empty).ToString();
             }
-
-            var returnValue = mappingItem.IsNumericValue ? string.Format(CultureInfo.InvariantCulture, "{0}", toBeFormatted) : "'" + toBeFormatted.ToString().Replace("'", "''") + "'";
-
-            if (mappingItem.TransformationToDatabase != null)
-            {
-                returnValue = mappingItem.TransformationToDatabase.Compile()(mappingItem, toBeFormatted);
-            }
-
-            return returnValue;
-        }
-
-        /// <summary>
-        /// parses the database path and checks if it's already a complete connection string or just a file name.
-        /// If the database path does not contain a "=" character it's identified as an OLEDB connection string.
-        /// In case of being just a database file name, it's interpreted as a path to a Microsoft Access database file.
-        /// </summary>
-        /// <param name="description"> The source description containing the database path. </param>
-        /// <returns> a connection string to open the database </returns>
-        private static string GetConnectionString(SourceDescription description)
-        {
-            if (!description.DatabasePath.Contains("="))
-            {
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=False",
-                    description.DatabasePath);
-            }
-
-            return description.DatabasePath;
         }
 
         /// <summary>
         /// Inserts a new item into the database
         /// </summary>
-        /// <param name="con"> The database connection. </param>
-        /// <param name="description"> The source description. </param>
-        /// <param name="currentItem"> The item to be inserted. </param>
+        /// <param name="con">
+        /// The database connection. 
+        /// </param>
+        /// <param name="description">
+        /// The source description. 
+        /// </param>
+        /// <param name="currentItem">
+        /// The item to be inserted. 
+        /// </param>
         private void InsertNewItemToDatabase(OleDbConnection con, SourceDescription description, StdContact currentItem)
         {
             var insertColumns = from x in description.ColumnDefinitions where !x.IsAutoValue select x.Title;
@@ -334,10 +395,10 @@ namespace Sem.Sync.Connector.MsAccess
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = string.Format(
-                    CultureInfo.InvariantCulture,
-                    SqlStatementInsertRow,
-                    description.MainTable,
-                    "[" + string.Join("],[", insertColumns) + "]",
+                    CultureInfo.InvariantCulture, 
+                    SqlStatementInsertRow, 
+                    description.MainTable, 
+                    "[" + string.Join("],[", insertColumns) + "]", 
                     string.Join(",", values));
                 try
                 {
@@ -349,5 +410,7 @@ namespace Sem.Sync.Connector.MsAccess
                 }
             }
         }
+
+        #endregion
     }
 }

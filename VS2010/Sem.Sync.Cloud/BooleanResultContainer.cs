@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the BooleanResultContainer type.
+//   Implements a boolean result class that inherits some standard properties from <see cref="ResultBase" />
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,10 +17,14 @@ namespace Sem.Sync.Cloud
     [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public class BooleanResultContainer : ResultBase
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets a value indicating whether the result of the method call was true or false.
+        ///   Gets or sets a value indicating whether the result of the method call was true or false.
         /// </summary>
         [DataMember]
         public bool Result { get; set; }
+
+        #endregion
     }
 }

@@ -18,14 +18,18 @@ namespace Sem.GenericHelpers.Entities
     [Serializable]
     public class ResponseCacheItem
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the Content.
+        ///   Gets or sets the Content.
         /// </summary>
         public byte[] Content { get; set; }
 
         /// <summary>
-        /// Gets or sets the Cookies.
+        ///   Gets or sets the Cookies.
         /// </summary>
         public List<KeyValuePair> Cookies { get; set; }
+
+        #endregion
     }
 }

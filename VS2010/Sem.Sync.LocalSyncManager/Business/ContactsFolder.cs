@@ -12,41 +12,59 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.Collections.Generic;
     using System.ComponentModel;
 
-    using SyncBase;
-    using SyncBase.Interfaces;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// Represents a contacts folder for binding UI elements
     /// </summary>
     public class ContactsFolder : INotifyPropertyChanged
     {
+        #region Constants and Fields
+
         /// <summary>
-        /// A list of contacts from the folder
+        ///   A list of contacts from the folder
         /// </summary>
         private IEnumerable<StdContact> contacts;
 
         /// <summary>
-        /// the currectly selected contact
+        ///   the currectly selected contact
         /// </summary>
         private StdContact currentContact;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactsFolder"/> class.
         /// </summary>
-        /// <param name="connector"> The connector to read from. </param>
-        /// <param name="clientPath"> The client path. </param>
+        /// <param name="connector">
+        /// The connector to read from. 
+        /// </param>
+        /// <param name="clientPath">
+        /// The client path. 
+        /// </param>
         public ContactsFolder(IClientBase connector, string clientPath)
         {
             this.Contacts = (IEnumerable<StdContact>)connector.GetAll(clientPath);
         }
 
+        #endregion
+
+        #region Events
+
         /// <summary>
-        /// Implements the needed event handler for the interface <see cref="INotifyPropertyChanged"/>
+        ///   Implements the needed event handler for the interface <see cref = "INotifyPropertyChanged" />
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the list of Contacts.
+        ///   Gets or sets the list of Contacts.
         /// </summary>
         public IEnumerable<StdContact> Contacts
         {
@@ -63,7 +81,7 @@ namespace Sem.Sync.LocalSyncManager.Business
         }
 
         /// <summary>
-        /// Gets or sets the currently selected contact.
+        ///   Gets or sets the currently selected contact.
         /// </summary>
         public StdContact CurrentContact
         {
@@ -79,11 +97,17 @@ namespace Sem.Sync.LocalSyncManager.Business
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Calls the event to inform other classes about an internal change of this objects 
-        /// state - this will cause the GUI to read the data from this object.
+        ///   state - this will cause the GUI to read the data from this object.
         /// </summary>
-        /// <param name="propertyName"> The property name that has been changed. </param>
+        /// <param name="propertyName">
+        /// The property name that has been changed. 
+        /// </param>
         private void RaisePropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -91,5 +115,7 @@ namespace Sem.Sync.LocalSyncManager.Business
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        #endregion
     }
 }

@@ -6,6 +6,7 @@
 //   response status of a calendar item
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase
 {
     /// <summary>
@@ -14,33 +15,33 @@ namespace Sem.Sync.SyncBase
     public enum ResponseStatus
     {
         /// <summary>
-        /// there is no defined status - the status is undefined
+        ///   there is no defined status - the status is undefined
         /// </summary>
-        Undefined = 0,
+        Undefined = 0, 
 
         /// <summary>
-        /// the person did not respond
+        ///   the person did not respond
         /// </summary>
-        NotResponded = 1,
+        NotResponded = 1, 
 
         /// <summary>
-        /// the person did accept the appointment
+        ///   the person did accept the appointment
         /// </summary>
-        Accepted = 2,
+        Accepted = 2, 
 
         /// <summary>
-        /// the person is not sure if the person can join the appointment, but it wants to join
+        ///   the person is not sure if the person can join the appointment, but it wants to join
         /// </summary>
-        Tentative = 3,
-        
-        /// <summary>
-        /// the person does not want to join the appointment
-        /// </summary>
-        Declined = 4,
+        Tentative = 3, 
 
         /// <summary>
-        /// the person is the organizer of the appointment
+        ///   the person does not want to join the appointment
         /// </summary>
-        Organized = 5,
+        Declined = 4, 
+
+        /// <summary>
+        ///   the person is the organizer of the appointment
+        /// </summary>
+        Organized = 5, 
     }
 }

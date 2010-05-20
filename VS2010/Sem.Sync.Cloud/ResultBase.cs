@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ResultBase type.
+//   Base class for result sets with a list of technical messages.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,9 +16,13 @@ namespace Sem.Sync.Cloud
     /// </summary>
     public abstract class ResultBase
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets a list of messages to be exchanged in conjunction with the contact item list.
+        ///   Gets or sets a list of messages to be exchanged in conjunction with the contact item list.
         /// </summary>
         public List<TechnicalMessage> Messages { get; set; }
+
+        #endregion
     }
 }

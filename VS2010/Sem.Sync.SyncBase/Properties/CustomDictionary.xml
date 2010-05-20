@@ -1,14 +1,15 @@
 ﻿<Dictionary>
   <Words>
-    <Unrecognized>
-    </Unrecognized>
+    <Unrecognized></Unrecognized>
     <Recognized>
       <Word>Sem</Word>
       <Word>Skype</Word>
       <Word>Xing</Word>
       <Word>Facebook</Word>
       <Word>unspecified</Word>
-      <Word>UnitedStatesofAmericaCanada</Word>
+      <Word>
+        UnitedStatesofAmericaCanada
+      </Word>
       <Word>RussiaKazakhstan</Word>
       <Word>Egypt</Word>
       <Word>SouthAfrica</Word>
@@ -43,7 +44,9 @@
       <Word>CocosKeelingIslands</Word>
       <Word>Indonesia</Word>
       <Word>Philippines</Word>
-      <Word>ChathamIslandNewZealand</Word>
+      <Word>
+        ChathamIslandNewZealand
+      </Word>
       <Word>NewZealand</Word>
       <Word>Singapore</Word>
       <Word>Thailand</Word>
@@ -67,7 +70,9 @@
       <Word>Mauritania</Word>
       <Word>MaliRepublic</Word>
       <Word>Guinea</Word>
-      <Word>CotedIvoireIvoryCoast</Word>
+      <Word>
+        CotedIvoireIvoryCoast
+      </Word>
       <Word>BurkinaFaso</Word>
       <Word>Niger</Word>
       <Word>TogoleseRepublic</Word>
@@ -78,7 +83,9 @@
       <Word>Ghana</Word>
       <Word>Nigeria</Word>
       <Word>Chad</Word>
-      <Word>CentralAfricanRepublic</Word>
+      <Word>
+        CentralAfricanRepublic
+      </Word>
       <Word>Cameroon</Word>
       <Word>CapeVerdeIslands</Word>
       <Word>SaoTomeandPrincipe</Word>
@@ -94,7 +101,9 @@
       <Word>Sudan</Word>
       <Word>RwandeseRepublic</Word>
       <Word>Ethiopia</Word>
-      <Word>SomaliDemocraticRepublic</Word>
+      <Word>
+        SomaliDemocraticRepublic
+      </Word>
       <Word>Djibouti</Word>
       <Word>Kenya</Word>
       <Word>Tanzania</Word>
@@ -143,12 +152,16 @@
       <Word>Croatia</Word>
       <Word>Slovenia</Word>
       <Word>BosniaHerzegovina</Word>
-      <Word>MacedoniaFormerYugoslavRepof</Word>
+      <Word>
+        MacedoniaFormerYugoslavRepof
+      </Word>
       <Word>VaticanCity</Word>
       <Word>CzechRepublic</Word>
       <Word>SlovakRepublic</Word>
       <Word>Liechtenstein</Word>
-      <Word>FalklandIslandsMalvinas</Word>
+      <Word>
+        FalklandIslandsMalvinas
+      </Word>
       <Word>Belize</Word>
       <Word>Guatemala</Word>
       <Word>ElSalvador</Word>
@@ -173,7 +186,9 @@
       <Word>EastTimor</Word>
       <Word>TimorLeste</Word>
       <Word>Antarctica</Word>
-      <Word>AustralianExternalTerritories</Word>
+      <Word>
+        AustralianExternalTerritories
+      </Word>
       <Word>NorfolkIsland</Word>
       <Word>BruneiDarussalam</Word>
       <Word>Nauru</Word>
@@ -183,7 +198,9 @@
       <Word>Vanuatu</Word>
       <Word>FijiIslands</Word>
       <Word>Palau</Word>
-      <Word>WallisandFutunaIslands</Word>
+      <Word>
+        WallisandFutunaIslands
+      </Word>
       <Word>CookIslands</Word>
       <Word>Niue</Word>
       <Word>Samoa</Word>
@@ -192,10 +209,16 @@
       <Word>Tuvalu</Word>
       <Word>FrenchPolynesia</Word>
       <Word>Tokelau</Word>
-      <Word>MicronesiaFederalStatesOf</Word>
+      <Word>
+        MicronesiaFederalStatesOf
+      </Word>
       <Word>MarshallIslands</Word>
-      <Word>InternationalFreephoneService</Word>
-      <Word>InternationalSharedCostServiceISCS</Word>
+      <Word>
+        InternationalFreephoneService
+      </Word>
+      <Word>
+        InternationalSharedCostServiceISCS
+      </Word>
       <Word>WakeIsland</Word>
       <Word>KoreaNorth</Word>
       <Word>HongKong</Word>
@@ -203,13 +226,21 @@
       <Word>Cambodia</Word>
       <Word>Laos</Word>
       <Word>InmarsatSNAC</Word>
-      <Word>InmarsatAtlanticOceanEast</Word>
+      <Word>
+        InmarsatAtlanticOceanEast
+      </Word>
       <Word>InmarsatPacificOcean</Word>
       <Word>InmarsatIndianOcean</Word>
-      <Word>InmarsatAtlanticOceanWest</Word>
-      <Word>UniversalPersonalTelecommunications</Word>
+      <Word>
+        InmarsatAtlanticOceanWest
+      </Word>
+      <Word>
+        UniversalPersonalTelecommunications
+      </Word>
       <Word>Bangladesh</Word>
-      <Word>GlobalMobileSatelliteSystemGMSS</Word>
+      <Word>
+        GlobalMobileSatelliteSystemGMSS
+      </Word>
       <Word>Taiwan</Word>
       <Word>Maldives</Word>
       <Word>Lebanon</Word>
@@ -220,7 +251,9 @@
       <Word>SaudiArabia</Word>
       <Word>Yemen</Word>
       <Word>Oman</Word>
-      <Word>PalestinianSettlements</Word>
+      <Word>
+        PalestinianSettlements
+      </Word>
       <Word>UnitedArabEmirates</Word>
       <Word>Israel</Word>
       <Word>Bahrain</Word>
@@ -244,9 +277,13 @@
       <Word>CaymanIslands</Word>
       <Word>Bermuda</Word>
       <Word>Grenada</Word>
-      <Word>TurksandCaicosIslands</Word>
+      <Word>
+        TurksandCaicosIslands
+      </Word>
       <Word>Montserrat</Word>
-      <Word>NorthernMarianasIslands</Word>
+      <Word>
+        NorthernMarianasIslands
+      </Word>
       <Word>Guam</Word>
       <Word>AmericanSamoa</Word>
       <Word>StLucia</Word>
@@ -263,16 +300,26 @@
       <Word>PuertoRico2</Word>
       <Word>CubaGuantanamoBay</Word>
       <Word>GuantanamoBay</Word>
-      <Word>ICOGlobalMobileSatelliteService</Word>
-      <Word>EllipsoMobileSatelliteservice</Word>
-      <Word>IridiumMobileSatelliteservice</Word>
-      <Word>GlobalstarMobileSatelliteService</Word>
-      <Word>EMSATMobileSatelliteservice</Word>
-      <Word>ThurayaMobileSatelliteservice</Word>
+      <Word>
+        ICOGlobalMobileSatelliteService
+      </Word>
+      <Word>
+        EllipsoMobileSatelliteservice
+      </Word>
+      <Word>
+        IridiumMobileSatelliteservice
+      </Word>
+      <Word>
+        GlobalstarMobileSatelliteService
+      </Word>
+      <Word>
+        EMSATMobileSatelliteservice
+      </Word>
+      <Word>
+        ThurayaMobileSatelliteservice
+      </Word>
     </Recognized>
-    <Deprecated>
-      
-    </Deprecated>
+    <Deprecated></Deprecated>
   </Words>
   <Acronyms>
     <CasingExceptions>

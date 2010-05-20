@@ -1,9 +1,18 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="VCardConverter.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="vCardConverter.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   Class to convert StdContacts to/from vCards
+//   This class does NOT fully implement the vCard 2.1 specification, because it does NOT support:
+//   - Property parameters without explicit name
+//   - folding of property values
+//   - grouping of properties
+//   - ONLY Base64-encoding is supported, quoted-printable and 8bit are NOT supported
+//   - value locations - ONLY inline and URL are supported
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase.Helpers
 {
     using System;
@@ -11,31 +20,40 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Globalization;
     using System.Text;
 
-    using DetailData;
-
-    using GenericHelpers;
+    using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Class to convert StdContacts to/from vCards
-    /// This class does NOT fully implement the vCard 2.1 specification, because it does NOT support:
-    /// - Property parameters without explicit name
-    /// - folding of property values
-    /// - grouping of properties
-    /// - ONLY Base64-encoding is supported, quoted-printable and 8bit are NOT supported
-    /// - value locations - ONLY inline and URL are supported
+    ///   This class does NOT fully implement the vCard 2.1 specification, because it does NOT support:
+    ///   - Property parameters without explicit name
+    ///   - folding of property values
+    ///   - grouping of properties
+    ///   - ONLY Base64-encoding is supported, quoted-printable and 8bit are NOT supported
+    ///   - value locations - ONLY inline and URL are supported
     /// </summary>
     public class VCardConverter
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the HttpRequester to download pictures in case of url-references.
+        ///   Gets or sets the HttpRequester to download pictures in case of url-references.
         /// </summary>
         public HttpHelper HttpRequester { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// converts a StdContact into a vCard (binary content)
         /// </summary>
-        /// <param name="contact"> The contact to be converted. </param>
-        /// <returns> a binary vCard representation </returns>
+        /// <param name="contact">
+        /// The contact to be converted. 
+        /// </param>
+        /// <returns>
+        /// a binary vCard representation 
+        /// </returns>
         public static byte[] StdContactToVCard(StdContact contact)
         {
             if (contact == null || contact.Name == null)
@@ -46,7 +64,13 @@ namespace Sem.Sync.SyncBase.Helpers
             var vCard = new StringBuilder();
             vCard.AppendLine("BEGIN:VCARD");
             vCard.AppendLine("VERSION:2.1");
-            AddAttributeToStringBuilder(vCard, "N", contact.Name.LastName, contact.Name.FirstName, contact.Name.MiddleName, contact.Name.AcademicTitle);
+            AddAttributeToStringBuilder(
+                vCard, 
+                "N", 
+                contact.Name.LastName, 
+                contact.Name.FirstName, 
+                contact.Name.MiddleName, 
+                contact.Name.AcademicTitle);
             AddAttributeToStringBuilder(vCard, "FN", contact.GetFullName());
             AddAttributeToStringBuilder(vCard, "SORT-STRING", contact.Name.LastName);
             AddAttributeToStringBuilder(vCard, "EMAIL;TYPE=INTERNET;TYPE=WORK;TYPE=PREF", contact.BusinessEmailPrimary);
@@ -55,18 +79,37 @@ namespace Sem.Sync.SyncBase.Helpers
 
             if (contact.DateOfBirth.Year > 1900 && contact.DateOfBirth.Year < 2200)
             {
-                AddAttributeToStringBuilder(vCard, "BDAY", contact.DateOfBirth.ToString("yyyyMMdd", CultureInfo.CurrentCulture));
+                AddAttributeToStringBuilder(
+                    vCard, "BDAY", contact.DateOfBirth.ToString("yyyyMMdd", CultureInfo.CurrentCulture));
             }
 
             if (contact.BusinessAddressPrimary != null)
             {
-                AddAttributeToStringBuilder(vCard, "ADR;TYPE=WORK", null, null, contact.BusinessAddressPrimary.StreetName, contact.BusinessAddressPrimary.CityName, contact.BusinessAddressPrimary.StateName, contact.BusinessAddressPrimary.PostalCode, contact.BusinessAddressPrimary.CountryName);
+                AddAttributeToStringBuilder(
+                    vCard, 
+                    "ADR;TYPE=WORK", 
+                    null, 
+                    null, 
+                    contact.BusinessAddressPrimary.StreetName, 
+                    contact.BusinessAddressPrimary.CityName, 
+                    contact.BusinessAddressPrimary.StateName, 
+                    contact.BusinessAddressPrimary.PostalCode, 
+                    contact.BusinessAddressPrimary.CountryName);
                 AddAttributeToStringBuilder(vCard, "TEL;TYPE=WORK", contact.BusinessAddressPrimary.Phone);
             }
 
             if (contact.PersonalAddressPrimary != null)
             {
-                AddAttributeToStringBuilder(vCard, "ADR;TYPE=HOME", null, null, contact.PersonalAddressPrimary.StreetName, contact.PersonalAddressPrimary.CityName, contact.PersonalAddressPrimary.StateName, contact.PersonalAddressPrimary.PostalCode, contact.PersonalAddressPrimary.CountryName);
+                AddAttributeToStringBuilder(
+                    vCard, 
+                    "ADR;TYPE=HOME", 
+                    null, 
+                    null, 
+                    contact.PersonalAddressPrimary.StreetName, 
+                    contact.PersonalAddressPrimary.CityName, 
+                    contact.PersonalAddressPrimary.StateName, 
+                    contact.PersonalAddressPrimary.PostalCode, 
+                    contact.PersonalAddressPrimary.CountryName);
                 AddAttributeToStringBuilder(vCard, "TEL;TYPE=HOME", contact.PersonalAddressPrimary.Phone);
             }
 
@@ -93,8 +136,12 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// converts a vCard into a standard contact.
         /// </summary>
-        /// <param name="vCard"> The vCard. </param>
-        /// <returns>a StdContact representation of the vCard</returns>
+        /// <param name="vCard">
+        /// The vCard. 
+        /// </param>
+        /// <returns>
+        /// a StdContact representation of the vCard
+        /// </returns>
         public StdContact VCardToStdContact(byte[] vCard)
         {
             return this.VCardToStdContact(vCard, ProfileIdentifierType.Default);
@@ -103,9 +150,15 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// converts a vCard into a standard contact.
         /// </summary>
-        /// <param name="vCard"> The vCard. </param>
-        /// <param name="useIndentifierAs"> This value determines the meaning of the identifier. </param>
-        /// <returns>a StdContact representation of the vCard</returns>
+        /// <param name="vCard">
+        /// The vCard. 
+        /// </param>
+        /// <param name="useIndentifierAs">
+        /// This value determines the meaning of the identifier. 
+        /// </param>
+        /// <returns>
+        /// a StdContact representation of the vCard
+        /// </returns>
         public StdContact VCardToStdContact(byte[] vCard, ProfileIdentifierType useIndentifierAs)
         {
             if (vCard == null)
@@ -114,17 +167,14 @@ namespace Sem.Sync.SyncBase.Helpers
             }
 
             var contact = new StdContact
-            {
-                InternalSyncData = new SyncData
                 {
-                    DateOfCreation = DateTime.Now,
-                    DateOfLastChange = DateTime.Now
-                },
-                Name = new PersonName(),
-            };
+                    InternalSyncData = new SyncData { DateOfCreation = DateTime.Now, DateOfLastChange = DateTime.Now }, 
+                    Name = new PersonName(), 
+                };
 
             var vCardUTF8 = Encoding.UTF8.GetString(vCard);
-            var vCardIso8859 = Encoding.UTF8.GetString(Encoding.Convert(Encoding.GetEncoding("iso8859-1"), Encoding.UTF8, vCard));
+            var vCardIso8859 =
+                Encoding.UTF8.GetString(Encoding.Convert(Encoding.GetEncoding("iso8859-1"), Encoding.UTF8, vCard));
 
             contact.Name = new PersonName();
 
@@ -139,7 +189,8 @@ namespace Sem.Sync.SyncBase.Helpers
                     continue;
                 }
 
-                line = GetInformationSegment(ref i, line.ToUpperInvariant().Contains("CHARSET=UTF-8:") ? linesUtf8 : linesIso8859);
+                line = GetInformationSegment(
+                    ref i, line.ToUpperInvariant().Contains("CHARSET=UTF-8:") ? linesUtf8 : linesIso8859);
 
                 var propertyDescription = line.Substring(0, line.IndexOf(':')).ToUpperInvariant();
                 var value = line.Substring(line.IndexOf(':') + 1).Replace("\r", string.Empty);
@@ -255,11 +306,11 @@ namespace Sem.Sync.SyncBase.Helpers
 
                         var address = new AddressDetail
                             {
-                                CityName = GetNthElement(valueParts, 4),
-                                StreetName = GetNthElement(valueParts, 3),
-                                StateName = GetNthElement(valueParts, 5),
-                                PostalCode = GetNthElement(valueParts, 6),
-                                CountryName = GetNthElement(valueParts, 7),
+                                CityName = GetNthElement(valueParts, 4), 
+                                StreetName = GetNthElement(valueParts, 3), 
+                                StateName = GetNthElement(valueParts, 5), 
+                                PostalCode = GetNthElement(valueParts, 6), 
+                                CountryName = GetNthElement(valueParts, 7), 
                             };
 
                         if (type.Contains("WORK"))
@@ -278,12 +329,9 @@ namespace Sem.Sync.SyncBase.Helpers
                         break;
 
                     case "X-WAB-GENDER":
-                        contact.PersonGender = 
-                            value == "2"
-                            ? Gender.Male
-                            : value == "1" 
-                                ? Gender.Female 
-                                : Gender.Unspecified;
+                        contact.PersonGender = value == "2"
+                                                   ? Gender.Male
+                                                   : value == "1" ? Gender.Female : Gender.Unspecified;
                         break;
 
                     case "PHOTO":
@@ -304,10 +352,11 @@ namespace Sem.Sync.SyncBase.Helpers
                         if (dateString.IndexOf("-", 0, StringComparison.Ordinal) == -1)
                         {
                             dateString = dateString.Substring(0, 4) + "-" + dateString.Substring(4, 2) + "-" +
-                                     dateString.Substring(6, 2);
+                                         dateString.Substring(6, 2);
                         }
 
-                        contact.DateOfBirth = DateTime.Parse(dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
+                        contact.DateOfBirth = DateTime.Parse(
+                            dateString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                         break;
 
                     case "UID":
@@ -321,10 +370,10 @@ namespace Sem.Sync.SyncBase.Helpers
                     case "CATEGORIES":
                         if (contact.SourceSpecificAttributes == null)
                         {
-                            contact.SourceSpecificAttributes = new SerializableDictionary<string, string>();    
+                            contact.SourceSpecificAttributes = new SerializableDictionary<string, string>();
                         }
 
-                        contact.SourceSpecificAttributes.Add(propertyName, value); 
+                        contact.SourceSpecificAttributes.Add(propertyName, value);
                         break;
 
                     case "LABEL":
@@ -355,33 +404,91 @@ namespace Sem.Sync.SyncBase.Helpers
             return contact;
         }
 
-        /// <summary>
-        /// Extractes the value from the current data segment. Increments the line index if the 
-        /// data spans multiple lines.
-        /// </summary>
-        /// <param name="lineIndex"> The current line index. </param>
-        /// <param name="lines"> The lines. </param>
-        /// <returns> a string represening the data for the current segment </returns>
-        private static string GetInformationSegment(ref int lineIndex, string[] lines)
-        {
-            var line = lines[lineIndex];
-            
-            while (lines[lineIndex + 1].StartsWith(" ", StringComparison.Ordinal))
-            {
-                line += lines[lineIndex + 1];
-                lineIndex++;
-            }
+        #endregion
 
-            return line;
+        #region Methods
+
+        /// <summary>
+        /// adds a contact attribute to the vCard. This overload will simply use the ToString method to serialize the object
+        /// </summary>
+        /// <param name="vCard">
+        /// the StringBuilder that is currently writing the vCard
+        /// </param>
+        /// <param name="attributeSpecification">
+        /// the textual attribute specification
+        /// </param>
+        /// <param name="values">
+        /// the value to write to the attribute
+        /// </param>
+        private static void AddAttributeToStringBuilder(
+            StringBuilder vCard, string attributeSpecification, object values)
+        {
+            if (values != null)
+            {
+                AddAttributeToStringBuilder(vCard, attributeSpecification, values.ToString());
+            }
+        }
+
+        /// <summary>
+        /// adds a contact attribute to the vCard. This overload will use base64 encoding
+        /// </summary>
+        /// <param name="vCard">
+        /// the StringBuilder that is currently writing the vCard
+        /// </param>
+        /// <param name="attributeSpecification">
+        /// the textual attribute specification
+        /// </param>
+        /// <param name="values">
+        /// the value to write to the attribute
+        /// </param>
+        private static void AddAttributeToStringBuilder(
+            StringBuilder vCard, string attributeSpecification, byte[] values)
+        {
+            if (values != null && values.Length > 0)
+            {
+                AddAttributeToStringBuilder(
+                    vCard, attributeSpecification + ";ENCODING=B", Convert.ToBase64String(values));
+            }
+        }
+
+        /// <summary>
+        /// adds a contact attribute to the vCard.
+        /// </summary>
+        /// <param name="vCard">
+        /// the StringBuilder that is currently writing the vCard
+        /// </param>
+        /// <param name="attributeSpecification">
+        /// the textual attribute specification
+        /// </param>
+        /// <param name="values">
+        /// the value to write to the attribute
+        /// </param>
+        private static void AddAttributeToStringBuilder(
+            StringBuilder vCard, string attributeSpecification, params string[] values)
+        {
+            foreach (var s in values)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    vCard.AppendLine(attributeSpecification + ";CHARSET=UTF-8:" + string.Join(";", values));
+                    break;
+                }
+            }
         }
 
         /// <summary>
         /// Decodes the data of the <paramref name="value"/> parameter and extracts binary data into the
-        /// <paramref name="binaryData"/> parameter in case of base64-encoding.
+        ///   <paramref name="binaryData"/> parameter in case of base64-encoding.
         /// </summary>
-        /// <param name="propertyDescription"> The property description. </param>
-        /// <param name="value"> The value to be decoded. </param>
-        /// <param name="binaryData"> The binary data extracted if the encoding was for binary data. </param>
+        /// <param name="propertyDescription">
+        /// The property description. 
+        /// </param>
+        /// <param name="value">
+        /// The value to be decoded. 
+        /// </param>
+        /// <param name="binaryData">
+        /// The binary data extracted if the encoding was for binary data. 
+        /// </param>
         private static void DecodeData(string propertyDescription, ref string value, ref byte[] binaryData)
         {
             var encoding = string.Concat(PropertyAttribute(propertyDescription, "ENCODING", string.Empty));
@@ -408,13 +515,71 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
+        /// Extractes the value from the current data segment. Increments the line index if the 
+        ///   data spans multiple lines.
+        /// </summary>
+        /// <param name="lineIndex">
+        /// The current line index. 
+        /// </param>
+        /// <param name="lines">
+        /// The lines. 
+        /// </param>
+        /// <returns>
+        /// a string represening the data for the current segment 
+        /// </returns>
+        private static string GetInformationSegment(ref int lineIndex, string[] lines)
+        {
+            var line = lines[lineIndex];
+
+            while (lines[lineIndex + 1].StartsWith(" ", StringComparison.Ordinal))
+            {
+                line += lines[lineIndex + 1];
+                lineIndex++;
+            }
+
+            return line;
+        }
+
+        /// <summary>
+        /// get the n'th element if there is one
+        /// </summary>
+        /// <param name="inputArray">
+        /// the array to get the value from
+        /// </param>
+        /// <param name="index">
+        /// the index of the element to get
+        /// </param>
+        /// <returns>
+        /// the string element with the desired index, null if there is no such entry
+        /// </returns>
+        private static string GetNthElement(string[] inputArray, int index)
+        {
+            if (inputArray.Length < index || index < 1)
+            {
+                return null;
+            }
+
+            var returnValue = inputArray[index - 1];
+            return returnValue;
+        }
+
+        /// <summary>
         /// gets a list of attribute values from a vCard property
         /// </summary>
-        /// <param name="property">the vCard property to get the attribute from</param>
-        /// <param name="attributeName">the attribute name</param>
-        /// <param name="defaultAttributeValue">a default value for the attribute, if there is no value inside the property</param>
-        /// <returns>a list of attribute values</returns>
-        private static List<string> PropertyAttribute(string property, string attributeName, string defaultAttributeValue)
+        /// <param name="property">
+        /// the vCard property to get the attribute from
+        /// </param>
+        /// <param name="attributeName">
+        /// the attribute name
+        /// </param>
+        /// <param name="defaultAttributeValue">
+        /// a default value for the attribute, if there is no value inside the property
+        /// </param>
+        /// <returns>
+        /// a list of attribute values
+        /// </returns>
+        private static List<string> PropertyAttribute(
+            string property, string attributeName, string defaultAttributeValue)
         {
             var values = new List<string>();
             foreach (var propertyItem in property.Split(';'))
@@ -439,67 +604,6 @@ namespace Sem.Sync.SyncBase.Helpers
             return values;
         }
 
-        /// <summary>
-        /// get the n'th element if there is one
-        /// </summary>
-        /// <param name="inputArray">the array to get the value from</param>
-        /// <param name="index">the index of the element to get</param>
-        /// <returns>the string element with the desired index, null if there is no such entry</returns>
-        private static string GetNthElement(string[] inputArray, int index)
-        {
-            if (inputArray.Length < index || index < 1)
-            {
-                return null;
-            }
-
-            var returnValue = inputArray[index - 1];
-            return returnValue;
-        }
-
-        /// <summary>
-        /// adds a contact attribute to the vCard. This overload will simply use the ToString method to serialize the object
-        /// </summary>
-        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param>
-        /// <param name="attributeSpecification">the textual attribute specification</param>
-        /// <param name="values">the value to write to the attribute</param>
-        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, object values)
-        {
-            if (values != null)
-            {
-                AddAttributeToStringBuilder(vCard, attributeSpecification, values.ToString());
-            }
-        }
-
-        /// <summary>
-        /// adds a contact attribute to the vCard. This overload will use base64 encoding
-        /// </summary>
-        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param>
-        /// <param name="attributeSpecification">the textual attribute specification</param>
-        /// <param name="values">the value to write to the attribute</param>
-        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, byte[] values)
-        {
-            if (values != null && values.Length > 0)
-            {
-                AddAttributeToStringBuilder(vCard, attributeSpecification + ";ENCODING=B", Convert.ToBase64String(values));
-            }
-        }
-
-        /// <summary>
-        /// adds a contact attribute to the vCard. 
-        /// </summary>
-        /// <param name="vCard">the StringBuilder that is currently writing the vCard</param>
-        /// <param name="attributeSpecification">the textual attribute specification</param>
-        /// <param name="values">the value to write to the attribute</param>
-        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, params string[] values)
-        {
-            foreach (var s in values)
-            {
-                if (!string.IsNullOrEmpty(s))
-                {
-                    vCard.AppendLine(attributeSpecification + ";CHARSET=UTF-8:" + string.Join(";", values));
-                    break;
-                }
-            }
-        }
+        #endregion
     }
 }

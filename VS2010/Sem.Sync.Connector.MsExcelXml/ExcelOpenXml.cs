@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ExcelOpenXml type.
+//   The excel open xml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,20 +18,45 @@ namespace Sem.Sync.Connector.MsExcelXml
 
     using Sem.GenericHelpers;
 
+    /// <summary>
+    /// The excel open xml.
+    /// </summary>
     public static class ExcelOpenXml
     {
-        private const string documentRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
-        private static XNamespace relationShip = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
-        private static XNamespace mainNameSpace = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-                        
+        #region Constants and Fields
+
         /// <summary>
-        /// This method is under development! 
+        /// The document relationship type.
         /// </summary>
-        /// <param name="packageFileName">The package file name.</param>
-        /// <typeparam name="T"> </typeparam>
-        /// <returns> </returns>
-        public static IEnumerable<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName)
-            where T : class, new()
+        private const string documentRelationshipType =
+            "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
+
+        /// <summary>
+        /// The main name space.
+        /// </summary>
+        private static readonly XNamespace mainNameSpace = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+
+        /// <summary>
+        /// The relation ship.
+        /// </summary>
+        private static readonly XNamespace relationShip =
+            "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method is under development!
+        /// </summary>
+        /// <param name="packageFileName">
+        /// The package file name.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// </returns>
+        public static IEnumerable<T> ImportFromFromOpenXmlPackageFile<T>(string packageFileName) where T : class, new()
         {
             var list = new List<T>();
 
@@ -42,7 +67,7 @@ namespace Sem.Sync.Connector.MsExcelXml
                 Uri documentUri = null;
 
                 // Get the main document part (workbook.xml).
-                foreach (System.IO.Packaging.PackageRelationship relationship in excelPackage.GetRelationshipsByType(documentRelationshipType))
+                foreach (var relationship in excelPackage.GetRelationshipsByType(documentRelationshipType))
                 {
                     // There should only be one document part in the package. 
                     documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), relationship.TargetUri);
@@ -68,10 +93,7 @@ namespace Sem.Sync.Connector.MsExcelXml
                         // what does exactly represent what we want.
                         // ReSharper disable PossibleNullReferenceException
                         workBook.MapIfExist2(
-                                    x => x.Root
-                                        .Element(mainNameSpace + "sheets")
-                                        .Elements(mainNameSpace + "sheet"),
-                                    ref sheets);
+                            x => x.Root.Element(mainNameSpace + "sheets").Elements(mainNameSpace + "sheet"), ref sheets);
 
                         foreach (var sheet in sheets)
                         {
@@ -85,7 +107,8 @@ namespace Sem.Sync.Connector.MsExcelXml
 
                             // get the relation between the document and the sheet.
                             var sheetRelation = documentPart.GetRelationship(relId);
-                            var sheetUri = System.IO.Packaging.PackUriHelper.ResolvePartUri(documentUri, sheetRelation.TargetUri);
+                            var sheetUri = System.IO.Packaging.PackUriHelper.ResolvePartUri(
+                                documentUri, sheetRelation.TargetUri);
                             var sheetPart = excelPackage.GetPart(sheetUri);
 
                             using (var sheetReader = XmlReader.Create(sheetPart.GetStream()))
@@ -99,10 +122,8 @@ namespace Sem.Sync.Connector.MsExcelXml
                                 // what does exactly represent what we want.
                                 // ReSharper disable PossibleNullReferenceException
                                 sheetXml.MapIfExist2(
-                                            x => x.Root
-                                             .Element(mainNameSpace + "sheetData")
-                                             .Elements(mainNameSpace + "row"),
-                                            ref data);
+                                    x => x.Root.Element(mainNameSpace + "sheetData").Elements(mainNameSpace + "row"), 
+                                    ref data);
 
                                 XmlHelper.DeserializeList(data, list, mainNameSpace + "c");
                             }
@@ -115,5 +136,7 @@ namespace Sem.Sync.Connector.MsExcelXml
 
             return list;
         }
+
+        #endregion
     }
 }

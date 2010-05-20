@@ -1,9 +1,12 @@
-//-----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProfileIdentifierType.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   Identifies the target system for the profile identifier
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
@@ -14,84 +17,86 @@ namespace Sem.Sync.SyncBase.DetailData
     public enum ProfileIdentifierType
     {
         /// <summary>
-        /// unknown or not registered target system, this defaults to the 
-        /// contacts internal id.
+        ///   unknown or not registered target system, this defaults to the 
+        ///   contacts internal id.
         /// </summary>
-        Default = 0,
+        Default = 0, 
 
         /// <summary>
-        /// obsolete identifier
+        ///   obsolete identifier
         /// </summary>
-        [Obsolete("This property did host the ID that is included inside the vCards exported from Xing. This ID seem to be not unique. Use XingNameProfileId instead.")]
-        XingProfileId,
-        
-        /// <summary>
-        /// target system: www.xing.com
-        /// </summary>
-        XingNameProfileId,
+        [Obsolete(
+            "This property did host the ID that is included inside the vCards exported from Xing. This ID seem to be not unique. Use XingNameProfileId instead."
+            )]
+        XingProfileId, 
 
         /// <summary>
-        /// target system: www.facebook.com
+        ///   target system: www.xing.com
         /// </summary>
-        FacebookProfileId,
+        XingNameProfileId, 
 
         /// <summary>
-        /// An active directory - this should include an official DNS name.
+        ///   target system: www.facebook.com
         /// </summary>
-        ActiveDirectoryId,
+        FacebookProfileId, 
 
         /// <summary>
-        /// this is the url at the social network side Wer-Kennt-Wen.de.
+        ///   An active directory - this should include an official DNS name.
         /// </summary>
-        WerKenntWenUrl,
+        ActiveDirectoryId, 
 
         /// <summary>
-        /// this is a string identifying the contact at the social network side MeinVZ.net.
+        ///   this is the url at the social network side Wer-Kennt-Wen.de.
         /// </summary>
-        MeinVZ,
+        WerKenntWenUrl, 
 
         /// <summary>
-        /// target system: www.StayFriends.com
+        ///   this is a string identifying the contact at the social network side MeinVZ.net.
         /// </summary>
-        StayFriendsPersonId,
+        MeinVZ, 
 
         /// <summary>
-        /// Google Mail, Google Contacts, Google Calendar ...
+        ///   target system: www.StayFriends.com
         /// </summary>
-        Google,
+        StayFriendsPersonId, 
 
         /// <summary>
-        /// Microsoft Access Database
+        ///   Google Mail, Google Contacts, Google Calendar ...
         /// </summary>
-        MicrosoftAccessId,
+        Google, 
 
         /// <summary>
-        /// The social network LinkedIn
+        ///   Microsoft Access Database
         /// </summary>
-        LinkedInId,
+        MicrosoftAccessId, 
 
         /// <summary>
-        /// The social network LinkedIn
+        ///   The social network LinkedIn
         /// </summary>
-        LotusNotesId,
+        LinkedInId, 
 
         /// <summary>
-        /// The web service based interface of "Oracle CRM on Demand"
+        ///   The social network LinkedIn
         /// </summary>
-        OracleCrmOnDemandId,
+        LotusNotesId, 
 
         /// <summary>
-        /// Exchange Web Services
+        ///   The web service based interface of "Oracle CRM on Demand"
         /// </summary>
-        ExchangeWs,
+        OracleCrmOnDemandId, 
 
         /// <summary>
-        /// any unspecific eMail address
+        ///   Exchange Web Services
         /// </summary>
-        GenericEMail,
+        ExchangeWs, 
 
         /// <summary>
-        /// the Global Id of Microsoft Outlook
+        ///   any unspecific eMail address
+        /// </summary>
+        GenericEMail, 
+
+        /// <summary>
+        ///   the Global Id of Microsoft Outlook
         /// </summary>
         MicrosoftOutlookId
     }

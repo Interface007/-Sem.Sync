@@ -1,27 +1,21 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" 
-				xmlns:MSHelp="http://msdn.microsoft.com/mshelp"
-        xmlns:mshelp="http://msdn.microsoft.com/mshelp"
-				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-				xmlns:xlink="http://www.w3.org/1999/xlink"
-        xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-         >
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 
-  <xsl:import href="globalTemplates.xsl"/>
+  <xsl:import href="globalTemplates.xsl" />
   <xsl:template name="upperBodyStuff">
-    <input type="hidden" id="userDataCache" class="userDataStyle"/>
-    <input type="hidden" id="hiddenScrollOffset"/>
-    
-    <xsl:call-template name="commonImages"/>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
 
-    <xsl:call-template name="bodyHeader"/>
-    
+    <xsl:call-template name="commonImages" />
+
+    <xsl:call-template name="bodyHeader" />
+
   </xsl:template>
 
   <xsl:template name="bodyHeader">
     <div id="header">
-      <xsl:call-template name="bodyHeaderTopTable"/>
+      <xsl:call-template name="bodyHeaderTopTable" />
 
-      <xsl:call-template name="bodyHeaderBottomTable"/>
+      <xsl:call-template name="bodyHeaderBottomTable" />
     </div>
   </xsl:template>
 
@@ -39,7 +33,7 @@
           <span id="nsrTitle">
             <include item="nsrTitle">
               <parameter>
-                <xsl:call-template name="topicTitleDecorated"/>
+                <xsl:call-template name="topicTitleDecorated" />
               </parameter>
             </include>
           </span>
@@ -47,13 +41,13 @@
       </tr>
       <tr id="headerTableRow3">
         <td align="left">
-          <xsl:call-template name="headerRowLinks"/>
+          <xsl:call-template name="headerRowLinks" />
         </td>
         <!--<td align="right">
           <span id="headfb" class="feedbackhead"></span>
         </td>-->
       </tr>
-     </table>
+    </table>
     <table id="gradientTable">
       <tr>
         <td class="nsrBottom">
@@ -68,18 +62,18 @@
   <xsl:template name="memberTableLink">
     <xsl:param name="headerGroup" />
     <xsl:variable name="sectionId">
-      <xsl:value-of select="concat($headerGroup, 'TableToggle')"/>
+      <xsl:value-of select="concat($headerGroup, 'TableToggle')" />
     </xsl:variable>
-    <include item="nsrLinkSeparator"/>
+    <include item="nsrLinkSeparator" />
     <a href="#{$sectionId}" onclick="OpenSection({$sectionId})">
-      <include item="{$headerGroup}Table"/>
+      <include item="{$headerGroup}Table" />
     </a>
     <xsl:text>&#xa0;</xsl:text>
   </xsl:template>
-  
+
   <xsl:template name="headerRowLinks">
-    <xsl:variable name="hasTypeLink" select="/document/reference/topicdata/@typeTopicId or /document/reference/containers/type/@api"/>
-    <xsl:variable name="hasMembersLink" select="/document/reference/topicdata/@allMembersTopicId and ($subgroup='class' or $subgroup='structure' or $subgroup='interface')"/>
+    <xsl:variable name="hasTypeLink" select="/document/reference/topicdata/@typeTopicId or /document/reference/containers/type/@api" />
+    <xsl:variable name="hasMembersLink" select="/document/reference/topicdata/@allMembersTopicId and ($subgroup='class' or $subgroup='structure' or $subgroup='interface')" />
       
     <!-- Member list pages and member pages get link to Type Overview pages -->
     <xsl:choose>
@@ -100,10 +94,10 @@
     <!-- class, structure, and interface About topics get link to Members topic (unless the doc model has the all members lists on the type topic) -->
     <xsl:if test="$hasMembersLink">
       <xsl:if test="$hasTypeLink">
-        <include item="nsrLinkSeparator"/>
+        <include item="nsrLinkSeparator" />
       </xsl:if>
       <referenceLink target="{/document/reference/topicdata/@allMembersTopicId}">
-        <include item="allMembersTitle"/>
+        <include item="allMembersTitle" />
       </referenceLink>
       <xsl:text>&#xa0;</xsl:text>
     </xsl:if>
@@ -156,7 +150,9 @@
 
       <xsl:if test="/document/reference/elements/element[memberdata[@visibility='private'] and proceduredata[@virtual = 'true']]">
         <xsl:call-template name="memberTableLink">
-          <xsl:with-param name="headerGroup">ExplicitInterfaceImplementation</xsl:with-param>
+          <xsl:with-param name="headerGroup">
+            ExplicitInterfaceImplementation
+          </xsl:with-param>
         </xsl:call-template>
       </xsl:if>
 
@@ -165,10 +161,10 @@
     <!-- include Example link if there's an Example section -->
     <xsl:if test="$examplesSection">
       <xsl:if test="$hasTypeLink or $hasMembersLink">
-        <include item="nsrLinkSeparator"/>
+        <include item="nsrLinkSeparator" />
       </xsl:if>
       <a href="#exampleToggle" onclick="OpenSection(exampleToggle)">
-        <include item="Example"/>
+        <include item="Example" />
       </a>
       <xsl:text>&#xa0;</xsl:text>
     </xsl:if>
@@ -176,17 +172,17 @@
     <!-- most mref topics get autogenerated see also links to see also section -->
     <xsl:if test="$hasSeeAlsoSection">
       <xsl:if test="$hasTypeLink or $hasMembersLink or $examplesSection">
-        <include item="nsrLinkSeparator"/>
+        <include item="nsrLinkSeparator" />
       </xsl:if>
       <a href="#seeAlsoToggle" onclick="OpenSection(seeAlsoToggle)">
-        <include item="SeeAlso"/>
+        <include item="SeeAlso" />
       </a>
       <xsl:text>&#xa0;</xsl:text>
     </xsl:if>
 
     <!-- Feedback link -->
     <xsl:if test="$hasTypeLink or $hasMembersLink or $examplesSection or $hasSeeAlsoSection">
-      <include item="nsrLinkSeparator"/>
+      <include item="nsrLinkSeparator" />
     </xsl:if>
     <include item="feedbackHeader">
       <parameter>
@@ -196,14 +192,14 @@
         <xsl:value-of select="/document/metadata/attribute[@name='TopicVersion']" />
       </parameter>
     </include>
-    
+
   </xsl:template>
 
 
   <xsl:template name="bodyHeaderTopTable">
-    <xsl:variable name="showDevlangsFilter" select="boolean(($languages != 'false') and (count($languages/language) &gt; 0))"/>
-    <xsl:variable name="showMemberOptionsFilter" select="boolean($group='list' and $subgroup!='DerivedTypeList')"/>
-    <xsl:variable name="showMemberFrameworksFilter" select="boolean($group='list' and $subgroup!='DerivedTypeList' and /document/reference/elements//element/versions/versions)"/>
+    <xsl:variable name="showDevlangsFilter" select="boolean(($languages != 'false') and (count($languages/language) &gt; 0))" />
+    <xsl:variable name="showMemberOptionsFilter" select="boolean($group='list' and $subgroup!='DerivedTypeList')" />
+    <xsl:variable name="showMemberFrameworksFilter" select="boolean($group='list' and $subgroup!='DerivedTypeList' and /document/reference/elements//element/versions/versions)" />
     <table id="topTable" cellspacing="0" cellpadding="0">
       <tr>
         <td>
@@ -215,53 +211,53 @@
             </img>
             <xsl:text>&#xa0;</xsl:text>
             <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">
-              <include item="collapseAll"/>
+              <include item="collapseAll" />
             </label>
             <label id="expandAllLabel" for="toggleAllImage" style="display: none;">
-              <include item="expandAll"/>
+              <include item="expandAll" />
             </label>
             <xsl:text>&#160;</xsl:text>
           </span>
 
           <xsl:if test="boolean($showDevlangsFilter)">
-            <xsl:call-template name="devlangsDropdown"/>
+            <xsl:call-template name="devlangsDropdown" />
           </xsl:if>
 
           <!-- include the member options dropdown on memberlist topics -->
           <xsl:if test="boolean($showMemberOptionsFilter)">
-            <xsl:call-template name="memberOptionsDropdown"/>
+            <xsl:call-template name="memberOptionsDropdown" />
           </xsl:if>
 
           <!-- include the member platforms dropdown on memberlist topics that have platform info -->
           <xsl:if test="boolean($showMemberFrameworksFilter)">
-            <xsl:call-template name="memberFrameworksDropdown"/>
+            <xsl:call-template name="memberFrameworksDropdown" />
           </xsl:if>
         </td>
       </tr>
     </table>
     <xsl:if test="boolean($showDevlangsFilter)">
-      <xsl:call-template name="devlangsMenu"/>
+      <xsl:call-template name="devlangsMenu" />
     </xsl:if>
 
     <!-- include the member options dropdown on memberlist topics -->
     <xsl:if test="boolean($showMemberOptionsFilter)">
-      <xsl:call-template name="memberOptionsMenu"/>
+      <xsl:call-template name="memberOptionsMenu" />
     </xsl:if>
 
     <!-- include the member platforms dropdown on memberlist topics that have platform info -->
     <xsl:if test="boolean($showMemberFrameworksFilter)">
-      <xsl:call-template name="memberFrameworksMenu"/>
+      <xsl:call-template name="memberFrameworksMenu" />
     </xsl:if>
   </xsl:template>
 
   <xsl:template name="FrameworksMenuCheckbox">
-    <xsl:variable name="versionName" select="@name"/>
+    <xsl:variable name="versionName" select="@name" />
     <!-- checkbox for each version group -->
-    <input id="{$versionName}Checkbox" type='checkbox' data="{$versionName},'persist'" value="on" onClick="SetMemberFrameworks(this)"/>
+    <input id="{$versionName}Checkbox" type='checkbox' data="{$versionName},'persist'" value="on" onClick="SetMemberFrameworks(this)" />
     <label class="checkboxLabel" for="{$versionName}Checkbox">
-      <include item="Include{$versionName}Members"/>
+      <include item="Include{$versionName}Members" />
     </label>
-    <br/>
+    <br />
   </xsl:template>
   
   <!-- /document/reference/elements/element/versions/versions -->
@@ -270,16 +266,16 @@
       <xsl:for-each select="/document/reference/elements//element/versions[versions]">
         <xsl:if test="position()=1">
           <xsl:for-each select="versions">
-            <xsl:call-template name="FrameworksMenuCheckbox"/>
+            <xsl:call-template name="FrameworksMenuCheckbox" />
           </xsl:for-each>
         </xsl:if>
       </xsl:for-each>
-      <xsl:text> </xsl:text>
+      <xsl:text></xsl:text>
     </div>
   </xsl:template>
 
   <xsl:template name="memberFrameworksDropdown">
-    <include item="dropdownSeparator"/>
+    <include item="dropdownSeparator" />
     <span id="memberFrameworksDropdown" class="filter" tabindex="0">
       <img id="memberFrameworksDropdownImage">
         <includeAttribute name="src" item="iconPath">
@@ -288,17 +284,26 @@
       </img>
       <xsl:text>&#xa0;</xsl:text>
       <label id="memberFrameworksMenuAllLabel" for="memberFrameworksDropdownImage" style="display: none;">
-        <nobr><include item="memberFrameworksShowAll"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberFrameworksShowAll" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <label id="memberFrameworksMenuMultipleLabel" for="memberFrameworksDropdownImage" style="display: none;">
-        <nobr><include item="memberFrameworksMultiple"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberFrameworksMultiple" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <xsl:for-each select="/document/reference/elements//element/versions[versions]">
         <xsl:if test="position()=1">
           <xsl:for-each select="versions">
-            <xsl:variable name="versionName" select="@name"/>
+            <xsl:variable name="versionName" select="@name" />
             <label id="memberFrameworksMenu{$versionName}Label" for="memberFrameworksDropdownImage" style="display: none;">
-              <nobr><include item="memberFrameworks{$versionName}"/><xsl:text>&#160;</xsl:text></nobr>
+              <nobr>
+                <include item="memberFrameworks{$versionName}" />
+                <xsl:text>&#160;</xsl:text>
+              </nobr>
             </label>
           </xsl:for-each>
         </xsl:if>
@@ -307,40 +312,40 @@
   </xsl:template>
 
   <!--  -->
-  <xsl:variable name="moreMemberOptions" select="false()"/>
+  <xsl:variable name="moreMemberOptions" select="false()" />
 
   <xsl:template name="memberOptionsMenu">
     <div id="memberOptionsMenu">
       <xsl:if test="$moreMemberOptions">
-        <input id="PublicCheckbox" type='checkbox' data="Public" value="on" onClick="SetMemberOptions(this, 'vis')"/>
+        <input id="PublicCheckbox" type='checkbox' data="Public" value="on" onClick="SetMemberOptions(this, 'vis')" />
         <label class="checkboxLabel" for="PublicCheckbox">
-          <include item="includePublicMembers"/>
+          <include item="includePublicMembers" />
         </label>
-        <br/>
+        <br />
       </xsl:if>
-      <input id="ProtectedCheckbox" type='checkbox' data="Protected" value="on" onClick="SetMemberOptions(this, 'vis')"/>
+      <input id="ProtectedCheckbox" type='checkbox' data="Protected" value="on" onClick="SetMemberOptions(this, 'vis')" />
       <label class="checkboxLabel" for="ProtectedCheckbox">
-        <include item="includeProtectedMembers"/>
+        <include item="includeProtectedMembers" />
       </label>
-      <br/>
+      <br />
       <xsl:if test="$moreMemberOptions">
-        <br/>
-        <input id="DeclaredCheckbox" type='checkbox' data="Declared" value="on" onClick="SetMemberOptions(this, 'decl')"/>
+        <br />
+        <input id="DeclaredCheckbox" type='checkbox' data="Declared" value="on" onClick="SetMemberOptions(this, 'decl')" />
         <label class="checkboxLabel" for="DeclaredCheckbox">
-          <include item="includeDeclaredMembers"/>
+          <include item="includeDeclaredMembers" />
         </label>
-        <br/>
+        <br />
       </xsl:if>
-      <input id="InheritedCheckbox" type='checkbox' data="Inherited" value="on" onClick="SetMemberOptions(this, 'decl')"/>
+      <input id="InheritedCheckbox" type='checkbox' data="Inherited" value="on" onClick="SetMemberOptions(this, 'decl')" />
       <label class="checkboxLabel" for="InheritedCheckbox">
-        <include item="includeInheritedMembers"/>
+        <include item="includeInheritedMembers" />
       </label>
-      <br/>
+      <br />
     </div>
   </xsl:template>
 
   <xsl:template name="memberOptionsDropdown">
-    <include item="dropdownSeparator"/>
+    <include item="dropdownSeparator" />
     <span id="memberOptionsDropdown" class="filter" tabindex="0">
       <img id="memberOptionsDropdownImage">
         <includeAttribute name="src" item="iconPath">
@@ -349,23 +354,41 @@
       </img>
       <xsl:text>&#xa0;</xsl:text>
       <label id="memberOptionsMenuAllLabel" for="memberOptionsDropdownImage" style="display: none;">
-        <nobr><include item="memberOptionsShowAll"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberOptionsShowAll" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <label id="memberOptionsMenuMultipleLabel" for="memberOptionsDropdownImage" style="display: none;">
-        <nobr><include item="memberOptionsFiltered"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberOptionsFiltered" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <label id="memberOptionsMenuProtectedLabel" for="memberOptionsDropdownImage" style="display: none;">
-        <nobr><include item="memberOptionsFiltered"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberOptionsFiltered" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <label id="memberOptionsMenuInheritedLabel" for="memberOptionsDropdownImage" style="display: none;">
-        <nobr><include item="memberOptionsFiltered"/><xsl:text>&#160;</xsl:text></nobr>
+        <nobr>
+          <include item="memberOptionsFiltered" />
+          <xsl:text>&#160;</xsl:text>
+        </nobr>
       </label>
       <xsl:if test="$moreMemberOptions">
         <label id="memberOptionsMenuPublicLabel" for="memberOptionsDropdownImage" style="display: none;">
-          <nobr><include item="memberOptionsFiltered"/><xsl:text>&#160;</xsl:text></nobr>
+          <nobr>
+            <include item="memberOptionsFiltered" />
+            <xsl:text>&#160;</xsl:text>
+          </nobr>
         </label>
         <label id="memberOptionsMenuDeclaredLabel" for="memberOptionsDropdownImage" style="display: none;">
-          <nobr><include item="memberOptionsFiltered"/><xsl:text>&#160;</xsl:text></nobr>
+          <nobr>
+            <include item="memberOptionsFiltered" />
+            <xsl:text>&#160;</xsl:text>
+          </nobr>
         </label>
       </xsl:if>
     </span>
@@ -374,7 +397,7 @@
   <xsl:template name="devlangsDropdown">
     <!-- if only one language, omit the dropdown -->
     <xsl:if test="(count($languages/language) &gt; 1)">
-      <include item="dropdownSeparator"/>
+      <include item="dropdownSeparator" />
       <span id="devlangsDropdown" class="filter" tabindex="0">
         <img id="devlangsDropdownImage">
           <includeAttribute name="src" item="iconPath">
@@ -386,7 +409,7 @@
           <nobr>
             <include item="devlangsDropdown">
               <parameter>
-                <include item="all"/>
+                <include item="all" />
               </parameter>
             </include>
             <xsl:text>&#160;</xsl:text>
@@ -396,7 +419,7 @@
           <nobr>
             <include item="devlangsDropdown">
               <parameter>
-                <include item="multiple"/>
+                <include item="multiple" />
               </parameter>
             </include>
             <xsl:text>&#160;</xsl:text>
@@ -407,7 +430,7 @@
             <nobr>
               <include item="devlangsDropdown">
                 <parameter>
-                  <include item="{@name}"/>
+                  <include item="{@name}" />
                 </parameter>
               </include>
               <xsl:text>&#160;</xsl:text>
@@ -417,15 +440,15 @@
       </span>
     </xsl:if>
   </xsl:template>
-  
+
   <xsl:template name="devlangsMenu">
     <div id="devlangsMenu">
       <xsl:for-each select="$languages/language">
-        <input id="{@name}Checkbox" type='checkbox' data="{@name},{@style},'persist'" value="on" onClick="SetLanguage(this)"/>
+        <input id="{@name}Checkbox" type='checkbox' data="{@name},{@style},'persist'" value="on" onClick="SetLanguage(this)" />
         <label class="checkboxLabel" for="{@name}Checkbox">
-          <include item="{@name}"/>
+          <include item="{@name}" />
         </label>
-        <br/>
+        <br />
       </xsl:for-each>
     </div>
   </xsl:template>
@@ -484,12 +507,14 @@ copyHoverImage - overview (not namespace); list (only overload lists ctor, metho
     </img>
     <img id="copyHoverImage" style="display:none; height:0; width:0;">
       <includeAttribute name="src" item="iconPath">
-        <parameter>copycodeHighlight.gif</parameter>
+        <parameter>
+          copycodeHighlight.gif
+        </parameter>
       </includeAttribute>
       <includeAttribute name="title" item="copyHoverImage" />
     </img>
-    
+
   </xsl:template>
 
-  
+
 </xsl:stylesheet>

@@ -11,7 +11,7 @@ namespace Sem.Sync.Cloud
 {
     using System.Runtime.Serialization;
 
-    using SyncBase;
+    using Sem.Sync.SyncBase;
 
     /// <summary>
     /// container class for one single contact
@@ -19,10 +19,14 @@ namespace Sem.Sync.Cloud
     [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public class ContactContainer
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the contact on this container instance.
+        ///   Gets or sets the contact on this container instance.
         /// </summary>
         [DataMember]
         public StdContact Contact { get; set; }
+
+        #endregion
     }
 }

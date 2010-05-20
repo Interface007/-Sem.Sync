@@ -11,7 +11,7 @@ namespace Sem.Sync.OnlineStorage
 {
     using System.Runtime.Serialization;
 
-    using SyncBase;
+    using Sem.Sync.SyncBase;
 
     /// <summary>
     /// a data contract class containing one single contact
@@ -19,10 +19,14 @@ namespace Sem.Sync.OnlineStorage
     [DataContract(Namespace = "http://svenerikmatzen.com/Sem/Sync/OnlineStorage")]
     public class ContactContainer
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the Contact information.
+        ///   Gets or sets the Contact information.
         /// </summary>
         [DataMember]
         public StdContact Contact { get; set; }
+
+        #endregion
     }
 }

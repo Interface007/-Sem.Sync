@@ -17,14 +17,18 @@ namespace Sem.Sync.SyncBase.DetailData
     [Serializable]
     public class BusinessCertificate
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets official complete name of the certificate.
+        ///   Gets or sets official complete name of the certificate.
         /// </summary>
         public string CertificateName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name when this certificate has been earned - usually printed on the certificate.
+        ///   Gets or sets the name when this certificate has been earned - usually printed on the certificate.
         /// </summary>
         public DateTime CertificationDate { get; set; }
+
+        #endregion
     }
 }

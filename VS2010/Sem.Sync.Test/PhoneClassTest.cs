@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PhoneClassTest.cs" company="">
-//   
+// <copyright file="PhoneClassTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
 //   Summary description for PersonNameClassTest
@@ -11,7 +11,7 @@ namespace Sem.Sync.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using SyncBase.DetailData;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Summary description for PersonNameClassTest
@@ -19,12 +19,17 @@ namespace Sem.Sync.Test
     [TestClass]
     public class PhoneClassTest
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The test comparison.
+        /// </summary>
         [TestMethod]
         public void TestComparison()
         {
             var phone1 = new PhoneNumber("+49(1234)5678-9");
             var phone2 = new PhoneNumber("+49(1234)5678-9");
-            
+
             Assert.AreEqual(phone1, phone2);
             Assert.IsTrue(phone1 == phone2);
             Assert.IsFalse(phone1 != phone2);
@@ -59,5 +64,7 @@ namespace Sem.Sync.Test
             Assert.IsFalse(phone1 == phone2);
             Assert.IsTrue(phone1 != phone2);
         }
+
+        #endregion
     }
 }

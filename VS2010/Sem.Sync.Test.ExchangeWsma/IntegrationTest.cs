@@ -3,36 +3,31 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Summary description for UnitTest1
+//   This test class performs requests against a real Exchange service in order to test
+//   storing and reading of contacts.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Test.ExchangeWsma
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    
-    using Sem.GenericHelpers;
-    using Sem.Sync.Connector.ExchangeWebServiceManagedApi;
-    using Sem.Sync.SyncBase.DetailData;
-    using Sem.Sync.SyncBase.Helpers;
-    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
     /// This test class performs requests against a real Exchange service in order to test 
-    /// storing and reading of contacts.
+    ///   storing and reading of contacts.
     /// </summary>
     [TestClass]
     public class IntegrationTest
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
+        ///   Gets or sets the test context which provides
+        ///   information about and functionality for the current test run.
         /// </summary>
         public TestContext TestContext { get; set; }
+
+        #endregion
 
         // todo: the exchange access should be mocked
         /////// <summary>
@@ -69,7 +64,7 @@ namespace Sem.Sync.Test.ExchangeWsma
         ////    Assert.AreEqual(contactWritten.Name.LastName, contactRead.Name.LastName);
 
         ////    Assert.AreEqual(contactWritten.DateOfBirth, contactRead.DateOfBirth);
-            
+
         ////    // todo: the "body" property does not contain the original text, but an html representation.
         ////    ////Assert.AreEqual(contactWritten.AdditionalTextData, contactRead.AdditionalTextData);
         ////    Assert.AreEqual(contactWritten.Categories.Count, contactRead.Categories.NewIfNull().Count);

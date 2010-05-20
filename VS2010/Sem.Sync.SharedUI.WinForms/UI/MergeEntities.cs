@@ -1,10 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MergeEntities.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the MergeEntities type.
+//   Dialog that enables the user to resolve merge conflicts by selecting the desired property content.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,30 +16,41 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using System.Linq;
     using System.Windows.Forms;
 
-    using SyncBase;
-    using SyncBase.Merging;
-
-    using ViewModel;
+    using Sem.Sync.SharedUI.WinForms.ViewModel;
+    using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Merging;
 
     /// <summary>
     /// Dialog that enables the user to resolve merge conflicts by selecting the desired property content.
     /// </summary>
     public partial class MergeEntities : Form
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MergeEntities"/> class.
+        ///   Initializes a new instance of the <see cref = "MergeEntities" /> class.
         /// </summary>
         public MergeEntities()
         {
             this.InitializeComponent();
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Sets up the dialog and lets the user select the desired content.
         /// </summary>
-        /// <param name="toMerge"> The list of <see cref="MergeConflict"/> instances to be resolved. </param>
-        /// <param name="targetList"> The target target elements that should be manipulated according to the users selection. </param>
-        /// <returns> The manipulated target list </returns>
+        /// <param name="toMerge">
+        /// The list of <see cref="MergeConflict"/> instances to be resolved. 
+        /// </param>
+        /// <param name="targetList">
+        /// The target target elements that should be manipulated according to the users selection. 
+        /// </param>
+        /// <returns>
+        /// The manipulated target list 
+        /// </returns>
         public List<StdElement> PerformMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
             if (toMerge.Count == 0)
@@ -49,16 +59,16 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
 
             this.conflictGrid.AutoGenerateColumns = true;
-            this.conflictGrid.DataSource =
-                (from x in toMerge
-                 select new MergeView
-                            {
-                                ContactName = GetEntityName(x),
-                                PropertyName = x.PathToProperty,
-                                SourceValue = x.SourcePropertyValue,
-                                TargetValue = x.TargetPropertyValue,
-                                Conflict = x,
-                            }).ToList();
+            this.conflictGrid.DataSource = (from x in toMerge
+                                            select
+                                                new MergeView
+                                                    {
+                                                        ContactName = GetEntityName(x), 
+                                                        PropertyName = x.PathToProperty, 
+                                                        SourceValue = x.SourcePropertyValue, 
+                                                        TargetValue = x.TargetPropertyValue, 
+                                                        Conflict = x, 
+                                                    }).ToList();
 
             var col = this.conflictGrid.Columns["Conflict"];
             if (col != null)
@@ -76,8 +86,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
             }
 
             // get the list of solved merge conflicts
-            var merge = from y in (List<MergeView>)this.conflictGrid.DataSource
-                        select y.Conflict;
+            var merge = from y in (List<MergeView>)this.conflictGrid.DataSource select y.Conflict;
 
             // perform the user selected action
             foreach (var conflict in merge)
@@ -89,14 +98,27 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
                 var theConflict = conflict;
                 SetPropertyValue(
-                    (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(),
-                    conflict.PathToProperty,
+                    (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(), 
+                    conflict.PathToProperty, 
                     conflict.SourcePropertyValue);
             }
 
             return targetList;
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The get entity name.
+        /// </summary>
+        /// <param name="x">
+        /// The x.
+        /// </param>
+        /// <returns>
+        /// The get entity name.
+        /// </returns>
         private static string GetEntityName(MergeConflict x)
         {
             var element = x.SourceElement ?? x.TargetElement ?? x.BaselineElement;
@@ -114,9 +136,15 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Sets a property inside an object
         /// </summary>
-        /// <param name="stdElement"> The <see cref="StdElement"/> with the property to be set. </param>
-        /// <param name="pathToProperty"> The path to the property to be set property. </param>
-        /// <param name="newValue"> The new value. </param>
+        /// <param name="stdElement">
+        /// The <see cref="StdElement"/> with the property to be set. 
+        /// </param>
+        /// <param name="pathToProperty">
+        /// The path to the property to be set property. 
+        /// </param>
+        /// <param name="newValue">
+        /// The new value. 
+        /// </param>
         private static void SetPropertyValue(StdElement stdElement, string pathToProperty, string newValue)
         {
             object propObject = stdElement;
@@ -170,6 +198,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                     break;
 
                 case "List`1":
+
                     // TODO: Implement setting of List<> from string
                     break;
 
@@ -184,11 +213,44 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         }
 
         /// <summary>
-        /// Handels the click event from the content grid by selecting the clicked content as the
-        /// desired content for the target entry.
+        /// Handels a click of the user to cancel the dialog (abort the merge).
         /// </summary>
-        /// <param name="sender"> The sender grid control. </param>
-        /// <param name="e"> The event arguments containing the click information. </param>
+        /// <param name="sender">
+        /// The sender button control. 
+        /// </param>
+        /// <param name="e">
+        /// The empty event arguments. 
+        /// </param>
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// Handels a click of the user to accept the changes inside the dialog (perform the merge).
+        /// </summary>
+        /// <param name="sender">
+        /// The sender button control. 
+        /// </param>
+        /// <param name="e">
+        /// The empty event arguments. 
+        /// </param>
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        /// <summary>
+        /// Handels the click event from the content grid by selecting the clicked content as the
+        ///   desired content for the target entry.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender grid control. 
+        /// </param>
+        /// <param name="e">
+        /// The event arguments containing the click information. 
+        /// </param>
         private void ConflictGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var columnIndex = e.ColumnIndex;
@@ -209,30 +271,25 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         }
 
         /// <summary>
-        /// Performs the UI actions to visualize the selection of a specific cell.
+        /// Performs some initialization actions for the dialog loading event.
         /// </summary>
-        /// <param name="columnIndex"> The column index of the cell to select. </param>
-        /// <param name="rowIndex"> The row index of the cell to select. </param>
-        private void SelectRowAndColum(int columnIndex, int rowIndex)
+        /// <param name="sender">
+        /// The sender form. 
+        /// </param>
+        /// <param name="e">
+        /// The empty event arguments. 
+        /// </param>
+        private void MergeEntities_Load(object sender, EventArgs e)
         {
-            var currentRow = this.conflictGrid.Rows[rowIndex];
-            foreach (DataGridViewTextBoxCell cell in currentRow.Cells)
-            {
-                cell.Style.BackColor = Color.White;
-            }
-
-            ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo =
-                columnIndex == 2
-                    ? MergePropertyAction.CopySourceToTarget
-                    : MergePropertyAction.KeepCurrentTarget;
-
-            currentRow.Cells[columnIndex].Style.BackColor = Color.PaleGreen;
+            this.conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
         }
 
         /// <summary>
         /// Iterates through the cells of a column and selects them all.
         /// </summary>
-        /// <param name="columnIndex"> The column index of the cells to be selected. </param>
+        /// <param name="columnIndex">
+        /// The column index of the cells to be selected. 
+        /// </param>
         private void SelectCompleteColumn(int columnIndex)
         {
             foreach (DataGridViewRow row in this.conflictGrid.Rows)
@@ -242,34 +299,29 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         }
 
         /// <summary>
-        /// Handels a click of the user to cancel the dialog (abort the merge).
+        /// Performs the UI actions to visualize the selection of a specific cell.
         /// </summary>
-        /// <param name="sender"> The sender button control. </param>
-        /// <param name="e"> The empty event arguments. </param>
-        private void BtnCancel_Click(object sender, EventArgs e)
+        /// <param name="columnIndex">
+        /// The column index of the cell to select. 
+        /// </param>
+        /// <param name="rowIndex">
+        /// The row index of the cell to select. 
+        /// </param>
+        private void SelectRowAndColum(int columnIndex, int rowIndex)
         {
-            this.Close();
+            var currentRow = this.conflictGrid.Rows[rowIndex];
+            foreach (DataGridViewTextBoxCell cell in currentRow.Cells)
+            {
+                cell.Style.BackColor = Color.White;
+            }
+
+            ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo = columnIndex == 2
+                                                                            ? MergePropertyAction.CopySourceToTarget
+                                                                            : MergePropertyAction.KeepCurrentTarget;
+
+            currentRow.Cells[columnIndex].Style.BackColor = Color.PaleGreen;
         }
 
-        /// <summary>
-        /// Handels a click of the user to accept the changes inside the dialog (perform the merge).
-        /// </summary>
-        /// <param name="sender"> The sender button control. </param>
-        /// <param name="e"> The empty event arguments. </param>
-        private void BtnOk_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        /// <summary>
-        /// Performs some initialization actions for the dialog loading event.
-        /// </summary>
-        /// <param name="sender"> The sender form. </param>
-        /// <param name="e"> The empty event arguments. </param>
-        private void MergeEntities_Load(object sender, EventArgs e)
-        {
-            this.conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
-        }
+        #endregion
     }
 }

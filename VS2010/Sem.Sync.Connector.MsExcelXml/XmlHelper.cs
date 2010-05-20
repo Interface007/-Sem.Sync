@@ -1,13 +1,41 @@
-﻿namespace Sem.Sync.Connector.MsExcelXml
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="XmlHelper.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   The xml helper.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.MsExcelXml
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
 
-    using GenericHelpers;
+    using Sem.GenericHelpers;
 
+    /// <summary>
+    /// The xml helper.
+    /// </summary>
     internal static class XmlHelper
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The deserialize list.
+        /// </summary>
+        /// <param name="data">
+        /// The data.
+        /// </param>
+        /// <param name="list">
+        /// The list.
+        /// </param>
+        /// <param name="cellSelector">
+        /// The cell selector.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
         public static void DeserializeList<T>(IEnumerable<XElement> data, List<T> list, XName cellSelector)
             where T : class, new()
         {
@@ -38,5 +66,6 @@
             }
         }
 
+        #endregion
     }
 }

@@ -3,19 +3,18 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Tests the google connector
+//   Tests the google connector with a test of standard data and with standard account
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Test.Google
 {
-    using Connector.Google;
-
-    using DataGenerator;
-
-    using GenericHelpers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SyncBase.Helpers;
+
+    using Sem.GenericHelpers;
+    using Sem.Sync.Connector.Google;
+    using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.Test.DataGenerator;
 
     /// <summary>
     /// Tests the google connector with a test of standard data and with standard account
@@ -23,21 +22,21 @@ namespace Sem.Sync.Test.Google
     [TestClass]
     public class GoogleConnectorTest
     {
+        #region Public Methods
+
         /// <summary>
         /// Performs a copy from one file system store to another. This executes read and write.
-        /// Then both files will be compared to validate that all data has been copied.
+        ///   Then both files will be compared to validate that all data has been copied.
         /// </summary>
         [TestMethod]
         public void GoogleConnectorTestDataCheck()
         {
             var original = Contacts.GetStandardContactList(false);
 
-            var connector = new ContactClient 
+            var connector = new ContactClient
                 {
-                    LogOnUserId = "semsynctest@svenerikmatzen.info",
-                    LogOnPassword =
-                        Tools.GetRegValue(
-                        "Software\\Sem.Sync\\Test", "GoogleTestPassword", string.Empty)
+                    LogOnUserId = "semsynctest@svenerikmatzen.info", 
+                    LogOnPassword = Tools.GetRegValue("Software\\Sem.Sync\\Test", "GoogleTestPassword", string.Empty)
                 };
 
             connector.WriteRange(original.ToStdElements(), string.Empty);
@@ -50,5 +49,7 @@ namespace Sem.Sync.Test.Google
 
             Assert.IsTrue(originalText == receivedText);
         }
+
+        #endregion
     }
 }

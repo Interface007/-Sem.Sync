@@ -18,35 +18,35 @@ namespace Sem.Sync.SyncBase.Merging
     public enum MergePropertyConflicts
     {
         /// <summary>
-        /// No conflict at all
+        ///   No conflict at all
         /// </summary>
-        None = 0,
+        None = 0, 
 
         /// <summary>
-        /// The source has been changed in comparison to the baseline, but the target has not
+        ///   The source has been changed in comparison to the baseline, but the target has not
         /// </summary>
-        SourceChanged = 1,
+        SourceChanged = 1, 
 
         /// <summary>
-        /// The target has been changed in comparison to the baseline, but the source has not
+        ///   The target has been changed in comparison to the baseline, but the source has not
         /// </summary>
-        TargetChanged = 2,
+        TargetChanged = 2, 
 
         /// <summary>
-        /// Both source and target have changed in comparison to the baseline
+        ///   Both source and target have changed in comparison to the baseline
         /// </summary>
-        BothChanged   = 3,
+        BothChanged = 3, 
 
         /// <summary>
-        /// Both source and target have changed in comparison to the baseline, but both have been changed identical, so there's no difference any more.
-        /// This item is taged as obsolete, because BothChangedIdentically should be used instead. This enum is an enum of Flags and if this flag is true,
-        /// both flags <see cref="TargetChanged"/> and <see cref="SourceChanged"/> need also be true.
+        ///   Both source and target have changed in comparison to the baseline, but both have been changed identical, so there's no difference any more.
+        ///   This item is taged as obsolete, because BothChangedIdentically should be used instead. This enum is an enum of Flags and if this flag is true,
+        ///   both flags <see cref = "TargetChanged" /> and <see cref = "SourceChanged" /> need also be true.
         /// </summary>
         [Obsolete("use BothChangedIdentically instead")]
-        IdenticallyChanged = 4,
+        IdenticallyChanged = 4, 
 
         /// <summary>
-        /// Both source and target have changed in comparison to the baseline, but both have been changed identical, so there's no difference any more
+        ///   Both source and target have changed in comparison to the baseline, but both have been changed identical, so there's no difference any more
         /// </summary>
         BothChangedIdentically = 7
     }

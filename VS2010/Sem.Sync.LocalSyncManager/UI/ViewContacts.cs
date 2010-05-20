@@ -3,7 +3,7 @@
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ViewContacts type.
+//   Implements the form code
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,17 +18,25 @@ namespace Sem.Sync.LocalSyncManager.UI
     /// </summary>
     public partial class ViewContacts : Form
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewContacts"/> class.
+        ///   Initializes a new instance of the <see cref = "ViewContacts" /> class.
         /// </summary>
         public ViewContacts()
         {
             this.InitializeComponent();
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the contact folder including the connector.
+        ///   Gets or sets the contact folder including the connector.
         /// </summary>
         public ContactsFolder ContactsFolder { get; set; }
+
+        #endregion
     }
 }

@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.Test
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConnectorDescriptionAttributeTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This is a test class for ConnectorDescriptionAttributeTest and is intended
+//   to contain all ConnectorDescriptionAttributeTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -6,21 +16,27 @@
     using Sem.Sync.SyncBase.Attributes;
 
     /// <summary>
-    ///This is a test class for ConnectorDescriptionAttributeTest and is intended
-    ///to contain all ConnectorDescriptionAttributeTest Unit Tests
-    ///</summary>
+    /// This is a test class for ConnectorDescriptionAttributeTest and is intended
+    ///  to contain all ConnectorDescriptionAttributeTest Unit Tests
+    /// </summary>
     [TestClass]
     public class ConnectorDescriptionAttributeTest
     {
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
+        #region Properties
+
+        ///<summary>
+        ///  Gets or sets the test context which provides
+        ///  information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext { get; set; }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
-        ///A test for ConnectorDescriptionAttribute Constructor
-        ///</summary>
+        /// A test for ConnectorDescriptionAttribute Constructor
+        /// </summary>
         [TestMethod]
         public void ConnectorDescriptionAttributeConstructorTest()
         {
@@ -40,9 +56,9 @@
         }
 
         /// <summary>
-        ///A test for ConnectorDescriptionAttribute Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for ConnectorDescriptionAttribute Constructor
+        /// </summary>
+        [TestMethod]
         public void ConnectorDescriptionAttributePropertySetterTest()
         {
             var target = new ConnectorDescriptionAttribute();
@@ -91,5 +107,7 @@
             Assert.IsFalse(target.CanWriteCalendarEntries);
             Assert.IsFalse(target.CanWrite(typeof(StdCalendarItem)));
         }
+
+        #endregion
     }
 }

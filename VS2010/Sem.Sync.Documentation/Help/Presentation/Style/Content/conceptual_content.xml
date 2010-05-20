@@ -55,7 +55,7 @@
 	<item id="RelatedTopicsLinkText">Related Topics</item>
   <!-- resolve the autoOutline token -->
   <item id="autoOutline">
-    <autoOutline/>
+    <autoOutline />
   </item>
 
 </content>

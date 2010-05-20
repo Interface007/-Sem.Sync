@@ -45,7 +45,7 @@
   <item id="UnsupportedStaticClass_VisualBasicUsage">You do not need to declare an instance of a static class in order to access its members.</item>
  
     	<!-- XAML Syntax Boilerplate -->
-	<item id="classXamlSyntax_abstract">This class is abstract; see <a href="#familyToggle" onclick="OpenSection(familyToggle)"><include item="familyTitle"/></a> for derived non-abstract classes usable in XAML.</item>
+	<item id="classXamlSyntax_abstract">This class is abstract; see <a href="#familyToggle" onclick="OpenSection(familyToggle)"><include item="familyTitle" /></a> for derived non-abstract classes usable in XAML.</item>
 	<item id="classXamlSyntax_excludedSubClass">This managed class is not typically used in XAML.</item>
 	<item id="classXamlSyntax_noDefaultCtor">You cannot directly create an instance of this class in XAML.</item>
 	<item id="classXamlSyntax_noDefaultCtorWithTypeConverter"></item>  <!-- this item intentionally empty, per spec -->

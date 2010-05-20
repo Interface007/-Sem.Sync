@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs" company="Sven Erik Matzen">
-//     Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
-// <author>Sven Erik Matzen</author>
 // <summary>
-//   Defines the Program type.
+//   main program execution class
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Sem.Sync.OutlookWithXing
 {
     using System;
@@ -21,6 +21,8 @@ namespace Sem.Sync.OutlookWithXing
     /// </summary>
     public static class Program
     {
+        #region Public Methods
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -43,5 +45,7 @@ namespace Sem.Sync.OutlookWithXing
                 ExceptionHandler.HandleException(ex);
             }
         }
+
+        #endregion
     }
 }
