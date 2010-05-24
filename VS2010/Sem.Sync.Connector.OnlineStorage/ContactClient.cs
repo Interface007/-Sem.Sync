@@ -76,17 +76,15 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            var count = 50;
-
             var formatter = new BinaryFormatter();
             using (var memStream = new MemoryStream())
             {
                 using (var zip = new DeflateStream(memStream, CompressionMode.Compress, true))
                 {
-                    formatter.Serialize(zip, (from x in elements select Tools.SetPropertyValue(x, "PictureData", string.Empty, true)).Take(count).ToList());
+                    formatter.Serialize(zip, (from x in elements select Tools.SetPropertyValue(x, "PictureData", string.Empty, true)).ToList());
                 }
 
-                var client = new ContactService2.ContactServiceClient();
+                var client = new ContactServiceClient();
                 memStream.Position = 0;
                 client.WriteFullList(memStream);
             }
