@@ -29,7 +29,6 @@ namespace Sem.Sync.SyncBase.DetailData
         protected ProfileIdentifierDictionary(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Console.WriteLine(info.ToString());
         }
 
         /// <summary>

@@ -21,13 +21,11 @@ namespace Sem.GenericHelpers
     {
         public SerializableDictionary()
         {
-            
         }
 
         protected SerializableDictionary(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Console.WriteLine(info.ToString());
         }
         
         public System.Xml.Schema.XmlSchema GetSchema()
