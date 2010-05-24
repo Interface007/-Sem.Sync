@@ -12,9 +12,13 @@ namespace Sem.Sync.Connector.OnlineStorage
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
 
     using ContactService2;
+
+    using Sem.GenericHelpers;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -72,10 +76,16 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
         protected override void WriteFullList(List<SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            var count = 50;
+
+            var formatter = new BinaryFormatter();
             using (var memStream = new MemoryStream())
             {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(memStream, elements);
+                using (var zip = new DeflateStream(memStream, CompressionMode.Compress, true))
+                {
+                    formatter.Serialize(zip, (from x in elements select Tools.SetPropertyValue(x, "PictureData", string.Empty, true)).Take(count).ToList());
+                }
+
                 var client = new ContactService2.ContactServiceClient();
                 memStream.Position = 0;
                 client.WriteFullList(memStream);
