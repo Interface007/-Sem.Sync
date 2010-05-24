@@ -274,25 +274,6 @@ namespace Sem.GenericHelpers
             }
         }
 
-        private static Stream DecompressToStream(string compressedText)
-        {
-            var gzipBuffer = Convert.FromBase64String(compressedText);
-            using (var ms = new MemoryStream())
-            {
-                ms.Write(gzipBuffer, 4, (gzipBuffer.Length - 4));
-
-                var result = new MemoryStream();
-                
-                ms.Position = 0;
-                using (var zip = new DeflateStream(ms, CompressionMode.Decompress))
-                {
-                    zip.CopyTo(result);
-                }
-
-                return result;
-            }
-        }
-        
         public static string Decompress(string compressedText)
         {
             var gzipBuffer = Convert.FromBase64String(compressedText);
@@ -613,12 +594,7 @@ namespace Sem.GenericHelpers
         /// <returns> the file name without any invalid character </returns>
         public static string ReplaceInvalidFileCharacters(string fileName)
         {
-            foreach (var invalidChar in Path.GetInvalidFileNameChars())
-            {
-                fileName = fileName.Replace(invalidChar.ToString(), "-");
-            }
-
-            return fileName;
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, invalidChar) => current.Replace(invalidChar.ToString(), "-"));
         }
 
         /// <summary>
@@ -630,6 +606,7 @@ namespace Sem.GenericHelpers
         /// <param name="objectToWriteTo">the object that is the root of the path</param>
         /// <param name="pathToProperty">the path to the property to be set</param>
         /// <param name="valueString">a string representation of the value to be set</param>
+        /// <returns> the same object (<paramref name="objectToWriteTo"/>)</returns>
         public static T SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString)
         {
             return SetPropertyValue(objectToWriteTo, pathToProperty, valueString, false);
@@ -640,10 +617,12 @@ namespace Sem.GenericHelpers
         /// If one of the objects inside the path is null, it will be initialized with a default instance. If the type
         /// of that object does not contain a default constructor, an exception will be thrown.
         /// </summary>
-        /// <typeparam name="T">the type of object to write the property to</typeparam>
-        /// <param name="objectToWriteTo">the object that is the root of the path</param>
-        /// <param name="pathToProperty">the path to the property to be set</param>
-        /// <param name="valueString">a string representation of the value to be set</param>
+        /// <typeparam name="T"> the type of object to write the property to </typeparam>
+        /// <param name="objectToWriteTo"> the object that is the root of the path </param>
+        /// <param name="pathToProperty"> the path to the property to be set </param>
+        /// <param name="valueString"> a string representation of the value to be set </param>
+        /// <param name="allowNull"> set this to true to allow an empty string for setting the value to NULL </param>
+        /// <returns> the same object (<paramref name="objectToWriteTo"/>)</returns>
         public static T SetPropertyValue<T>(T objectToWriteTo, string pathToProperty, string valueString, bool allowNull)
         {
             if (pathToProperty.StartsWith(".", StringComparison.Ordinal))
@@ -830,11 +809,11 @@ namespace Sem.GenericHelpers
                 if (serialized.StartsWith("#GZIP#"))
                 {
                     var formatter = new BinaryFormatter();
-                    using (var stream = DecompressToStream(serialized.Substring(0, 6)))
+                    using (var stream = DecompressToStream(serialized.Substring(6)))
                     {
+                        stream.Position = 0;
                         return formatter.Deserialize(stream) as T;
                     }
-                    ////serialized = Decompress(serialized.Substring(6));
                 }
 
                 try
@@ -1003,6 +982,25 @@ namespace Sem.GenericHelpers
         public static IEnumerable<string> CombineNonEmpty(params string[] elements)
         {
             return elements.Where(element => !string.IsNullOrEmpty(element));
+        }
+
+        private static Stream DecompressToStream(string compressedText)
+        {
+            var gzipBuffer = Convert.FromBase64String(compressedText);
+            using (var ms = new MemoryStream())
+            {
+                ms.Write(gzipBuffer, 4, (gzipBuffer.Length - 4));
+
+                var result = new MemoryStream();
+
+                ms.Position = 0;
+                using (var zip = new DeflateStream(ms, CompressionMode.Decompress))
+                {
+                    zip.CopyTo(result);
+                }
+
+                return result;
+            }
         }
 
         /// <summary>
