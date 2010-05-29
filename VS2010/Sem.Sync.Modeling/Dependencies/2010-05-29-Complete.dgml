@@ -486,7 +486,7 @@
     <Node Id="@100" Category="CodeSchema_Namespace" Group="Collapsed" Label="ExpressionSerialization.Properties" />
     <Node Id="@1000" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;WriteCalendarItemToOutlook&gt;b__d" />
     <Node Id="@1001" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;DetectConflicts&gt;b__7" />
-    <Node Id="@1002" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitBinary ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitBinary OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=BinaryExpression)])))" IsStronglyConnected="True" Label="VisitBinary" />
+    <Node Id="@1002" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitBinary" />
     <Node Id="@1005" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="ContactClientVCards" />
     <Node Id="@1006" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;ConvertToNativeAppointment&gt;b__1d" />
     <Node Id="@1007" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;ConvertToNativeAppointment&gt;b__1d" />
@@ -552,7 +552,7 @@
     <Node Id="@1067" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;TestMapIfExistWith3Steps&gt;b__33" />
     <Node Id="@1068" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;TestMapIfExistWith3Steps&gt;b__36" />
     <Node Id="@1069" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp10" />
-    <Node Id="@1070" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitConditional ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitConditional OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=ConditionalExpression)])))" IsStronglyConnected="True" Label="VisitConditional" />
+    <Node Id="@1070" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitConditional" />
     <Node Id="@1071" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsSpecialName="True" Label="set_ConnectorDescription" />
     <Node Id="@1072" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Source" />
     <Node Id="@1073" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Source" />
@@ -580,7 +580,7 @@
     <Node Id="@1097" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;WriteContactToOutlook&gt;b__11" />
     <Node Id="@1098" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;WriteContactToOutlook&gt;b__12" />
     <Node Id="@1099" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;WriteToCache&gt;b__5" />
-    <Node Id="@110" Category="CodeSchema_Namespace" ErrorMessage="Circular reference found involving:  Sem.GenericHelpers.Entities ((Namespace=Sem.GenericHelpers.Entities))" Group="Expanded" IsStronglyConnected="True" Label="Sem.GenericHelpers.Entities" />
+    <Node Id="@110" Category="CodeSchema_Namespace" Group="Expanded" Label="Sem.GenericHelpers.Entities" />
     <Node Id="@1100" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_CountryCode" />
     <Node Id="@1102" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_BaselineCredentials" />
     <Node Id="@1103" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_LogonCredentials" />
@@ -615,7 +615,7 @@
     <Node Id="@1135" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GetDCs&gt;b__5" />
     <Node Id="@1136" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GenerateXmlFromElementInitList&gt;b__2" />
     <Node Id="@1137" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromElementInitializer" />
-    <Node Id="@1138" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitElementInitializer ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitElementInitializer OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=ElementInit)])))" IsStronglyConnected="True" Label="VisitElementInitializer" />
+    <Node Id="@1138" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitElementInitializer" />
     <Node Id="@1139" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="add_DataChanged" />
     <Node Id="@114" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.GenericHelpers.Exceptions" />
     <Node Id="@1142" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;ReadFullList&gt;b__4" />
@@ -628,13 +628,13 @@
     <Node Id="@1149" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ThrowOnException" />
     <Node Id="@1151" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GenerateXmlFromExpressionList&gt;b__6" />
     <Node Id="@1152" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ApplyCustomConverters" />
-    <Node Id="@1153" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  GenerateXmlFromExpressionCore ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=GenerateXmlFromExpressionCore OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=Expression)])))" IsStronglyConnected="True" Label="GenerateXmlFromExpressionCore" />
+    <Node Id="@1153" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromExpressionCore" />
     <Node Id="@1154" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GetNameOfExpression" />
     <Node Id="@1155" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Modify" />
     <Node Id="@1156" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Serialize" />
     <Node Id="@1157" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Serialize" />
     <Node Id="@1158" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Serialize" />
-    <Node Id="@1159" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  Visit ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=Visit OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=Expression)])))" IsStronglyConnected="True" Label="Visit" />
+    <Node Id="@1159" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="Visit" />
     <Node Id="@116" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.GenericHelpers.ExceptionService" />
     <Node Id="@1160" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="ExpressionSerializer" />
     <Node Id="@1162" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;ReadFullList&gt;b__2" />
@@ -652,7 +652,7 @@
     <Node Id="@1176" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Id" />
     <Node Id="@1177" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Target" />
     <Node Id="@1178" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="UnMatch" />
-    <Node Id="@118" Category="CodeSchema_Namespace" ErrorMessage="Circular reference found involving:  Sem.GenericHelpers.Interfaces ((Namespace=Sem.GenericHelpers.Interfaces))" Group="Collapsed" IsStronglyConnected="True" Label="Sem.GenericHelpers.Interfaces" />
+    <Node Id="@118" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.GenericHelpers.Interfaces" />
     <Node Id="@1180" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsSpecialName="True" Label="ContactClient" />
     <Node Id="@1181" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="ContactClient" />
     <Node Id="@1182" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsSpecialName="True" Label="WebScrapingBaseClient" />
@@ -692,7 +692,7 @@
     <Node Id="@1215" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_PercentageDone" />
     <Node Id="@1216" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Revision" />
     <Node Id="@1217" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" CodeSchemaProperty_IsPublic="True" Label="UpdateProgress" />
-    <Node Id="@1218" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitInvocation ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitInvocation OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=InvocationExpression)])))" IsStronglyConnected="True" Label="VisitInvocation" />
+    <Node Id="@1218" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitInvocation" />
     <Node Id="@1219" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="SerializeQuery" />
     <Node Id="@122" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.ChangeTracker" />
     <Node Id="@1220" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsSpecialName="True" Label="set_QueryKind" />
@@ -731,8 +731,8 @@
     <Node Id="@1255" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_UiProvider" />
     <Node Id="@1256" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_UiProvider" />
     <Node Id="@1257" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_UserInterface" />
-    <Node Id="@1258" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitLambda ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitLambda OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=LambdaExpression)])))" IsStronglyConnected="True" Label="VisitLambda" />
-    <Node Id="@1259" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitListInit ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitListInit OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=ListInitExpression)])))" IsStronglyConnected="True" Label="VisitListInit" />
+    <Node Id="@1258" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitLambda" />
+    <Node Id="@1259" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitListInit" />
     <Node Id="@126" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.Connector.ActiveDirectory" />
     <Node Id="@1260" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AskForLogOnCredentials" />
     <Node Id="@1261" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AskForLogOnCredentials" />
@@ -764,21 +764,21 @@
     <Node Id="@1288" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;UnMatchAll&gt;b__4a" />
     <Node Id="@1289" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;Exist&gt;b__0" />
     <Node Id="@1290" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromAssignment" />
-    <Node Id="@1291" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMemberAssignment ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMemberAssignment OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberAssignment)])))" IsStronglyConnected="True" Label="VisitMemberAssignment" />
+    <Node Id="@1291" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberAssignment" />
     <Node Id="@1292" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GenerateXmlFromBindingList&gt;b__0" />
     <Node Id="@1293" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromBinding" />
-    <Node Id="@1294" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitBinding ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitBinding OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberBinding)])))" IsStronglyConnected="True" Label="VisitBinding" />
-    <Node Id="@1295" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMemberAccess ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMemberAccess OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberExpression)])))" IsStronglyConnected="True" Label="VisitMemberAccess" />
+    <Node Id="@1294" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitBinding" />
+    <Node Id="@1295" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberAccess" />
     <Node Id="@1296" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberAccess" />
     <Node Id="@1298" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GenerateXmlFromMemberInfoList&gt;b__7" />
     <Node Id="@1299" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="CanRead" />
     <Node Id="@130" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.Connector.Console" />
     <Node Id="@1300" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="CanWrite" />
-    <Node Id="@1301" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMemberInit ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMemberInit OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberInitExpression)])))" IsStronglyConnected="True" Label="VisitMemberInit" />
+    <Node Id="@1301" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberInit" />
     <Node Id="@1302" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromListBinding" />
-    <Node Id="@1303" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMemberListBinding ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMemberListBinding OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberListBinding)])))" IsStronglyConnected="True" Label="VisitMemberListBinding" />
+    <Node Id="@1303" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberListBinding" />
     <Node Id="@1304" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromMemberBinding" />
-    <Node Id="@1305" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMemberMemberBinding ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMemberMemberBinding OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberMemberBinding)])))" IsStronglyConnected="True" Label="VisitMemberMemberBinding" />
+    <Node Id="@1305" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMemberMemberBinding" />
     <Node Id="@1306" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;PerformMerge&gt;b__1" />
     <Node Id="@1307" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GetEntityName" />
     <Node Id="@1308" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Conflict" />
@@ -786,7 +786,7 @@
     <Node Id="@1310" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_PropertyConflict" />
     <Node Id="@1311" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;PerformMerge&gt;b__2" />
     <Node Id="@1312" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;ResolveTypeFromString&gt;b__2" />
-    <Node Id="@1313" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitMethodCall ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitMethodCall OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MethodCallExpression)])))" IsStronglyConnected="True" Label="VisitMethodCall" />
+    <Node Id="@1313" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMethodCall" />
     <Node Id="@1314" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitMethodCall" />
     <Node Id="@1316" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;GetMethod&gt;b__1" />
     <Node Id="@1317" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;GetPropertyList&gt;b__8" />
@@ -810,8 +810,8 @@
     <Node Id="@1335" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;TestMapIfExistWith3Steps&gt;b__37" />
     <Node Id="@1336" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp1" />
     <Node Id="@1337" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp2" />
-    <Node Id="@1338" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitNewArray ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitNewArray OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=NewArrayExpression)])))" IsStronglyConnected="True" Label="VisitNewArray" />
-    <Node Id="@1339" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitNew ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitNew OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=NewExpression)])))" IsStronglyConnected="True" Label="VisitNew" />
+    <Node Id="@1338" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitNewArray" />
+    <Node Id="@1339" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitNew" />
     <Node Id="@134" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.Connector.ExchangeWebServiceManagedApi.Properties" />
     <Node Id="@1341" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AddItem" />
     <Node Id="@1343" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Equals" />
@@ -1340,8 +1340,8 @@
     <Node Id="@1863" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="GetDefaultValue" />
     <Node Id="@1864" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_PropertyType" />
     <Node Id="@1865" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Type" />
-    <Node Id="@1866" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitTypeIs ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitTypeIs OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=TypeBinaryExpression)])))" IsStronglyConnected="True" Label="VisitTypeIs" />
-    <Node Id="@1867" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitUnary ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitUnary OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=UnaryExpression)])))" IsStronglyConnected="True" Label="VisitUnary" />
+    <Node Id="@1866" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitTypeIs" />
+    <Node Id="@1867" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitUnary" />
     <Node Id="@1869" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GetCookiesFromIE" />
     <Node Id="@1870" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="IsLessOrEqual" />
     <Node Id="@1871" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;DeleteServerFile&gt;b__a" />
@@ -1361,23 +1361,23 @@
     <Node Id="@1886" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Deserialize" />
     <Node Id="@1887" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Deserialize" />
     <Node Id="@1888" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseAnonymousTypeFromXmlCore" />
-    <Node Id="@1889" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseBinaryExpresssionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseBinaryExpresssionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseBinaryExpresssionFromXml" />
+    <Node Id="@1889" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseBinaryExpresssionFromXml" />
     <Node Id="@1890" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseBindingFromXml" />
-    <Node Id="@1891" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseConditionalExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseConditionalExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseConditionalExpressionFromXml" />
+    <Node Id="@1891" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseConditionalExpressionFromXml" />
     <Node Id="@1892" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseConstatExpressionFromXml" />
     <Node Id="@1893" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseConstructorInfoFromXml" />
     <Node Id="@1894" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseElementInitFromXml" />
-    <Node Id="@1895" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseExpressionFromXml" />
-    <Node Id="@1896" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseExpressionFromXmlNonNull ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseExpressionFromXmlNonNull OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseExpressionFromXmlNonNull" />
+    <Node Id="@1895" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseExpressionFromXml" />
+    <Node Id="@1896" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseExpressionFromXmlNonNull" />
     <Node Id="@1897" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseFieldInfoFromXml" />
-    <Node Id="@1898" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseInvocationExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseInvocationExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseInvocationExpressionFromXml" />
-    <Node Id="@1899" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseLambdaExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseLambdaExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseLambdaExpressionFromXml" />
+    <Node Id="@1898" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseInvocationExpressionFromXml" />
+    <Node Id="@1899" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseLambdaExpressionFromXml" />
     <Node Id="@190" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.ConsoleClient" />
-    <Node Id="@1900" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseListInitExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseListInitExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseListInitExpressionFromXml" />
-    <Node Id="@1901" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseMemberExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseMemberExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseMemberExpressionFromXml" />
+    <Node Id="@1900" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseListInitExpressionFromXml" />
+    <Node Id="@1901" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseMemberExpressionFromXml" />
     <Node Id="@1902" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseMemberInfoFromXml" />
     <Node Id="@1903" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseMemberInitExpressionFromXml" />
-    <Node Id="@1904" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseMethodCallExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseMethodCallExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseMethodCallExpressionFromXml" />
+    <Node Id="@1904" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseMethodCallExpressionFromXml" />
     <Node Id="@1905" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseMethodInfoFromXml" />
     <Node Id="@1906" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseNewArrayExpressionFromXml" />
     <Node Id="@1907" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseNewExpressionFromXml" />
@@ -1385,10 +1385,10 @@
     <Node Id="@1909" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseParameterExpressionFromXml" />
     <Node Id="@1910" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseParameterFromXml" />
     <Node Id="@1911" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParsePropertyInfoFromXml" />
-    <Node Id="@1912" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseTypeBinaryExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseTypeBinaryExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseTypeBinaryExpressionFromXml" />
+    <Node Id="@1912" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseTypeBinaryExpressionFromXml" />
     <Node Id="@1913" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseTypeFromXml" />
     <Node Id="@1914" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseTypeFromXmlCore" />
-    <Node Id="@1915" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ParseUnaryExpressionFromXml ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=ParseUnaryExpressionFromXml OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Xml.Linq.dll&quot; Namespace=System.Xml.Linq Type=XElement)])))" IsStronglyConnected="True" Label="ParseUnaryExpressionFromXml" />
+    <Node Id="@1915" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="ParseUnaryExpressionFromXml" />
     <Node Id="@1916" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_TransformationFromDatabaseSyntax" />
     <Node Id="@1917" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_TransformationToDatabaseSyntax" />
     <Node Id="@1918" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Write" />
@@ -1554,7 +1554,7 @@
     <Node Id="@2075" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="ProcessAbortException" />
     <Node Id="@2076" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="TechnicalException" />
     <Node Id="@2077" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ToExchangeContact" />
-    <Node Id="@2078" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  GenerateXmlFromExpression ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=GenerateXmlFromExpression OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=Expression)])))" IsStronglyConnected="True" Label="GenerateXmlFromExpression" />
+    <Node Id="@2078" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromExpression" />
     <Node Id="@2079" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="DLinqCustomExpressionXmlConverter" />
     <Node Id="@208" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.OutlookWithXing" />
     <Node Id="@2080" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromFieldInfo" />
@@ -1781,7 +1781,7 @@
     <Node Id="@2306" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="AddContactsFromAdFilter" />
     <Node Id="@2307" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="GetExtract" />
     <Node Id="@2308" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="AddAttributeToStringBuilder" />
-    <Node Id="@2309" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  GenerateXmlFromProperty ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=ExpressionSerializer Member=(Name=GenerateXmlFromProperty OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System Type=Type),(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System Type=Object)])))" IsStronglyConnected="True" Label="GenerateXmlFromProperty" />
+    <Node Id="@2309" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GenerateXmlFromProperty" />
     <Node Id="@2310" Category="CodeSchema_Method" CodeSchemaProperty_IsInternal="True" Label="GetOutlookMapiFolder" />
     <Node Id="@2311" Category="CodeSchema_Method" CodeSchemaProperty_IsInternal="True" Label="GetOutlookMapiFolder" />
     <Node Id="@2312" Category="CodeSchema_Method" CodeSchemaProperty_IsInternal="True" Label="GetOutlookMapiFolder" />
@@ -1792,7 +1792,7 @@
     <Node Id="@2317" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AddIMAddress" />
     <Node Id="@2318" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AddPhoneNumber" />
     <Node Id="@2319" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="SetPhoneNumber" />
-    <Node Id="@232" Category="CodeSchema_Namespace" ErrorMessage="Circular reference found involving:  Sem.Sync.SyncBase.Attributes ((Namespace=Sem.Sync.SyncBase.Attributes))" Group="Collapsed" IsStronglyConnected="True" Label="Sem.Sync.SyncBase.Attributes" />
+    <Node Id="@232" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.SyncBase.Attributes" />
     <Node Id="@2320" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="AddEmail" />
     <Node Id="@2321" Category="CodeSchema_Method" CodeSchemaProperty_IsConstructor="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="LogonCredentialRequest" />
     <Node Id="@2322" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GetMatchGroupWithDefault" />
@@ -1851,7 +1851,7 @@
     <Node Id="@2377" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
     <Node Id="@2378" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
     <Node Id="@2379" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
-    <Node Id="@238" Category="CodeSchema_Namespace" ErrorMessage="Circular reference found involving:  Sem.Sync.SyncBase.DetailData ((Namespace=Sem.Sync.SyncBase.DetailData))" Group="Expanded" IsStronglyConnected="True" Label="Sem.Sync.SyncBase.DetailData" />
+    <Node Id="@238" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.SyncBase.DetailData" />
     <Node Id="@2380" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
     <Node Id="@2381" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
     <Node Id="@2382" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ExecuteCommand" />
@@ -1868,7 +1868,7 @@
     <Node Id="@2397" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="SaveToString&lt;T&gt;" />
     <Node Id="@2398" Category="CodeSchema_Method" CodeSchemaProperty_IsPrivate="True" Label="GetPropertyList&lt;T&gt;" />
     <Node Id="@2399" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="ImportFromWorksheetXml&lt;T&gt;" />
-    <Node Id="@240" Category="CodeSchema_Namespace" ErrorMessage="Circular reference found involving:  Sem.Sync.SyncBase.Helpers ((Namespace=Sem.Sync.SyncBase.Helpers))" Group="Expanded" IsStronglyConnected="True" Label="Sem.Sync.SyncBase.Helpers" />
+    <Node Id="@240" Category="CodeSchema_Namespace" Group="Collapsed" Label="Sem.Sync.SyncBase.Helpers" />
     <Node Id="@2400" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;ParseExpressionListFromXml&gt;b__18&lt;T&gt;" />
     <Node Id="@2401" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Label="&lt;ParseMemberInfoListFromXml&gt;b__19&lt;T&gt;" />
     <Node Id="@2402" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="Deserialize&lt;TDelegate&gt;" />
@@ -2558,7 +2558,7 @@
     <Node Id="@3067" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_SkipLogging" />
     <Node Id="@3068" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_SkipMerge" />
     <Node Id="@3069" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_SkipNotCached" />
-    <Node Id="@307" Category="CodeSchema_Class" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  ExpressionSerializer.&lt;&gt;c__DisplayClass4 ((Assembly=file:///I:/Codeplex01/VS2010/bin/ExpressionSerialization.dll Namespace=ExpressionSerialization Type=(Name=&lt;&gt;c__DisplayClass4 ParentType=ExpressionSerializer)))" Group="Collapsed" IsStronglyConnected="True" Label="ExpressionSerializer.&lt;&gt;c__DisplayClass4" />
+    <Node Id="@307" Category="CodeSchema_Class" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" Group="Collapsed" Label="ExpressionSerializer.&lt;&gt;c__DisplayClass4" />
     <Node Id="@3070" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_Source" />
     <Node Id="@3071" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_Source" />
     <Node Id="@3072" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="get_Source" />
@@ -2999,7 +2999,7 @@
     <Node Id="@477" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
     <Node Id="@478" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
     <Node Id="@479" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
-    <Node Id="@480" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" ErrorMessage="Circular reference found involving:  ContactClient ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.Sync.Connector.Google.dll Namespace=Sem.Sync.Connector.Google Type=ContactClient))" Group="Collapsed" IsStronglyConnected="True" Label="ContactClient" />
+    <Node Id="@480" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
     <Node Id="@481" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
     <Node Id="@482" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
     <Node Id="@483" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ContactClient" />
@@ -3050,7 +3050,7 @@
     <Node Id="@555" Category="CodeSchema_Class" CodeSchemaProperty_IsPrivate="True" Group="Collapsed" Label="Extensions" />
     <Node Id="@556" Category="CodeSchema_Class" CodeSchemaProperty_IsPrivate="True" Group="Collapsed" Label="Extensions" />
     <Node Id="@557" Category="CodeSchema_Class" CodeSchemaProperty_IsPrivate="True" Group="Collapsed" Label="Extensions" />
-    <Node Id="@558" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Expanded" Label="Extensions" />
+    <Node Id="@558" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="Extensions" />
     <Node Id="@560" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="ExtensionTests" />
     <Node Id="@562" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="Factory" />
     <Node Id="@564" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="FileSystemConnectorTest" />
@@ -3062,10 +3062,10 @@
     <Node Id="@573" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="GenericToolsTest" />
     <Node Id="@575" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="GetContactRelation" />
     <Node Id="@576" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="GoogleContactGroups" />
-    <Node Id="@578" Category="CodeSchema_Class" CodeSchemaProperty_IsPrivate="True" ErrorMessage="Circular reference found involving:  GoogleContactMappingExtensions ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.Sync.Connector.Google.dll Namespace=Sem.Sync.Connector.Google Type=GoogleContactMappingExtensions))" Group="Collapsed" IsStronglyConnected="True" Label="GoogleContactMappingExtensions" />
+    <Node Id="@578" Category="CodeSchema_Class" CodeSchemaProperty_IsPrivate="True" Group="Collapsed" Label="GoogleContactMappingExtensions" />
     <Node Id="@580" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="HelperTests" />
     <Node Id="@581" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="HostFactory" />
-    <Node Id="@583" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" ErrorMessage="Circular reference found involving:  HttpHelper ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=HttpHelper))" Group="Collapsed" IsStronglyConnected="True" Label="HttpHelper" />
+    <Node Id="@583" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="HttpHelper" />
     <Node Id="@584" Category="CodeSchema_Interface" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="IBackupStorage" />
     <Node Id="@586" Category="CodeSchema_Interface" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="IClientBase" />
     <Node Id="@588" Category="CodeSchema_Interface" CodeSchemaProperty_IsGeneratedCode="True" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="IContactService" />
@@ -3180,12 +3180,12 @@
     <Node Id="@751" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="SimpleStatisticResult" />
     <Node Id="@753" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="SourceDescription" />
     <Node Id="@755" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="SourceSpecificAttribute" />
-    <Node Id="@757" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" ErrorMessage="Circular reference found involving:  StdCalendarItem ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.Sync.SyncBase.dll Namespace=Sem.Sync.SyncBase Type=StdCalendarItem))" Group="Collapsed" IsStronglyConnected="True" Label="StdCalendarItem" />
+    <Node Id="@757" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdCalendarItem" />
     <Node Id="@759" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdCalendarItems" />
     <Node Id="@761" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdClient" />
-    <Node Id="@763" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" ErrorMessage="Circular reference found involving:  StdContact ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.Sync.SyncBase.dll Namespace=Sem.Sync.SyncBase Type=StdContact))" Group="Expanded" IsStronglyConnected="True" Label="StdContact" />
+    <Node Id="@763" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdContact" />
     <Node Id="@765" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdContacts" />
-    <Node Id="@767" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" ErrorMessage="Circular reference found involving:  StdElement ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.Sync.SyncBase.dll Namespace=Sem.Sync.SyncBase Type=StdElement))" Group="Expanded" IsStronglyConnected="True" Label="StdElement" />
+    <Node Id="@767" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdElement" />
     <Node Id="@769" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StdProfileInformationClient" />
     <Node Id="@770" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="StudiVzContacts" />
     <Node Id="@772" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" Group="Collapsed" Label="SyncCollection" />
@@ -3258,8 +3258,8 @@
     <Node Id="@874" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Converters" />
     <Node Id="@875" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" Label="&lt;MapIfDiffersTest&gt;b__6" />
     <Node Id="@876" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp6" />
-    <Node Id="@877" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitElementInitializerList ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitElementInitializerList OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System.Collections.ObjectModel Type=(Name=ReadOnlyCollection GenericParameterCount=1 GenericArguments=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=ElementInit)]))])))" IsStronglyConnected="True" Label="VisitElementInitializerList" />
-    <Node Id="@878" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitExpressionList ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitExpressionList OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System.Collections.ObjectModel Type=(Name=ReadOnlyCollection GenericParameterCount=1 GenericArguments=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=Expression)]))])))" IsStronglyConnected="True" Label="VisitExpressionList" />
+    <Node Id="@877" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitElementInitializerList" />
+    <Node Id="@878" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitExpressionList" />
     <Node Id="@879" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsSpecialName="True" Label="set_ExceptionWriter" />
     <Node Id="@881" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp8" />
     <Node Id="@883" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_BusinessCompanies" />
@@ -3271,7 +3271,7 @@
     <Node Id="@889" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Top10CitiesBusiness" />
     <Node Id="@890" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_Top10CitiesPersonal" />
     <Node Id="@891" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_BaseLine" />
-    <Node Id="@892" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" ErrorMessage="Circular reference found involving:  VisitBindingList ((Assembly=file:///I:/Codeplex01/VS2010/bin/Sem.GenericHelpers.dll Namespace=Sem.GenericHelpers Type=ExpressionVisitor Member=(Name=VisitBindingList OverloadingParameters=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/mscorlib.dll&quot; Namespace=System.Collections.ObjectModel Type=(Name=ReadOnlyCollection GenericParameterCount=1 GenericArguments=[(Assembly=&quot;file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0/System.Core.dll&quot; Namespace=System.Linq.Expressions Type=MemberBinding)]))])))" IsStronglyConnected="True" Label="VisitBindingList" />
+    <Node Id="@892" Category="CodeSchema_Method" CodeSchemaProperty_IsProtected="True" Label="VisitBindingList" />
     <Node Id="@894" Category="CodeSchema_Method" CodeSchemaProperty_IsCompilerGenerated="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="set_myProp4" />
     <Node Id="@895" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="add_ProcessingEvent" />
     <Node Id="@896" Category="CodeSchema_Method" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsSpecialName="True" Label="add_ProcessingEvent" />
@@ -3391,7 +3391,7 @@
     <Link Source="@100" Target="@738" Category="Contains" />
     <Link Source="@1000" Target="@2906" Category="CodeSchema_Calls" />
     <Link Source="@1001" Target="@456" Category="References" />
-    <Link Source="@1002" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1002" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1005" Target="@2673" Category="CodeSchema_Calls" />
     <Link Source="@1005" Target="@2692" Category="CodeSchema_Calls" />
     <Link Source="@1010" Target="@2748" Category="CodeSchema_Calls" />
@@ -3476,7 +3476,7 @@
     <Link Source="@1066" Target="@2979" Category="CodeSchema_Calls" />
     <Link Source="@1067" Target="@2979" Category="CodeSchema_Calls" />
     <Link Source="@1068" Target="@2979" Category="CodeSchema_Calls" />
-    <Link Source="@1070" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1070" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1076" Target="@470" Category="References" />
     <Link Source="@1077" Target="@470" Category="References" />
     <Link Source="@1078" Target="@470" Category="References" />
@@ -3547,7 +3547,7 @@
     <Link Source="@1136" Target="@1137" Category="CodeSchema_Calls" />
     <Link Source="@1137" Target="@1926" Category="CodeSchema_Calls" />
     <Link Source="@1137" Target="@2096" Category="CodeSchema_Calls" />
-    <Link Source="@1138" Target="@878" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1138" Target="@878" Category="CodeSchema_Calls" />
     <Link Source="@114" Target="@300" Category="Contains" />
     <Link Source="@114" Target="@539" Category="Contains" />
     <Link Source="@114" Target="@685" Category="Contains" />
@@ -3576,20 +3576,20 @@
     <Link Source="@1155" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1156" Target="@608" Category="References" />
     <Link Source="@1158" Target="@1153" Category="CodeSchema_Calls" />
-    <Link Source="@1159" Target="@1002" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1070" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1159" Target="@1002" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1070" Category="CodeSchema_Calls" />
     <Link Source="@1159" Target="@1079" Category="CodeSchema_Calls" />
-    <Link Source="@1159" Target="@1218" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1258" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1259" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1295" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1301" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1313" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1338" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1339" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1159" Target="@1218" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1258" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1259" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1295" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1301" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1313" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1338" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1339" Category="CodeSchema_Calls" />
     <Link Source="@1159" Target="@1366" Category="CodeSchema_Calls" />
-    <Link Source="@1159" Target="@1866" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1159" Target="@1867" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1159" Target="@1866" Category="CodeSchema_Calls" />
+    <Link Source="@1159" Target="@1867" Category="CodeSchema_Calls" />
     <Link Source="@116" Target="@543" Category="Contains" />
     <Link Source="@116" Target="@545" Category="Contains" />
     <Link Source="@116" Target="@581" Category="Contains" />
@@ -3658,8 +3658,8 @@
     <Link Source="@1217" Target="@2127" Category="CodeSchema_Calls" />
     <Link Source="@1217" Target="@2655" Category="CodeSchema_Calls" />
     <Link Source="@1217" Target="@702" Category="References" />
-    <Link Source="@1218" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1218" Target="@878" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1218" Target="@1159" Category="CodeSchema_Calls" />
+    <Link Source="@1218" Target="@878" Category="CodeSchema_Calls" />
     <Link Source="@1219" Target="@1107" Category="CodeSchema_Calls" />
     <Link Source="@1219" Target="@1158" Category="CodeSchema_Calls" />
     <Link Source="@1219" Target="@1160" Category="CodeSchema_Calls" />
@@ -3779,9 +3779,9 @@
     <Link Source="@1248" Target="@1255" Category="CodeSchema_Calls" />
     <Link Source="@1249" Target="@1255" Category="CodeSchema_Calls" />
     <Link Source="@1250" Target="@1255" Category="CodeSchema_Calls" />
-    <Link Source="@1258" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1259" Target="@1339" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1259" Target="@877" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1258" Target="@1159" Category="CodeSchema_Calls" />
+    <Link Source="@1259" Target="@1339" Category="CodeSchema_Calls" />
+    <Link Source="@1259" Target="@877" Category="CodeSchema_Calls" />
     <Link Source="@126" Target="@128" Category="Contains" />
     <Link Source="@126" Target="@292" Category="Contains" />
     <Link Source="@126" Target="@294" Category="Contains" />
@@ -3865,15 +3865,15 @@
     <Link Source="@1288" Target="@3027" Category="CodeSchema_Calls" />
     <Link Source="@1289" Target="@2767" Category="CodeSchema_Calls" />
     <Link Source="@1290" Target="@2309" Category="CodeSchema_Calls" />
-    <Link Source="@1291" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1291" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1292" Target="@1293" Category="CodeSchema_Calls" />
     <Link Source="@1293" Target="@1290" Category="CodeSchema_Calls" />
     <Link Source="@1293" Target="@1302" Category="CodeSchema_Calls" />
     <Link Source="@1293" Target="@1304" Category="CodeSchema_Calls" />
-    <Link Source="@1294" Target="@1291" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1294" Target="@1303" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1294" Target="@1305" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1295" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1294" Target="@1291" Category="CodeSchema_Calls" />
+    <Link Source="@1294" Target="@1303" Category="CodeSchema_Calls" />
+    <Link Source="@1294" Target="@1305" Category="CodeSchema_Calls" />
+    <Link Source="@1295" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1296" Target="@1295" Category="CodeSchema_Calls" />
     <Link Source="@1296" Target="@1863" Category="CodeSchema_Calls" />
     <Link Source="@1298" Target="@2309" Category="CodeSchema_Calls" />
@@ -3882,13 +3882,13 @@
     <Link Source="@130" Target="@477" Category="Contains" />
     <Link Source="@1300" Target="@2789" Category="CodeSchema_Calls" />
     <Link Source="@1300" Target="@2790" Category="CodeSchema_Calls" />
-    <Link Source="@1301" Target="@1339" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1301" Target="@892" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1301" Target="@1339" Category="CodeSchema_Calls" />
+    <Link Source="@1301" Target="@892" Category="CodeSchema_Calls" />
     <Link Source="@1302" Target="@2309" Category="CodeSchema_Calls" />
-    <Link Source="@1303" Target="@877" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1303" Target="@877" Category="CodeSchema_Calls" />
     <Link Source="@1304" Target="@1932" Category="CodeSchema_Calls" />
     <Link Source="@1304" Target="@2309" Category="CodeSchema_Calls" />
-    <Link Source="@1305" Target="@892" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1305" Target="@892" Category="CodeSchema_Calls" />
     <Link Source="@1306" Target="@1307" Category="CodeSchema_Calls" />
     <Link Source="@1306" Target="@1308" Category="CodeSchema_Calls" />
     <Link Source="@1306" Target="@1729" Category="CodeSchema_Calls" />
@@ -3912,8 +3912,8 @@
     <Link Source="@1311" Target="@649" Category="References">
       <Category Ref="CodeSchema_ReturnTypeLink" />
     </Link>
-    <Link Source="@1313" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1313" Target="@878" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1313" Target="@1159" Category="CodeSchema_Calls" />
+    <Link Source="@1313" Target="@878" Category="CodeSchema_Calls" />
     <Link Source="@1314" Target="@1313" Category="CodeSchema_Calls" />
     <Link Source="@1317" Target="@2552" Category="CodeSchema_Calls" />
     <Link Source="@132" Target="@134" Category="Contains" />
@@ -3924,8 +3924,8 @@
     <Link Source="@132" Target="@310" Category="Contains" />
     <Link Source="@132" Target="@478" Category="Contains" />
     <Link Source="@132" Target="@554" Category="Contains" />
-    <Link Source="@1338" Target="@878" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1339" Target="@878" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1338" Target="@878" Category="CodeSchema_Calls" />
+    <Link Source="@1339" Target="@878" Category="CodeSchema_Calls" />
     <Link Source="@134" Target="@719" Category="Contains" />
     <Link Source="@1343" Target="@2989" Category="CodeSchema_Calls" />
     <Link Source="@1343" Target="@3031" Category="CodeSchema_Calls" />
@@ -4818,8 +4818,8 @@
     <Link Source="@1862" Target="@1371" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1862" Target="@1397" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1862" Target="@1861" Category="CodeSchema_FunctionPointer" />
-    <Link Source="@1866" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1867" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1866" Target="@1159" Category="CodeSchema_Calls" />
+    <Link Source="@1867" Target="@1159" Category="CodeSchema_Calls" />
     <Link Source="@1869" Target="@1598" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1870" Target="@2948" Category="CodeSchema_Calls" />
     <Link Source="@1870" Target="@2949" Category="CodeSchema_Calls" />
@@ -4856,44 +4856,44 @@
     <Link Source="@1888" Target="@1875" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1888" Target="@1876" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1888" Target="@2261" Category="CodeSchema_Calls" />
-    <Link Source="@1889" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1889" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1889" Target="@1905" Category="CodeSchema_Calls" />
     <Link Source="@1889" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1890" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1890" Target="@1902" Category="CodeSchema_Calls" />
     <Link Source="@1890" Target="@2242" Category="CodeSchema_Calls" />
     <Link Source="@1890" Target="@2243" Category="CodeSchema_Calls" />
-    <Link Source="@1891" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1891" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1892" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1892" Target="@2340" Category="CodeSchema_Calls" />
     <Link Source="@1893" Target="@1878" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1893" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1894" Target="@1905" Category="CodeSchema_Calls" />
-    <Link Source="@1895" Target="@1896" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1895" Target="@1896" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1884" Category="CodeSchema_Calls" />
-    <Link Source="@1896" Target="@1889" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1896" Target="@1891" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1896" Target="@1889" Category="CodeSchema_Calls" />
+    <Link Source="@1896" Target="@1891" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1892" Category="CodeSchema_Calls" />
-    <Link Source="@1896" Target="@1898" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1896" Target="@1899" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1896" Target="@1900" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1896" Target="@1901" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1896" Target="@1898" Category="CodeSchema_Calls" />
+    <Link Source="@1896" Target="@1899" Category="CodeSchema_Calls" />
+    <Link Source="@1896" Target="@1900" Category="CodeSchema_Calls" />
+    <Link Source="@1896" Target="@1901" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1903" Category="CodeSchema_Calls" />
-    <Link Source="@1896" Target="@1904" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1896" Target="@1904" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1906" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1907" Category="CodeSchema_Calls" />
     <Link Source="@1896" Target="@1909" Category="CodeSchema_Calls" />
-    <Link Source="@1896" Target="@1912" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1896" Target="@1915" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1896" Target="@1912" Category="CodeSchema_Calls" />
+    <Link Source="@1896" Target="@1915" Category="CodeSchema_Calls" />
     <Link Source="@1897" Target="@1913" Category="CodeSchema_Calls" />
-    <Link Source="@1898" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@1899" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1898" Target="@1895" Category="CodeSchema_Calls" />
+    <Link Source="@1899" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1899" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@190" Target="@698" Category="Contains" />
     <Link Source="@190" Target="@801" Category="Contains" />
-    <Link Source="@1900" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1900" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1900" Target="@2243" Category="CodeSchema_Calls" />
-    <Link Source="@1901" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1901" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1901" Target="@1902" Category="CodeSchema_Calls" />
     <Link Source="@1902" Target="@1893" Category="CodeSchema_Calls" />
     <Link Source="@1902" Target="@1897" Category="CodeSchema_Calls" />
@@ -4901,7 +4901,7 @@
     <Link Source="@1902" Target="@1911" Category="CodeSchema_Calls" />
     <Link Source="@1903" Target="@1907" Category="CodeSchema_Calls" />
     <Link Source="@1903" Target="@2242" Category="CodeSchema_Calls" />
-    <Link Source="@1904" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1904" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1904" Target="@1905" Category="CodeSchema_Calls" />
     <Link Source="@1905" Target="@1880" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1905" Target="@1881" Category="CodeSchema_FunctionPointer" />
@@ -4916,12 +4916,12 @@
     <Link Source="@1910" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1911" Target="@1883" Category="CodeSchema_FunctionPointer" />
     <Link Source="@1911" Target="@1913" Category="CodeSchema_Calls" />
-    <Link Source="@1912" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1912" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1912" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1913" Target="@1914" Category="CodeSchema_Calls" />
     <Link Source="@1914" Target="@1888" Category="CodeSchema_Calls" />
     <Link Source="@1914" Target="@1908" Category="CodeSchema_Calls" />
-    <Link Source="@1915" Target="@1895" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@1915" Target="@1895" Category="CodeSchema_Calls" />
     <Link Source="@1915" Target="@1905" Category="CodeSchema_Calls" />
     <Link Source="@1915" Target="@1913" Category="CodeSchema_Calls" />
     <Link Source="@1916" Target="@867" Category="CodeSchema_Calls" />
@@ -5918,7 +5918,7 @@
     <Link Source="@2073" Target="@937" Category="CodeSchema_Calls" />
     <Link Source="@2075" Target="@2076" Category="CodeSchema_Calls" />
     <Link Source="@2077" Target="@2135" Category="CodeSchema_Calls" />
-    <Link Source="@2078" Target="@1153" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@2078" Target="@1153" Category="CodeSchema_Calls" />
     <Link Source="@2079" Target="@2607" Category="CodeSchema_Calls" />
     <Link Source="@208" Target="@210" Category="Contains" />
     <Link Source="@208" Target="@212" Category="Contains" />
@@ -6883,7 +6883,7 @@
     <Link Source="@2309" Target="@1932" Category="CodeSchema_Calls" />
     <Link Source="@2309" Target="@1933" Category="CodeSchema_Calls" />
     <Link Source="@2309" Target="@2007" Category="CodeSchema_Calls" />
-    <Link Source="@2309" Target="@2078" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@2309" Target="@2078" Category="CodeSchema_Calls" />
     <Link Source="@2309" Target="@2080" Category="CodeSchema_Calls" />
     <Link Source="@2309" Target="@2096" Category="CodeSchema_Calls" />
     <Link Source="@2309" Target="@2097" Category="CodeSchema_Calls" />
@@ -10638,7 +10638,7 @@
     <Link Source="@583" Target="@3134" Category="Contains" />
     <Link Source="@583" Target="@3201" Category="Contains" />
     <Link Source="@583" Target="@3202" Category="Contains" />
-    <Link Source="@583" Target="@583" Category="References" IsCircularLink="True" />
+    <Link Source="@583" Target="@583" Category="References" />
     <Link Source="@583" Target="@592" Category="References" />
     <Link Source="@583" Target="@601" Category="Implements" />
     <Link Source="@583" Target="@612" Category="References" />
@@ -12297,9 +12297,9 @@
     <Link Source="@86" Target="@118" Category="Contains" />
     <Link Source="@86" Target="@120" Category="Contains" />
     <Link Source="@875" Target="@876" Category="CodeSchema_Calls" />
-    <Link Source="@877" Target="@1138" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@878" Target="@1159" Category="CodeSchema_Calls" IsCircularLink="True" />
-    <Link Source="@892" Target="@1294" Category="CodeSchema_Calls" IsCircularLink="True" />
+    <Link Source="@877" Target="@1138" Category="CodeSchema_Calls" />
+    <Link Source="@878" Target="@1159" Category="CodeSchema_Calls" />
+    <Link Source="@892" Target="@1294" Category="CodeSchema_Calls" />
     <Link Source="@910" Target="@1212" Category="CodeSchema_Calls" />
     <Link Source="@910" Target="@1213" Category="CodeSchema_Calls" />
     <Link Source="@910" Target="@1416" Category="CodeSchema_FunctionPointer" />
@@ -12557,15 +12557,12 @@
     <Property Id="CodeSchemaProperty_IsPublic" Label="IsPublic" Description="IsPublic" DataType="System.Boolean" />
     <Property Id="CodeSchemaProperty_IsSpecialName" Label="IsSpecialName" Description="IsSpecialName" DataType="System.Boolean" />
     <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
-    <Property Id="ErrorMessage" Label="Error" Description="Error" DataType="System.String" />
     <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Progression.Layout.GraphDirection" />
     <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.Progression.GraphModel.GroupStyle" />
     <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
     <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
-    <Property Id="IsCircularLink" Label="Circular Link" Description="Link connects part of a strongly coupled component" DataType="System.Boolean" />
     <Property Id="IsContainment" DataType="System.Boolean" />
     <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
-    <Property Id="IsStronglyConnected" Label="Strongly Connected" Description="Node is part of a strongly coupled component" DataType="System.Boolean" />
     <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
     <Property Id="Layout" DataType="System.String" />
     <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />

@@ -172,7 +172,6 @@
     <Compile Include="DetailData\RecurrenceState.cs" />
     <Compile Include="DetailData\ResponseStatus.cs" />
     <Compile Include="DetailData\SourceSpecificAttribute.cs" />
-    <Compile Include="StdProfileInformationClient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

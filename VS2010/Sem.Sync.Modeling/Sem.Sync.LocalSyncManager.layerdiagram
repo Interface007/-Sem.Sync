@@ -39,6 +39,42 @@
             <LinkCategory Ref="Represents" />
           </ExpandedNode>
         </reference>
+        <reference Id="a24763f3-7386-45df-9465-5ff289c17ecb" name="Sem.Sync.ChangeTracker">
+          <ArtifactNode Label="Sem.Sync.ChangeTracker" Category="CodeSchema_Project" Id="(Assembly=../Sem.Sync.ChangeTracker/Sem.Sync.ChangeTracker.csproj)">
+            <Category Ref="CodeSchema_SourceFile" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=Sem.Sync.ChangeTracker)" Label="Sem.Sync.ChangeTracker.exe" Category="FileSystem.Category.FileOfType.exe">
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+        <reference Id="aefa6205-8cc0-4591-9cc4-7274d1f31999" name="Sem.Sync.ConsoleClient">
+          <ArtifactNode Label="Sem.Sync.ConsoleClient" Category="CodeSchema_Project" Id="(Assembly=../Sem.Sync.ConsoleClient/Sem.Sync.ConsoleClient.csproj)">
+            <Category Ref="CodeSchema_SourceFile" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=Sem.Sync.ConsoleClient)" Label="Sem.Sync.ConsoleClient.exe" Category="FileSystem.Category.FileOfType.exe">
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+        <reference Id="8de44da4-59c7-4730-8128-9a666b813dd3" name="Sem.Sync.OutlookWithXing">
+          <ArtifactNode Label="Sem.Sync.OutlookWithXing" Category="CodeSchema_Project" Id="(Assembly=../Sem.Sync.OutlookWithXing/Sem.Sync.OutlookWithXing.csproj)">
+            <Category Ref="CodeSchema_SourceFile" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=Sem.Sync.OutlookWithXing)" Label="Sem.Sync.OutlookWithXing.exe" Category="FileSystem.Category.FileOfType.exe">
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+        <reference Id="e070fc5a-3021-46cf-ab79-c33bbd920305" name="Sem.GenericHelpers.Decrypter">
+          <ArtifactNode Label="Sem.GenericHelpers.Decrypter" Category="CodeSchema_Project" Id="(Assembly=../Sem.GenericHelpers.Decrypter/Sem.GenericHelpers.Decrypter.csproj)">
+            <Category Ref="CodeSchema_SourceFile" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=Sem.GenericHelpers.Decrypter)" Label="Sem.GenericHelpers.Decrypter.exe" Category="FileSystem.Category.FileOfType.exe">
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
       </references>
     </layer>
     <layer Id="94c69572-ed98-4e06-9029-9580e4586ba5" name="Business Layer">
@@ -50,20 +86,19 @@
       <childLayers>
         <layer Id="27748204-35a9-4847-af6b-65e66057a651" name="Application Facade" />
         <layer Id="0851a06e-aca0-469f-82e1-1ce3b24383ed" name="Business Workflow" />
-        <layer Id="c82ae795-816c-43da-996b-8be44de26d78" name="Business Components" />
+        <layer Id="c82ae795-816c-43da-996b-8be44de26d78" name="Business Components">
+          <references>
+            <reference Id="1bc57d1e-8d10-4c01-a6a9-99447d0fe2f4" name="Sem.Sync.SyncBase.Commands.dll">
+              <ArtifactNode Label="Sem.Sync.SyncBase.Commands.dll" Category="FileSystem.Category.FileOfType.dll" Id="(Assembly=../bin/Sem.Sync.SyncBase.Commands.dll)" />
+              <ExpandedNode Id="(Assembly=../bin/Sem.Sync.SyncBase.Commands.dll)" Label="Sem.Sync.SyncBase.Commands.dll" Category="FileSystem.Category.FileOfType.dll">
+                <LinkCategory Ref="Produces" />
+                <LinkCategory Ref="Represents" />
+              </ExpandedNode>
+            </reference>
+          </references>
+        </layer>
         <layer Id="57459ccc-2f4d-47c0-95e4-b42cccbd010e" name="Business Entities" />
       </childLayers>
-      <references>
-        <reference Id="568ec66e-5be4-493a-a58b-a6d30f0bd8a2" name="Sem.Sync.SyncBase.Commands">
-          <ArtifactNode Label="Sem.Sync.SyncBase.Commands" Category="CodeSchema_Project" Id="(Assembly=../Sem.Sync.SyncBase.Commands/Sem.Sync.SyncBase.Commands.csproj)">
-            <Category Ref="CodeSchema_SourceFile" />
-          </ArtifactNode>
-          <ExpandedNode Id="(Assembly=../bin/Sem.Sync.SyncBase.Commands.dll)" Label="Sem.Sync.SyncBase.Commands.dll" Category="FileSystem.Category.FileOfType.dll">
-            <LinkCategory Ref="Produces" />
-            <LinkCategory Ref="Represents" />
-          </ExpandedNode>
-        </reference>
-      </references>
     </layer>
     <layer Id="2a96e715-a122-4b0a-a81a-91e2a0ab2149" name="Data Layer">
       <dependencyToLayers>

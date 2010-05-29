@@ -107,6 +107,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -133,7 +134,6 @@
     <Compile Include="Entities\ColumnDefinition.cs" />
     <Compile Include="Entities\ResponseCacheItem.cs" />
     <Compile Include="Entities\TableLink.cs" />
-    <Compile Include="Entities\Triple.cs" />
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />
     <Compile Include="EventArgs\ProgressEventArgs.cs" />
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
