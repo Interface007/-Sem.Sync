@@ -9,6 +9,8 @@
 
 namespace Sem.GenericHelpers.Entities
 {
+    using Sem.GenericHelpers.Interfaces;
+
     /// <summary>
     /// Request information to let the user resolve a captcha
     /// </summary>
@@ -19,7 +21,7 @@ namespace Sem.GenericHelpers.Entities
         /// <summary>
         /// Gets or sets HttpHelper.
         /// </summary>
-        public HttpHelper HttpHelper { get; set; }
+        public IHttpHelper HttpHelper { get; set; }
 
         /// <summary>
         ///   Gets or sets the url of the web site that will provide the UI to solve the captcha.

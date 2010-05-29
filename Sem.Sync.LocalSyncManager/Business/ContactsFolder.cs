@@ -13,6 +13,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.ComponentModel;
 
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>

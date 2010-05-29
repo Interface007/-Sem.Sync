@@ -20,6 +20,7 @@ namespace Sem.Sync.Connector.CloudStorage
 
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>

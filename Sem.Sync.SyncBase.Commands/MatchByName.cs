@@ -13,6 +13,7 @@ namespace Sem.Sync.SyncBase.Commands
     using System.Collections.Generic;
     using System.Linq;
 
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>

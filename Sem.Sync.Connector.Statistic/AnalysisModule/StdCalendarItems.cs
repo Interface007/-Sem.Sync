@@ -14,6 +14,7 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
     using System.Linq;
 
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Defines a result set of calendar item list analysis.

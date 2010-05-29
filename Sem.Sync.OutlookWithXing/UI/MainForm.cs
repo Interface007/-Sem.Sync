@@ -20,6 +20,7 @@ namespace Sem.Sync.OutlookWithXing.UI
     using Sem.Sync.SharedUI.WinForms.Tools;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Binding;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// the simple user interface for executing the sync

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase
+namespace Sem.Sync.SyncBase.DetailData
 {
     /// <summary>
     /// defines the way of reoccurance of the appointment

@@ -16,6 +16,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
+    using Sem.GenericHelpers.Interfaces;
 
     /// <summary>
     /// The captcha resolve.
@@ -44,7 +45,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Gets or sets Requester.
         /// </summary>
-        protected HttpHelper Requester { get; set; }
+        protected IHttpHelper Requester { get; set; }
 
         #endregion
 

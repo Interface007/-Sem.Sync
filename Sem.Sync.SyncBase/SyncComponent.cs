@@ -15,6 +15,7 @@ namespace Sem.Sync.SyncBase
     using Sem.GenericHelpers.EventArgs;
     using Sem.GenericHelpers.Exceptions;
     using Sem.GenericHelpers.Interfaces;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Base class for Sync classes that do provide UI feedback like logging and progress.

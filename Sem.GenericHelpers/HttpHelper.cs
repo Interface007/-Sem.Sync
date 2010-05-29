@@ -146,7 +146,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         ///   Gets or sets the Default Instance for requesting information from the network without any further configuration.
         /// </summary>
-        public static HttpHelper DefaultInstance { get; set; }
+        public static IHttpHelper DefaultInstance { get; set; }
 
         /// <summary>
         ///   Gets or sets the base address for requests

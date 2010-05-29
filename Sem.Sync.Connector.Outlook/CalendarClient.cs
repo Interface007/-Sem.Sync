@@ -22,6 +22,7 @@ namespace Sem.Sync.Connector.Outlook
     using Sem.Sync.Connector.Outlook.Properties;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     using Exception = System.Exception;

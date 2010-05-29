@@ -22,6 +22,7 @@ namespace Sem.Sync.SyncBase
     using Sem.GenericHelpers.EventArgs;
     using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Interfaces;
     using Sem.Sync.SyncBase.Properties;

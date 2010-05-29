@@ -41,6 +41,11 @@ namespace Sem.GenericHelpers.Interfaces
         ///   Gets or sets the object that is responsible to interact with the user
         /// </summary>
         IUiInteraction UiDispatcher { get; set; }
+        
+        /// <summary>
+        ///   Gets or sets the credentials for the content server
+        /// </summary>
+        ICredentialAware ContentCredentials { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether to activate caching of content 
@@ -65,6 +70,17 @@ namespace Sem.GenericHelpers.Interfaces
         /// <param name="url">
         /// the url to access the content
         /// </param>
+        /// <returns>
+        /// the text result of the request
+        /// </returns>
+        string GetContent(string url);
+
+        /// <summary>
+        /// Download content as text
+        /// </summary>
+        /// <param name="url">
+        /// the url to access the content
+        /// </param>
         /// <param name="name">
         /// a name for caching - this should correspond to the url
         /// </param>
@@ -79,6 +95,17 @@ namespace Sem.GenericHelpers.Interfaces
         /// <param name="url">
         /// the url to access the content
         /// </param>
+        /// <returns>
+        /// the binary result of the request without conversion
+        /// </returns>
+        byte[] GetContentBinary(string url);
+
+        /// <summary>
+        /// Download content binary
+        /// </summary>
+        /// <param name="url">
+        /// the url to access the content
+        /// </param>
         /// <param name="name">
         /// a name for caching - this should correspond to the url
         /// </param>
@@ -86,6 +113,23 @@ namespace Sem.GenericHelpers.Interfaces
         /// the binary result of the request without conversion
         /// </returns>
         byte[] GetContentBinary(string url, string name);
+
+        /// <summary>
+        /// Download content as binary
+        /// </summary>
+        /// <param name="url">
+        /// the url to access the content
+        /// </param>
+        /// <param name="name">
+        /// a name for caching - this should correspond to the url
+        /// </param>
+        /// <param name="referer">
+        /// the url of the referer to add
+        /// </param>
+        /// <returns>
+        /// the text result of the request
+        /// </returns>
+        byte[] GetContentBinary(string url, string name, string referer);
 
         /// <summary>
         /// Download content binary

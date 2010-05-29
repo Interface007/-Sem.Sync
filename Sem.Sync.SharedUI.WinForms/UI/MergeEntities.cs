@@ -18,6 +18,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
 
     using Sem.Sync.SharedUI.WinForms.ViewModel;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Merging;
 
     /// <summary>

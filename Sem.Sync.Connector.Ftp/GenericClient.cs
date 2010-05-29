@@ -23,6 +23,7 @@ namespace Sem.Sync.Connector.Ftp
     using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     #endregion usings
 

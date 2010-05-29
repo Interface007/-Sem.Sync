@@ -15,6 +15,7 @@ namespace Sem.Sync.Connector.Outlook
 
     using Sem.Sync.Connector.Outlook.Properties;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Static helper class to convert entities

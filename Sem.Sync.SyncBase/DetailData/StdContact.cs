@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase
+namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +18,6 @@ namespace Sem.Sync.SyncBase
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Attributes;
-    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>

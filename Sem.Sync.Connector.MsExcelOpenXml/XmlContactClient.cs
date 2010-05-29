@@ -20,6 +20,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Writes a list of "something" into an excel OpenXml file. The <see cref="StdElement.Id"/> 

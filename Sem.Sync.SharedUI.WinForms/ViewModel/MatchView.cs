@@ -12,6 +12,7 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
     using System;
 
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Binding entity for matches.
