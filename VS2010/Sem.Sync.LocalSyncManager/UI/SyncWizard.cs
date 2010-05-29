@@ -22,6 +22,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using Sem.Sync.LocalSyncManager.Tools;
     using Sem.Sync.SharedUI.Common;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// User interface for wizard-like interaction

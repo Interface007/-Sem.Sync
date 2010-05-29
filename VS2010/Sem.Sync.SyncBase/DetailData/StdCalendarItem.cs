@@ -7,13 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase
+namespace Sem.Sync.SyncBase.DetailData
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
 
-    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
@@ -91,7 +90,7 @@ namespace Sem.Sync.SyncBase
 
         /// <summary>
         ///   Gets or sets a value indicating whether a response is requested or not.
-        ///   In case of a request to response, the <see cref = "ResponseStatus" /> should be different to <see cref = "SyncBase.ResponseStatus.Undefined" />
+        ///   In case of a request to response, the <see cref = "ResponseStatus" /> should be different to <see cref = "DetailData.ResponseStatus.Undefined" />
         /// </summary>
         public bool ResponseRequested { get; set; }
 

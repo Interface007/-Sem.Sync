@@ -19,6 +19,7 @@ namespace Sem.Sync.Connector.Filesystem
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings

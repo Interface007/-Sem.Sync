@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase
+namespace Sem.Sync.SyncBase.DetailData
 {
     /// <summary>
     /// status of a calendar entry or a person

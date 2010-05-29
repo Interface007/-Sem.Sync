@@ -14,6 +14,7 @@ namespace Sem.Sync.Connector.LotusNotes
 
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system

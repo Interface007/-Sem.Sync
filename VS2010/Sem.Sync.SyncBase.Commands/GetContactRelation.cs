@@ -14,6 +14,7 @@ namespace Sem.Sync.SyncBase.Commands
     using System;
 
     using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Interfaces;
 

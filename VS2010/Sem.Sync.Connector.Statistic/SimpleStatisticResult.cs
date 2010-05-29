@@ -16,6 +16,7 @@ namespace Sem.Sync.Connector.Statistic
     using Sem.GenericHelpers.Entities;
     using Sem.Sync.Connector.Statistic.AnalysisModule;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>

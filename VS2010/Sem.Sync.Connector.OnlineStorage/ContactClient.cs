@@ -19,6 +19,7 @@ namespace Sem.Sync.Connector.OnlineStorage
     using ContactService2;
 
     using Sem.GenericHelpers;
+    using Sem.Sync.SyncBase.DetailData;
 
     using SyncBase;
     using SyncBase.Attributes;
@@ -47,7 +48,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="clientFolderName">represents a path to the data</param>
         /// <param name="result">the list that will be filled with the contacts</param>
         /// <returns>the list of contacts that has been read from the online storage</returns>
-        protected override List<SyncBase.StdElement> ReadFullList(string clientFolderName, List<SyncBase.StdElement> result)
+        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             var client = new ContactServiceClient();
             var formatter = new BinaryFormatter();
@@ -74,7 +75,7 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="elements"> The elements to be written. </param>
         /// <param name="clientFolderName"> represents a path to the data </param>
         /// <param name="skipIfExisting"> If this parameter is true, existing elements will not be altered. </param>
-        protected override void WriteFullList(List<SyncBase.StdElement> elements, string clientFolderName, bool skipIfExisting)
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var formatter = new BinaryFormatter();
             using (var memStream = new MemoryStream())

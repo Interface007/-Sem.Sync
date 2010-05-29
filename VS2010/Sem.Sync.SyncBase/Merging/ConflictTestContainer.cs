@@ -12,6 +12,8 @@ namespace Sem.Sync.SyncBase.Merging
 {
     using System;
 
+    using Sem.Sync.SyncBase.DetailData;
+
     /// <summary>
     /// While collecting information about conflicts in object properties this container will be filled for
     ///   each property of an object.

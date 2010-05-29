@@ -9,6 +9,7 @@
     using Connector.Filesystem;
 
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     using SyncBase.Helpers;
 

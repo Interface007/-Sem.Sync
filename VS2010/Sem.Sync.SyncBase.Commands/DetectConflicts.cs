@@ -11,6 +11,7 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
+    using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Interfaces;
 

@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.SyncBase
+namespace Sem.Sync.SyncBase.DetailData
 {
     /// <summary>
     /// Implements a data type for Information that is specific to one single connector / source.

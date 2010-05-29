@@ -28,6 +28,7 @@ namespace Sem.Sync.Connector.MsAccess
     using Sem.GenericHelpers.Entities;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Class that provides a connector to Microsoft Access Database files. The connector

@@ -15,6 +15,7 @@ namespace Sem.Sync.Connector.Memory
 
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Class that provides a memory only connector to speed up operations.

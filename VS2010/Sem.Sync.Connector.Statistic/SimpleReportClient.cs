@@ -17,6 +17,7 @@ namespace Sem.Sync.Connector.Statistic
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     #endregion usings
 

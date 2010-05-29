@@ -9,6 +9,8 @@
 
 namespace Sem.Sync.SyncBase.Merging
 {
+    using Sem.Sync.SyncBase.DetailData;
+
     /// <summary>
     /// This value describes what to do with the conflict as a result of a conflict solution.
     /// </summary>

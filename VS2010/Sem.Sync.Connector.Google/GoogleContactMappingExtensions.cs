@@ -372,8 +372,7 @@ namespace Sem.Sync.Connector.Google
                 helper.ContentCredentials.LogOnDomain = "[GOOGLE]";
                 helper.ContentCredentials.LogOnPassword =
                     ((GDataGAuthRequestFactory)requester.Service.RequestFactory).GAuthToken;
-                stdEntry.PictureData = helper.GetContentBinary(
-                    googleContact.PhotoUri.AbsoluteUri, string.Empty, string.Empty);
+                stdEntry.PictureData = helper.GetContentBinary(googleContact.PhotoUri.AbsoluteUri, string.Empty, string.Empty);
             }
         }
 

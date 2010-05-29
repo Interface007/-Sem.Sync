@@ -142,7 +142,7 @@
     <Compile Include="Attributes\ConnectorDescriptionAttribute.cs" />
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
-    <Compile Include="BusyStatus.cs" />
+    <Compile Include="DetailData\BusyStatus.cs" />
     <Compile Include="DetailData\BusinessCertificate.cs" />
     <Compile Include="DetailData\BusinessHistoryEntry.cs" />
     <Compile Include="DetailData\ConnectorInformation.cs" />
@@ -169,9 +169,9 @@
     <Compile Include="Interfaces\IUiSyncInteraction.cs" />
     <Compile Include="DetailData\LanguageKnowledge.cs" />
     <Compile Include="Merging\MergePropertyConflict.cs" />
-    <Compile Include="RecurrenceState.cs" />
-    <Compile Include="ResponseStatus.cs" />
-    <Compile Include="SourceSpecificAttribute.cs" />
+    <Compile Include="DetailData\RecurrenceState.cs" />
+    <Compile Include="DetailData\ResponseStatus.cs" />
+    <Compile Include="DetailData\SourceSpecificAttribute.cs" />
     <Compile Include="StdProfileInformationClient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -184,7 +184,7 @@
     <Compile Include="Merging\Conflict.cs" />
     <Compile Include="Merging\ConflictTestContainer.cs" />
     <Compile Include="StdClient.cs" />
-    <Compile Include="StdElement.cs" />
+    <Compile Include="DetailData\StdElement.cs" />
     <Compile Include="DetailData\CountryCode.cs" />
     <Compile Include="DetailData\Genders.cs" />
     <Compile Include="Interfaces\IClientBase.cs" />
@@ -193,8 +193,8 @@
     <Compile Include="DetailData\PhoneNumber.cs" />
     <Compile Include="DetailData\ProfileIdentifiers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StdCalendarItem.cs" />
-    <Compile Include="StdContact.cs" />
+    <Compile Include="DetailData\StdCalendarItem.cs" />
+    <Compile Include="DetailData\StdContact.cs" />
     <Compile Include="DetailData\SyncData.cs" />
     <Compile Include="SyncDescription.cs" />
     <Compile Include="WebScrapingBaseClient.cs" />

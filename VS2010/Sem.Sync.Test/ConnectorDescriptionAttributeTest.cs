@@ -14,6 +14,7 @@ namespace Sem.Sync.Test
 
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// This is a test class for ConnectorDescriptionAttributeTest and is intended

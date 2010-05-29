@@ -10,6 +10,7 @@
 namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// Implements a view entity for a match-candidate

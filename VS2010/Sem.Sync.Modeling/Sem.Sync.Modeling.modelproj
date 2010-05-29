@@ -21,7 +21,11 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
   <ItemGroup>
+    <Folder Include="Dependencies\" />
     <Folder Include="ModelDefinition\" />
+    <Content Include="Dependencies\2010-05-29-Complete.dgml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Sem.Sync.Modeling.uml">
       <SubType>Content</SubType>
     </Content>
@@ -38,6 +42,17 @@
       <SubType>Content</SubType>
       <DependentUpon>ProjectLayers.layerdiagram</DependentUpon>
     </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Sem.Sync.LocalSyncManager.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>Sem.Sync.LocalSyncManager.layerdiagram</DependentUpon>
+    </Validate>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers.ExceptionService\Sem.GenericHelpers.ExceptionService.csproj">
@@ -51,6 +66,10 @@
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
       <Project>{abf6a30f-5063-460c-9277-af0f59c89290}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
+      <Name>Sem.Sync.Connector.CloudStorage</Name>
+      <Project>{11f37589-ca3b-4b92-b87c-9b48073e4546}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
       <Name>Sem.Sync.Connector.Console</Name>
@@ -68,9 +87,21 @@
       <Name>Sem.Sync.Connector.Filesystem</Name>
       <Project>{f0a26b2b-02ca-4095-ad20-013d0110abb3}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Ftp\Sem.Sync.Connector.Ftp.csproj">
+      <Name>Sem.Sync.Connector.Ftp</Name>
+      <Project>{2a0380de-1379-4c25-9b88-8cf1279a5d37}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
+      <Name>Sem.Sync.Connector.Google</Name>
+      <Project>{5f0f1a7f-795b-40b6-abbd-eeb2c7e17ca1}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.LinkedIn\Sem.Sync.Connector.LinkedIn.csproj">
       <Name>Sem.Sync.Connector.LinkedIn</Name>
       <Project>{292139b0-e1a3-4c02-a72d-d8edd3abe320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
+      <Name>Sem.Sync.Connector.LotusNotes</Name>
+      <Project>{ba85e4f7-b3b4-4537-b4b5-f642d3e0a191}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
       <Name>Sem.Sync.Connector.MeinVZ</Name>
@@ -88,6 +119,10 @@
       <Name>Sem.Sync.Connector.MsExcelOpenXml</Name>
       <Project>{c88e3c85-79a2-4045-85bb-696097ed23d7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj">
+      <Name>Sem.Sync.Connector.MsExcelXml</Name>
+      <Project>{a4b8f29e-a81f-4363-8a83-9e565facd0eb}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
       <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
       <Project>{a454ea6d-1b59-44af-8ef2-72f66924279a}</Project>
@@ -99,6 +134,14 @@
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
       <Name>Sem.Sync.Connector.Outlook2003</Name>
       <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2010\Sem.Sync.Connector.Outlook2010.csproj">
+      <Name>Sem.Sync.Connector.Outlook2010</Name>
+      <Project>{0e785e12-16ff-4409-927a-1e7554841d72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
+      <Name>Sem.Sync.Connector.Outlook</Name>
+      <Project>{809277c4-f27e-47b6-ac9f-e5ee54ae1399}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
       <Name>Sem.Sync.Connector.Statistic</Name>
