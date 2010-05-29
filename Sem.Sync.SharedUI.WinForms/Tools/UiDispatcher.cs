@@ -97,7 +97,7 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// </returns>
         public CaptchaResolveResult ResolveCaptcha(string messageForUser, string title, CaptchaResolveRequest request)
         {
-            if (request.HttpHelper != null)
+            if (request.CaptchaImage != null)
             {
                 return new CaptchaResolve().Resolve(messageForUser, title, request);
             }

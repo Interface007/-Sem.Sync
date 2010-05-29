@@ -26,6 +26,9 @@
     <Content Include="Dependencies\2010-05-29-Complete.dgml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Dependencies\2010-05-29-Refactored.dgml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Sem.Sync.Modeling.uml">
       <SubType>Content</SubType>
     </Content>
@@ -55,6 +58,10 @@
     </Validate>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers.Decrypter\Sem.GenericHelpers.Decrypter.csproj">
+      <Name>Sem.GenericHelpers.Decrypter</Name>
+      <Project>{e039cb82-bbc8-4f63-a9f9-53dcaee88725}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers.ExceptionService\Sem.GenericHelpers.ExceptionService.csproj">
       <Name>Sem.GenericHelpers.ExceptionService</Name>
       <Project>{c57e4b3b-ad5b-48ea-b843-5ce0c2477297}</Project>
@@ -63,13 +70,13 @@
       <Name>Sem.GenericHelpers</Name>
       <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj">
+      <Name>Sem.Sync.ChangeTracker</Name>
+      <Project>{aa22cce8-86e8-4f8b-a7ff-1d941e090251}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
       <Name>Sem.Sync.Connector.ActiveDirectory</Name>
       <Project>{abf6a30f-5063-460c-9277-af0f59c89290}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
-      <Name>Sem.Sync.Connector.CloudStorage</Name>
-      <Project>{11f37589-ca3b-4b92-b87c-9b48073e4546}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
       <Name>Sem.Sync.Connector.Console</Name>

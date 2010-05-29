@@ -13,7 +13,9 @@ namespace Sem.Sync.Connector.WerKenntWen
 
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Globalization;
+    using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Web;
@@ -167,6 +169,23 @@ namespace Sem.Sync.Connector.WerKenntWen
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// The get image from page.
+        /// </summary>
+        /// <param name="page"> The page content. </param>
+        /// <returns> The captcha image from the page. </returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private static string GetImageUrlFromPage(string page)
+        {
+            var imageUrl = Regex.Match(page, "<iframe src=\"(http://api.recaptcha.net/noscript[?]k=[a-zA-Z0-9]*)");
+            if (imageUrl.Groups.Count == 2)
+            {
+                return imageUrl.Groups[1].ToString();
+            }
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -333,7 +352,7 @@ namespace Sem.Sync.Connector.WerKenntWen
         /// <returns>
         /// a list of urls for the data to be downloaded
         /// </returns>
-        private List<string> GetUrlList()
+        private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
 
@@ -412,13 +431,22 @@ namespace Sem.Sync.Connector.WerKenntWen
         /// </summary>
         private void ResolveCaptcha()
         {
+            var request = new CaptchaResolveRequest
+            {
+                UrlOfWebSite = "http://www.wer-kennt-wen.de/captcha",
+            };
+            
+            var page = this.wkwRequester.GetContent(request.UrlOfWebSite);
+            using (var imageStream = new MemoryStream(this.wkwRequester.GetContentBinary(GetImageUrlFromPage(page))))
+            {
+                request.CaptchaImage = Image.FromStream(imageStream);
+                imageStream.Dispose();
+            }
+            
             this.UiDispatcher.ResolveCaptcha(
                 "WKW will ein Captcha gelöst haben.", 
                 "WKW Captcha", 
-                new CaptchaResolveRequest
-                    {
-                       UrlOfWebSite = "http://www.wer-kennt-wen.de/captcha", HttpHelper = this.wkwRequester, 
-                    });
+                request);
         }
 
         #endregion
