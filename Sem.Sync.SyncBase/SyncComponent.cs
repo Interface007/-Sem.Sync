@@ -189,12 +189,8 @@ namespace Sem.Sync.SyncBase
         /// logs an event by specifying the current element that is related to the event and a message about the current event
         ///   use this overload to prevent preformatting the parameters for the message.
         /// </summary>
-        /// <param name="sender">
-        /// The sender of the event.
-        /// </param>
-        /// <param name="args">
-        /// The processing arguments.
-        /// </param>
+        /// <param name="sender"> The sender of the event. </param>
+        /// <param name="args"> The processing arguments. </param>
         protected void LogProcessingEvent(object sender, ProcessingEventArgs args)
         {
             this.LogProcessingEvent((StdElement)args.Item, args.Message);
@@ -204,9 +200,7 @@ namespace Sem.Sync.SyncBase
         /// Informs the subscriber of the <see cref="ProgressEvent"/> about the percentage of the current 
         ///   execution. This percentage is relative to the complete method call.
         /// </summary>
-        /// <param name="percentage">
-        /// Specifies the percentage of work already done.
-        /// </param>
+        /// <param name="percentage"> Specifies the percentage of work already done. </param>
         protected void UpdateProgress(int percentage)
         {
             this.UpdateProgress(this, new ProgressEventArgs { PercentageDone = percentage });
@@ -215,12 +209,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Throws an <see cref="Exception"/> if one is specified
         /// </summary>
-        /// <param name="exception">
-        /// The process abort exception to be thrown. 
-        /// </param>
-        /// <exception cref="ProcessAbortException">
-        /// if the parameter is not null 
-        /// </exception>
+        /// <param name="exception"> The process abort exception to be thrown.  </param>
+        /// <exception cref="ProcessAbortException"> if the parameter is not null  </exception>
         private static void ThrowOnException(Exception exception)
         {
             if (exception != null)
@@ -233,12 +223,8 @@ namespace Sem.Sync.SyncBase
         /// Informs the subscriber of the <see cref="ProgressEvent"/> about the percentage of the current 
         ///   execution. This percentage is relative to the complete method call.
         /// </summary>
-        /// <param name="sender">
-        /// The reference to the sender of this event (this object)
-        /// </param>
-        /// <param name="args">
-        /// The progress arguments about the current work
-        /// </param>
+        /// <param name="sender"> The reference to the sender of this event (this object) </param>
+        /// <param name="args"> The progress arguments about the current work </param>
         private void UpdateProgress(object sender, ProgressEventArgs args)
         {
             if (this.ProgressEvent != null)

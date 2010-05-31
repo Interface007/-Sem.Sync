@@ -78,10 +78,8 @@ namespace Sem.Sync.Connector.Xing
 
             foreach (StdContact element in listToScan)
             {
-                if (
-                    !string.IsNullOrEmpty(
-                        element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.XingNameProfileId)) ||
-                    string.IsNullOrEmpty(element.Name.LastName))
+                if (!string.IsNullOrEmpty(element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.XingNameProfileId)) 
+                    || string.IsNullOrEmpty(element.Name.LastName))
                 {
                     continue;
                 }
@@ -91,8 +89,11 @@ namespace Sem.Sync.Connector.Xing
                 {
                     for (var i = 0; i < 9; i++)
                     {
-                        var profileUrl = "http://www.xing.com/profile/" + guess +
-                                         ((i > 0) ? i.ToString(CultureInfo.InvariantCulture) : string.Empty);
+                        var profileUrl = 
+                            "http://www.xing.com/profile/" 
+                            + guess 
+                            + ((i > 0) ? i.ToString(CultureInfo.InvariantCulture) : string.Empty);
+
                         var publicProfile = this.xingRequester.GetContent(profileUrl);
 
                         if (publicProfile.Contains("Die gesuchte Seite konnte nicht gefunden werden."))

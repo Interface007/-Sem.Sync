@@ -368,7 +368,7 @@ namespace Sem.Sync.SyncBase.DetailData
         }
 
         /// <summary>
-        /// Determines a string that can be used to sort a list of StdContac elements.
+        /// Determines a string that can be used to sort a list of StdContact elements.
         /// </summary>
         /// <returns>
         /// the sorting string
@@ -376,16 +376,10 @@ namespace Sem.Sync.SyncBase.DetailData
         [AddAsProperty]
         public override string ToSortSimple()
         {
-            var name = new StringBuilder();
-            if (this.Name != null)
-            {
-                name.Append(this.Name.LastName);
-                name.Append(this.Name.FirstName);
-                name.Append(this.Name.MiddleName);
-                name.Append(this.Name.AcademicTitle);
-            }
-
-            return name.ToString().ToUpperInvariant();
+            var personName = this.Name;
+            return personName != null 
+                ? personName.ToSortSimple() 
+                : string.Empty;
         }
 
         /// <summary>

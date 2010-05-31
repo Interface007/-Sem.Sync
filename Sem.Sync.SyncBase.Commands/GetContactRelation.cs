@@ -35,30 +35,14 @@ namespace Sem.Sync.SyncBase.Commands
         ///   Only contacts that can be mapped to internal Ids using the <paramref name="baseliClient"/> will be collected - no additional
         ///   data is collected (there's no profile lookup for the unknown contacts).
         /// </summary>
-        /// <param name="sourceClient">
-        /// The source client provides a set of <see cref="StdContact"/> entries for that the contact relations should be read.
-        /// </param>
-        /// <param name="targetClient">
-        /// The target client will write the processed list of <see cref="StdContact"/> that now does contain the contact relations.
-        /// </param>
-        /// <param name="baseliClient">
-        /// The baseline client provides lookup data for determine valid translations for the relation ids read from the connector specified in the <paramref name="commandParameter"/>.
-        /// </param>
-        /// <param name="sourceStorePath">
-        /// The source storage path.
-        /// </param>
-        /// <param name="targetStorePath">
-        /// The target storage path.
-        /// </param>
-        /// <param name="baselineStorePath">
-        /// The baseline storage path.
-        /// </param>
-        /// <param name="commandParameter">
-        /// The connector to the contact relations (must support <see cref="IExtendedReader"/>).
-        /// </param>
-        /// <returns>
-        /// True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" 
-        /// </returns>
+        /// <param name="sourceClient"> The source client provides a set of <see cref="StdContact"/> entries for that the contact relations should be read. </param>
+        /// <param name="targetClient"> The target client will write the processed list of <see cref="StdContact"/> that now does contain the contact relations. </param>
+        /// <param name="baseliClient"> The baseline client provides lookup data for determine valid translations for the relation ids read from the connector specified in the <paramref name="commandParameter"/>. </param>
+        /// <param name="sourceStorePath"> The source storage path. </param>
+        /// <param name="targetStorePath"> The target storage path. </param>
+        /// <param name="baselineStorePath"> The baseline storage path. </param>
+        /// <param name="commandParameter"> The connector to the contact relations (must support <see cref="IExtendedReader"/>). </param>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue"  </returns>
         public bool ExecuteCommand(
             IClientBase sourceClient, 
             IClientBase targetClient, 
