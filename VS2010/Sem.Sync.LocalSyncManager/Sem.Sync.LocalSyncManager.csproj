@@ -227,6 +227,9 @@
     <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SyncLists\Template GetXingContacts.TSyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SyncLists\Template QueryXing.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -236,9 +239,7 @@
     <None Include="SyncLists\RemoveDuplicatesFromOutlook.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Template SimpleCopy.TSyncList">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="SyncLists\Template SimpleCopy.TSyncList" />
     <None Include="SyncLists\Template Syncronize.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

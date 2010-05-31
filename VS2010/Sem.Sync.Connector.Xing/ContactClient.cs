@@ -191,8 +191,9 @@ namespace Sem.Sync.Connector.Xing
                     var url = string.Format(
                         CultureInfo.InvariantCulture, 
                         HttpUrlProfileContacts, 
-                        contact.ExternalIdentifier[ProfileIdentifierType.ExchangeWs], 
+                        contact.ExternalIdentifier[ProfileIdentifierType.XingNameProfileId], 
                         offset);
+
                     var profileContent = this.GetTextContent(
                         url, string.Format(CultureInfo.InvariantCulture, "XingContent-{0}", offset));
 

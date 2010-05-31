@@ -23,15 +23,9 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <summary>
         /// Reads additional contact relations with known contacts.
         /// </summary>
-        /// <param name="contactToFill">
-        /// The contact to fill. 
-        /// </param>
-        /// <param name="baseline">
-        /// The baseline to lookup the contact id. 
-        /// </param>
-        /// <returns>
-        /// the "enriched" element 
-        /// </returns>
+        /// <param name="contactToFill"> The contact to fill.  </param>
+        /// <param name="baseline"> The baseline to lookup the contact id.  </param>
+        /// <returns> the "enriched" element  </returns>
         StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline);
 
         #endregion

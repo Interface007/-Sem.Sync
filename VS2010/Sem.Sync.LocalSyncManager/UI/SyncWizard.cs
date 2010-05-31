@@ -261,12 +261,12 @@ namespace Sem.Sync.LocalSyncManager.UI
             control.ValueMember = "Key";
             control.SelectedValueChanged +=
                 (s, ev) =>
-                GenericHelpers.Tools.SetPropertyValue(
+                Tools.SetPropertyValue(
                     this.DataContext, targetPath, (((ComboBox)s).SelectedValue ?? string.Empty).ToString());
             this.DataContext.PropertyChanged +=
                 (s, ev) =>
                 control.SelectedValue =
-                GenericHelpers.Tools.GetPropertyValueString(this.DataContext, targetPath) ?? control.SelectedValue;
+                Tools.GetPropertyValueString(this.DataContext, targetPath) ?? control.SelectedValue;
         }
 
         /// <summary>
@@ -349,45 +349,30 @@ namespace Sem.Sync.LocalSyncManager.UI
             // todo: this needs to be changed to be included into databinding setup
             this.txtPathSource.TextChanged += (s, ev) => { this.DataContext.Source.Path = ((Control)s).Text; };
             this.txtPathTarget.TextChanged += (s, ev) => { this.DataContext.Target.Path = ((Control)s).Text; };
-            this.txtUidSource.TextChanged +=
-                (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnUserId = ((Control)s).Text; };
-            this.txtUidTarget.TextChanged +=
-                (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnUserId = ((Control)s).Text; };
-            this.txtPasswordSource.TextChanged +=
-                (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnPassword = ((Control)s).Text; };
-            this.txtPasswordTarget.TextChanged +=
-                (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnPassword = ((Control)s).Text; };
-            this.txtDomainSource.TextChanged +=
-                (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((Control)s).Text; };
-            this.txtDomainTarget.TextChanged +=
-                (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
+            this.txtUidSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnUserId = ((Control)s).Text; };
+            this.txtUidTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnUserId = ((Control)s).Text; };
+            this.txtPasswordSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnPassword = ((Control)s).Text; };
+            this.txtPasswordTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnPassword = ((Control)s).Text; };
+            this.txtDomainSource.TextChanged += (s, ev) => { this.DataContext.Source.LogonCredentials.LogOnDomain = ((Control)s).Text; };
+            this.txtDomainTarget.TextChanged += (s, ev) => { this.DataContext.Target.LogonCredentials.LogOnDomain = ((Control)s).Text; };
 
             // setup the click handling
             this.btnClose.Click += (s, ev) => this.Close();
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnCancel.Click += (s, ev) => this.DataContext.Cancel = true;
-            this.btnSave.Click +=
-                (s, ev) =>
-                this.DataContext.SaveTo(
-                    this.AskForDestinationFile(
-                        Path.GetFileNameWithoutExtension(this.DataContext.CurrentSyncWorkflowData)));
-            this.btnPathSource.Click +=
-                (s, ev) =>
-                this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
-            this.btnPathTarget.Click +=
-                (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
+            this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile(Path.GetFileNameWithoutExtension(this.DataContext.CurrentSyncWorkflowData)));
+            this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
+            this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
+            this.button1.Click += (s, ev) => this.DataContext.SwapSourceAndTarget();
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.
             this.openWorkingFolderToolStripMenuItem.Click += (s, ev) => this.DataContext.OpenWorkingFolder();
             this.openExceptionFolderToolStripMenuItem.Click += (s, ev) => SyncWizardContext.OpenExceptionFolder();
             this.exitToolStripMenuItem.Click += (s, ev) => this.Close();
-            this.removeDuplettesToolStripMenuItem.Click +=
-                (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
+            this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
-            this.deleteCurrentProfileToolStripMenuItem.Click +=
-                (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
-            this.openCommandsViewToolStripMenuItem.Click +=
-                (s, ev) => new Commands { DataContext = new ClientViewModel() }.Show();
+            this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
+            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() }.Show();
             this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
             // setup event handling
@@ -422,20 +407,6 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.DataContext.PropertyChanged += this.ReadFromContext;
             this.cboWorkFlowData.SelectedValue = Config.LastUsedSyncTemplateData ?? this.cboWorkFlowData.SelectedValue;
-        }
-
-        /// <summary>
-        /// The button 1_ click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.DataContext.SwapSourceAndTarget();
         }
 
         #endregion
