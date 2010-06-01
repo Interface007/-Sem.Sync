@@ -15,7 +15,6 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
     using System.Linq;
 
     using Sem.GenericHelpers.Entities;
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
@@ -50,6 +49,8 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
         /// </summary>
         public List<KeyValuePair> Top10CitiesPersonal { get; set; }
 
+        public List<KeyValuePair> Top10Connectors { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -80,54 +81,54 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
 
             return new StdContacts
                 {
-                    PercentageGenderMale =
-                        Math.Round(
-                            (decimal)((from x in contacts where x.PersonGender == Gender.Male select x).Count() * 100) /
-                            contacts.Count, 
-                            2), 
-                    PercentageGenderFemale =
-                        Math.Round(
-                            (decimal)((from x in contacts where x.PersonGender == Gender.Female select x).Count() * 100) /
-                            contacts.Count, 
-                            2), 
+                    PercentageGenderMale = Math.Round((decimal)((from x in contacts where x.PersonGender == Gender.Male select x).Count() * 100) / contacts.Count, 2), 
+                    PercentageGenderFemale = Math.Round((decimal)((from x in contacts where x.PersonGender == Gender.Female select x).Count() * 100) / contacts.Count, 2), 
                     Top10CitiesPersonal = (from x in contacts
                                            where
                                                x.PersonalAddressPrimary != null &&
                                                !string.IsNullOrEmpty(x.PersonalAddressPrimary.CityName)
-                                           group x by x.PersonalAddressPrimary.CityName
-                                           into g orderby g.Count() descending
+                                           group x by x.PersonalAddressPrimary.CityName into g 
+                                           orderby g.Count() descending
                                            select
                                                new KeyValuePair
                                                    {
                                                        Key = g.Key, 
                                                        Value = g.Count().ToString(CultureInfo.CurrentCulture)
-                                                   }).Take(10).
-                        ToList(), 
+                                                   }).Take(10).ToList(), 
                     Top10CitiesBusiness = (from x in contacts
                                            where
                                                x.BusinessAddressPrimary != null &&
                                                !string.IsNullOrEmpty(x.BusinessAddressPrimary.CityName)
-                                           group x by x.BusinessAddressPrimary.CityName
-                                           into g orderby g.Count() descending
+                                           group x by x.BusinessAddressPrimary.CityName into g 
+                                           orderby g.Count() descending
                                            select
                                                new KeyValuePair
                                                    {
                                                        Key = g.Key, 
                                                        Value = g.Count().ToString(CultureInfo.CurrentCulture)
-                                                   }).Take(10).
-                        ToList(), 
+                                                   }).Take(10).ToList(), 
                     BusinessCompanies = (from x in contacts
                                          where !string.IsNullOrEmpty(x.BusinessCompanyName)
-                                         group x by x.BusinessCompanyName
-                                         into g orderby g.Count() descending
+                                         group x by x.BusinessCompanyName into g 
+                                         orderby g.Count() descending
                                          select
                                              new KeyValuePair
                                                  {
-                                                    Key = g.Key, Value = g.Count().ToString(CultureInfo.CurrentCulture) 
-                                                 })
-                        .ToList()
+                                                    Key = g.Key, 
+                                                    Value = g.Count().ToString(CultureInfo.CurrentCulture) 
+                                                 }).ToList(),
+                    Top10Connectors = (from x in contacts
+                                       where x.Contacts != null
+                                       orderby x.Contacts.Count descending
+                                       select 
+                                            new KeyValuePair
+                                                 {
+                                                    Key = x.GetFullName(), 
+                                                    Value = x.Contacts.Count.ToString(CultureInfo.CurrentCulture) 
+                                                 }).Take(10).ToList()
                 };
         }
+
 
         #endregion
     }
