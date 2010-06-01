@@ -72,7 +72,9 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
         private static void AddPropertyCounts(object element, string root, IDictionary<string, int> propList)
         {
             var myType = element.GetType();
-            if (myType.Name == "List`1" || myType.Name == "ProfileIdentifierDictionary")
+            if (myType.Name == "List`1" 
+                || myType.Name == "ProfileIdentifierDictionary"
+                || myType.Name == "SerializableDictionary`2")
             {
                 return;
             }
