@@ -12,6 +12,7 @@ namespace Sem.Sync.Connector.Outlook2003
 {
     #region usings
 
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -33,7 +34,7 @@ namespace Sem.Sync.Connector.Outlook2003
     /// This class is the client class for handling outlook contacts. The outlook connector does use the
     ///   ProfileIdentifierType.Default, which is idential to the <see cref="StdContact.Id"/>.
     /// </summary>
-    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003", CanReadContacts = true, CanWriteContacts = true, 
+    [ConnectorDescription(DisplayName = "Microsoft Outlook 2003", CanReadContacts = true, CanWriteContacts = true,
         Internal = false, IsGeneric = false, MatchingIdentifier = ProfileIdentifierType.Default)]
     [ClientStoragePathDescriptionAttribute(Default = "", ReferenceType = ClientPathType.Undefined)]
     public class ContactClient : StdClient
@@ -95,20 +96,25 @@ namespace Sem.Sync.Connector.Outlook2003
         /// </param>
         public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
+            if (elementsToDelete == null)
+            {
+                return;
+            }
+            
             var outlookNamespace = OutlookClient.GetNamespace();
             var outlookFolder = OutlookClient.GetOutlookMapiFolder(
                 outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
 
             elementsToDelete.ForEach(
                 x =>
+                {
+                    // todo: the filter needs to be corrected!
+                    var contact = outlookFolder.Items.Find(x.Id.ToString()) as ContactItem;
+                    if (contact != null)
                     {
-                        // todo: the filter needs to be corrected!
-                        var contact = outlookFolder.Items.Find(x.Id.ToString()) as ContactItem;
-                        if (contact != null)
-                        {
-                            contact.Delete();
-                        }
-                    });
+                        contact.Delete();
+                    }
+                });
 
             outlookNamespace.Logoff();
         }
@@ -166,7 +172,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
                 this.LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
-                                      orderby a.LastName , a.FirstName
+                                      orderby a.LastName, a.FirstName
                                       select a;
 
                 ContactItem lastItem = null;
@@ -224,6 +230,11 @@ namespace Sem.Sync.Connector.Outlook2003
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var currentElementName = string.Empty;
 
             // get a connection to outlook 
@@ -265,7 +276,7 @@ namespace Sem.Sync.Connector.Outlook2003
                                 {
                                     result.Add(newContact);
                                     this.LogProcessingEvent(
-                                        newContact, 
+                                        newContact,
                                         string.Format(
                                             CultureInfo.CurrentCulture, Resources.uiReadingContact, currentElementName));
                                 }
@@ -277,9 +288,9 @@ namespace Sem.Sync.Connector.Outlook2003
                             {
                                 this.LogProcessingEvent(
                                     string.Format(
-                                        CultureInfo.CurrentCulture, 
-                                        Resources.uiProblemAccessingOutlookStore, 
-                                        currentElementName, 
+                                        CultureInfo.CurrentCulture,
+                                        Resources.uiProblemAccessingOutlookStore,
+                                        currentElementName,
                                         ex.Message));
                             }
                             else

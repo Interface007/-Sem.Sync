@@ -102,6 +102,11 @@ namespace Sem.Sync.Connector.Google
         /// </param>
         public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
+            if (elementsToDelete == null)
+            {
+                return;
+            }
+
             elementsToDelete.ForEach(
                 x =>
                 this.requester.Get<Contact>(new Uri(x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.Google))).
@@ -146,6 +151,11 @@ namespace Sem.Sync.Connector.Google
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             try
             {
                 this.LogProcessingEvent("downloading contacts ...");

@@ -10,6 +10,7 @@
 
 namespace Sem.Sync.Connector.OnlineStorage
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.IO.Compression;
@@ -48,8 +49,13 @@ namespace Sem.Sync.Connector.OnlineStorage
         /// <param name="clientFolderName">represents a path to the data</param>
         /// <param name="result">the list that will be filled with the contacts</param>
         /// <returns>the list of contacts that has been read from the online storage</returns>
-        protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
+        protected override List<SyncBase.DetailData.StdElement> ReadFullList(string clientFolderName, List<SyncBase.DetailData.StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var client = new ContactServiceClient();
             var formatter = new BinaryFormatter();
             using (var stream = new MemoryStream())

@@ -48,6 +48,11 @@ namespace Sem.Sync.LocalSyncManager.Business
         /// </param>
         public ContactsFolder(IClientBase connector, string clientPath)
         {
+            if (connector == null)
+            {
+                return;
+            }
+
             this.Contacts = (IEnumerable<StdContact>)connector.GetAll(clientPath);
         }
 

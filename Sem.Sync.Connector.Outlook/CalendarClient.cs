@@ -224,7 +224,7 @@ namespace Sem.Sync.Connector.Outlook
             // we need to log off from outlook in order to clean up the session
             try
             {
-                if (clientFolderName.Contains(":"))
+                if (!string.IsNullOrEmpty(clientFolderName) && clientFolderName.Contains(":"))
                 {
                     clientFolderName = clientFolderName.Substring(
                         0, clientFolderName.IndexOf(":", StringComparison.Ordinal));

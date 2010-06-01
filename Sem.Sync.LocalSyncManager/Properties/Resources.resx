@@ -133,4 +133,7 @@
 	<data name="LabelVersion">
 		<value><![CDATA[Version ]]></value>
 	</data>
+	<data name="UserMessageProcessingCanceled">
+		<value xml:space="preserve">processing canceled</value>
+	</data>
 </root>

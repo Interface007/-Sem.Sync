@@ -75,3 +75,7 @@
 [assembly:
     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", 
         Scope = "member", Target = "Sem.Sync.Connector.Statistic.AnalysisModule.StdContacts.#BusinessCompanies")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.Statistic.AnalysisModule.StdCalendarItems.#GetAnalysisItemResult(System.Collections.Generic.List`1<Sem.Sync.SyncBase.StdCalendarItem>)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.Statistic.SimpleReportClient.#AddRange(System.Collections.Generic.List`1<Sem.Sync.SyncBase.StdElement>,System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.Statistic.SimpleReportClient.#WriteFullList(System.Collections.Generic.List`1<Sem.Sync.SyncBase.StdElement>,System.String,System.Boolean)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.Statistic.SimpleStatisticResult.#.ctor(System.Collections.Generic.List`1<Sem.Sync.SyncBase.StdElement>)")]

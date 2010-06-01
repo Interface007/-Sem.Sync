@@ -26,11 +26,6 @@ namespace Sem.Sync.SyncBase.DetailData
         {
         }
 
-        protected ProfileIdentifierDictionary(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfileIdentifierDictionary"/> class and
         /// sets one of the identifiers.
@@ -40,6 +35,17 @@ namespace Sem.Sync.SyncBase.DetailData
         public ProfileIdentifierDictionary(ProfileIdentifierType type, ProfileIdInformation profileId)
         {
             this.Add(type, profileId);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfileIdentifierDictionary"/> class and
+        /// supports deserialization.
+        /// </summary>
+        /// <param name="info">The serialization data container</param>
+        /// <param name="context">context information while serialization operation</param>
+        protected ProfileIdentifierDictionary(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         /// <summary>

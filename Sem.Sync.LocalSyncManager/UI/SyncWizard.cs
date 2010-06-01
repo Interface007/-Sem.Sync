@@ -66,7 +66,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
 
             // ReSharper disable LocalizableElement
-            this.saveFileDialog1.Filter = "SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
+            this.saveFileDialog1.Filter = @"SyncWizard|*" + SyncWizardContext.SyncListDataFileExtension;
 
             // ReSharper restore LocalizableElement
             this.saveFileDialog1.FilterIndex = 0;

@@ -13,6 +13,7 @@ namespace Sem.Sync.LocalSyncManager.Business
     using System.Collections.Generic;
 
     using Sem.GenericHelpers.EventArgs;
+    using Sem.Sync.LocalSyncManager.Properties;
     using Sem.Sync.LocalSyncManager.Tools;
     using Sem.Sync.SharedUI.WinForms.Tools;
     using Sem.Sync.SyncBase;
@@ -110,7 +111,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             if (!success)
             {
-                this.ProcessingEvent(null, new ProcessingEventArgs { Message = "processing canceled" });
+                this.ProcessingEvent(null, new ProcessingEventArgs { Message = Resources.UserMessageProcessingCanceled });
             }
         }
 
@@ -132,7 +133,7 @@ namespace Sem.Sync.LocalSyncManager.Business
 
             if (!success)
             {
-                this.ProcessingEvent(null, new ProcessingEventArgs { Message = "processing canceled" });
+                this.ProcessingEvent(null, new ProcessingEventArgs { Message = Resources.UserMessageProcessingCanceled });
             }
         }
 

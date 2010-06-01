@@ -78,6 +78,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </param>
         public AddressDetail(string address)
         {
+            address = address ?? string.Empty;
             var lines = address.Split('\n');
             foreach (var parts in lines)
             {

@@ -111,9 +111,9 @@ namespace Sem.Sync.SyncBase.DetailData
                 this.ShowSelectPathDialog = false;
 
                 var typeName = value;
-                if (value.ToUpperInvariant().Contains(" OF "))
+                if (!string.IsNullOrEmpty(value) && value.ToUpperInvariant().Contains(" OF "))
                 {
-                    typeName = value.Split(new[] { " of " }, StringSplitOptions.RemoveEmptyEntries)[0] + "`1";
+                    typeName = value.Split(new[] { " of ", " OF ", " Of ", " oF " }, StringSplitOptions.RemoveEmptyEntries)[0] + "`1";
                 }
 
                 var type = Type.GetType(this.factory.EnrichClassName(typeName));

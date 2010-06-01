@@ -189,6 +189,11 @@ namespace Sem.Sync.Connector.MeinVZ
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             this.httpRequester.UiDispatcher = this.UiDispatcher;
             var contactUrls = this.GetUrlList();
 
