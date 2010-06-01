@@ -12,6 +12,7 @@ namespace Sem.Sync.Connector.StayFriends
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Web;
@@ -155,16 +156,17 @@ namespace Sem.Sync.Connector.StayFriends
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var wkwContacts = this.GetUrlList();
 
-            foreach (var item in wkwContacts)
-            {
-                var contact = this.DownloadContact(item.Key, item.Value);
-                if (contact != null)
-                {
-                    result.Add(contact);
-                }
-            }
+            result.AddRange(
+                wkwContacts
+                    .Select(item => this.DownloadContact(item.Key, item.Value))
+                    .Where(contact => contact != null));
 
             return result;
         }

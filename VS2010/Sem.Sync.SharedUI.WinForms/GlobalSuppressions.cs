@@ -184,3 +184,4 @@
     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", 
         MessageId = "Logon", Scope = "member", 
         Target = "Sem.Sync.SharedUI.WinForms.UI.LogOn.#SetLogonCredentials(Sem.GenericHelpers.LogonCredentialRequest)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "Sem.Sync.SharedUI.WinForms.UI.MatchEntities.#BtnUnMatchAll_Click(System.Object,System.EventArgs)")]

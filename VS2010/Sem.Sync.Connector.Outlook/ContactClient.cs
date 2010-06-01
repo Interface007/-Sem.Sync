@@ -12,6 +12,7 @@ namespace Sem.Sync.Connector.Outlook
 {
     #region usings
 
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -95,6 +96,11 @@ namespace Sem.Sync.Connector.Outlook
         /// </param>
         public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
+            if (elementsToDelete == null)
+            {
+                return;
+            }
+
             var outlookNamespace = OutlookClient.GetNamespace();
             var outlookFolder = OutlookClient.GetOutlookMapiFolder(
                 outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts);
@@ -224,6 +230,11 @@ namespace Sem.Sync.Connector.Outlook
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var currentElementName = string.Empty;
 
             // get a connection to outlook 

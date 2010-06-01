@@ -127,6 +127,11 @@ namespace Sem.Sync.SyncBase.Attributes
         /// </returns>
         public bool CanRead(MemberInfo entityType)
         {
+            if (entityType == null)
+            {
+                return false;
+            }
+
             switch (entityType.Name)
             {
                 case "StdContact":
@@ -151,6 +156,11 @@ namespace Sem.Sync.SyncBase.Attributes
         /// </returns>
         public bool CanWrite(MemberInfo entityType)
         {
+            if (entityType == null)
+            {
+                return false;
+            } 
+            
             switch (entityType.Name)
             {
                 case "StdContact":

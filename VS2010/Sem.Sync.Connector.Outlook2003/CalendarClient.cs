@@ -214,6 +214,11 @@ namespace Sem.Sync.Connector.Outlook2003
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var currentElementName = string.Empty;
             var minimumDate = DateTime.Now;
 
@@ -224,15 +229,14 @@ namespace Sem.Sync.Connector.Outlook2003
             // we need to log off from outlook in order to clean up the session
             try
             {
-                if (clientFolderName.Contains(":"))
+                if (!string.IsNullOrEmpty(clientFolderName) && clientFolderName.Contains(":"))
                 {
                     clientFolderName = clientFolderName.Substring(
                         0, clientFolderName.IndexOf(":", StringComparison.Ordinal));
                 }
 
                 // select a folder
-                var outlookFolder = OutlookClient.GetOutlookMapiFolder(
-                    outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
+                var outlookFolder = OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderCalendar);
 
                 // if no folder has been selected, we will leave here
                 if (outlookFolder == null)

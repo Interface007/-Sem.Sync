@@ -37,58 +37,38 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.AccessibleDescription = null;
-            this.cancelButton.AccessibleName = null;
             resources.ApplyResources(this.cancelButton, "cancelButton");
-            this.cancelButton.BackgroundImage = null;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.cancelButton.Font = null;
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            this.okButton.AccessibleDescription = null;
-            this.okButton.AccessibleName = null;
             resources.ApplyResources(this.okButton, "okButton");
-            this.okButton.BackgroundImage = null;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.okButton.Font = null;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // content
             // 
-            this.content.AccessibleDescription = null;
-            this.content.AccessibleName = null;
             resources.ApplyResources(this.content, "content");
-            this.content.BackgroundImage = null;
-            this.content.Font = null;
             this.content.Name = "content";
             // 
             // ExceptionOkToSend
             // 
             this.AcceptButton = this.okButton;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.Controls.Add(this.content);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
-            this.Font = null;
-            this.Icon = null;
             this.Name = "ExceptionOkToSend";
             this.ResumeLayout(false);
             this.PerformLayout();

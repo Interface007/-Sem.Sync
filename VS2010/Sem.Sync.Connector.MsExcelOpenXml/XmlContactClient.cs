@@ -105,8 +105,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
                     }
                     catch (Exception ex)
                     {
-                        exceptionFile = WriteExceptionFile(
-                            valueArray, rowId, colId, newElement, exceptionFile, exceptionReport, ex);
+                        exceptionFile = WriteExceptionFile(valueArray, rowId, colId, newElement, exceptionFile, exceptionReport, ex);
                         exceptionCounter++;
                     }
 

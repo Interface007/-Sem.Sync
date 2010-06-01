@@ -151,6 +151,11 @@ namespace Sem.Sync.Connector.WerKenntWen
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var wkwContacts = this.GetUrlList();
 
             foreach (var item in wkwContacts)

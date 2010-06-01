@@ -26,7 +26,7 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <param name="contactToFill"> The contact to fill.  </param>
         /// <param name="baseline"> The baseline to lookup the contact id.  </param>
         /// <returns> the "enriched" element  </returns>
-        StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline);
+        StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline);
 
         #endregion
     }

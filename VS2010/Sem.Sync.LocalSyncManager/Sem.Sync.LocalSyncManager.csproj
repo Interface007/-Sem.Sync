@@ -239,7 +239,9 @@
     <None Include="SyncLists\RemoveDuplicatesFromOutlook.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Template SimpleCopy.TSyncList" />
+    <None Include="SyncLists\Template SimpleCopy.TSyncList">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SyncLists\Template Syncronize.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

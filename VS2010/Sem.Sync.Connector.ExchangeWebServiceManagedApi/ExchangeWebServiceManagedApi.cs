@@ -24,7 +24,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
     /// Implements a connector to Microsoft Exchange Web Services via Managed API
     /// </summary>
     [ClientStoragePathDescription(Mandatory = true, Default = "", ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "Microsoft Exchange Web Services via Managed API", CanWriteContacts = true, 
+    [ConnectorDescription(DisplayName = "Microsoft Exchange Web Services via Managed API", CanWriteContacts = true,
         CanReadContacts = true, MatchingIdentifier = ProfileIdentifierType.Default, NeedsCredentials = true)]
     public class ContactClient : StdClient
     {
@@ -45,7 +45,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         static ContactClient()
         {
             ContactPropertySet = new PropertySet(
-                BasePropertySet.FirstClassProperties, 
+                BasePropertySet.FirstClassProperties,
                 new PropertyDefinitionBase[] { ItemSchema.Categories, ItemSchema.Body, ContactSchema.FileAs, });
         }
 
@@ -93,11 +93,15 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         /// </param>
         public override void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
         {
+            if (elementsToDelete == null)
+            {
+                return;
+            }
+
             var contactsFolder = this.GetContactsFolder(clientFolderName);
             foreach (var element in elementsToDelete)
             {
-                var contact = Contact.Bind(
-                    contactsFolder.Service, element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
+                var contact = Contact.Bind(contactsFolder.Service, element.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id);
                 contact.Delete(DeleteMode.MoveToDeletedItems);
             }
         }
@@ -120,6 +124,11 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             var contactsFolder = this.GetContactsFolder(clientFolderName);
 
             var offset = 0;
@@ -130,7 +139,8 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     contactsFolder.FindItems(
                         new ItemView(100, offset, OffsetBasePoint.Beginning)
                             {
-                               PropertySet = BasePropertySet.IdOnly, Traversal = ItemTraversal.Shallow 
+                                PropertySet = BasePropertySet.IdOnly,
+                                Traversal = ItemTraversal.Shallow
                             });
 
                 itemsLeft = resultList.Items.Count == 100;
@@ -146,10 +156,10 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                     StdContact contact = null;
                     ExceptionHandler.Suppress(
                         () =>
-                            {
-                                var exchangeContact = Contact.Bind(contactsFolder.Service, currentItem.Id);
-                                contact = exchangeContact.ToStdContact();
-                            }, 
+                        {
+                            var exchangeContact = Contact.Bind(contactsFolder.Service, currentItem.Id);
+                            contact = exchangeContact.ToStdContact();
+                        },
                         (Exception ex) => true);
 
                     if (contact == null || string.IsNullOrEmpty(contact.Name.ToString()))
@@ -201,9 +211,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
                                ? ExceptionHandler.Suppress(
                                    () =>
                                    Contact.Bind(
-                                       contactsFolder.Service, 
-                                       contact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id, 
-                                       ContactPropertySet), 
+                                       contactsFolder.Service,
+                                       contact.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ExchangeWs).Id,
+                                       ContactPropertySet),
                                    (ServiceResponseException x) => x.ErrorCode == ServiceError.ErrorItemNotFound)
                                : null;
 
@@ -243,7 +253,7 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
         {
             var service = new ExchangeService(ExchangeVersion.Exchange2007_SP1)
                 {
-                   Credentials = new NetworkCredential(this.LogOnUserId, this.LogOnPassword, this.LogOnDomain), 
+                    Credentials = new NetworkCredential(this.LogOnUserId, this.LogOnPassword, this.LogOnDomain),
                 };
 
             var server = this.GetConfigValue("ServerUrl");
@@ -258,9 +268,9 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             if (string.IsNullOrEmpty(server))
             {
                 throw new TechnicalException(
-                    "Unable to determine Exchange server URL.", 
-                    null, 
-                    new KeyValuePair<string, object>("configured server url", this.GetConfigValue("ServerUrl")), 
+                    "Unable to determine Exchange server URL.",
+                    null,
+                    new KeyValuePair<string, object>("configured server url", this.GetConfigValue("ServerUrl")),
                     new KeyValuePair<string, object>("folderName", folderName));
             }
 
@@ -279,25 +289,25 @@ namespace Sem.Sync.Connector.ExchangeWebServiceManagedApi
             }
 
             var findResults = service.FindFolders(
-                WellKnownFolderName.Contacts, 
+                WellKnownFolderName.Contacts,
                 new SearchFilter.SearchFilterCollection(
-                    LogicalOperator.And, 
-                    new SearchFilter[] { new SearchFilter.IsEqualTo(FolderSchema.DisplayName, folderName) }), 
+                    LogicalOperator.And,
+                    new SearchFilter[] { new SearchFilter.IsEqualTo(FolderSchema.DisplayName, folderName) }),
                 new FolderView(10)
                     {
                         PropertySet =
                             new PropertySet(
-                            BasePropertySet.IdOnly, 
-                            new PropertyDefinitionBase[] { FolderSchema.DisplayName, FolderSchema.Id }), 
-                        Traversal = FolderTraversal.Deep, 
+                            BasePropertySet.IdOnly,
+                            new PropertyDefinitionBase[] { FolderSchema.DisplayName, FolderSchema.Id }),
+                        Traversal = FolderTraversal.Deep,
                     });
 
             if (findResults.TotalCount == 0)
             {
                 throw new TechnicalException(
-                    "Unable to find Exchange folder.", 
-                    null, 
-                    new KeyValuePair<string, object>("configured server url", this.GetConfigValue("ServerUrl")), 
+                    "Unable to find Exchange folder.",
+                    null,
+                    new KeyValuePair<string, object>("configured server url", this.GetConfigValue("ServerUrl")),
                     new KeyValuePair<string, object>("folderName", folderName));
             }
 

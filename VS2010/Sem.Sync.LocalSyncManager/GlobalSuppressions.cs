@@ -47,3 +47,8 @@
 [assembly:
     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", 
         Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#RunCommands()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Windows.Forms.FileDialog.set_Filter(System.String)", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#AskForDestinationFile(System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.Commands.#LocalSync_Load(System.Object,System.EventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Program.#Main()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#RunCommands()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#SyncWizard_Load(System.Object,System.EventArgs)")]

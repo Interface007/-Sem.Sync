@@ -102,5 +102,14 @@ namespace Sem.Sync.LocalSyncManager.Properties {
                 return ResourceManager.GetString("ProcessRunningMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to processing canceled.
+        /// </summary>
+        internal static string UserMessageProcessingCanceled {
+            get {
+                return ResourceManager.GetString("UserMessageProcessingCanceled", resourceCulture);
+            }
+        }
     }
 }

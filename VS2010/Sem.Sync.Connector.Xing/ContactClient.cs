@@ -176,7 +176,7 @@ namespace Sem.Sync.Connector.Xing
         /// <returns>
         /// the contact with more information  
         /// </returns>
-        public StdElement FillContacts(StdElement contactToFill, List<MatchingEntry> baseline)
+        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
         {
             var contact = contactToFill as StdContact;
             if (contact != null && contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType.XingNameProfileId))
@@ -268,6 +268,11 @@ namespace Sem.Sync.Connector.Xing
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             this.xingRequester.UiDispatcher = this.UiDispatcher;
             var xing = this.GetUrlList();
             var itemIndex = 0;
