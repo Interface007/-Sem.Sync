@@ -20,15 +20,19 @@
     <KeyValuePair Key="Commerz Systems GmbH (ehemals pdv.com Beratungs GmbH)" Value="Commerz Systems GmbH" />
     <KeyValuePair Key="Commerz Systems GmbH (früher pdv.com Beratungs-GmbH)" Value="Commerz Systems GmbH" />
   </BusinessCompanyName>
+  
   <BusinessHomepage>
     <KeyValuePair Key="http://www.avanade.com/de/" Value="http://www.avanade.de" />
     <KeyValuePair Key="http://www.avanade.com" Value="http://www.avanade.de" />
     <KeyValuePair Key="https://www.commerzbank.de/" Value="http://www.commerzbank.de" />
   </BusinessHomepage>
+  
   <City>
     <KeyValuePair Key="Frankfurt, Germany" Value="Frankfurt am Main" />
+    <KeyValuePair Key="Frankfurt (Main)" Value="Frankfurt am Main" />
     <KeyValuePair Key="Frankfurt/Main" Value="Frankfurt am Main" />
     <KeyValuePair Key="Frankfurt" Value="Frankfurt am Main" />
+    
     <KeyValuePair Key="Kronberg" Value="Kronberg im Taunus" />
     <KeyValuePair Key="Kronberg i. T." Value="Kronberg im Taunus" />
     <KeyValuePair Key="Wetzlar, Hessen" Value="Wetzlar" />

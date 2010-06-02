@@ -227,7 +227,7 @@
     <None Include="SyncLists\A Copy to CSV.SyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SyncLists\Template GetXingContacts.TSyncList">
+    <None Include="SyncLists\Template Get Contact Relations.TSyncList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SyncLists\Template QueryXing.TSyncList">

@@ -207,23 +207,30 @@ namespace Sem.Sync.SyncBase
                     return result;
                 }
 
-                if (string.IsNullOrEmpty(this.LogOnPassword))
-                {
-                    this.QueryForLogOnCredentials("needs some credentials");
-                }
+                bool logonFailed = !GetLogon();
 
-                // prepare the post data for log on
-                var postData = HttpHelper.PreparePostData(
-                    this.WebSideParameters.HttpDataLogOnRequest, this.LogOnUserId, this.LogOnPassword);
-
-                // post to get the cookies
-                var logInResponse = this.httpRequester.GetContentPost(
-                    this.WebSideParameters.HttpUrlLogOnRequest, "logOn", postData);
-                if (logInResponse.Contains(this.WebSideParameters.HttpDetectionStringLogOnFailed))
+                if (logonFailed)
                 {
                     return result;
                 }
             }
+        }
+
+        public bool GetLogon()
+        {
+            if (string.IsNullOrEmpty(this.LogOnPassword))
+            {
+                this.QueryForLogOnCredentials("needs some credentials");
+            }
+
+            // prepare the post data for log on
+            var postData = HttpHelper.PreparePostData(
+                this.WebSideParameters.HttpDataLogOnRequest, this.LogOnUserId, this.LogOnPassword);
+
+            // post to get the cookies
+            var logInResponse = this.httpRequester.GetContentPost(
+                this.WebSideParameters.HttpUrlLogOnRequest, "logOn", postData);
+            return !logInResponse.Contains(this.WebSideParameters.HttpDetectionStringLogOnFailed);
         }
 
         #endregion
