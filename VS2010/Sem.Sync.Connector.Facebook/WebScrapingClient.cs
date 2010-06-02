@@ -324,6 +324,7 @@ namespace Sem.Sync.Connector.Facebook
                 return contactToFill;
             }
 
+            var profilePhpId = "profile.php?id=";
             var offset = 0;
             var added = 0;
             while (true)
@@ -334,11 +335,13 @@ namespace Sem.Sync.Connector.Facebook
                 // get the contact list
                 var url = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://www.facebook.com/friends/?id={0}&quickling[version]=252257%3B0&ajaxpipe=1&__a=5",
-                    profileIdInformation);
+                    "http://www.facebook.com/friends/?id={0}&flid=&view=everyone&q=&nt=0&nk=0&s={1}&st=0",
+                    profileIdInformation.Id.Replace(profilePhpId, string.Empty),
+                    offset);
 
                 var profileContent = this.HttpRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "FaceBookContent-{0}", offset));
-                if (profileContent.Contains("https://login.facebook.com/login.php?login_attempt=1"))
+                if (profileContent.Contains("https://login.facebook.com/login.php?login_attempt=1")
+                    || profileContent.Contains(@"redirect"":""http:\/\/www.facebook.com\/login.php"))
                 {
                     if (!this.GetLogon())
                     {
@@ -361,7 +364,7 @@ namespace Sem.Sync.Connector.Facebook
 
                 foreach (Match extract in extracts)
                 {
-                    var profileId = extract.Groups["profileId"].ToString();
+                    var profileId = profilePhpId + extract.Groups["profileId"].ToString();
                     var stdId =
                         (from x in baseline
                          where x.ProfileId.GetProfileId(webSideParameters.ProfileIdentifierType) == profileId

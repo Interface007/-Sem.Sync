@@ -67,15 +67,10 @@ namespace Sem.Sync.SyncBase.Commands
                 throw new InvalidOperationException("item.baseliClient is null");
             }
 
-            if (string.IsNullOrEmpty(commandParameter))
-            {
-                throw new InvalidOperationException("commandParameter is null or empty");
-            }
-
-            var extendedClient = new Factory().GetNewObject(commandParameter) as IExtendedReader;
+            var extendedClient = sourceClient as IExtendedReader;
             if (extendedClient == null)
             {
-                throw new InvalidOperationException("extendedClient is null or not an IExtendedReader");
+                throw new InvalidOperationException("sourceClient is null or not an IExtendedReader");
             }
 
             ((SyncComponent)extendedClient).ProcessingEvent += this.LogProcessingEvent;
@@ -84,14 +79,12 @@ namespace Sem.Sync.SyncBase.Commands
             var baseline = baseliClient.GetAll(baselineStorePath);
 
             // get all source elements
-            var elements = sourceClient.GetAll(sourceStorePath);
+            var elements = targetClient.GetAll(targetStorePath);
 
             // add the matching profile ids from the baseline as StdContact - 
             // .ToContacts().ToStdElement() will convert each MatchingEntry 
             // of the list into a StdContact
             elements.MergeHighEvidence(baseline.ToStdContacts().ToStdElements());
-
-            ((StdClient)extendedClient).UiDispatcher = this.UiProvider;
 
             // fill the extended contact information
             var matchEntities = baseline.ToMatchingEntries();
