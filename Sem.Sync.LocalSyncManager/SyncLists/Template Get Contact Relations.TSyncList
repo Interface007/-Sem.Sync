@@ -4,10 +4,9 @@
   <SyncDescription Name="Get contacts">
     
     <Command>GetContactRelation</Command>
-    <CommandParameter>{source}</CommandParameter>
 
-    <SourceConnector>{target}</SourceConnector>
-    <SourceStorePath>{targetpath}</SourceStorePath>
+    <SourceConnector>{source}</SourceConnector>
+    <SourceStorePath>{sourcepath}</SourceStorePath>
     
     <TargetConnector>{target}</TargetConnector>
     <TargetStorePath>{targetpath}</TargetStorePath>
