@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <SyncDescription Name="Get Xing contacts">
+  <SyncDescription Name="Get contacts">
     
     <Command>GetContactRelation</Command>
-    <CommandParameter>Sem.Sync.Connector.Xing.ContactClient</CommandParameter>
+    <CommandParameter>{source}</CommandParameter>
 
-    <SourceConnector>{source}</SourceConnector>
-    <SourceStorePath>{sourcepath}</SourceStorePath>
+    <SourceConnector>{target}</SourceConnector>
+    <SourceStorePath>{targetpath}</SourceStorePath>
     
     <TargetConnector>{target}</TargetConnector>
     <TargetStorePath>{targetpath}</TargetStorePath>

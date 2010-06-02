@@ -81,12 +81,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <returns> true if both <see cref = "ProfileIdInformation" /> instances are equal</returns>
         public static bool operator ==(ProfileIdInformation value1, ProfileIdInformation value2)
         {
-            if (value1 as object == null || value2 as object == null)
-            {
-                return false;
-            }
-
-            return value1.CompareTo(value2) == 0;
+            return (object)value1 == null ? (object)value2 == null : value1.CompareTo(value2) == 0;
         }
 
         /// <summary>

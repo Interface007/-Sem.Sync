@@ -10,22 +10,25 @@
 namespace Sem.Sync.Connector.Facebook
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// WebScaping implementation of a FaceBook StdClient
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "Facebook (WS)", Internal = false, CanReadContacts = true, 
-        CanWriteContacts = false, NeedsCredentials = true, NeedsCredentialsDomain = false, 
+    [ConnectorDescription(DisplayName = "Facebook (WS)", Internal = false, CanReadContacts = true,
+        CanWriteContacts = false, NeedsCredentials = true, NeedsCredentialsDomain = false,
         MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
-    public class WebScrapingClient : WebScrapingBaseClient
+    public class WebScrapingClient : WebScrapingBaseClient, IExtendedReader
     {
         #region Constants and Fields
 
@@ -63,19 +66,19 @@ namespace Sem.Sync.Connector.Facebook
             {
                 return new WebSideParameters
                     {
-                        ImagePlaceholderUrl = "silhouette.gif", 
-                        HttpDetectionStringLogOnNeeded = @"""errorSummary"":""Not Logged In""", 
-                        HttpUrlContactDownload = "/profile.php?id={0}", 
-                        ProfileIdentifierType = ProfileIdentifierType.FacebookProfileId, 
-                        HttpUrlLogOnRequest = "https://login.facebook.com/login.php?login_attempt=1", 
-                        HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1", 
-                        HttpDetectionStringLogOnFailed = "no such string available", 
+                        ImagePlaceholderUrl = "silhouette.gif",
+                        HttpDetectionStringLogOnNeeded = @"""errorSummary"":""Not Logged In""",
+                        HttpUrlContactDownload = "/profile.php?id={0}",
+                        ProfileIdentifierType = ProfileIdentifierType.FacebookProfileId,
+                        HttpUrlLogOnRequest = "https://login.facebook.com/login.php?login_attempt=1",
+                        HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1",
+                        HttpDetectionStringLogOnFailed = "no such string available",
                         ExtractorProfilePictureUrl =
-                            @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""", 
-                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*", 
+                            @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""",
+                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*",
                         HttpDataLogOnRequest =
                             "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" +
-                            this.facebookLsd, 
+                            this.facebookLsd,
                     };
             }
         }
@@ -118,15 +121,15 @@ namespace Sem.Sync.Connector.Facebook
             }
 
             values = Regex.Matches(
-                content, 
-                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>", 
+                content,
+                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
                 RegexOptions.Singleline);
 
             if (values.Count == 0)
             {
                 values = Regex.Matches(
-                    content, 
-                    @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>", 
+                    content,
+                    @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>",
                     RegexOptions.Singleline);
             }
 
@@ -142,9 +145,9 @@ namespace Sem.Sync.Connector.Facebook
                     case "birthday":
                         DateTime dtvalue;
                         if (DateTime.TryParse(
-                            value, 
-                            CultureInfo.CurrentCulture, 
-                            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, 
+                            value,
+                            CultureInfo.CurrentCulture,
+                            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal,
                             out dtvalue))
                         {
                             result.DateOfBirth = dtvalue;
@@ -213,7 +216,7 @@ namespace Sem.Sync.Connector.Facebook
 
             // TODO: find a better way to extract the identifier from the content, so that we don't need to provide te url inside the method signature
             result.ExternalIdentifier.SetProfileId(
-                this.WebSideParameters.ProfileIdentifierType, 
+                this.WebSideParameters.ProfileIdentifierType,
                 contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
             var imageurl = Regex.Match(content, @"<img src=\\""(?<url>.*?)\\"" alt=\\""[^""]*"" id=\\""profile_pic\\""");
@@ -305,5 +308,93 @@ namespace Sem.Sync.Connector.Facebook
         }
 
         #endregion
+
+        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        {
+            var contact = contactToFill as StdContact;
+            var webSideParameters = this.WebSideParameters;
+            if (contact == null || !contact.ExternalIdentifier.ContainsKey(webSideParameters.ProfileIdentifierType))
+            {
+                return contactToFill;
+            }
+
+            var profileIdInformation = contact.ExternalIdentifier[webSideParameters.ProfileIdentifierType];
+            if (profileIdInformation == null || string.IsNullOrWhiteSpace(profileIdInformation.Id))
+            {
+                return contactToFill;
+            }
+
+            var offset = 0;
+            var added = 0;
+            while (true)
+            {
+                this.LogProcessingEvent("reading contacts ({0})", offset);
+                this.HttpRequester.ContentCredentials = this;
+
+                // get the contact list
+                var url = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "http://www.facebook.com/friends/?id={0}&quickling[version]=252257%3B0&ajaxpipe=1&__a=5",
+                    profileIdInformation);
+
+                var profileContent = this.HttpRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "FaceBookContent-{0}", offset));
+                if (profileContent.Contains("https://login.facebook.com/login.php?login_attempt=1"))
+                {
+                    if (!this.GetLogon())
+                    {
+                        return contactToFill;
+                    }
+                    
+                    profileContent = this.HttpRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "FaceBookContent-{0}", offset));
+                }
+
+                var extracts = Regex.Matches(profileContent, @"Friends.friendClick\(this, event, (?<profileId>[0-9]*)\);", RegexOptions.Singleline);
+
+                // if there is no contact in list, we did reach the end
+                if (extracts.Count == 0)
+                {
+                    break;
+                }
+
+                // create a new instance of a list of references if there is none
+                contact.Contacts = contact.Contacts ?? new List<ContactReference>(extracts.Count);
+
+                foreach (Match extract in extracts)
+                {
+                    var profileId = extract.Groups["profileId"].ToString();
+                    var stdId =
+                        (from x in baseline
+                         where x.ProfileId.GetProfileId(webSideParameters.ProfileIdentifierType) == profileId
+                         select x.Id).FirstOrDefault();
+
+                    // we ignore contacts we donn't know
+                    if (stdId == default(Guid))
+                    {
+                        continue;
+                    }
+
+                    // lookup an existing entry in this contacts contact-list
+                    var contactInList = (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
+
+                    if (contactInList == null)
+                    {
+                        // add a new one if no existing entry has been found
+                        contactInList = new ContactReference { Target = stdId };
+                        contact.Contacts.Add(contactInList);
+                        added++;
+                    }
+
+                    // update the flag that this entry is a private contact
+                    // todo: private/business contact
+                    contactInList.IsPrivateContact = true;
+                }
+
+                offset += extracts.Count;
+            }
+                
+            this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
+
+            return contactToFill;
+        }
     }
 }

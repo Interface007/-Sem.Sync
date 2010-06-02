@@ -25,7 +25,7 @@ namespace Sem.Sync.Connector.Statistic
     /// </summary>
     [ConnectorDescription(CanReadContacts = false, CanWriteContacts = true, CanReadCalendarEntries = false, 
         CanWriteCalendarEntries = true, IsGeneric = true, NeedsCredentials = false, DisplayName = "DGML Graph")]
-    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemPath)]
+    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath, Default = "diagrm.dgml", Mandatory = true)]
     public class DgmlContactsByCompanyClient : StdClient
     {
         #region Public Methods
@@ -86,11 +86,22 @@ namespace Sem.Sync.Connector.Statistic
                     Layout = DgmlLayout.ForceDirected,
                 };
 
-            graph.Nodes.AddRange(from y in (from x in stdContacts select x.BusinessCompanyName).Distinct() select new DgmlNode("Company@" + y, "Collapsed", y));
-            graph.Links.AddRange(from x in stdContacts select new DgmlLink("Company@" + x.BusinessCompanyName, "Contains", x.Id.ToString("N")));
+            var selector = clientFolderName.Contains("|") ? clientFolderName.Split('|')[1] : string.Empty;
+            if (!string.IsNullOrWhiteSpace(selector))
+            {
+                graph.Nodes.AddRange(
+                    from y in (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct()
+                    select new DgmlNode("Group@" + y, "Collapsed", y));
+                graph.Links.AddRange(
+                    from x in stdContacts
+                    select
+                        new DgmlLink(
+                        "Group@" + Tools.GetPropertyValueString(x, selector), "Contains", x.Id.ToString("N")));
+            }
 
             this.LogProcessingEvent("saving statistic file...");
-            Tools.SaveToFile(graph, Path.Combine(clientFolderName, this.FriendlyClientName + ".dgml"));
+            var fileName = clientFolderName.Contains("|") ? clientFolderName.Split('|')[0] : clientFolderName;
+            Tools.SaveToFile(graph, fileName);
 
             this.LogProcessingEvent("writing finished");
         }
