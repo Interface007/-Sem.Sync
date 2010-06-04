@@ -14,11 +14,14 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Threading;
 
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// This class is the base client class for handling contacts using web scraping technology.
@@ -28,7 +31,7 @@ namespace Sem.Sync.SyncBase
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
     [ConnectorDescription(DisplayName = "WebScraping-Base-Client", Internal = true, CanReadContacts = false, 
         CanWriteContacts = false, NeedsCredentials = true, MatchingIdentifier = ProfileIdentifierType.Default)]
-    public abstract class WebScrapingBaseClient : StdClient
+    public abstract class WebScrapingBaseClient : StdClient, IExtendedReader
     {
         #region Constants and Fields
 
@@ -36,6 +39,11 @@ namespace Sem.Sync.SyncBase
         ///   http requester object that will read the data from the site
         /// </summary>
         private readonly HttpHelper httpRequester;
+
+        /// <summary>
+        /// The compiled regular expression to extract the identifiers from the friend list.
+        /// </summary>
+        private Regex personIdentifierFromContactsListExtractor;
 
         #endregion
 
@@ -99,17 +107,117 @@ namespace Sem.Sync.SyncBase
         #region Methods
 
         /// <summary>
+        /// Performs a log on to the web site
+        /// </summary>
+        /// <returns>a value indicating whether the log on was successfull</returns>
+        public bool Logon()
+        {
+            if (string.IsNullOrEmpty(this.LogOnPassword))
+            {
+                this.QueryForLogOnCredentials("needs some credentials");
+            }
+
+            // prepare the post data for log on
+            var postData = HttpHelper.PreparePostData(this.WebSideParameters.HttpDataLogOnRequest, this.LogOnUserId, this.LogOnPassword);
+
+            // post to get the cookies
+            var logInResponse = this.httpRequester.GetContentPost(this.WebSideParameters.HttpUrlLogOnRequest, "logOn", postData);
+            return !logInResponse.Contains(this.WebSideParameters.HttpDetectionStringLogOnFailed);
+        }
+
+        /// <summary>
+        /// Implements the method to fill the contact with additional links to other contacts.
+        /// </summary>
+        /// <param name="contactToFill"> The contact to be filled. </param>
+        /// <param name="baseline"> The baseline that does contain possible link targets. </param>
+        /// <returns> the manipulated contact </returns>
+        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        {
+            var contact = contactToFill as StdContact;
+            var webSideParameters = this.WebSideParameters;
+
+            var profileIdentifierType = webSideParameters.ProfileIdentifierType;
+            this.personIdentifierFromContactsListExtractor = new Regex(webSideParameters.PersonIdentifierFromContactsListRegex, RegexOptions.Singleline);
+            var personIdentifierExtractor = new Regex(webSideParameters.ProfileIdPartExtractor, RegexOptions.Singleline);
+
+            if (contact == null || !contact.ExternalIdentifier.ContainsKey(profileIdentifierType))
+            {
+                return contactToFill;
+            }
+
+            var profileIdInformation = contact.ExternalIdentifier[profileIdentifierType];
+            if (profileIdInformation == null || string.IsNullOrWhiteSpace(profileIdInformation.Id))
+            {
+                return contactToFill;
+            }
+
+            var match = personIdentifierExtractor.Match(profileIdInformation.Id);
+            if (match.Groups.Count == 0)
+            {
+                return contactToFill;
+            }
+
+            var identifierPart = match.Groups[1];
+
+            var offset = 0;
+            var added = 0;
+            while (true)
+            {
+                this.LogProcessingEvent("reading contacts (from offset {0})", offset);
+                this.HttpRequester.ContentCredentials = this;
+
+                // get the contact list
+                var url = string.Format(
+                    CultureInfo.InvariantCulture,
+                    webSideParameters.ContactListUrl,
+                    identifierPart,
+                    offset);
+
+                var profileContent = this.HttpRequester.GetContent(url);
+                var loginNeeded = webSideParameters.HttpDetectionStringLogOnNeeded.Where(profileContent.Contains).Count() > 0;
+                if (loginNeeded)
+                {
+                    this.LogProcessingEvent(contact, "log on needed");
+
+                    if (!this.Logon())
+                    {
+                        this.LogProcessingEvent(contact, "log on failed");
+                        return contactToFill;
+                    }
+
+                    profileContent = this.HttpRequester.GetContent(url);
+                }
+
+                var profileIds = this.ExtractProfileIdsFromFriendsList(profileIdInformation, profileContent);
+
+                // if there is no contact in list, we did reach the end
+                if (profileIds.Count == 0)
+                {
+                    break;
+                }
+
+                // create a new instance of a list of references if there is none
+                added = this.AddContactIdsToStdContact(contact, profileIds, baseline, added);
+                this.LogProcessingEvent(contact, "{0} contacts found, {1} added.", profileIds.Count, added);
+
+                this.LogProcessingEvent(contact, "sleeping some time to not being identifies as a bot...");
+                Thread.Sleep(new Random().Next(230, 8789));
+
+                // todo: facebook uses a page size of 64, wer-kennt-wen 
+                offset += 64; // extracts.Count;
+            }
+
+            this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
+
+            return contactToFill;
+        }
+        
+        /// <summary>
         /// Converts downloaded data into a StdContact structure.
         /// </summary>
-        /// <param name="contactUrl">
-        /// The contact url. 
-        /// </param>
-        /// <param name="content">
-        /// The content. 
-        /// </param>
-        /// <returns>
-        /// a new StdClient created from the data provided 
-        /// </returns>
+        /// <param name="contactUrl"> The contact url. </param>
+        /// <param name="content"> The content to be converted. </param>
+        /// <returns> a new StdClient created from the data provided  </returns>
         protected abstract StdContact ConvertToStdContact(string contactUrl, string content);
 
         /// <summary>
@@ -119,25 +227,14 @@ namespace Sem.Sync.SyncBase
         /// the information from where inside the source the elements should be read - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
-        /// <param name="result">
-        /// The list of elements that should get the elements. The elements should be added to
-        ///   the list instead of replacing it.
-        /// </param>
-        /// <returns>
-        /// The list with the newly added elements
-        /// </returns>
+        /// <param name="result"> The list of elements that should get the elements. The elements should be added to the list instead of replacing it. </param>
+        /// <returns> The list with the newly added elements </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             this.httpRequester.UiDispatcher = this.UiDispatcher;
             var contactUrls = this.GetUrlList();
 
-            foreach (var contactUrl in contactUrls)
-            {
-                result.Add(
-                    this.DownloadContact(
-                        string.Format(
-                            CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlContactDownload, contactUrl)));
-            }
+            result.AddRange(contactUrls.Select(contactUrl => this.DownloadContact(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlContactDownload, contactUrl))));
 
             result.Sort();
             return result;
@@ -146,12 +243,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Convert contact url to <see cref="StdContact"/>
         /// </summary>
-        /// <param name="contactUrl">
-        /// The contact url. 
-        /// </param>
-        /// <returns>
-        /// the downloaded information inserted into a <see cref="StdContact"/> 
-        /// </returns>
+        /// <param name="contactUrl"> The contact url. </param>
+        /// <returns> the downloaded information inserted into a <see cref="StdContact"/></returns>
         private StdContact DownloadContact(string contactUrl)
         {
             var content = this.httpRequester.GetContent(contactUrl, contactUrl, string.Empty);
@@ -162,12 +255,9 @@ namespace Sem.Sync.SyncBase
                 if (pictureUrl.Groups.Count > 1)
                 {
                     var pictureUrlString = pictureUrl.Groups[1].ToString();
-                    if (
-                        !pictureUrlString.EndsWith(
-                            this.WebSideParameters.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
+                    if (!pictureUrlString.EndsWith(this.WebSideParameters.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
                     {
-                        result.PictureData = this.httpRequester.GetContentBinary(
-                            pictureUrlString, contactUrl, string.Empty);
+                        result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
                     }
                 }
             }
@@ -181,7 +271,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>
         /// a list of urls for the vCards to be downloaded
         /// </returns>
-        private List<string> GetUrlList()
+        private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
 
@@ -191,23 +281,16 @@ namespace Sem.Sync.SyncBase
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
-                var theContact =
-                    this.httpRequester.GetContent(
-                        string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlFriendList, 0), 
-                        "HttpUrlFriendList");
+                var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlFriendList, 0));
                 var friendIds = Regex.Match(theContact, this.WebSideParameters.ExtractorFriendUrls);
 
                 if (friendIds.Groups.Count >= 2)
                 {
-                    foreach (var capture in friendIds.Groups["id"].Captures)
-                    {
-                        result.Add(capture.ToString());
-                    }
-
+                    result.AddRange(from object capture in friendIds.Groups["id"].Captures select capture.ToString());
                     return result;
                 }
 
-                bool logonFailed = !GetLogon();
+                var logonFailed = !this.Logon();
 
                 if (logonFailed)
                 {
@@ -216,23 +299,82 @@ namespace Sem.Sync.SyncBase
             }
         }
 
-        public bool GetLogon()
+        /// <summary>
+        /// Adds profile ids to a contacts "contact list" with filtering its own
+        /// profile id and preventing doubletts.
+        /// </summary>
+        /// <param name="contact"> The contact (source of the link). </param>
+        /// <param name="profileIds"> The profile ids to be added as link targets. </param>
+        /// <param name="baseline"> The baseline. </param>
+        /// <param name="added"> The number of targets added so far. </param>
+        /// <returns> The number of links added </returns>
+        private int AddContactIdsToStdContact(StdContact contact, List<string> profileIds, IEnumerable<MatchingEntry> baseline, int added)
         {
-            if (string.IsNullOrEmpty(this.LogOnPassword))
+            var profileIdentifierType = this.WebSideParameters.ProfileIdentifierType;
+            contact.Contacts = contact.Contacts ?? new List<ContactReference>(profileIds.Count);
+
+            foreach (var extract in profileIds)
             {
-                this.QueryForLogOnCredentials("needs some credentials");
+                var profileId = string.Format(this.WebSideParameters.ProfileIdFormatter, extract);
+                var stdId =
+                    (from x in baseline
+                     where x.ProfileId.GetProfileId(profileIdentifierType) == profileId
+                     select x.Id).FirstOrDefault();
+
+                // we ignore contacts we donn't know
+                if (stdId == default(Guid))
+                {
+                    continue;
+                }
+
+                // lookup an existing entry in this contacts contact-list
+                var contactInList = (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
+
+                if (contactInList == null)
+                {
+                    // add a new one if no existing entry has been found
+                    contactInList = new ContactReference { Target = stdId };
+                    contact.Contacts.Add(contactInList);
+                    added++;
+                }
+
+                // update the flag that this entry is a private contact
+                // todo: private/business contact
+                contactInList.IsPrivateContact = true;
             }
 
-            // prepare the post data for log on
-            var postData = HttpHelper.PreparePostData(
-                this.WebSideParameters.HttpDataLogOnRequest, this.LogOnUserId, this.LogOnPassword);
-
-            // post to get the cookies
-            var logInResponse = this.httpRequester.GetContentPost(
-                this.WebSideParameters.HttpUrlLogOnRequest, "logOn", postData);
-            return !logInResponse.Contains(this.WebSideParameters.HttpDetectionStringLogOnFailed);
+            return added;
         }
 
+        /// <summary>
+        /// Extracts link targets from a friends-list html page.
+        /// </summary>
+        /// <param name="currentContactsId">the profile id current of the current contact (the link SOURCE)</param>
+        /// <param name="friendListContent">the html content of the friend list html of the current contact (containing the TARGETS)</param>
+        /// <returns>the extracted link targets</returns>
+        private List<string> ExtractProfileIdsFromFriendsList(ProfileIdInformation currentContactsId, string friendListContent)
+        {
+            var profileIdCandidates = this.personIdentifierFromContactsListExtractor.Matches(friendListContent);
+            var profileIds = new List<string>();
+
+            foreach (var profileIdCandidate in profileIdCandidates)
+            {
+                var id = profileIdCandidate.ToString();
+                if (id == currentContactsId)
+                {
+                    continue;
+                }
+
+                if (profileIds.Contains(id))
+                {
+                    continue;
+                }
+
+                profileIds.Add(id);
+            }
+
+            return profileIds;
+        }
         #endregion
     }
 }

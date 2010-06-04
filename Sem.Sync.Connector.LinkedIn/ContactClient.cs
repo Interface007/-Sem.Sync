@@ -62,9 +62,9 @@ namespace Sem.Sync.Connector.LinkedIn
                 return new WebSideParameters
                     {
                         HttpUrlFriendList = "/dwr/exec/ConnectionsBrowserService.getMyConnections.dwr", 
-                        HttpDetectionStringLogOnNeeded = "login", 
+                        HttpDetectionStringLogOnNeeded = new[] { "login" }, 
                         ProfileIdentifierType = ProfileIdentifierType.LinkedInId, 
-                        HttpUrlContactDownload = "/profile?goback=%2Econ&viewProfile=&key=46590581&jsstate=", 
+                        HttpUrlContactDownload = "/profile?goback=%2Econ&viewProfile=&key=46590581&jsstate=",
                     };
             }
         }

@@ -175,7 +175,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         ///   Gets or sets the string uniquely represented on the log on form
         /// </summary>
-        public string LogOnFormDetectionString { get; set; }
+        public string[] LogOnFormDetectionString { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether to prevent loading missing entries 
@@ -454,11 +454,11 @@ namespace Sem.GenericHelpers
             result = new List<string>();
             this.LastExtractContent = this.GetContent(url, name, referer);
 
-            if (this.LastExtractContent.Contains(this.LogOnFormDetectionString))
+            if (this.LogOnFormDetectionString.Any(item => this.LastExtractContent.Contains(item)))
             {
                 return false;
             }
-
+            
             var listMatches = Regex.Matches(this.LastExtractContent, regularExpression, RegexOptions.Singleline);
             foreach (Match match in listMatches)
             {
@@ -618,12 +618,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// retrieves cookies from IE cache to simulate native IE request
         /// </summary>
-        /// <param name="uri">
-        /// the uri to the web page that should be queried
-        /// </param>
-        /// <returns>
-        /// a cookie collections with the 
-        /// </returns>
+        /// <param name="uri"> the uri to the web page that should be queried </param>
+        /// <returns> a cookie collections with the  </returns>
         private static CookieCollection GetCookiesFromIE(Uri uri)
         {
             var cookieFolder = Environment.GetFolderPath(Environment.SpecialFolder.Cookies);

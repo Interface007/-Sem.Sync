@@ -381,7 +381,7 @@ namespace Sem.Sync.Connector.MeinVZ
             while (true)
             {
                 List<string> extractedData;
-                this.httpRequester.LogOnFormDetectionString = HttpDetectionStringLogonNeeded;
+                this.httpRequester.LogOnFormDetectionString = new[] { HttpDetectionStringLogonNeeded };
 
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
