@@ -36,8 +36,8 @@ namespace Sem.Sync.Connector.WerKenntWen
     /// Client implementation for reading information from www.wer-kennt-wen.de
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true, 
-        NeedsCredentialsDomain = false, DisplayName = "Wer-Kennt-Wen.de", 
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
+        NeedsCredentialsDomain = false, DisplayName = "Wer-Kennt-Wen.de",
         MatchingIdentifier = ProfileIdentifierType.WerKenntWenUrl)]
     public class ContactClient : StdClient, IExtendedReader
     {
@@ -98,6 +98,8 @@ namespace Sem.Sync.Connector.WerKenntWen
         /// </summary>
         private const string PersonPictureUrlPattern = "div id=\"person_picture\".*?img src=\"(.*?)\"";
 
+        private const string wkwCaptcha = "wkw/captcha/";
+
         /// <summary>
         ///   http requester object that will read the data from xing
         /// </summary>
@@ -114,9 +116,9 @@ namespace Sem.Sync.Connector.WerKenntWen
         {
             this.wkwRequester = new HttpHelper(HttpUrlBaseAddress, true)
                 {
-                    UseCache = this.GetConfigValueBoolean("UseCache"), 
-                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"), 
-                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
+                    UseCache = this.GetConfigValueBoolean("UseCache"),
+                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
                 };
         }
 
@@ -220,7 +222,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                     return null;
                 }
 
-                if (!data.Contains("wkw/captcha/"))
+                if (!data.Contains(wkwCaptcha))
                 {
                     break;
                 }
@@ -234,7 +236,9 @@ namespace Sem.Sync.Connector.WerKenntWen
 
             var contact = new StdContact
                 {
-                   Id = Guid.NewGuid(), PersonalAddressPrimary = new AddressDetail(), Name = new PersonName(), 
+                    Id = Guid.NewGuid(),
+                    PersonalAddressPrimary = new AddressDetail(),
+                    Name = new PersonName(),
                 };
 
             var birthday = string.Empty;
@@ -251,8 +255,8 @@ namespace Sem.Sync.Connector.WerKenntWen
                     case "":
                         break;
 
-                        // The following information is provided by Wer-kennt-wen, but not handled by sem.sync, yet.
-                        // It may be handled with one of the next versions.
+                    // The following information is provided by Wer-kennt-wen, but not handled by sem.sync, yet.
+                    // It may be handled with one of the next versions.
                     case "hobbies":
                     case "music":
                     case "movies":
@@ -330,8 +334,8 @@ namespace Sem.Sync.Connector.WerKenntWen
                 }
 
                 contact.DateOfBirth = new DateTime(
-                    int.Parse(birthyear.Substring(0, 4), CultureInfo.InvariantCulture), 
-                    int.Parse(birthday.Substring(0, 2), CultureInfo.InvariantCulture), 
+                    int.Parse(birthyear.Substring(0, 4), CultureInfo.InvariantCulture),
+                    int.Parse(birthday.Substring(0, 2), CultureInfo.InvariantCulture),
                     int.Parse(birthday.Substring(3, 2), CultureInfo.InvariantCulture));
             }
 
@@ -374,10 +378,10 @@ namespace Sem.Sync.Connector.WerKenntWen
                 {
                     contactListContent =
                         this.wkwRequester.GetContent(
-                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent), 
+                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent),
                             "UrlList" + CacheHintRefresh);
 
-                    if (!contactListContent.Contains("wkw/captcha/"))
+                    if (!contactListContent.Contains(wkwCaptcha))
                     {
                         break;
                     }
@@ -448,17 +452,17 @@ namespace Sem.Sync.Connector.WerKenntWen
             {
                 UrlOfWebSite = "http://www.wer-kennt-wen.de/captcha",
             };
-            
+
             var page = this.wkwRequester.GetContent(request.UrlOfWebSite);
             using (var imageStream = new MemoryStream(this.wkwRequester.GetContentBinary(GetImageUrlFromPage(page))))
             {
                 request.CaptchaImage = Image.FromStream(imageStream);
                 imageStream.Dispose();
             }
-            
+
             this.UiDispatcher.ResolveCaptcha(
-                "WKW will ein Captcha gelöst haben.", 
-                "WKW Captcha", 
+                "WKW will ein Captcha gelöst haben.",
+                "WKW Captcha",
                 request);
         }
 
@@ -469,7 +473,7 @@ namespace Sem.Sync.Connector.WerKenntWen
             var contact = contactToFill as StdContact;
             const ProfileIdentifierType ProfileIdentifierType = ProfileIdentifierType.WerKenntWenUrl;
             const string ProfilePhpId = "/person/";
-            
+
             if (contact == null || !contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType))
             {
                 return contactToFill;
@@ -495,15 +499,27 @@ namespace Sem.Sync.Connector.WerKenntWen
                     profileIdInformation.Id.Replace(ProfilePhpId, string.Empty),
                     offset);
 
-                var profileContent = this.wkwRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "Wkw-{0}", offset));
-                if (profileContent.Contains(@"id=""loginform"""))
+                string profileContent;
+                while (true)
                 {
-                    if (!this.GetLogon())
+                    profileContent = this.wkwRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "Wkw-{0}", offset));
+                    if (profileContent.Contains(@"id=""loginform"""))
                     {
-                        return contactToFill;
+                        if (!this.GetLogon())
+                        {
+                            return contactToFill;
+                        }
+
+                        continue;
                     }
 
-                    profileContent = this.wkwRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "FaceBookContent-{0}", offset));
+                    if (profileContent.Contains(wkwCaptcha))
+                    {
+                        this.ResolveCaptcha();
+                        continue;
+                    }
+
+                    break;
                 }
 
                 var extracts = Regex.Matches(profileContent, @"\<a href=""/person/(?<profileId>[0-9a-zA-Z]*)""\>", RegexOptions.Singleline);

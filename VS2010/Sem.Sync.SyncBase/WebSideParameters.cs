@@ -51,7 +51,7 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         ///   Gets or sets the detection string to parse the content of a request if we need to logon
         /// </summary>
-        public string HttpDetectionStringLogOnNeeded { get; set; }
+        public string[] HttpDetectionStringLogOnNeeded { get; set; }
 
         /// <summary>
         ///   Gets or sets the base address to communicate with the site
@@ -84,6 +84,11 @@ namespace Sem.Sync.SyncBase
         ///   Gets or sets the <see cref = "ProfileIdentifierType" /> of this source.
         /// </summary>
         public ProfileIdentifierType ProfileIdentifierType { get; set; }
+
+        public string ContactListUrl { get; set; }
+        public string PersonIdentifierFromContactsListRegex { get; set; }
+        public string ProfileIdPartExtractor { get; set; }
+        public string ProfileIdFormatter { get; set; }
 
         #endregion
     }

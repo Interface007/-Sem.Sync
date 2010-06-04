@@ -10,7 +10,6 @@
 namespace Sem.Sync.Connector.Statistic
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using Sem.GenericHelpers;
@@ -94,9 +93,7 @@ namespace Sem.Sync.Connector.Statistic
                     select new DgmlNode("Group@" + y, "Collapsed", y));
                 graph.Links.AddRange(
                     from x in stdContacts
-                    select
-                        new DgmlLink(
-                        "Group@" + Tools.GetPropertyValueString(x, selector), "Contains", x.Id.ToString("N")));
+                    select new DgmlLink("Group@" + Tools.GetPropertyValueString(x, selector), "Contains", x.Id.ToString("N")));
             }
 
             this.LogProcessingEvent("saving statistic file...");
