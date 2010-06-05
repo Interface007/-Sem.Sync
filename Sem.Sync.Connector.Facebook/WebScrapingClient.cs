@@ -72,7 +72,7 @@ namespace Sem.Sync.Connector.Facebook
                         HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1",
                         HttpDetectionStringLogOnFailed = "no such string available",
                         ExtractorProfilePictureUrl = @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""",
-                        ExtractorFriendUrls = @"""members"":\[(""(?<id>\d*)""[,\]])*",
+                        ExtractorFriendUrls = @"""(?<id>\d+)""",
                         HttpDataLogOnRequest = "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" + this.facebookLsd,
                         ContactListUrl = "http://www.facebook.com/friends/?id={0}&flid=&view=everyone&q=&nt=0&nk=0&s={1}&st=0",
                         PersonIdentifierFromContactsListRegex = @"Friends.friendClick\(this, event, (?<profileId>[0-9]*)\);",
