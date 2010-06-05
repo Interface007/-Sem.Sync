@@ -274,19 +274,19 @@ namespace Sem.Sync.SyncBase
         private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
+            this.httpRequester.LogOnFormDetectionString = this.WebSideParameters.HttpDetectionStringLogOnNeeded;
+            var extractor = new Regex(this.WebSideParameters.ExtractorFriendUrls, RegexOptions.Singleline | RegexOptions.Compiled);
 
             while (true)
             {
-                this.httpRequester.LogOnFormDetectionString = this.WebSideParameters.HttpDetectionStringLogOnNeeded;
-
                 // optimistically we try to read the content without explicit logon
                 // this will succeed if we have a valid cookie
                 var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlFriendList, 0));
-                var friendIds = Regex.Match(theContact, this.WebSideParameters.ExtractorFriendUrls);
+                var friendIds = extractor.Matches(theContact);
 
-                if (friendIds.Groups.Count >= 2)
+                if (friendIds.Count >= 2)
                 {
-                    result.AddRange(from object capture in friendIds.Groups["id"].Captures select capture.ToString());
+                    result.AddRange(from Match match in friendIds select match.Groups["id"].ToString());
                     return result;
                 }
 
