@@ -11,6 +11,7 @@
 namespace Sem.Sync.Connector.Statistic
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
 
     using Sem.GenericHelpers;
@@ -52,20 +53,17 @@ namespace Sem.Sync.Connector.Statistic
         #region Methods
 
         /// <summary>
-        /// Writing will write a simple XML with some statistical information.
+        /// Writing will write a DGML file.
         /// </summary>
-        /// <param name="elements">
-        /// the list of elements that should be written to the target system.
-        /// </param>
-        /// <param name="clientFolderName">
-        /// the information to where inside the source the elements should be written - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
-        /// </param>
-        /// <param name="skipIfExisting">
-        /// specifies whether existing elements should be updated or simply left as they are
-        /// </param>
+        /// <param name="elements"> the list of elements that should be written to the target system. </param>
+        /// <param name="clientFolderName"> The full path to the destination DGML file. </param>
+        /// <param name="skipIfExisting"> not implemented </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            const string NodesCategoryPrefix = "Company Name: ";
+            const string LinkCategoryPrivate = "LinkPrivate";
+            const string LinkCategoryBusiness = "LinkBusiness";
+
             this.LogProcessingEvent("preparing data...");
             elements.ForEach(x => x.NormalizeContent());
             var stdContacts = elements.ToStdContacts().Where(x => x.Name != null).ToList();
@@ -75,15 +73,15 @@ namespace Sem.Sync.Connector.Statistic
             connected.AddRange(from x in stdContacts where x.Contacts != null && x.Contacts.Count > 0 select x.Id);
             connected = connected.Distinct().ToList();
             stdContacts = (from x in stdContacts where connected.Contains(x.Id) select x).ToList();
-            var categories = (from x in stdContacts where !string.IsNullOrWhiteSpace(x.BusinessCompanyName) select x.BusinessCompanyName).Distinct();
+            var categories = (from x in stdContacts where !string.IsNullOrWhiteSpace(x.BusinessCompanyName) select NodesCategoryPrefix + x.BusinessCompanyName).Distinct().ToList();
             
             this.LogProcessingEvent("building graph...");
-            
+
             var graph = new DgmlDirectedGraph
                 {
                     Layout = DgmlLayout.ForceDirected,
                     Categories = new List<DgmlCategory>(from x in categories select new DgmlCategory(x)),
-                    Nodes = new List<DgmlNode>(from x in stdContacts select new DgmlNode(x, x.BusinessCompanyName)), 
+                    Nodes = new List<DgmlNode>(from x in stdContacts select new DgmlNode(x, NodesCategoryPrefix + x.BusinessCompanyName)), 
                     Links = new List<DgmlLink>(
                         from x in stdContacts 
                         where x.Contacts != null 
@@ -91,10 +89,24 @@ namespace Sem.Sync.Connector.Statistic
                         where 
                         stdContacts.Exists(z => z.Id == y.Target)
                         && x.Id != y.Target
-                        select new DgmlLink(x.Id, y.Target)),
+                        && y.IsBusinessContact
+                        select new DgmlLink(x.Id, y.Target, LinkCategoryBusiness)),
                 };
 
-            var selector = clientFolderName.Contains("|") ? clientFolderName.Split('|')[1] : string.Empty;
+            graph.Links.AddRange(
+                        from x in stdContacts
+                        where x.Contacts != null
+                        from y in x.Contacts
+                        where
+                        stdContacts.Exists(z => z.Id == y.Target)
+                        && x.Id != y.Target
+                        && y.IsPrivateContact
+                        select new DgmlLink(x.Id, y.Target, LinkCategoryPrivate));
+
+            graph.Categories.Add(new DgmlCategory(LinkCategoryPrivate, Color.Red, Color.Red));
+            graph.Categories.Add(new DgmlCategory(LinkCategoryBusiness, Color.Blue, Color.Blue));
+
+            var selector = clientFolderName.Contains('|') ? clientFolderName.Split('|')[1] : string.Empty;
             if (!string.IsNullOrWhiteSpace(selector))
             {
                 var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct();
@@ -108,7 +120,7 @@ namespace Sem.Sync.Connector.Statistic
             }
 
             this.LogProcessingEvent("saving statistic file...");
-            var fileName = clientFolderName.Contains("|") ? clientFolderName.Split('|')[0] : clientFolderName;
+            var fileName = clientFolderName.Contains('|') ? clientFolderName.Split('|')[0] : clientFolderName;
             Tools.SaveToFile(graph, fileName);
 
             this.LogProcessingEvent("writing finished");
