@@ -104,6 +104,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -118,6 +119,7 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="DgmlContactsByCompanyClient.cs" />
+    <Compile Include="DgmlContactsByCompany\DgmlCategory.cs" />
     <Compile Include="DgmlContactsByCompany\DgmlLayout.cs" />
     <Compile Include="DgmlContactsByCompany\DgmlDirectedGraph.cs" />
     <Compile Include="DgmlContactsByCompany\DgmlGraphDirection.cs" />
@@ -162,6 +164,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DgmlContactsByCompanyClient.Images.resx">
+      <DependentUpon>DgmlContactsByCompanyClient.cs</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

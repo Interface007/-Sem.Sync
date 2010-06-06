@@ -4,12 +4,14 @@
 // </copyright>
 // <summary>
 //   This client is a write only client that aggregates the information to some statistical information.
+//   the following image shows the resulting graph of such an analysis:
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Connector.Statistic
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
 
     using Sem.GenericHelpers;
@@ -22,9 +24,12 @@ namespace Sem.Sync.Connector.Statistic
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
     /// </summary>
-    [ConnectorDescription(CanReadContacts = false, CanWriteContacts = true, CanReadCalendarEntries = false, 
-        CanWriteCalendarEntries = true, IsGeneric = true, NeedsCredentials = false, DisplayName = "DGML Graph")]
-    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath, Default = "diagrm.dgml", Mandatory = true)]
+    [ConnectorDescription(
+        CanReadContacts = false, CanWriteContacts = true, 
+        CanReadCalendarEntries = false, CanWriteCalendarEntries = false, 
+        IsGeneric = false, NeedsCredentials = false, 
+        DisplayName = "DGML Graph")]
+    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath, Default = "diagram.dgml", Mandatory = true)]
     public class DgmlContactsByCompanyClient : StdClient
     {
         #region Public Methods
@@ -64,25 +69,30 @@ namespace Sem.Sync.Connector.Statistic
         {
             this.LogProcessingEvent("preparing data...");
             elements.ForEach(x => x.NormalizeContent());
-            var stdContacts = elements.ToStdContacts();
+            var stdContacts = elements.ToStdContacts().Where(x => x.Name != null).ToList();
 
             // get all with incoming and outgoing connections
             var connected = (from x in stdContacts where x.Contacts != null from y in x.Contacts select y.Target).Distinct().ToList();
             connected.AddRange(from x in stdContacts where x.Contacts != null && x.Contacts.Count > 0 select x.Id);
             connected = connected.Distinct().ToList();
-
-            stdContacts = (from contact in stdContacts where connected.Contains(contact.Id) select contact).ToList();
-
+            stdContacts = (from x in stdContacts where connected.Contains(x.Id) select x).ToList();
+            var categories = (from x in stdContacts where !string.IsNullOrWhiteSpace(x.BusinessCompanyName) select x.BusinessCompanyName).Distinct();
+            
             this.LogProcessingEvent("building graph...");
-            var graph = new DgmlDirectedGraph(stdContacts.ToStdElements())
+            
+            var graph = new DgmlDirectedGraph
                 {
-                    Links =
-                        new List<DgmlLink>(
-                        from x in stdContacts
-                        where x.Contacts != null
-                        from y in x.Contacts
-                        select new DgmlLink(x.Id, y.Target)),
                     Layout = DgmlLayout.ForceDirected,
+                    Categories = new List<DgmlCategory>(from x in categories select new DgmlCategory(x)),
+                    Nodes = new List<DgmlNode>(from x in stdContacts select new DgmlNode(x, x.BusinessCompanyName)), 
+                    Links = new List<DgmlLink>(
+                        from x in stdContacts 
+                        where x.Contacts != null 
+                        from y in x.Contacts 
+                        where 
+                        stdContacts.Exists(z => z.Id == y.Target)
+                        && x.Id != y.Target
+                        select new DgmlLink(x.Id, y.Target)),
                 };
 
             var selector = clientFolderName.Contains("|") ? clientFolderName.Split('|')[1] : string.Empty;
@@ -91,6 +101,7 @@ namespace Sem.Sync.Connector.Statistic
                 graph.Nodes.AddRange(
                     from y in (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct()
                     select new DgmlNode("Group@" + y, "Collapsed", y));
+
                 graph.Links.AddRange(
                     from x in stdContacts
                     select new DgmlLink("Group@" + Tools.GetPropertyValueString(x, selector), "Contains", x.Id.ToString("N")));

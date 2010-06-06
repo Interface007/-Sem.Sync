@@ -9,6 +9,7 @@
 
 namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
@@ -39,5 +40,8 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
 
         [XmlArrayItem(ElementName = "Link")]
         public List<DgmlLink> Links { get; set; }
+
+        [XmlArrayItem(ElementName = "Category")]
+        public List<DgmlCategory> Categories { get; set; }
     }
 }
