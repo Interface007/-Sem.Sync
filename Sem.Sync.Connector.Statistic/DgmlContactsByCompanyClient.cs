@@ -11,7 +11,6 @@
 namespace Sem.Sync.Connector.Statistic
 {
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Linq;
 
     using Sem.GenericHelpers;
@@ -98,8 +97,9 @@ namespace Sem.Sync.Connector.Statistic
             var selector = clientFolderName.Contains("|") ? clientFolderName.Split('|')[1] : string.Empty;
             if (!string.IsNullOrWhiteSpace(selector))
             {
+                var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct();
                 graph.Nodes.AddRange(
-                    from y in (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct()
+                    from y in distinctGroups
                     select new DgmlNode("Group@" + y, "Collapsed", y));
 
                 graph.Links.AddRange(
