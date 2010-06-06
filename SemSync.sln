@@ -140,9 +140,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Exceptio
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Sem.Sync.Modeling", "Sem.Sync.Modeling\Sem.Sync.Modeling.modelproj", "{1D9CD8DC-D4EC-4802-B9F3-A749B29BF39E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.HttpProxy", "Sem.GenericHelpers.HttpProxy\Sem.GenericHelpers.HttpProxy.csproj", "{F2FC95F7-2638-4D49-BBEF-2995CB414C56}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 55
+		SccNumberOfProjects = 56
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = .
@@ -362,6 +364,10 @@ Global
 		SccProjectTopLevelParentUniqueName54 = SemSync.sln
 		SccProjectName54 = Sem.Sync.Modeling
 		SccLocalPath54 = Sem.Sync.Modeling
+		SccProjectUniqueName55 = Sem.GenericHelpers.HttpProxy\\Sem.GenericHelpers.HttpProxy.csproj
+		SccProjectTopLevelParentUniqueName55 = SemSync.sln
+		SccProjectName55 = Sem.GenericHelpers.HttpProxy
+		SccLocalPath55 = Sem.GenericHelpers.HttpProxy
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync1.vsmdi
@@ -1858,6 +1864,36 @@ Global
 		{1D9CD8DC-D4EC-4802-B9F3-A749B29BF39E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1D9CD8DC-D4EC-4802-B9F3-A749B29BF39E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1D9CD8DC-D4EC-4802-B9F3-A749B29BF39E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (Code Analysis)|x86.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (Code Analysis)|x86.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (CodeAnalysis)|Any CPU.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (CodeAnalysis)|Mixed Platforms.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (CodeAnalysis)|Mixed Platforms.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (CodeAnalysis)|x86.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug (CodeAnalysis)|x86.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug|x86.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Debug|x86.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Development MeinVZ|Any CPU.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Development MeinVZ|x86.ActiveCfg = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Development MeinVZ|x86.Build.0 = Debug|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Exclude Non-Standard-Projects|x86.Build.0 = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Release|Any CPU.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Release|x86.ActiveCfg = Release|x86
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1900,6 +1936,7 @@ Global
 		{E039CB82-BBC8-4F63-A9F9-53DCAEE88725} = {6B789A6A-7566-4229-87C8-66C01D988C31}
 		{040C670F-8BB1-40A4-A67C-7AD5C2104C2F} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{C57E4B3B-AD5B-48EA-B843-5CE0C2477297} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
+		{F2FC95F7-2638-4D49-BBEF-2995CB414C56} = {467B0823-AB21-4F23-B85C-00C31D5BC2C1}
 		{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560} = {024EBF54-994C-4E06-87F6-17D444178E99}
 		{478077C0-A411-44A9-8053-E8E90BA2847B} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{42794DFF-7448-47AA-BBFE-E56D83B756DB} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
