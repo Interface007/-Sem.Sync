@@ -9,6 +9,7 @@
 
 namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
 {
+    using System;
     using System.Drawing;
     using System.Xml.Serialization;
 
@@ -180,6 +181,21 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
             this.Label = label;
             this.Background = BackColors[instanceCounter % BackColors.Length].Name;
         }
+
+        public DgmlCategory(string label, Color backcolor)
+            : this(label)
+        {
+            this.Background = backcolor.Name;
+        }
+
+        public DgmlCategory(string label, Color backcolor, Color stroke)
+            : this(label, backcolor)
+        {
+            this.Stroke = stroke.Name;
+        }
+
+        [XmlAttribute]
+        public string Stroke { get; set; }
 
         [XmlAttribute]
         public string Id { get; set; }

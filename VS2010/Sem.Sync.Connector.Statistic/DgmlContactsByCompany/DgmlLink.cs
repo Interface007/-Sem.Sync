@@ -50,6 +50,12 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
             this.Target = target; 
         }
 
+        public DgmlLink(Guid source, Guid target, string category)
+            : this(source, target)
+        {
+            this.Category = category;
+        }
+
         /// <summary>
         /// Gets or sets the source entities ID of the link.
         /// </summary>
