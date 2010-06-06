@@ -9,6 +9,7 @@
 
 namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
 {
+    using System;
     using System.Xml.Serialization;
 
     using Sem.Sync.SyncBase.DetailData;
@@ -57,6 +58,31 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
             this.Group = group;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// This ctor does create a group with the specified group-type.
+        /// </summary>
+        /// <param name="id"> The id of this node.  </param>
+        /// <param name="group"> The grouping appearance (like "Collapsed" - use null to create a normal node).</param>
+        /// <param name="label"> The label to display.  </param>
+        /// <param name="category"> The category. </param>
+        public DgmlNode(string id, string group, string label, string category)
+            : this(id, group, label)
+        {
+            this.Category = category;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// </summary>
+        /// <param name="stdContact"> The <see cref="StdContact"/> to generate the node for. </param>
+        /// <param name="category"> The category for this node. </param>
+        public DgmlNode(StdContact stdContact, string category)
+            : this(stdContact as StdElement)
+        {
+            this.Category = category;
+        }
+
         [XmlAttribute]
         public string Group { get; set; }
 
@@ -65,6 +91,9 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
 
         [XmlAttribute]
         public string Label { get; set; }
+
+        [XmlAttribute]
+        public string Category { get; set; }
 
         /// <summary>
         /// for debugging purpose it's really handy to not need to expand the object.
