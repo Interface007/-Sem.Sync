@@ -264,14 +264,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             bindingSource.DataMember = dataMember;
             control.DisplayMember = "Value";
             control.ValueMember = "Key";
-            control.SelectedValueChanged +=
-                (s, ev) =>
-                Tools.SetPropertyValue(
-                    this.DataContext, targetPath, (((ComboBox)s).SelectedValue ?? string.Empty).ToString());
-            this.DataContext.PropertyChanged +=
-                (s, ev) =>
-                control.SelectedValue =
-                Tools.GetPropertyValueString(this.DataContext, targetPath) ?? control.SelectedValue;
+            control.SelectedValueChanged += (s, ev) => Tools.SetPropertyValue(this.DataContext, targetPath, (((ComboBox)s).SelectedValue ?? string.Empty).ToString());
+            this.DataContext.PropertyChanged += (s, ev) => control.SelectedValue = Tools.GetPropertyValueString(this.DataContext, targetPath) ?? control.SelectedValue;
         }
 
         /// <summary>
@@ -378,7 +372,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.removeDuplettesToolStripMenuItem.Click += (s, ev) => this.DataContext.Run("SyncLists\\RemoveDuplicatesFromOutlook.SyncList");
             this.generateSampleProfilesToolStripMenuItem.Click += (s, ev) => this.DataContext.GenerateSamples();
             this.deleteCurrentProfileToolStripMenuItem.Click += (s, ev) => this.DataContext.DeleteWorkflowData(this.DataContext.CurrentSyncWorkflowData);
-            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() }.Show();
+            this.openCommandsViewToolStripMenuItem.Click += (s, ev) => new Commands { DataContext = new ClientViewModel() } .Show();
             this.starteSynchronisationToolStripMenuItem.Click += (s, ev) => this.RunCommands();
 
             // setup event handling
