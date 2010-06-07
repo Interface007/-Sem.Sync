@@ -1088,5 +1088,10 @@ namespace Sem.GenericHelpers
 
             return cachedAllowedAscii;
         }
+
+        public static List<string> GetPropertyList(Type type)
+        {
+            return GetPropertyList(string.Empty, type);
+        }
     }
 }

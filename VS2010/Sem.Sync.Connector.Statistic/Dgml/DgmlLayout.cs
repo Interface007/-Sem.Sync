@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
+namespace Sem.Sync.Connector.Statistic.Dgml
 {
     /// <summary>
     /// Graph layout types
     /// </summary>
-    public enum DgmlLayout
+    public enum Layout
     {
         /// <summary>
         /// Sugiyama graph

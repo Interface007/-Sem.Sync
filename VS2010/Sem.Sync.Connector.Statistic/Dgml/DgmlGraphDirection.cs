@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
+namespace Sem.Sync.Connector.Statistic.Dgml
 {
     /// <summary>
     /// Defines the direction of the graph (if applicable)
     /// </summary>
-    public enum DgmlGraphDirection
+    public enum GraphDirection
     {
         /// <summary>
         /// Direction from top to bottom.

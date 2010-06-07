@@ -7,9 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
+namespace Sem.Sync.Connector.Statistic.Dgml
 {
-    using System;
     using System.Xml.Serialization;
 
     using Sem.Sync.SyncBase.DetailData;
@@ -17,23 +16,23 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
     /// <summary>
     /// The Node type for DGML. Every entity in DGML is a Node.
     /// </summary>
-    public class DgmlNode
+    public class Node
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// Initializes a new instance of the <see cref="Node"/> class.
         /// This ctor is needed for serialization.
         /// </summary>
-        public DgmlNode()
+        public Node()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// Initializes a new instance of the <see cref="Node"/> class.
         /// This ctor does create an element node from the ID and the <see cref="StdContact.GetFullName"/> 
         /// or <see cref="StdElement.ToStringSimple"/> methods.
         /// </summary>
         /// <param name="element"> The element to convert. </param>
-        public DgmlNode(StdElement element)
+        public Node(StdElement element)
         {
             this.Id = element.Id.ToString("N");
 
@@ -45,13 +44,13 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// Initializes a new instance of the <see cref="Node"/> class.
         /// This ctor does create a group with the specified group-type.
         /// </summary>
         /// <param name="id"> The id of this group. </param>
         /// <param name="group"> The group-type (like "Contains"). </param>
         /// <param name="label"> The label to display. </param>
-        public DgmlNode(string id, string group, string label)
+        public Node(string id, string group, string label)
         {
             this.Id = id;
             this.Label = label;
@@ -59,25 +58,25 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// Initializes a new instance of the <see cref="Node"/> class.
         /// This ctor does create a group with the specified group-type.
         /// </summary>
         /// <param name="id"> The id of this node.  </param>
         /// <param name="group"> The grouping appearance (like "Collapsed" - use null to create a normal node).</param>
         /// <param name="label"> The label to display.  </param>
         /// <param name="category"> The category. </param>
-        public DgmlNode(string id, string group, string label, string category)
+        public Node(string id, string group, string label, string category)
             : this(id, group, label)
         {
             this.Category = category;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlNode"/> class.
+        /// Initializes a new instance of the <see cref="Node"/> class.
         /// </summary>
         /// <param name="stdContact"> The <see cref="StdContact"/> to generate the node for. </param>
         /// <param name="category"> The category for this node. </param>
-        public DgmlNode(StdContact stdContact, string category)
+        public Node(StdContact stdContact, string category)
             : this(stdContact as StdElement)
         {
             this.Category = category;

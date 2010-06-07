@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DgmlContactsByCompanyClient.cs" company="Sven Erik Matzen">
+// <copyright file="DgmlContactsByCompany.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
@@ -13,15 +13,13 @@ namespace Sem.Sync.Connector.Statistic
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
-    using System.Windows.Forms;
 
     using Sem.GenericHelpers;
-    using Sem.Sync.Connector.Statistic.DgmlContactsByCompany;
+    using Sem.Sync.Connector.Statistic.Dgml;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
-    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
@@ -31,8 +29,12 @@ namespace Sem.Sync.Connector.Statistic
         CanReadCalendarEntries = false, CanWriteCalendarEntries = false, 
         IsGeneric = false, NeedsCredentials = false, 
         DisplayName = "DGML Graph")]
-    [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath, Default = "diagram.dgml", Mandatory = true)]
-    public class DgmlContactsByCompanyClient : StdClient, IConfigurable
+    [ClientStoragePathDescription(
+        ReferenceType = ClientPathType.FileSystemFileNameAndPath, 
+        Default = "diagram.dgml", 
+        Mandatory = true,
+        WinformsConfigurationClass = typeof(DgmlContactsByCompanyConfiguration))]
+    public class DgmlContactsByCompany : StdClient
     {
         /// <summary>
         /// prefix for company name categories. The result will be "Company Name: MyCompany" as a label and ID
@@ -78,6 +80,10 @@ namespace Sem.Sync.Connector.Statistic
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             this.LogProcessingEvent("preparing data...");
+            var data = clientFolderName.StartsWith("<") 
+                ? Tools.LoadFromString<DgmlContactsByCompanyConfigurationData>(clientFolderName) 
+                : new DgmlContactsByCompanyConfigurationData { DestinationPath = clientFolderName };
+
             elements.ForEach(x => x.NormalizeContent());
             var stdContacts = elements.ToStdContacts().Where(x => x.Name != null).ToList();
 
@@ -90,12 +96,12 @@ namespace Sem.Sync.Connector.Statistic
             
             this.LogProcessingEvent("building graph...");
 
-            var graph = new DgmlDirectedGraph
+            var graph = new Graph
                 {
-                    Layout = DgmlLayout.ForceDirected,
-                    Categories = new List<DgmlCategory>(from x in categories select new DgmlCategory(x)),
-                    Nodes = new List<DgmlNode>(from x in stdContacts select new DgmlNode(x, NodesCategoryPrefix + x.BusinessCompanyName)), 
-                    Links = new List<DgmlLink>(
+                    Layout = Layout.ForceDirected,
+                    Categories = new List<Category>(from x in categories select new Category(x)),
+                    Nodes = new List<Node>(from x in stdContacts select new Node(x, NodesCategoryPrefix + x.BusinessCompanyName)), 
+                    Links = new List<Link>(
                         from x in stdContacts 
                         where x.Contacts != null 
                         from y in x.Contacts 
@@ -103,7 +109,7 @@ namespace Sem.Sync.Connector.Statistic
                         stdContacts.Exists(z => z.Id == y.Target)
                         && x.Id != y.Target
                         && y.IsBusinessContact
-                        select new DgmlLink(x.Id, y.Target, LinkCategoryBusiness)),
+                        select new Link(x.Id, y.Target, LinkCategoryBusiness)),
                 };
 
             graph.Links.AddRange(
@@ -114,26 +120,25 @@ namespace Sem.Sync.Connector.Statistic
                         stdContacts.Exists(z => z.Id == y.Target)
                         && x.Id != y.Target
                         && y.IsPrivateContact
-                        select new DgmlLink(x.Id, y.Target, LinkCategoryPrivate));
+                        select new Link(x.Id, y.Target, LinkCategoryPrivate));
 
-            graph.Categories.Add(new DgmlCategory(LinkCategoryPrivate, Color.Red, Color.Red));
-            graph.Categories.Add(new DgmlCategory(LinkCategoryBusiness, Color.Blue, Color.Blue));
+            graph.Categories.Add(new Category(LinkCategoryPrivate, Color.Red, Color.Red));
+            graph.Categories.Add(new Category(LinkCategoryBusiness, Color.Blue, Color.Blue));
 
-            var selector = GetSplitElement(clientFolderName, 1, string.Empty); 
-            if (!string.IsNullOrWhiteSpace(selector))
+            if (!string.IsNullOrWhiteSpace(data.GroupingPropertName))
             {
-                var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct();
+                var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, data.GroupingPropertName)).Distinct();
                 graph.Nodes.AddRange(
                     from y in distinctGroups
-                    select new DgmlNode("Group@" + y, "Collapsed", y));
+                    select new Node("Group@" + y, "Collapsed", y));
 
                 graph.Links.AddRange(
                     from x in stdContacts
-                    select new DgmlLink("Group@" + Tools.GetPropertyValueString(x, selector), "Contains", x.Id.ToString("N")));
+                    select new Link("Group@" + Tools.GetPropertyValueString(x, data.GroupingPropertName), "Contains", x.Id.ToString("N")));
             }
 
             this.LogProcessingEvent("saving statistic file...");
-            var fileName = GetSplitElement(clientFolderName, 0, clientFolderName);
+            var fileName = GetSplitElement(data.DestinationPath, 0, clientFolderName);
             Tools.SaveToFile(graph, fileName);
 
             this.LogProcessingEvent("writing finished");
@@ -155,21 +160,6 @@ namespace Sem.Sync.Connector.Statistic
 
             var parts = valueToSplit.Split('|');
             return parts.Length > idx ? parts[idx] : defaultValue;
-        }
-
-        #endregion
-
-        #region IConfigurable Members
-
-        public string ShowConfigurationDialog(string configuration)
-        {
-            var editor = Tools.LoadFromString<ConfigurationEditor>(configuration);
-            if (editor.ShowDialog() == DialogResult.OK)
-            {
-                return Tools.SaveToString(editor);
-            }
-
-            return configuration;
         }
 
         #endregion
