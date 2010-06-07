@@ -23,6 +23,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using Sem.Sync.SharedUI.Common;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// User interface for wizard-like interaction
@@ -79,12 +80,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Handels the processing events
         /// </summary>
-        /// <param name="entity">
-        /// The entity. 
-        /// </param>
-        /// <param name="eventArgs">
-        /// The event args. 
-        /// </param>
+        /// <param name="entity"> The entity that is being processed at the moment (may be null). </param>
+        /// <param name="eventArgs"> The event arguments with some additional information. </param>
         private void ProcessingEventHandler(object entity, ProcessingEventArgs eventArgs)
         {
             this.Invoke(
@@ -281,9 +278,15 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="useSave">
         /// Indicates whether the dialog should ask the user to save instead of to load data. 
         /// </param>
-        private void ShowFolderDialog(Control textBox, bool useFileDialog, bool useSave)
+        private void ShowFolderDialog(Control textBox, ConnectorInformation connectorInfo, bool useSave)
         {
-            if (!useFileDialog)
+            var type = Type.GetType(connectorInfo.Name);
+            if (type.GetInterface(typeof(IConfigurable).FullName) != null)
+            {
+                ////var configurator = Factory
+            }
+
+            if (!connectorInfo.ShowSelectFileDialog)
             {
                 this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
@@ -361,8 +364,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             this.btnRun.Click += (s, ev) => this.RunCommands();
             this.btnCancel.Click += (s, ev) => this.DataContext.Cancel = true;
             this.btnSave.Click += (s, ev) => this.DataContext.SaveTo(this.AskForDestinationFile(Path.GetFileNameWithoutExtension(this.DataContext.CurrentSyncWorkflowData)));
-            this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source.ShowSelectFileDialog, false);
-            this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target.ShowSelectFileDialog, true);
+            this.btnPathSource.Click += (s, ev) => this.ShowFolderDialog(this.txtPathSource, this.DataContext.Source, false);
+            this.btnPathTarget.Click += (s, ev) => this.ShowFolderDialog(this.txtPathTarget, this.DataContext.Target, true);
             this.button1.Click += (s, ev) => this.DataContext.SwapSourceAndTarget();
 
             // we don't need to detach from these events, so we don't need to save the lambda into a variable for the detaching.

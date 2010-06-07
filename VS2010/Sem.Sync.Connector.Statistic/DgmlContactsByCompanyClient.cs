@@ -13,6 +13,7 @@ namespace Sem.Sync.Connector.Statistic
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
+    using System.Windows.Forms;
 
     using Sem.GenericHelpers;
     using Sem.Sync.Connector.Statistic.DgmlContactsByCompany;
@@ -20,6 +21,7 @@ namespace Sem.Sync.Connector.Statistic
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
+    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// This client is a write only client that aggregates the information to some statistical information.
@@ -30,8 +32,23 @@ namespace Sem.Sync.Connector.Statistic
         IsGeneric = false, NeedsCredentials = false, 
         DisplayName = "DGML Graph")]
     [ClientStoragePathDescription(ReferenceType = ClientPathType.FileSystemFileNameAndPath, Default = "diagram.dgml", Mandatory = true)]
-    public class DgmlContactsByCompanyClient : StdClient
+    public class DgmlContactsByCompanyClient : StdClient, IConfigurable
     {
+        /// <summary>
+        /// prefix for company name categories. The result will be "Company Name: MyCompany" as a label and ID
+        /// </summary>
+        private const string NodesCategoryPrefix = "Company Name: ";
+
+        /// <summary>
+        /// Name of the link category for private relationship links
+        /// </summary>
+        private const string LinkCategoryPrivate = "LinkPrivate";
+
+        /// <summary>
+        /// Name of the link category for business relationship links
+        /// </summary>
+        private const string LinkCategoryBusiness = "LinkBusiness";
+            
         #region Public Methods
 
         /// <summary>
@@ -60,10 +77,6 @@ namespace Sem.Sync.Connector.Statistic
         /// <param name="skipIfExisting"> not implemented </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            const string NodesCategoryPrefix = "Company Name: ";
-            const string LinkCategoryPrivate = "LinkPrivate";
-            const string LinkCategoryBusiness = "LinkBusiness";
-
             this.LogProcessingEvent("preparing data...");
             elements.ForEach(x => x.NormalizeContent());
             var stdContacts = elements.ToStdContacts().Where(x => x.Name != null).ToList();
@@ -106,7 +119,7 @@ namespace Sem.Sync.Connector.Statistic
             graph.Categories.Add(new DgmlCategory(LinkCategoryPrivate, Color.Red, Color.Red));
             graph.Categories.Add(new DgmlCategory(LinkCategoryBusiness, Color.Blue, Color.Blue));
 
-            var selector = clientFolderName.Contains('|') ? clientFolderName.Split('|')[1] : string.Empty;
+            var selector = GetSplitElement(clientFolderName, 1, string.Empty); 
             if (!string.IsNullOrWhiteSpace(selector))
             {
                 var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, selector)).Distinct();
@@ -120,10 +133,43 @@ namespace Sem.Sync.Connector.Statistic
             }
 
             this.LogProcessingEvent("saving statistic file...");
-            var fileName = clientFolderName.Contains('|') ? clientFolderName.Split('|')[0] : clientFolderName;
+            var fileName = GetSplitElement(clientFolderName, 0, clientFolderName);
             Tools.SaveToFile(graph, fileName);
 
             this.LogProcessingEvent("writing finished");
+        }
+
+        /// <summary>
+        /// Extracts an indexed element from a "|"-seperated list of elements in a string.
+        /// </summary>
+        /// <param name="valueToSplit"> The value string to be split. </param>
+        /// <param name="idx"> The index of the element to get. </param>
+        /// <param name="defaultValue"> The default value (if the element does not exist). </param>
+        /// <returns> The element id the number of elements is less than the index </returns>
+        private static string GetSplitElement(string valueToSplit, int idx, string defaultValue)
+        {
+            if (string.IsNullOrWhiteSpace(valueToSplit))
+            {
+                return defaultValue;
+            }
+
+            var parts = valueToSplit.Split('|');
+            return parts.Length > idx ? parts[idx] : defaultValue;
+        }
+
+        #endregion
+
+        #region IConfigurable Members
+
+        public string ShowConfigurationDialog(string configuration)
+        {
+            var editor = Tools.LoadFromString<ConfigurationEditor>(configuration);
+            if (editor.ShowDialog() == DialogResult.OK)
+            {
+                return Tools.SaveToString(editor);
+            }
+
+            return configuration;
         }
 
         #endregion

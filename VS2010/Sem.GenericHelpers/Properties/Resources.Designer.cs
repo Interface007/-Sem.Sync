@@ -106,5 +106,23 @@ namespace Sem.GenericHelpers.Properties {
                 return ResourceManager.GetString("TheServerHasRejectedTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The connection to a web server ({0}) cannot be established (reason: {1}). Do you want to retry?.
+        /// </summary>
+        internal static string UserMessageConnectionProblemQuestionRetry {
+            get {
+                return ResourceManager.GetString("UserMessageConnectionProblemQuestionRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection problem.
+        /// </summary>
+        internal static string UserMessageConnectionProblemTitle {
+            get {
+                return ResourceManager.GetString("UserMessageConnectionProblemTitle", resourceCulture);
+            }
+        }
     }
 }
