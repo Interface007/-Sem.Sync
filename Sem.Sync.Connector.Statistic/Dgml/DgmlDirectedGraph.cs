@@ -7,9 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
+namespace Sem.Sync.Connector.Statistic.Dgml
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
@@ -17,31 +16,31 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
     using Sem.Sync.SyncBase.DetailData;
 
     [XmlRoot(ElementName = "DirectedGraph", Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
-    public class DgmlDirectedGraph
+    public class Graph
     {
-        public DgmlDirectedGraph()
+        public Graph()
         {
-            this.Nodes = new List<DgmlNode>();
+            this.Nodes = new List<Node>();
         }
 
-        public DgmlDirectedGraph(List<StdElement> elements)
+        public Graph(List<StdElement> elements)
         {
-            this.Nodes = new List<DgmlNode>(from element in elements select new DgmlNode(element));
+            this.Nodes = new List<Node>(from element in elements select new Node(element));
         }
 
         [XmlAttribute()]
-        public DgmlGraphDirection GraphDirection { get; set; }
+        public GraphDirection GraphDirection { get; set; }
 
         [XmlAttribute()]
-        public DgmlLayout Layout { get; set; }
+        public Layout Layout { get; set; }
 
         [XmlArrayItem(ElementName = "Node")]
-        public List<DgmlNode> Nodes { get; set; }
+        public List<Node> Nodes { get; set; }
 
         [XmlArrayItem(ElementName = "Link")]
-        public List<DgmlLink> Links { get; set; }
+        public List<Link> Links { get; set; }
 
         [XmlArrayItem(ElementName = "Category")]
-        public List<DgmlCategory> Categories { get; set; }
+        public List<Category> Categories { get; set; }
     }
 }

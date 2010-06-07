@@ -595,11 +595,10 @@ namespace Sem.Sync.SharedUI.Common
                         continue;
                     }
 
-                    var sourceTypeAttributes = exportedType.GetCustomAttributes(
-                        typeof(ConnectorDescriptionAttribute), false);
+                    var sourceTypeAttributes = exportedType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), false);
                     var attribute = sourceTypeAttributes.Length == 0
-                                        ? new ConnectorDescriptionAttribute()
-                                        : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
+                                    ? new ConnectorDescriptionAttribute()
+                                    : (ConnectorDescriptionAttribute)sourceTypeAttributes[0];
 
                     foreach (var type in new[] { typeof(StdContact), typeof(StdCalendarItem) })
                     {

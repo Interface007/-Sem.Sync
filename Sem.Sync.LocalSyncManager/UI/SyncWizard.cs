@@ -165,8 +165,12 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.btnPathSource.Visible = !source.ConnectorPathDescription.Irrelevant &&
                                              (source.ShowSelectPathDialog || source.ShowSelectFileDialog);
                 this.txtPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
+                this.txtPathSource.Enabled = source.ConnectorPathDescription.WinformsConfigurationClass == null;
                 this.lblPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
+            }
 
+            if (source.ConnectorDescription != null)
+            {
                 var sourceNeedsCredentials = source.ConnectorDescription.NeedsCredentials;
 
                 this.txtUidSource.Visible = sourceNeedsCredentials;
@@ -178,13 +182,17 @@ namespace Sem.Sync.LocalSyncManager.UI
                 this.lblDomainSource.Visible = source.ConnectorDescription.NeedsCredentialsDomain;
             }
 
-            if (target.ConnectorDescription != null)
+            if (target.ConnectorPathDescription != null)
             {
                 this.btnPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant &&
                                              (target.ShowSelectPathDialog || target.ShowSelectFileDialog);
                 this.txtPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
+                this.txtPathTarget.Enabled = target.ConnectorPathDescription.WinformsConfigurationClass == null;
                 this.lblPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
+            }
 
+            if (target.ConnectorDescription != null)
+            {
                 var targetNeedsCredentials = target.ConnectorDescription.NeedsCredentials;
 
                 this.txtUidTarget.Visible = targetNeedsCredentials;
@@ -269,21 +277,21 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Show the folder browse dialog for a specified textbox
         /// </summary>
-        /// <param name="textBox">
-        /// The text box that should be updated with the path. 
-        /// </param>
-        /// <param name="useFileDialog">
-        /// Indicates whether the file dialog should be shown instead of the path selection. 
-        /// </param>
-        /// <param name="useSave">
-        /// Indicates whether the dialog should ask the user to save instead of to load data. 
-        /// </param>
+        /// <param name="textBox"> The text box that should be updated with the path (or extended data). </param>
+        /// <param name="connectorInfo"> Information about the connector path. </param>
+        /// <param name="useSave"> Indicates whether the dialog should ask the user to save instead of to load data. </param>
         private void ShowFolderDialog(Control textBox, ConnectorInformation connectorInfo, bool useSave)
         {
-            var type = Type.GetType(connectorInfo.Name);
-            if (type.GetInterface(typeof(IConfigurable).FullName) != null)
+            var configurationClassType = connectorInfo.ConnectorPathDescription.WinformsConfigurationClass;
+            if (configurationClassType != null)
             {
-                ////var configurator = Factory
+                var configurationClass = configurationClassType.GetConstructor(new Type[] { }).Invoke(null) as IConfigurable;
+                if (configurationClass != null)
+                {
+                    textBox.Text = configurationClass.ShowConfigurationDialog(textBox.Text);
+                }
+
+                return;
             }
 
             if (!connectorInfo.ShowSelectFileDialog)
@@ -340,13 +348,8 @@ namespace Sem.Sync.LocalSyncManager.UI
             // setup the data binding for combo boxes
             this.SetupBind(this.contextDataSource, "ClientsSource", this.cboSource, "Source.Name");
             this.SetupBind(this.contextDataTarget, "ClientsTarget", this.cboTarget, "Target.Name");
-            this.SetupBind(
-                this.contextDataWorkflows, 
-                "SyncWorkflowsTemplates", 
-                this.cboWorkFlowTemplates, 
-                "CurrentSyncWorkflowTemplate");
-            this.SetupBind(
-                this.contextDataWorkflowData, "SyncWorkflowData", this.cboWorkFlowData, "CurrentSyncWorkflowData");
+            this.SetupBind(this.contextDataWorkflows, "SyncWorkflowsTemplates", this.cboWorkFlowTemplates, "CurrentSyncWorkflowTemplate");
+            this.SetupBind(this.contextDataWorkflowData, "SyncWorkflowData", this.cboWorkFlowData, "CurrentSyncWorkflowData");
 
             // setup data propagation from control to business object 
             // todo: this needs to be changed to be included into databinding setup
@@ -394,14 +397,13 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             this.DataContext.FinishedEvent += s => this.Invoke(
                 new MethodInvoker(
-                                                       () =>
-                                                           {
-                                                               this.DataContext.Cancel = false;
-                                                               this.pnlProgress.Visible = false;
-                                                               this.lblDialogStatus.Text =
-                                                                   Resources.ProcessFinishedMessage;
-                                                               this.DataContext.Locked = false;
-                                                           }));
+                    () =>
+                        {
+                            this.DataContext.Cancel = false;
+                            this.pnlProgress.Visible = false;
+                            this.lblDialogStatus.Text = Resources.ProcessFinishedMessage;
+                            this.DataContext.Locked = false;
+                        }));
 
             // initialize the gui
             this.cboSource.SelectedIndex = -1;

@@ -123,8 +123,7 @@ namespace Sem.Sync.SyncBase.DetailData
                     return;
                 }
 
-                var sourceTypeAttributes = type.GetCustomAttributes(
-                    typeof(ClientStoragePathDescriptionAttribute), false);
+                var sourceTypeAttributes = type.GetCustomAttributes(typeof(ClientStoragePathDescriptionAttribute), false);
                 foreach (ClientStoragePathDescriptionAttribute attribute in sourceTypeAttributes)
                 {
                     this.ConnectorPathDescription = attribute;

@@ -11,6 +11,8 @@ namespace Sem.Sync.SyncBase.Attributes
 {
     using System;
 
+    using Sem.Sync.SyncBase.Interfaces;
+
     /// <summary>
     /// Specifies the type of path information
     /// </summary>
@@ -35,6 +37,11 @@ namespace Sem.Sync.SyncBase.Attributes
         ///   The path information describes something that is relevant for the storage, but we don't have an editor for it
         /// </summary>
         Undefined = 2, 
+
+        /// <summary>
+        ///   An interface is defined for displaying the configuration dialog - the details are stored in XML
+        /// </summary>
+        DialogBased = 3,
     }
 
     /// <summary>
@@ -66,6 +73,11 @@ namespace Sem.Sync.SyncBase.Attributes
         ///   Gets or sets a value indicating the type of information being stored in the path
         /// </summary>
         public ClientPathType ReferenceType { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a class implementing the <see cref="IConfigurable"/>
+        /// </summary>
+        public Type WinformsConfigurationClass { get; set; }
 
         #endregion
     }

@@ -7,16 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
+namespace Sem.Sync.Connector.Statistic.Dgml
 {
-    using System;
     using System.Drawing;
     using System.Xml.Serialization;
 
     /// <summary>
     /// The Category type for DGML.
     /// </summary>
-    public sealed class DgmlCategory
+    public sealed class Category
     {
         private static int instanceCounter;
 
@@ -165,16 +164,16 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
                 Color.YellowGreen,
             };
 
-        public DgmlCategory()
+        public Category()
         {
             instanceCounter++;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DgmlCategory"/> class.
+        /// Initializes a new instance of the <see cref="Category"/> class.
         /// </summary>
         /// <param name="label"> The label of the new category. </param>
-        public DgmlCategory(string label)
+        public Category(string label)
         {
             instanceCounter++;
             this.Id = label;
@@ -182,13 +181,13 @@ namespace Sem.Sync.Connector.Statistic.DgmlContactsByCompany
             this.Background = BackColors[instanceCounter % BackColors.Length].Name;
         }
 
-        public DgmlCategory(string label, Color backcolor)
+        public Category(string label, Color backcolor)
             : this(label)
         {
             this.Background = backcolor.Name;
         }
 
-        public DgmlCategory(string label, Color backcolor, Color stroke)
+        public Category(string label, Color backcolor, Color stroke)
             : this(label, backcolor)
         {
             this.Stroke = stroke.Name;

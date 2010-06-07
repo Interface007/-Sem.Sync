@@ -119,19 +119,26 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="ConfigurationEditor.cs">
+    <Compile Include="DgmlContactsByCompanyConfigurationData.cs">
+      <DependentUpon>DgmlContactsByCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DgmlContactsByCompanyConfigurationEditor.cs">
       <SubType>Form</SubType>
+      <DependentUpon>DgmlContactsByCompany.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigurationEditor.Designer.cs">
-      <DependentUpon>ConfigurationEditor.cs</DependentUpon>
+    <Compile Include="DgmlContactsByCompanyConfigurationEditor.Designer.cs">
+      <DependentUpon>DgmlContactsByCompanyConfigurationEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="DgmlContactsByCompanyClient.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlCategory.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlLayout.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlDirectedGraph.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlGraphDirection.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlLink.cs" />
-    <Compile Include="DgmlContactsByCompany\DgmlNode.cs" />
+    <Compile Include="DgmlContactsByCompany.cs" />
+    <Compile Include="DgmlContactsByCompanyConfiguration.cs">
+      <DependentUpon>DgmlContactsByCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dgml\DgmlCategory.cs" />
+    <Compile Include="Dgml\DgmlLayout.cs" />
+    <Compile Include="Dgml\DgmlDirectedGraph.cs" />
+    <Compile Include="Dgml\DgmlGraphDirection.cs" />
+    <Compile Include="Dgml\DgmlLink.cs" />
+    <Compile Include="Dgml\DgmlNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="SimpleReportClient\AnalysisModule\PropertyUsage.cs" />
     <Compile Include="SimpleReportClient.cs" />
@@ -174,12 +181,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DgmlContactsByCompanyClient.Images.resx">
-      <DependentUpon>DgmlContactsByCompanyClient.cs</DependentUpon>
+      <DependentUpon>DgmlContactsByCompany.cs</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConfigurationEditor.resx">
-      <DependentUpon>ConfigurationEditor.cs</DependentUpon>
+    <EmbeddedResource Include="DgmlContactsByCompanyConfigurationEditor.resx">
+      <DependentUpon>DgmlContactsByCompanyConfigurationEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
