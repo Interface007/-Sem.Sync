@@ -134,4 +134,10 @@ If you select &gt;OK&lt; you can review each information file and decide whether
   <data name="TheProxyServerNeedsYourCredentials" xml:space="preserve">
     <value>The proxy server {1} needs your credentials to receive content from {0}.</value>
   </data>
+	<data name="UserMessageConnectionProblemQuestionRetry">
+		<value xml:space="preserve">The connection to a web server ({0}) cannot be established (reason: {1}). Do you want to retry?</value>
+	</data>
+	<data name="UserMessageConnectionProblemTitle">
+		<value xml:space="preserve">Connection problem</value>
+	</data>
 </root>

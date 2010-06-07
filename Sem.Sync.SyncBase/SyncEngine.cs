@@ -102,8 +102,7 @@ namespace Sem.Sync.SyncBase
             var itemsDone = 0;
             this.numberOfCommandsInSequence = syncList.Count;
 
-            LogProcessingEvent(
-                string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
+            LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiStartingProcessing, this.percentageOfSequenceDone));
 
             foreach (var item in syncList)
             {
@@ -149,8 +148,7 @@ namespace Sem.Sync.SyncBase
         /// a value whether the execution should continue (true) or should abort (false)
         /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification =
-                "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
+            Justification = "in this method exceptions are just logged - it's not acceptable to interrupt batch execution in case of a 'minor' issue.")]
         public bool Execute(SyncDescription item)
         {
             if (!this.versionChecked)

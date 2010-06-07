@@ -60,8 +60,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         ///   The working folder for template files.
         /// </summary>
-        private static readonly string WorkingFolderTemplates = Path.Combine(
-            Directory.GetCurrentDirectory(), "SyncLists");
+        private static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
 
         /// <summary>
         ///   The current synchronization workflow data - this is created and saved by the user in the dialog..

@@ -21,6 +21,7 @@ namespace Sem.GenericHelpers
 
     using Sem.GenericHelpers.Entities;
     using Sem.GenericHelpers.Interfaces;
+    using Sem.GenericHelpers.Properties;
 
     /// <summary>
     /// This class provides funktionality to get information from the web.
@@ -430,24 +431,12 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text and extracts all strings matching a regex (the first group is returned in a list of strings)
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content  
-        /// </param>
-        /// <param name="regularExpression">
-        /// The regular Expression to extract the data.  
-        /// </param>
-        /// <param name="result">
-        /// The list of strings with the extracted data. 
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <param name="referer">
-        /// the url of the referer to add
-        /// </param>
-        /// <returns>
-        /// the text result of the request  
-        /// </returns>
+        /// <param name="url"> the url to access the content   </param>
+        /// <param name="regularExpression"> The regular Expression to extract the data.   </param>
+        /// <param name="result"> The list of strings with the extracted data.  </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <param name="referer"> the url of the referer to add </param>
+        /// <returns> the text result of the request   </returns>
         public bool GetExtract(
             string url, string regularExpression, out List<string> result, string name, string referer)
         {
@@ -891,8 +880,7 @@ namespace Sem.GenericHelpers
             request.Headers.Add("Accept-Language", "de");
             request.Headers.Add("Accept-Charset", "utf-8");
 
-            request.UserAgent =
-                "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; InfoPath.2)";
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; InfoPath.2)";
 
             return request;
         }
@@ -996,8 +984,7 @@ namespace Sem.GenericHelpers
                                 if (this.ContentCredentials.LogOnDomain == "[GOOGLE]")
                                 {
                                     request = this.CreateRequest(url, "GET", referer);
-                                    request.Headers.Add(
-                                        "Authorization", "GoogleLogin auth=" + this.ContentCredentials.LogOnPassword);
+                                    request.Headers.Add("Authorization", "GoogleLogin auth=" + this.ContentCredentials.LogOnPassword);
                                 }
                             }
                         }
@@ -1009,10 +996,10 @@ namespace Sem.GenericHelpers
                             if (
                                 this.UiDispatcher.AskForConfirm(
                                     string.Format(
-                                        "The connection to a web server ({0}) cannot be established (reason: {1}). Do you want to retry?", 
+                                        Resources.UserMessageConnectionProblemQuestionRetry, 
                                         url.Host, 
                                         ex.Status), 
-                                    "Connection problem"))
+                                    Resources.UserMessageConnectionProblemTitle))
                             {
                                 continue;
                             }
