@@ -30,7 +30,7 @@ namespace Sem.Sync.Connector.Statistic
         IsGeneric = false, NeedsCredentials = false, 
         DisplayName = "DGML Graph")]
     [ClientStoragePathDescription(
-        ReferenceType = ClientPathType.FileSystemFileNameAndPath, 
+        ReferenceType = ClientPathType.DialogBased, 
         Default = "diagram.dgml", 
         Mandatory = true,
         WinformsConfigurationClass = typeof(DgmlContactsByCompanyConfiguration))]

@@ -22,6 +22,7 @@ namespace Sem.Sync.LocalSyncManager.UI
     using Sem.Sync.LocalSyncManager.Tools;
     using Sem.Sync.SharedUI.Common;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Interfaces;
 
@@ -163,7 +164,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             if (source.ConnectorDescription != null)
             {
                 this.btnPathSource.Visible = !source.ConnectorPathDescription.Irrelevant &&
-                                             (source.ShowSelectPathDialog || source.ShowSelectFileDialog);
+                                              source.PathType != ClientPathType.Undefined;
                 this.txtPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
                 this.txtPathSource.Enabled = source.ConnectorPathDescription.WinformsConfigurationClass == null;
                 this.lblPathSource.Visible = !source.ConnectorPathDescription.Irrelevant;
@@ -185,7 +186,7 @@ namespace Sem.Sync.LocalSyncManager.UI
             if (target.ConnectorPathDescription != null)
             {
                 this.btnPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant &&
-                                             (target.ShowSelectPathDialog || target.ShowSelectFileDialog);
+                                             target.PathType != ClientPathType.Undefined;
                 this.txtPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
                 this.txtPathTarget.Enabled = target.ConnectorPathDescription.WinformsConfigurationClass == null;
                 this.lblPathTarget.Visible = !target.ConnectorPathDescription.Irrelevant;
@@ -288,7 +289,7 @@ namespace Sem.Sync.LocalSyncManager.UI
                 return;
             }
 
-            if (!connectorInfo.ShowSelectFileDialog)
+            if (connectorInfo.PathType == ClientPathType.FileSystemPath)
             {
                 this.folderBrowser.SelectedPath = SyncWizardContext.ResolvePath(textBox.Text);
                 if (this.folderBrowser.ShowDialog() == DialogResult.OK)
