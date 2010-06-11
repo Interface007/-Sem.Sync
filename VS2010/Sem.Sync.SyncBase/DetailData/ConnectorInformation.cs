@@ -107,8 +107,7 @@ namespace Sem.Sync.SyncBase.DetailData
             {
                 this.name = value;
 
-                this.ShowSelectFileDialog = false;
-                this.ShowSelectPathDialog = false;
+                this.PathType = ClientPathType.Default;
 
                 var typeName = value;
                 if (!string.IsNullOrEmpty(value) && value.ToUpperInvariant().Contains(" OF "))
@@ -127,8 +126,7 @@ namespace Sem.Sync.SyncBase.DetailData
                 foreach (ClientStoragePathDescriptionAttribute attribute in sourceTypeAttributes)
                 {
                     this.ConnectorPathDescription = attribute;
-                    this.ShowSelectFileDialog = attribute.ReferenceType == ClientPathType.FileSystemFileNameAndPath;
-                    this.ShowSelectPathDialog = attribute.ReferenceType == ClientPathType.FileSystemPath;
+                    this.PathType = attribute.ReferenceType;
                     if (string.IsNullOrEmpty(this.Path))
                     {
                         this.Path = attribute.Default;
@@ -172,12 +170,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         ///   Gets or sets a value indicating whether to show a select file dialog.
         /// </summary>
-        public bool ShowSelectFileDialog { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a value indicating whether to show a select path dialog.
-        /// </summary>
-        public bool ShowSelectPathDialog { get; set; }
+        public ClientPathType PathType { get; set; }
 
         #endregion
 

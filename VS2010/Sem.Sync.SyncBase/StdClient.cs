@@ -447,19 +447,31 @@ namespace Sem.Sync.SyncBase
 
         /// <summary>
         /// Reads a value from the app config file, returns string.Empty if the value is not set.
-        ///   This does concatenates the specified value name with the FriendlyClientName to make the 
+        ///   This does concatenate the specified value name with the FriendlyClientName to make the 
         ///   name unique for this client type.
         /// </summary>
-        /// <param name="configName">
-        /// the name of the value
-        /// </param>
-        /// <returns>
-        /// the value read from the config file - string.Empty, if there is no such value.
-        /// </returns>
+        /// <param name="configName"> the name of the value </param>
+        /// <returns> the value read from the config file - string.Empty, if there is no such value. </returns>
         protected string GetConfigValue(string configName)
         {
             var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
             return value ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Reads a value from the app config file, returns defaultValue if the value is not set or not
+        /// interpretable as an integer.
+        ///   This does concatenate the specified value name with the FriendlyClientName to make the 
+        ///   name unique for this client type.
+        /// </summary>
+        /// <param name="configName"> the name of the value  </param>
+        /// <param name="defaultValue"> The default Value. </param>
+        /// <returns> the value read from the config file - defaultValue if the value cannot be read as an int.  </returns>
+        protected int GetConfigValueInt(string configName, int defaultValue)
+        {
+            var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
+            int result;
+            return int.TryParse(value, out result) ? result : defaultValue;
         }
 
         /// <summary>
