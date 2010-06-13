@@ -104,6 +104,10 @@ namespace Sem.GenericHelpers
 
                         assemblyName = this.DefaultNamespace.Trim();
                         returnValue.Append(assemblyName).Append(".");
+                        if (className == "StdContact" || className == "StdContact")
+                        {
+                            returnValue.Append("DetailData.");
+                        }
                     }
                     else
                     {
@@ -226,7 +230,7 @@ namespace Sem.GenericHelpers
         {
             var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
             var classType = Type.GetType(this.EnrichClassName(className.Trim()));
-
+            
             if (classType == null)
             {
                 throw new ArgumentException(
