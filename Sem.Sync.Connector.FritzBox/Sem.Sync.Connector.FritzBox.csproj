@@ -56,6 +56,7 @@
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\PhoneNumberType.cs" />
     <Compile Include="Entities\Telephony.cs" />
+    <Compile Include="FritzApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
