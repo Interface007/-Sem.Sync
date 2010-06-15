@@ -10,13 +10,13 @@
 namespace Sem.Sync.Connector.FritzBox
 {
     using System;
-    using System.Xml.Linq;
-
-    using Sem.Sync.Connector.FritzBox.Entities;
+    using System.IO;
     using System.Net;
     using System.Reflection;
     using System.Text;
-    using System.IO;
+    using System.Xml.Linq;
+
+    using Sem.Sync.Connector.FritzBox.Entities;
 
     /// <summary>
     /// </summary>
@@ -71,15 +71,18 @@ namespace Sem.Sync.Connector.FritzBox
         private WebRequest BuildRequest(NetworkCredential credentials, Uri url, string requestXml)
         {
             var urlRequest = WebRequest.Create(url) as HttpWebRequest;
-            urlRequest.PreAuthenticate = true;
-            urlRequest.Credentials = credentials;
-            urlRequest.Method = "POST";
-            urlRequest.Headers.Add("SOAPACTION", "\"" + userNs + "#" + action + "\"");
-            urlRequest.ContentType = @"text/xml; charset=""utf-8""";
-            urlRequest.UserAgent = Assembly.GetExecutingAssembly().FullName;
-            urlRequest.ContentLength = requestXml.ToString().Length;
-            urlRequest.Accept = "text/xml";
-            urlRequest.AllowWriteStreamBuffering = true;
+            if (urlRequest != null)
+            {
+                urlRequest.PreAuthenticate = true;
+                urlRequest.Credentials = credentials;
+                urlRequest.Method = "POST";
+                urlRequest.Headers.Add("SOAPACTION", "\"" + this.userNs + "#" + this.action + "\"");
+                urlRequest.ContentType = @"text/xml; charset=""utf-8""";
+                urlRequest.UserAgent = Assembly.GetExecutingAssembly().FullName;
+                urlRequest.ContentLength = requestXml.ToString().Length;
+                urlRequest.Accept = "text/xml";
+                urlRequest.AllowWriteStreamBuffering = true;
+            }
 
             return urlRequest;
         }
@@ -87,15 +90,15 @@ namespace Sem.Sync.Connector.FritzBox
         private string RequestBook()
         {
             var requestXml = new XDocument(
-                new XElement("Envelope" + soapNs,
-                    new XAttribute("encodingStyle" + soapNs, "http://schemas.xmlsoap.org/soap/encoding/"),
-                    new XElement("Body" + soapNs,
-                        new XElement(action + userNs)))
+                    new XElement("Envelope" + this.soapNs,
+                        new XAttribute("encodingStyle" + this.soapNs, "http://schemas.xmlsoap.org/soap/encoding/"),
+                        new XElement("Body" + this.soapNs,
+                            new XElement(this.action + this.userNs)
+                        )
+                    )
                 );
 
             return requestXml.ToString();
-
-            
         }
     }
 }
