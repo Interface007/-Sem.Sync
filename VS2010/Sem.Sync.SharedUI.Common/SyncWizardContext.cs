@@ -575,8 +575,11 @@ namespace Sem.Sync.SharedUI.Common
                 try
                 {
                     // todo: check if the dll is a loadable assembly
-                    var assembly = Assembly.LoadFile(file);
-                    types = assembly.GetExportedTypes();
+                    if (!Path.GetFileName(file).IsOneOf("Sem.Sync.Test.Ui.dll"))
+                    {
+                        var assembly = Assembly.LoadFile(file);
+                        types = assembly.GetExportedTypes();
+                    }
                 }
                 catch (FileNotFoundException ex)
                 {
