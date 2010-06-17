@@ -145,6 +145,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Entities\CaptchaResolveRequest.cs" />
     <Compile Include="Entities\CaptchaResolveResult.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
     <Compile Include="LogonCredentialRequest.cs" />
     <Compile Include="MappingHelper.cs" />
