@@ -10,93 +10,71 @@
 namespace Sem.Sync.Connector.FritzBox
 {
     using System;
-    using System.IO;
-    using System.Net;
-    using System.Reflection;
-    using System.Text;
-    using System.Xml.Linq;
+    using System.Collections;
 
     using Sem.Sync.Connector.FritzBox.Entities;
 
     /// <summary>
+    /// Wrapper for the <see cref="FritzBoxNET"/> classes.
     /// </summary>
     public class FritzApi
     {
-        private string controlPath = "/upnp/control/phonebook";
+        /// <summary>
+        /// Control connection for FritzBox - this will query the connection parameters for the TCP client
+        /// </summary>
+        private readonly FritzBoxNET.UPnP.Phonebook phonebookControl = new FritzBoxNET.UPnP.Phonebook();
 
-        private string fileName = "/phonebook-scpd.xml";
+        /// <summary>
+        /// Data connection for FritzBox - this will get the data from the box
+        /// </summary>
+        private readonly FritzBoxNET.Network.Phonebook phonebookAccess = new FritzBoxNET.Network.Phonebook();
 
-        private string soapNs = "http://schemas.xmlsoap.org/soap/envelope/";
-        private string userNs = "urn:schemas-any-com:service:phonebook:1";
-        private string action = "OpenPort";
-        
+        /// <summary>
+        /// Gets or sets the host setting for the fritz box.
+        /// </summary>
         public Uri Host { get; set; }
 
-        public string UserName { get; set; }
-        
+        /// <summary>
+        /// Gets or sets the fritz box password.
+        /// </summary>
         public string UserPassword { get; set; }
 
+        /// <summary>
+        /// Gets the phone book entries of phonebook 0
+        /// </summary>
+        /// <returns> a list of deserialized entries </returns>
         public PhoneBook GetPhoneBook()
         {
             var result = new PhoneBook();
-            var xmlCode = this.RequestBook();
-            var credentials = new System.Net.NetworkCredential(this.UserName, this.UserPassword);
+            
+            this.phonebookControl.host = this.Host.Host;
+            this.phonebookControl.HTTPpassword = this.UserPassword;
+            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
 
-            var url = new Uri(this.Host, this.controlPath);
-            var request = BuildRequest(credentials, url, xmlCode);
-            var respons = ReadResponse(request, xmlCode);
-
-            return result;
-        }
-
-        private object ReadResponse(WebRequest urlRequest, string sRequest)
-        {
-            var urlRequestStream = urlRequest.GetRequestStream();
-            var urlPostBytes = Encoding.ASCII.GetBytes(sRequest);
-            urlRequestStream.Write(urlPostBytes, 0, urlPostBytes.Length);
-            urlRequestStream.Close();
-
-            // Response return
-            var urlResponse = urlRequest.GetResponse();
-
-            // Read the stuff ...
-            var urlReader = new StreamReader(urlResponse.GetResponseStream());
-
-            // Make a string ...
-            return urlReader.ReadToEnd();
-        }
-
-        private WebRequest BuildRequest(NetworkCredential credentials, Uri url, string requestXml)
-        {
-            var urlRequest = WebRequest.Create(url) as HttpWebRequest;
-            if (urlRequest != null)
+            this.phonebookAccess.host = this.Host.Host;
+            if (this.phonebookAccess.port == "0")
             {
-                urlRequest.PreAuthenticate = true;
-                urlRequest.Credentials = credentials;
-                urlRequest.Method = "POST";
-                urlRequest.Headers.Add("SOAPACTION", "\"" + this.userNs + "#" + this.action + "\"");
-                urlRequest.ContentType = @"text/xml; charset=""utf-8""";
-                urlRequest.UserAgent = Assembly.GetExecutingAssembly().FullName;
-                urlRequest.ContentLength = requestXml.ToString().Length;
-                urlRequest.Accept = "text/xml";
-                urlRequest.AllowWriteStreamBuffering = true;
+                if (phoneBookResult != null)
+                {
+                    this.phonebookAccess.port = (string)phoneBookResult["Port"];
+                }
             }
 
-            return urlRequest;
-        }
+            var phonebookEntryCount = (int)this.phonebookAccess.GetEntryCount();
 
-        private string RequestBook()
-        {
-            var requestXml = new XDocument(
-                    new XElement("Envelope" + this.soapNs,
-                        new XAttribute("encodingStyle" + this.soapNs, "http://schemas.xmlsoap.org/soap/encoding/"),
-                        new XElement("Body" + this.soapNs,
-                            new XElement(this.action + this.userNs)
-                        )
-                    )
-                );
+            for (var i = 0; i < phonebookEntryCount; i++)
+            {
+                var x = this.phonebookAccess.GetEntry(i) as System.Xml.XmlNodeList;
+                if (x == null || x.Count < 1)
+                {
+                    continue;
+                }
 
-            return requestXml.ToString();
+                var contact = GenericHelpers.Tools.LoadFromString<Contact>(x[0].OuterXml);
+                result.Add(contact);
+            }
+
+            return result;
         }
     }
 }

@@ -11,22 +11,40 @@ namespace Sem.Sync.Connector.FritzBox.Entities
 {
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// Serialization class for the phone number entities
+    /// </summary>
     [XmlType(TypeName = "number")]
     public class PhoneNumber
     {
+        /// <summary>
+        /// Gets or sets the phone destination type (mobile, home, work).
+        /// </summary>
         [XmlAttribute(AttributeName = "type")]
         public PhoneNumberType DestinationType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the quickdial number.
+        /// </summary>
         [XmlAttribute(AttributeName = "quickdial")]
-        public int QuickdialNumber { get; set; }
+        public string QuickdialNumber { get; set; }
 
+        /// <summary>
+        /// Gets or sets the priority to use the number.
+        /// </summary>
         [XmlAttribute(AttributeName = "prio")]
         public int Priority { get; set; }
 
+        /// <summary>
+        /// Gets or sets the vanity dialing words.
+        /// </summary>
         [XmlAttribute(AttributeName = "vanity")]
         public string Vanity { get; set; }
 
-        [XmlText()]
+        /// <summary>
+        /// Gets or sets the number to be dialed.
+        /// </summary>
+        [XmlText]
         public string Number { get; set; }
     }
 }
