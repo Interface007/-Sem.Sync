@@ -36,8 +36,6 @@ namespace Sem.Sync.Connector.FritzBox
         
         public string UserPassword { get; set; }
 
-        private string schema = "urn:schemas-any-com:service:phonebook:1";
-
         public PhoneBook GetPhoneBook()
         {
             var result = new PhoneBook();
