@@ -12,6 +12,9 @@ namespace Sem.Sync.Connector.FritzBox.Entities
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// Implements a list of contact entries
+    /// </summary>
     [XmlType(TypeName = "phonebook")]
     public class PhoneBook : List<Contact>
     {

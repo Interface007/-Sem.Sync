@@ -11,13 +11,31 @@ namespace Sem.Sync.Connector.FritzBox.Entities
 {
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// Implements a serialization class for a person
+    /// </summary>
     [XmlType(TypeName = "person")]
     public class Person
     {
-        [XmlAttribute(AttributeName = "realName")]
+        /// <summary>
+        /// Gets or sets the name of the person.
+        /// </summary>
+        [XmlElement(ElementName = "realName")]
         public string RealName { get; set; }
 
-        [XmlAttribute(AttributeName = "ImageURL")]
+        /// <summary>
+        /// Gets or sets a URL to an image.
+        /// </summary>
+        [XmlElement(ElementName = "ImageURL")]
         public string ImageUrl { get; set; }
+
+        /// <summary>
+        /// Returns the name of the person.
+        /// </summary>
+        /// <returns>The property <see cref="RealName"/> </returns>
+        public override string ToString()
+        {
+            return this.RealName;
+        }
     }
 }

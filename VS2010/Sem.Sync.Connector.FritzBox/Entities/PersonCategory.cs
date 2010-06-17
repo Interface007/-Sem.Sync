@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PhoneNumberType.cs" company="Sven Erik Matzen">
+// <copyright file="PersonCategory.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Type of phone number like "the phone at home" etc.
+//   Implements the different types of persons
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,26 +12,20 @@ namespace Sem.Sync.Connector.FritzBox.Entities
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Type of phone number like "the phone at home" etc.
+    /// Implements the different types of persons
     /// </summary>
-    public enum PhoneNumberType
+    public enum PersonCategory
     {
         /// <summary>
-        /// Home phone number - to reach the person at home
+        /// Normal contact (will not ring in case of ring-suppression active)
         /// </summary>
-        [XmlEnum(Name = "home")]
-        Home,
-
+        [XmlEnum(Name = "0")]
+        Default = 0,
+        
         /// <summary>
-        /// Mobile phone number - to reach the person via mobile phone
+        /// Sie sind auch bei aktivierter Klingelsperre für diese Person erreichbar.
         /// </summary>
-        [XmlEnum(Name = "mobile")]
-        Mobile,
-
-        /// <summary>
-        /// Work phone number - to reach the person at work
-        /// </summary>
-        [XmlEnum(Name = "work")]
-        Work
+        [XmlEnum(Name = "1")]
+        Important
     }
 }
