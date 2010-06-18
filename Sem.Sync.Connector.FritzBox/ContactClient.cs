@@ -51,7 +51,7 @@ namespace Sem.Sync.Connector.FritzBox
 
             var phoneBook = new FritzApi
                 {
-                    Host = new System.Uri(clientFolderName), 
+                    Host = new Uri(clientFolderName), 
                     UserPassword = this.LogOnPassword
                 };
 
