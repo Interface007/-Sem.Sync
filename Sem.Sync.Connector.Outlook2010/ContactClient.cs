@@ -74,12 +74,8 @@ namespace Sem.Sync.Connector.Outlook2010
         /// <summary>
         /// This method does NOT get all elements before adding the new element. It will only match the element by the Id
         /// </summary>
-        /// <param name="elements">
-        /// list of all the elements to add
-        /// </param>
-        /// <param name="clientFolderName">
-        /// the outlook folder to use
-        /// </param>
+        /// <param name="elements"> list of all the elements to add </param>
+        /// <param name="clientFolderName"> the outlook folder to use </param>
         public override void AddRange(List<StdElement> elements, string clientFolderName)
         {
             this.WriteFullList(elements, clientFolderName, false);

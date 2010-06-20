@@ -37,12 +37,28 @@ namespace Sem.Sync.Connector.FritzBox
         NeedsCredentialsDomain = true)]
     public class ContactClient : StdClient
     {
+        /// <summary>
+        /// Overridden to not get the elements before writing them.
+        /// </summary>
+        /// <param name="elements">the elements to be written</param>
+        /// <param name="clientFolderName">the URI for the FritzBox address</param>
         public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            this.WriteFullList(elements, clientFolderName, false);
+        }
+
+        /// <summary>
+        /// Writes all entries to the FritzBox
+        /// </summary>
+        /// <param name="elements">the elements to be written</param>
+        /// <param name="clientFolderName">the URI for the FritzBox address</param>
+        /// <param name="skipIfExisting"> Ignored in this implementation. </param>
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var fritzApi = new FritzApi
             {
-                Host = new Uri("http://192.168.1.9/"),
-                UserPassword = string.Empty
+                Host = new Uri(clientFolderName),
+                UserPassword = this.LogOnPassword,
             };
 
             var book = new PhoneBook();
@@ -56,14 +72,14 @@ namespace Sem.Sync.Connector.FritzBox
                          {
                              RealName = x.Name.ToString()
                          },
-                     Telephony = new List<Entities.PhoneNumber>()
+                     Telephony = new List<Entities.PhoneNumber>
                                 {
-                                    new Entities.PhoneNumber()
+                                    new Entities.PhoneNumber
                                         {
                                             Number = x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
                                             DestinationType = PhoneNumberType.Home
                                         },
-                                    new Entities.PhoneNumber()
+                                    new Entities.PhoneNumber
                                         {
                                             Number = x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
                                             DestinationType = PhoneNumberType.Work

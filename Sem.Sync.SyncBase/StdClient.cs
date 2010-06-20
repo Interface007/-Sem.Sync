@@ -41,9 +41,7 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", 
             "CA2214:DoNotCallOverridableMethodsInConstructors", 
-            Justification =
-                "The virtual method that is called is a property that always should just return a string value and does not need any class initialization."
-            )]
+            Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
         protected StdClient()
         {
             this.LogOnUserId = this.GetConfigValue("LogonUserId");
@@ -185,8 +183,7 @@ namespace Sem.Sync.SyncBase
         /// </param>
         public virtual void AddRange(List<StdElement> elements, string clientFolderName)
         {
-            this.LogProcessingEvent(
-                string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            this.LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements);
             this.WriteRange(data, clientFolderName);
