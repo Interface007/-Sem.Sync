@@ -11,7 +11,10 @@ namespace Sem.Sync.Connector.FritzBox
 {
     using System;
     using System.Collections;
+    using System.Net.Sockets;
+    using System.Text;
 
+    using Sem.GenericHelpers;
     using Sem.Sync.Connector.FritzBox.Entities;
 
     /// <summary>
@@ -46,7 +49,7 @@ namespace Sem.Sync.Connector.FritzBox
         public PhoneBook GetPhoneBook()
         {
             var result = new PhoneBook();
-            
+
             this.phonebookControl.host = this.Host.Host;
             this.phonebookControl.HTTPpassword = this.UserPassword;
             var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
@@ -70,11 +73,109 @@ namespace Sem.Sync.Connector.FritzBox
                     continue;
                 }
 
-                var contact = GenericHelpers.Tools.LoadFromString<Contact>(x[0].OuterXml);
+                var contact = Tools.LoadFromString<Contact>(x[0].OuterXml);
                 result.Add(contact);
             }
 
             return result;
+        }
+
+        public bool SetPhoneBook(PhoneBook book)
+        {
+            this.phonebookControl.host = this.Host.Host;
+            this.phonebookControl.HTTPpassword = this.UserPassword;
+            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
+            if (phoneBookResult == null)
+            {
+                return false;
+            }
+
+            var port = int.Parse((string)phoneBookResult["Port"]);
+            var clientSocketTcp = new TcpClient();
+            clientSocketTcp.Connect(this.Host.Host, port);
+
+            foreach (var entry in book)
+            {
+                var phoneBookEntry = Tools.SaveToString(entry);
+
+                var responseString1 = RequestInfo(clientSocketTcp, "08 00");
+                var responseString2 = RequestInfo(clientSocketTcp, "02 00", phoneBookEntry);
+                var responseString3 = RequestInfo(clientSocketTcp, "09 00");
+            }
+
+            return true;
+        }
+
+        private static string RequestInfoString(TcpClient clientSocketTcp, string strInput)
+        {
+            return Encoding.ASCII.GetString(RequestInfo(clientSocketTcp, strInput, string.Empty));
+        }
+
+        private static string RequestInfoString(TcpClient clientSocketTcp, string strInput, string phoneBookEntry)
+        {
+            return Encoding.ASCII.GetString(RequestInfo(clientSocketTcp, strInput, phoneBookEntry));
+        }
+
+        private static byte[] RequestInfo(TcpClient clientSocketTcp, string strInput)
+        {
+            return RequestInfo(clientSocketTcp, strInput, string.Empty);
+        }
+
+        private static byte[] RequestInfo(TcpClient clientSocketTcp, string strInput, string phoneBookEntry)
+        {
+            var remoteStream = clientSocketTcp.GetStream();
+            var request1 = StringToBytes("00 00 " + strInput);
+            var request2 = Encoding.UTF8.GetBytes(phoneBookEntry);
+            var length = request1.Length + request2.Length;
+            
+            // set the request length
+            request1[0] = (byte)(length % 255);
+            request1[1] = (byte)(((length - request1[0]) / 256) % 255);
+            
+            // combine both data
+            var request = new byte[length];
+            request1.CopyTo(request, 0);
+            request2.CopyTo(request, request1.Length);
+            
+            // Write request and flush it
+            remoteStream.Write(request, 0, request.Length);
+            remoteStream.Flush();
+
+            // Read response
+            var responseBytesRead = new byte[clientSocketTcp.ReceiveBufferSize];
+            var responseLength = remoteStream.Read(responseBytesRead, 0, clientSocketTcp.ReceiveBufferSize);
+
+            var response = new byte[responseLength];
+            for (int i = 0; i < responseLength; i++)
+            {
+                response[i] = responseBytesRead[i];
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Restores a byte array from a hex encoded string (ignores space in encoded string)
+        /// </summary>
+        /// <param name="strInput"> The hex encoded input string. </param>
+        /// <returns> the byte array </returns>
+        private static byte[] StringToBytes(string strInput)
+        {
+            strInput = strInput.Replace(" ", string.Empty);
+
+            // allocate byte array based on half of string length
+            var numBytes = strInput.Length / 2;
+            var bytes = new byte[numBytes];
+
+            // loop through the string - 2 bytes at a time converting it to decimal equivalent and store in byte array
+            // x variable used to hold byte array element position
+            for (var x = 0; x < numBytes; ++x)
+            {
+                bytes[x] = Convert.ToByte(strInput.Substring(x * 2, 2), 16);
+            }
+
+            // return the finished byte array of decimal values
+            return bytes;
         }
     }
 }
