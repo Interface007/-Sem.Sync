@@ -13,6 +13,7 @@ namespace Sem.Sync.Connector.FritzBox
     using System.Collections.Generic;
     using System.Linq;
 
+    using Sem.GenericHelpers;
     using Sem.Sync.Connector.FritzBox.Entities;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
@@ -36,6 +37,43 @@ namespace Sem.Sync.Connector.FritzBox
         NeedsCredentialsDomain = true)]
     public class ContactClient : StdClient
     {
+        public override void AddRange(List<StdElement> elements, string clientFolderName)
+        {
+            var fritzApi = new FritzApi
+            {
+                Host = new Uri("http://192.168.1.9/"),
+                UserPassword = string.Empty
+            };
+
+            var book = new PhoneBook();
+
+            (from x in elements.ToStdContacts()
+             where (x.PersonalAddressPrimary != null && x.PersonalAddressPrimary.Phone != null)
+                || (x.BusinessAddressPrimary != null && x.BusinessAddressPrimary.Phone != null)
+             select new Contact
+                 {
+                     Person = new Person
+                         {
+                             RealName = x.Name.ToString()
+                         },
+                     Telephony = new List<Entities.PhoneNumber>()
+                                {
+                                    new Entities.PhoneNumber()
+                                        {
+                                            Number = x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
+                                            DestinationType = PhoneNumberType.Home
+                                        },
+                                    new Entities.PhoneNumber()
+                                        {
+                                            Number = x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
+                                            DestinationType = PhoneNumberType.Work
+                                        }
+                                }
+                 }).ForEach(book.Add);
+
+            fritzApi.SetPhoneBook(book);
+        }
+
         /// <summary>
         /// Reads the contacts from the FritzBox
         /// </summary>
@@ -51,36 +89,36 @@ namespace Sem.Sync.Connector.FritzBox
 
             var phoneBook = new FritzApi
                 {
-                    Host = new Uri(clientFolderName), 
+                    Host = new Uri(clientFolderName),
                     UserPassword = this.LogOnPassword
                 };
 
-            result = (from entry in phoneBook.GetPhoneBook() 
-                     select new StdContact
-                         {
-                            Name = new PersonName(entry.Person.RealName),
-                            PersonalAddressPrimary = new AddressDetail
-                                 {
-                                     Phone = new PhoneNumber((
-                                         from x in entry.Telephony 
-                                         where x.DestinationType == PhoneNumberType.Home 
-                                         orderby x.Priority 
-                                         select x.Number).FirstOrDefault())
-                                 },
-                            BusinessAddressPrimary = new AddressDetail
-                                 {
-                                     Phone = new PhoneNumber((
-                                         from x in entry.Telephony 
-                                         where x.DestinationType == PhoneNumberType.Work 
-                                         orderby x.Priority 
-                                         select x.Number).FirstOrDefault())
-                                 },
-                            PersonalPhoneMobile = new PhoneNumber((
-                                         from x in entry.Telephony
-                                         where x.DestinationType == PhoneNumberType.Mobile
-                                         orderby x.Priority
-                                         select x.Number).FirstOrDefault())
-                         }).ToStdElements();
+            result = (from entry in phoneBook.GetPhoneBook()
+                      select new StdContact
+                          {
+                              Name = new PersonName(entry.Person.RealName),
+                              PersonalAddressPrimary = new AddressDetail
+                                   {
+                                       Phone = new PhoneNumber((
+                                           from x in entry.Telephony
+                                           where x.DestinationType == PhoneNumberType.Home
+                                           orderby x.Priority
+                                           select x.Number).FirstOrDefault())
+                                   },
+                              BusinessAddressPrimary = new AddressDetail
+                                   {
+                                       Phone = new PhoneNumber((
+                                           from x in entry.Telephony
+                                           where x.DestinationType == PhoneNumberType.Work
+                                           orderby x.Priority
+                                           select x.Number).FirstOrDefault())
+                                   },
+                              PersonalPhoneMobile = new PhoneNumber((
+                                           from x in entry.Telephony
+                                           where x.DestinationType == PhoneNumberType.Mobile
+                                           orderby x.Priority
+                                           select x.Number).FirstOrDefault())
+                          }).ToStdElements();
 
             result.Sort();
             this.Normalize(result);
