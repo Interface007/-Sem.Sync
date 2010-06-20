@@ -11,8 +11,10 @@ namespace Sem.Sync.Connector.FritzBox
 {
     using System;
     using System.Collections;
+    using System.Linq;
     using System.Net.Sockets;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
     using Sem.Sync.Connector.FritzBox.Entities;
@@ -82,15 +84,12 @@ namespace Sem.Sync.Connector.FritzBox
 
         public bool SetPhoneBook(PhoneBook book)
         {
-            this.phonebookControl.host = this.Host.Host;
-            this.phonebookControl.HTTPpassword = this.UserPassword;
-            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
-            if (phoneBookResult == null)
+            var port = this.RequestPortFromFritzBox();
+            if (port == 0)
             {
                 return false;
             }
 
-            var port = int.Parse((string)phoneBookResult["Port"]);
             using (var clientSocketTcp = new TcpClient())
             {
                 clientSocketTcp.Connect(this.Host.Host, port);
@@ -99,13 +98,57 @@ namespace Sem.Sync.Connector.FritzBox
                 {
                     var phoneBookEntry = Tools.SaveToString(entry);
 
-                    var responseString1 = RequestInfo(clientSocketTcp, "08 00");
-                    var responseString2 = RequestInfo(clientSocketTcp, "02 00 00 00 FF FF", phoneBookEntry);
-                    var responseString3 = RequestInfo(clientSocketTcp, "09 00");
+                    ExpectResult("0000    ", RequestInfo(clientSocketTcp, "08 00"));
+                    ExpectResult("0000....", RequestInfo(clientSocketTcp, "02 00 00 00 FF FF", phoneBookEntry));
+                    ExpectResult("0000    ", RequestInfo(clientSocketTcp, "09 00"));
                 }
             }
 
             return true;
+        }
+
+        private int RequestPortFromFritzBox()
+        {
+            this.phonebookControl.host = this.Host.Host;
+            this.phonebookControl.HTTPpassword = this.UserPassword;
+            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
+            return
+                phoneBookResult != null
+                ? int.Parse((string)phoneBookResult["Port"]) :
+                0;
+        }
+
+        public bool ClearPhoneBook()
+        {
+            var port = this.RequestPortFromFritzBox();
+            if (port == 0)
+            {
+                return false;
+            }
+
+            using (var clientSocketTcp = new TcpClient())
+            {
+                clientSocketTcp.Connect(this.Host.Host, port);
+
+                ExpectResult("0000", RequestInfo(clientSocketTcp, "08 00"));
+                ExpectResult("0000", RequestInfo(clientSocketTcp, "06 00 00 00"));
+                ExpectResult("0000", RequestInfo(clientSocketTcp, "09 00"));
+            }
+
+            return true;
+        }
+
+        private static void ExpectResult(string matchExpression, byte[] value)
+        {
+            var hexValue = string.Concat(value.Select(b => b.ToString("X2")).ToArray()).Replace(" ", string.Empty);
+            if (!Regex.IsMatch(hexValue, matchExpression.Trim()))
+            {
+                throw new Exception(
+                    string.Format(
+                        "Return value from FritzBox {1} did not macht check-expression {0}.",
+                        matchExpression,
+                        hexValue));
+            }
         }
 
         private static string RequestInfoString(TcpClient clientSocketTcp, string strInput)
@@ -127,13 +170,13 @@ namespace Sem.Sync.Connector.FritzBox
         {
             // decode the command and add two bytes in fron of it (for the size of the block that will be sent)
             var request1 = StringToBytes("00 00 " + strInput);
-            
+
             // convert the data into a byte array
             var request2 = Encoding.UTF8.GetBytes(phoneBookEntry);
 
             // determine full length
             var length = request1.Length + request2.Length;
-            
+
             // combine both data
             var request = new byte[length];
             request1.CopyTo(request, 0);
@@ -142,10 +185,10 @@ namespace Sem.Sync.Connector.FritzBox
             // set the request length into the first two bytes
             request[0] = BitConverter.GetBytes(length)[0];
             request[1] = BitConverter.GetBytes(length)[1];
-            
+
             // get the stream to communicate with
             var remoteStream = clientSocketTcp.GetStream();
-            
+
             // Write request and flush it
             remoteStream.Write(request, 0, request.Length);
             remoteStream.Flush();
@@ -154,10 +197,10 @@ namespace Sem.Sync.Connector.FritzBox
             var responseBytesRead = new byte[clientSocketTcp.ReceiveBufferSize];
             var responseLength = remoteStream.Read(responseBytesRead, 0, clientSocketTcp.ReceiveBufferSize);
 
-            var response = new byte[responseLength];
-            for (int i = 0; i < responseLength; i++)
+            var response = new byte[responseLength - 2];
+            for (var i = 0; i < responseLength - 2; i++)
             {
-                response[i] = responseBytesRead[i];
+                response[i] = responseBytesRead[i + 2];
             }
 
             return response;

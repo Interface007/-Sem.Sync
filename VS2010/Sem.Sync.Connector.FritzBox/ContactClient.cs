@@ -71,7 +71,10 @@ namespace Sem.Sync.Connector.FritzBox
                                 }
                  }).ForEach(book.Add);
 
+            fritzApi.ClearPhoneBook();
             fritzApi.SetPhoneBook(book);
+
+            this.LogProcessingEvent("{0} entries added", book.Count);
         }
 
         /// <summary>
