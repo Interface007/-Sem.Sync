@@ -91,16 +91,18 @@ namespace Sem.Sync.Connector.FritzBox
             }
 
             var port = int.Parse((string)phoneBookResult["Port"]);
-            var clientSocketTcp = new TcpClient();
-            clientSocketTcp.Connect(this.Host.Host, port);
-
-            foreach (var entry in book)
+            using (var clientSocketTcp = new TcpClient())
             {
-                var phoneBookEntry = Tools.SaveToString(entry);
+                clientSocketTcp.Connect(this.Host.Host, port);
 
-                var responseString1 = RequestInfo(clientSocketTcp, "08 00");
-                var responseString2 = RequestInfo(clientSocketTcp, "02 00", phoneBookEntry);
-                var responseString3 = RequestInfo(clientSocketTcp, "09 00");
+                foreach (var entry in book)
+                {
+                    var phoneBookEntry = Tools.SaveToString(entry);
+
+                    var responseString1 = RequestInfo(clientSocketTcp, "08 00");
+                    var responseString2 = RequestInfo(clientSocketTcp, "02 00 00 00 FF FF", phoneBookEntry);
+                    var responseString3 = RequestInfo(clientSocketTcp, "09 00");
+                }
             }
 
             return true;
@@ -123,19 +125,26 @@ namespace Sem.Sync.Connector.FritzBox
 
         private static byte[] RequestInfo(TcpClient clientSocketTcp, string strInput, string phoneBookEntry)
         {
-            var remoteStream = clientSocketTcp.GetStream();
+            // decode the command and add two bytes in fron of it (for the size of the block that will be sent)
             var request1 = StringToBytes("00 00 " + strInput);
-            var request2 = Encoding.UTF8.GetBytes(phoneBookEntry);
-            var length = request1.Length + request2.Length;
             
-            // set the request length
-            request1[0] = (byte)(length % 255);
-            request1[1] = (byte)(((length - request1[0]) / 256) % 255);
+            // convert the data into a byte array
+            var request2 = Encoding.UTF8.GetBytes(phoneBookEntry);
+
+            // determine full length
+            var length = request1.Length + request2.Length;
             
             // combine both data
             var request = new byte[length];
             request1.CopyTo(request, 0);
             request2.CopyTo(request, request1.Length);
+
+            // set the request length into the first two bytes
+            request[0] = BitConverter.GetBytes(length)[0];
+            request[1] = BitConverter.GetBytes(length)[1];
+            
+            // get the stream to communicate with
+            var remoteStream = clientSocketTcp.GetStream();
             
             // Write request and flush it
             remoteStream.Write(request, 0, request.Length);
