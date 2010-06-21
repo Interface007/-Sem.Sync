@@ -55,6 +55,13 @@
     <Compile Include="Entities\PhoneBooks.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\PhoneNumberType.cs" />
+    <Compile Include="Entities\Services.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities\Setup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="FritzApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -41,22 +41,12 @@ namespace Sem.Sync.Connector.FritzBox.Entities
         /// Gets or sets the service entry (unknow what this will control).
         /// </summary>
         [XmlElement(ElementName = "services")]
-        public services Services { get; set; }
+        public Services Services { get; set; }
 
         /// <summary>
         /// Gets or sets the setup entry (unknow what this will control).
         /// </summary>
         [XmlElement(ElementName = "setup")]
-        public setup Setup { get; set; }
-    }
-
-    public class services
-    {
-        public string email { get; set; }
-    }
-
-    public class setup
-    {
-        public string ringtone { get; set; }
+        public Setup Setup { get; set; }
     }
 }

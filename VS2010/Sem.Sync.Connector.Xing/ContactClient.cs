@@ -37,8 +37,8 @@ namespace Sem.Sync.Connector.Xing
     ///   of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true, 
-        NeedsCredentialsDomain = false, DisplayName = "Xing", 
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
+        NeedsCredentialsDomain = false, DisplayName = "Xing",
         MatchingIdentifier = ProfileIdentifierType.XingNameProfileId)]
     public class ContactClient : StdClient, IExtendedReader
     {
@@ -79,13 +79,12 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   URL to query the contacts of another named contact
         /// </summary>
-        private const string HttpUrlProfileContacts = "/app/profile?op=contacts;name={0};offset={1}";
+        private const string HttpUrlProfileContacts = "/app/search?op=foaflist&offset={0}";
 
         /// <summary>
         ///   Extracts the ID and the user profile name from a contacts page
         /// </summary>
-        private const string PatternGetContactContacts =
-            @"img src=""/img/users/./././.*?.(?<id>\d*)_.*?class=""user-name"" href=""/profile/(?<name>.*?)/";
+        private const string PatternGetContactContacts = @"\<td\>\<a href=./profile/(?<source>[^/]*)(\<[^/][^t][^d][^>]*\>[^\<]*)*(?<targets>.*?)\</tr\>";
 
         /// <summary>
         ///   regular expression to extract the URLs for the vCards
@@ -119,9 +118,9 @@ namespace Sem.Sync.Connector.Xing
         {
             this.xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
                 {
-                    UseCache = this.GetConfigValueBoolean("UseCache"), 
-                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"), 
-                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
+                    UseCache = this.GetConfigValueBoolean("UseCache"),
+                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
                 };
 
             this.vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
@@ -163,88 +162,76 @@ namespace Sem.Sync.Connector.Xing
 
         #region IExtendedReader
 
-        /// <summary>
-        /// Implements the interface to get more information - in this case the 
-        ///   related contacts from the profile
-        /// </summary>
-        /// <param name="contactToFill">
-        /// The contact to fill.  
-        /// </param>
-        /// <param name="baseline">
-        /// The baseline. 
-        /// </param>
-        /// <returns>
-        /// the contact with more information  
-        /// </returns>
-        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
-        {
-            var contact = contactToFill as StdContact;
-            if (contact != null && contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType.XingNameProfileId))
+        public void FillAllContacts(ICollection<StdElement> contactsToFill, ICollection<MatchingEntry> baseline)
+        { 
+            var offset = 0;
+            while (true)
             {
-                var offset = 0;
-                var added = 0;
-                while (true)
+                var content = this.GetTextContent(string.Format(HttpUrlProfileContacts, offset), string.Empty);
+                ////var content = File.ReadAllText("d:\\xing.htm");
+                var results = Regex.Matches(content, PatternGetContactContacts, RegexOptions.Singleline);
+
+                if (results.Count == 0)
                 {
-                    this.LogProcessingEvent("reading contacts ({0})", offset);
+                    return;
+                }
 
-                    // get the contact list
-                    var url = string.Format(
-                        CultureInfo.InvariantCulture, 
-                        HttpUrlProfileContacts, 
-                        contact.ExternalIdentifier[ProfileIdentifierType.XingNameProfileId], 
-                        offset);
+                foreach (Match item in results)
+                {
+                    var sourceId = item.Groups["source"].ToString();
+                    var sourceContact =
+                        baseline.Where(
+                            x => x.ProfileId.GetProfileId(ProfileIdentifierType.XingNameProfileId) == sourceId).
+                            FirstOrDefault();
 
-                    var profileContent = this.GetTextContent(
-                        url, string.Format(CultureInfo.InvariantCulture, "XingContent-{0}", offset));
-
-                    var extracts = Regex.Matches(profileContent, PatternGetContactContacts, RegexOptions.Singleline);
-
-                    // if there is no contact in list, we did reach the end
-                    if (extracts.Count == 0)
+                    if (sourceContact == null)
                     {
-                        break;
+                        continue;
                     }
 
-                    // create a new instance of a list of references if there is none
-                    contact.Contacts = contact.Contacts ?? new List<ContactReference>(extracts.Count);
-
-                    foreach (Match extract in extracts)
+                    var source = contactsToFill.Where(x => x.Id == sourceContact.Id).FirstOrDefault() as StdContact;
+                    if (source == null)
                     {
-                        var xingId = extract.Groups["name"].ToString();
-                        var stdId =
-                            (from x in baseline
-                             where x.ProfileId.GetProfileId(ProfileIdentifierType.XingNameProfileId) == xingId
-                             select x.Id).FirstOrDefault();
+                        continue;
+                    }
 
-                        // we ignore contacts we donn't know
-                        if (stdId == default(Guid))
+                    var targets = Regex.Matches(item.Groups["targets"].ToString(), @"(\<a href=./profile/(?<target>[^/]*))", RegexOptions.Singleline);
+                    foreach (Match target in targets)
+                    {
+                        var targetId = target.Groups["target"].ToString();
+
+                        var targetEntry =
+                            baseline.Where(
+                                x =>
+                                x.ProfileId.GetProfileId(ProfileIdentifierType.XingNameProfileId) == targetId).
+                                FirstOrDefault();
+
+                        if (targetEntry == null)
                         {
                             continue;
                         }
 
-                        // lookup an existing entry in this contacts contact-list
-                        var contactInList =
-                            (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
-
-                        if (contactInList == null)
+                        var reference = new ContactReference { IsBusinessContact = true, Target = targetEntry.Id };
+                        if (!source.Contacts.Contains(reference))
                         {
-                            // add a new one if no existing entry has been found
-                            contact.Contacts.Add(new ContactReference { IsBusinessContact = true, Target = stdId });
-                            added++;
-                        }
-                        else
-                        {
-                            // update the flag that this entry is a business contact
-                            contactInList.IsBusinessContact = true;
+                            source.Contacts.Add(reference);
                         }
                     }
-
-                    offset += extracts.Count;
                 }
 
-                this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
+                offset += results.Count;
             }
+        }
 
+        /// <summary>
+        /// Implements the interface to get more information - in this case the 
+        ///   related contacts from the profile
+        /// </summary>
+        /// <param name="contactToFill">The contact to fill.</param>
+        /// <param name="baseline"> The baseline.</param>
+        /// <returns>the contact with more information</returns>
+        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        {
             return contactToFill;
         }
 
@@ -403,7 +390,7 @@ namespace Sem.Sync.Connector.Xing
                     // this will succeed if we have a valid cookie
                     contactListContent =
                         this.xingRequester.GetContent(
-                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex), 
+                            string.Format(CultureInfo.InvariantCulture, HttpUrlListContent, offsetIndex),
                             "UrlList" + offsetIndex);
 
                     // if we don't find the logon form any more, we did succeed
@@ -456,8 +443,8 @@ namespace Sem.Sync.Connector.Xing
                     result.Add(
                         new XingContactReference
                             {
-                                VCardUrl = match.Groups["vcardurl"].ToString(), 
-                                Tags = match.Groups["tags"].ToString(), 
+                                VCardUrl = match.Groups["vcardurl"].ToString(),
+                                Tags = match.Groups["tags"].ToString(),
                                 ProfileUrl = match.Groups["uname"].ToString()
                             });
                 }

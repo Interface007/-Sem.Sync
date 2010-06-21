@@ -390,3 +390,8 @@
         Target =
             "Sem.GenericHelpers.MappingHelper.#MapIfExist2`2(!!1,System.Linq.Expressions.Expression`1<System.Func`2<!!1,!!0>>,!!0&)"
         )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Scope = "member", Target = "Sem.GenericHelpers.Interfaces.IHttpHelper.#GetContent(System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Scope = "member", Target = "Sem.GenericHelpers.Interfaces.IHttpHelper.#GetContentBinary(System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Scope = "member", Target = "Sem.GenericHelpers.Interfaces.IHttpHelper.#GetContentBinary(System.String,System.String,System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Sem.GenericHelpers.Tools.GetSha1Hash(System.String)", Scope = "member", Target = "Sem.GenericHelpers.HttpHelper.#CachePathName(System.String,System.Uri,System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes", Scope = "member", Target = "Sem.GenericHelpers.ExpressionVisitor.#Visit(System.Linq.Expressions.Expression)")]

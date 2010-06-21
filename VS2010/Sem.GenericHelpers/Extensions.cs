@@ -50,6 +50,9 @@ namespace Sem.GenericHelpers
         /// </typeparam>
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
+            Guard.NotNull(enumerable, "enumerable");
+            Guard.NotNull(action, "action");
+
             foreach (var element in enumerable)
             {
                 action.Invoke(element);
@@ -76,6 +79,9 @@ namespace Sem.GenericHelpers
         /// </typeparam>
         public static void ForEach<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
         {
+            Guard.NotNull(enumerable, "enumerable");
+            Guard.NotNull(action, "action");
+
             foreach (var element in enumerable)
             {
                 action.Invoke(element, parameter1);
