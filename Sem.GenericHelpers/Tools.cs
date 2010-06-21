@@ -838,7 +838,7 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
-        /// Gets the SH a1 hash.
+        /// Gets the SHA1 hash.
         /// </summary>
         /// <param name="text">The text to be hashed.</param>
         /// <returns>the hash value of the text</returns>
