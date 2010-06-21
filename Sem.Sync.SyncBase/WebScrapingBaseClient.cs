@@ -211,6 +211,11 @@ namespace Sem.Sync.SyncBase
 
             return contactToFill;
         }
+
+        public void FillAllContacts(ICollection<StdElement> contactsToFill, ICollection<MatchingEntry> baseline)
+        {
+            return;
+        }
         
         /// <summary>
         /// Converts downloaded data into a StdContact structure.

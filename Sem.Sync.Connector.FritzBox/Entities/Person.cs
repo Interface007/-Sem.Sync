@@ -30,6 +30,18 @@ namespace Sem.Sync.Connector.FritzBox.Entities
         public string ImageUrl { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Person"/> class.
+        /// </summary>
+        public Person()
+        {
+        }
+
+        public Person(string realName)
+        {
+            this.RealName = realName;
+        }
+
+        /// <summary>
         /// Returns the name of the person.
         /// </summary>
         /// <returns>The property <see cref="RealName"/> </returns>

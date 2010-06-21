@@ -87,6 +87,7 @@ namespace Sem.Sync.SyncBase.Commands
 
             // fill the extended contact information
             var matchEntities = baseline.ToMatchingEntries();
+            extendedClient.FillAllContacts(elements, matchEntities);
             elements.ForEach(e => extendedClient.FillContacts(e, matchEntities));
 
             // copy to the target connector

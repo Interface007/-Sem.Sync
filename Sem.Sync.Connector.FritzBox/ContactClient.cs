@@ -20,8 +20,6 @@ namespace Sem.Sync.Connector.FritzBox
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 
-    using PhoneNumber = Sem.Sync.SyncBase.DetailData.PhoneNumber;
-
     /// <summary>
     /// This class is the client class for handling elements. This class leaks some of the contact 
     ///   related features of "ContactClient", but provides the ability to handle other types that do 
@@ -55,37 +53,27 @@ namespace Sem.Sync.Connector.FritzBox
         /// <param name="skipIfExisting"> Ignored in this implementation. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
+            // initialize API
             var fritzApi = new FritzApi
             {
                 Host = new Uri(clientFolderName),
                 UserPassword = this.LogOnPassword,
             };
 
-            var book = new PhoneBook();
-
-            (from x in elements.ToStdContacts()
-             where (x.PersonalAddressPrimary != null && x.PersonalAddressPrimary.Phone != null)
-                || (x.BusinessAddressPrimary != null && x.BusinessAddressPrimary.Phone != null)
-             select new Contact
-                 {
-                     Person = new Person
-                         {
-                             RealName = x.Name.ToString()
-                         },
-                     Telephony = new List<Entities.PhoneNumber>
+            // create a book with all entries that have a business or a private phone number
+            var book = new PhoneBook(
+                            from x in elements.ToStdContacts()
+                            where (x.PersonalAddressPrimary != null && x.PersonalAddressPrimary.Phone != null)
+                               || (x.BusinessAddressPrimary != null && x.BusinessAddressPrimary.Phone != null)
+                            select new Contact
                                 {
-                                    new Entities.PhoneNumber
-                                        {
-                                            Number = x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
-                                            DestinationType = PhoneNumberType.Home
-                                        },
-                                    new Entities.PhoneNumber
-                                        {
-                                            Number = x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString(),
-                                            DestinationType = PhoneNumberType.Work
-                                        }
-                                }
-                 }).ForEach(book.Add);
+                                    Person = new Person(x.Name.ToString()),
+                                    Telephony = new List<Entities.PhoneNumber>
+                                                {
+                                                    new Entities.PhoneNumber(PhoneNumberType.Home, x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
+                                                    new Entities.PhoneNumber(PhoneNumberType.Work, x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
+                                                }
+                                });
 
             fritzApi.ClearPhoneBook();
             fritzApi.SetPhoneBook(book);
@@ -112,31 +100,22 @@ namespace Sem.Sync.Connector.FritzBox
                     UserPassword = this.LogOnPassword
                 };
 
-            result = (from entry in phoneBook.GetPhoneBook()
-                      select new StdContact
-                          {
-                              Name = new PersonName(entry.Person.RealName),
-                              PersonalAddressPrimary = new AddressDetail
-                                   {
-                                       Phone = new PhoneNumber((
-                                           from x in entry.Telephony
-                                           where x.DestinationType == PhoneNumberType.Home
-                                           orderby x.Priority
-                                           select x.Number).FirstOrDefault())
-                                   },
-                              BusinessAddressPrimary = new AddressDetail
-                                   {
-                                       Phone = new PhoneNumber((
-                                           from x in entry.Telephony
-                                           where x.DestinationType == PhoneNumberType.Work
-                                           orderby x.Priority
-                                           select x.Number).FirstOrDefault())
-                                   },
-                              PersonalPhoneMobile = new PhoneNumber((
-                                           from x in entry.Telephony
-                                           where x.DestinationType == PhoneNumberType.Mobile
-                                           orderby x.Priority
-                                           select x.Number).FirstOrDefault())
+            var book = phoneBook.GetPhoneBook();
+            result = (from entry in book
+                      select
+                          new StdContact
+                              {
+                                  Name = new PersonName(entry.Person.RealName),
+                                  PersonalAddressPrimary = new AddressDetail { Phone = entry.Telephony.ExtractPhoneNumber(PhoneNumberType.Home) },
+                                  BusinessAddressPrimary = new AddressDetail { Phone = entry.Telephony.ExtractPhoneNumber(PhoneNumberType.Work) },
+                                  PersonalPhoneMobile = entry.Telephony.ExtractPhoneNumber(PhoneNumberType.Mobile),
+                                  SourceSpecificAttributes =
+                                      new SerializableDictionary<string, string>(
+                                          new[]
+                                              {
+                                                  new KeyValuePair<string, string>("FritzBox.Category", entry.Category.ToString()),
+                                                  new KeyValuePair<string, string>("FritzBox.ImageUrl", entry.Person.ImageUrl),
+                                              }),
                           }).ToStdElements();
 
             result.Sort();

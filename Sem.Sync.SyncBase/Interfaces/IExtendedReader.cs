@@ -28,6 +28,8 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <returns> the "enriched" element  </returns>
         StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline);
 
+        void FillAllContacts(ICollection<StdElement> contactToFill, ICollection<MatchingEntry> baseline);
+
         #endregion
     }
 }

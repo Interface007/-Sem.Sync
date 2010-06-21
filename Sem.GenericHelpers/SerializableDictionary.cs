@@ -23,6 +23,11 @@ namespace Sem.GenericHelpers
         {
         }
 
+        public SerializableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> init)
+        {
+            init.ForEach(x => this.Add(x.Key, x.Value));
+        }
+
         protected SerializableDictionary(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

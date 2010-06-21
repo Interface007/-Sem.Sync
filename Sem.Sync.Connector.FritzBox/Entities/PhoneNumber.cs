@@ -9,6 +9,7 @@
 
 namespace Sem.Sync.Connector.FritzBox.Entities
 {
+    using System;
     using System.Xml.Serialization;
 
     /// <summary>
@@ -17,6 +18,24 @@ namespace Sem.Sync.Connector.FritzBox.Entities
     [XmlType(TypeName = "number")]
     public class PhoneNumber
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhoneNumber"/> class.
+        /// </summary>
+        public PhoneNumber()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhoneNumber"/> class with a predefined type and number.
+        /// </summary>
+        /// <param name="phoneNumberType"> The phone number type. </param>
+        /// <param name="number"> The number. </param>
+        public PhoneNumber(PhoneNumberType phoneNumberType, string number)
+        {
+            this.DestinationType = phoneNumberType;
+            this.Number = number;
+        }
+
         /// <summary>
         /// Gets or sets the phone destination type (mobile, home, work).
         /// </summary>

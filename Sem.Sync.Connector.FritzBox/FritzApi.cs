@@ -11,12 +11,14 @@ namespace Sem.Sync.Connector.FritzBox
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net.Sockets;
     using System.Text;
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.Connector.FritzBox.Entities;
 
     /// <summary>
@@ -75,13 +77,29 @@ namespace Sem.Sync.Connector.FritzBox
                     continue;
                 }
 
-                var contact = Tools.LoadFromString<Contact>(x[0].OuterXml);
-                result.Add(contact);
+                try
+                {
+                    var contact = Tools.LoadFromString<Contact>(x[0].OuterXml);
+                    result.Add(contact);
+                }
+                catch (Exception ex)
+                {
+                    throw new TechnicalException(
+                        "Serialization problem with FritzBox-entity.",
+                        ex,
+                        new KeyValuePair<string, object>("serialized entity", x[0]));
+                }
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Adds all entries of a phone book to the FritzBox.
+        /// This does not check for existing entries.
+        /// </summary>
+        /// <param name="book"> The phone book with the entries to be written. </param>
+        /// <returns> A value indicating whether the write operation was successfull. </returns>
         public bool SetPhoneBook(PhoneBook book)
         {
             var port = this.RequestPortFromFritzBox();
@@ -107,17 +125,10 @@ namespace Sem.Sync.Connector.FritzBox
             return true;
         }
 
-        private int RequestPortFromFritzBox()
-        {
-            this.phonebookControl.host = this.Host.Host;
-            this.phonebookControl.HTTPpassword = this.UserPassword;
-            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
-            return
-                phoneBookResult != null
-                ? int.Parse((string)phoneBookResult["Port"]) :
-                0;
-        }
-
+        /// <summary>
+        /// Deletes all entries from the phone book of the box.
+        /// </summary>
+        /// <returns> True if the deletion was successfully </returns>
         public bool ClearPhoneBook()
         {
             var port = this.RequestPortFromFritzBox();
@@ -138,41 +149,50 @@ namespace Sem.Sync.Connector.FritzBox
             return true;
         }
 
+        /// <summary>
+        /// Checks whether the hex encoded byte array matches to the regular expression in <paramref name="matchExpression"/>.
+        /// </summary>
+        /// <param name="matchExpression"> The regular expression to test. </param>
+        /// <param name="value"> The value to be checked. </param>
+        /// <exception cref="Exception">In case of a byte array that does notg match. </exception>
         private static void ExpectResult(string matchExpression, byte[] value)
         {
             var hexValue = string.Concat(value.Select(b => b.ToString("X2")).ToArray()).Replace(" ", string.Empty);
             if (!Regex.IsMatch(hexValue, matchExpression.Trim()))
             {
-                throw new Exception(
-                    string.Format(
-                        "Return value from FritzBox {1} did not macht check-expression {0}.",
-                        matchExpression,
-                        hexValue));
+                throw new TechnicalException(
+                        "Return value from FritzBox did not macht check-expression.",
+                        null,
+                        new KeyValuePair<string, object>("check expression", matchExpression),
+                        new KeyValuePair<string, object>("value", value));
             }
         }
 
-        private static string RequestInfoString(TcpClient clientSocketTcp, string strInput)
+        /// <summary>
+        /// Sends a reqeust to the FritzBox and returns the response.
+        /// </summary>
+        /// <param name="clientSocketTcp"> The tcp socket client to communicate with the FritzBox (must be open). </param>
+        /// <param name="commandAsHex"> The numerical command encoded as a hex string. </param>
+        /// <returns> The result from the FritzBox </returns>
+        private static byte[] RequestInfo(TcpClient clientSocketTcp, string commandAsHex)
         {
-            return Encoding.ASCII.GetString(RequestInfo(clientSocketTcp, strInput, string.Empty));
+            return RequestInfo(clientSocketTcp, commandAsHex, string.Empty);
         }
 
-        private static string RequestInfoString(TcpClient clientSocketTcp, string strInput, string phoneBookEntry)
-        {
-            return Encoding.ASCII.GetString(RequestInfo(clientSocketTcp, strInput, phoneBookEntry));
-        }
-
-        private static byte[] RequestInfo(TcpClient clientSocketTcp, string strInput)
-        {
-            return RequestInfo(clientSocketTcp, strInput, string.Empty);
-        }
-
-        private static byte[] RequestInfo(TcpClient clientSocketTcp, string strInput, string phoneBookEntry)
+        /// <summary>
+        /// Sends a reqeust to the FritzBox and returns the response.
+        /// </summary>
+        /// <param name="clientSocketTcp"> The tcp socket client to communicate with the FritzBox (must be open). </param>
+        /// <param name="commandAsHex"> The numerical command encoded as a hex string. </param>
+        /// <param name="data"> The additional data to be written. </param>
+        /// <returns> The result from the FritzBox </returns>
+        private static byte[] RequestInfo(TcpClient clientSocketTcp, string commandAsHex, string data)
         {
             // decode the command and add two bytes in fron of it (for the size of the block that will be sent)
-            var request1 = StringToBytes("00 00 " + strInput);
+            var request1 = StringToBytes("00 00 " + commandAsHex);
 
             // convert the data into a byte array
-            var request2 = Encoding.UTF8.GetBytes(phoneBookEntry);
+            var request2 = Encoding.UTF8.GetBytes(data);
 
             // determine full length
             var length = request1.Length + request2.Length;
@@ -228,6 +248,21 @@ namespace Sem.Sync.Connector.FritzBox
 
             // return the finished byte array of decimal values
             return bytes;
+        }
+
+        /// <summary>
+        /// Requests a communication port from the FritzBox.
+        /// </summary>
+        /// <returns> The port if the request was successfully, 0 otherwise. </returns>
+        private int RequestPortFromFritzBox()
+        {
+            this.phonebookControl.host = this.Host.Host;
+            this.phonebookControl.HTTPpassword = this.UserPassword;
+            var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
+            return
+                phoneBookResult != null
+                ? int.Parse((string)phoneBookResult["Port"]) :
+                0;
         }
     }
 }
