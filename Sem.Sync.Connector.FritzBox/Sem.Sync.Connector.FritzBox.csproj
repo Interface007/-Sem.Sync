@@ -61,7 +61,9 @@
     <Compile Include="Entities\Setup.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FritzApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
