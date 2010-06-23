@@ -12,6 +12,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -171,40 +172,43 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var valueArray = new string[0, 0];
 
             // open the document
-            using (var document = SpreadsheetDocument.Open(clientFolderName, false))
+            if (File.Exists(clientFolderName))
             {
-                // get the first sheet
-                var sheet = document.WorkbookPart.Workbook.Descendants<Sheet>().First();
-                if (sheet == null)
+                using (var document = SpreadsheetDocument.Open(clientFolderName, false))
                 {
-                    return valueArray;
-                }
+                    // get the first sheet
+                    var sheet = document.WorkbookPart.Workbook.Descendants<Sheet>().First();
+                    if (sheet == null)
+                    {
+                        return valueArray;
+                    }
 
-                var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
+                    var worksheet = ((WorksheetPart)document.WorkbookPart.GetPartById(sheet.Id)).Worksheet;
 
-                // Get the cells as one list (no deferred execution!)
-                IEnumerable<Cell> cells = worksheet.Descendants<Cell>().ToList();
+                    // Get the cells as one list (no deferred execution!)
+                    IEnumerable<Cell> cells = worksheet.Descendants<Cell>().ToList();
 
-                if (cells.Count() == 0)
-                {
-                    return valueArray;
-                }
+                    if (cells.Count() == 0)
+                    {
+                        return valueArray;
+                    }
 
-                // we should transform the shared strings into an array to have really quick access
-                var shareStringArray = GetSharedStringArray(document);
+                    // we should transform the shared strings into an array to have really quick access
+                    var shareStringArray = GetSharedStringArray(document);
 
-                // find out dimension to setup the array of cell values and setup a corresponding value array
-                valueArray = SetupArrayByDimension(worksheet, cells);
+                    // find out dimension to setup the array of cell values and setup a corresponding value array
+                    valueArray = SetupArrayByDimension(worksheet, cells);
 
-                // iterate through the cells and copy the content into the correct value array element
-                foreach (var cell in cells)
-                {
-                    var value = cell.CellReference.Value;
-                    var indexRow = value.GetRowIndex() - 1;
-                    var indexCol = value.LettersToIndex() - 1;
+                    // iterate through the cells and copy the content into the correct value array element
+                    foreach (var cell in cells)
+                    {
+                        var value = cell.CellReference.Value;
+                        var indexRow = value.GetRowIndex() - 1;
+                        var indexCol = value.LettersToIndex() - 1;
 
-                    // the helper will handle string table lookups
-                    valueArray[indexRow, indexCol] = OpenXmlHelper.GetCellValue(cell, shareStringArray);
+                        // the helper will handle string table lookups
+                        valueArray[indexRow, indexCol] = OpenXmlHelper.GetCellValue(cell, shareStringArray);
+                    }
                 }
             }
 

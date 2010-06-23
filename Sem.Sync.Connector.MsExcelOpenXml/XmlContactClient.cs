@@ -164,8 +164,7 @@ namespace Sem.Sync.Connector.MsExcelOpenXml
             var mappingFileName = GetColumnDefinitionFileName(clientFolderName);
             var mapping = this.GetColumnDefinition(mappingFileName, typeof(T));
 
-            this.LogProcessingEvent(
-                "preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
+            this.LogProcessingEvent("preparing data for {0} contacts and {1} mappings...", elements.Count, mapping.Count);
             CleanUpEntities(elements);
 
             var matrix = new string[elements.Count + 2, mapping.Count + 1];

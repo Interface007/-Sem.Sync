@@ -35,6 +35,14 @@ namespace Sem.Sync.Connector.FritzBox
         NeedsCredentialsDomain = true)]
     public class ContactClient : StdClient
     {
+        public Func<string, FritzApi> FritzApiCreator { get; set; }
+
+        public ContactClient()
+        {
+            this.FritzApiCreator =  clientFolderName => new FritzApi { Host = new Uri(clientFolderName), UserPassword = this.LogOnPassword, };
+        }
+
+
         /// <summary>
         /// Overridden to not get the elements before writing them.
         /// </summary>
@@ -54,11 +62,7 @@ namespace Sem.Sync.Connector.FritzBox
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             // initialize API
-            var fritzApi = new FritzApi
-            {
-                Host = new Uri(clientFolderName),
-                UserPassword = this.LogOnPassword,
-            };
+            var fritzApi = FritzApiCreator.Invoke(clientFolderName); 
 
             // create a book with all entries that have a business or a private phone number
             var book = new PhoneBook(
@@ -67,12 +71,16 @@ namespace Sem.Sync.Connector.FritzBox
                                || (x.BusinessAddressPrimary != null && x.BusinessAddressPrimary.Phone != null)
                             select new Contact
                                 {
-                                    Person = new Person(x.Name.ToString()),
+                                    Person = new Person(x.Name.ToString())
+                                        {
+                                            ImageUrl = x.SourceSpecificAttributes.NewIfNull().GetValue("FritzBox.ImageUrl")
+                                        },
                                     Telephony = new List<Entities.PhoneNumber>
                                                 {
                                                     new Entities.PhoneNumber(PhoneNumberType.Home, x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
                                                     new Entities.PhoneNumber(PhoneNumberType.Work, x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
-                                                }
+                                                },
+                                    Category = (PersonCategory)Enum.Parse(typeof(PersonCategory), x.SourceSpecificAttributes.NewIfNull().GetValue("FritzBox.Category")),
                                 });
 
             fritzApi.ClearPhoneBook();
@@ -94,13 +102,9 @@ namespace Sem.Sync.Connector.FritzBox
                 throw new ArgumentNullException("result");
             }
 
-            var phoneBook = new FritzApi
-                {
-                    Host = new Uri(clientFolderName),
-                    UserPassword = this.LogOnPassword
-                };
+            var fritzApi = FritzApiCreator.Invoke(clientFolderName);
 
-            var book = phoneBook.GetPhoneBook();
+            var book = fritzApi.GetPhoneBook();
             result = (from entry in book
                       select
                           new StdContact
@@ -116,7 +120,7 @@ namespace Sem.Sync.Connector.FritzBox
                                                   new KeyValuePair<string, string>("FritzBox.Category", entry.Category.ToString()),
                                                   new KeyValuePair<string, string>("FritzBox.ImageUrl", entry.Person.ImageUrl),
                                               }),
-                          }).ToStdElements();
+                              }).ToStdElements();
 
             result.Sort();
             this.Normalize(result);

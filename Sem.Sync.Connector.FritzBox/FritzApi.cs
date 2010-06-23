@@ -100,7 +100,7 @@ namespace Sem.Sync.Connector.FritzBox
         /// </summary>
         /// <param name="book"> The phone book with the entries to be written. </param>
         /// <returns> A value indicating whether the write operation was successfull. </returns>
-        public bool SetPhoneBook(PhoneBook book)
+        public virtual bool SetPhoneBook(PhoneBook book)
         {
             var port = this.RequestPortFromFritzBox();
             if (port == 0)
@@ -129,7 +129,7 @@ namespace Sem.Sync.Connector.FritzBox
         /// Deletes all entries from the phone book of the box.
         /// </summary>
         /// <returns> True if the deletion was successfully </returns>
-        public bool ClearPhoneBook()
+        public virtual bool ClearPhoneBook()
         {
             var port = this.RequestPortFromFritzBox();
             if (port == 0)

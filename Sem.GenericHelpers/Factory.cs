@@ -98,8 +98,7 @@ namespace Sem.GenericHelpers
                     {
                         if (string.IsNullOrEmpty(this.DefaultNamespace))
                         {
-                            throw new ConfigurationErrorsException(
-                                "This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
+                            throw new ConfigurationErrorsException("This factory class needs a DefaultNamespace set by the constructor of the DefaultNamespace property to add the default namespace to class names.");
                         }
 
                         assemblyName = this.DefaultNamespace.Trim();
@@ -136,18 +135,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Create an object by using the class name.
         /// </summary>
-        /// <typeparam name="T">
-        /// the name of the type to cast to
-        /// </typeparam>
-        /// <param name="className">
-        /// full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features.
-        /// </param>
-        /// <returns>
-        /// a new instance of the class specified with the class name
-        /// </returns>
-        /// <remarks>
-        /// see the class definition <see cref="Factory"/> for an example
-        /// </remarks>
+        /// <typeparam name="T"> the name of the type to cast to </typeparam>
+        /// <param name="className"> full class name: "namespace.classname, FilenameOfTheAssembly"; see <see cref="Factory"/> for information about the convinience features. </param>
+        /// <returns> a new instance of the class specified with the class name </returns>
+        /// <remarks> see the class definition <see cref="Factory"/> for an example </remarks>
         public T GetNewObject<T>(string className)
         {
             if (string.IsNullOrEmpty(className))

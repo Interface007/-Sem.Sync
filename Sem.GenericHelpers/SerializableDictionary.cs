@@ -11,7 +11,9 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
+    using System.Text.RegularExpressions;
     using System.Xml.Linq;
     using System.Xml.Serialization;
 
@@ -32,7 +34,7 @@ namespace Sem.GenericHelpers
             : base(info, context)
         {
         }
-        
+
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
@@ -114,6 +116,11 @@ namespace Sem.GenericHelpers
 
                 writer.WriteEndElement();
             }
+        }
+
+        public TValue GetValue(TKey key)
+        {
+            return this.ContainsKey(key) ? this[key] : default(TValue);
         }
     }
 }
