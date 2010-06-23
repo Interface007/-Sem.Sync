@@ -185,12 +185,21 @@ namespace Sem.GenericHelpers
         /// </summary>
         /// <param name="source"> The source object to be serialized. </param>
         /// <typeparam name="T"> The type that will be serialized (automatically detected by type invariance)</typeparam>
-        /// <returns>
-        /// The serialized object as a string
-        /// </returns>
+        /// <returns> The serialized object as a string </returns>
         public static string SaveToString<T>(T source) where T : class
         {
-            var formatter = new XmlSerializer(typeof(T));
+            return SaveToString(typeof(T), source);
+        }
+
+        /// <summary>
+        /// Serializes an object to a string
+        /// </summary>
+        /// <param name="type">The type that will be serialized (automatically detected by type invariance)</param>
+        /// <param name="source"> The source object to be serialized. </param>
+        /// <returns> The serialized object as a string </returns>
+        public static string SaveToString(Type type, object source)
+        {
+            var formatter = new XmlSerializer(type);
             var result = new StringBuilder();
             if (source != null)
             {
@@ -559,12 +568,19 @@ namespace Sem.GenericHelpers
         public static string GetPropertyValueString<T>(T objectToReadFrom, string pathToProperty)
         {
             var value = GetPropertyValue(objectToReadFrom, pathToProperty) ?? string.Empty;
-            if (value.GetType() == typeof(List<string>))
+            var type = value.GetType();
+
+            switch (type.Name)
             {
-                value = string.Join("|", (List<string>)value);
+                case "SerializableDictionary`2":
+                    return Tools.SaveToString(type, value);
             }
 
-            return value.ToString();
+
+            return 
+                type == typeof(List<string>) 
+                ? string.Join("|", (List<string>)value) 
+                : value.ToString();
         }
 
         /// <summary>
@@ -660,11 +676,6 @@ namespace Sem.GenericHelpers
                 if (propInfo.GetValue(objectToWriteTo, null) == null)
                 {
                     var constructor = propInfo.PropertyType.GetConstructor(new Type[] { });
-                    if (constructor == null)
-                    {
-                        return objectToWriteTo;
-                    }
-
                     propInfo.SetValue(objectToWriteTo, constructor.Invoke(null), null);
                 }
 
@@ -689,7 +700,11 @@ namespace Sem.GenericHelpers
             switch (destinationType)
             {
                 case "Byte[]":
-                    propInfo.SetValue(objectToWriteTo, Convert.FromBase64String(valueString), null);
+                    if (valueString != null)
+                    {
+                        propInfo.SetValue(objectToWriteTo, Convert.FromBase64String(valueString), null);
+                    }
+
                     break;
 
                 case "TimeSpan":
@@ -714,19 +729,30 @@ namespace Sem.GenericHelpers
                     break;
 
                 case "Enum":
-                    if (Enum.IsDefined(propType, valueString))
+                    if (valueString != null)
                     {
-                        propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                        if (Enum.IsDefined(propType, valueString))
+                        {
+                            propInfo.SetValue(objectToWriteTo, Enum.Parse(propType, valueString), null);
+                        }
                     }
 
                     break;
 
                 case "Boolean":
-                    propInfo.SetValue(objectToWriteTo, bool.Parse(valueString), null);
+                    if (valueString != null)
+                    {
+                        propInfo.SetValue(objectToWriteTo, bool.Parse(valueString), null);
+                    }
+
                     break;
 
                 case "Guid":
-                    propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
+                    if (valueString != null)
+                    {
+                        propInfo.SetValue(objectToWriteTo, new Guid(valueString), null);
+                    }
+
                     break;
 
                 case "String":
@@ -738,29 +764,21 @@ namespace Sem.GenericHelpers
 
                     propInfo.SetValue(objectToWriteTo, valueString, null);
                     break;
-
+                        
                 case "SerializableDictionary`2":
-                    var sdic = propInfo.GetValue(objectToWriteTo, null) as SerializableDictionary<string, string>;
-                    if (sdic == null)
-                    {
-                        sdic = propType.GetConstructor(new Type[] { }).Invoke(null) as SerializableDictionary<string, string>;
-                        propInfo.SetValue(objectToWriteTo, sdic, null);
-                    }
-
-                    if (sdic != null)
-                    {
-                        sdic.Add(parameter, valueString);
-                    }
-
+                    var sdic = Tools.LoadFromString(propType, valueString);
+                    propInfo.SetValue(objectToWriteTo, sdic, null);
                     break;
 
                 case "List`1":
-
                     var list = propType.GetConstructor(new Type[] { }).Invoke(null) as List<string>;
                     if (list != null)
                     {
-                        list.AddRange(valueString.Split('|'));
-                        propInfo.SetValue(objectToWriteTo, list, null);
+                        if (valueString != null)
+                        {
+                            list.AddRange(valueString.Split('|'));
+                            propInfo.SetValue(objectToWriteTo, list, null);
+                        }
                     }
 
                     break;
@@ -793,6 +811,43 @@ namespace Sem.GenericHelpers
             return objectToWriteTo;
         }
 
+        private static object LoadFromString(Type classType, string serialized)
+        {
+            if (string.IsNullOrEmpty(serialized))
+            {
+                return null;
+            }
+            
+            if (serialized.StartsWith("#GZIP#"))
+            {
+                var formatter = new BinaryFormatter();
+                using (var stream = DecompressToStream(serialized.Substring(6)))
+                {
+                    stream.Position = 0;
+                    return formatter.Deserialize(stream);
+                }
+            }
+
+            try
+            {
+                var reader = new StringReader(serialized);
+                var formatter = new XmlSerializer(classType);
+                return formatter.Deserialize(reader);
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (IOException)
+            {
+            }
+            catch (Exception ex)
+            {
+                DebugWriteLine(ex.Message);
+            }
+            
+            return null;
+        }
+
         /// <summary>
         /// Loads a serialized object from a string.
         /// </summary>
@@ -802,39 +857,7 @@ namespace Sem.GenericHelpers
         public static T LoadFromString<T>(string serialized)
             where T : class
         {
-            var result = default(T);
-
-            if (!string.IsNullOrEmpty(serialized))
-            {
-                if (serialized.StartsWith("#GZIP#"))
-                {
-                    var formatter = new BinaryFormatter();
-                    using (var stream = DecompressToStream(serialized.Substring(6)))
-                    {
-                        stream.Position = 0;
-                        return formatter.Deserialize(stream) as T;
-                    }
-                }
-
-                try
-                {
-                    var reader = new StringReader(serialized);
-                    var formatter = new XmlSerializer(typeof(T));
-                    result = (T)formatter.Deserialize(reader);
-                }
-                catch (InvalidOperationException)
-                {
-                }
-                catch (IOException)
-                {
-                }
-                catch (Exception ex)
-                {
-                    DebugWriteLine(ex.Message);
-                }
-            }
-
-            return result;
+            return LoadFromString(typeof(T), serialized) as T;
         }
 
         /// <summary>
@@ -962,6 +985,7 @@ namespace Sem.GenericHelpers
                         break;
 
                     case "List`1":
+                    case "SerializableDictionary`2":
                         resultList.Add(parentName + item.Name);
                         break;
 

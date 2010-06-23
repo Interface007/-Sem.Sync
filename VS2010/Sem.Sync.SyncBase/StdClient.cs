@@ -187,8 +187,6 @@ namespace Sem.Sync.SyncBase
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements);
             this.WriteRange(data, clientFolderName);
-
-            ////LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiXElementsAdded, elements.Count));
         }
 
         /// <summary>

@@ -38,6 +38,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\ExternalAssemblies\bin\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,6 +52,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FritzApiInteraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FritzCommunicationTest.cs" />
   </ItemGroup>
@@ -60,6 +64,14 @@
     <ProjectReference Include="..\Sem.Sync.Connector.FritzBox\Sem.Sync.Connector.FritzBox.csproj">
       <Project>{6A812710-0F12-44D2-924F-4967574802E6}</Project>
       <Name>Sem.Sync.Connector.FritzBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
+      <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
+      <Name>Sem.Sync.Test.DataGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
