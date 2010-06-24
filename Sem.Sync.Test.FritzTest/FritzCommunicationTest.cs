@@ -6,10 +6,11 @@
 //   Summary description for UnitTest1
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if INTEGRATIONTEST
 namespace Sem.Sync.Test.FritzTest
 {
     using System;
+    using System.Diagnostics;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -37,12 +38,13 @@ namespace Sem.Sync.Test.FritzTest
                     Host = new Uri("http://192.168.1.9/"),
                     UserPassword = string.Empty
                 };
+
             var x = fritzApi.GetPhoneBook();
             var s = Tools.SaveToString(x);
             Assert.AreNotEqual(0, x.Count);
         }
 
-        [TestMethod]
+        [TestMethod, Conditional("INTEGRATIONTEST")]
         public void WriteEntries()
         {
             var fritzApi = new FritzApi
@@ -59,3 +61,4 @@ namespace Sem.Sync.Test.FritzTest
         }
     }
 }
+#endif

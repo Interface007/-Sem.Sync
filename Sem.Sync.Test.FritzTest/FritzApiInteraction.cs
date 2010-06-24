@@ -8,6 +8,9 @@
 
     using Sem.Sync.Connector.FritzBox;
     using Sem.Sync.Connector.FritzBox.Entities;
+    using Sem.Sync.SyncBase.DetailData;
+
+    using PhoneNumber = Sem.Sync.Connector.FritzBox.Entities.PhoneNumber;
 
     /// <summary>
     /// Summary description for FritzApiInteraction
@@ -70,6 +73,7 @@
                                     {
                                         new PhoneNumber(PhoneNumberType.Home, "012345678"),
                                         new PhoneNumber(PhoneNumberType.Work, "024681357"),
+                                        new PhoneNumber(PhoneNumberType.Mobile, "09871234"),
                                     },
                             }
                     });
@@ -80,8 +84,23 @@
                 };
 
             var result = connector.GetAll("http://fritzbox.fritz");
-
+            Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Count);
+            
+            var resultContact1 = result[0] as StdContact;
+            Assert.IsNotNull(resultContact1);
+            Assert.AreEqual("09871234", resultContact1.PersonalPhoneMobile);
+            Assert.IsNotNull(resultContact1.BusinessAddressPrimary);
+            Assert.IsNotNull(resultContact1.BusinessAddressPrimary.Phone);
+            Assert.AreEqual("024681357", resultContact1.BusinessAddressPrimary.Phone);
+            Assert.IsNotNull(resultContact1.PersonalAddressPrimary);
+            Assert.IsNotNull(resultContact1.PersonalAddressPrimary.Phone);
+            Assert.AreEqual("012345678", resultContact1.PersonalAddressPrimary.Phone);
+            Assert.AreEqual("the image url", resultContact1.SourceSpecificAttributes["FritzBox.ImageUrl"]);
+            
+            // the name string will be split into last name and first name while transformation Fritz=>StdContact
+            // the ToString of the name does return "{lastname}, {firstname}"
+            Assert.AreEqual("name, first real", resultContact1.Name.ToString());
         }
     }
 }

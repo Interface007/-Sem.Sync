@@ -15,10 +15,10 @@
 
     <Package InstallerVersion="200" Compressed="yes" Description="Synchronization client for synchronizing Contacts with Xing, Outlook, Filesystem (Xml, CSV, vCards), Wer-Kennt-Wen.de, ..." Comments="This client does provide a generic UI to use various Sem.Sync-connectors to synchronize contacts." Manufacturer="Sven Erik Matzen" />
 
-    <PropertyRef Id="NETFRAMEWORK40" />
+    <!--<PropertyRef Id="NETFRAMEWORK40" />
     <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
       <![CDATA[Installed OR NETFRAMEWORK40]]>
-    </Condition>
+    </Condition>-->
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
@@ -34,26 +34,27 @@
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
             <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
               <Component Id="SyncLists" Guid="{C9C9BA56-9E25-4ADB-9B74-FC1D5B18CAA2}">
-                <File Id='SyncLists.SimpleCopy' Name='Template SimpleCopy.TSyncList' KeyPath='yes' />
-                <File Id='SyncLists.Syncronize' Name='Template Syncronize.TSyncList' />
+                <File Id='SyncLists.SimpleCopy'             Name='Template SimpleCopy.TSyncList' KeyPath='yes' />
+                <File Id='SyncLists.Syncronize'             Name='Template Syncronize.TSyncList' />
+                <File Id='SyncLists.GetRelations'           Name='Template Get Contact Relations.TSyncList' />
               </Component>
             </Directory>
 
             <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
               <Component Id="ResourcesDE" Guid="{F54F58EF-A2CB-4695-8B04-39F11CB31046}">
-                <File Id='Connector.Exchange.resources' Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources.dll' />
-                <File Id='Connector.Filesystem.resources' Name='Sem.Sync.Connector.Filesystem.resources.dll' />
-                <File Id='Connector.Outlook.resources' Name='Sem.Sync.Connector.Outlook.resources.dll' />
-                <File Id='Connector.Outlook2003.resources' Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
-                <File Id='Connector.Outlook2010.resources' Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
-                <File Id='Connector.Xing.resources' Name='Sem.Sync.Connector.Xing.resources.dll' />
+                <File Id='Connector.Exchange.resources'     Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources.dll' />
+                <File Id='Connector.Filesystem.resources'   Name='Sem.Sync.Connector.Filesystem.resources.dll' />
+                <File Id='Connector.Outlook.resources'      Name='Sem.Sync.Connector.Outlook.resources.dll' />
+                <File Id='Connector.Outlook2003.resources'  Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
+                <File Id='Connector.Outlook2010.resources'  Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
+                <File Id='Connector.Xing.resources'         Name='Sem.Sync.Connector.Xing.resources.dll' />
 
-                <File Id='LocalSyncManager.resources' Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes' />
-                <File Id='OutlookWithXing.resources' Name='Sem.Sync.OutlookWithXing.resources.dll' />
+                <File Id='LocalSyncManager.resources'       Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes' />
+                <File Id='OutlookWithXing.resources'        Name='Sem.Sync.OutlookWithXing.resources.dll' />
 
-                <File Id='SharedUI.Common.resources' Name='Sem.Sync.SharedUI.Common.resources.dll' />
-                <File Id='SharedUI.WinForms.resources' Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
-                <File Id='SyncBase.resources' Name='Sem.Sync.SyncBase.resources.dll' />
+                <File Id='SharedUI.Common.resources'        Name='Sem.Sync.SharedUI.Common.resources.dll' />
+                <File Id='SharedUI.WinForms.resources'      Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
+                <File Id='SyncBase.resources'               Name='Sem.Sync.SyncBase.resources.dll' />
               </Component>
             </Directory>
 
@@ -61,8 +62,8 @@
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 
               <!-- the main executable -->
-              <File Id='Sem.Sync.LocalSyncManager' Name='Sem.Sync.LocalSyncManager.exe' KeyPath='yes'>
-                <Shortcut Id="MainExecutableIcon" Name="Sem.Sync Local Sync Manager" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0" />
+              <File Id='Sem.Sync.LocalSyncManager'          Name='Sem.Sync.LocalSyncManager.exe' KeyPath='yes'>
+                <Shortcut Id="MainExecutableIcon"           Name="Sem.Sync Local Sync Manager" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0" />
               </File>
 
               <!-- some configuration files -->
@@ -72,37 +73,40 @@
 
             <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary" Guid="{66C26CA7-CD99-4022-84E8-D72B0F49A7D8}">
-              <File Id='Sem.GenericHelpers' Name='Sem.GenericHelpers.dll' KeyPath='yes' />
-              <File Id='Sem.Sync.SyncBase' Name='Sem.Sync.SyncBase.dll' />
-              <File Id='Sem.Sync.SharedUI.WinForms' Name='Sem.Sync.SharedUI.WinForms.dll' />
-              <File Id='Sem.Sync.SharedUI.Common' Name='Sem.Sync.SharedUI.Common.dll' />
-              <File Id='Sem.Sync.SyncBase.Commands' Name='Sem.Sync.SyncBase.Commands.dll' />
+              <File Id='Sem.GenericHelpers'                 Name='Sem.GenericHelpers.dll' KeyPath='yes' />
+              <File Id='Sem.Sync.SyncBase'                  Name='Sem.Sync.SyncBase.dll' />
+              <File Id='Sem.Sync.SharedUI.WinForms'         Name='Sem.Sync.SharedUI.WinForms.dll' />
+              <File Id='Sem.Sync.SharedUI.Common'           Name='Sem.Sync.SharedUI.Common.dll' />
+              <File Id='Sem.Sync.SyncBase.Commands'         Name='Sem.Sync.SyncBase.Commands.dll' />
 
-              <File Id='ExpressionSerialization' Name='ExpressionSerialization.dll' />
+              <File Id='ExpressionSerialization'            Name='ExpressionSerialization.dll' />
 
-              <File Id='DocumentFormat.OpenXml' Name='DocumentFormat.OpenXml.dll' />
+              <File Id='DocumentFormat.OpenXml'             Name='DocumentFormat.OpenXml.dll' />
 
-              <File Id='Google.GData.Client' Name='Google.GData.Client.dll' />
-              <File Id='Google.GData.Contacts' Name='Google.GData.Contacts.dll' />
-              <File Id='Google.GData.Extensions' Name='Google.GData.Extensions.dll' />
-
+              <File Id='Google.GData.Client'                Name='Google.GData.Client.dll' />
+              <File Id='Google.GData.Contacts'              Name='Google.GData.Contacts.dll' />
+              <File Id='Google.GData.Extensions'            Name='Google.GData.Extensions.dll' />
+              
+              <File Id='Fritz.Net'                          Name='FritzBoxNET.dll' />
+              
               <File Id='Sem.Sync.Connector.ActiveDirectory' Name='Sem.Sync.Connector.ActiveDirectory.dll' />
-              <File Id='Sem.Sync.Connector.Console' Name='Sem.Sync.Connector.Console.dll' />
-              <File Id='Sem.Sync.Connector.ExchangeWSMA' Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.dll' />
-              <File Id='Sem.Sync.Connector.ExcelOpenXml' Name='Sem.Sync.Connector.MsExcelOpenXml.dll' />
-              <File Id='Sem.Sync.Connector.Facebook' Name='Sem.Sync.Connector.Facebook.dll' />
-              <File Id='Sem.Sync.Connector.Filesystem' Name='Sem.Sync.Connector.Filesystem.dll' />
-              <File Id='Sem.Sync.Connector.Google' Name='Sem.Sync.Connector.Google.dll' />
-              <File Id='Sem.Sync.Connector.MeinVZ' Name='Sem.Sync.Connector.MeinVZ.dll' />
-              <File Id='Sem.Sync.Connector.Memory' Name='Sem.Sync.Connector.Memory.dll' />
-              <File Id='Sem.Sync.Connector.MsAccess' Name='Sem.Sync.Connector.MsAccess.dll' />
-              <File Id='Sem.Sync.Connector.Outlook' Name='Sem.Sync.Connector.Outlook.dll' />
-              <File Id='Sem.Sync.Connector.Outlook2003' Name='Sem.Sync.Connector.Outlook2003.dll' />
-              <File Id='Sem.Sync.Connector.Outlook2010' Name='Sem.Sync.Connector.Outlook2010.dll' />
-              <File Id='Sem.Sync.Connector.Statistic' Name='Sem.Sync.Connector.Statistic.dll' />
-              <File Id='Sem.Sync.Connector.StayFriends' Name='Sem.Sync.Connector.StayFriends.dll' />
-              <File Id='Sem.Sync.Connector.WerKenntWen' Name='Sem.Sync.Connector.WerKenntWen.dll' />
-              <File Id='Sem.Sync.Connector.Xing' Name='Sem.Sync.Connector.Xing.dll' />
+              <File Id='Sem.Sync.Connector.Console'         Name='Sem.Sync.Connector.Console.dll' />
+              <File Id='Sem.Sync.Connector.ExchangeWSMA'    Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.dll' />
+              <File Id='Sem.Sync.Connector.ExcelOpenXml'    Name='Sem.Sync.Connector.MsExcelOpenXml.dll' />
+              <File Id='Sem.Sync.Connector.Facebook'        Name='Sem.Sync.Connector.Facebook.dll' />
+              <File Id='Sem.Sync.Connector.Filesystem'      Name='Sem.Sync.Connector.Filesystem.dll' />
+              <File Id='Sem.Sync.Connector.Google'          Name='Sem.Sync.Connector.Google.dll' />
+              <File Id='Sem.Sync.Connector.MeinVZ'          Name='Sem.Sync.Connector.MeinVZ.dll' />
+              <File Id='Sem.Sync.Connector.Memory'          Name='Sem.Sync.Connector.Memory.dll' />
+              <File Id='Sem.Sync.Connector.MsAccess'        Name='Sem.Sync.Connector.MsAccess.dll' />
+              <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
+              <File Id='Sem.Sync.Connector.Outlook2003'     Name='Sem.Sync.Connector.Outlook2003.dll' />
+              <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll' />
+              <File Id='Sem.Sync.Connector.Statistic'       Name='Sem.Sync.Connector.Statistic.dll' />
+              <File Id='Sem.Sync.Connector.StayFriends'     Name='Sem.Sync.Connector.StayFriends.dll' />
+              <File Id='Sem.Sync.Connector.WerKenntWen'     Name='Sem.Sync.Connector.WerKenntWen.dll' />
+              <File Id='Sem.Sync.Connector.FritzBox'        Name='Sem.Sync.Connector.FritzBox.dll' />
+              <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll' />
             </Component>
 
             <!-- the help files are optional -->
