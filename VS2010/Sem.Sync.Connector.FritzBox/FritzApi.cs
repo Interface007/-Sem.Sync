@@ -50,7 +50,7 @@ namespace Sem.Sync.Connector.FritzBox
         /// Gets the phone book entries of phonebook 0
         /// </summary>
         /// <returns> a list of deserialized entries </returns>
-        public PhoneBook GetPhoneBook()
+        public virtual PhoneBook GetPhoneBook()
         {
             var result = new PhoneBook();
 
@@ -142,7 +142,7 @@ namespace Sem.Sync.Connector.FritzBox
                 clientSocketTcp.Connect(this.Host.Host, port);
 
                 ExpectResult("0000", RequestInfo(clientSocketTcp, "08 00"));
-                ExpectResult("0000", RequestInfo(clientSocketTcp, "06 00 00 00"));
+                ExpectResult("0000|0500", RequestInfo(clientSocketTcp, "06 00 00 00"));
                 ExpectResult("0000", RequestInfo(clientSocketTcp, "09 00"));
             }
 

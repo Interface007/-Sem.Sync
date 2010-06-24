@@ -80,7 +80,7 @@ namespace Sem.Sync.Connector.FritzBox
                                                     new Entities.PhoneNumber(PhoneNumberType.Home, x.PersonalAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
                                                     new Entities.PhoneNumber(PhoneNumberType.Work, x.BusinessAddressPrimary.NewIfNull().Phone.NewIfNull().ToString()),
                                                 },
-                                    Category = (PersonCategory)Enum.Parse(typeof(PersonCategory), x.SourceSpecificAttributes.NewIfNull().GetValue("FritzBox.Category")),
+                                    Category = (PersonCategory)Enum.Parse(typeof(PersonCategory), x.SourceSpecificAttributes.NewIfNull().GetValue("FritzBox.Category") ?? "Default"),
                                 });
 
             fritzApi.ClearPhoneBook();

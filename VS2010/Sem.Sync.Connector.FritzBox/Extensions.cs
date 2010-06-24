@@ -23,7 +23,7 @@ namespace Sem.Sync.Connector.FritzBox
             return
                 new PhoneNumber(
                     (from x in numbers
-                     where x.DestinationType == PhoneNumberType.Home
+                     where x.DestinationType == numberType
                      orderby x.Priority
                      select x.Number).FirstOrDefault());
         }
