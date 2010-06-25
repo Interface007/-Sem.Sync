@@ -16,6 +16,7 @@ namespace Sem.Sync.Connector.Xing
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -47,8 +48,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   data string to be posted to logon into Xing
         /// </summary>
-        private const string HttpDataLogonRequest =
-            "op=login&dest=%2Fapp%2Fuser%3Fop%3Dhome&login_user_name={0}&login_password={1}";
+        private const string HttpDataLogonRequest = "op=login&dest=%2F&login_user_name={0}&login_password={1}";
 
         /// <summary>
         ///   detection string to detect if we did fail to logon
@@ -168,7 +168,6 @@ namespace Sem.Sync.Connector.Xing
             while (true)
             {
                 var content = this.GetTextContent(string.Format(HttpUrlProfileContacts, offset), string.Empty);
-                ////var content = File.ReadAllText("d:\\xing.htm");
                 var results = Regex.Matches(content, PatternGetContactContacts, RegexOptions.Singleline);
 
                 if (results.Count == 0)
@@ -215,6 +214,11 @@ namespace Sem.Sync.Connector.Xing
                         if (!source.Contacts.Contains(reference))
                         {
                             source.Contacts.Add(reference);
+                            Debug.Print("adding reference: " + reference);
+                        }
+                        else
+                        {
+                            Debug.Print("already existing: " + reference);
                         }
                     }
                 }
@@ -408,12 +412,10 @@ namespace Sem.Sync.Connector.Xing
                     this.LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
 
                     // prepare the post data for log on
-                    var postData = HttpHelper.PreparePostData(
-                        HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword);
+                    var postData = HttpHelper.PreparePostData(HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword);
 
                     // post to get the cookies
-                    var logInResponse = this.xingRequester.GetContentPost(
-                        HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
+                    var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
 
                     if (logInResponse.Contains(HttpDetectionStringLogonFailed))
                     {

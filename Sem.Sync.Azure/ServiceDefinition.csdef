@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Sem.Sync.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <WebRole name="Sem.Sync.Azure.Service">
+    <InputEndpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="80" />
+    </InputEndpoints>
+    <ConfigurationSettings>
+      <Setting name="DiagnosticsConnectionString" />
+    </ConfigurationSettings>
+  </WebRole>
+  <WorkerRole name="Sem.Sync.Azure.Agent">
+    <ConfigurationSettings>
+      <Setting name="DiagnosticsConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
+  <WebRole name="Sem.Sync.Azure.Ui">
+    <InputEndpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="8080" />
+    </InputEndpoints>
+    <ConfigurationSettings>
+      <Setting name="DiagnosticsConnectionString" />
+    </ConfigurationSettings>
+  </WebRole>
+</ServiceDefinition>

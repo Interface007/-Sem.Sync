@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>1.0.0</ProductVersion>
+    <ProjectGuid>{e9d5c3f9-de18-4c2b-a89f-e20bdde0de62}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sem.Sync.Azure</RootNamespace>
+    <AssemblyName>Sem.Sync.Azure</AssemblyName>
+    <StartDevelopmentStorage>True</StartDevelopmentStorage>
+    <Name>Sem.Sync.Azure</Name>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- Items for the project -->
+  <ItemGroup>
+    <ServiceDefinition Include="ServiceDefinition.csdef" />
+    <ServiceConfiguration Include="ServiceConfiguration.cscfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.Azure.Agent\Sem.Sync.Azure.Agent.csproj">
+      <Name>Sem.Sync.Azure.Agent</Name>
+      <Project>{ef12d2ed-a9da-48d1-a8ef-2eae75d8e542}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>Sem.Sync.Azure.Agent</RoleName>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Azure.Service\Sem.Sync.Azure.Service.csproj">
+      <Name>Sem.Sync.Azure.Service</Name>
+      <Project>{342312fa-d222-40e6-be38-8be94bda544b}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>Sem.Sync.Azure.Service</RoleName>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Azure.Ui\Sem.Sync.Azure.Ui.csproj">
+      <Name>Sem.Sync.Azure.Ui</Name>
+      <Project>{30739798-6b82-4039-8840-f1ad783de1ad}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>Sem.Sync.Azure.Ui</RoleName>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- Import the target files for this project template -->
+  <PropertyGroup>
+    <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\Cloud Service\1.0\Visual Studio 10.0\</CloudExtensionsDir>
+  </PropertyGroup>
+  <Import Project="$(CloudExtensionsDir)Microsoft.CloudService.targets" />
+</Project>

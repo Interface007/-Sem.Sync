@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!--
   This setup project is not very complex, but it's containing a GUI, writes registry 
   entries and files, creates folders and shortcuts. As you can see, it's not complex 
@@ -13,11 +13,6 @@
   <Product Name="Sem.Sync Client for Xing to Outlook Sync" Manufacturer="Sven Erik Matzen" Id="*" UpgradeCode="49500B24-8698-4358-8DDE-3B51FC8AF2F7" Language="1033" Version="1.10.1.18">
 
     <Package InstallerVersion="200" Compressed="yes" Description="Synchronization client for synchronizing Contacts Xing to Outlook" Comments="This client performs an import of Xing contacts into Outlook." Manufacturer="Sven Erik Matzen" />
-
-    <PropertyRef Id="NETFRAMEWORK40" />
-    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK40]]>
-    </Condition>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
@@ -32,22 +27,28 @@
           <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.OutlookWithXing" FileSource="..\bin">
 
+            
+            
+            
+            
+            
+            
 
             <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
               <Component Id="ResourcesDE" Guid="{07EE1D3E-EC53-4DF1-A729-2B104AB95A11}">
 
-                <File Id='Connector.Filesystem.resources' Name='Sem.Sync.Connector.Filesystem.resources.dll' />
-                <File Id='Connector.Outlook.resources' Name='Sem.Sync.Connector.Outlook.resources.dll' />
-                <File Id='Connector.Outlook2003.resources' Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
-                <File Id='Connector.Outlook2010.resources' Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
-                <File Id='Connector.Xing.resources' Name='Sem.Sync.Connector.Xing.resources.dll' />
+                <File Id='Connector.Filesystem.resources'   Name='Sem.Sync.Connector.Filesystem.resources.dll' />
+                <File Id='Connector.Outlook.resources'      Name='Sem.Sync.Connector.Outlook.resources.dll' />
+                <File Id='Connector.Outlook2003.resources'  Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
+                <File Id='Connector.Outlook2010.resources'  Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
+                <File Id='Connector.Xing.resources'         Name='Sem.Sync.Connector.Xing.resources.dll' />
 
 
-                <File Id='OutlookWithXing.resources' Name='Sem.Sync.OutlookWithXing.resources.dll' KeyPath='yes' />
+                <File Id='OutlookWithXing.resources'        Name='Sem.Sync.OutlookWithXing.resources.dll' KeyPath='yes' />
 
-                <File Id='SharedUI.Common.resources' Name='Sem.Sync.SharedUI.Common.resources.dll' />
-                <File Id='SharedUI.WinForms.resources' Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
-                <File Id='SyncBase.resources' Name='Sem.Sync.SyncBase.resources.dll' />
+                <File Id='SharedUI.Common.resources'        Name='Sem.Sync.SharedUI.Common.resources.dll' />
+                <File Id='SharedUI.WinForms.resources'      Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
+                <File Id='SyncBase.resources'               Name='Sem.Sync.SyncBase.resources.dll' />
               </Component>
             </Directory>
 
@@ -55,8 +56,8 @@
               <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 
               <!-- the main executable -->
-              <File Id='SemSyncOutlookWithXing' Name='Sem.Sync.OutlookWithXing.exe' KeyPath='yes'>
-                <Shortcut Id="SemSyncOutlookWithXingIcon" Name="Sem.Sync Xing to Outlook" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
+              <File Id='SemSyncOutlookWithXing'             Name='Sem.Sync.OutlookWithXing.exe' KeyPath='yes'>
+                <Shortcut Id="SemSyncOutlookWithXingIcon"   Name="Sem.Sync Xing to Outlook" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
               </File>
 
               <!-- some configuration files -->
@@ -66,23 +67,40 @@
 
             <!-- we also should install the dependencies ;-) -->
             <Component Id="HelperLibrary" Guid="9A6A58FA-9747-41D2-8FA0-FB263523BE98">
-              <File Id='Sem.GenericHelpers' Name='Sem.GenericHelpers.dll' KeyPath='yes' />
-              <File Id='Sem.Sync.SyncBase' Name='Sem.Sync.SyncBase.dll' />
-              <File Id='Sem.Sync.SharedUI.WinForms' Name='Sem.Sync.SharedUI.WinForms.dll' />
-              <File Id='Sem.Sync.SharedUI.Common' Name='Sem.Sync.SharedUI.Common.dll' />
+              <File Id='Sem.GenericHelpers'                 Name='Sem.GenericHelpers.dll' KeyPath='yes' />
+              <File Id='Sem.Sync.SyncBase'                  Name='Sem.Sync.SyncBase.dll' />
+              <File Id='Sem.Sync.SharedUI.WinForms'         Name='Sem.Sync.SharedUI.WinForms.dll' />
+              <File Id='Sem.Sync.SharedUI.Common'           Name='Sem.Sync.SharedUI.Common.dll' />
+              <File Id='Sem.Sync.SyncBase.Commands'         Name='Sem.Sync.SyncBase.Commands.dll' />
+
+              <File Id='ExpressionSerialization'            Name='ExpressionSerialization.dll' />
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <File Id='Sem.Sync.Connector.Filesystem'      Name='Sem.Sync.Connector.Filesystem.dll' />
 
 
-              <File Id='Sem.Sync.Connector.Filesystem' Name='Sem.Sync.Connector.Filesystem.dll' />
+              <File Id='Sem.Sync.Connector.Memory'          Name='Sem.Sync.Connector.Memory.dll' />
+
+              <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
+              <File Id='Sem.Sync.Connector.Outlook2003'     Name='Sem.Sync.Connector.Outlook2003.dll' />
+              <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll' />
 
 
-              <File Id='Sem.Sync.Connector.Memory' Name='Sem.Sync.Connector.Memory.dll' />
 
-
-              <File Id='Sem.Sync.Connector.Outlook' Name='Sem.Sync.Connector.Outlook.dll' />
-              <File Id='Sem.Sync.Connector.Outlook2003' Name='Sem.Sync.Connector.Outlook2003.dll' />
-
-
-              <File Id='Sem.Sync.Connector.Xing' Name='Sem.Sync.Connector.Xing.dll' />
+              
+              <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll' />
             </Component>
 
             
