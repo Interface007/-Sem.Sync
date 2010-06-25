@@ -69,7 +69,7 @@ namespace Sem.Sync.Connector.Filesystem
         /// </param>
         protected override void BeforeStorageAccess(string clientFolderName)
         {
-            Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName));
+            Tools.EnsurePathExist(Path.GetDirectoryName(clientFolderName.Replace("\n", string.Empty).Trim()));
         }
 
         /// <summary>

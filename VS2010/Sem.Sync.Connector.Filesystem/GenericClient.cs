@@ -143,8 +143,7 @@ namespace Sem.Sync.Connector.Filesystem
                         result = ((List<T>)ListFormatter.Deserialize(file)).ToStdElements();
                     }
 
-                    this.LogProcessingEvent(
-                        string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
+                    this.LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiElementsRead, result.Count));
                 }
             }
 

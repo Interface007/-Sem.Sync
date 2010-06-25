@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  
   <!--
   This setup project is not very complex, but it's containing a GUI, writes registry 
   entries and files, creates folders and shortcuts. As you can see, it's not complex 
@@ -14,11 +13,6 @@
   <Product Name="Sem.Sync Local Sync Manager" Manufacturer="Sven Erik Matzen" Id="*" UpgradeCode="{7DBC91F2-890F-40C6-9B27-D0CE94DD467A}" Language="1033" Version="1.10.1.18">
 
     <Package InstallerVersion="200" Compressed="yes" Description="Synchronization client for synchronizing Contacts with Xing, Outlook, Filesystem (Xml, CSV, vCards), Wer-Kennt-Wen.de, ..." Comments="This client does provide a generic UI to use various Sem.Sync-connectors to synchronize contacts." Manufacturer="Sven Erik Matzen" />
-
-    <!--<PropertyRef Id="NETFRAMEWORK40" />
-    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK40]]>
-    </Condition>-->
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 

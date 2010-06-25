@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -80,62 +81,20 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
-      <Name>Sem.GenericHelpers</Name>
-      <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj">
-      <Name>Sem.Sync.Connector.Xing</Name>
-      <Project>{2b1ec971-9055-4156-9fff-0f2b3c7697f4}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.ConsoleClient\Sem.Sync.ConsoleClient.csproj">
-      <Name>Sem.Sync.ConsoleClient</Name>
-      <Project>{9165ebdb-d528-4d2a-bd36-a0d986e609fa}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Documentation\Sem.Sync.Documentation.csproj">
-      <Name>Sem.Sync.Documentation</Name>
-      <Project>{c59830a8-5f30-4ac1-a862-473d9911b08a}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj">
-      <Name>Sem.Sync.LocalSyncManager</Name>
-      <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
-      <Name>Sem.Sync.OutlookWithXing</Name>
-      <Project>{ab6d712c-8e4b-46f9-8ac8-bf65f3da1b79}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
-      <Name>Sem.Sync.SharedUI.WinForms</Name>
-      <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
-      <Name>Sem.Sync.SyncBase</Name>
-      <Project>{4725c93e-55a0-42a5-9c61-61dc498a4308}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="UI-Elements" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="UI-Elements\License.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
