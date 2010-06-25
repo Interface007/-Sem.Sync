@@ -65,6 +65,12 @@
   <ItemGroup>
     <Content Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.Sync.Azure.Ui\Sem.Sync.Azure.Ui.csproj">
+      <Project>{30739798-6B82-4039-8840-F1AD783DE1AD}</Project>
+      <Name>Sem.Sync.Azure.Ui</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
