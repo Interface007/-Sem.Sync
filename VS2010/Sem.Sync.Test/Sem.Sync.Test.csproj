@@ -145,6 +145,7 @@
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="MapperTests.cs" />
     <Compile Include="PersonNameClassTest.cs" />
     <Compile Include="PhoneClassTest.cs">
       <SubType>Code</SubType>

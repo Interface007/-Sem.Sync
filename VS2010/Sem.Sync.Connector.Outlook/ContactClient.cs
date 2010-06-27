@@ -172,7 +172,7 @@ namespace Sem.Sync.Connector.Outlook
 
                 this.LogProcessingEvent(Resources.uiPreparingList);
                 var outlookItemList = from a in calendarItems.Items.OfType<ContactItem>()
-                                      orderby a.LastName , a.FirstName
+                                      orderby a.LastName, a.FirstName
                                       select a;
 
                 ContactItem lastItem = null;
@@ -219,15 +219,9 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// Overrides the method to read the full list of data.
         /// </summary>
-        /// <param name="clientFolderName">
-        /// the name of the outlook folder that does contain the contacts that will be read.
-        /// </param>
-        /// <param name="result">
-        /// A list of StdElements that will get the new imported entries.
-        /// </param>
-        /// <returns>
-        /// The list with the added contacts
-        /// </returns>
+        /// <param name="clientFolderName"> the name of the outlook folder that does contain the contacts that will be read. </param>
+        /// <param name="result"> A list of StdElements that will get the new imported entries. </param>
+        /// <returns> The list with the added contacts </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             if (result == null)
@@ -270,8 +264,7 @@ namespace Sem.Sync.Connector.Outlook
                             {
                                 currentElementName = contactItem.LastName + ", " + contactItem.FirstName;
 
-                                var newContact = OutlookClient.ConvertToStandardContact(
-                                    contactItem, result.ToStdContacts());
+                                var newContact = OutlookClient.ConvertToStandardContact(contactItem, result.ToStdContacts());
                                 if (newContact != null)
                                 {
                                     result.Add(newContact);
@@ -319,25 +312,17 @@ namespace Sem.Sync.Connector.Outlook
         /// <summary>
         /// Overrides the method to write the full list of data.
         /// </summary>
-        /// <param name="elements">
-        /// The elements to be written to outlook.
-        /// </param>
-        /// <param name="clientFolderName">
-        /// the name of the outlook folder that will get the contacts while writing data.
-        /// </param>
-        /// <param name="skipIfExisting">
-        /// a value indicating whether existing entries should be added overwritten or skipped.
-        /// </param>
+        /// <param name="elements"> The elements to be written to outlook. </param>
+        /// <param name="clientFolderName"> the name of the outlook folder that will get the contacts while writing data. </param>
+        /// <param name="skipIfExisting"> a value indicating whether existing entries should be added overwritten or skipped. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            this.LogProcessingEvent(
-                string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            this.LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
 
             // create outlook instance and get the folder
             var outlookNamespace = OutlookClient.GetNamespace();
             var contactsEnum =
-                OutlookClient.GetOutlookMapiFolder(
-                    outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
+                OutlookClient.GetOutlookMapiFolder(outlookNamespace, clientFolderName, OlDefaultFolders.olFolderContacts).Items;
 
             // extract the contacts that do already exist
             var contactsList = OutlookClient.GetContactsList(contactsEnum);
@@ -348,8 +333,7 @@ namespace Sem.Sync.Connector.Outlook
                 // find outlook contact with matching id, create new if needed
                 this.LogProcessingEvent(element, Resources.uiSearching);
                 if (
-                    !OutlookClient.WriteContactToOutlook(
-                        contactsEnum, (StdContact)element, skipIfExisting, contactsList))
+                    !OutlookClient.WriteContactToOutlook(contactsEnum, (StdContact)element, skipIfExisting, contactsList))
                 {
                     continue;
                 }
