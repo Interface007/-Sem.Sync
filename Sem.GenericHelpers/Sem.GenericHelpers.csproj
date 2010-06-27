@@ -164,6 +164,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
     <Compile Include="LogonCredentialRequest.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="MappingHelper.cs" />
     <Compile Include="NullLiftModifier.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">

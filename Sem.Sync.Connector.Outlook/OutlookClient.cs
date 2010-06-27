@@ -570,34 +570,14 @@ namespace Sem.Sync.Connector.Outlook
             stdOldAppointment.NormalizeContent();
 
             var dirty = false;
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.BusyStatus.ToOutlook(), 
-                x => appointment.BusyStatus = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.ReminderBeforeStart.Minutes, 
-                x => appointment.ReminderMinutesBeforeStart = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.ResponseRequested, 
-                x => appointment.ResponseRequested = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.BusyStatus.ToOutlook(), x => appointment.BusyStatus = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ReminderBeforeStart.Minutes, x => appointment.ReminderMinutesBeforeStart = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ResponseRequested, x => appointment.ResponseRequested = x);
 
             // todo: how can se set the RecurrenceState property?
             // todo: how to set the ResponseStatus property
@@ -642,19 +622,13 @@ namespace Sem.Sync.Connector.Outlook
             SyncTools.ClearNulls(stdNewContact, typeof(StdContact));
             SyncTools.ClearNulls(stdOldContact, typeof(StdContact));
 
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.DateOfBirth, x => outlookContact.Birthday = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.PersonGender, x => outlookContact.Gender = gender);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.DateOfBirth, x => outlookContact.Birthday = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.PersonGender, x => outlookContact.Gender = gender);
 
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.Name.FirstName, x => outlookContact.FirstName = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.Name.MiddleName, x => outlookContact.MiddleName = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.Name.LastName, x => outlookContact.LastName = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewContact, stdOldContact, x => x.Name.AcademicTitle, x => outlookContact.Title = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.FirstName, x => outlookContact.FirstName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.MiddleName, x => outlookContact.MiddleName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.LastName, x => outlookContact.LastName = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewContact, stdOldContact, x => x.Name.AcademicTitle, x => outlookContact.Title = x);
 
             MappingHelper.MapIfDiffers(
                 ref dirty, 
@@ -884,9 +858,7 @@ namespace Sem.Sync.Connector.Outlook
             var pathPart = GetNextPathPart(folderName, out folderName);
 
             // Get all the Contacts Folder
-            var contacts =
-                (from x in outlookFolder.Folders.OfType<MAPIFolder>() where x.Name == pathPart select x).FirstOrDefault(
-                    );
+            var contacts = (from x in outlookFolder.Folders.OfType<MAPIFolder>() where x.Name == pathPart select x).FirstOrDefault();
 
             if (folderName.Length > 0)
             {
@@ -1032,8 +1004,7 @@ namespace Sem.Sync.Connector.Outlook
                 return list;
             }
 
-            foreach (
-                var category in semicolonSeperatedStrings.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var category in semicolonSeperatedStrings.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var currentCategory = category;
                 if (!list.Exists(x => x.Equals(currentCategory, StringComparison.OrdinalIgnoreCase)))
@@ -1124,26 +1095,5 @@ namespace Sem.Sync.Connector.Outlook
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// The save action.
-    /// </summary>
-    internal enum SaveAction
-    {
-        /// <summary>
-        /// The none.
-        /// </summary>
-        None, 
-
-        /// <summary>
-        /// The update.
-        /// </summary>
-        Update, 
-
-        /// <summary>
-        /// The create.
-        /// </summary>
-        Create
     }
 }

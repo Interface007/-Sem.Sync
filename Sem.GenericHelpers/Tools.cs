@@ -222,6 +222,13 @@ namespace Sem.GenericHelpers
             return result.ToString();
         }
 
+        /// <summary>
+        /// Serializes an object to a string
+        /// </summary>
+        /// <typeparam name="T">The type of the object to be serialized</typeparam>
+        /// <param name="source"> The source object to be serialized.  </param>
+        /// <param name="compress"> A value indicating whether the content should be compressed after serialization. </param>
+        /// <returns> The serialized object as a string  </returns>
         public static string SaveToString<T>(T source, bool compress) where T : class
         {
             if (compress)
@@ -238,6 +245,11 @@ namespace Sem.GenericHelpers
             return result;
         }
 
+        /// <summary>
+        /// Compresses a string and encodes the result base64
+        /// </summary>
+        /// <param name="text"> The text to be compressed. </param>
+        /// <returns> the compressed string </returns>
         public static string Compress(string text)
         {
             var buffer = Encoding.UTF8.GetBytes(text);
@@ -261,6 +273,11 @@ namespace Sem.GenericHelpers
             }
         }
 
+        /// <summary>
+        /// Reads a string, compresses it and encodes the string base64
+        /// </summary>
+        /// <param name="toBeCompressed"> The stream to be compressed. </param>
+        /// <returns> The compressed and base64 encoded string. </returns>
         public static string Compress(Stream toBeCompressed)
         {
             using (var ms = new MemoryStream())
@@ -283,6 +300,11 @@ namespace Sem.GenericHelpers
             }
         }
 
+        /// <summary>
+        /// Decompresses a compressed string.
+        /// </summary>
+        /// <param name="compressedText"> The compressed text. </param>
+        /// <returns> The uncompressed string </returns>
         public static string Decompress(string compressedText)
         {
             var gzipBuffer = Convert.FromBase64String(compressedText);
@@ -573,9 +595,8 @@ namespace Sem.GenericHelpers
             switch (type.Name)
             {
                 case "SerializableDictionary`2":
-                    return Tools.SaveToString(type, value);
+                    return SaveToString(type, value);
             }
-
 
             return 
                 type == typeof(List<string>) 
@@ -766,7 +787,7 @@ namespace Sem.GenericHelpers
                     break;
                         
                 case "SerializableDictionary`2":
-                    var sdic = Tools.LoadFromString(propType, valueString);
+                    var sdic = LoadFromString(propType, valueString);
                     propInfo.SetValue(objectToWriteTo, sdic, null);
                     break;
 
@@ -811,7 +832,13 @@ namespace Sem.GenericHelpers
             return objectToWriteTo;
         }
 
-        private static object LoadFromString(Type classType, string serialized)
+        /// <summary>
+        /// Deserializes a string into an object. The serialized content might be compressed.
+        /// </summary>
+        /// <param name="classType"> The class type of the object to be deserialized. </param>
+        /// <param name="serialized"> The serialized object data. </param>
+        /// <returns> The deserialized object. </returns>
+        public static object LoadFromString(Type classType, string serialized)
         {
             if (string.IsNullOrEmpty(serialized))
             {
@@ -928,6 +955,17 @@ namespace Sem.GenericHelpers
         /// Gets a list of paths to public properties of the object and its sub objects. It also includes
         /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
         /// </summary>
+        /// <param name="type">the type to be inspected</param>
+        /// <returns>a list of strings with the paths of properties detected</returns>
+        public static List<string> GetPropertyList(Type type)
+        {
+            return GetPropertyList(string.Empty, type);
+        }
+
+        /// <summary>
+        /// Gets a list of paths to public properties of the object and its sub objects. It also includes
+        /// paths to methods tagged with the <see cref="AddAsPropertyAttribute"/> attribute.
+        /// </summary>
         /// <param name="parentName">the path that should be used as a root path for the string specification of the path</param>
         /// <param name="type">the type to be inspected</param>
         /// <returns>a list of strings with the paths of properties detected</returns>
@@ -1008,6 +1046,11 @@ namespace Sem.GenericHelpers
             return elements.Where(element => !string.IsNullOrEmpty(element));
         }
 
+        /// <summary>
+        /// Decompresses a compressed string into a stream.
+        /// </summary>
+        /// <param name="compressedText"> The compressed text. </param>
+        /// <returns> The steram object containing the decompressed data - YOU need to dispose it. </returns>
         private static Stream DecompressToStream(string compressedText)
         {
             var gzipBuffer = Convert.FromBase64String(compressedText);
@@ -1111,11 +1154,6 @@ namespace Sem.GenericHelpers
             }
 
             return cachedAllowedAscii;
-        }
-
-        public static List<string> GetPropertyList(Type type)
-        {
-            return GetPropertyList(string.Empty, type);
         }
     }
 }

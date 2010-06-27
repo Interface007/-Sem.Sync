@@ -107,11 +107,11 @@ namespace Sem.GenericHelpers
 
             for (var i = 0; i <= iterations; i++)
             {
-                var tempBytes =
+                var tempBytes = 
                     new byte[
-                        ((dataLength - (blockLength * i)) > blockLength)
-                            ? blockLength
-                            : (dataLength - (blockLength * i))];
+                        (dataLength - (blockLength * i)) > blockLength
+                        ? blockLength
+                        : (dataLength - (blockLength * i))];
 
                 Buffer.BlockCopy(bytes, blockLength * i, tempBytes, 0, tempBytes.Length);
                 var encryptedBytes = rsaCryptoServiceProvider.Encrypt(tempBytes, true);

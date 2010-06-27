@@ -11,16 +11,22 @@ namespace Sem.GenericHelpers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text.RegularExpressions;
     using System.Xml.Linq;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// Implements a serializable dictionary.
+    /// </summary>
+    /// <typeparam name="TKey">the type of the key of the dictionary entries</typeparam>
+    /// <typeparam name="TValue">the type of the values of the dictionary entries</typeparam>
     [XmlRoot("dictionary")]
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableDictionary´2"/> tape
+        /// </summary>
         public SerializableDictionary()
         {
         }
