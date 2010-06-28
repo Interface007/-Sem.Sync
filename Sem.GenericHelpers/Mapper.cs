@@ -47,7 +47,7 @@ namespace Sem.GenericHelpers
         /// calls (even in the instance versions). See <see cref="Mapper"/> for an example.
         /// </summary>
         private static readonly Mapper DefaultInstance = new Mapper();
-        
+
         /// <summary>
         /// Mapping table for the instance. Use <see cref="Register{TSource,TTarget}"/> to add new mappings 
         /// to the mapper that will be used in <see cref="Map{TSource,TTarget}"/> calls of this instance.
@@ -123,8 +123,8 @@ namespace Sem.GenericHelpers
         /// <returns>A value indicating if a mapping has been executed.</returns>
         public bool Map<TSource, TTarget>(TSource source, TTarget target)
         {
-            var mapResult = 
-                this != DefaultInstance 
+            var mapResult =
+                this != DefaultInstance
                 ? DefaultInstance.Map(source, target)
                 : false;
 
@@ -146,5 +146,10 @@ namespace Sem.GenericHelpers
 
             return mapResult;
         }
+    }
+
+    public class Mapper<TSource, TTarget>
+    {
+
     }
 }
