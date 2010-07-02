@@ -10,13 +10,13 @@
 
 namespace Sdx.Sync.Connector.OracleCrmOnDemand
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    using ContactSR;
+    using Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR;
 
     using Sem.GenericHelpers;
-    using System;
 
     /// <summary>
     /// Defines constants to work with Oracle CRM on Demand
