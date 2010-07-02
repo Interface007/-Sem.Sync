@@ -17,6 +17,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
     using Sem.GenericHelpers.EventArgs;
     using Sem.Sync.LocalSyncManager.Business;
+    using Sem.Sync.SharedUI.Common;
     using Sem.Sync.SharedUI.WinForms.UI;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Binding;
@@ -72,7 +73,7 @@ namespace Sem.Sync.LocalSyncManager.UI
 
             // get the data for the combo box from the file system paths
             this.SyncListSelection.DataSource =
-                (from x in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "SyncLists"), "*.SyncList")
+                (from x in Directory.GetFiles(SyncWizardContext.WorkingFolderTemplates, "*.SyncList")
                  select new { Name = Path.GetFileName(x), Path = x }).ToList();
 
             // display file name only, but store full path

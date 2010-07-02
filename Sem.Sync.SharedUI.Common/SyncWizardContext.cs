@@ -21,7 +21,6 @@ namespace Sem.Sync.SharedUI.Common
     using System.Reflection;
 
     using Sem.GenericHelpers;
-    using Sem.GenericHelpers.Entities;
     using Sem.GenericHelpers.EventArgs;
     using Sem.GenericHelpers.Exceptions;
     using Sem.GenericHelpers.Interfaces;
@@ -60,7 +59,7 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         ///   The working folder for template files.
         /// </summary>
-        private static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
+        public static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
 
         /// <summary>
         ///   The current synchronization workflow data - this is created and saved by the user in the dialog..
@@ -509,7 +508,10 @@ namespace Sem.Sync.SharedUI.Common
         {
             Tools.EnsurePathExist(WorkingFolderData);
             this.SyncWorkflowData = new Dictionary<string, string> { { "(new)", "(new)" } };
-            foreach (var file in Directory.GetFiles(WorkingFolderData, "*" + SyncListDataFileExtension))
+            var files = new List<string>();
+            files.AddRange(Directory.GetFiles(SyncWizardContext.WorkingFolderData, "*" + SyncListDataFileExtension));
+            files.AddRange(Directory.GetFiles(SyncWizardContext.WorkingFolderTemplates, "*" + SyncListDataFileExtension));
+            foreach (var file in files)
             {
                 this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
             }
@@ -550,17 +552,11 @@ namespace Sem.Sync.SharedUI.Common
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> with a <see cref="Triple{T1,T2,T3}"/> that includes two
-        ///   strings and an int describing the classes found in the assemblies of the scanned path. Each class 
-        ///   does implement <see cref="IClientBase"/> and supports reading and/or writing. The first bit in 
-        ///   the int is for read-support, the second for write-support.
+        /// Returns an <see cref="IEnumerable{T}"/> with a <see cref="ConnectorTypeDescription"/> that includes 
+        ///   information describing the classes found in the assemblies of the scanned path. 
         /// </summary>
-        /// <param name="path">
-        /// The path to scan. 
-        /// </param>
-        /// <returns>
-        /// The IEnumerable with the information. 
-        /// </returns>
+        /// <param name="path"> The path to scan.  </param>
+        /// <returns> The IEnumerable with the information.  </returns>
         private IEnumerable<ConnectorTypeDescription> ScanFiles(string path)
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))

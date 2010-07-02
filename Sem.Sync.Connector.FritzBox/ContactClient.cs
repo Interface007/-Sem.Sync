@@ -32,7 +32,7 @@ namespace Sem.Sync.Connector.FritzBox
     [ConnectorDescription(
         DisplayName = "Fritz!Box AddressBook Client",
         NeedsCredentials = true,
-        NeedsCredentialsDomain = true)]
+        NeedsCredentialsDomain = false)]
     public class ContactClient : StdClient
     {
         public Func<string, FritzApi> FritzApiCreator { get; set; }
@@ -61,9 +61,12 @@ namespace Sem.Sync.Connector.FritzBox
         /// <param name="skipIfExisting"> Ignored in this implementation. </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            // initialize API
-            var fritzApi = FritzApiCreator.Invoke(clientFolderName); 
+            this.LogProcessingEvent("preparing {0} elements...", elements.Count);
 
+            // initialize API
+            var fritzApi = FritzApiCreator.Invoke(clientFolderName);
+
+            this.LogProcessingEvent("converting to fritz phone book...");
             // create a book with all entries that have a business or a private phone number
             var book = new PhoneBook(
                             from x in elements.ToStdContacts()
@@ -83,7 +86,12 @@ namespace Sem.Sync.Connector.FritzBox
                                     Category = (PersonCategory)Enum.Parse(typeof(PersonCategory), x.SourceSpecificAttributes.NewIfNull().GetValue("FritzBox.Category") ?? "Default"),
                                 });
 
+            this.LogProcessingEvent("{0} elements where convertable to phone book entries", book.Count);
+            
+            this.LogProcessingEvent("clearing phone book on the box...");
             fritzApi.ClearPhoneBook();
+            
+            this.LogProcessingEvent("writing entries to the box...");
             fritzApi.SetPhoneBook(book);
 
             this.LogProcessingEvent("{0} entries added", book.Count);

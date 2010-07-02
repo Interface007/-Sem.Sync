@@ -100,3 +100,5 @@
         Target =
             "Sem.Sync.Connector.ActiveDirectory.ContactClient.#AddContactsFromAdFilter(System.String,System.Collections.Generic.List`1<Sem.Sync.SyncBase.StdElement>,System.DirectoryServices.DirectoryEntry)"
         )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.ActiveDirectory.ContactClient.#ReadFullList(System.String,System.Collections.Generic.List`1<Sem.Sync.SyncBase.DetailData.StdElement>)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "Sem.Sync.Connector.ActiveDirectory.ContactClient.#ReadFullList(System.String,System.Collections.Generic.List`1<Sem.Sync.SyncBase.DetailData.StdElement>)")]

@@ -217,6 +217,13 @@ namespace Sem.Sync.SyncBase.DetailData
             return name.Replace("()", string.Empty).Replace("  ", " ").Trim();
         }
 
+        /// <summary>
+        /// Implements a simple sorting string - all characters will be upper case, the string is build by 
+        /// simply concatenating <see cref="LastName"/>, <see cref="FirstName"/>, <see cref="MiddleName"/>
+        /// and <see cref="AcademicTitle"/>. The string is being cached, so the 2nd access will not need to 
+        /// perform string processing.
+        /// </summary>
+        /// <returns>The normalized name</returns>
         public string ToSortSimple()
         {
             if (string.IsNullOrEmpty(this.sortString))

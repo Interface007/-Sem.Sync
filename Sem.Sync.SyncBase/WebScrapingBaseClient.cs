@@ -212,7 +212,15 @@ namespace Sem.Sync.SyncBase
             return contactToFill;
         }
 
-        public void FillAllContacts(ICollection<StdElement> contactsToFill, ICollection<MatchingEntry> baseline)
+        /// <summary>
+        /// If implemented, reads all contact relations for all the !specified! contacts in the <paramref name="contactToFill"/> collection.
+        /// Use this to implement connectors that are capable to read multiple contact relation lists in one operation.
+        /// This client implementation does not implement reading multiple contacts at once - override the method <see cref="FillContacts"/>, too,
+        /// to prevent double processing the contacts.
+        /// </summary>
+        /// <param name="contactToFill">the list of contacts to be filled</param>
+        /// <param name="baseline">the baseline to be used</param>
+        public void FillAllContacts(ICollection<StdElement> contactToFill, ICollection<MatchingEntry> baseline)
         {
             return;
         }

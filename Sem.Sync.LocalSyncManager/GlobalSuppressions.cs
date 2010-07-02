@@ -52,3 +52,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.Program.#Main()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#RunCommands()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.#SyncWizard_Load(System.Object,System.EventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "SyncWizard", Scope = "resource", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard.resources")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "SyncWizard", Scope = "type", Target = "Sem.Sync.LocalSyncManager.UI.SyncWizard")]

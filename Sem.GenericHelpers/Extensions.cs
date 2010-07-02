@@ -117,7 +117,7 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static T NewIfNull<T>(this T testObject) where T : class, new()
         {
-            return testObject ?? new T();
+            return testObject ?? Factory.CreateTypeInstance<T>();
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Sem.GenericHelpers
         public static T NewIfNull<T>(this T[] testObject, int index) where T : class, new()
         {
             var x = testObject ?? new T[0];
-            return x.Length > index ? x[index] : new T();
+            return x.Length > index ? x[index] : Factory.CreateTypeInstance<T>();
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static string NewIfNull(this List<string> testObject, int index)
         {
-            var x = testObject ?? new List<string>();
+            var x = testObject ?? Factory.CreateTypeInstance<List<string>>();
             return x.Count > index ? x[index] : string.Empty;
         }
 
@@ -206,8 +206,8 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static T NewIfNull<T>(this List<T> testObject, int index) where T : class, new()
         {
-            var x = testObject ?? new List<T>();
-            return x.Count > index ? x[index] : new T();
+            var x = testObject ?? Factory.CreateTypeInstance<List<T>>();
+            return x.Count > index ? x[index] : Factory.CreateTypeInstance<T>();
         }
 
         /// <summary>
@@ -230,8 +230,8 @@ namespace Sem.GenericHelpers
         /// </returns>
         public static T NewIfNull<T>(this Dictionary<string, T> testObject, string key) where T : class, new()
         {
-            var x = testObject ?? new Dictionary<string, T>();
-            return x.ContainsKey(key) ? x[key] : new T();
+            var x = testObject ?? Factory.CreateTypeInstance<Dictionary<string, T>>();
+            return x.ContainsKey(key) ? x[key] : Factory.CreateTypeInstance<T>();
         }
 
         #endregion

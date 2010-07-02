@@ -27,7 +27,6 @@ namespace Sem.Sync.Connector.WerKenntWen
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
-    using Sem.Sync.SyncBase.Interfaces;
 
     #endregion usings
 
@@ -42,9 +41,9 @@ namespace Sem.Sync.Connector.WerKenntWen
     {
         #region Constants and Fields
         
-        private const string wkwCaptcha = "wkw/captcha/";
+        private const string WkwCaptcha = "wkw/captcha/";
 
-        private WebSideParameters parameters = new WebSideParameters
+        private readonly WebSideParameters parameters = new WebSideParameters
                     {
                         HttpUrlBaseAddress = "http://www.wer-kennt-wen.de",
                         ContactListUrl = "/people/friends",
@@ -293,18 +292,24 @@ namespace Sem.Sync.Connector.WerKenntWen
             }
         }
 
-        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        /// <summary>
+        /// Implements the method to fill the contact with additional links to other contacts.
+        /// </summary>
+        /// <param name="contactToFill"> The contact to be filled. </param>
+        /// <param name="baseline"> The baseline that does contain possible link targets. </param>
+        /// <returns> the manipulated contact </returns>
+        public new StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
         {
             var contact = contactToFill as StdContact;
-            const ProfileIdentifierType ProfileIdentifierType = ProfileIdentifierType.WerKenntWenUrl;
-            const string ProfilePhpId = "/person/";
+            const ProfileIdentifierType profileIdentifierType = ProfileIdentifierType.WerKenntWenUrl;
+            const string profilePhpId = "/person/";
 
-            if (contact == null || !contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType))
+            if (contact == null || !contact.ExternalIdentifier.ContainsKey(profileIdentifierType))
             {
                 return contactToFill;
             }
 
-            var profileIdInformation = contact.ExternalIdentifier[ProfileIdentifierType];
+            var profileIdInformation = contact.ExternalIdentifier[profileIdentifierType];
             if (profileIdInformation == null || string.IsNullOrWhiteSpace(profileIdInformation.Id))
             {
                 return contactToFill;
@@ -321,7 +326,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                 var url = string.Format(
                     CultureInfo.InvariantCulture,
                     "http://www.wer-kennt-wen.de/people/friends/{0}/sort/friends/0/0/{1}",
-                    profileIdInformation.Id.Replace(ProfilePhpId, string.Empty),
+                    profileIdInformation.Id.Replace(profilePhpId, string.Empty),
                     offset);
 
                 string profileContent;
@@ -338,7 +343,7 @@ namespace Sem.Sync.Connector.WerKenntWen
                         continue;
                     }
 
-                    if (profileContent.Contains(wkwCaptcha))
+                    if (profileContent.Contains(WkwCaptcha))
                     {
                         this.ResolveCaptcha();
                         continue;
@@ -360,10 +365,10 @@ namespace Sem.Sync.Connector.WerKenntWen
 
                 foreach (Match extract in extracts)
                 {
-                    var profileId = ProfilePhpId + extract.Groups["profileId"];
+                    var profileId = profilePhpId + extract.Groups["profileId"];
                     var stdId =
                         (from x in baseline
-                         where x.ProfileId.GetProfileId(ProfileIdentifierType) == profileId
+                         where x.ProfileId.GetProfileId(profileIdentifierType) == profileId
                          select x.Id).FirstOrDefault();
 
                     // we ignore contacts we donn't know

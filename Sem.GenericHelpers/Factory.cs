@@ -12,6 +12,7 @@ namespace Sem.GenericHelpers
     using System;
     using System.Configuration;
     using System.Globalization;
+    using System.Linq.Expressions;
     using System.Text;
 
     /// <summary>
@@ -39,6 +40,11 @@ namespace Sem.GenericHelpers
     {
         #region Constructors and Destructors
 
+        static Factory()
+        {
+            Mocks = new SerializableDictionary<string, object>();
+        }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Factory" /> class.
         /// </summary>
@@ -60,6 +66,8 @@ namespace Sem.GenericHelpers
         #endregion
 
         #region Properties
+
+        public static SerializableDictionary<string, object> Mocks { get; private set; }
 
         /// <summary>
         ///   Gets or sets the default name space for class names that do not have a name space specified.
@@ -202,7 +210,7 @@ namespace Sem.GenericHelpers
                 type = Type.GetType(this.EnrichClassName(className), true, true);
             }
 
-            return Activator.CreateInstance(type);
+            return CreateTypeInstance(type);
         }
 
         /// <summary>
@@ -221,19 +229,62 @@ namespace Sem.GenericHelpers
         {
             var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
             var classType = Type.GetType(this.EnrichClassName(className.Trim()));
-            
+
             if (classType == null)
             {
-                throw new ArgumentException(
-                    string.Format(
-                        CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), 
-                    "className");
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), "className");
             }
 
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
-            return Activator.CreateInstance(constructedType);
+            return CreateTypeInstance(constructedType);
+        }
+
+        static object GetMock(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                if (Mocks.ContainsKey(name))
+                {
+                    return Mocks[name];
+                }
+            }
+
+            return null;
+        }
+
+        public static object CreateTypeInstance(Type type)
+        {
+            return (GetMock(type.FullName) ?? Activator.CreateInstance(type));
+        }
+
+        public static object CreateTypeInstance<TCtorParam1>(Type type, TCtorParam1 param1)
+        {
+            return GetMock(string.Join(":", type.FullName , typeof(TCtorParam1).FullName))
+                ?? Activator.CreateInstance(type, param1);
+        }
+
+        public static object CreateTypeInstance<TCtorParam1, TCtorParam2>(Type type, TCtorParam1 param1, TCtorParam2 param2)
+        {
+            return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName, typeof(TCtorParam2).FullName))
+                ?? Activator.CreateInstance(type, param1);
+        }
+
+        public static T CreateTypeInstance<T>() where T : class
+        {
+            return CreateTypeInstance(typeof(T)) as T;
+        }
+
+        public static T Invoke<T>(Expression<Func<T>> constructorExpression)
+        {
+            SerializableDictionary<Expression<Func<T>>, T> ExpressionMocks = new SerializableDictionary<Expression<Func<T>>, T>();
+            if (ExpressionMocks.ContainsKey(constructorExpression))
+            {
+                return ExpressionMocks[constructorExpression];
+            }
+
+            return constructorExpression.Compile().Invoke();
         }
 
         #endregion

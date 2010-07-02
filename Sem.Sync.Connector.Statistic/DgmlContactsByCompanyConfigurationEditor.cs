@@ -33,10 +33,10 @@ namespace Sem.Sync.Connector.Statistic
 
         public DialogResult ShowDialog(DgmlContactsByCompanyConfigurationData editorData)
         {
-            this.cboGroupingProperty.Text = editorData.GroupingPropertName;
+            this.cboGroupingProperty.Text = editorData.GroupingPropertyName;
             this.txtFileName.Text = editorData.DestinationPath;
             var dialogResult = this.ShowDialog();
-            editorData.GroupingPropertName = this.cboGroupingProperty.Text;
+            editorData.GroupingPropertyName = this.cboGroupingProperty.Text;
             editorData.DestinationPath = this.txtFileName.Text;
 
             return dialogResult;

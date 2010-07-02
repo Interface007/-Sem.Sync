@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions targetNamespace="urn:crmondemand/ws/odesabs/customwebtab/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:crmondemand/ws/odesabs/customwebtab/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:apData="urn:/crmondemand/xml/customwebtab/data" xmlns:apQuery="urn:/crmondemand/xml/customwebtab/query">
+    <types>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:crmondemand/ws/odesabs/customwebtab/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="urn:/crmondemand/xml/customwebtab/query"></xsd:import>
+            <xsd:import namespace="urn:/crmondemand/xml/customwebtab/data"></xsd:import>
+            <xsd:element name="CustomWebTabReadAll_Input">
+                <xsd:complexType></xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabReadAll_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:ListOfCustomWebTabSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabRead_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apQuery:CustomWebTabSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabRead_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:ListOfCustomWebTabSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabUpsert_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:CustomWebTabSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabUpsert_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Status" type="xsd:string"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabDelete_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apQuery:CustomWebTabSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomWebTabDelete_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Status" type="xsd:string"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:/crmondemand/xml/customwebtab/query" xmlns:apQuery="urn:/crmondemand/xml/customwebtab/query" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="CustomWebTabSet" type="apQuery:CustomWebTabSetQuery"></xsd:element>
+            <xsd:complexType name="CustomWebTabSetQuery">
+                <xsd:all>
+			<xsd:element name="DisplayName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+			<xsd:element name="Description" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="Url" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="FrameHeight" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="FrameWidth" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="IconName" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="ListOfCustomWebTabTranslations" type="apQuery:ListOfCustomWebTabTranslationsQuery" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfCustomWebTabTranslationsQuery">
+                <xsd:sequence>
+                    <xsd:element name="CustomWebTabTranslation" type="apQuery:CustomWebTabTranslationQuery" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CustomWebTabTranslationQuery">
+                <xsd:all>
+                    <xsd:element name="LanguageCode" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="DisplayName" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Empty"></xsd:complexType>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:/crmondemand/xml/customwebtab/data" xmlns:apData="urn:/crmondemand/xml/customwebtab/data" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="ListOfCustomWebTabSet" type="apData:ListOfCustomWebTabSetData"></xsd:element>
+            <xsd:complexType name="ListOfCustomWebTabSetData">
+                <xsd:sequence>
+                    <xsd:element ref="apData:CustomWebTabSet" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="CustomWebTabSet" type="apData:CustomWebTabSetData"></xsd:element>
+            <xsd:complexType name="CustomWebTabSetData">
+                <xsd:all>
+			<xsd:element name="DisplayName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+			<xsd:element name="Description" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="Url" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="FrameHeight" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="FrameWidth" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="IconName" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+			<xsd:element name="ListOfCustomWebTabTranslations" type="apData:ListOfCustomWebTabTranslationsData" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfCustomWebTabTranslationsData">
+                <xsd:sequence>
+                    <xsd:element name="CustomWebTabTranslation" type="apData:CustomWebTabTranslationData" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CustomWebTabTranslationData">
+                <xsd:all>
+                    <xsd:element name="LanguageCode" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="DisplayName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+    <message name="CustomWebTabReadAll_Input">
+        <part name="CustomWebTabReadAll_Input" element="tns:CustomWebTabReadAll_Input"></part>
+    </message>
+    <message name="CustomWebTabReadAll_Output">
+        <part name="CustomWebTabReadAll_Output" element="tns:CustomWebTabReadAll_Output"></part>
+    </message>
+    <message name="CustomWebTabRead_Input">
+        <part name="CustomWebTabRead_Input" element="tns:CustomWebTabRead_Input"></part>
+    </message>
+    <message name="CustomWebTabRead_Output">
+        <part name="CustomWebTabRead_Output" element="tns:CustomWebTabRead_Output"></part>
+    </message>
+    <message name="CustomWebTabUpsert_Input">
+        <part name="CustomWebTabUpsert_Input" element="tns:CustomWebTabUpsert_Input"></part>
+    </message>
+    <message name="CustomWebTabUpsert_Output">
+        <part name="CustomWebTabUpsert_Output" element="tns:CustomWebTabUpsert_Output"></part>
+    </message>
+    <message name="CustomWebTabDelete_Input">
+        <part name="CustomWebTabDelete_Input" element="tns:CustomWebTabDelete_Input"></part>
+    </message>
+    <message name="CustomWebTabDelete_Output">
+        <part name="CustomWebTabDelete_Output" element="tns:CustomWebTabDelete_Output"></part>
+    </message>
+    <portType name="CustomWebTabService">
+        <operation name="CustomWebTabReadAll">
+            <input message="tns:CustomWebTabReadAll_Input"></input>
+            <output message="tns:CustomWebTabReadAll_Output"></output>
+        </operation>
+        <operation name="CustomWebTabRead">
+            <input message="tns:CustomWebTabRead_Input"></input>
+            <output message="tns:CustomWebTabRead_Output"></output>
+        </operation>
+        <operation name="CustomWebTabUpsert">
+            <input message="tns:CustomWebTabUpsert_Input"></input>
+            <output message="tns:CustomWebTabUpsert_Output"></output>
+        </operation>
+        <operation name="CustomWebTabDelete">
+            <input message="tns:CustomWebTabDelete_Input"></input>
+            <output message="tns:CustomWebTabDelete_Output"></output>
+        </operation>
+    </portType>
+    <binding name="CustomWebTabService" type="tns:CustomWebTabService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+        <operation name="CustomWebTabReadAll">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/customwebtab/:CustomWebTabReadAll"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+        <operation name="CustomWebTabRead">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/customwebtab/:CustomWebTabRead"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+        <operation name="CustomWebTabUpsert">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/customwebtab/:CustomWebTabUpsert"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+        <operation name="CustomWebTabDelete">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/customwebtab/:CustomWebTabDelete"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+    </binding>
+    <service name="CustomWebTabService">
+        <port name="CustomWebTabService" binding="tns:CustomWebTabService">
+            <soap:address location="https://secure-ausomxeea.crmondemand.com/Services/cte/CustomWebTabService"></soap:address>
+        </port>
+    </service>
+</definitions>

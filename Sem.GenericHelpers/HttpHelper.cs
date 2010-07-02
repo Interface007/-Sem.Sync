@@ -82,19 +82,19 @@ namespace Sem.GenericHelpers
         /// </summary>
         private static readonly Regex[] RedirectExtractors = new[]
             {
-               new Regex(@"<script>window.location.replace\(""(.*)""\);</script>"), 
-              new Regex(@"<meta http-equiv=""refresh"" content=""0;url=(.*?)"" />")
+                new Regex(@"<script>window.location.replace\(""(.*)""\);</script>"), 
+                new Regex(@"<meta http-equiv=""refresh"" content=""0;url=(.*?)"" />")
             };
 
         /// <summary>
         ///   Private cookie store when not using IE cookies
         /// </summary>
-        private readonly CookieContainer sessionCookies = new CookieContainer();
+        private readonly CookieContainer sessionCookies = Factory.CreateTypeInstance<CookieContainer>();
 
         /// <summary>
         ///   credentials for the proxy server
         /// </summary>
-        private ICredentialAware proxyCredentials = new Credentials();
+        private ICredentialAware proxyCredentials = Factory.CreateTypeInstance<Credentials>();
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace Sem.GenericHelpers
         /// </summary>
         static HttpHelper()
         {
-            DefaultInstance = new HttpHelper(string.Empty, false);
+            DefaultInstance = (HttpHelper)Factory.CreateTypeInstance(typeof(HttpHelper), string.Empty, false);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Sem.GenericHelpers
         {
             this.BaseUrl = baseUrl;
             this.IgnoreCertificateError = ignoreCertificateErrors;
-            this.sessionCookies = new CookieContainer();
+            this.sessionCookies = Factory.CreateTypeInstance< CookieContainer>();
             ServicePointManager.Expect100Continue = false;
 
             if (this.IgnoreCertificateError)
@@ -137,7 +137,7 @@ namespace Sem.GenericHelpers
                 ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, errors) => true;
             }
 
-            this.ContentCredentials = new Credentials();
+            this.ContentCredentials = Factory.CreateTypeInstance < Credentials>();
         }
 
         #endregion
@@ -447,7 +447,7 @@ namespace Sem.GenericHelpers
             {
                 return false;
             }
-            
+
             var listMatches = Regex.Matches(this.LastExtractContent, regularExpression, RegexOptions.Singleline);
             foreach (Match match in listMatches)
             {
@@ -616,10 +616,15 @@ namespace Sem.GenericHelpers
                               orderby s descending
                               select s;
 
-            var cookies = new CookieCollection();
+            var cookies = Factory.CreateTypeInstance < CookieCollection>();
             foreach (var cookie in cookieFiles)
             {
                 var filename = Path.GetFileNameWithoutExtension(cookie);
+                if (filename == null)
+                {
+                    continue;
+                }
+                
                 filename = filename.Substring(filename.IndexOf("@", StringComparison.Ordinal) + 1);
                 if (filename.Contains("["))
                 {
@@ -925,12 +930,12 @@ namespace Sem.GenericHelpers
             var request = this.CreateRequest(url, "GET", referer);
 
             var logonCredentialRequest = new LogonCredentialRequest(
-                this.proxyCredentials, 
+                this.proxyCredentials,
                 string.Format(
-                    CultureInfo.CurrentCulture, 
-                    Properties.Resources.TheProxyServerNeedsYourCredentials, 
-                    url.Host, 
-                    request.Proxy.GetProxy(url).Host), 
+                    CultureInfo.CurrentCulture,
+                    Properties.Resources.TheProxyServerNeedsYourCredentials,
+                    url.Host,
+                    request.Proxy.GetProxy(url).Host),
                 request.Proxy.GetProxy(url).Host);
 
             while (true)
@@ -957,15 +962,15 @@ namespace Sem.GenericHelpers
                             {
                                 request.Proxy.Credentials =
                                     new NetworkCredential(
-                                        logonCredentialRequest.LogOnCredentials.LogOnUserId, 
+                                        logonCredentialRequest.LogOnCredentials.LogOnUserId,
                                         logonCredentialRequest.LogOnCredentials.LogOnPassword);
                             }
                             else
                             {
                                 request.Proxy.Credentials =
                                     new NetworkCredential(
-                                        logonCredentialRequest.LogOnCredentials.LogOnUserId, 
-                                        logonCredentialRequest.LogOnCredentials.LogOnPassword, 
+                                        logonCredentialRequest.LogOnCredentials.LogOnUserId,
+                                        logonCredentialRequest.LogOnCredentials.LogOnPassword,
                                         logonCredentialRequest.LogOnCredentials.LogOnDomain);
                             }
                         }
@@ -996,9 +1001,9 @@ namespace Sem.GenericHelpers
                             if (
                                 this.UiDispatcher.AskForConfirm(
                                     string.Format(
-                                        Resources.UserMessageConnectionProblemQuestionRetry, 
-                                        url.Host, 
-                                        ex.Status), 
+                                        Resources.UserMessageConnectionProblemQuestionRetry,
+                                        url.Host,
+                                        ex.Status),
                                     Resources.UserMessageConnectionProblemTitle))
                             {
                                 continue;

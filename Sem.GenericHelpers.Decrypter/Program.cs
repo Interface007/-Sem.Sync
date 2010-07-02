@@ -17,7 +17,7 @@ namespace Sem.GenericHelpers.Decrypter
     /// <summary>
     /// Decrypts all files in the local directory.
     /// </summary>
-    public class Program
+    public static class Program
     {
         #region Public Methods
 

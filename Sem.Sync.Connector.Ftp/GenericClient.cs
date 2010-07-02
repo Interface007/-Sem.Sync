@@ -24,6 +24,7 @@ namespace Sem.Sync.Connector.Ftp
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.SyncBase.Helpers;
 
     #endregion usings
 
@@ -42,7 +43,8 @@ namespace Sem.Sync.Connector.Ftp
         NeedsCredentialsDomain = false,
         CanReadCalendarEntries = true,
         CanWriteCalendarEntries = true)]
-    public class GenericClient : StdClient
+    public class GenericClient<T> : StdClient
+        where T : StdElement
     {
         /// <summary>
         /// The length of the transfer buffer
@@ -61,10 +63,6 @@ namespace Sem.Sync.Connector.Ftp
                 return "FTP Generic Connector - does not provide type specific features";
             }
         }
-
-        #endregion
-
-        #region Implemented Interfaces
 
         #endregion
 
@@ -98,14 +96,18 @@ namespace Sem.Sync.Connector.Ftp
                 ExceptionHandler.Suppress<WebException>(
                     () =>
                     {
-                        responseStream = request.GetResponse().GetResponseStream();
-                        responseStream.CopyTo(stream);
-                        stream.Position = 0;
-                        fileString = Encoding.UTF8.GetString(stream.ToArray());
+                        var webResponse = request.GetResponse();
+                        if (webResponse != null)
+                        {
+                            responseStream = webResponse.GetResponseStream();
+                            responseStream.CopyTo(stream);
+                            stream.Position = 0;
+                            fileString = Encoding.UTF8.GetString(stream.ToArray());
+                        }
                     },
                     ex => ex.Message.Contains("(550) File unavailable"));
 
-                return Tools.LoadFromString<List<StdElement>>(fileString) ?? result;
+                return Tools.LoadFromString<List<T>>(fileString).ToStdElements() ?? result;
             }
         }
 
@@ -259,7 +261,7 @@ namespace Sem.Sync.Connector.Ftp
             request.UseBinary = true;
             request.KeepAlive = true;
             request.Credentials = new NetworkCredential(this.LogOnUserId, this.LogOnPassword);
-            
+
             return request;
         }
 

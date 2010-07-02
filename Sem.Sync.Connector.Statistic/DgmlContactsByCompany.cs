@@ -125,16 +125,16 @@ namespace Sem.Sync.Connector.Statistic
             graph.Categories.Add(new Category(LinkCategoryPrivate, Color.Red, Color.Red));
             graph.Categories.Add(new Category(LinkCategoryBusiness, Color.Blue, Color.Blue));
 
-            if (!string.IsNullOrWhiteSpace(data.GroupingPropertName))
+            if (!string.IsNullOrWhiteSpace(data.GroupingPropertyName))
             {
-                var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, data.GroupingPropertName)).Distinct();
+                var distinctGroups = (from x in stdContacts select Tools.GetPropertyValueString(x, data.GroupingPropertyName)).Distinct();
                 graph.Nodes.AddRange(
                     from y in distinctGroups
                     select new Node("Group@" + y, "Collapsed", y));
 
                 graph.Links.AddRange(
                     from x in stdContacts
-                    select new Link("Group@" + Tools.GetPropertyValueString(x, data.GroupingPropertName), "Contains", x.Id.ToString("N")));
+                    select new Link("Group@" + Tools.GetPropertyValueString(x, data.GroupingPropertyName), "Contains", x.Id.ToString("N")));
             }
 
             this.LogProcessingEvent("saving statistic file...");

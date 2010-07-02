@@ -25,3 +25,4 @@
     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", 
         Scope = "member", 
         Target = "Sem.Sync.Connector.WerKenntWen.ContactClient.#DownloadContact(System.String,System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "Sem.Sync.Connector.WerKenntWen.ContactClient.#ConvertToStdContact(System.String,System.String)")]
