@@ -97,7 +97,7 @@
             mapper.Register<Source, Target>(x => x.Name, (y, x) => y.FullName = (string)x);
             mapper.Register<Source, Target>(x => x.Phone, (y, x) => y.PhoneNumber = (string)x);
             
-            mapper.Map(source, target);
+            // perform the mapping
 
             mapper.Register<Source, Target>(
                 x => x.Contacts, 
@@ -113,7 +113,7 @@
             var source = new StdContact { PersonalAddressPrimary = new AddressDetail{Phone = "0123-456789"} };
             var target = new StdCalendarItem();
 
-            // perform the mapping
+            mapper.Map(source, target);
 
             // test it
             Assert.AreEqual("Call to (123) 456789", target.Title);
