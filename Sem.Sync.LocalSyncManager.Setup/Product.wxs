@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+>
   <!--
   This setup project is not very complex, but it's containing a GUI, writes registry 
   entries and files, creates folders and shortcuts. As you can see, it's not complex 
@@ -18,6 +20,11 @@
              Manufacturer="Sven Erik Matzen" />
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    <PropertyRef Id="NETFRAMEWORK40CLIENT"/>
+
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
+    </Condition>
 
     <!-- We will install all assemblies into the programs folder, because we don't have a 
      strong name for the assemblies to sign and install them into the gac. This also 
