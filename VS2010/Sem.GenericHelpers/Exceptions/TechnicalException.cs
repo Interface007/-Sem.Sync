@@ -38,9 +38,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message">
-        /// The message. 
-        /// </param>
+        /// <param name="message"> The message.  </param>
         public TechnicalException(string message)
             : base(message)
         {
@@ -49,12 +47,8 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message">
-        /// The message. 
-        /// </param>
-        /// <param name="innerException">
-        /// The inner exception. 
-        /// </param>
+        /// <param name="message"> The message.  </param>
+        /// <param name="innerException"> The inner exception.  </param>
         public TechnicalException(string message, Exception innerException)
             : base(message, innerException)
         {
@@ -63,17 +57,21 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="message">
-        /// The message of the exception. 
-        /// </param>
-        /// <param name="innerException">
-        /// The inner (causing) exception. 
-        /// </param>
-        /// <param name="relatedEntities">
-        /// The related entities - add entitries to the exception that might help reproduce the exception. 
-        /// </param>
-        public TechnicalException(
-            string message, Exception innerException, params KeyValuePair<string, object>[] relatedEntities)
+        /// <param name="message"> The message of the exception. </param>
+        /// <param name="relatedEntities"> The related entities - add entitries to the exception that might help reproduce the exception.  </param>
+        public TechnicalException(string message, params KeyValuePair<string, object>[] relatedEntities)
+            : base(message)
+        {
+            this.RelatedEntities = new List<KeyValuePair<string, object>>(relatedEntities);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TechnicalException"/> class.
+        /// </summary>
+        /// <param name="message"> The message of the exception. </param>
+        /// <param name="innerException"> The inner (causing) exception.  </param>
+        /// <param name="relatedEntities"> The related entities - add entitries to the exception that might help reproduce the exception.  </param>
+        public TechnicalException(string message, Exception innerException, params KeyValuePair<string, object>[] relatedEntities)
             : base(message, innerException)
         {
             this.RelatedEntities = new List<KeyValuePair<string, object>>(relatedEntities);
@@ -82,12 +80,8 @@ namespace Sem.GenericHelpers.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="TechnicalException"/> class.
         /// </summary>
-        /// <param name="info">
-        /// The serialization info. 
-        /// </param>
-        /// <param name="context">
-        /// The streaming context. 
-        /// </param>
+        /// <param name="info"> The serialization info.  </param>
+        /// <param name="context"> The streaming context.  </param>
         protected TechnicalException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

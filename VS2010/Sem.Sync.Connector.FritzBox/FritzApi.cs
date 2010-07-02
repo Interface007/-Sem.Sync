@@ -259,6 +259,14 @@ namespace Sem.Sync.Connector.FritzBox
             this.phonebookControl.host = this.Host.Host;
             this.phonebookControl.HTTPpassword = this.UserPassword;
             var phoneBookResult = this.phonebookControl.OpenPort() as Hashtable;
+
+            if (phoneBookResult != null && phoneBookResult["Port"] == null)
+            {
+                throw new TechnicalException(
+                    "this.phonebookControl.OpenPort() returned no 'Port'",
+                    new KeyValuePair<string, object>("returnedTable", phoneBookResult));
+            }
+
             return
                 phoneBookResult != null
                 ? int.Parse((string)phoneBookResult["Port"]) :
