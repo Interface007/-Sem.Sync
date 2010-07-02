@@ -12,3 +12,4 @@
         Scope = "member", Target = "Sem.GenericHelpers.ExceptionService.IExceptionService.#GetEncryptionKey()")]
 [assembly:
     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Scope = "type", Target = "Sem.GenericHelpers.ExceptionService.ExceptionService")]

@@ -219,7 +219,7 @@ namespace Sem.Sync.SyncBase
         /// </returns>
         public virtual List<StdElement> GetAll(string clientFolderName)
         {
-            var result = new List<StdElement>();
+            var result = Factory.CreateTypeInstance<List<StdElement>>();
 
             this.LogProcessingEvent(Resources.uiReadingElements);
             this.BeforeStorageAccess(clientFolderName);
@@ -358,7 +358,7 @@ namespace Sem.Sync.SyncBase
 
             if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
             {
-                fileName = Path.Combine(Path.GetDirectoryName(GetFileName(clientFolderName)), fileName);
+                return Path.Combine(Path.GetDirectoryName(GetFileName(clientFolderName)), fileName);
             }
 
             return fileName;

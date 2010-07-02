@@ -36,3 +36,5 @@
         Target =
             "Sem.Sync.Connector.MeinVZ.ContactClient.#MapKeyValuePair(Sem.Sync.SyncBase.StdContact,System.String,System.String)"
         )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Scope = "member", Target = "Sem.Sync.Connector.MeinVZ.ContactClient.#ReadFullList(System.String,System.Collections.Generic.List`1<Sem.Sync.SyncBase.DetailData.StdElement>)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "Sem.Sync.Connector.MeinVZ.ContactClient.#MapKeyValuePair(Sem.Sync.SyncBase.DetailData.StdContact,System.String,System.String)")]

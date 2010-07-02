@@ -32,7 +32,7 @@ namespace Sem.GenericHelpers.Entities
         /// <summary>
         ///   provides serialization capability for Expressions (e.g. Lambda)
         /// </summary>
-        private readonly ExpressionSerializer serializer = new ExpressionSerializer();
+        private readonly ExpressionSerializer serializer = Factory.CreateTypeInstance<ExpressionSerializer>();
 
         #endregion
 

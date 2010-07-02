@@ -18,7 +18,7 @@ namespace Sem.Sync.Connector.Statistic
         /// <summary>
         /// Gets or sets the property path to the grouping property - might be empty.
         /// </summary>
-        public string GroupingPropertName { get; set; }
+        public string GroupingPropertyName { get; set; }
 
         /// <summary>
         /// Gets or sets the destination file name and path for the DGML path.
@@ -30,7 +30,7 @@ namespace Sem.Sync.Connector.Statistic
         /// </summary>
         public DgmlContactsByCompanyConfigurationData()
         {
-            this.GroupingPropertName = "BusinessCompanyName";
+            this.GroupingPropertyName = "BusinessCompanyName";
         }
     }
 }

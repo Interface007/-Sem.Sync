@@ -181,14 +181,14 @@ namespace Sem.Sync.Connector.Statistic.Dgml
             this.Background = BackColors[instanceCounter % BackColors.Length].Name;
         }
 
-        public Category(string label, Color backcolor)
+        public Category(string label, Color backColor)
             : this(label)
         {
-            this.Background = backcolor.Name;
+            this.Background = backColor.Name;
         }
 
-        public Category(string label, Color backcolor, Color stroke)
-            : this(label, backcolor)
+        public Category(string label, Color backColor, Color stroke)
+            : this(label, backColor)
         {
             this.Stroke = stroke.Name;
         }

@@ -28,6 +28,12 @@ namespace Sem.Sync.SyncBase.Interfaces
         /// <returns> the "enriched" element  </returns>
         StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline);
 
+        /// <summary>
+        /// Reads all contact relations for all the specified contacts in the <paramref name="contactToFill"/> collection.
+        /// Use this to implement connectors that are capable to read multiple contact relation lists in one operation.
+        /// </summary>
+        /// <param name="contactToFill"></param>
+        /// <param name="baseline"></param>
         void FillAllContacts(ICollection<StdElement> contactToFill, ICollection<MatchingEntry> baseline);
 
         #endregion

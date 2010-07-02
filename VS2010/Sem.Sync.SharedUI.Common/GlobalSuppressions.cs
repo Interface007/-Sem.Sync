@@ -42,3 +42,4 @@
         Scope = "member", Target = "Sem.Sync.SharedUI.Common.SyncWizardContext.#SyncWorkflowData")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Scope = "member", Target = "Sem.Sync.SharedUI.Common.SyncWizardContext.#ClientsSource")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Scope = "member", Target = "Sem.Sync.SharedUI.Common.SyncWizardContext.#ClientsTarget")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "SyncWizard", Scope = "type", Target = "Sem.Sync.SharedUI.Common.SyncWizardContext")]

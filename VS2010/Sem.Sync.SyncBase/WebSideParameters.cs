@@ -85,9 +85,26 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         public ProfileIdentifierType ProfileIdentifierType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the url to the list of contact relations
+        /// </summary>
         public string ContactListUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regular expression to extract a person identifier from a contact relation page
+        /// </summary>
         public string PersonIdentifierFromContactsListRegex { get; set; }
+        
+        /// <summary>
+        /// Gest or sets the regular expression that extracts the part of the profile identifier that can be found in the friend list.
+        /// This way we can handle profile identifier that do contain redundant information that is not part of the friend list.
+        /// </summary>
         public string ProfileIdPartExtractor { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a string that will be used with <see cref="string.Format(string,object[])"/> in order to transform an
+        /// extracted indentifier into the format of n external id.
+        /// </summary>
         public string ProfileIdFormatter { get; set; }
 
         #endregion
