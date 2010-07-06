@@ -10,10 +10,12 @@
 namespace Sem.GenericHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -261,7 +263,7 @@ namespace Sem.GenericHelpers
 
         public static object CreateTypeInstance<TCtorParam1>(Type type, TCtorParam1 param1)
         {
-            return GetMock(string.Join(":", type.FullName , typeof(TCtorParam1).FullName))
+            return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName))
                 ?? Activator.CreateInstance(type, param1);
         }
 
@@ -276,15 +278,51 @@ namespace Sem.GenericHelpers
             return CreateTypeInstance(typeof(T)) as T;
         }
 
-        public static T Invoke<T>(Expression<Func<T>> constructorExpression)
+        static readonly Dictionary<string, Func<object>> ExpressionMap = new Dictionary<string, Func<object>>();
+
+        private static readonly Regex AnonymousClassReplacer = new Regex(@"\<>c__DisplayClass[0-9]+", RegexOptions.Compiled);
+
+        public static void Register<T>(Expression<Func<T>> toBeReplaced, Expression<Func<T>> replacement)
         {
-            SerializableDictionary<Expression<Func<T>>, T> ExpressionMocks = new SerializableDictionary<Expression<Func<T>>, T>();
-            if (ExpressionMocks.ContainsKey(constructorExpression))
+            Func<object> genReplacement = () => replacement.Compile();
+
+            var genToBeReplaced = GenerateNameFromExpression(toBeReplaced);
+            if (ExpressionMap.ContainsKey(genToBeReplaced))
             {
-                return ExpressionMocks[constructorExpression];
+                ExpressionMap.Remove(genToBeReplaced);
             }
 
-            return constructorExpression.Compile().Invoke();
+            ExpressionMap.Add(genToBeReplaced, genReplacement);
+        }
+
+        public static T Invoke<T>(Expression<Func<T>> toBeReplaced)
+            where T : class
+        {
+            var genToBeReplaced = GenerateNameFromExpression(toBeReplaced);
+            if (ExpressionMap.ContainsKey(genToBeReplaced))
+            {
+                var result = ExpressionMap[genToBeReplaced].Invoke();
+                return ((Func<object>)result).Invoke() as T;
+            }
+
+            var compiledExpression = toBeReplaced.Compile();
+            if (compiledExpression == null)
+            {
+                throw new ArgumentException(@"The expression did not compile properly and no replacement has been registered.", "toBeReplaced");
+            }
+
+            return compiledExpression.Invoke();
+        }
+
+        private static string GenerateNameFromExpression<T>(Expression<Func<T>> expression)
+        {
+            var nameFromExpression = expression.ToString();
+            if (nameFromExpression.Contains("c__DisplayClass"))
+            {
+                nameFromExpression = AnonymousClassReplacer.Replace(nameFromExpression, "<>c__DisplayClass");
+            }
+
+            return nameFromExpression;
         }
 
         #endregion

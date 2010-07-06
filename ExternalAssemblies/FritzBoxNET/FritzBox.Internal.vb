@@ -4,10 +4,13 @@ Imports System.Text
 Imports System.Net.Sockets
 Imports System.Net
 Imports System.Xml
-Imports System.Io
+Imports System.IO
+Imports Sem.GenericHelpers.Exceptions
+
 Namespace Internal
     Friend Class OutputHelper
         Public Sub DebugOutput(ByVal DebugText As String)
+            ExceptionHandler.WriteContextEntry("fritz.net log-entry", DebugText)
             Console.WriteLine("[" + Timer.ToString + "] " + DebugText)
         End Sub
     End Class

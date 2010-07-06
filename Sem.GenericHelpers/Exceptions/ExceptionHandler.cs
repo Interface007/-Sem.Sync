@@ -24,6 +24,7 @@ namespace Sem.GenericHelpers.Exceptions
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
@@ -60,6 +61,8 @@ namespace Sem.GenericHelpers.Exceptions
         ///   The dafault exception handler (using the file system to log exceptions).
         /// </summary>
         private static readonly ExceptionHandler DefaultHandler;
+
+        private static readonly List<System.Collections.Generic.KeyValuePair<string, object>> ContextCache = new List<KeyValuePair<string, object>>();
 
         #endregion
 
@@ -120,11 +123,8 @@ namespace Sem.GenericHelpers.Exceptions
         /// <returns>
         /// a string containing the xml information written to the <see cref="ExceptionWriter"/> list. 
         /// </returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", 
-            "SA1116:SplitParametersMustStartOnLineAfterDeclaration", 
-            Justification = "the XElement class perfectly supports floating interfaces")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1118:ParametersMustNotSpanMultipleLines", 
-            Justification = "the XElement class perfectly supports floating interfaces")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1116:SplitParametersMustStartOnLineAfterDeclaration", Justification = "the XElement class perfectly supports floating interfaces")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules", "SA1118:ParametersMustNotSpanMultipleLines", Justification = "the XElement class perfectly supports floating interfaces")]
         public static string HandleException(Exception ex)
         {
             // do not write or process abort exceptions
@@ -141,7 +141,8 @@ namespace Sem.GenericHelpers.Exceptions
                 new XElement(
                     "GenericInfo", 
                     new XElement("Timestamp", DateTime.Now), 
-                    new XElement("ExecutingMainModule", mainModuleName)), 
+                    new XElement("ExecutingMainModule", mainModuleName),
+                    new XElement("ContextCache", ContextCache)), 
                 ScanException(ex));
 
             var exceptionText = logEntry.ToString(SaveOptions.None);
@@ -167,8 +168,8 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         /// <summary>
-        /// Sends all pending exception information to the server. See <see cref="SendFile"/> for details about sending
-        ///   the information.
+        /// Sends all pending exception information to the server. See <see cref="SendFile"/> for 
+        /// details about sending the information.
         /// </summary>
         public static void SendPending()
         {
@@ -201,21 +202,11 @@ namespace Sem.GenericHelpers.Exceptions
         ///     (FormatException ex) =&gt; ex.Message.Contains("x")));
         /// </code>
         /// </summary>
-        /// <typeparam name="TException">
-        /// the exception to suppress  
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The return type of the function. 
-        /// </typeparam>
-        /// <param name="code">
-        /// The code to be executed.  
-        /// </param>
-        /// <param name="check">
-        /// The check function - when this expression is true, the exception will be suppressed. 
-        /// </param>
-        /// <returns>
-        /// The result of the code provided, default of <typeparamref name="TResult"/>. 
-        /// </returns>
+        /// <typeparam name="TException"> the exception to suppress   </typeparam>
+        /// <typeparam name="TResult"> The return type of the function.  </typeparam>
+        /// <param name="code"> The code to be executed.   </param>
+        /// <param name="check"> The check function - when this expression is true, the exception will be suppressed.  </param>
+        /// <returns> The result of the code provided, default of <typeparamref name="TResult"/>. </returns>
         public static TResult Suppress<TException, TResult>(Func<TResult> code, Func<TException, bool> check)
             where TException : Exception
         {
@@ -244,15 +235,9 @@ namespace Sem.GenericHelpers.Exceptions
         ///     (FormatException ex) =&gt; ex.Message.Contains("x")));
         /// </code>
         /// </summary>
-        /// <typeparam name="T">
-        /// the exception to suppress 
-        /// </typeparam>
-        /// <param name="code">
-        /// The code to be executed. 
-        /// </param>
-        /// <param name="check">
-        /// The check function - when this expression is true, the exception will be suppressed.
-        /// </param>
+        /// <typeparam name="T"> the exception to suppress </typeparam>
+        /// <param name="code"> The code to be executed. </param>
+        /// <param name="check"> The check function - when this expression is true, the exception will be suppressed. </param>
         public static void Suppress<T>(Action code, Func<T, bool> check) where T : Exception
         {
             try
@@ -282,12 +267,8 @@ namespace Sem.GenericHelpers.Exceptions
         ///     });
         /// </code>
         /// </summary>
-        /// <typeparam name="T">
-        /// the exception to suppress 
-        /// </typeparam>
-        /// <param name="code">
-        /// The code to be executed.   
-        /// </param>
+        /// <typeparam name="T"> The exception to suppress  </typeparam>
+        /// <param name="code"> The code to be executed. </param>
         public static void Suppress<T>(Action code) where T : Exception
         {
             try
@@ -297,6 +278,18 @@ namespace Sem.GenericHelpers.Exceptions
             catch (T)
             {
             }
+        }
+
+        [Conditional("DEBUG")]
+        public static void WriteContextEntry(string contextValueName, object contextValue)
+        {
+            ContextCache.Add(new KeyValuePair<string, object>(contextValueName, contextValue));
+        }
+
+        [Conditional("DEBUG")]
+        public static void ClearContextCache()
+        {
+            ContextCache.Clear();
         }
 
         #endregion

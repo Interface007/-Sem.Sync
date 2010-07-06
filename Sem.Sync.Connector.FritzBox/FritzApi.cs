@@ -209,6 +209,8 @@ namespace Sem.Sync.Connector.FritzBox
             // get the stream to communicate with
             var remoteStream = clientSocketTcp.GetStream();
 
+            ExceptionHandler.WriteContextEntry("tcp-request", request);
+
             // Write request and flush it
             remoteStream.Write(request, 0, request.Length);
             remoteStream.Flush();
@@ -216,13 +218,15 @@ namespace Sem.Sync.Connector.FritzBox
             // Read response
             var responseBytesRead = new byte[clientSocketTcp.ReceiveBufferSize];
             var responseLength = remoteStream.Read(responseBytesRead, 0, clientSocketTcp.ReceiveBufferSize);
+            ExceptionHandler.WriteContextEntry("tcp-response-length", responseLength);
 
             var response = new byte[responseLength - 2];
             for (var i = 0; i < responseLength - 2; i++)
             {
                 response[i] = responseBytesRead[i + 2];
             }
-
+            
+            ExceptionHandler.WriteContextEntry("tcp-response-value", response);
             return response;
         }
 
