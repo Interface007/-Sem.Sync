@@ -1,4 +1,13 @@
-﻿namespace Sem.Sync.Test.FritzTest
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FritzApiInteraction.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Summary description for FritzApiInteraction
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test.FritzTest
 {
     using System.Collections.Generic;
 

@@ -16,6 +16,7 @@ namespace Sem.Sync.Connector.FritzBox
     using System.Net.Sockets;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Xml;
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Exceptions;
@@ -27,14 +28,14 @@ namespace Sem.Sync.Connector.FritzBox
     public class FritzApi
     {
         /// <summary>
-        /// Control connection for FritzBox - this will query the connection parameters for the TCP client
-        /// </summary>
-        private readonly FritzBoxNET.UPnP.Phonebook phonebookControl = new FritzBoxNET.UPnP.Phonebook();
-
-        /// <summary>
         /// Data connection for FritzBox - this will get the data from the box
         /// </summary>
         private readonly FritzBoxNET.Network.Phonebook phonebookAccess = new FritzBoxNET.Network.Phonebook();
+
+        /// <summary>
+        /// Control connection for FritzBox - this will query the connection parameters for the TCP client
+        /// </summary>
+        private readonly FritzBoxNET.UPnP.Phonebook phonebookControl = new FritzBoxNET.UPnP.Phonebook();
 
         /// <summary>
         /// Gets or sets the host setting for the fritz box.
@@ -71,7 +72,7 @@ namespace Sem.Sync.Connector.FritzBox
 
             for (var i = 0; i < phonebookEntryCount; i++)
             {
-                var x = this.phonebookAccess.GetEntry(i) as System.Xml.XmlNodeList;
+                var x = this.phonebookAccess.GetEntry(i) as XmlNodeList;
                 if (x == null || x.Count < 1)
                 {
                     continue;
@@ -84,10 +85,7 @@ namespace Sem.Sync.Connector.FritzBox
                 }
                 catch (Exception ex)
                 {
-                    throw new TechnicalException(
-                        "Serialization problem with FritzBox-entity.",
-                        ex,
-                        new KeyValuePair<string, object>("serialized entity", x[0]));
+                    throw new TechnicalException("Serialization problem with FritzBox-entity.", ex, new KeyValuePair<string, object>("serialized entity", x[0]));
                 }
             }
 
@@ -225,7 +223,7 @@ namespace Sem.Sync.Connector.FritzBox
             {
                 response[i] = responseBytesRead[i + 2];
             }
-            
+
             ExceptionHandler.WriteContextEntry("tcp-response-value", response);
             return response;
         }
