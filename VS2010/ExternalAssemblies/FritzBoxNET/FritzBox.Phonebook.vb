@@ -2,6 +2,7 @@ Imports System.Xml
 Imports System.Text
 Imports System.Net.Sockets
 Imports FritzBoxNET.Internal
+Imports Sem.GenericHelpers.Exceptions
 
 Namespace UPnP
     Public Class Phonebook
@@ -99,12 +100,16 @@ Namespace Network
             ' Define network response byte return
             Dim responseBytesRead(clientSocketTCP.ReceiveBufferSize) As Byte
 
+            ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry count", entryCountRequest)
+
             ' Write command and flush it
             remoteStream.Write(entryCountRequest, 0, entryCountRequest.Length)
             remoteStream.Flush()
 
             ' Read response
             remoteStream.Read(responseBytesRead, 0, CInt(clientSocketTCP.ReceiveBufferSize))
+            ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry count", responseBytesRead)
+
             Dim responseString As String = Encoding.ASCII.GetString(responseBytesRead)
 
             Dim entryCount As Integer = CInt("&H" & Asc(responseString.Substring(2, 1)).ToString("x").ToUpper)
@@ -140,11 +145,14 @@ Namespace Network
             Dim responseBytesRead(clientSocketTCP.ReceiveBufferSize) As Byte
 
             ' Write command and flush it
+            ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry", entryRequest)
             remoteStream.Write(entryRequest, 0, entryRequest.Length)
             remoteStream.Flush()
 
             ' Read response - first response is the record length
             Dim bytesReceivedLength As Int32 = remoteStream.Read(responseBytesRead, 0, CInt(clientSocketTCP.ReceiveBufferSize))
+            ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry", responseBytesRead)
+
             Dim responseStringLength As String = Encoding.ASCII.GetString(responseBytesRead)
 
             ' Read response - the data
