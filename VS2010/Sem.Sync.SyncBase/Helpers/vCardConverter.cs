@@ -18,9 +18,11 @@ namespace Sem.Sync.SyncBase.Helpers
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
@@ -39,7 +41,7 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         ///   Gets or sets the HttpRequester to download pictures in case of url-references.
         /// </summary>
-        public HttpHelper HttpRequester { get; set; }
+        public IHttpHelper HttpRequester { get; set; }
 
         #endregion
 
@@ -172,13 +174,13 @@ namespace Sem.Sync.SyncBase.Helpers
                     Name = new PersonName(), 
                 };
 
-            var vCardUTF8 = Encoding.UTF8.GetString(vCard);
+            var vCardUtf8 = Encoding.UTF8.GetString(vCard);
             var vCardIso8859 =
                 Encoding.UTF8.GetString(Encoding.Convert(Encoding.GetEncoding("iso8859-1"), Encoding.UTF8, vCard));
 
             contact.Name = new PersonName();
 
-            var linesUtf8 = vCardUTF8.Split('\n');
+            var linesUtf8 = vCardUtf8.Split('\n');
             var linesIso8859 = vCardIso8859.Split('\n');
             for (var i = 0; i < linesIso8859.Length; i++)
             {
@@ -454,25 +456,14 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// adds a contact attribute to the vCard.
         /// </summary>
-        /// <param name="vCard">
-        /// the StringBuilder that is currently writing the vCard
-        /// </param>
-        /// <param name="attributeSpecification">
-        /// the textual attribute specification
-        /// </param>
-        /// <param name="values">
-        /// the value to write to the attribute
-        /// </param>
-        private static void AddAttributeToStringBuilder(
-            StringBuilder vCard, string attributeSpecification, params string[] values)
+        /// <param name="vCard"> the StringBuilder that is currently writing the vCard </param>
+        /// <param name="attributeSpecification"> the textual attribute specification </param>
+        /// <param name="values"> the value to write to the attribute </param>
+        private static void AddAttributeToStringBuilder(StringBuilder vCard, string attributeSpecification, params string[] values)
         {
-            foreach (var s in values)
+            if (values.Any(s => !string.IsNullOrEmpty(s)))
             {
-                if (!string.IsNullOrEmpty(s))
-                {
-                    vCard.AppendLine(attributeSpecification + ";CHARSET=UTF-8:" + string.Join(";", values));
-                    break;
-                }
+                vCard.AppendLine(attributeSpecification + ";CHARSET=UTF-8:" + string.Join(";", values));
             }
         }
 

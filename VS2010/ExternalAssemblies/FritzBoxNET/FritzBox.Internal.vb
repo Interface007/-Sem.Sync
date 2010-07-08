@@ -65,7 +65,7 @@ Namespace Internal
             OutputHelper.DebugOutput("XML SOAP output - " + sRequest)
 
             ' Define network credential for authentication
-            Dim urlCredential As New System.Net.NetworkCredential(callClass.HTTPusername, callClass.HTTPpassword)
+            Dim urlCredential As New System.Net.NetworkCredential(callClass.HTTPusername.ToString(), callClass.HTTPpassword.ToString())
 
             ' Define URL for request
             Dim urlFull As String = "http://" + callClass.host + ":" + callClass.port + callClass.controlURL.ToString
