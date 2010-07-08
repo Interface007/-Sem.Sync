@@ -22,6 +22,7 @@ namespace Sem.Sync.Connector.Xing
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.Connector.Xing.Properties;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
@@ -102,7 +103,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   http requester object that will read the data from xing
         /// </summary>
-        private readonly HttpHelper xingRequester;
+        private readonly IHttpHelper xingRequester;
 
         #endregion
 
@@ -116,12 +117,12 @@ namespace Sem.Sync.Connector.Xing
         /// </summary>
         public ContactClient()
         {
-            this.xingRequester = new HttpHelper(HttpUrlBaseAddress, true)
+            this.xingRequester = Factory.Invoke<IHttpHelper>(() => new HttpHelper(HttpUrlBaseAddress, true)
                 {
                     UseCache = this.GetConfigValueBoolean("UseCache"),
                     SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
-                };
+                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies")
+                });
 
             this.vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
         }

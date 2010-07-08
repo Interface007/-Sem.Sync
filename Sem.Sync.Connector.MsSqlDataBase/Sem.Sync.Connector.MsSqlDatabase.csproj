@@ -134,6 +134,7 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="ContactClient.cs" />
+    <Compile Include="DatabaseGenerator.cs" />
     <Compile Include="DataMapping.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

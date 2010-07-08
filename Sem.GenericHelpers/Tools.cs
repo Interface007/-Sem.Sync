@@ -1047,6 +1047,30 @@ namespace Sem.GenericHelpers
         }
 
         /// <summary>
+        /// Restores a byte array from a hex encoded string (ignores space in encoded string)
+        /// </summary>
+        /// <param name="strInput"> The hex encoded input string. </param>
+        /// <returns> the byte array </returns>
+        public static byte[] StringToBytes(string strInput)
+        {
+            strInput = strInput.Replace(" ", string.Empty);
+
+            // allocate byte array based on half of string length
+            var numBytes = strInput.Length / 2;
+            var bytes = new byte[numBytes];
+
+            // loop through the string - 2 bytes at a time converting it to decimal equivalent and store in byte array
+            // x variable used to hold byte array element position
+            for (var x = 0; x < numBytes; ++x)
+            {
+                bytes[x] = Convert.ToByte(strInput.Substring(x * 2, 2), 16);
+            }
+
+            // return the finished byte array of decimal values
+            return bytes;
+        }
+
+        /// <summary>
         /// Decompresses a compressed string into a stream.
         /// </summary>
         /// <param name="compressedText"> The compressed text. </param>

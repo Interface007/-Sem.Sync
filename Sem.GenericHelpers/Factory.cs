@@ -243,7 +243,7 @@ namespace Sem.GenericHelpers
             return CreateTypeInstance(constructedType);
         }
 
-        static object GetMock(string name)
+        private static object GetMock(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -254,6 +254,39 @@ namespace Sem.GenericHelpers
             }
 
             return null;
+        }
+
+        public static void RegisterMock(Type type, object mockObject)
+        {
+            var name = type.FullName;
+            RegisterMock(name, mockObject);
+        }
+
+        public static void RegisterMock(Type type, Type typeCtorParam1, object mockObject)
+        {
+            var name = string.Join(":", type.FullName, typeCtorParam1.FullName);
+            RegisterMock(name, mockObject);
+        }
+
+        public static void RegisterMock(Type type, Type typeCtorParam1, Type typeCtorParam2, object mockObject)
+        {
+            var name = string.Join(":", type.FullName, typeCtorParam1.FullName, typeCtorParam2.FullName);
+            RegisterMock(name, mockObject);
+        }
+
+        private static void RegisterMock(string name, object mockObject)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return;
+            }
+
+            if (Mocks.ContainsKey(name))
+            {
+                Mocks.Remove(name);
+            }
+
+            Mocks.Add(name, mockObject);
         }
 
         public static object CreateTypeInstance(Type type)
@@ -270,7 +303,7 @@ namespace Sem.GenericHelpers
         public static object CreateTypeInstance<TCtorParam1, TCtorParam2>(Type type, TCtorParam1 param1, TCtorParam2 param2)
         {
             return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName, typeof(TCtorParam2).FullName))
-                ?? Activator.CreateInstance(type, param1);
+                ?? Activator.CreateInstance(type, param1, param2);
         }
 
         public static T CreateTypeInstance<T>() where T : class
@@ -284,9 +317,13 @@ namespace Sem.GenericHelpers
 
         public static void Register<T>(Expression<Func<T>> toBeReplaced, Expression<Func<T>> replacement)
         {
-            Func<object> genReplacement = () => replacement.Compile();
-
             var genToBeReplaced = GenerateNameFromExpression(toBeReplaced);
+            Register(genToBeReplaced, replacement);
+        }
+
+        public static void Register<T>(string genToBeReplaced, Expression<Func<T>> replacement)
+        {
+            Func<object> genReplacement = () => replacement.Compile();
             if (ExpressionMap.ContainsKey(genToBeReplaced))
             {
                 ExpressionMap.Remove(genToBeReplaced);
