@@ -1,77 +1,41 @@
-﻿using Sem.Sync.Connector.MsSqlDatabase;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatabaseGeneratorTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This is a test class for DatabaseGeneratorTest and is intended
+//   to contain all DatabaseGeneratorTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.Sync.Test.MsSqlDatabase
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Sem.Sync.Connector.MsSqlDatabase;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
-    ///This is a test class for DatabaseGeneratorTest and is intended
-    ///to contain all DatabaseGeneratorTest Unit Tests
-    ///</summary>
+    /// This is a test class for DatabaseGeneratorTest and is intended
+    /// to contain all DatabaseGeneratorTest Unit Tests
+    /// </summary>
     [TestClass()]
     public class DatabaseGeneratorTest
     {
-
-
-        private TestContext testContextInstance;
+        /// <summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext { get; set; }
 
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        /// <summary>
-        ///A test for CreateFromEntity
-        ///</summary>
+        /// A test for CreateFromEntity
+        /// </summary>
         [TestMethod()]
         public void CreateFromEntityTest()
         {
-            DatabaseGenerator target = new DatabaseGenerator{ConnectionString = ""};
-            target.CreateFromEntityType(typeof(StdContact), "Contacts");
+            var target = new DatabaseGenerator { ConnectionString = string.Empty };
+            var statement = target.CreateFromEntityType(typeof(StdContact), "Contacts");
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
