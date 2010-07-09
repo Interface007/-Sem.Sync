@@ -1,12 +1,34 @@
-﻿namespace Sem.Sync.Connector.MsSqlDatabase
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatabaseGenerator.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the DatabaseGenerator type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Connector.MsSqlDatabase
 {
     using System;
-    using System.Data.SqlClient;
+    using System.Collections.Generic;
     using System.Text;
 
     public class DatabaseGenerator
     {
+        private Dictionary<Type, string> mapping = new Dictionary<Type, string>();
+
         public string ConnectionString { get; set; }
+
+        public DatabaseGenerator()
+        {
+            this.mapping.Add(typeof(int), "INT");
+            this.mapping.Add(typeof(long), "BIGINT");
+            this.mapping.Add(typeof(string), "nvarchar(255)");
+            this.mapping.Add(typeof(System.DateTime), "DateTime NULL");
+            this.mapping.Add(typeof(bool), "BIT");
+            this.mapping.Add(typeof(Guid), "UNIQUEIDENTIFIER NULL");
+            this.mapping.Add(typeof(byte[]), "Image NULL");
+        }
 
         public string CreateFromEntityType(Type entity, string entityName)
         {
@@ -27,8 +49,8 @@
                 var simpleTypeName = publicProperty.PropertyType.Name;
                 var baseType = publicProperty.PropertyType.BaseType;
                 var baseTypeName =
-                    simpleTypeName == "List`1" ? simpleTypeName : 
-                    baseType == null ? "none" : 
+                    simpleTypeName == "List`1" ? simpleTypeName :
+                    baseType == null ? "none" :
                     baseType.FullName;
 
                 switch (baseTypeName)
@@ -50,11 +72,11 @@
                         switch (publicProperty.PropertyType.FullName)
                         {
                             case "System.Int32":
-                                thisTable.AppendLine(string.Format("[{0}] int,", name));
+                                thisTable.AppendLine(string.Format("[{0}] INT,", name));
                                 break;
 
                             case "System.Int64":
-                                thisTable.AppendLine(string.Format("[{0}] long,", name));
+                                thisTable.AppendLine(string.Format("[{0}] BIGINT,", name));
                                 break;
 
                             case "System.String":
@@ -66,18 +88,18 @@
                                 break;
 
                             case "System.Boolean":
-                                thisTable.AppendLine(string.Format("[{0}] Bool,", name));
+                                thisTable.AppendLine(string.Format("[{0}] BIT,", name));
                                 break;
 
                             case "System.Guid":
-                                thisTable.AppendLine(string.Format("[{0}] UniqueIdentifier NULL,", name));
+                                thisTable.AppendLine(string.Format("[{0}] UNIQUEIDENTIFIER NULL,", name));
                                 break;
 
                             case "System.Byte[]":
                                 thisTable.AppendLine(string.Format("[{0}] Image NULL,", name));
                                 break;
 
-                                // this is only to not log the known complex types
+                            // this is only to not log the known complex types
                             case "Sem.Sync.SyncBase.DetailData.AddressDetail":
                             case "Sem.Sync.SyncBase.DetailData.PhoneNumber":
                             case "Sem.Sync.SyncBase.DetailData.CountryCode":
