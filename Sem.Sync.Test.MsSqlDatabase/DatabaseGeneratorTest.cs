@@ -34,8 +34,10 @@ namespace Sem.Sync.Test.MsSqlDatabase
         [TestMethod()]
         public void CreateFromEntityTest()
         {
-            var target = new DatabaseGenerator { ConnectionString = string.Empty };
-            var statement = target.CreateFromEntityType(typeof(StdContact), "Contacts");
+            DatabaseGenerator target = new DatabaseGenerator{ConnectionString = ""};
+            var tables = new List<Table>();
+            target.CreateFromEntityType(typeof(StdContact), "Contacts", tables);
+            var script = string.Join("\n\r", from x in tables select x.ToScript());
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
