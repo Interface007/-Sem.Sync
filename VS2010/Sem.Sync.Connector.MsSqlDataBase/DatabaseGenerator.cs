@@ -11,7 +11,6 @@ namespace Sem.Sync.Connector.MsSqlDatabase
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using Sem.Sync.SyncBase.Helpers;
 
@@ -64,12 +63,16 @@ namespace Sem.Sync.Connector.MsSqlDatabase
                     case "Dictionary`2":
                     case "List`1":
                         // add a table for the entity
-                        this.CreateLinkedTableFromListType(propertyType, entityName, columnName, tables);
+                        var linkedTableName = this.CreateLinkedTableFromListType(propertyType, entityName, columnName, tables);
+                        if (!string.IsNullOrEmpty(linkedTableName))
+                        {
+                            AddReferenceColumn(thisTable, linkedTableName);
+                        }
                         break;
 
                     case "System.Enum":
                         this.CreateFromEntityType(typeof(EnumHelper), simpleTypeName, tables);
-                        AddReferenceColumn(thisTable, simpleTypeName, tables);
+                        AddReferenceColumn(thisTable, simpleTypeName);
                         break;
 
                     default:
@@ -106,9 +109,9 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             tables.Add(thisTable);
         }
 
-        private static void AddReferenceColumn(Table thisTable, string columName, List<Table> tables)
+        private static void AddReferenceColumn(Table thisTable, string typeName)
         {
-            columName += "Ref";
+            var columName = typeName + "Ref";
             for (var i = 1; i < 999; i++)
             {
                 if (thisTable.Column.ContainsKey(columName + i))
@@ -118,99 +121,22 @@ namespace Sem.Sync.Connector.MsSqlDatabase
 
                 columName += i;
                 thisTable.Column.Add(columName, typeof(int));
+                thisTable.References.Add(columName, typeName);
                 break;
             }
         }
 
-        private void CreateLinkedTableFromListType(Type type, string fromTableName, string forColumn, List<Table> tables)
+        private string CreateLinkedTableFromListType(Type type, string fromTableName, string forColumn, List<Table> tables)
         {
             var subTypes = type.GetGenericArguments();
             if (subTypes.Length == 1)
             {
-                this.CreateFromEntityType(subTypes[0], subTypes[0].Name, tables);
-                this.CreateFromEntityType(typeof(ReferenceTable), "From" + fromTableName + "For" + forColumn + "To" + subTypes[0].Name, tables);
+                var entityName = subTypes[0].Name;
+                this.CreateFromEntityType(subTypes[0], entityName, tables);
+                this.CreateFromEntityType(typeof(ReferenceTable), "From" + fromTableName + "For" + forColumn + "To" + entityName, tables);
+                return entityName;
             }
-            return;
+            return string.Empty;
         }
-    }
-
-    public class Table
-    {
-        internal static readonly Dictionary<Type, string> Mapping = new Dictionary<Type, string>();
-
-        static Table()
-        {
-            Mapping.Add(typeof(int), "INT");
-            Mapping.Add(typeof(long), "BIGINT");
-            Mapping.Add(typeof(string), "nvarchar(255)");
-            Mapping.Add(typeof(System.DateTime), "DateTime NULL");
-            Mapping.Add(typeof(bool), "BIT");
-            Mapping.Add(typeof(Guid), "UNIQUEIDENTIFIER NULL");
-            Mapping.Add(typeof(byte[]), "Image NULL");
-        }
-
-        public string Name { get; set; }
-
-        public Dictionary<string, Type> Column { get; set; }
-
-        public Dictionary<string, string> References { get; set; }
-
-        public Table()
-        {
-            this.Column = new Dictionary<string, Type>();
-            this.References = new Dictionary<string, string>();
-        }
-
-        public string ToScript()
-        {
-            var thisTable = new StringBuilder();
-            var thisKeys = new StringBuilder();
-            var subTables = new StringBuilder();
-
-            thisTable.Append("CREATE TABLE ");
-            var sqlObjectName = this.FixSqlObjectName(this.Name);
-            thisTable.Append(sqlObjectName);
-            thisTable.AppendLine(" (");
-
-            var pkIdColumnName = string.Format("{0}Id", this.Name);
-            thisTable.AppendLine(string.Format("[{0}] int NOT NULL IDENTITY (1, 1),", pkIdColumnName));
-            thisKeys.AppendLine(string.Format("ALTER TABLE {0} ADD CONSTRAINT PK_{0} PRIMARY KEY CLUSTERED ({1}) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON);", sqlObjectName, pkIdColumnName));
-
-            foreach (var type in Column)
-            {
-                thisTable.AppendLine(string.Format("[{0}] {1},", type.Key, Mapping[type.Value]));
-            }
-
-            subTables.AppendLine(thisTable.ToString().Substring(0, thisTable.Length - 3) + ");");
-
-            foreach (var reference in this.References)
-            {
-                thisTable.AppendLine(
-                    string.Format("ALTER TABLE {0} ADD CONSTRAINT FK_{0}_{1} FOREIGN KEY ( {1} ) REFERENCES {2} ( {2}Id )", 
-                    this.Name,
-                    reference.Key, 
-                    reference.Value));
-            }
-
-            return subTables.ToString();
-        }
-
-        private string FixSqlObjectName(string entityName)
-        {
-            return entityName
-                .Replace(" ", "_")
-                .Replace(".", "_");
-        }
-
-        public override string ToString()
-        {
-            return this.Name + " (" + this.Column.Count + " columns)";
-        }
-    }
-
-    public class ReferenceTable
-    {
-        public int Source { get; set; }
-        public int Target { get; set; }
     }
 }

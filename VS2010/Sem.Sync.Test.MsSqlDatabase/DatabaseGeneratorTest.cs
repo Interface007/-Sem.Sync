@@ -10,6 +10,9 @@
 
 namespace Sem.Sync.Test.MsSqlDatabase
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.Sync.Connector.MsSqlDatabase;
