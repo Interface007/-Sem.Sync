@@ -24,8 +24,24 @@ namespace Sem.Sync.Connector.MeinVZ
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
     [ConnectorDescription(DisplayName = "MeinVZ", CanReadContacts = true, CanWriteContacts = false, 
         NeedsCredentialsDomain = false, MatchingIdentifier = ProfileIdentifierType.MeinVZ, NeedsCredentials = true)]
-    public class MeinVZContacts : ContactClient
+    public class MeinVzContacts : ContactClient
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "StudiVzContacts" /> class.
+        /// </summary>
+        public MeinVzContacts()
+        {
+            this.HttpDetectionStringLogOnFailed = "action=\"https://secure.meinvz.net/Login\"";
+            this.HttpUrlLogOnRequest = "https://secure.meinvz.net/Login";
+            this.HttpUrlBaseAddress = "http://www.meinvz.net";
+            
+            this.HttpRequester.BaseUrl = this.HttpUrlBaseAddress;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>

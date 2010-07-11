@@ -147,6 +147,11 @@
     </Compile>
     <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
+    <Compile Include="Database\DatabaseScriptGenerator.cs" />
+    <Compile Include="Database\EnumHelper.cs" />
+    <Compile Include="Database\ReferenceTable.cs" />
+    <Compile Include="Database\LookupTableString.cs" />
+    <Compile Include="Database\Table.cs" />
     <Compile Include="Entities\ColumnDefinition.cs" />
     <Compile Include="Entities\ResponseCacheItem.cs" />
     <Compile Include="Entities\TableLink.cs" />

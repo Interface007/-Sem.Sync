@@ -71,23 +71,6 @@ namespace Sem.Sync.SyncBase.Helpers
         }
 
         /// <summary>
-        /// Determines if a string is equal to one of the parameter strings.
-        /// </summary>
-        /// <param name="value">
-        /// the string to test
-        /// </param>
-        /// <param name="candidates">
-        /// the candidate string this string is compared to
-        /// </param>
-        /// <returns>
-        /// true if the string is equal to one of the candidates
-        /// </returns>
-        public static bool IsOneOf(this string value, params string[] candidates)
-        {
-            return candidates.Contains(value);
-        }
-
-        /// <summary>
         /// Expands the methods of a List by adding a de-serialization to disk
         /// </summary>
         /// <typeparam name="T">

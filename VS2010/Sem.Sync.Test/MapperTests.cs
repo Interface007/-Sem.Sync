@@ -87,37 +87,37 @@
             Assert.AreEqual("Call to (123) 456789", target.Title);
         }
         
-        [TestMethod]
-        public void TestMapping()
-        {
-            // register the property mapping of a source and a destination 
-            // type with trasformations (in this case we do add a string to
-            // the name to generate a calendar title of "Birthday: Riddle, Tom")
-            var mapper = new Mapper();
-            mapper.Register<Source, Target>(x => x.Name, (y, x) => y.FullName = (string)x);
-            mapper.Register<Source, Target>(x => x.Phone, (y, x) => y.PhoneNumber = (string)x);
+        ////[TestMethod]
+        ////public void TestMapping()
+        ////{
+        ////    // register the property mapping of a source and a destination 
+        ////    // type with trasformations (in this case we do add a string to
+        ////    // the name to generate a calendar title of "Birthday: Riddle, Tom")
+        ////    var mapper = new Mapper();
+        ////    mapper.Register<Source, Target>(x => x.Name, (y, x) => y.FullName = (string)x);
+        ////    mapper.Register<Source, Target>(x => x.Phone, (y, x) => y.PhoneNumber = (string)x);
             
-            // perform the mapping
+        ////    // perform the mapping
 
-            mapper.Register<Source, Target>(
-                x => x.Contacts, 
-                (y, x) => y.Contacts = 
-                    new List<Target>(
-                        from c in (List<Source>)x 
-                        select new Target
-                            {
+        ////    mapper.Register<Source, Target>(
+        ////        x => x.Contacts, 
+        ////        (y, x) => y.Contacts = 
+        ////            new List<Target>(
+        ////                from c in (List<Source>)x 
+        ////                select new Target
+        ////                    {
                             
-                            }));
+        ////                    }));
 
-            // setup a source and a destination object
-            var source = new StdContact { PersonalAddressPrimary = new AddressDetail{Phone = "0123-456789"} };
-            var target = new StdCalendarItem();
+        ////    // setup a source and a destination object
+        ////    var source = new Source() { PersonalAddressPrimary = new AddressDetail{Phone = "0123-456789"} };
+        ////    var target = new Target();
 
-            mapper.Map(source, target);
+        ////    mapper.Map(source, target);
 
-            // test it
-            Assert.AreEqual("Call to (123) 456789", target.Title);
-        }
+        ////    // test it
+        ////    Assert.AreEqual("Call to (123) 456789", target.Title);
+        ////}
     }
 
     public class Source

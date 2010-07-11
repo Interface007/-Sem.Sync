@@ -20,7 +20,6 @@ namespace Sem.Sync.Connector.Outlook2010
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Exceptions;
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
 

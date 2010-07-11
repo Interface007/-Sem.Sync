@@ -21,7 +21,9 @@ namespace Sem.Sync.Connector.MsSqlDatabase
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
-    [ClientStoragePathDescription(Mandatory = true, Default = "{FS:WorkingFolder}\\MSSQLConnector.config", 
+    [ClientStoragePathDescription(
+        Mandatory = true, 
+        Default = "{FS:WorkingFolder}\\MSSQLConnector.config", 
         ReferenceType = ClientPathType.FileSystemFileNameAndPath)]
     [ConnectorDescription(DisplayName = "MS SQL-Server Database")]
     public class ContactClient : StdClient
