@@ -26,11 +26,11 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         public string ConnectionString { get; set; }
 
 
-        public void CreateFromEntityType(Type entity, string entityName, List<Table> tables)
+        public Table CreateFromEntityType(Type entity, string entityName, List<Table> tables)
         {
             if (tables.Exists(x => x.Name == entityName))
             {
-                return;
+                return null;
             }
 
             var thisTable = new Table { Name = entityName };
@@ -63,11 +63,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
                     case "Dictionary`2":
                     case "List`1":
                         // add a table for the entity
-                        var linkedTableName = this.CreateLinkedTableFromListType(propertyType, entityName, columnName, tables);
-                        if (!string.IsNullOrEmpty(linkedTableName))
-                        {
-                            AddReferenceColumn(thisTable, linkedTableName);
-                        }
+                        this.CreateLinkedTableFromListType(propertyType, entityName, columnName, thisTable, tables);
                         break;
 
                     case "System.Enum":
@@ -92,13 +88,13 @@ namespace Sem.Sync.Connector.MsSqlDatabase
                             case "Sem.Sync.SyncBase.DetailData.PersonName":
                             case "Sem.Sync.SyncBase.DetailData.SyncData":
                                 this.CreateFromEntityType(propertyType, simpleTypeName, tables);
-                                thisTable.References.Add(columnName, simpleTypeName);
+                                AddReferenceColumn(thisTable, simpleTypeName);
                                 break;
 
                             default:
                                 Console.WriteLine(propertyType.FullName);
                                 this.CreateFromEntityType(propertyType, simpleTypeName, tables);
-                                thisTable.References.Add(columnName, simpleTypeName);
+                                AddReferenceColumn(thisTable, simpleTypeName);
                                 break;
                         }
 
@@ -107,6 +103,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             }
 
             tables.Add(thisTable);
+            return thisTable;
         }
 
         private static void AddReferenceColumn(Table thisTable, string typeName)
@@ -126,14 +123,25 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             }
         }
 
-        private string CreateLinkedTableFromListType(Type type, string fromTableName, string forColumn, List<Table> tables)
+        private string CreateLinkedTableFromListType(Type type, string fromTableName, string forColumn, Table tableSource, List<Table> tables)
         {
             var subTypes = type.GetGenericArguments();
             if (subTypes.Length == 1)
             {
+                if (subTypes[0] == typeof(string))
+                {
+                    var tableRef = this.CreateFromEntityType(typeof(ReferenceTableString), forColumn, tables);
+                    tableRef.References.Add("Source", tableSource.Name);
+                    return forColumn;
+                }
+
                 var entityName = subTypes[0].Name;
-                this.CreateFromEntityType(subTypes[0], entityName, tables);
-                this.CreateFromEntityType(typeof(ReferenceTable), "From" + fromTableName + "For" + forColumn + "To" + entityName, tables);
+                var tableTaget = this.CreateFromEntityType(subTypes[0], entityName, tables);
+
+                var tableReference = this.CreateFromEntityType(typeof(ReferenceTable), "From" + fromTableName + "For" + forColumn + "To" + tableTaget.Name, tables);
+                tableReference.References.Add("Target", tableTaget.Name);
+                tableReference.References.Add("Source", tableSource.Name);
+
                 return entityName;
             }
             return string.Empty;

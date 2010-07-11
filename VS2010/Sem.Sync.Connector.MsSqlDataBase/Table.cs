@@ -37,7 +37,7 @@
             var subTables = new StringBuilder();
 
             thisTable.Append("CREATE TABLE ");
-            var sqlObjectName = this.FixSqlObjectName(this.Name);
+            var sqlObjectName = FixSqlObjectName(this.Name);
             thisTable.Append(sqlObjectName);
             thisTable.AppendLine(" (");
 
@@ -52,6 +52,14 @@
             subTables.AppendLine(thisTable.ToString().Substring(0, thisTable.Length - 3) + ");");
 
             subTables.AppendLine(string.Format("ALTER TABLE {0} ADD CONSTRAINT PK_{0} PRIMARY KEY CLUSTERED ({1}) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON);", sqlObjectName, pkIdColumnName));
+            ToScriptReferences();
+
+            return subTables.ToString();
+        }
+
+        public string ToScriptReferences()
+        {
+            var subTables = new StringBuilder();
             foreach (var reference in this.References)
             {
                 subTables.AppendLine(
@@ -64,7 +72,7 @@
             return subTables.ToString();
         }
 
-        private string FixSqlObjectName(string entityName)
+        private static string FixSqlObjectName(string entityName)
         {
             return entityName
                 .Replace(" ", "_")

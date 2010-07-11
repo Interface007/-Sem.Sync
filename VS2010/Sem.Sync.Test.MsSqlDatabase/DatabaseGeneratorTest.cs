@@ -37,10 +37,12 @@ namespace Sem.Sync.Test.MsSqlDatabase
         [TestMethod()]
         public void CreateFromEntityTest()
         {
-            DatabaseGenerator target = new DatabaseGenerator{ConnectionString = ""};
+            var target = new DatabaseGenerator{ConnectionString = ""};
             var tables = new List<Table>();
             target.CreateFromEntityType(typeof(StdContact), "Contacts", tables);
-            var script = string.Join("\n\r", from x in tables select x.ToScript());
+            string script = "-- Table generation script\n\r";
+            script += string.Join("\n\r", from x in tables select x.ToScript());
+            script += string.Join("\n\r", from x in tables select x.ToScriptReferences());
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
