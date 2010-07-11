@@ -13,7 +13,6 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
     using System.Collections.Generic;
     using System.Linq;
 
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>

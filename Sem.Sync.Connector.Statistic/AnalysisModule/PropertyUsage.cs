@@ -14,8 +14,8 @@ namespace Sem.Sync.Connector.Statistic.AnalysisModule
     using System.Globalization;
     using System.Linq;
 
+    using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
-    using Sem.Sync.SyncBase.Helpers;
 
     /// <summary>
     /// Analyzes the usage of properties by count

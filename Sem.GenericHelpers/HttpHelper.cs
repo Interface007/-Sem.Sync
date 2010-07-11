@@ -210,12 +210,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// encodes the input parameter to form-url-encoded
         /// </summary>
-        /// <param name="parameter">
-        /// the content to be encoded
-        /// </param>
-        /// <returns>
-        /// the encoded string
-        /// </returns>
+        /// <param name="parameter"> the content to be encoded </param>
+        /// <returns>the encoded string </returns>
         public static string EncodeForPost(string parameter)
         {
             return System.Web.HttpUtility.UrlEncode(parameter);
@@ -225,15 +221,9 @@ namespace Sem.GenericHelpers
         /// replaces string.format parameters in a string using the encoded values of the supplied strings
         ///   This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
         /// </summary>
-        /// <param name="url">
-        /// the string that should get the parameters
-        /// </param>
-        /// <param name="values">
-        /// the parameter strings that should be encoded and inserted into the string
-        /// </param>
-        /// <returns>
-        /// the processed data string
-        /// </returns>
+        /// <param name="url"> the string that should get the parameters </param>
+        /// <param name="values"> the parameter strings that should be encoded and inserted into the string </param>
+        /// <returns> the processed data string </returns>
         /// <example>
         /// The following code will show you the preparation of logon-parameters:
         ///   <code>
@@ -262,15 +252,9 @@ namespace Sem.GenericHelpers
         /// replaces string.format parameters in a string using the encoded values of the supplied objects.
         ///   This will call EncodeForPost() for each parameter before replacing the {0}, {1}... in the url
         /// </summary>
-        /// <param name="url">
-        /// the string that should get the parameters
-        /// </param>
-        /// <param name="values">
-        /// the parameter objects that should be casted to strings, encoded and inserted into the string
-        /// </param>
-        /// <returns>
-        /// the processed data string
-        /// </returns>
+        /// <param name="url"> the string that should get the parameters </param>
+        /// <param name="values"> the parameter objects that should be casted to strings, encoded and inserted into the string </param>
+        /// <returns> the processed data string </returns>
         public static string PreparePostData(string url, params object[] values)
         {
             var encodedValues = new string[values.Length];
@@ -286,12 +270,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <returns>
-        /// the text result of the request
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <returns> the text result of the request </returns>
         public string GetContent(string url)
         {
             return this.GetContent(url, string.Empty, string.Empty);
@@ -300,18 +280,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <param name="referer">
-        /// the url of the referer to add
-        /// </param>
-        /// <returns>
-        /// the text result of the request
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <param name="referer"> the url of the referer to add </param>
+        /// <returns> the text result of the request </returns>
         public string GetContent(string url, string name, string referer)
         {
             var uri = this.CreateUri(url);
@@ -358,12 +330,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content binary
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <returns>
-        /// the binary result of the request without conversion
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <returns> the binary result of the request without conversion </returns>
         public byte[] GetContentBinary(string url)
         {
             return this.GetContentBinary(url, string.Empty);
@@ -372,18 +340,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content binary
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content 
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url 
-        /// </param>
-        /// <param name="referer">
-        /// The referer to be added. 
-        /// </param>
-        /// <returns>
-        /// the binary result of the request without conversion 
-        /// </returns>
+        /// <param name="url"> the url to access the content  </param>
+        /// <param name="name"> a name for caching - this should correspond to the url  </param>
+        /// <param name="referer"> The referer to be added.  </param>
+        /// <returns> the binary result of the request without conversion  </returns>
         public byte[] GetContentBinary(string url, string name, string referer)
         {
             var uri = this.CreateUri(url);
@@ -411,18 +371,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text and extracts all strings matching a regex (the first group is returned in a list of strings)
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content  
-        /// </param>
-        /// <param name="regularExpression">
-        /// The regular Expression to extract the data.  
-        /// </param>
-        /// <param name="result">
-        /// The list of strings with the extracted data. 
-        /// </param>
-        /// <returns>
-        /// the text result of the request  
-        /// </returns>
+        /// <param name="url"> the url to access the content   </param>
+        /// <param name="regularExpression"> The regular Expression to extract the data.   </param>
+        /// <param name="result"> The list of strings with the extracted data.  </param>
+        /// <returns> the text result of the request   </returns>
         public bool GetExtract(string url, string regularExpression, out List<string> result)
         {
             return this.GetExtract(url, regularExpression, out result, string.Empty, string.Empty);
@@ -470,15 +422,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <returns>
-        /// the text result of the request
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <returns> the text result of the request </returns>
         public string GetContent(string url, string name)
         {
             return this.GetContent(url, name, string.Empty);
@@ -487,15 +433,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content binary
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <returns>
-        /// the binary result of the request without conversion
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <returns> the binary result of the request without conversion </returns>
         public byte[] GetContentBinary(string url, string name)
         {
             return this.GetContentBinary(url, name, string.Empty);
@@ -504,18 +444,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content binary
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <param name="postData">
-        /// the data that should be posted to the server
-        /// </param>
-        /// <returns>
-        /// the binary result of the request without conversion
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <param name="postData"> the data that should be posted to the server </param>
+        /// <returns> the binary result of the request without conversion </returns>
         public byte[] GetContentBinaryPost(string url, string name, string postData)
         {
             var uri = this.CreateUri(url);
@@ -543,18 +475,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Download content as text
         /// </summary>
-        /// <param name="url">
-        /// the url to access the content
-        /// </param>
-        /// <param name="name">
-        /// a name for caching - this should correspond to the url
-        /// </param>
-        /// <param name="postData">
-        /// the complete data to be added (including keys and values) as one string
-        /// </param>
-        /// <returns>
-        /// the text result of the request
-        /// </returns>
+        /// <param name="url"> the url to access the content </param>
+        /// <param name="name"> a name for caching - this should correspond to the url </param>
+        /// <param name="postData"> the complete data to be added (including keys and values) as one string </param>
+        /// <returns> the text result of the request </returns>
         public string GetContentPost(string url, string name, string postData)
         {
             var uri = this.CreateUri(url);
@@ -670,15 +594,9 @@ namespace Sem.GenericHelpers
         ///   data is returned as a byte array. An IOException is
         ///   thrown if any of the underlying IO calls fail.
         /// </summary>
-        /// <param name="stream">
-        /// The stream to read data from
-        /// </param>
-        /// <param name="initialLength">
-        /// The initial buffer length
-        /// </param>
-        /// <returns>
-        /// The read stream converted into a byte array.
-        /// </returns>
+        /// <param name="stream"> The stream to read data from </param>
+        /// <param name="initialLength">The initial buffer length </param>
+        /// <returns> The read stream converted into a byte array. </returns>
         private static byte[] ReadStreamToByteArray(Stream stream, int initialLength)
         {
             if (stream == null)
@@ -730,15 +648,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// reads stream data to string
         /// </summary>
-        /// <param name="receiveStream">
-        /// the stream to read from
-        /// </param>
-        /// <param name="encoding">
-        /// the encoding of the result string
-        /// </param>
-        /// <returns>
-        /// a string representing the resource
-        /// </returns>
+        /// <param name="receiveStream"> the stream to read from </param>
+        /// <param name="encoding"> the encoding of the result string </param>
+        /// <returns>a string representing the resource </returns>
         private static string ReadStreamToString(Stream receiveStream, string encoding)
         {
             if (receiveStream == null)
@@ -772,18 +684,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// determines the cache path for a given cache item name
         /// </summary>
-        /// <param name="name">
-        /// name of the cache item 
-        /// </param>
-        /// <param name="url">
-        /// the url the content is located 
-        /// </param>
-        /// <param name="postData">
-        /// The post Data. 
-        /// </param>
-        /// <returns>
-        /// the path if successfull, empty string if no cache should be used 
-        /// </returns>
+        /// <param name="name"> name of the cache item  </param>
+        /// <param name="url"> the url the content is located  </param>
+        /// <param name="postData"> The post Data.  </param>
+        /// <returns> the path if successfull, empty string if no cache should be used  </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
             if (string.IsNullOrEmpty(name))
@@ -814,12 +718,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Determines if reading from cache is allowed
         /// </summary>
-        /// <param name="fileName">
-        /// the name of the cache-file
-        /// </param>
-        /// <returns>
-        /// true if reading the cache is allowed
-        /// </returns>
+        /// <param name="fileName"> the name of the cache-file </param>
+        /// <returns> true if reading the cache is allowed </returns>
         private bool CacheReadAllowed(string fileName)
         {
             return this.UseCache && fileName != null && !string.IsNullOrEmpty(fileName) &&
@@ -829,15 +729,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// create the request object
         /// </summary>
-        /// <param name="uri">
-        /// url to the resource we want to read
-        /// </param>
-        /// <param name="method">
-        /// POST / GET or whatever
-        /// </param>
-        /// <returns>
-        /// a web request object that can be used to read the url content
-        /// </returns>
+        /// <param name="uri"> url to the resource we want to read </param>
+        /// <param name="method"> POST / GET or whatever </param>
+        /// <returns> a web request object that can be used to read the url content </returns>
         private HttpWebRequest CreateRequest(Uri uri, string method)
         {
             return this.CreateRequest(uri, method, string.Empty);
@@ -846,18 +740,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// create the request object
         /// </summary>
-        /// <param name="requestUrl">
-        /// url to the resource we want to read
-        /// </param>
-        /// <param name="method">
-        /// POST / GET or whatever
-        /// </param>
-        /// <param name="referer">
-        /// the referer to add to the header
-        /// </param>
-        /// <returns>
-        /// a web request object that can be used to read the url content
-        /// </returns>
+        /// <param name="requestUrl"> url to the resource we want to read </param>
+        /// <param name="method"> POST / GET or whatever </param>
+        /// <param name="referer"> the referer to add to the header </param>
+        /// <returns> a web request object that can be used to read the url content </returns>
         private HttpWebRequest CreateRequest(Uri requestUrl, string method, string referer)
         {
             // build up request and response
@@ -893,12 +779,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Creates a new Uri by adding the base url if needed.
         /// </summary>
-        /// <param name="url">
-        /// The absolute or relative url. 
-        /// </param>
-        /// <returns>
-        /// the uri matching the specified url 
-        /// </returns>
+        /// <param name="url"> The absolute or relative url.  </param>
+        /// <returns> the uri matching the specified url  </returns>
         private Uri CreateUri(string url)
         {
             if (url == null)
@@ -912,18 +794,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Create a request and get the response stream for the GET method
         /// </summary>
-        /// <param name="url">
-        /// url to the page to get
-        /// </param>
-        /// <param name="referer">
-        /// specifies the referer (url this request came from) to add to the request
-        /// </param>
-        /// <param name="encoding">
-        /// the encoding used for the text
-        /// </param>
-        /// <returns>
-        /// a stream corresponding to the content at the uri
-        /// </returns>
+        /// <param name="url"> url to the page to get </param>
+        /// <param name="referer"> specifies the referer (url this request came from) to add to the request </param>
+        /// <param name="encoding"> the encoding used for the text </param>
+        /// <returns> a stream corresponding to the content at the uri </returns>
         private Stream GetResponseStream(Uri url, string referer, out string encoding)
         {
             HttpWebResponse objResponse;
@@ -933,7 +807,7 @@ namespace Sem.GenericHelpers
                 this.proxyCredentials,
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    Properties.Resources.TheProxyServerNeedsYourCredentials,
+                    Resources.TheProxyServerNeedsYourCredentials,
                     url.Host,
                     request.Proxy.GetProxy(url).Host),
                 request.Proxy.GetProxy(url).Host);
@@ -1022,18 +896,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
         /// </summary>
-        /// <param name="uri">
-        /// the uri to the resource to get
-        /// </param>
-        /// <param name="postData">
-        /// the data to be posted (must already be encoded using application/x-www-form-urlencoded)
-        /// </param>
-        /// <param name="encoding">
-        /// the encoding of the text content
-        /// </param>
-        /// <returns>
-        /// a stream that represents the binary data
-        /// </returns>
+        /// <param name="uri"> the uri to the resource to get </param>
+        /// <param name="postData"> the data to be posted (must already be encoded using application/x-www-form-urlencoded) </param>
+        /// <param name="encoding"> the encoding of the text content </param>
+        /// <returns> a stream that represents the binary data </returns>
         private Stream PostResponseStream(Uri uri, string postData, out string encoding)
         {
             var request = this.CreateRequest(uri, "POST");
@@ -1057,18 +923,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="fileName">
-        /// the file name and path of the cache item 
-        /// </param>
-        /// <param name="result">
-        /// the content of the cache item to be written 
-        /// </param>
-        /// <param name="uri">
-        /// the url to write the content for 
-        /// </param>
-        /// <returns>
-        /// a value indicating whether the cache read did succeed. 
-        /// </returns>
+        /// <param name="fileName"> the file name and path of the cache item  </param>
+        /// <param name="result"> the content of the cache item to be written  </param>
+        /// <param name="uri"> the url to write the content for  </param>
+        /// <returns> a value indicating whether the cache read did succeed.  </returns>
         private bool ReadFromCache(string fileName, out string result, Uri uri)
         {
             result = string.Empty;
@@ -1101,18 +959,10 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="fileName">
-        /// the file name and path of the cache item
-        /// </param>
-        /// <param name="result">
-        /// the content of the cache item to be written
-        /// </param>
-        /// <param name="uri">
-        /// the url to write the content for
-        /// </param>
-        /// <returns>
-        /// a value indicating whether the cache read did succeed. 
-        /// </returns>
+        /// <param name="fileName"> the file name and path of the cache item </param>
+        /// <param name="result"> the content of the cache item to be written </param>
+        /// <param name="uri"> the url to write the content for </param>
+        /// <returns> a value indicating whether the cache read did succeed.  </returns>
         private bool ReadFromCacheBinary(string fileName, out byte[] result, Uri uri)
         {
             result = new byte[] { };
@@ -1141,15 +991,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="fileName">
-        /// the file name and path of the cache item
-        /// </param>
-        /// <param name="result">
-        /// the content of the cache item to be written
-        /// </param>
-        /// <param name="url">
-        /// the url to write the content for
-        /// </param>
+        /// <param name="fileName"> the file name and path of the cache item </param>
+        /// <param name="result"> the content of the cache item to be written </param>
+        /// <param name="url"> the url to write the content for </param>
         private void WriteToCache(string fileName, string result, Uri url)
         {
             this.WriteToCache(fileName, Encoding.UTF32.GetBytes(result), url);
@@ -1158,15 +1002,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// writes the content to the file system cache
         /// </summary>
-        /// <param name="fileName">
-        /// the file name and path of the cache item
-        /// </param>
-        /// <param name="result">
-        /// the content of the cache item to be written
-        /// </param>
-        /// <param name="url">
-        /// the url to write the content for
-        /// </param>
+        /// <param name="fileName"> the file name and path of the cache item </param>
+        /// <param name="result"> the content of the cache item to be written </param>
+        /// <param name="url"> the url to write the content for </param>
         private void WriteToCache(string fileName, byte[] result, Uri url)
         {
             if (!this.UseCache || string.IsNullOrEmpty(fileName))

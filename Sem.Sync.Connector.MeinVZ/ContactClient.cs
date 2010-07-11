@@ -29,7 +29,7 @@ namespace Sem.Sync.Connector.MeinVZ
 
     /// <summary>
     /// This class is the client base class for handling contacts of the MeinVZ/StudiVZ social network.
-    ///   See the classes <see cref="MeinVZContacts"/> and <see cref="StudiVzContacts"/> for concrete 
+    ///   See the classes <see cref="MeinVzContacts"/> and <see cref="StudiVzContacts"/> for concrete 
     ///   implementation of the <see cref="StdClient"/>.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
@@ -53,8 +53,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         ///   regex to extract the url to the "Friends List"
         /// </summary>
-        private const string ExtractorFriendUrls =
-            "<a href=\"(/Friends/All/[a-zA-Z0-9_-]*/tid/[0-9]*)\" rel=\"nofollow\" title=\"Meine Freunde\">Meine Freunde</a>";
+        private const string ExtractorFriendUrls = "<a href=\"(/Friends/All/[a-zA-Z0-9_-]*/tid/[0-9]*)\" rel=\"nofollow\"\\s+title=\"Meine Freunde\">Meine Freunde</a>";
 
         /// <summary>
         ///   regex to extract the iv for the log on
@@ -69,8 +68,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// <summary>
         ///   data string to be posted to logon into the site
         /// </summary>
-        private const string HttpDataLogonRequest =
-            "email={0}&" + "password={1}&" + "login=Einloggen&jsEnabled=false&" + "formkey={2}&" + "iv={3}";
+        private const string HttpDataLogonRequest = "email={0}&" + "password={1}&" + "login=Einloggen&jsEnabled=false&" + "formkey={2}&" + "iv={3}";
 
         /// <summary>
         ///   Detection string to parse the content of a request if we need to logon
@@ -108,11 +106,7 @@ namespace Sem.Sync.Connector.MeinVZ
         /// </summary>
         protected ContactClient()
         {
-            this.HttpDetectionStringLogOnFailed = "action=\"https://secure.meinvz.net/Login\"";
-            this.HttpUrlLogOnRequest = "https://secure.meinvz.net/Login";
-            this.HttpUrlBaseAddress = "http://www.meinvz.net";
-            this.ContactImageSelector =
-                "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
+            this.ContactImageSelector = "src=\"(http://[-a-z0-9.]*imagevz.net/profile[-/a-z0-9]*.jpg)\" class=\"obj-profileImage\" id=\"profileImage\"";
 
             this.httpRequester = new HttpHelper(this.HttpUrlBaseAddress, true)
                 {

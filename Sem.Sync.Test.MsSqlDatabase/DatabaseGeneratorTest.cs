@@ -10,19 +10,16 @@
 
 namespace Sem.Sync.Test.MsSqlDatabase
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Sem.Sync.Connector.MsSqlDatabase;
+    using Sem.GenericHelpers.Database;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// This is a test class for DatabaseGeneratorTest and is intended
     /// to contain all DatabaseGeneratorTest Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestClass]
     public class DatabaseGeneratorTest
     {
         /// <summary>
@@ -34,15 +31,12 @@ namespace Sem.Sync.Test.MsSqlDatabase
         /// <summary>
         /// A test for CreateFromEntity
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void CreateFromEntityTest()
         {
-            var target = new DatabaseGenerator{ConnectionString = ""};
-            var tables = new List<Table>();
-            target.CreateFromEntityType(typeof(StdContact), "Contacts", tables);
-            string script = "-- Table generation script\n\r";
-            script += string.Join("\n\r", from x in tables select x.ToScript());
-            script += string.Join("\n\r", from x in tables select x.ToScriptReferences());
+            var result = DatabaseScriptGenerator.CreateScriptFromEntityType(
+                typeof(StdContact), 
+                "Contacts");
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
