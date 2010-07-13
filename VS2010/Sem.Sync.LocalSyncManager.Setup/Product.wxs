@@ -41,6 +41,7 @@
                 <File Id='SyncLists.SimpleCopy'             Name='Template SimpleCopy.TSyncList' KeyPath='yes' />
                 <File Id='SyncLists.Syncronize'             Name='Template Syncronize.TSyncList' />
                 <File Id='SyncLists.GetRelations'           Name='Template Get Contact Relations.TSyncList' />
+                <File Id='SyncLists.RemoveCalDuplicates'    Name='RemoveDuplicatesFromOutlook.SyncList' />
               </Component>
             </Directory>
 
