@@ -9,10 +9,14 @@
 
 namespace Sem.Sync.Connector.MsSqlDatabase
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;
+    using System.Text;
 
+    using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
+    using Sem.GenericHelpers.Exceptions;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
@@ -82,7 +86,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         {
             var columns = this.GetColumnDefinition(clientFolderName, typeof(StdContact));
             var connectionString =
-                "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=SemSync-Private;Data Source=WKMATZENSV02;";
+                "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=Addresses;Data Source=WKMATZENSV02;";
 
             using (var con = new SqlConnection(connectionString))
             {
@@ -110,6 +114,63 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             cmd.CommandText = "SELECT ContactID FROM Contact WHERE ContactID = @contactId'";
             cmd.Parameters.AddWithValue("@contactId", x.Id);
             var ret = cmd.ExecuteScalar();
+        }
+
+        private static int WriteEntity<T>(SqlConnection con, T entity)
+        {
+            var tableName = LookupTableName(typeof(T));
+            var idQuery = string.Format("SELECT Id FROM {0} WHERE {1}", tableName, CreateWhereClause(entity));
+            var idCommand = new SqlCommand(idQuery, con);
+
+            var id = (int?)idCommand.ExecuteScalar();
+
+            int result = 0;
+            if (id == null)
+            {
+                var idInsert = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", tableName, CreateValueNameList(entity), CreateValueList(entity));
+                
+            }
+
+            return result;
+        }
+
+        private static string CreateValueNameList<T>(T entity)
+        {
+            var list = Tools.GetPropertyList(string.Empty, typeof(T));
+            var result = new StringBuilder();
+            foreach (var property in list)
+            {
+                result.Append("[");
+                result.Append(property);
+                result.Append("],");
+            }
+
+            return result.ToString();
+        }
+
+        private static string CreateValueList<T>(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string LookupTableName(Type type)
+        {
+            var entityToTable = new SerializableDictionary<string, string>();
+            var fullName = type.FullName;
+            if (fullName != null)
+            {
+                if (entityToTable.ContainsKey(fullName))
+                {
+                    return entityToTable[fullName];
+                }
+            }
+
+            return type.Name;
+        }
+
+        private static string CreateWhereClause<T>(T entity)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
