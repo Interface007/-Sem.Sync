@@ -201,8 +201,8 @@ namespace Sem.Sync.SyncBase
                 this.LogProcessingEvent(contact, "{0} contacts found, {1} added.", profileIds.Count, added);
 
                 this.LogProcessingEvent(contact, "sleeping some time to not being identifies as a bot...");
-                Thread.Sleep(new Random().Next(230, 8789));
-
+                this.ThinkTime();
+        
                 // todo: facebook uses a page size of 64, wer-kennt-wen 
                 offset += 64; // extracts.Count;
             }
@@ -275,6 +275,8 @@ namespace Sem.Sync.SyncBase
                 }
             }
 
+            this.ThinkTime(1000);
+
             return result;
         }
 
@@ -296,6 +298,8 @@ namespace Sem.Sync.SyncBase
                 // this will succeed if we have a valid cookie
                 var theContact = this.httpRequester.GetContent(string.Format(CultureInfo.InvariantCulture, this.WebSideParameters.HttpUrlFriendList, 0));
                 var friendIds = extractor.Matches(theContact);
+
+                this.ThinkTime(1000);
 
                 if (friendIds.Count >= 2)
                 {
