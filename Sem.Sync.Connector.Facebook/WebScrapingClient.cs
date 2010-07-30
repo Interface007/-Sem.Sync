@@ -96,11 +96,11 @@ namespace Sem.Sync.Connector.Facebook
         {
             var result = new StdContact();
             var values = Regex.Matches(
-                content, @"\<h1 id=\\""profile_name\\"">(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
+                content, @"\<h1 id=\\""profile_name\\""[^>]*>(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
 
             if (values.Count == 0 || values[0].Groups.Count <= 1)
             {
-                values = Regex.Matches(content, @"\<h1 id=""profile_name"">(?<value>.*?)</h1>", RegexOptions.Singleline);
+                values = Regex.Matches(content, @"\<h1 id=""profile_name""[^>]*>(?<value>.*?)</h1>", RegexOptions.Singleline);
             }
 
             if (values.Count > 0 && values[0].Groups.Count > 1)
