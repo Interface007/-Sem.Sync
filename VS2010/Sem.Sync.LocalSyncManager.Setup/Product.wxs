@@ -38,7 +38,7 @@
           <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
             <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
               <Component Id="SyncLists"             Guid="{C9C9BA56-9E25-4ADB-9B74-FC1D5B18CAA2}">
-                <File Id='SyncLists.SimpleCopy'             Name='Template SimpleCopy.TSyncList' KeyPath='yes' />
+                <File Id='SyncLists.SimpleCopy'             Name='Template SimpleCopy.TSyncList'          KeyPath='yes' />
                 <File Id='SyncLists.Syncronize'             Name='Template Syncronize.TSyncList' />
                 <File Id='SyncLists.GetRelations'           Name='Template Get Contact Relations.TSyncList' />
                 <File Id='SyncLists.RemoveCalDuplicates'    Name='RemoveDuplicatesFromOutlook.SyncList' />
@@ -65,7 +65,7 @@
 
             <Component Id="ManagerExecutable"       Guid="{7F3569D2-598D-462A-A537-9D6531FCD7E0}">
               <!-- the main executable -->
-              <File Id='Sem.Sync.LocalSyncManager'          Name='Sem.Sync.LocalSyncManager.exe' KeyPath='yes'>
+              <File Id='Sem.Sync.LocalSyncManager'          Name='Sem.Sync.LocalSyncManager.exe'          KeyPath='yes'>
                 <Shortcut Id="MainExecutableIcon"           Name="Sem.Sync Local Sync Manager" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0" />
               </File>
 
@@ -75,7 +75,7 @@
 
             <Component Id="XingExecutable"          Guid="{399EDAB6-0BDE-4936-BAEA-2D090213F31F}">
               <!-- the main executable -->
-              <File Id='SemSyncOutlookWithXing'             Name='Sem.Sync.OutlookWithXing.exe' KeyPath='yes'>
+              <File Id='SemSyncOutlookWithXing'             Name='Sem.Sync.OutlookWithXing.exe'           KeyPath='yes'>
                 <Shortcut Id="SemSyncOutlookWithXingIcon"   Name="Sem.Sync Xing to Outlook" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
               </File>
 
@@ -87,7 +87,7 @@
             <Component Id="BaseLibrary"             Guid="{C003C46C-DC5F-49F1-AA1A-5AAEC0F5F7C8}">
               <RemoveFolder Id='ProgramMenuDir'             On='uninstall' />
 
-              <File Id='Sem.GenericHelpers'                 Name='Sem.GenericHelpers.dll' KeyPath='yes' />
+              <File Id='Sem.GenericHelpers'                 Name='Sem.GenericHelpers.dll'                 KeyPath='yes' />
               <File Id='Sem.Sync.SyncBase'                  Name='Sem.Sync.SyncBase.dll' />
               <File Id='Sem.Sync.SharedUI.WinForms'         Name='Sem.Sync.SharedUI.WinForms.dll' />
               <File Id='Sem.Sync.SharedUI.Common'           Name='Sem.Sync.SharedUI.Common.dll' />
@@ -97,7 +97,7 @@
 
             <Component Id="OptionalConnectors"      Guid="{A3C20695-BBBA-4EC7-ADC2-C11EDE3DEF92}">
               
-              <File Id='Sem.Sync.Connector.ExcelOpenXml'    Name='Sem.Sync.Connector.MsExcelOpenXml.dll' KeyPath='yes'/>
+              <File Id='Sem.Sync.Connector.ExcelOpenXml'    Name='Sem.Sync.Connector.MsExcelOpenXml.dll'  KeyPath='yes'/>
               <File Id='DocumentFormat.OpenXml'             Name='DocumentFormat.OpenXml.dll' />
 
               <File Id='Sem.Sync.Connector.Google'          Name='Sem.Sync.Connector.Google.dll' />
@@ -123,22 +123,22 @@
             </Component>
 
             <Component Id="ConnectorXing"           Guid="{7783005E-6435-41A3-9351-D6AF01AD4C19}">
-              <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll' KeyPath='yes'/>
+              <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll'            KeyPath='yes'/>
             </Component>
 
             <Component Id="ConnectorOffice"         Guid="{BCE03F05-C34C-40B1-9914-4EE4EC5DC334}">
-              <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll'  KeyPath='yes'/>
+              <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll'     KeyPath='yes'/>
               <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
               <File Id='Sem.Sync.Connector.Outlook2003'     Name='Sem.Sync.Connector.Outlook2003.dll' />
             </Component>
 
-            <Component Id="Documentation" Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}">
-              <File Id='Sem.Sync.HelpFile' Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' KeyPath='yes' />
+            <Component Id="Documentation"           Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}">
+              <File Id='Sem.Sync.HelpFile'                  Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' KeyPath='yes' />
             </Component>
 
-            <Component Id="Description" Guid="{D449F541-25EE-4DC5-88A3-AD7B61BD10BF}">
-              <File Id='Sem.Sync.DescriptionPdf' Name='SemSync.pdf' Source='..\SemSync.pdf' KeyPath='yes'>
-                <Shortcut Id="DescriptionIcon" Name="Sem.Sync Description" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+            <Component Id="Description"             Guid="{D449F541-25EE-4DC5-88A3-AD7B61BD10BF}">
+              <File Id='Sem.Sync.DescriptionPdf'            Name='SemSync.pdf'                Source='..\SemSync.pdf' KeyPath='yes'>
+                <Shortcut Id="DescriptionIcon"              Name="Sem.Sync Description" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
               </File>
             </Component>
 
@@ -152,7 +152,7 @@
 
     </Directory>
 
-    <Feature Id="XingFeature" Title="Simple Xing to Outlook Client" Level="1" 
+    <Feature Id="XingFeature" Title="Simple Xing to Outlook Client"   Level="1" 
              Description="This will only install the libraries needed to sync from Xing to Outlook with a very easy to use user interface.">
       <ComponentRef Id="XingExecutable"     />
       <ComponentRef Id="BaseLibrary"        />
@@ -160,7 +160,7 @@
       <ComponentRef Id="ConnectorOffice"    />
     </Feature>
     
-    <Feature Id="ManagerFeature" Title="Synchronization Manager" Level="1" 
+    <Feature Id="ManagerFeature" Title="Synchronization Manager"      Level="1" 
              Description="This is the application that enables to communicate with all connectors - the user iterface is slightly more complex that the Xing to Outlook application.">
       <ComponentRef Id="ManagerExecutable"  />
       <ComponentRef Id="BaseLibrary"        />
@@ -170,14 +170,14 @@
       <ComponentRef Id="OptionalConnectors" />
     </Feature>
 
-    <Feature Id="Documentation" Title="Developers Documentation" Level="1"
+    <Feature Id="Documentation" Title="Developers Documentation"      Level="1"
              Description="This installs the complete documentation - help file and PDF that describes the background of this project.">
       <ComponentRef Id="Documentation"      />
       <ComponentRef Id="Description"        />
 
     </Feature>
 
-    <Feature Id="Localized" Title="Localized Resources (DE)" Level="1"
+    <Feature Id="Localized" Title="Localized Resources (DE)"          Level="1"
              Description="German resource files to get the localized UI and messages.">
       <ComponentRef Id="ResourcesDE"        />
     </Feature>
