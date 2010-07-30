@@ -230,9 +230,13 @@ namespace Sem.Sync.Connector.MeinVZ
                     break;
 
                 case "Geburtstag:":
-                    if (value.Length > 9)
+                    if (value.Length > 9 && Regex.IsMatch(value.Substring(0, 10), @"\d\d\.\d\d\.\d\d\d\d"))
                     {
-                        result.DateOfBirth = DateTime.Parse(value.Substring(0, 10), CultureInfo.CurrentCulture);
+                        DateTime date;
+                        if (DateTime.TryParse(value.Substring(0, 10), CultureInfo.CurrentCulture, DateTimeStyles.None, out date))
+                        {
+                            result.DateOfBirth = date;
+                        }
                     }
 
                     break;
@@ -358,6 +362,10 @@ namespace Sem.Sync.Connector.MeinVZ
             result.ExternalIdentifier.SetProfileId(
                 ProfileIdentifierType.MeinVZ, 
                 contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+
+            this.ThinkTime(1000);
+
+            this.LogProcessingEvent(result, "downloaded");
 
             return result;
         }

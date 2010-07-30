@@ -16,6 +16,7 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Threading;
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
@@ -308,6 +309,16 @@ namespace Sem.Sync.SyncBase
             ////LogProcessingEvent(Resources.uiWritingElementsDone);
         }
 
+        protected void ThinkTime()
+        {
+            this.ThinkTime(8789);
+        }
+        
+        protected void ThinkTime(int max)
+        {
+            Thread.Sleep(new Random().Next(230, max));
+        }
+        
         #endregion
 
         #endregion
