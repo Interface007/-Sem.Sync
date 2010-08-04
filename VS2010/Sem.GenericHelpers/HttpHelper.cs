@@ -89,7 +89,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         ///   Private cookie store when not using IE cookies
         /// </summary>
-        private readonly CookieContainer sessionCookies = Factory.CreateTypeInstance<CookieContainer>();
+        private readonly CookieContainer sessionCookies = new CookieContainer();
 
         /// <summary>
         ///   credentials for the proxy server
@@ -128,7 +128,7 @@ namespace Sem.GenericHelpers
         {
             this.BaseUrl = baseUrl;
             this.IgnoreCertificateError = ignoreCertificateErrors;
-            this.sessionCookies = Factory.CreateTypeInstance< CookieContainer>();
+            this.sessionCookies = Factory.CreateTypeInstance<CookieContainer>();
             ServicePointManager.Expect100Continue = false;
 
             if (this.IgnoreCertificateError)
@@ -137,7 +137,7 @@ namespace Sem.GenericHelpers
                 ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, errors) => true;
             }
 
-            this.ContentCredentials = Factory.CreateTypeInstance < Credentials>();
+            this.ContentCredentials = Factory.CreateTypeInstance<Credentials>();
         }
 
         #endregion
@@ -540,7 +540,7 @@ namespace Sem.GenericHelpers
                               orderby s descending
                               select s;
 
-            var cookies = Factory.CreateTypeInstance < CookieCollection>();
+            var cookies = Factory.CreateTypeInstance<CookieCollection>();
             foreach (var cookie in cookieFiles)
             {
                 var filename = Path.GetFileNameWithoutExtension(cookie);
@@ -548,7 +548,7 @@ namespace Sem.GenericHelpers
                 {
                     continue;
                 }
-                
+
                 filename = filename.Substring(filename.IndexOf("@", StringComparison.Ordinal) + 1);
                 if (filename.Contains("["))
                 {
@@ -749,7 +749,7 @@ namespace Sem.GenericHelpers
             // build up request and response
             var request = (HttpWebRequest)WebRequest.Create(requestUrl);
             request.Method = method;
-            request.AllowAutoRedirect = true;
+            request.AllowAutoRedirect = false;
             request.UseDefaultCredentials = true;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             if (!string.IsNullOrEmpty(referer))
@@ -816,7 +816,7 @@ namespace Sem.GenericHelpers
             {
                 try
                 {
-                    objResponse = (HttpWebResponse)request.GetResponse();
+                    objResponse = GetHttpResponse(request);
                     encoding = objResponse.CharacterSet;
                     logonCredentialRequest.SaveCredentials();
                     break;
@@ -893,6 +893,36 @@ namespace Sem.GenericHelpers
             return objResponse.GetResponseStream();
         }
 
+        private HttpWebResponse GetHttpResponse(HttpWebRequest request)
+        {
+            HttpWebResponse objResponse;
+            objResponse = (HttpWebResponse)request.GetResponse();
+            if (objResponse.Cookies.Count == 0 && objResponse.Headers.AllKeys.Contains("Set-Cookie"))
+            {
+                var regexp = new Regex("(?<name>[^=]+)=(?<val>[^;]+)[^,]+,?");
+                var cookies = objResponse.Headers["Set-Cookie"];
+                var keyValue = regexp.Matches(cookies);
+                foreach (Match cookieValue in keyValue)
+                {
+                    this.sessionCookies.Add(new Cookie(cookieValue.Groups["name"].ToString(), cookieValue.Groups["val"].ToString(), "", "xing.com"));
+                }
+            }
+
+            if (objResponse.Headers.AllKeys.Contains("Location"))
+            {
+                var location = objResponse.Headers["Location"];
+                if (!location.StartsWith("http"))
+                {
+                    location = this.BaseUrl + location;
+                }
+
+                var request2 = this.CreateRequest(new Uri(location), "GET", objResponse.ResponseUri.ToString());
+                objResponse = GetHttpResponse(request2);
+            }
+
+            return objResponse;
+        }
+
         /// <summary>
         /// Creates a request, posts some data and gets the response stream. This method does use the POST verb of http.
         /// </summary>
@@ -915,7 +945,7 @@ namespace Sem.GenericHelpers
                 stream.Close();
             }
 
-            var objResponse = (HttpWebResponse)request.GetResponse();
+            var objResponse = GetHttpResponse(request);
             encoding = objResponse.CharacterSet;
             return objResponse.GetResponseStream();
         }
