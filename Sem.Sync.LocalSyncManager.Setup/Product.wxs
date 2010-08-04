@@ -126,6 +126,10 @@
               <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll'            KeyPath='yes'/>
             </Component>
 
+            <Component Id="ConnectorSdx"            Guid="{D0569A09-3D8C-4A0F-ADD4-CDF4A61AA628}">
+              <File Id='Sdx.Sync.Connector.OCOD'            Name='Sdx.Sync.Connector.OracleCrmOnDemand.dll' KeyPath='yes'/>
+            </Component>
+
             <Component Id="ConnectorOffice"         Guid="{BCE03F05-C34C-40B1-9914-4EE4EC5DC334}">
               <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll'     KeyPath='yes'/>
               <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
@@ -168,6 +172,12 @@
       <ComponentRef Id="ConnectorXing"      />
       <ComponentRef Id="ConnectorOffice"    />
       <ComponentRef Id="OptionalConnectors" />
+    </Feature>
+
+    <Feature Id="SdxConnectors" Title="Oracle CRM on Demand Connector" Level="1"
+             
+             Description="BETA-Connector for Oracle CRM on Demand. This connector is not permanently tested and might alter your data!">
+      <ComponentRef Id="ConnectorSdx"        />
     </Feature>
 
     <Feature Id="Documentation" Title="Developers Documentation"      Level="1"

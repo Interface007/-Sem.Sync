@@ -49,7 +49,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   data string to be posted to logon into Xing
         /// </summary>
-        private const string HttpDataLogonRequest = "op=login&dest=%2F&login_user_name={0}&login_password={1}";
+        private const string HttpDataLogonRequest = "op=login&dest=%2Fapp%2Fstartpage&login_user_name={0}&login_password={1}";
 
         /// <summary>
         ///   detection string to detect if we did fail to logon
@@ -413,7 +413,8 @@ namespace Sem.Sync.Connector.Xing
                     this.LogProcessingEvent(Resources.uiLogInForUser, this.LogOnUserId);
 
                     // prepare the post data for log on
-                    var postData = HttpHelper.PreparePostData(HttpDataLogonRequest, this.LogOnUserId, this.LogOnPassword);
+                    var requestData = HttpDataLogonRequest;
+                    var postData = HttpHelper.PreparePostData(requestData, this.LogOnUserId, this.LogOnPassword);
 
                     // post to get the cookies
                     var logInResponse = this.xingRequester.GetContentPost(HttpUrlLogonRequest, HttpHelper.CacheHintNoCache, postData);
