@@ -212,7 +212,7 @@ namespace Sem.Sync.Connector.Facebook
                 this.WebSideParameters.ProfileIdentifierType,
                 contactUrl.Substring(contactUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
-            var imageurl = Regex.Match(content, @"<img src=\\""(?<url>.*?)\\"" alt=\\""[^""]*"" id=\\""profile_pic\\""");
+            var imageurl = Regex.Match(content, @"<img class=\\""logo img\\"" src=\\""(?<url>http:\\/\\/profile.*?)\\"" alt=\\""[^""]*"" id=\\""profile_pic\\""");
             if (imageurl.Groups["url"] != null)
             {
                 var imageUrl = imageurl.Groups["url"].ToString().Replace(@"\/", @"/");
@@ -278,7 +278,7 @@ namespace Sem.Sync.Connector.Facebook
 
             value = value.Replace("\\/", "/");
 
-            if (value.Contains("\\u"))
+            while(value.Contains("\\u"))
             {
                 var code = value.Substring(value.IndexOf("\\u", StringComparison.OrdinalIgnoreCase) + 2, 4);
                 var charValue = int.Parse(code, NumberStyles.HexNumber, CultureInfo.CurrentCulture);

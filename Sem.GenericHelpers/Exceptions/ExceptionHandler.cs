@@ -62,7 +62,7 @@ namespace Sem.GenericHelpers.Exceptions
         /// </summary>
         private static readonly ExceptionHandler DefaultHandler;
 
-        private static readonly List<System.Collections.Generic.KeyValuePair<string, object>> ContextCache = new List<KeyValuePair<string, object>>();
+        private static readonly List<KeyValuePair<string, object>> ContextCache = new List<KeyValuePair<string, object>>();
 
         #endregion
 
@@ -133,8 +133,8 @@ namespace Sem.GenericHelpers.Exceptions
                 return string.Empty;
             }
 
-            var mainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-            var mainModuleName = mainModule == null ? "(undefined)" : mainModule.FileName;
+            var mainModule = Process.GetCurrentProcess().MainModule;
+            var mainModuleName = mainModule.FileName;
 
             var logEntry = new XElement(
                 "Exception", 
@@ -185,8 +185,8 @@ namespace Sem.GenericHelpers.Exceptions
 
             if (files.Length > 0 &&
                 UserInterface.AskForConfirm(
-                    Sem.GenericHelpers.Properties.Resources.ThereAreSomeInformationFiles, 
-                    Sem.GenericHelpers.Properties.Resources.ThereAreSomeInformationFilesTitle))
+                    Properties.Resources.ThereAreSomeInformationFiles, 
+                    Properties.Resources.ThereAreSomeInformationFilesTitle))
             {
                 files.ForEach(SendFile);
             }

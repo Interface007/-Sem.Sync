@@ -18,7 +18,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using System.Windows.Forms;
 
     using Sem.Sync.SharedUI.WinForms.ViewModel;
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Helpers;
     using Sem.Sync.SyncBase.Properties;
@@ -71,21 +70,11 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Lets the user perform a manual matching
         /// </summary>
-        /// <param name="sourceList">
-        /// The source list. 
-        /// </param>
-        /// <param name="targetList">
-        /// The target list. 
-        /// </param>
-        /// <param name="baselineList">
-        /// The baseline list. 
-        /// </param>
-        /// <param name="identifierToUse">
-        /// The identifier to use. 
-        /// </param>
-        /// <returns>
-        /// a list of matches (the base line list manipulated by the user) 
-        /// </returns>
+        /// <param name="sourceList"> The source list.  </param>
+        /// <param name="targetList"> The target list.  </param>
+        /// <param name="baselineList"> The baseline list.  </param>
+        /// <param name="identifierToUse"> The identifier to use.  </param>
+        /// <returns> a list of matches (the base line list manipulated by the user)  </returns>
         public List<StdElement> PerformMatch(
             List<StdElement> sourceList, 
             List<StdElement> targetList, 
@@ -117,15 +106,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// performs the row selection if the cell selection is changed
         /// </summary>
-        /// <param name="sender">
-        /// The sender control.  
-        /// </param>
-        /// <param name="e">
-        /// The event arguments.  
-        /// </param>
-        /// <param name="action">
-        /// The method to be invoked. 
-        /// </param>
+        /// <param name="sender"> The sender control.   </param>
+        /// <param name="e"> The event arguments.   </param>
+        /// <param name="action"> The method to be invoked.  </param>
         private static void DataGridCellEnter(
             object sender, DataGridViewCellEventArgs e, Func<DataGridViewRow, bool> action)
         {
@@ -138,15 +121,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Sets up a grid content from a list of elements
         /// </summary>
-        /// <param name="theGrid">
-        /// The the grid to be set up. 
-        /// </param>
-        /// <param name="elementList">
-        /// The list of elements to be set into the grid. 
-        /// </param>
-        /// <typeparam name="T">
-        /// the type of elements inside <paramref name="elementList"/> 
-        /// </typeparam>
+        /// <param name="theGrid"> The the grid to be set up.  </param>
+        /// <param name="elementList"> The list of elements to be set into the grid.  </param>
+        /// <typeparam name="T"> the type of elements inside <paramref name="elementList"/>  </typeparam>
         private static void SetupCandidateGrid<T>(DataGridView theGrid, IEnumerable<T> elementList)
         {
             theGrid.ClearSelection();
@@ -164,18 +141,10 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Performs some setup for the columns
         /// </summary>
-        /// <param name="theGrid">
-        /// The the grid. 
-        /// </param>
-        /// <param name="columnName">
-        /// The column name. 
-        /// </param>
-        /// <param name="visible">
-        /// A value indicating whether the column should be visible. 
-        /// </param>
-        /// <param name="headerText">
-        /// The header text. 
-        /// </param>
+        /// <param name="theGrid"> The the grid.  </param>
+        /// <param name="columnName"> The column name.  </param>
+        /// <param name="visible"> A value indicating whether the column should be visible.  </param>
+        /// <param name="headerText"> The header text.  </param>
         private static void SetupGridColumn(DataGridView theGrid, string columnName, bool visible, string headerText)
         {
             var col = theGrid.Columns[columnName];
@@ -192,13 +161,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Handels the click event of the AutoMatch button
         /// </summary>
-        /// <param name="sender">
-        /// The sender of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The event args parameter. 
-        /// </param>
-        private void BtnAutoMatch_Click(object sender, EventArgs e)
+        /// <param name="sender"> The sender of the event.  </param>
+        /// <param name="e"> The event args parameter.  </param>
+        private void BtnAutoMatchClick(object sender, EventArgs e)
         {
             this.matching.MatchAll();
             this.SetupGui();
@@ -207,13 +172,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Event handler for pressing the finished button
         /// </summary>
-        /// <param name="sender">
-        /// The sender object. 
-        /// </param>
-        /// <param name="e">
-        /// The event parameters. 
-        /// </param>
-        private void BtnFinished_Click(object sender, EventArgs e)
+        /// <param name="sender"> The sender object.  </param>
+        /// <param name="e"> The event parameters.  </param>
+        private void BtnFinishedClick(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -222,13 +183,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Handels the click event of the Match button
         /// </summary>
-        /// <param name="sender">
-        /// The sender of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The event args parameter. 
-        /// </param>
-        private void BtnMatch_Click(object sender, EventArgs e)
+        /// <param name="sender"> The sender of the event.  </param>
+        /// <param name="e"> The event args parameter.  </param>
+        private void BtnMatchClick(object sender, EventArgs e)
         {
             try
             {
@@ -255,13 +212,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Handels the click event of the UnMatchAll button
         /// </summary>
-        /// <param name="sender">
-        /// The sender of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The event args parameter. 
-        /// </param>
-        private void BtnUnMatchAll_Click(object sender, EventArgs e)
+        /// <param name="sender"> The sender of the event.  </param>
+        /// <param name="e"> The event args parameter. </param>
+        private void BtnUnMatchAllClick(object sender, EventArgs e)
         {
             try
             {
@@ -280,13 +233,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Handels the click event of the UnMatch button
         /// </summary>
-        /// <param name="sender">
-        /// The sender of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The event args parameter. 
-        /// </param>
-        private void BtnUnMatch_Click(object sender, EventArgs e)
+        /// <param name="sender"> The sender of the event.  </param>
+        /// <param name="e"> The event args parameter.  </param>
+        private void BtnUnMatchClick(object sender, EventArgs e)
         {
             try
             {
@@ -310,13 +259,9 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <summary>
         /// Event handler for changing the ckeckbox
         /// </summary>
-        /// <param name="sender">
-        /// The sender object. 
-        /// </param>
-        /// <param name="e">
-        /// The event parameters. 
-        /// </param>
-        private void ChkMatchedOnly_CheckedChanged(object sender, EventArgs e)
+        /// <param name="sender"> The sender object.  </param>
+        /// <param name="e"> The event parameters.  </param>
+        private void ChkMatchedOnlyCheckedChanged(object sender, EventArgs e)
         {
             // rebind the gui
             this.SetupGui();
