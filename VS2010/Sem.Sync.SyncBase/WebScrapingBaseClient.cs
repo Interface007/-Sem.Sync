@@ -275,7 +275,7 @@ namespace Sem.Sync.SyncBase
                 }
             }
 
-            this.ThinkTime(1000);
+            this.ThinkTime(5000);
 
             return result;
         }

@@ -99,7 +99,7 @@
             this.chkMatchedOnlySource.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMatchedOnlySource.Name = "chkMatchedOnlySource";
             this.chkMatchedOnlySource.UseVisualStyleBackColor = true;
-            this.chkMatchedOnlySource.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
+            this.chkMatchedOnlySource.CheckedChanged += new System.EventHandler(this.ChkMatchedOnlyCheckedChanged);
             // 
             // SourceCardView
             // 
@@ -135,7 +135,7 @@
             this.chkMatchedOnlyTarget.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMatchedOnlyTarget.Name = "chkMatchedOnlyTarget";
             this.chkMatchedOnlyTarget.UseVisualStyleBackColor = true;
-            this.chkMatchedOnlyTarget.CheckedChanged += new System.EventHandler(this.ChkMatchedOnly_CheckedChanged);
+            this.chkMatchedOnlyTarget.CheckedChanged += new System.EventHandler(this.ChkMatchedOnlyCheckedChanged);
             // 
             // TargetCardView
             // 
@@ -180,35 +180,35 @@
             resources.ApplyResources(this.btnFinished, "btnFinished");
             this.btnFinished.Name = "btnFinished";
             this.btnFinished.UseVisualStyleBackColor = true;
-            this.btnFinished.Click += new System.EventHandler(this.BtnFinished_Click);
+            this.btnFinished.Click += new System.EventHandler(this.BtnFinishedClick);
             // 
             // btnMatch
             // 
             resources.ApplyResources(this.btnMatch, "btnMatch");
             this.btnMatch.Name = "btnMatch";
             this.btnMatch.UseVisualStyleBackColor = true;
-            this.btnMatch.Click += new System.EventHandler(this.BtnMatch_Click);
+            this.btnMatch.Click += new System.EventHandler(this.BtnMatchClick);
             // 
             // btnUnMatch
             // 
             resources.ApplyResources(this.btnUnMatch, "btnUnMatch");
             this.btnUnMatch.Name = "btnUnMatch";
             this.btnUnMatch.UseVisualStyleBackColor = true;
-            this.btnUnMatch.Click += new System.EventHandler(this.BtnUnMatch_Click);
+            this.btnUnMatch.Click += new System.EventHandler(this.BtnUnMatchClick);
             // 
             // BtnAutoMatch
             // 
             resources.ApplyResources(this.BtnAutoMatch, "BtnAutoMatch");
             this.BtnAutoMatch.Name = "BtnAutoMatch";
             this.BtnAutoMatch.UseVisualStyleBackColor = true;
-            this.BtnAutoMatch.Click += new System.EventHandler(this.BtnAutoMatch_Click);
+            this.BtnAutoMatch.Click += new System.EventHandler(this.BtnAutoMatchClick);
             // 
             // BtnUnmachtAll
             // 
             resources.ApplyResources(this.BtnUnmachtAll, "BtnUnmachtAll");
             this.BtnUnmachtAll.Name = "BtnUnmachtAll";
             this.BtnUnmachtAll.UseVisualStyleBackColor = true;
-            this.BtnUnmachtAll.Click += new System.EventHandler(this.BtnUnMatchAll_Click);
+            this.BtnUnmachtAll.Click += new System.EventHandler(this.BtnUnMatchAllClick);
             // 
             // MatchEntities
             // 
