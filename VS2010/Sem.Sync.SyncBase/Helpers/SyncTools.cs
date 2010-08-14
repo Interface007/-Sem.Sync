@@ -56,21 +56,11 @@ namespace Sem.Sync.SyncBase.Helpers
         ///   for conflicts. This list does contain information about possible merge conflicts with references to
         ///   the real objects from the source lists.
         /// </summary>
-        /// <param name="source">
-        /// a list of standard elements that should be merged into a target list
-        /// </param>
-        /// <param name="target">
-        /// a list of standard elements that should get the changes from the source list
-        /// </param>
-        /// <param name="baseline">
-        /// a baseline both other lists will be compared to
-        /// </param>
-        /// <param name="type">
-        /// the type that should serve as a pattern for detecting the properties to compare
-        /// </param>
-        /// <returns>
-        /// A list of conflicts that have been detected
-        /// </returns>
+        /// <param name="source"> a list of standard elements that should be merged into a target list </param>
+        /// <param name="target"> a list of standard elements that should get the changes from the source list </param>
+        /// <param name="baseline"> a baseline both other lists will be compared to </param>
+        /// <param name="type"> the type that should serve as a pattern for detecting the properties to compare </param>
+        /// <returns> A list of conflicts that have been detected </returns>
         public static List<ConflictTestContainer> BuildConflictTestContainerList(
             List<StdElement> source, List<StdElement> target, List<StdElement> baseline, Type type)
         {
@@ -117,21 +107,10 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Detects standard values in sub entities and replaces them with a NULL reference.
         /// </summary>
-        /// <param name="item">
-        /// the item to check (checks will be done including sub entities)
-        /// </param>
-        /// <param name="testType">
-        /// the type of the item to test
-        /// </param>
-        /// <returns>
-        /// a processed item that contains NULL references instead of defaults
-        /// </returns>
-        /// <remarks>
-        /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", 
-            Justification =
-                "The complexity of this method does come from one single switch statement, that is easy to understand.")
-        ]
+        /// <param name="item"> the item to check (checks will be done including sub entities) </param>
+        /// <param name="testType"> the type of the item to test </param>
+        /// <returns> a processed item that contains NULL references instead of defaults </returns>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The complexity of this method does come from one single switch statement, that is easy to understand.")]
         public static bool ClearNulls(object item, Type testType)
         {
             if (item == null)
@@ -250,15 +229,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Detect conflicts by comparing the elements of the list via reflection (public properties only!)
         /// </summary>
-        /// <param name="containers">
-        /// a list of matched element that should be compared
-        /// </param>
-        /// <param name="skipIdenticalChanges">
-        /// set ths to true to suppress changed where source and target differ from baseline, but with identical changes
-        /// </param>
-        /// <returns>
-        /// a list of canflicts to be solved
-        /// </returns>
+        /// <param name="containers"> a list of matched element that should be compared </param>
+        /// <param name="skipIdenticalChanges"> set ths to true to suppress changed where source and target differ from baseline, but with identical changes </param>
+        /// <returns> a list of canflicts to be solved </returns>
         public static List<MergeConflict> DetectConflicts(
             List<ConflictTestContainer> containers, bool skipIdenticalChanges)
         {
@@ -275,12 +248,8 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Interprets the gender from a text representation (e.g. "Mr." or "Frau")
         /// </summary>
-        /// <param name="text">
-        /// The text to be interpreted. 
-        /// </param>
-        /// <returns>
-        /// The interpreted gender.
-        /// </returns>
+        /// <param name="text"> The text to be interpreted. </param>
+        /// <returns> The interpreted gender.</returns>
         public static Gender GenderByText(string text)
         {
             return text.IsOneOf("Herr", "Mr.")
@@ -291,12 +260,8 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Replaces forbidden file name characters with an underscore.
         /// </summary>
-        /// <param name="fileName">
-        /// file name to normalize
-        /// </param>
-        /// <returns>
-        /// the noramlized file name
-        /// </returns>
+        /// <param name="fileName"> file name to normalize </param>
+        /// <returns> the noramlized file name </returns>
         public static string NormalizeFileName(string fileName)
         {
             var result = fileName;
@@ -318,17 +283,10 @@ namespace Sem.Sync.SyncBase.Helpers
         /// <summary>
         /// Detects merge conflicts and stored the information about them in a <see cref="MergeConflict"/>.
         /// </summary>
-        /// <param name="container">
-        /// The container of the attribute description. 
-        /// </param>
-        /// <param name="skipIdenticalChanges">
-        /// Skips identical changes on both sides.
-        /// </param>
-        /// <returns>
-        /// A list of <see cref="MergeConflict"/> that have been detected.
-        /// </returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", 
-            Justification = "the if statements are far more readable in this case")]
+        /// <param name="container"> The container of the attribute description.  </param>
+        /// <param name="skipIdenticalChanges"> Skips identical changes on both sides. </param>
+        /// <returns> A list of <see cref="MergeConflict"/> that have been detected. </returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "the if statements are far more readable in this case")]
         private static IEnumerable<MergeConflict> DetectConflicts(
             ConflictTestContainer container, bool skipIdenticalChanges)
         {
@@ -384,9 +342,12 @@ namespace Sem.Sync.SyncBase.Helpers
                 }
 
                 var typeName = item.PropertyType.Name;
-                if (item.PropertyType.BaseType.FullName == "System.Enum")
+                if (item.PropertyType.BaseType != null)
                 {
-                    typeName = "Enum";
+                    if (item.PropertyType.BaseType.FullName == "System.Enum")
+                    {
+                        typeName = "Enum";
+                    }
                 }
 
                 switch (typeName)

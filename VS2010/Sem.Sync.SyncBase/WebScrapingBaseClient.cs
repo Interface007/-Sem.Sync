@@ -45,6 +45,8 @@ namespace Sem.Sync.SyncBase
         /// </summary>
         private Regex personIdentifierFromContactsListExtractor;
 
+        private WebSideParameters parameters;
+
         #endregion
 
         #region Constructors and Destructors
@@ -104,9 +106,14 @@ namespace Sem.Sync.SyncBase
         {
             get
             {
-                var parameterFileName = this.FriendlyClientName + ".xml";
-                var parameterFile = this.httpRequester.GetContent("http://www.svenerikmatzen.info/" + parameterFileName);
-                return Tools.LoadFromString<WebSideParameters>(parameterFile);
+                if (parameters == null)
+                {
+                    var parameterFileName = this.FriendlyClientName + ".xml";
+                    var parameterFile = this.httpRequester.GetContent("http://www.svenerikmatzen.info/WebScrapingParameters/" + parameterFileName);
+                    parameters = Tools.LoadFromString<WebSideParameters>(parameterFile);
+                }
+
+                return parameters;
             }
         }
 

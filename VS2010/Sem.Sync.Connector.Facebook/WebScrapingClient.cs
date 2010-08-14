@@ -30,15 +30,6 @@ namespace Sem.Sync.Connector.Facebook
         MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class WebScrapingClient : WebScrapingBaseClient
     {
-        #region Constants and Fields
-
-        /// <summary>
-        ///   magic secret for facebook
-        /// </summary>
-        private readonly string facebookLsd;
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
@@ -47,43 +38,6 @@ namespace Sem.Sync.Connector.Facebook
         public WebScrapingClient()
             : base("http://www.facebook.com/")
         {
-            var content = this.HttpRequester.GetContent(string.Empty);
-            this.facebookLsd = Regex.Match(content, @"name=""lsd"" value=""(?<lsd>.*?)"" autocomplete=""off""").Groups["lsd"].ToString();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///   Gets the WebSideParameters which defines how to deal with the site.
-        /// </summary>
-        protected override WebSideParameters WebSideParameters
-        {
-            get
-            {
-                var webSideParameters = new WebSideParameters
-                    { 
-                        ImagePlaceholderUrl = "silhouette.gif", 
-                        HttpDetectionStringLogOnNeeded = new[] { @"""errorSummary"":""Not Logged In""", "https://login.facebook.com/login.php?login_attempt=1", @"redirect"":""http:\/\/www.facebook.com\/login.php" }, 
-                        HttpUrlContactDownload = "/profile.php?id={0}", 
-                        ProfileIdentifierType = ProfileIdentifierType.FacebookProfileId,
-                        HttpUrlLogOnRequest = "https://login.facebook.com/login.php?login_attempt=1",
-                        HttpUrlFriendList = "/friends/ajax/superfriends.php?filter=afp&ref=tn&offset={0}&__a=1",
-                        HttpDetectionStringLogOnFailed = "no such string available",
-                        ExtractorProfilePictureUrl = @"<img src=""(?<pic>[a-z0-9._/:]*)"" alt=""[a-zA-Z0-9._/: ]*"" id=""profile_pic""",
-                        ExtractorFriendUrls = @"""(?<id>\d+)""",
-                        HttpDataLogOnRequest = "charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&locale=de_DE&non_com_login=&email={0}&pass={1}&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&lsd=" + this.facebookLsd,
-                        ContactListUrl = "http://www.facebook.com/friends/?id={0}&flid=&view=everyone&q=&nt=0&nk=0&s={1}&st=0",
-                        PersonIdentifierFromContactsListRegex = @"Friends.friendClick\(this, event, (?<profileId>[0-9]*)\);",
-                        ProfileIdFormatter = @"profile.php?id={0}",
-                        ProfileIdPartExtractor = @"profile.php\?id=(.*)",
-                    };
-
-                var parameterContent = Tools.SaveToString(webSideParameters);
-
-                return webSideParameters;
-            }
         }
 
         #endregion
@@ -99,8 +53,7 @@ namespace Sem.Sync.Connector.Facebook
         protected override StdContact ConvertToStdContact(string contactUrl, string content)
         {
             var result = new StdContact();
-            var values = Regex.Matches(
-                content, @"\<h1 id=\\""profile_name\\""[^>]*>(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
+            var values = Regex.Matches(content, @"\<h1 id=\\""profile_name\\""[^>]*>(?<value>.*?)<\\/h1>", RegexOptions.Singleline);
 
             if (values.Count == 0 || values[0].Groups.Count <= 1)
             {
