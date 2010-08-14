@@ -62,7 +62,7 @@ namespace Sem.Sync.Connector.Facebook
         {
             get
             {
-                return new WebSideParameters
+                var webSideParameters = new WebSideParameters
                     { 
                         ImagePlaceholderUrl = "silhouette.gif", 
                         HttpDetectionStringLogOnNeeded = new[] { @"""errorSummary"":""Not Logged In""", "https://login.facebook.com/login.php?login_attempt=1", @"redirect"":""http:\/\/www.facebook.com\/login.php" }, 
@@ -79,6 +79,10 @@ namespace Sem.Sync.Connector.Facebook
                         ProfileIdFormatter = @"profile.php?id={0}",
                         ProfileIdPartExtractor = @"profile.php\?id=(.*)",
                     };
+
+                var parameterContent = Tools.SaveToString(webSideParameters);
+
+                return webSideParameters;
             }
         }
 
