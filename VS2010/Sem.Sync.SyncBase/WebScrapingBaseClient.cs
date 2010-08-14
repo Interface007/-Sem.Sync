@@ -100,7 +100,15 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         ///   Gets the WebSideParameters which defines how to deal with the site.
         /// </summary>
-        protected abstract WebSideParameters WebSideParameters { get; }
+        protected virtual WebSideParameters WebSideParameters
+        {
+            get
+            {
+                var parameterFileName = this.FriendlyClientName + ".xml";
+                var parameterFile = this.httpRequester.GetContent("http://www.svenerikmatzen.info/" + parameterFileName);
+                return Tools.LoadFromString<WebSideParameters>(parameterFile);
+            }
+        }
 
         #endregion
 
