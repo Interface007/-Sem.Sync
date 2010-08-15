@@ -29,8 +29,9 @@ namespace Sem.Sync.SyncBase
     using Sem.Sync.SyncBase.Properties;
 
     /// <summary>
-    /// This class can (should) be used as a base class for "client" classes. It already implements some of the aspects 
-    ///   of such a client class, so you only need to implement the specific methods.
+    /// This class can (should) be used as a base class for "client" classes. 
+    /// It already implements some of the aspects of such a client class, 
+    /// so you only need to implement the specific methods.
     /// </summary>
     public abstract class StdClient : SyncComponent, IClientBase
     {
@@ -116,12 +117,8 @@ namespace Sem.Sync.SyncBase
         /// Normalizes the information inside the list. This includes removing leading and tailing white space etc.
         ///   This default implementation does simply call the NormalizeContent() method of the elements.
         /// </summary>
-        /// <param name="elements">
-        /// the list of elements to be normalized
-        /// </param>
-        /// <returns>
-        /// a list of processed elements
-        /// </returns>
+        /// <param name="elements">The list of elements to be normalized.</param>
+        /// <returns>A list of processed elements.</returns>
         public virtual List<StdElement> Normalize(List<StdElement> elements)
         {
             foreach (var element in elements)
@@ -136,17 +133,13 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Overrides the ToString method inherited from object with returning the friendly name.
         /// </summary>
-        /// <returns>
-        /// The friendly name of this client
-        /// </returns>
+        /// <returns>The friendly name of this client.</returns>
         public override string ToString()
         {
             return this.FriendlyClientName;
         }
 
         #endregion
-
-        #region Implemented Interfaces
 
         #region IClientBase
 
@@ -155,11 +148,9 @@ namespace Sem.Sync.SyncBase
         ///   default implementation this calls <see cref="GetAll"/>, WriteElement and 
         ///   <see cref="WriteRange"/> to write the element and performs logging calls.
         /// </summary>
-        /// <param name="element">
-        /// the element to be added
-        /// </param>
+        /// <param name="element"> The element to be added. </param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
+        ///   The information where inside the source the elements reside - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void AddItem(StdElement element, string clientFolderName)
@@ -179,7 +170,7 @@ namespace Sem.Sync.SyncBase
         /// the elements to be added in a list of elements
         /// </param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
+        ///   The information where inside the source the elements reside - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void AddRange(List<StdElement> elements, string clientFolderName)
@@ -194,11 +185,11 @@ namespace Sem.Sync.SyncBase
         /// Deletes a list/collection of entities stecified by the identifiers.
         /// </summary>
         /// <param name="elementsToDelete">
-        /// The elements to be to deleted. This depends on the internal implementation of the storage - mostly
+        ///   The elements to be to deleted. This depends on the internal implementation of the storage - mostly
         ///   only the id read from <see cref="StdElement.ExternalIdentifier"/> is needed to delete an element.
         /// </param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
+        ///   The information where inside the source the elements reside - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void DeleteElements(List<StdElement> elementsToDelete, string clientFolderName)
@@ -212,12 +203,10 @@ namespace Sem.Sync.SyncBase
         ///   Override this method if you need additional control over the read process.
         /// </summary>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
+        ///   The information where inside the source the elements reside - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
-        /// <returns>
-        /// The list with the newly added elements
-        /// </returns>
+        /// <returns>The list with the newly added elements</returns>
         public virtual List<StdElement> GetAll(string clientFolderName)
         {
             var result = Factory.CreateTypeInstance<List<StdElement>>();
@@ -238,11 +227,9 @@ namespace Sem.Sync.SyncBase
         ///   element is already present. If the element does not exist, it will be added. If it does exist
         ///   the element will not be added and not be overridden.
         /// </summary>
-        /// <param name="element">
-        /// the element to be added
-        /// </param>
+        /// <param name="element">The element to be added</param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
+        ///   The information where inside the source the elements reside - 
         ///   This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void MergeMissingItem(StdElement element, string clientFolderName)
@@ -259,12 +246,10 @@ namespace Sem.Sync.SyncBase
         ///   skipping this process if an element is already present. Missing elements will be added, existing 
         ///   elements will not be altered.
         /// </summary>
-        /// <param name="elements">
-        /// the elements to be added in a list of elements
-        /// </param>
+        /// <param name="elements"> The elements to be added in a list of elements </param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// The information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void MergeMissingRange(List<StdElement> elements, string clientFolderName)
         {
@@ -293,12 +278,10 @@ namespace Sem.Sync.SyncBase
         ///   overwriting the elements if they do already exist. Missing elements will be added, existing 
         ///   elements will overwritten with the new elements.
         /// </summary>
-        /// <param name="elements">
-        /// the elements to be added in a list of elements
-        /// </param>
+        /// <param name="elements"> The elements to be added in a list of elements </param>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        /// The information where inside the source the elements reside - 
+        /// This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         public virtual void WriteRange(List<StdElement> elements, string clientFolderName)
         {
@@ -309,11 +292,18 @@ namespace Sem.Sync.SyncBase
             ////LogProcessingEvent(Resources.uiWritingElementsDone);
         }
 
+        /// <summary>
+        /// Adds a pause (Thread.Sleep) with the default of 8789 milliseconds.
+        /// </summary>
         protected void ThinkTime()
         {
             this.ThinkTime(8789);
         }
         
+        /// <summary>
+        /// Adds a random pause with a max value of <paramref name="max"/> milliseconds.
+        /// </summary>
+        /// <param name="max"></param>
         protected void ThinkTime(int max)
         {
             Thread.Sleep(new Random().Next(230, max));
@@ -321,16 +311,12 @@ namespace Sem.Sync.SyncBase
         
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
         /// Performs a cleanup of the elements of the list
         /// </summary>
-        /// <param name="elements">
-        /// The elements.
-        /// </param>
+        /// <param name="elements"> The elements. </param>
         protected static void CleanUpEntities(List<StdElement> elements)
         {
             var itemsToRemove = new List<StdElement>();
@@ -354,22 +340,20 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Extracts the column definition file name of a multi line parameter
         /// </summary>
-        /// <param name="clientFolderName">
-        /// The client folder name that may contain two lines. 
-        /// </param>
-        /// <returns>
-        /// the file name of the column definition file
-        /// </returns>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the file name of the column definition file. </returns>
         protected static string GetColumnDefinitionFileName(string clientFolderName)
         {
             var fileName = clientFolderName.Contains("\n") || clientFolderName.Contains("|")
-                               ? clientFolderName.Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].
-                                     Trim()
+                               ? clientFolderName
+                                    .Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1]
+                                    .Trim()
                                : string.Empty;
 
             if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
             {
-                return Path.Combine(Path.GetDirectoryName(GetFileName(clientFolderName)), fileName);
+                var path = GetFileName(clientFolderName);
+                return Path.Combine(Path.GetDirectoryName(path) ?? "", fileName);
             }
 
             return fileName;
@@ -378,12 +362,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Extracts the source/target file name of a multi line parameter
         /// </summary>
-        /// <param name="clientFolderName">
-        /// The client folder name that may contain two lines. 
-        /// </param>
-        /// <returns>
-        /// the source/target file name 
-        /// </returns>
+        /// <param name="clientFolderName"> The client folder name that may contain two lines. </param>
+        /// <returns> the source/target file name </returns>
         protected static string GetFileName(string clientFolderName)
         {
             var fileName = clientFolderName;
@@ -400,8 +380,9 @@ namespace Sem.Sync.SyncBase
         ///   enables concrete client implementations to do checks and preparations needed to access the target system
         /// </summary>
         /// <param name="clientFolderName">
-        /// the information where inside the source the elements reside - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        ///     The information where inside the source the elements reside - 
+        ///     This does not need to be a real "path", but need to be 
+        ///     something that can be expressed as a string.
         /// </param>
         protected virtual void BeforeStorageAccess(string clientFolderName)
         {
@@ -413,15 +394,9 @@ namespace Sem.Sync.SyncBase
         ///   specified, a list of such entries will be created by searching the object 
         ///   recursively for properties.
         /// </summary>
-        /// <param name="columnDefinitionFile">
-        /// the file that does contain a list of <see cref="ColumnDefinition"/> 
-        /// </param>
-        /// <param name="type">
-        /// The type to create the definition for
-        /// </param>
-        /// <returns>
-        /// a list of <see cref="ColumnDefinition"/> to describe the columns 
-        /// </returns>
+        /// <param name="columnDefinitionFile"> the file that does contain a list of <see cref="ColumnDefinition"/>  </param>
+        /// <param name="type"> The type to create the definition for </param>
+        /// <returns> a list of <see cref="ColumnDefinition"/> to describe the columns  </returns>
         protected List<ColumnDefinition> GetColumnDefinition(string columnDefinitionFile, Type type)
         {
             var result = new List<ColumnDefinition>();
@@ -485,12 +460,8 @@ namespace Sem.Sync.SyncBase
         ///   This does concatenates the specified value name with the FriendlyClientName to make the 
         ///   name unique for this client type.
         /// </summary>
-        /// <param name="configName">
-        /// the name of the value
-        /// </param>
-        /// <returns>
-        /// the value read from the config file - false, if there is no such value.
-        /// </returns>
+        /// <param name="configName"> the name of the value </param>
+        /// <returns> the value read from the config file - false, if there is no such value. </returns>
         protected bool GetConfigValueBoolean(string configName)
         {
             return this.GetConfigValueBoolean(configName, false);
@@ -501,15 +472,9 @@ namespace Sem.Sync.SyncBase
         ///   This does concatenates the specified value name with the FriendlyClientName to make the 
         ///   name unique for this client type.
         /// </summary>
-        /// <param name="configName">
-        /// the name of the value
-        /// </param>
-        /// <param name="defaultValue">
-        /// the value to be returned if no value is specified in the config file
-        /// </param>
-        /// <returns>
-        /// the value read from the config file - false, if there is no such value.
-        /// </returns>
+        /// <param name="configName"> the name of the value </param>
+        /// <param name="defaultValue"> the value to be returned if no value is specified in the config file </param>
+        /// <returns> the value read from the config file - false, if there is no such value. </returns>
         protected bool GetConfigValueBoolean(string configName, bool defaultValue)
         {
             var value = this.GetConfigValue(configName);
@@ -525,12 +490,9 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for 
-        ///   Credentials.
+        /// Uses the event handler QueryForLogonCredentialsEvent to query the calling instance for Credentials.
         /// </summary>
-        /// <param name="message">
-        /// the message to be displayed to the user
-        /// </param>
+        /// <param name="message"> the message to be displayed to the user </param>
         protected void QueryForLogOnCredentials(string message)
         {
             if (this.UiDispatcher != null)
@@ -557,16 +519,14 @@ namespace Sem.Sync.SyncBase
         /// Virtual read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
         /// <param name="clientFolderName">
-        /// the information from where inside the source the elements should be read - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        ///     The information from where inside the source the elements should be read - 
+        ///     This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
         /// <param name="result">
-        /// The list of elements that should get the elements. The elements should be added to
-        ///   the list instead of replacing it.
+        ///     The list of elements that should get the elements. The elements should be added to
+        ///     the list instead of replacing it.
         /// </param>
-        /// <returns>
-        /// The list with the newly added elements
-        /// </returns>
+        /// <returns> The list with the newly added elements </returns>
         protected virtual List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
             throw new NotImplementedException("Reading contacts has not been implemented for this connector.");
@@ -575,16 +535,12 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Virtual write method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
-        /// <param name="elements">
-        /// the list of elements that should be written to the target system.
-        /// </param>
+        /// <param name="elements">The list of elements that should be written to the target system. </param>
         /// <param name="clientFolderName">
-        /// the information to where inside the source the elements should be written - 
-        ///   This does not need to be a real "path", but need to be something that can be expressed as a string
+        ///     The information to where inside the source the elements should be written - 
+        ///     This does not need to be a real "path", but need to be something that can be expressed as a string
         /// </param>
-        /// <param name="skipIfExisting">
-        /// specifies whether existing elements should be updated or simply left as they are
-        /// </param>
+        /// <param name="skipIfExisting"> specifies whether existing elements should be updated or simply left as they are </param>
         protected virtual void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             throw new NotImplementedException("Writing contacts has not been implemented for this connector.");
@@ -593,12 +549,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Writes a single element to the list of elements; overwrites an existing element with the same id
         /// </summary>
-        /// <param name="list">
-        /// the list of elements the new element should be added to
-        /// </param>
-        /// <param name="element">
-        /// the new element that should be added
-        /// </param>
+        /// <param name="list"> The list of elements the new element should be added to </param>
+        /// <param name="element"> The new element that should be added </param>
         private static void WriteElement(ICollection<StdElement> list, StdElement element)
         {
             WriteElement(list, element, false);
@@ -607,18 +559,10 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Writes a single element to the list of elements
         /// </summary>
-        /// <param name="list">
-        /// the list of elements the new element should be added to
-        /// </param>
-        /// <param name="element">
-        /// the new element that should be added
-        /// </param>
-        /// <param name="skipIfExisting">
-        /// if false: overwrites an existing element with the same id
-        /// </param>
-        /// <returns>
-        /// true if writing was successfull, false if the entry has been skipped
-        /// </returns>
+        /// <param name="list"> The list of elements the new element should be added to </param>
+        /// <param name="element"> The new element that should be added </param>
+        /// <param name="skipIfExisting"> If false: overwrites an existing element with the same id </param>
+        /// <returns> True if writing was successfull, false if the entry has been skipped </returns>
         private static bool WriteElement(ICollection<StdElement> list, StdElement element, bool skipIfExisting)
         {
             var asContact = element as StdContact;
@@ -651,33 +595,12 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Writes a list of elements to the list of elements; overwrites an existing element with the same id
-        /// </summary>
-        /// <param name="list">
-        /// the list of elements the new element should be added to
-        /// </param>
-        /// <param name="elements">
-        /// the new elements that should be added
-        /// </param>
-        private static void WriteElementRange(ICollection<StdElement> list, IEnumerable<StdElement> elements)
-        {
-            WriteElementRange(list, elements, false);
-        }
-
-        /// <summary>
         /// Writes a list of elements to the list of elements
         /// </summary>
-        /// <param name="list">
-        /// the list of elements the new element should be added to
-        /// </param>
-        /// <param name="elements">
-        /// the new elements that should be added
-        /// </param>
-        /// <param name="skipIfExisting">
-        /// if false: overwrites an existing element with the same id
-        /// </param>
-        private static void WriteElementRange(
-            ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting)
+        /// <param name="list"> The list of elements the new element should be added to </param>
+        /// <param name="elements"> The new elements that should be added </param>
+        /// <param name="skipIfExisting"> If false: overwrites an existing element with the same id </param>
+        private static void WriteElementRange(ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting = false)
         {
             foreach (var element in elements)
             {
