@@ -25,7 +25,7 @@ namespace Sem.GenericHelpers
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableDictionary´2"/> tape
+        /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> tape
         /// </summary>
         public SerializableDictionary()
         {

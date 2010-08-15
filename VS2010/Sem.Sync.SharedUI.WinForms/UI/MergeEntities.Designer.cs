@@ -57,7 +57,7 @@
             this.conflictGrid.MultiSelect = false;
             this.conflictGrid.Name = "conflictGrid";
             this.conflictGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.conflictGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConflictGrid_CellContentClick);
+            this.conflictGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConflictGridCellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -70,7 +70,7 @@
             resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.Name = "btnOk";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
+            this.btnOk.Click += new System.EventHandler(this.BtnOkClick);
             // 
             // btnCancel
             // 
@@ -78,7 +78,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
             // 
             // label1
             // 
@@ -96,7 +96,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.conflictGrid);
             this.Name = "MergeEntities";
-            this.Load += new System.EventHandler(this.MergeEntities_Load);
+            this.Load += new System.EventHandler(this.MergeEntitiesLoad);
             ((System.ComponentModel.ISupportInitialize)(this.conflictGrid)).EndInit();
             this.ResumeLayout(false);
 

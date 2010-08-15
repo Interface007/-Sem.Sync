@@ -32,7 +32,7 @@ namespace Sem.Sync.Connector.Outlook2003
 
     /// <summary>
     /// This class is the client class for handling outlook contacts. The outlook connector does use the
-    ///   ProfileIdentifierType.Default, which is idential to the <see cref="StdContact.Id"/>.
+    ///   ProfileIdentifierType.Default, which is idential to the <see cref="StdElement.Id"/>.
     /// </summary>
     [ConnectorDescription(DisplayName = "Microsoft Outlook 2003", CanReadContacts = true, CanWriteContacts = true,
         Internal = false, IsGeneric = false, MatchingIdentifier = ProfileIdentifierType.Default)]

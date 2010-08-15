@@ -541,7 +541,7 @@ namespace Sem.Sync.Test.DataGenerator
 
         /// <summary>
         /// Creates a <see cref="StdContact"/> entity with only the Xing profile ID specified for matching simulation.
-        ///   The <see cref="StdContact.Id"/> will be a newly generated Guid.
+        ///   The <see cref="StdElement.Id"/> will be a newly generated Guid.
         /// </summary>
         /// <param name="profileId">
         /// The profile id. 
@@ -560,20 +560,15 @@ namespace Sem.Sync.Test.DataGenerator
         /// <param name="profileId">
         /// The profile id.  
         /// </param>
-        /// <param name="id">
-        /// The <see cref="StdContact.Id"/> . 
-        /// </param>
-        /// <returns>
-        /// The entity created with a Xing profile id  
-        /// </returns>
+        /// <param name="id"> The <see cref="StdElement.Id"/>. </param>
+        /// <returns> The entity created with a Xing profile id. </returns>
         private static StdContact CreateIdOnlyContact(string profileId, string id)
         {
             var result = new StdContact
                 {
                     Name = new PersonName(profileId), 
                     Id = new Guid(id), 
-                    ExternalIdentifier =
-                        new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId), 
+                    ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId), 
                 };
             return result;
         }

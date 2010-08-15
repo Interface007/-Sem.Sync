@@ -25,8 +25,8 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     /// <summary>
     /// This form perfoms an entity merge. The method <see cref="PerformMatch"/> accepts a source, target and baseline list of <see cref="StdElement"/>.
     ///   The source is the "variable" list of entities with a pool of contacts that have a stable <see cref="StdElement.ExternalIdentifier"/> and
-    ///   unstable <see cref="StdContact.Id"/>. Matched relationships of <see cref="StdElement.ExternalIdentifier"/> from the source and 
-    ///   <see cref="StdContact.Id"/> of the target are stored inside the baseline.
+    ///   unstable <see cref="StdElement.Id"/>. Matched relationships of <see cref="StdElement.ExternalIdentifier"/> from the source and 
+    ///   <see cref="StdElement.Id"/> of the target are stored inside the baseline.
     /// </summary>
     public partial class MatchEntities : Form
     {

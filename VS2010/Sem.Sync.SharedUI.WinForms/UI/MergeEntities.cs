@@ -17,7 +17,6 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     using System.Windows.Forms;
 
     using Sem.Sync.SharedUI.WinForms.ViewModel;
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Merging;
 
@@ -222,7 +221,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="e">
         /// The empty event arguments. 
         /// </param>
-        private void BtnCancel_Click(object sender, EventArgs e)
+        private void BtnCancelClick(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -236,7 +235,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="e">
         /// The empty event arguments. 
         /// </param>
-        private void BtnOk_Click(object sender, EventArgs e)
+        private void BtnOkClick(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -252,7 +251,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="e">
         /// The event arguments containing the click information. 
         /// </param>
-        private void ConflictGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void ConflictGridCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var columnIndex = e.ColumnIndex;
             if (columnIndex <= 1)
@@ -280,7 +279,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         /// <param name="e">
         /// The empty event arguments. 
         /// </param>
-        private void MergeEntities_Load(object sender, EventArgs e)
+        private void MergeEntitiesLoad(object sender, EventArgs e)
         {
             this.conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
         }
@@ -316,7 +315,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
                 cell.Style.BackColor = Color.White;
             }
 
-            ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo = columnIndex == 2
+            ((MergeView)currentRow.DataBoundItem).Conflict.ActionToDo = columnIndex == 3
                                                                             ? MergePropertyAction.CopySourceToTarget
                                                                             : MergePropertyAction.KeepCurrentTarget;
 
