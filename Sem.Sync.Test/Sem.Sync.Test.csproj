@@ -117,15 +117,18 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Moles.Framework, Version=0.92.50603.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\ExternalAssemblies\bin\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Sem.GenericHelpers.Moles, Version=2010.328.3876.26205, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -156,6 +159,16 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemConnectorTest.cs" />
+    <Compile Include="Sem.GenericHelpers.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Sem.GenericHelpers.moles</DependentUpon>
+    </Compile>
+    <Compile Include="System.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>System.moles</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTestData.cs" />
     <Compile Include="VersionCheckTests.cs" />
   </ItemGroup>
@@ -190,7 +203,15 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Sem.GenericHelpers.moles">
+      <Generator>MolesGenerator</Generator>
+      <LastGenOutput>Sem.GenericHelpers.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Settings.StyleCop" />
+    <None Include="System.moles">
+      <Generator>MolesGenerator</Generator>
+      <LastGenOutput>System.Designer.cs</LastGenOutput>
+    </None>
     <Shadow Include="Test References\Sem.GenericHelpers.accessor" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +235,21 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sem.GenericHelpers.Moles.dll">
+      <DependentUpon>Sem.GenericHelpers.moles</DependentUpon>
+    </Content>
+    <Content Include="Sem.GenericHelpers.Moles.xml">
+      <DependentUpon>Sem.GenericHelpers.moles</DependentUpon>
+    </Content>
+    <Content Include="System.Moles.dll">
+      <DependentUpon>System.moles</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="System.Moles.xml">
+      <DependentUpon>System.moles</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -336,7 +336,7 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <param name="e">
         /// empty event arguments 
         /// </param>
-        private void SyncWizard_Load(object sender, EventArgs e)
+        private void SyncWizardLoad(object sender, EventArgs e)
         {
             this.versionLabel.Text = Resources.LabelVersion + new VersionCheck().ToString(false);
 

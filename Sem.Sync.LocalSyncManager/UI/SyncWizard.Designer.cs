@@ -490,7 +490,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SyncWizard";
-            this.Load += new System.EventHandler(this.SyncWizard_Load);
+            this.Load += new System.EventHandler(this.SyncWizardLoad);
             ((System.ComponentModel.ISupportInitialize)(this.contextDataSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDataTarget)).EndInit();
             this.pnlProgress.ResumeLayout(false);
