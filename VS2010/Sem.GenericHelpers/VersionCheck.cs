@@ -214,26 +214,6 @@ namespace Sem.GenericHelpers
                 return true;
             }
 
-            if (this.MajorRevision > greaterInstance.MajorRevision)
-            {
-                return false;
-            }
-
-            if (this.MajorRevision < greaterInstance.MajorRevision)
-            {
-                return true;
-            }
-
-            if (this.MinorRevision > greaterInstance.MinorRevision)
-            {
-                return false;
-            }
-
-            if (this.MinorRevision < greaterInstance.MinorRevision)
-            {
-                return true;
-            }
-
             return true;
         }
 
