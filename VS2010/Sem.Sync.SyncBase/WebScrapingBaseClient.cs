@@ -16,7 +16,6 @@ namespace Sem.Sync.SyncBase
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Threading;
 
     using Sem.GenericHelpers;
     using Sem.Sync.SyncBase.Attributes;
@@ -29,8 +28,10 @@ namespace Sem.Sync.SyncBase
     ///   The inherited class needs to provifr information about the web site via properties.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
-    [ConnectorDescription(DisplayName = "WebScraping-Base-Client", Internal = true, CanReadContacts = false, 
-        CanWriteContacts = false, NeedsCredentials = true, MatchingIdentifier = ProfileIdentifierType.Default)]
+    [ConnectorDescription(DisplayName = "WebScraping-Base-Client", 
+        CanReadContacts = false, CanWriteContacts = false,
+        NeedsCredentials = true, Internal = true, 
+        MatchingIdentifier = ProfileIdentifierType.Default)]
     public abstract class WebScrapingBaseClient : StdClient, IExtendedReader
     {
         #region Constants and Fields
@@ -41,10 +42,18 @@ namespace Sem.Sync.SyncBase
         private readonly HttpHelper httpRequester;
 
         /// <summary>
+        /// The source of the web scraping parameters of this instance - it may be a file location or an http web reference.
+        /// </summary>
+        private readonly string scrapingParameterSource;
+
+        /// <summary>
         /// The compiled regular expression to extract the identifiers from the friend list.
         /// </summary>
         private Regex personIdentifierFromContactsListExtractor;
 
+        /// <summary>
+        /// The web scraping parameters of this instance.
+        /// </summary>
         private WebSideParameters parameters;
 
         #endregion
@@ -63,6 +72,7 @@ namespace Sem.Sync.SyncBase
         protected WebScrapingBaseClient(HttpHelper preconfiguredHttpHelper)
         {
             this.httpRequester = preconfiguredHttpHelper;
+            this.scrapingParameterSource = this.GetConfigValue("WebScrapingParameterSource", "http://www.svenerikmatzen.info/WebScrapingParameters/");
         }
 
         /// <summary>
@@ -106,14 +116,21 @@ namespace Sem.Sync.SyncBase
         {
             get
             {
-                if (parameters == null)
+                if (this.parameters == null)
                 {
                     var parameterFileName = this.FriendlyClientName + ".xml";
-                    var parameterFile = this.httpRequester.GetContent("http://www.svenerikmatzen.info/WebScrapingParameters/" + parameterFileName);
-                    parameters = Tools.LoadFromString<WebSideParameters>(parameterFile);
+                    if (this.scrapingParameterSource.StartsWith("http", StringComparison.OrdinalIgnoreCase)) 
+                    {
+                        var parameterFile = this.httpRequester.GetContent(this.scrapingParameterSource + parameterFileName);
+                        this.parameters = Tools.LoadFromString<WebSideParameters>(parameterFile);
+                    }
+                    else
+                    {
+                        this.parameters = Tools.LoadFromFile<WebSideParameters>(this.scrapingParameterSource);
+                    }
                 }
 
-                return parameters;
+                return this.parameters;
             }
         }
 

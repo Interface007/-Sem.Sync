@@ -13,6 +13,7 @@ namespace Sem.Sync.SyncBase
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -41,9 +42,11 @@ namespace Sem.Sync.SyncBase
         ///   Initializes a new instance of the <see cref = "StdClient" /> class. This will also read the saved credentials 
         ///   for this Client type from the app.config file.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", 
-            "CA2214:DoNotCallOverridableMethodsInConstructors", 
-            Justification = "The virtual method that is called is a property that always should just return a string value and does not need any class initialization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2214:DoNotCallOverridableMethodsInConstructors",
+            Justification =
+                "The virtual method that is called is a property that always should just return a string value and does not need any class initialization."
+            )]
         protected StdClient()
         {
             this.LogOnUserId = this.GetConfigValue("LogonUserId");
@@ -175,7 +178,8 @@ namespace Sem.Sync.SyncBase
         /// </param>
         public virtual void AddRange(List<StdElement> elements, string clientFolderName)
         {
-            this.LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            this.LogProcessingEvent(
+                string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements);
             this.WriteRange(data, clientFolderName);
@@ -299,7 +303,7 @@ namespace Sem.Sync.SyncBase
         {
             this.ThinkTime(8789);
         }
-        
+
         /// <summary>
         /// Adds a random pause with a max value of <paramref name="max"/> milliseconds.
         /// </summary>
@@ -308,7 +312,7 @@ namespace Sem.Sync.SyncBase
         {
             Thread.Sleep(new Random().Next(230, max));
         }
-        
+
         #endregion
 
         #region Methods
@@ -345,9 +349,8 @@ namespace Sem.Sync.SyncBase
         protected static string GetColumnDefinitionFileName(string clientFolderName)
         {
             var fileName = clientFolderName.Contains("\n") || clientFolderName.Contains("|")
-                               ? clientFolderName
-                                    .Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1]
-                                    .Trim()
+                               ? clientFolderName.Split(new[] { "\n", "|" }, StringSplitOptions.RemoveEmptyEntries)[1].
+                                     Trim()
                                : string.Empty;
 
             if (!fileName.Contains("\\") && clientFolderName.Contains("\\"))
@@ -435,8 +438,21 @@ namespace Sem.Sync.SyncBase
         /// <returns> the value read from the config file - string.Empty, if there is no such value. </returns>
         protected string GetConfigValue(string configName)
         {
+            return this.GetConfigValue(configName, string.Empty);
+        }
+
+        /// <summary>
+        /// Reads a value from the app config file, returns string.Empty if the value is not set.
+        ///   This does concatenate the specified value name with the FriendlyClientName to make the 
+        ///   name unique for this client type.
+        /// </summary>
+        /// <param name="configName"> the name of the value </param>
+        /// <param name="defaultValue"> The default Value for the case where there is noc value inside the app.config. </param>
+        /// <returns> the value read from the config file - string.Empty, if there is no such value. </returns>
+        protected string GetConfigValue(string configName, string defaultValue)
+        {
             var value = ConfigurationManager.AppSettings[this.FriendlyClientName + "-" + configName];
-            return value ?? string.Empty;
+            return value ?? defaultValue;
         }
 
         /// <summary>
@@ -446,7 +462,7 @@ namespace Sem.Sync.SyncBase
         ///   name unique for this client type.
         /// </summary>
         /// <param name="configName"> the name of the value  </param>
-        /// <param name="defaultValue"> The default Value. </param>
+        /// <param name="defaultValue"> The default Value for the case where there is noc value inside the app.config. </param>
         /// <returns> the value read from the config file - defaultValue if the value cannot be read as an int.  </returns>
         protected int GetConfigValueInt(string configName, int defaultValue)
         {
@@ -508,9 +524,7 @@ namespace Sem.Sync.SyncBase
             }
 
             var args = new QueryForLogOnCredentialsEventArgs
-                {
-                   MessageForUser = message, LogonUserId = this.LogOnUserId, LogonPassword = this.LogOnPassword, 
-                };
+                { MessageForUser = message, LogonUserId = this.LogOnUserId, LogonPassword = this.LogOnPassword, };
 
             this.QueryForLogonCredentialsEvent(this, args);
         }
@@ -600,7 +614,8 @@ namespace Sem.Sync.SyncBase
         /// <param name="list"> The list of elements the new element should be added to </param>
         /// <param name="elements"> The new elements that should be added </param>
         /// <param name="skipIfExisting"> If false: overwrites an existing element with the same id </param>
-        private static void WriteElementRange(ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting = false)
+        private static void WriteElementRange(
+            ICollection<StdElement> list, IEnumerable<StdElement> elements, bool skipIfExisting = false)
         {
             foreach (var element in elements)
             {
