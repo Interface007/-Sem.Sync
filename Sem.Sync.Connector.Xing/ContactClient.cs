@@ -39,8 +39,10 @@ namespace Sem.Sync.Connector.Xing
     ///   of Sem.Sync.Helpers.HttpHelper to extract the data from the web pages.
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
-        NeedsCredentialsDomain = false, DisplayName = "Xing",
+    [ConnectorDescription(
+        DisplayName = "Xing",
+        CanReadContacts = true, CanWriteContacts = false, 
+        NeedsCredentials = true, NeedsCredentialsDomain = false, 
         MatchingIdentifier = ProfileIdentifierType.XingNameProfileId)]
     public class ContactClient : StdClient, IExtendedReader
     {
@@ -69,8 +71,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   relative URL to query contact links to vCards
         /// </summary>
-        private const string HttpUrlListContent =
-            "/app/contact?notags_filter=0;card_mode=0;search_filter=;tags_filter=;offset={0}";
+        private const string HttpUrlListContent = "/app/contact?notags_filter=0;card_mode=0;search_filter=;tags_filter=;offset={0}";
 
         /// <summary>
         ///   relative url to log on
@@ -90,10 +91,7 @@ namespace Sem.Sync.Connector.Xing
         /// <summary>
         ///   regular expression to extract the URLs for the vCards
         /// </summary>
-        private const string PatternGetVCardUrls =
-            @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?(inputField_[0-9]*"" value=""(?<tags>[\w ,]*)"")?";
-
-        ////"(.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)\".*?inputField_[0-9]*\" value=\"([\\w ,]*)\"";
+        private const string PatternGetVCardUrls = @"name="".*?"" href=""/profile/(?<uname>.*?)/.*?(?<vcardurl>.app.contact.op=vcard;scr_id=[a-zA-Z0-9]+[.][a-zA-Z0-9]*)"".*?(inputField_[0-9]*"" value=""(?<tags>[\w ,]*)"")?";
 
         /// <summary>
         ///   converter for the vCards downloaded from Xing
@@ -279,8 +277,7 @@ namespace Sem.Sync.Connector.Xing
                 if (contact != null)
                 {
                     contact.ExternalIdentifier.SetProfileId(ProfileIdentifierType.XingNameProfileId, item.ProfileUrl);
-                    contact.Categories =
-                        new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
+                    contact.Categories = new List<string>(item.Tags.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries));
                     result.Add(contact);
                 }
 
