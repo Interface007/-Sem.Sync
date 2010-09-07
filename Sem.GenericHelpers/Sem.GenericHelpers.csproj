@@ -147,6 +147,10 @@
     </Compile>
     <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
+    <Compile Include="Contracts\CheckData.cs" />
+    <Compile Include="Contracts\Guard.cs" />
+    <Compile Include="Contracts\Rule.cs" />
+    <Compile Include="Contracts\RuleBase.cs" />
     <Compile Include="Database\DatabaseScriptGenerator.cs" />
     <Compile Include="Database\EnumHelper.cs" />
     <Compile Include="Database\ReferenceTable.cs" />
@@ -171,6 +175,9 @@
     <Compile Include="LogonCredentialRequest.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="MappingHelper.cs" />
+    <Compile Include="MessageAggregation\IHandleMessage.cs" />
+    <Compile Include="MessageAggregation\MessageAggregator.cs" />
+    <Compile Include="MessageAggregator.cs" />
     <Compile Include="NullLiftModifier.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
