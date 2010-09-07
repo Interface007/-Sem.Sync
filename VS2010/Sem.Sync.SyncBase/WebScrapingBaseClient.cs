@@ -15,6 +15,7 @@ namespace Sem.Sync.SyncBase
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Security.Authentication;
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers;
@@ -139,7 +140,8 @@ namespace Sem.Sync.SyncBase
         #region Methods
 
         /// <summary>
-        /// Performs a log on to the web site
+        /// Performs a log on to the web site. This function does not throw an exception, but returns false in case
+        /// of an authentication problem.
         /// </summary>
         /// <returns>a value indicating whether the log on was successfull</returns>
         public bool Logon()
@@ -315,9 +317,8 @@ namespace Sem.Sync.SyncBase
         /// <summary>
         /// Ready a list of vCard locations - this will also establish the logon
         /// </summary>
-        /// <returns>
-        /// a list of urls for the vCards to be downloaded
-        /// </returns>
+        /// <exception cref="AuthenticationException">In case of a failing authentication an <see cref="AuthenticationException"/> is thrown.</exception>
+        /// <returns> a list of urls for the data to be downloaded </returns>
         private IEnumerable<string> GetUrlList()
         {
             var result = new List<string>();
@@ -339,11 +340,10 @@ namespace Sem.Sync.SyncBase
                     return result;
                 }
 
-                var logonFailed = !this.Logon();
-
-                if (logonFailed)
+                // we didn't get any valid result, so we assume we have to log in.
+                if (!this.Logon())
                 {
-                    return result;
+                    throw new AuthenticationException("Authentication to web site failed.");
                 }
             }
         }
@@ -388,11 +388,21 @@ namespace Sem.Sync.SyncBase
                 }
 
                 // update the flag that this entry is a private contact
-                // todo: private/business contact
-                contactInList.IsPrivateContact = true;
+                var connectorDescriptionAttribute = this.ConnectorDescription;
+                contactInList.IsPrivateContact = connectorDescriptionAttribute.ContentIsPrivate;
+                contactInList.IsBusinessContact = connectorDescriptionAttribute.ContentIsBusiness;
             }
 
             return added;
+        }
+
+        protected ConnectorDescriptionAttribute ConnectorDescription
+        {
+            get
+            {
+                var myType = this.GetType();
+                return myType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), true).First() as ConnectorDescriptionAttribute;
+            }
         }
 
         /// <summary>

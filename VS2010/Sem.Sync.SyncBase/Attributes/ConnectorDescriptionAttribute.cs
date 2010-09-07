@@ -41,6 +41,7 @@ namespace Sem.Sync.SyncBase.Attributes
             this.NeedsCredentials = false;
             this.NeedsCredentialsDomain = true;
             this.IsGeneric = false;
+            this.ContentIsPrivate = true;
             this.MatchingIdentifier = ProfileIdentifierType.Default;
         }
 
@@ -111,6 +112,10 @@ namespace Sem.Sync.SyncBase.Attributes
                 this.needsCredentialsDomain = value;
             }
         }
+
+        public bool ContentIsPrivate { get; set; }
+
+        public bool ContentIsBusiness { get; set; }
 
         #endregion
 

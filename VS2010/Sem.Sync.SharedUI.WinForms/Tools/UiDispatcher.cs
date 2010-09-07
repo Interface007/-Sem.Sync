@@ -11,13 +11,17 @@
 
 namespace Sem.Sync.SharedUI.WinForms.Tools
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
     using Sem.Sync.SharedUI.WinForms.UI;
+    using Sem.Sync.SharedUI.WinForms.ViewModel;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Interfaces;
@@ -124,8 +128,108 @@ namespace Sem.Sync.SharedUI.WinForms.Tools
         /// </returns>
         public List<StdElement> PerformAttributeMerge(List<MergeConflict> toMerge, List<StdElement> targetList)
         {
-            var ui = new MergeEntities();
-            return ui.PerformMerge(toMerge, targetList);
+            if (toMerge.Count == 0)
+            {
+                return targetList;
+            }
+
+            var dataContext = new MergeEntitiesViewModel(toMerge);
+            var ui = new MergeEntities(dataContext);
+            if (ui.PerformMerge())
+            {
+                // get the list of solved merge conflicts
+                var merge = from y in dataContext.MergeList select y.Conflict;
+
+                // perform the user selected action
+                foreach (var conflict in merge)
+                {
+                    if (conflict.ActionToDo != MergePropertyAction.CopySourceToTarget)
+                    {
+                        continue;
+                    }
+
+                    var theConflict = conflict;
+                    SetPropertyValue(
+                        (from x in targetList where x.Id == theConflict.TargetElement.Id select x).FirstOrDefault(),
+                        conflict.PathToProperty,
+                        conflict.SourcePropertyValue);
+                }
+            }
+
+            return targetList;
+        }
+
+        /// <summary>
+        /// Sets a property inside an object
+        /// </summary>
+        /// <param name="stdElement"> The <see cref="StdElement"/> with the property to be set.  </param>
+        /// <param name="pathToProperty"> The path to the property to be set property. 
+        /// </param> <param name="newValue"> The new value. </param>
+        private static void SetPropertyValue(StdElement stdElement, string pathToProperty, string newValue)
+        {
+            object propObject = stdElement;
+            var propType = stdElement.GetType();
+            while (pathToProperty.Contains("."))
+            {
+                var nextSeparator = pathToProperty.IndexOf(".", StringComparison.Ordinal);
+                var propName = pathToProperty.Substring(0, nextSeparator);
+                pathToProperty = pathToProperty.Substring(nextSeparator + 1);
+                if (string.IsNullOrEmpty(propName))
+                {
+                    continue;
+                }
+
+                var member = propType.GetProperty(propName);
+                propType = member.PropertyType;
+
+                var destinObject = member.GetValue(propObject, null);
+                if (destinObject == null)
+                {
+                    destinObject = propType.GetConstructor(new Type[0]).Invoke(null);
+                    member.SetValue(propObject, destinObject, null);
+                }
+
+                propObject = destinObject;
+            }
+
+            var memberToSet = propType.GetProperty(pathToProperty);
+
+            // we have to deal with special type data (int, datetime) that need to be
+            // converted back from string - there is no automated cast in SetValue.
+            var destinationType = memberToSet.PropertyType.Name;
+            var destinationBaseType = memberToSet.PropertyType.BaseType;
+            if (destinationBaseType == typeof(Enum))
+            {
+                destinationType = "Enum";
+            }
+
+            switch (destinationType)
+            {
+                case "Enum":
+                    memberToSet.SetValue(propObject, Enum.Parse(memberToSet.PropertyType, newValue, true), null);
+                    break;
+
+                case "TimeSpan":
+                    memberToSet.SetValue(propObject, TimeSpan.Parse(newValue, CultureInfo.InvariantCulture), null);
+                    break;
+
+                case "DateTime":
+                    memberToSet.SetValue(propObject, DateTime.Parse(newValue, CultureInfo.CurrentCulture), null);
+                    break;
+
+                case "List`1":
+
+                    // TODO: Implement setting of List<> from string
+                    break;
+
+                case "Int32":
+                    memberToSet.SetValue(propObject, Int32.Parse(newValue, CultureInfo.CurrentCulture), null);
+                    break;
+
+                default:
+                    memberToSet.SetValue(propObject, newValue, null);
+                    break;
+            }
         }
 
         /// <summary>

@@ -148,11 +148,22 @@
     <Compile Include="AddressClassTest.cs" />
     <Compile Include="CommandMatchByProfileTest.cs" />
     <Compile Include="ConnectorDescriptionAttributeTest.cs" />
+    <Compile Include="Contracts\GuardImplementsInterfaceTest.cs" />
+    <Compile Include="Contracts\GuardIsNotNullTest.cs" />
+    <Compile Include="Contracts\GuardIsOneOfTest.cs" />
+    <Compile Include="Contracts\GuardTest.cs" />
     <Compile Include="FactoryTest.cs" />
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MapperTests.cs" />
+    <Compile Include="MessageAggregation\AggregatorTest.cs" />
+    <Compile Include="MessageAggregation\MessageOne.cs" />
+    <Compile Include="MessageAggregation\MessageTwo.cs" />
+    <Compile Include="MessageAggregation\MessageTwoDotOne.cs" />
+    <Compile Include="MessageAggregation\Subscriber.cs" />
+    <Compile Include="MessageAggregation\SubscriberTwo.cs" />
+    <Compile Include="MessageAggregation\SubscriberTwoDotOne.cs" />
     <Compile Include="PersonNameClassTest.cs" />
     <Compile Include="PhoneClassTest.cs">
       <SubType>Code</SubType>
@@ -171,9 +182,6 @@
     </Compile>
     <Compile Include="UpdateTestData.cs" />
     <Compile Include="VersionCheckTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Shadow Include="Test References\Sem.Sync.FilesystemConnector.accessor" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
@@ -212,7 +220,6 @@
       <Generator>MolesGenerator</Generator>
       <LastGenOutput>System.Designer.cs</LastGenOutput>
     </None>
-    <Shadow Include="Test References\Sem.GenericHelpers.accessor" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
