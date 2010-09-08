@@ -35,9 +35,22 @@
             }
         }
 
-        internal static IEnumerable<TypeRule> GetRulesForType(Type type)
+        internal static IEnumerable<TypeRule> GetRulesForType<TData>()
         {
-            return from x in _TypeRegisteredRules where x.ValueType == type select x;
+            var valueType = typeof(TData);
+
+            var rulesForType = (from x in _TypeRegisteredRules
+                               where x.ValueType == valueType
+                               select x).ToList();
+            
+            var attribs = valueType.GetCustomAttributes(typeof(ContractRuleAttribute), true);
+            foreach (ContractRuleAttribute attrib in attribs)
+            {
+                var rule = attrib.Type.GetMethod(attrib.MethodName).Invoke(null, null) as Rule<TData>;
+                rulesForType.Add(new TypeRule{Rule = rule, ValueType = valueType});
+            }
+
+            return rulesForType;
         }
 
         public static void RegisterRuleSet<TData>(IEnumerable<Rule<TData>> sampleRuleSet)

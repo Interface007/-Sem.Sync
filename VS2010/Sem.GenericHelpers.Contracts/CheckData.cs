@@ -38,7 +38,7 @@ namespace Sem.GenericHelpers.Contracts
         #region assert
         public CheckData<TData> Assert()
         {
-            var ruleSet = RuleSets.GetRulesForType(typeof(TData));
+            var ruleSet = RuleSets.GetRulesForType<TData>();
             foreach (var typeRule in ruleSet)
             {
                 this.Assert((Rule<TData>)typeRule.Rule);
