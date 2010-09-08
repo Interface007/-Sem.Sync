@@ -25,13 +25,11 @@ namespace Sem.GenericHelpers.Contracts
 
         protected void InvokeInternal(Func<bool> toCheck, string parameterName)
         {
-            if (toCheck())
+            if (!toCheck())
             {
-                return;
+                var exception = this.ThrowException(this.Message, parameterName);
+                throw exception;
             }
-            
-            var exception = this.ThrowException(this.Message, parameterName);
-            throw exception;
         }
     }
 }

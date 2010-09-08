@@ -25,47 +25,47 @@
         [ExpectedException(typeof(ArgumentException))]
         public void CheckParameterImplementsInterfaceMustFail12()
         {
-            Guard.ImplementsInterface.AssertFor("name", this, typeof(IHandleThis<GuardTest>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", this), typeof(IHandleThis<GuardTest>));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CheckParameterImplementsInterfaceMustFail1()
         {
-            Guard.ImplementsInterface.AssertFor("name", this, typeof(IHandleThis<GuardTest>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", this), typeof(IHandleThis<GuardTest>));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CheckParameterImplementsInterfaceMustFail2()
         {
-            Guard.ImplementsInterface.AssertFor("name", this, typeof(IHandleThis<>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", this), typeof(IHandleThis<>));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CheckParameterImplementsInterfaceMustFail3()
         {
-            Guard.ImplementsInterface.AssertFor("name", null, typeof(IHandleThis<GuardTest>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", null), typeof(IHandleThis<GuardTest>));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CheckParameterImplementsInterfaceMustFail4()
         {
-            Guard.ImplementsInterface.AssertFor("name", null, typeof(IHandleThis<>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", null), typeof(IHandleThis<>));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustPass1()
         {
-            Guard.ImplementsInterface.AssertFor("name", new SubscriberOne(), typeof(IHandleThis<>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", new SubscriberOne()), typeof(IHandleThis<>));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustPass2()
         {
-            Guard.ImplementsInterface.AssertFor("name", new SubscriberOne(), typeof(IHandleThis<MessageOne>));
+            Rules.ImplementsInterface<object>().AssertFor(new CheckData<object>("name", new SubscriberOne()), typeof(IHandleThis<MessageOne>));
         }
     }
 }

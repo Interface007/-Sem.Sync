@@ -17,13 +17,13 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void CheckParameterIsNotNullMustFail()
         {
-            Guard.IsNotNull.AssertFor("name", null);
+            Rules.IsNotNull<object>().AssertFor(new CheckData<object>("name", null));
         }
 
         [TestMethod]
         public void CheckParameterIsNotNullMustPass1()
         {
-            Guard.IsNotNull.AssertFor("name", this);
+            Rules.IsNotNull<object>().AssertFor(new CheckData<object>("name", this));
         }
     }
 }

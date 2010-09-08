@@ -147,10 +147,6 @@
     </Compile>
     <Compile Include="Attributes\AddAsPropertyAttribute.cs" />
     <Compile Include="Attributes\ComparisonModifierAttribute.cs" />
-    <Compile Include="Contracts\CheckData.cs" />
-    <Compile Include="Contracts\Guard.cs" />
-    <Compile Include="Contracts\Rule.cs" />
-    <Compile Include="Contracts\RuleBase.cs" />
     <Compile Include="Database\DatabaseScriptGenerator.cs" />
     <Compile Include="Database\EnumHelper.cs" />
     <Compile Include="Database\ReferenceTable.cs" />
@@ -220,6 +216,10 @@
       <Project>{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560}</Project>
       <Name>ExpressionSerialization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj">
+      <Project>{634063B0-5E2A-41EC-BF35-3414D9024882}</Project>
+      <Name>Sem.GenericHelpers.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -274,6 +274,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

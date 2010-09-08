@@ -122,7 +122,7 @@
     <Reference Include="Moq">
       <HintPath>..\ExternalAssemblies\bin\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Sem.GenericHelpers.Moles, Version=2010.328.3876.26205, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Sem.GenericHelpers.Moles, Version=2010.328.3903.38420, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -148,10 +148,14 @@
     <Compile Include="AddressClassTest.cs" />
     <Compile Include="CommandMatchByProfileTest.cs" />
     <Compile Include="ConnectorDescriptionAttributeTest.cs" />
+    <Compile Include="Contracts\GuardBackEndNumberBoundariesTest.cs" />
     <Compile Include="Contracts\GuardImplementsInterfaceTest.cs" />
     <Compile Include="Contracts\GuardIsNotNullTest.cs" />
+    <Compile Include="Contracts\GuardIsNotOneOfTest.cs" />
     <Compile Include="Contracts\GuardIsOneOfTest.cs" />
+    <Compile Include="Contracts\GuardRegisterRuleTest.cs" />
     <Compile Include="Contracts\GuardTest.cs" />
+    <Compile Include="Contracts\GuardTestLambda.cs" />
     <Compile Include="FactoryTest.cs" />
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />
@@ -184,6 +188,10 @@
     <Compile Include="VersionCheckTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj">
+      <Project>{634063B0-5E2A-41EC-BF35-3414D9024882}</Project>
+      <Name>Sem.GenericHelpers.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>

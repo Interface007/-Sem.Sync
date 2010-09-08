@@ -14,29 +14,29 @@ namespace Sem.GenericHelpers.Contracts
 
     public class Rule<TValue, TCheckParameter> : RuleBase<Func<TValue, TCheckParameter, bool>>
     {
-        public void AssertFor(string parameterName, TValue parameterValue, TCheckParameter checkParameter)
+        public void AssertFor(CheckData<TValue> value, TCheckParameter checkParameter)
         {
-            this.InvokeInternal(() => this.CheckExpression(parameterValue, checkParameter), parameterName);
+            this.InvokeInternal(() => this.CheckExpression(value.Value, checkParameter), value.ValueName);
         }
 
         [Conditional("DEBUG")]
-        public void AssumeFor(string parameterName, TValue parameterValue, TCheckParameter checkParameter)
+        public void AssumeFor(CheckData<TValue> value, TCheckParameter checkParameter)
         {
-            this.InvokeInternal(() => this.CheckExpression(parameterValue, checkParameter), parameterName);
+            this.InvokeInternal(() => this.CheckExpression(value.Value, checkParameter), value.ValueName);
         }
     }
 
     public class Rule<TValue> : RuleBase<Func<TValue, bool>>
     {
-        public void AssertFor(string parameterName, TValue parameterValue)
+        public void AssertFor(CheckData<TValue> value)
         {
-            this.InvokeInternal(() => this.CheckExpression(parameterValue), parameterName);
+            this.InvokeInternal(() => this.CheckExpression(value.Value), value.ValueName);
         }
 
         [Conditional("DEBUG")]
-        public void AssumeFor(string parameterName, TValue parameterValue)
+        public void AssumeFor(CheckData<TValue> value)
         {
-            this.InvokeInternal(() => this.CheckExpression(parameterValue), parameterName);
+            this.InvokeInternal(() => this.CheckExpression(value.Value), value.ValueName);
         }
     }
 }

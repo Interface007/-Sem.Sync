@@ -14,11 +14,11 @@
         <member name="M:Sem.GenericHelpers.Attributes.Moles.MAddAsPropertyAttribute.#ctor(Sem.GenericHelpers.Attributes.AddAsPropertyAttribute)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Attributes.Moles.MAddAsPropertyAttribute.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Attributes.Moles.MAddAsPropertyAttribute.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Attributes.Moles.MAddAsPropertyAttribute.Bind(System.Runtime.InteropServices._Attribute)">
-            <summary>Binds the members of the interface to the mole.</summary>
         </member>
         <member name="P:Sem.GenericHelpers.Attributes.Moles.MAddAsPropertyAttribute.Behavior">
             <summary>Assigns the behavior for all methods of the moled type</summary>
@@ -39,6 +39,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveRequest.#ctor(Sem.GenericHelpers.Entities.CaptchaResolveRequest)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveRequest.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveRequest.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -103,6 +106,9 @@
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveResult.#ctor(Sem.GenericHelpers.Entities.CaptchaResolveResult)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveResult.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCaptchaResolveResult.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -136,141 +142,6 @@
                           Gets or sets a value indicating whether the user did report a success in resolving the Captcha.
                         </summary>
         </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MCheckData`1">
-            <summary>Mole type of <see cref="T:Sem.GenericHelpers.Contracts.CheckData`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.#ctor">
-            <summary>Initializes a new mole</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.#ctor(Sem.GenericHelpers.Contracts.CheckData{`0})">
-            <summary>Initializes a new mole for the given instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssertFuncOfTDataTParameterBooleanTParameterString``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.Func{`0,``0,System.Boolean},``0,System.String,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert``1(System.Func`3{`1,``0,T:System.Boolean},``0,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssertRuleOfTDataTParameterTParameter``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.Rule{`0,``0},``0,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert``1(Sem.GenericHelpers.Contracts.Rule`2{`1,``0},``0)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssumeFuncOfTDataTParameterBooleanTParameterString``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.Func{`0,``0,System.Boolean},``0,System.String,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume``1(System.Func`3{`1,``0,T:System.Boolean},``0,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssumeRuleOfTDataTParameterTParameter``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.Rule{`0,``0},``0,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume``1(Sem.GenericHelpers.Contracts.Rule`2{`1,``0},``0)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssertFuncOfTDataBoolean">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(System.Func`2{`1,T:System.Boolean})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssertFuncOfTDataBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(System.Func`2{`1,T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssertRuleOfTData">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(Sem.GenericHelpers.Contracts.Rule`1{`1})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssumeFuncOfTDataBoolean">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(System.Func`2{`1,T:System.Boolean})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssumeFuncOfTDataBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(System.Func`2{`1,T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AssumeRuleOfTData">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(Sem.GenericHelpers.Contracts.Rule`1{`1})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.Constructor">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.#ctor"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.ValueGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.Value"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.ValueNameGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.ValueName"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.ValueNameSetString">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.ValueName"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.ValueSetTData">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.Value"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances">
-            <summary>Define moles for all instances members</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssertFuncOfTDataTParameterBooleanTParameterString``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.CheckData{`0},System.Func{`0,``0,System.Boolean},``0,System.String,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert``1(System.Func`3{`1,``0,T:System.Boolean},``0,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssertRuleOfTDataTParameterTParameter``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.CheckData{`0},Sem.GenericHelpers.Contracts.Rule{`0,``0},``0,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert``1(Sem.GenericHelpers.Contracts.Rule`2{`1,``0},``0)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssumeFuncOfTDataTParameterBooleanTParameterString``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.CheckData{`0},System.Func{`0,``0,System.Boolean},``0,System.String,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume``1(System.Func`3{`1,``0,T:System.Boolean},``0,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssumeRuleOfTDataTParameterTParameter``1(Microsoft.Moles.Framework.MolesDelegates.Func{Sem.GenericHelpers.Contracts.CheckData{`0},Sem.GenericHelpers.Contracts.Rule{`0,``0},``0,Sem.GenericHelpers.Contracts.CheckData{`0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume``1(Sem.GenericHelpers.Contracts.Rule`2{`1,``0},``0)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssertFuncOfTDataBoolean">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(System.Func`2{`1,T:System.Boolean})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssertFuncOfTDataBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(System.Func`2{`1,T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssertRuleOfTData">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assert(Sem.GenericHelpers.Contracts.Rule`1{`1})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssumeFuncOfTDataBoolean">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(System.Func`2{`1,T:System.Boolean})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssumeFuncOfTDataBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(System.Func`2{`1,T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.AssumeRuleOfTData">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.CheckData`1.Assume(Sem.GenericHelpers.Contracts.Rule`1{`1})"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.ValueGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.Value"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.ValueNameGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.ValueName"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.ValueNameSetString">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.ValueName"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MCheckData`1.AllInstances.ValueSetTData">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.CheckData`1.Value"/>
-            </summary>
-        </member>
         <member name="T:Sem.GenericHelpers.Entities.Moles.MColumnDefinition">
             <summary>Mole type of <see cref="T:Sem.GenericHelpers.Entities.ColumnDefinition"/>
             .</summary>
@@ -280,6 +151,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MColumnDefinition.#ctor(Sem.GenericHelpers.Entities.ColumnDefinition)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MColumnDefinition.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MColumnDefinition.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -609,11 +483,11 @@
         <member name="M:Sem.GenericHelpers.Attributes.Moles.MComparisonModifierAttribute.#ctor(Sem.GenericHelpers.Attributes.ComparisonModifierAttribute)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Attributes.Moles.MComparisonModifierAttribute.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Attributes.Moles.MComparisonModifierAttribute.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Attributes.Moles.MComparisonModifierAttribute.Bind(System.Runtime.InteropServices._Attribute)">
-            <summary>Binds the members of the interface to the mole.</summary>
         </member>
         <member name="P:Sem.GenericHelpers.Attributes.Moles.MComparisonModifierAttribute.Behavior">
             <summary>Assigns the behavior for all methods of the moled type</summary>
@@ -694,6 +568,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCredentials.#ctor(Sem.GenericHelpers.Entities.Credentials)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MCredentials.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MCredentials.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -828,6 +705,9 @@
         <member name="M:Sem.GenericHelpers.Database.Moles.MDatabaseScriptGenerator.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Database.Moles.MDatabaseScriptGenerator.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MDatabaseScriptGenerator.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -871,6 +751,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MEnumHelper.#ctor(Sem.GenericHelpers.Database.EnumHelper)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Database.Moles.MEnumHelper.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MEnumHelper.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -926,6 +809,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MExceptionHandler.#ctor(Sem.GenericHelpers.Exceptions.ExceptionHandler)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Exceptions.Moles.MExceptionHandler.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MExceptionHandler.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -1075,6 +961,9 @@
         <member name="M:Sem.GenericHelpers.ExceptionService.Moles.MExceptionServiceClient.#ctor(Sem.GenericHelpers.ExceptionService.ExceptionServiceClient)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.ExceptionService.Moles.MExceptionServiceClient.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.ExceptionService.Moles.MExceptionServiceClient.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -1138,6 +1027,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MExpressionVisitor.#ctor(Sem.GenericHelpers.ExpressionVisitor)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MExpressionVisitor.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MExpressionVisitor.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -1343,6 +1235,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MExtensions.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MExtensions.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -1404,6 +1299,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MFactory.#ctor(Sem.GenericHelpers.Factory)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MFactory.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MFactory.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -1542,6 +1440,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MGuard.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MGuard.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MGuard.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -1552,47 +1453,6 @@
         <member name="P:Sem.GenericHelpers.Moles.MGuard.Behavior">
             <summary>Assigns the behavior for all methods of the moled type</summary>
         </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MGuard01">
-            <summary>Mole type of <see cref="T:Sem.GenericHelpers.Contracts.Guard"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MGuard01.#ctor">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MGuard01.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MGuard01.ForTData``1(Microsoft.Moles.Framework.MolesDelegates.Func{``0,Sem.GenericHelpers.Contracts.CheckData{``0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.For``1(``0)"/>
-            </summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MGuard01.ForTDataString``1(Microsoft.Moles.Framework.MolesDelegates.Func{``0,System.String,Sem.GenericHelpers.Contracts.CheckData{``0}})">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.For``1(``0,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01._cctorb__4Object">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.&lt;.cctor&gt;b__4(T:System.Object)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01._cctorb__5StringString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.&lt;.cctor&gt;b__5(T:System.String,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01._cctorb__6StringStringArray">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.&lt;.cctor&gt;b__6(T:System.String,T:System.String[])"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01._cctorb__7StringString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.&lt;.cctor&gt;b__7(T:System.String,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MGuard01._cctorb__8ObjectType">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Guard.&lt;.cctor&gt;b__8(T:System.Object,T:System.Type)"/>
-            </summary>
-        </member>
         <member name="T:Sem.GenericHelpers.Moles.MHttpHelper">
             <summary>Mole type of <see cref="T:Sem.GenericHelpers.HttpHelper"/>
             .</summary>
@@ -1602,6 +1462,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MHttpHelper.#ctor(Sem.GenericHelpers.HttpHelper)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MHttpHelper.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MHttpHelper.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2051,6 +1914,9 @@
         <member name="M:Sem.GenericHelpers.Entities.Moles.MKeyValuePair.#ctor(Sem.GenericHelpers.Entities.KeyValuePair)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MKeyValuePair.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MKeyValuePair.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2136,6 +2002,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MLogonCredentialRequest.#ctor(Sem.GenericHelpers.LogonCredentialRequest)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MLogonCredentialRequest.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MLogonCredentialRequest.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2254,6 +2123,9 @@
         <member name="M:Sem.GenericHelpers.Database.Moles.MLookupTableString.#ctor(Sem.GenericHelpers.Database.LookupTableString)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Database.Moles.MLookupTableString.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MLookupTableString.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2309,6 +2181,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MMapper.#ctor(Sem.GenericHelpers.Mapper)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MMapper.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MMapper.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2363,6 +2238,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MMapper01`2.#ctor(Sem.GenericHelpers.Mapper{`0,`1})">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MMapper01`2.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MMapper01`2.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2382,6 +2260,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MMappingHelper.#ctor">
             <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MMappingHelper.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MMappingHelper.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2419,6 +2300,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MMessageAggregator.#ctor(Sem.GenericHelpers.MessageAggregator)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MMessageAggregator.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MMessageAggregator.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2449,6 +2333,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.MessageAggregation.Moles.MMessageAggregator01.#ctor(Sem.GenericHelpers.MessageAggregation.MessageAggregator)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.MessageAggregation.Moles.MMessageAggregator01.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.MessageAggregation.Moles.MMessageAggregator01.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2553,6 +2440,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MNullLiftModifier.#ctor(Sem.GenericHelpers.NullLiftModifier)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MNullLiftModifier.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MNullLiftModifier.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2600,11 +2490,11 @@
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MProcessAbortException.#ctor(Sem.GenericHelpers.Exceptions.ProcessAbortException)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Exceptions.Moles.MProcessAbortException.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MProcessAbortException.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Exceptions.Moles.MProcessAbortException.Bind(System.Runtime.InteropServices._Exception)">
-            <summary>Binds the members of the interface to the mole.</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MProcessAbortException.Bind(System.Runtime.Serialization.ISerializable)">
             <summary>Binds the members of the interface to the mole.</summary>
@@ -2641,6 +2531,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProcessingEventArgs.#ctor(Sem.GenericHelpers.EventArgs.ProcessingEventArgs)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProcessingEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProcessingEventArgs.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2730,6 +2623,9 @@
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProgressEventArgs.#ctor(Sem.GenericHelpers.EventArgs.ProgressEventArgs)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProgressEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MProgressEventArgs.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2772,6 +2668,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MQueryForLogOnCredentialsEventArgs.#ctor(Sem.GenericHelpers.EventArgs.QueryForLogOnCredentialsEventArgs)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.EventArgs.Moles.MQueryForLogOnCredentialsEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.EventArgs.Moles.MQueryForLogOnCredentialsEventArgs.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -2856,6 +2755,9 @@
         <member name="M:Sem.GenericHelpers.Database.Moles.MReferenceTable.#ctor(Sem.GenericHelpers.Database.ReferenceTable)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Database.Moles.MReferenceTable.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MReferenceTable.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2911,6 +2813,9 @@
         <member name="M:Sem.GenericHelpers.Entities.Moles.MResponseCacheItem.#ctor(Sem.GenericHelpers.Entities.ResponseCacheItem)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MResponseCacheItem.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MResponseCacheItem.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -2964,168 +2869,6 @@
                           Gets or sets the Cookies.
                         </summary>
         </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRule`2">
-            <summary>Mole type of <see cref="T:Sem.GenericHelpers.Contracts.Rule`2"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule`2.#ctor">
-            <summary>Initializes a new mole</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule`2.#ctor(Sem.GenericHelpers.Contracts.Rule{`0,`1})">
-            <summary>Initializes a new mole for the given instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule`2.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.AssertForStringTValueTCheckParameter">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`2.AssertFor(T:System.String,`1,`2)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.AssumeForStringTValueTCheckParameter">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`2.AssumeFor(T:System.String,`1,`2)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.Constructor">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`2.#ctor"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRule`2.AllInstances">
-            <summary>Define moles for all instances members</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.AllInstances.AssertForStringTValueTCheckParameter">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`2.AssertFor(T:System.String,`1,`2)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule`2.AllInstances.AssumeForStringTValueTCheckParameter">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`2.AssumeFor(T:System.String,`1,`2)"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRule01`1">
-            <summary>Mole type of <see cref="T:Sem.GenericHelpers.Contracts.Rule`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule01`1.#ctor">
-            <summary>Initializes a new mole</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule01`1.#ctor(Sem.GenericHelpers.Contracts.Rule{`0})">
-            <summary>Initializes a new mole for the given instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRule01`1.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.AssertForStringTValue">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`1.AssertFor(T:System.String,`1)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.AssumeForStringTValue">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`1.AssumeFor(T:System.String,`1)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.Constructor">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`1.#ctor"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRule01`1.AllInstances">
-            <summary>Define moles for all instances members</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.AllInstances.AssertForStringTValue">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`1.AssertFor(T:System.String,`1)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRule01`1.AllInstances.AssumeForStringTValue">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.Rule`1.AssumeFor(T:System.String,`1)"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1">
-            <summary>Mole type of <see cref="T:Sem.GenericHelpers.Contracts.RuleBase`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.#ctor(Sem.GenericHelpers.Contracts.RuleBase{`0})">
-            <summary>Initializes a new mole for the given instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.CheckExpressionGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.CheckExpression"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.CheckExpressionSetTExpression">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.CheckExpression"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.Constructor">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.RuleBase`1.#ctor"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.InvokeInternalFuncOfBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.RuleBase`1.InvokeInternal(System.Func`1{T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.MessageGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.Message"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.MessageSetString">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.Message"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.ThrowExceptionGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.ThrowException"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.ThrowExceptionSetFuncOfStringStringException">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.ThrowException"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1._ctorb__0StringString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.RuleBase`1.&lt;.ctor&gt;b__0(T:System.String,T:System.String)"/>
-            </summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances">
-            <summary>Define moles for all instances members</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.CheckExpressionGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.CheckExpression"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.CheckExpressionSetTExpression">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.CheckExpression"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.InvokeInternalFuncOfBooleanString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.RuleBase`1.InvokeInternal(System.Func`1{T:System.Boolean},T:System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.MessageGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.Message"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.MessageSetString">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.Message"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.ThrowExceptionGet">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.ThrowException"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances.ThrowExceptionSetFuncOfStringStringException">
-            <summary>Sets the mole of <see cref="P:Sem.GenericHelpers.Contracts.RuleBase`1.ThrowException"/>
-            </summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.MRuleBase`1.AllInstances._ctorb__0StringString">
-            <summary>Sets the mole of <see cref="M:Sem.GenericHelpers.Contracts.RuleBase`1.&lt;.ctor&gt;b__0(T:System.String,T:System.String)"/>
-            </summary>
-        </member>
         <member name="T:Sem.GenericHelpers.Moles.MSerializableDictionary`2">
             <summary>Mole type of <see cref="T:Sem.GenericHelpers.SerializableDictionary`2"/>
             .</summary>
@@ -3135,6 +2878,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MSerializableDictionary`2.#ctor(Sem.GenericHelpers.SerializableDictionary{`0,`1})">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MSerializableDictionary`2.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MSerializableDictionary`2.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -3248,6 +2994,9 @@
         <member name="M:Sem.GenericHelpers.Moles.MSimpleCrypto.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Moles.MSimpleCrypto.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Moles.MSimpleCrypto.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -3279,6 +3028,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MTable.#ctor(Sem.GenericHelpers.Database.Table)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Database.Moles.MTable.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Database.Moles.MTable.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -3379,6 +3131,9 @@
         <member name="M:Sem.GenericHelpers.Entities.Moles.MTableLink.#ctor(Sem.GenericHelpers.Entities.TableLink)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Entities.Moles.MTableLink.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Entities.Moles.MTableLink.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
@@ -3462,11 +3217,11 @@
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MTechnicalException.#ctor(Sem.GenericHelpers.Exceptions.TechnicalException)">
             <summary>Initializes a new mole for the given instance</summary>
         </member>
+        <member name="M:Sem.GenericHelpers.Exceptions.Moles.MTechnicalException.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MTechnicalException.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Exceptions.Moles.MTechnicalException.Bind(System.Runtime.InteropServices._Exception)">
-            <summary>Binds the members of the interface to the mole.</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Exceptions.Moles.MTechnicalException.Bind(System.Runtime.Serialization.ISerializable)">
             <summary>Binds the members of the interface to the mole.</summary>
@@ -3528,6 +3283,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MTools.#ctor">
             <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MTools.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MTools.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -3698,6 +3456,9 @@
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MVersionCheck.#ctor(Sem.GenericHelpers.VersionCheck)">
             <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Sem.GenericHelpers.Moles.MVersionCheck.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
         </member>
         <member name="M:Sem.GenericHelpers.Moles.MVersionCheck.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
@@ -3913,22 +3674,6 @@
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
         </member>
         <member name="P:Sem.GenericHelpers.Entities.Moles.SCaptchaResolveResult.InstanceBehavior">
-            <summary>Gets or sets the instance behavior.</summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.SCheckData`1">
-            <summary>Stub type of <see cref="T:Sem.GenericHelpers.Contracts.CheckData`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SCheckData`1.#ctor">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SCheckData`1.InitializeStub">
-            <summary>Initializes a new instance of type SCheckData</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SCheckData`1.CallBase">
-            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SCheckData`1.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
         <member name="T:Sem.GenericHelpers.Entities.Moles.SColumnDefinition">
@@ -5390,54 +5135,6 @@
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
         </member>
         <member name="P:Sem.GenericHelpers.Entities.Moles.SResponseCacheItem.InstanceBehavior">
-            <summary>Gets or sets the instance behavior.</summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.SRule`2">
-            <summary>Stub type of <see cref="T:Sem.GenericHelpers.Contracts.Rule`2"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRule`2.#ctor">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRule`2.InitializeStub">
-            <summary>Initializes a new instance of type SRule</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRule`2.CallBase">
-            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRule`2.InstanceBehavior">
-            <summary>Gets or sets the instance behavior.</summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.SRule01`1">
-            <summary>Stub type of <see cref="T:Sem.GenericHelpers.Contracts.Rule`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRule01`1.#ctor">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRule01`1.InitializeStub">
-            <summary>Initializes a new instance of type SRule01</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRule01`1.CallBase">
-            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRule01`1.InstanceBehavior">
-            <summary>Gets or sets the instance behavior.</summary>
-        </member>
-        <member name="T:Sem.GenericHelpers.Contracts.Moles.SRuleBase`1">
-            <summary>Stub type of <see cref="T:Sem.GenericHelpers.Contracts.RuleBase`1"/>
-            .</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRuleBase`1.#ctor">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Sem.GenericHelpers.Contracts.Moles.SRuleBase`1.InitializeStub">
-            <summary>Initializes a new instance of type SRuleBase</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRuleBase`1.CallBase">
-            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
-        </member>
-        <member name="P:Sem.GenericHelpers.Contracts.Moles.SRuleBase`1.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
         <member name="T:Sem.GenericHelpers.Moles.SSerializableDictionary`2">
