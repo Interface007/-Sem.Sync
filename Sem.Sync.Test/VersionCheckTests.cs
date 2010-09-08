@@ -44,7 +44,7 @@
 //            MHttpHelper.AllInstances.GetContentStringString = (x, y, z) => "";
 //            Assert.IsTrue(version1.Check());
 
-//            MHttpHelper.AllInstances.GetContentStringString = 
+//            MHttpHelper.AllInstances.GetContentStringString =
 //                (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
 //                                "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
 //                                "  <Build>3876</Build>" +
@@ -56,7 +56,7 @@
 //                                "</VersionCheck>";
 //            Assert.IsTrue(version1.Check());
 
-//            MHttpHelper.AllInstances.GetContentStringString = 
+//            MHttpHelper.AllInstances.GetContentStringString =
 //                (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
 //                                "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
 //                                "  <Build>3877</Build>" +

@@ -14,6 +14,15 @@
             };
         }
 
+        public static Rule<object> IsNotNullObject() 
+        {
+            return new Rule<object>
+            {
+                CheckExpression = parameterValue => parameterValue != null,
+                ThrowException = (message, parameterName) => new ArgumentNullException(parameterName)
+            };
+        }
+
         public static Rule<TData, Type> ImplementsInterface<TData>() where TData : class
         {
             return new Rule<TData, Type>
