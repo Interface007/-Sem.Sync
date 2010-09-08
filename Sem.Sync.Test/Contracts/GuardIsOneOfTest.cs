@@ -15,27 +15,27 @@
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CheckParameterIsNotNullMustFail1()
+        public void CheckParameterIsOneOfMustFail1()
         {
-            Guard.IsOneOf.AssertFor("name", "1", new[] { "2", "3" });
+            Rules.IsOneOf<string>().AssertFor(new CheckData<string>("name", "1"), new[] { "2", "3" });
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CheckParameterIsNotNullMustFail2()
+        public void CheckParameterIsOneOfMustFail2()
         {
-            Guard.IsOneOf.AssertFor("name", null, new[] { "2", "3" });
+            Rules.IsOneOf<string>().AssertFor(new CheckData<string>("name", null), new[] { "2", "3" });
         }
 
         [TestMethod]
-        public void CheckParameterIsNotNullMustPass1()
+        public void CheckParameterIsOneOfMustPass1()
         {
-            Guard.IsOneOf.AssertFor("name", "1", new[] { "2", "1" });
+            Rules.IsOneOf<string>().AssertFor(new CheckData<string>("name", "1"), new[] { "2", "1" });
         }
 
         [TestMethod]
-        public void CheckParameterIsNotNullMustPass2()
+        public void CheckParameterIsOneOfMustPass2()
         {
-            Guard.IsOneOf.AssertFor("name", "1", new[] { "1", "2" });
+            Rules.IsOneOf<string>().AssertFor(new CheckData<string>("name", "1"), new[] { "1", "2" });
         }
     }
 }

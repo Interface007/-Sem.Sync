@@ -78,9 +78,9 @@ namespace Sem.GenericHelpers.MessageAggregation
         public void Subscribe(object subscriber)
         {
             Guard.For(subscriber, "subscriber")
-                .Assert(Guard.IsNotNull)
+                .Assert(Rules.IsNotNull<object>())
                 .Assert(x => x.ToString() != "hallo", "Object is HALLO!")
-                .Assert(Guard.ImplementsInterface, typeof(IHandleThis<>));
+                .Assert(Rules.ImplementsInterface<object>(), typeof(IHandleThis<>));
             
             if (this.GetWeakReference(subscriber) != null)
             {
