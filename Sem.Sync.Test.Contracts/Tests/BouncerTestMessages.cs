@@ -1,4 +1,14 @@
-﻿namespace Sem.Sync.Test.Contracts.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BouncerTestMessages.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This is a test class for BouncerTest and is intended
+//   to contain all BouncerTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test.Contracts.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
