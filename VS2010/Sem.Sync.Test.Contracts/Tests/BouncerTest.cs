@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Test.Contracts
+﻿namespace Sem.Sync.Test.Contracts.Tests
 {
     using System;
 
@@ -31,8 +31,8 @@
         [TestMethod]
         public void CheckIntValid0Ax()
         {
-            const string someParameter = "";
-            Bouncer.For(someParameter, "someParameter")
+            const string SomeParameter = "";
+            Bouncer.For(SomeParameter, "someParameter")
                                 .Assert(Rules.IsNotNull<string>())
                                 .Assert(x => x.ToString() != "0000-00-00")
                                 .Assert(Rules.ImplementsInterface<string>(), typeof(IComparable<>));

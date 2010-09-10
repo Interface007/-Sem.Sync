@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="CheckData.cs" />
     <Compile Include="ContractRuleAttribute.cs" />
+    <Compile Include="Exceptions\RuleValidationException.cs" />
     <Compile Include="IMessageCollection.cs" />
     <Compile Include="MessageCollection.cs">
       <SubType>Code</SubType>
@@ -68,11 +69,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SemRules\ObjectNotNullRule.cs" />
-    <Compile Include="SemRules\StringNotNullOrEmptyRule.cs" />
     <Compile Include="SemRules\StringMaxLengthRule.cs" />
     <Compile Include="SemRules\StringMinLengthRule.cs" />
+    <Compile Include="SemRules\StringNotNullOrEmptyRule.cs" />
     <Compile Include="SemRules\StringRegexMatchRule.cs" />
-    <Compile Include="Exceptions\RuleValidationException.cs" />
     <Compile Include="TypeRule.cs" />
   </ItemGroup>
   <ItemGroup />
