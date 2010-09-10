@@ -10,117 +10,38 @@
 namespace Sem.GenericHelpers.Contracts
 {
     using System;
-    using System.Collections.Generic;
+
+    using Sem.GenericHelpers.Contracts.Exceptions;
 
     /// <summary>
     /// Check class including the data to perform rule checking
     /// </summary>
     /// <typeparam name="TData">the data type to be checked</typeparam>
-    public class CheckData<TData>
+    public class CheckData<TData> : RuleExecuter<TData, CheckData<TData>>
     {
-        #region
-        internal string ValueName { get; set; }
-        internal TData Value { get; set; }
-
-        
-
-        public CheckData()
-        {
-        }
-
         public CheckData(string valueName, TData value)
+            : base(valueName, value)
         {
-            this.Value = value;
-            this.ValueName = valueName;
         }
-        #endregion
 
-        #region assert
-        public CheckData<TData> Assert()
+        public override CheckData<TData> AssertInternal<TParameter>(RuleBase<TData, TParameter> rule, TParameter ruleParameter)
         {
-            var ruleSet = RuleSets.GetRulesForType<TData>();
-            foreach (var typeRule in ruleSet)
+            if (rule != null)
             {
-                this.Assert((Rule<TData>)typeRule.Rule);
-            }
-            return this;
-        }
-
-        public CheckData<TData> Assert(Rule<TData> rule)
-        {
-            rule.AssertFor(this);
-            return this;
-        }
-
-        public CheckData<TData> Assert(IEnumerable<Rule<TData>> ruleSet)
-        {
-            foreach (Rule<TData> rule in ruleSet)
-            {
-                rule.AssertFor(this);
+                this.HandleRuleResult(rule.CheckExpression(this.Value, ruleParameter), rule.GetType(), rule.Message, ruleParameter);
             }
 
             return this;
         }
 
-        public CheckData<TData> Assert(Func<TData, bool> rule)
+        private void HandleRuleResult<TParameter>(bool result, Type ruleType, string message, TParameter ruleParameter)
         {
-            var ruleClass = new Rule<TData> { CheckExpression = rule };
-            return Assert(ruleClass);
-        }
+            if (result)
+            {
+                return;
+            }
 
-        public CheckData<TData> Assert<TParameter>(Rule<TData, TParameter> rule, TParameter ruleParameter)
-        {
-            rule.AssertFor(this, ruleParameter);
-            return this;
+            throw new RuleValidationException(ruleType, string.Format("The rule {0} did fail: {1}", ruleType.FullName, string.Format(message, ruleParameter)), this.ValueName);
         }
-
-        public CheckData<TData> Assert(Func<TData, bool> rule, string message)
-        {
-            var ruleClass = new Rule<TData> { CheckExpression = rule, Message = message };
-            return Assert(ruleClass);
-        }
-
-        public CheckData<TData> Assert<TParameter>(Func<TData, TParameter, bool> rule, TParameter ruleParameter, string message)
-        {
-            var ruleClass = new Rule<TData, TParameter> { CheckExpression = rule, Message = message };
-            return Assert(ruleClass, ruleParameter);
-        }
-        #endregion
-
-        #region assume
-        public CheckData<TData> Assume(Rule<TData> rule)
-        {
-            rule.AssumeFor(this);
-            return this;
-        }
-
-        public CheckData<TData> Assume<TParameter>(Rule<TData, TParameter> rule, TParameter ruleParameter)
-        {
-            rule.AssumeFor(this, ruleParameter);
-            return this;
-        }
-
-        public CheckData<TData> Assume(Func<TData, bool> rule)
-        {
-            var ruleClass = new Rule<TData> { CheckExpression = rule};
-            Assume(ruleClass);
-            return this;
-        }
-
-        public CheckData<TData> Assume(Func<TData, bool> rule, string message)
-        {
-            var ruleClass = new Rule<TData> { CheckExpression = rule, Message = message };
-            Assume(ruleClass); 
-            return this;
-        }
-
-        public CheckData<TData> Assume<TParameter>(Func<TData, TParameter, bool> rule, TParameter ruleParameter, string message)
-        {
-            var ruleClass = new Rule<TData, TParameter> { CheckExpression = rule, Message = message };
-            Assume(ruleClass, ruleParameter);
-            return this;
-        }
-        #endregion
-
     }
 }

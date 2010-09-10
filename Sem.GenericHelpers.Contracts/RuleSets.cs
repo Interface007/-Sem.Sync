@@ -1,4 +1,13 @@
-﻿namespace Sem.GenericHelpers.Contracts
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RuleSets.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the RuleSets type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.GenericHelpers.Contracts
 {
     using System;
     using System.Collections.Generic;
@@ -6,23 +15,23 @@
 
     public static class RuleSets
     {
-        public static IEnumerable<Rule<TData>> SampleRuleSet<TData>() where TData : class
+        public static IEnumerable<RuleBase<TData, object>> SampleRuleSet<TData>() where TData : class
         {
-            var ruleset = new List<Rule<TData>>
+            var ruleset = new List<RuleBase<TData, object>>
                 {
                     Rules.IsNotNull<TData>(),
 
-                    new Rule<TData> { CheckExpression = parameterValue => parameterValue.ToString() != "hello", },
-                    new Rule<TData> { CheckExpression = parameterValue => !parameterValue.ToString().Contains("'"), },
-                    new Rule<TData> { CheckExpression = parameterValue => parameterValue.ToString().Length < 1024, },
+                    new RuleBase<TData, object> { CheckExpression = (data, parameter) => data.ToString() != "hello", },
+                    new RuleBase<TData, object> { CheckExpression = (data, parameter) => !data.ToString().Contains("'"), },
+                    new RuleBase<TData, object> { CheckExpression = (data, parameter) => data.ToString().Length < 1024, },
                 };
 
             return ruleset;
         }
 
-        public static void RegisterRule<TValue>(Rule<TValue> rule)
+        public static void RegisterRule<TData, TParameter>(RuleBase<TData, TParameter> rule)
         {
-            _TypeRegisteredRules.Add(new TypeRule { ValueType = typeof(TValue), Rule = rule });
+            _TypeRegisteredRules.Add(new TypeRule { ValueType = typeof(TData), Rule = rule });
         }
 
         private static readonly List<TypeRule> _TypeRegisteredRules = new List<TypeRule>();
@@ -35,25 +44,31 @@
             }
         }
 
-        internal static IEnumerable<TypeRule> GetRulesForType<TData>()
+        internal static IEnumerable<TypeRule> GetRulesForType<TData, TParameter>()
         {
             var valueType = typeof(TData);
 
             var rulesForType = (from x in _TypeRegisteredRules
-                               where x.ValueType == valueType
-                               select x).ToList();
-            
+                                where x.ValueType == valueType
+                                select x).ToList();
+
             var attribs = valueType.GetCustomAttributes(typeof(ContractRuleAttribute), true);
             foreach (ContractRuleAttribute attrib in attribs)
             {
-                var rule = attrib.Type.GetMethod(attrib.MethodName).Invoke(null, null) as Rule<TData>;
-                rulesForType.Add(new TypeRule{Rule = rule, ValueType = valueType});
+                var ruleSet = attrib.Type.GetConstructor(new Type[] { }).Invoke(null) as ClassLevelRuleSet<TData, TParameter>;
+                if (ruleSet != null)
+                {
+                    foreach (RuleBase<TData, TParameter> rule in ruleSet)
+                    {
+                        rulesForType.Add(new TypeRule { Rule = rule, ValueType = valueType });
+                    }
+                }
             }
 
             return rulesForType;
         }
 
-        public static void RegisterRuleSet<TData>(IEnumerable<Rule<TData>> sampleRuleSet)
+        public static void RegisterRuleSet<TData, TParameter>(IEnumerable<RuleBase<TData, TParameter>> sampleRuleSet)
         {
             foreach (var rule in sampleRuleSet)
             {

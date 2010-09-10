@@ -1,20 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeRule.cs" company="Sven Erik Matzen">
+// <copyright file="RuleBaseInformation.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the TypeRule type.
+//   Defines the RuleBaseInformation type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Sem.GenericHelpers.Contracts
 {
-    using System;
-
-    public class TypeRule
+    public class RuleBaseInformation
     {
-        public object Rule { get; set; }
-
-        public Type ValueType { get; set; }
+        public string Message { get; set; }
     }
 }

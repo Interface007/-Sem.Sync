@@ -13,10 +13,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>%24/SemSync/VS2010/Sem.Sync.Test</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>https://tfs.codeplex.com/tfs/tfs01</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -148,16 +148,6 @@
     <Compile Include="AddressClassTest.cs" />
     <Compile Include="CommandMatchByProfileTest.cs" />
     <Compile Include="ConnectorDescriptionAttributeTest.cs" />
-    <Compile Include="Contracts\AttributedSampleClass.cs" />
-    <Compile Include="Contracts\GuardAttributedRuleTest.cs" />
-    <Compile Include="Contracts\GuardBackEndNumberBoundariesTest.cs" />
-    <Compile Include="Contracts\GuardImplementsInterfaceTest.cs" />
-    <Compile Include="Contracts\GuardIsNotNullTest.cs" />
-    <Compile Include="Contracts\GuardIsNotOneOfTest.cs" />
-    <Compile Include="Contracts\GuardIsOneOfTest.cs" />
-    <Compile Include="Contracts\GuardRegisterRuleTest.cs" />
-    <Compile Include="Contracts\GuardTest.cs" />
-    <Compile Include="Contracts\GuardTestLambda.cs" />
     <Compile Include="FactoryTest.cs" />
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />
