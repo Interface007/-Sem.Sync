@@ -213,9 +213,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SilverContacts.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.GenericHelpers.Contracts", "Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj", "{634063B0-5E2A-41EC-BF35-3414D9024882}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Test.Contracts", "Sem.Sync.Test.Contracts\Sem.Sync.Test.Contracts.csproj", "{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 66
+		SccNumberOfProjects = 67
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs01
 		SccLocalPath0 = .
@@ -479,6 +481,10 @@ Global
 		SccProjectTopLevelParentUniqueName65 = SemSync.sln
 		SccProjectName65 = Sem.GenericHelpers.Contracts
 		SccLocalPath65 = Sem.GenericHelpers.Contracts
+		SccProjectUniqueName66 = Sem.Sync.Test.Contracts\\Sem.Sync.Test.Contracts.csproj
+		SccProjectTopLevelParentUniqueName66 = SemSync.sln
+		SccProjectName66 = Sem.Sync.Test.Contracts
+		SccLocalPath66 = Sem.Sync.Test.Contracts
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync1.vsmdi
@@ -2719,6 +2725,41 @@ Global
 		{634063B0-5E2A-41EC-BF35-3414D9024882}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{634063B0-5E2A-41EC-BF35-3414D9024882}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{634063B0-5E2A-41EC-BF35-3414D9024882}.Release|x86.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (CodeAnalysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (CodeAnalysis)|Any CPU.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (CodeAnalysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (CodeAnalysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug (CodeAnalysis)|x86.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Integration Test|Any CPU.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Integration Test|Any CPU.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Integration Test|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Integration Test|Mixed Platforms.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Integration Test|x86.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2786,6 +2827,7 @@ Global
 		{8BC53605-CB1B-4A35-A7C8-D0A9DA1B5ABB} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{0E2AED0F-78C7-46F6-89B3-E0DA45E5C9ED} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{1DC2F4F0-DCA8-4DE1-9772-4E98D84ADA64} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
+		{288EE41A-94F9-460C-90AD-D9CBBD6E95A4} = {A462F00C-C5D1-4784-B712-81FDA7D566D4}
 		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
 		{D9563118-8480-45B0-A20C-737ABA994069} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}

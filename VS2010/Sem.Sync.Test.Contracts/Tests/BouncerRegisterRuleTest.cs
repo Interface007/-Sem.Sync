@@ -1,0 +1,98 @@
+﻿namespace Sem.Sync.Test.Contracts
+{
+    using System;
+    using System.Collections.Generic;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.Sync.Test.Contracts;
+
+    /// <summary>
+    ///This is a test class for BouncerTest and is intended
+    ///to contain all BouncerTest Unit Tests
+    ///</summary>
+    [TestClass]
+    public class BouncerRegisterRuleTest
+    {
+        #region preparation
+        private readonly MessageOne _MessageOneOk = new MessageOne("Hello");
+
+        private readonly MessageOne _MessageOneFail = new MessageOne("hello");
+
+        private readonly MessageTwo _MessageTwoOk = new MessageTwo(7) { SubMessage = new MessageOne("hello") };
+
+        private readonly MessageTwo _MessageTwoFail = new MessageTwo(7) { SubMessage = new MessageOne("hell") };
+
+        public static RuleBase<MessageTwo, object> TestRule1()
+        {
+            return new RuleBase<MessageTwo, object>
+            {
+                CheckExpression = (data, parameter) => data != null,
+            };
+        }
+
+        public static RuleBase<MessageTwo, object> TestRule2()
+        {
+            return new RuleBase<MessageTwo, object>
+            {
+                CheckExpression = (data, parameter) => data.SubMessage.Content.Length > 4,
+            };
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            ((List<TypeRule>)RuleSets.TypeRegisteredRules).Clear();
+        }
+
+        [TestInitialize]
+        public void InitTest()
+        {
+            RuleSets.RegisterRule(Rules.IsNotNull<string>());
+            RuleSets.RegisterRule(TestRule2());
+            RuleSets.RegisterRuleSet(RuleSets.SampleRuleSet<MessageOne>());
+        }
+        #endregion preparation
+
+        [TestMethod]
+        public void AddRuleForType1()
+        {
+            Bouncer.For(() => "2").Assert();
+        }
+
+        [TestMethod]
+        public void AddRuleForType2()
+        {
+            Bouncer.For(() => this._MessageTwoOk).Assert();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RuleValidationException))]
+        public void AddRuleForType2MustFail()
+        {
+            Bouncer.For(() => this._MessageTwoFail).Assert();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RuleValidationException))]
+        public void AddRuleForTypeMustFail()
+        {
+            Bouncer.For(() => (string)null).Assert();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RuleValidationException))]
+        public void AddRuleForTypeMustFail2()
+        {
+            Bouncer.For(() => this._MessageOneFail).Assert();
+        }
+
+        [TestMethod]
+        public void AddRuleForType3()
+        {
+            Bouncer.For(() => this._MessageOneOk).Assert();
+        }
+    }
+}
