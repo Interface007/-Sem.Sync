@@ -76,7 +76,8 @@ namespace Sem.GenericHelpers.Contracts
             var ruleSet = RuleSets.GetRulesForType<TData, object>();
             foreach (var typeRule in ruleSet)
             {
-                this.Assert((RuleBase<TData, object>)typeRule.Rule, null);
+                var ruleBase = (RuleBase<TData, object>)typeRule.Rule;
+                this.Assert(ruleBase, null);
             }
 
             // now we look up the properties for rules
@@ -92,7 +93,7 @@ namespace Sem.GenericHelpers.Contracts
                 // need to do it via reflection (we don't have the type of the property at design time)
                 var data = Create(
                     propertyInfo.PropertyType,
-                    propertyInfo.Name,
+                    this.ValueName + "." + propertyInfo.Name,
                     propertyInfo.GetValue(this.Value, null));
 
                 foreach (ContractRuleAttribute ruleAttribute in customAttributes)
@@ -116,7 +117,7 @@ namespace Sem.GenericHelpers.Contracts
                     try
                     {
                         assertMethod.Invoke(data, new[] { rule, ruleAttribute.Parameter });
-                        this.AfterInvoke(rule, ruleAttribute.Parameter, propertyInfo.Name);
+                        this.AfterInvoke(rule, ruleAttribute.Parameter, this.ValueName + "." + propertyInfo.Name);
                     }
                     catch (TargetInvocationException ex)
                     {
