@@ -11,6 +11,7 @@ namespace Sem.GenericHelpers.Contracts
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Check class including the data to perform rule checking
@@ -18,13 +19,18 @@ namespace Sem.GenericHelpers.Contracts
     /// <typeparam name="TData">the data type to be checked</typeparam>
     public class MessageCollection<TData> : RuleExecuter<TData, MessageCollection<TData>>, IMessageCollection
     {
+        public List<RuleValidationResult> Results { get; private set; }
+
         public MessageCollection(string valueName, TData value)
             : base(valueName, value)
         {
             this.Results = new List<RuleValidationResult>();
         }
 
-        public List<RuleValidationResult> Results { get; private set; }
+        public MessageCollection(Expression<Func<TData>> data)
+            : base(data)
+        {
+        }
 
         protected override void AfterInvoke(object rule, object ruleParameter, string valueName)
         {

@@ -13,12 +13,13 @@ namespace Sem.GenericHelpers.Contracts
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Reflection;
 
     public abstract class RuleExecuter<TData, TResultClass>
         where TResultClass : RuleExecuter<TData, TResultClass>
     {
-        #region data 
+        #region data
         internal string ValueName { get; set; }
         internal TData Value { get; set; }
 
@@ -30,10 +31,21 @@ namespace Sem.GenericHelpers.Contracts
             this.ValueName = valueName;
         }
 
+        protected RuleExecuter(Expression<Func<TData>> data)
+        {
+            var member = data.Body as MemberExpression;
+            var name = member != null
+                        ? member.Member.Name
+                        : "anonymous value";
+
+            this.Value = data.Compile().Invoke();
+            this.ValueName = name;
+        }
+
         #endregion
 
         public abstract TResultClass AssertInternal<TParameter>(RuleBase<TData, TParameter> rule, TParameter ruleParameter);
-        
+
         public TResultClass Assert(Func<TData, bool> rule)
         {
             var ruleClass = new RuleBase<TData, object> { CheckExpression = (data, parameter) => rule.Invoke(data) };
@@ -70,7 +82,7 @@ namespace Sem.GenericHelpers.Contracts
 
             return (TResultClass)this;
         }
-        
+
         public TResultClass Assert()
         {
             var ruleSet = RuleSets.GetRulesForType<TData, object>();
@@ -109,9 +121,9 @@ namespace Sem.GenericHelpers.Contracts
 
                     var rule = ruleAttribute.Type.GetConstructor(Type.EmptyTypes).Invoke(null);
                     var assertMethod = data.GetType().GetMethods().Where(x => x.IsGenericMethod).FirstOrDefault();
-                    assertMethod = 
-                        assertMethod.MakeGenericMethod(ruleAttribute.Parameter != null 
-                        ? ruleAttribute.Parameter.GetType() 
+                    assertMethod =
+                        assertMethod.MakeGenericMethod(ruleAttribute.Parameter != null
+                        ? ruleAttribute.Parameter.GetType()
                         : typeof(object));
 
                     try

@@ -16,7 +16,7 @@
         public void CheckRuleSet1()
         {
             var messageOne = new MessageOne("sometext");
-            Bouncer.For(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
         }
     }
 }

@@ -23,14 +23,9 @@ namespace Sem.GenericHelpers.Contracts
         /// <typeparam name="TData">the type of data the expression returns</typeparam>
         /// <param name="data">the expression</param>
         /// <returns>a <see cref="CheckData{TData}"/> to execute the tests with</returns>
-        public static CheckData<TData> For<TData>(Expression<Func<TData>> data)
+        public static CheckData<TData> ForCheckData<TData>(Expression<Func<TData>> data)
         {
-            var member = data.Body as MemberExpression;
-            var name = member != null 
-                        ? member.Member.Name 
-                        : "anonymous value";
-            
-            return For(data.Compile().Invoke(), name);
+            return new CheckData<TData>(data);
         }
 
         /// <summary>
@@ -41,19 +36,14 @@ namespace Sem.GenericHelpers.Contracts
         /// <param name="data">the data to be checked</param>
         /// <param name="name">the name of the parameter/variable to be checked (might be included into check-result messages)</param>
         /// <returns>a <see cref="CheckData{TData}"/> to execute the tests with</returns>
-        public static CheckData<TData> For<TData>(TData data, string name)
+        public static CheckData<TData> ForCheckData<TData>(TData data, string name)
         {
             return new CheckData<TData>(name, data);
         }
 
         public static MessageCollection<TData> ForMessages<TData>(Expression<Func<TData>> data)
         {
-            var member = data.Body as MemberExpression;
-            var name = member != null
-                        ? member.Member.Name
-                        : "anonymous value";
-
-            return ForMessages(data.Compile().Invoke(), name);
+            return new MessageCollection<TData>(data);
         }
 
         public static MessageCollection<TData> ForMessages<TData>(TData data, string name)

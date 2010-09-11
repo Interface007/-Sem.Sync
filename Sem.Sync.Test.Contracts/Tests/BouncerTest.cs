@@ -18,21 +18,21 @@
         public void CheckRuleSet1()
         {
             var messageOne = new MessageOne("sometext");
-            Bouncer.For(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void CheckRuleSet1Invalid()
         {
-            Bouncer.For(() => new MessageOne("hello")).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => new MessageOne("hello")).Assert(RuleSets.SampleRuleSet<MessageOne>());
         }
 
         [TestMethod]
         public void CheckIntValid0Ax()
         {
             const string SomeParameter = "";
-            Bouncer.For(SomeParameter, "someParameter")
+            Bouncer.ForCheckData(SomeParameter, "someParameter")
                                 .Assert(Rules.IsNotNull<string>())
                                 .Assert(x => x.ToString() != "0000-00-00")
                                 .Assert(Rules.ImplementsInterface<string>(), typeof(IComparable<>));
@@ -41,64 +41,64 @@
         [TestMethod]
         public void CheckIntValid0A()
         {
-            Bouncer.For(0, "myInt").Assert(x => x == 0);
+            Bouncer.ForCheckData(0, "myInt").Assert(x => x == 0);
         }
 
         [TestMethod]
         public void CheckIntValid1A()
         {
-            Bouncer.For(1, "myInt").Assert(x => x == 1);
+            Bouncer.ForCheckData(1, "myInt").Assert(x => x == 1);
         }
 
         [TestMethod]
         public void CheckIntValid0B()
         {
-            Bouncer.For(0, "myInt").Assert(x => x == 0);
+            Bouncer.ForCheckData(0, "myInt").Assert(x => x == 0);
         }
 
         [TestMethod]
         public void CheckIntValid1B()
         {
-            Bouncer.For(1, "myInt").Assert(x => x == 1);
+            Bouncer.ForCheckData(1, "myInt").Assert(x => x == 1);
         }
         
         [TestMethod]
         public void CheckIntValid0()
         {
-            Bouncer.For(0, "var0").Assert(x => x == 0);
+            Bouncer.ForCheckData(0, "var0").Assert(x => x == 0);
         }
 
         [TestMethod]
         public void CheckIntValid1()
         {
-            Bouncer.For(1, "var1").Assert(x => x == 1);
+            Bouncer.ForCheckData(1, "var1").Assert(x => x == 1);
         }
 
         [TestMethod]
         public void CheckIntValidWithParameter1()
         {
-            Bouncer.For(1, "var1").Assert((x, y) => x == 1 && y == 7, 7);
+            Bouncer.ForCheckData(1, "var1").Assert((x, y) => x == 1 && y == 7, 7);
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void CheckIntInvalid()
         {
-            Bouncer.For(0, "var0").Assert(x => x == 1);
+            Bouncer.ForCheckData(0, "var0").Assert(x => x == 1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void CheckIntInvalidWithParameter()
         {
-            Bouncer.For(0, "var0").Assert((x, y) => x == 1, 7);
+            Bouncer.ForCheckData(0, "var0").Assert((x, y) => x == 1, 7);
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void CheckIntInvalidWithParameter2()
         {
-            Bouncer.For(0, "var0").Assert((x, y) => y == 8, 7);
+            Bouncer.ForCheckData(0, "var0").Assert((x, y) => y == 8, 7);
         }
     }
 }

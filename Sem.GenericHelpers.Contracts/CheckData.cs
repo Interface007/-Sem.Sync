@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers.Contracts
 {
     using System;
+    using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.Exceptions;
 
@@ -22,6 +23,16 @@ namespace Sem.GenericHelpers.Contracts
         public CheckData(string valueName, TData value)
             : base(valueName, value)
         {
+        }
+
+        public CheckData(Expression<Func<TData>> data)
+            : base(data)
+        {
+        }
+
+        public static CheckData<TData> For(Expression<Func<TData>> data)
+        {
+            return new CheckData<TData>(data);
         }
 
         public override CheckData<TData> AssertInternal<TParameter>(RuleBase<TData, TParameter> rule, TParameter ruleParameter)
