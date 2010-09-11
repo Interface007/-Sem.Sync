@@ -49,6 +49,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
     <Compile Include="Tests\BouncerTestMessages.cs" />
     <Compile Include="Entities\AttributedSampleClass.cs" />
     <Compile Include="Tests\BouncerAttributedRuleTestNoNamespace.cs" />
@@ -72,6 +75,11 @@
       <Project>{634063B0-5E2A-41EC-BF35-3414D9024882}</Project>
       <Name>Sem.GenericHelpers.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

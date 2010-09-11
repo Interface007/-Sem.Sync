@@ -4,6 +4,7 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using Sem.GenericHelpers.Contracts.Exceptions;
     using Sem.GenericHelpers.MessageAggregation;
 
     /// <summary>
@@ -33,7 +34,7 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(RuleValidationException))]
         public void SubscribeIllegalToMessage()
         {
             MessageAggregator.Instance.Subscribe(new AggregatorTest());
