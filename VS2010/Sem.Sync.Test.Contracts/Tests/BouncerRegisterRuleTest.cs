@@ -59,40 +59,40 @@
         [TestMethod]
         public void AddRuleForType1()
         {
-            Bouncer.For(() => "2").Assert();
+            Bouncer.ForCheckData(() => "2").Assert();
         }
 
         [TestMethod]
         public void AddRuleForType2()
         {
-            Bouncer.For(() => this._MessageTwoOk).Assert();
+            Bouncer.ForCheckData(() => this._MessageTwoOk).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForType2MustFail()
         {
-            Bouncer.For(() => this._MessageTwoFail).Assert();
+            Bouncer.ForCheckData(() => this._MessageTwoFail).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFail()
         {
-            Bouncer.For(() => (string)null).Assert();
+            Bouncer.ForCheckData(() => (string)null).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFail2()
         {
-            Bouncer.For(() => this._MessageOneFail).Assert();
+            Bouncer.ForCheckData(() => this._MessageOneFail).Assert();
         }
 
         [TestMethod]
         public void AddRuleForType3()
         {
-            Bouncer.For(() => this._MessageOneOk).Assert();
+            Bouncer.ForCheckData(() => this._MessageOneOk).Assert();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Sem.Sample.Contracts
     {
         internal void CallCustomer(MySaveCustomer customer)
         {
-            Bouncer.For(() => customer).Assert();
+            Bouncer.ForCheckData(() => customer).Assert();
 
             Console.WriteLine(
                 "calling customer {0} with Id {1}", 

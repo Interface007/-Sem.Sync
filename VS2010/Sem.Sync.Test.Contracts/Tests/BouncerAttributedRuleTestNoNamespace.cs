@@ -11,13 +11,13 @@ public class BouncerAttributedRuleTestNoNamespace
     [TestMethod]
     public void AddRuleForTypeMustSucceed()
     {
-        Bouncer.For(() => this._AttributedSampleClass).Assert();
+        Bouncer.ForCheckData(() => this._AttributedSampleClass).Assert();
     }
 
     [TestMethod]
     public void AddRuleForTypeOk()
     {
         this._AttributedSampleClass.MustBeLengthAndNamespace = "hello!";
-        Bouncer.For(() => this._AttributedSampleClass).Assert();
+        Bouncer.ForCheckData(() => this._AttributedSampleClass).Assert();
     }
 }

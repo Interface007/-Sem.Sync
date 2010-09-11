@@ -13,13 +13,13 @@
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFail()
         {
-            Bouncer.For(() => BouncerAttributedRuleTest.MessageFailNamespace).Assert();
+            Bouncer.ForCheckData(() => BouncerAttributedRuleTest.MessageFailNamespace).Assert();
         }
 
         [TestMethod]
         public void AddRuleForTypeOk()
         {
-            Bouncer.For(() => BouncerAttributedRuleTest.MessageOneOk).Assert();
+            Bouncer.ForCheckData(() => BouncerAttributedRuleTest.MessageOneOk).Assert();
         }
     }
 }

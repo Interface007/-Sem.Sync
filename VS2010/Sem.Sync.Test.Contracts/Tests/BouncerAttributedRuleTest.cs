@@ -65,56 +65,56 @@
         [TestMethod]
         public void AddRuleForTypeOk()
         {
-            Bouncer.For(() => MessageOneOk).Assert();
+            Bouncer.ForCheckData(() => MessageOneOk).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailRegEx()
         {
-            Bouncer.For(() => _MessageOneFailRegEx).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailRegEx).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMin()
         {
-            Bouncer.For(() => _MessageOneFailMin).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailMin).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMax()
         {
-            Bouncer.For(() => _MessageOneFailMax).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailMax).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailRegExNull()
         {
-            Bouncer.For(() => _MessageOneFailRegExNull).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailRegExNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMinNull()
         {
-            Bouncer.For(() => _MessageOneFailMinNull).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailMinNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMaxNull()
         {
-            Bouncer.For(() => _MessageOneFailMaxNull).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailMaxNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMinMaxNull()
         {
-            Bouncer.For(() => _MessageOneFailMinMax).Assert();
+            Bouncer.ForCheckData(() => _MessageOneFailMinMax).Assert();
         }
 
         [TestMethod]
