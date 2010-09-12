@@ -20,7 +20,7 @@ namespace Sem.GenericHelpers
         #region Constants and Fields
 
         /// <summary>
-        /// The software sem sync cachedcredentials.
+        /// The registry path the credentails should be saved to / loaded from.
         /// </summary>
         private const string SoftwareSemSyncCachedcredentials = "Software\\Sem.Sync\\CachedCredentials";
 
@@ -31,15 +31,9 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Initializes a new instance of the <see cref="LogonCredentialRequest"/> class.
         /// </summary>
-        /// <param name="credentials">
-        /// The credentials.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        /// <param name="resourceName">
-        /// The resource name.
-        /// </param>
+        /// <param name="credentials">The credentials.</param>
+        /// <param name="message">The message to display.</param>
+        /// <param name="resourceName"> The name of the resource the credentials belong to. </param>
         public LogonCredentialRequest(ICredentialAware credentials, string message, string resourceName)
         {
             this.LogOnCredentials = credentials;
@@ -56,12 +50,8 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// Initializes a new instance of the <see cref="LogonCredentialRequest"/> class.
         /// </summary>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        /// <param name="resourceName">
-        /// The resource name.
-        /// </param>
+        /// <param name="message">The message to display.</param>
+        /// <param name="resourceName"> The name of the resource the credentials belong to. </param>
         public LogonCredentialRequest(string message, string resourceName)
             : this(new Credentials(), message, resourceName)
         {

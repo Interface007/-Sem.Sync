@@ -11,6 +11,7 @@ namespace Sem.GenericHelpers.Contracts
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
@@ -45,6 +46,27 @@ namespace Sem.GenericHelpers.Contracts
         #endregion
 
         public abstract TResultClass AssertInternal<TParameter>(RuleBase<TData, TParameter> rule, TParameter ruleParameter);
+
+        public TResultClass Assert(ConfigurationValidatorBase validator)
+        {
+            var ruleClass = new RuleBase<TData, object>
+                {
+                    CheckExpression = (data, parameter) =>
+                        {
+                            try
+                            {
+                                validator.Validate(data);
+                                return true;
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }
+                };
+
+            return this.Assert(ruleClass);
+        }
 
         public TResultClass Assert(Func<TData, bool> rule)
         {
