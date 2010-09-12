@@ -10,10 +10,15 @@
 namespace Sem.GenericHelpers.Contracts
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+
+    using Sem.GenericHelpers.Contracts.SemRules;
 
     public static class Rules
     {
+        private static Dictionary<Type, object> BouncerRuleCache = new Dictionary<Type, object>();
+
         public static RuleBase<TData, object> IsNotNull<TData>() where TData : class
         {
             return new RuleBase<TData, object>
@@ -65,6 +70,26 @@ namespace Sem.GenericHelpers.Contracts
                 CheckExpression = (data, parameter) => data < 16000 && data > -16000,
                 Message = "The provided value is not one of the expected values",
             };
+        }
+
+        public static RuleBase<object, object> NotNull()
+        {
+            return new ObjectNotNullRule<object>();
+        }
+
+        public static RuleBase<TObject, object> ObjectNotNullRule<TObject>() 
+            where TObject : class
+        {
+            var type = typeof(ObjectNotNullRule<TObject>);
+            if (!BouncerRuleCache.ContainsKey(type))
+            {
+                if (!BouncerRuleCache.ContainsKey(type))
+                {
+                    BouncerRuleCache.Add(type, new ObjectNotNullRule<TObject>());
+                }
+            }
+            
+            return (RuleBase<TObject, object>)BouncerRuleCache[type];
         }
     }
 }

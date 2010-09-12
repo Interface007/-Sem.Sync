@@ -17,6 +17,9 @@ namespace Sem.GenericHelpers
     using System.Text;
     using System.Text.RegularExpressions;
 
+    using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.SemRules;
+
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
     /// </summary>
@@ -28,13 +31,9 @@ namespace Sem.GenericHelpers
     /// </remarks>
     /// <example>
     /// creating a new source object using the simple type specification:
-    ///   <code>
-    /// var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact");
-    /// </code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClientCsv of StdContact");</code>
     /// creating a new source object using the generic type specification by using the " of "-substring:
-    ///   <code>
-    /// var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");
-    /// </code>
+    /// <code>var sourceClient = Factory.GetNewObject&lt;IClientBase&gt;("Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem");</code>
     /// As you can see, you can omit the namespace if it is Sem.Sync.SyncBase.
     /// </example>
     [Serializable]
@@ -83,14 +82,13 @@ namespace Sem.GenericHelpers
         /// <summary>
         /// processes a class name to make it full qualifies include in the assembly name
         /// </summary>
-        /// <param name="className">
-        /// The class name that may need processing.
-        /// </param>
-        /// <returns>
-        /// the processed full qualified class name
-        /// </returns>
+        /// <param name="className">The class name that may need processing.</param>
+        /// <returns>The processed full qualified class name.</returns>
         public string EnrichClassName(string className)
         {
+            Bouncer.ForCheckData(() => className)
+                .Assert(new StringValidator(1));
+
             var returnValue = new StringBuilder();
             var isFirstFragement = true;
             var names = className.Split(new[] { " of " }, StringSplitOptions.None);
@@ -232,11 +230,14 @@ namespace Sem.GenericHelpers
             var genericClassType = Type.GetType(this.EnrichClassName(genericClassName.Trim()));
             var classType = Type.GetType(this.EnrichClassName(className.Trim()));
 
-            if (classType == null)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The class {0} cannot be found - check spelling.", className), "className");
-            }
-
+            Bouncer
+                .ForCheckData(() => classType)
+                .Assert(Rules.ObjectNotNullRule<Type>());
+            
+            Bouncer
+                .ForCheckData(() => genericClassType)
+                .Assert(Rules.ObjectNotNullRule<Type>());
+            
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
@@ -256,46 +257,21 @@ namespace Sem.GenericHelpers
             return null;
         }
 
-        public static void RegisterMock(Type type, object mockObject)
-        {
-            var name = type.FullName;
-            RegisterMock(name, mockObject);
-        }
-
-        public static void RegisterMock(Type type, Type typeCtorParam1, object mockObject)
-        {
-            var name = string.Join(":", type.FullName, typeCtorParam1.FullName);
-            RegisterMock(name, mockObject);
-        }
-
-        public static void RegisterMock(Type type, Type typeCtorParam1, Type typeCtorParam2, object mockObject)
-        {
-            var name = string.Join(":", type.FullName, typeCtorParam1.FullName, typeCtorParam2.FullName);
-            RegisterMock(name, mockObject);
-        }
-
-        private static void RegisterMock(string name, object mockObject)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return;
-            }
-
-            if (Mocks.ContainsKey(name))
-            {
-                Mocks.Remove(name);
-            }
-
-            Mocks.Add(name, mockObject);
-        }
-
         public static object CreateTypeInstance(Type type)
         {
+            Bouncer
+                .ForCheckData(() => type)
+                .Assert(Rules.ObjectNotNullRule<Type>());
+
             return (GetMock(type.FullName) ?? Activator.CreateInstance(type));
         }
 
         public static object CreateTypeInstance<TCtorParam1>(Type type, TCtorParam1 param1)
         {
+            Bouncer
+                .ForCheckData(() => type)
+                .Assert(Rules.ObjectNotNullRule<Type>());
+
             return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName))
                 ?? Activator.CreateInstance(type, param1);
         }
