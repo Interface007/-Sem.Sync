@@ -51,11 +51,11 @@
     <Compile Include="Bouncer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CheckData.cs" />
+    <Compile Include="RuleExecuters\CheckData.cs" />
+    <Compile Include="RuleExecuters\ConditionalExecution.cs" />
     <Compile Include="ContractRuleAttribute.cs" />
     <Compile Include="Exceptions\RuleValidationException.cs" />
-    <Compile Include="IMessageCollection.cs" />
-    <Compile Include="MessageCollection.cs">
+    <Compile Include="RuleExecuters\MessageCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="RuleBaseInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RuleExecuter.cs">
+    <Compile Include="RuleExecuters\RuleExecuter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Rules.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="RuleValidationResult.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SemRules\ConfigurationValidatorBaseRule.cs" />
     <Compile Include="SemRules\ObjectNotNullRule.cs" />
     <Compile Include="SemRules\StringMaxLengthRule.cs" />
     <Compile Include="SemRules\StringMinLengthRule.cs" />

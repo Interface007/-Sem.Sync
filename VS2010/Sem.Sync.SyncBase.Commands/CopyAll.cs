@@ -11,6 +11,7 @@ namespace Sem.Sync.SyncBase.Commands
 {
     using System;
 
+    using Sem.GenericHelpers.Contracts;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
@@ -18,38 +19,18 @@ namespace Sem.Sync.SyncBase.Commands
     /// </summary>
     public class CopyAll : SyncComponent, ISyncCommand
     {
-        #region Implemented Interfaces
-
-        #region ISyncCommand
-
         /// <summary>
         /// Copy all entries from the source client to the destination client;
         ///   Overwrite existing entries
         /// </summary>
-        /// <param name="sourceClient">
-        /// The source client.
-        /// </param>
-        /// <param name="targetClient">
-        /// The target client.
-        /// </param>
-        /// <param name="baseliClient">
-        /// The baseline client.
-        /// </param>
-        /// <param name="sourceStorePath">
-        /// The source storage path.
-        /// </param>
-        /// <param name="targetStorePath">
-        /// The target storage path.
-        /// </param>
-        /// <param name="baselineStorePath">
-        /// The baseline storage path.
-        /// </param>
-        /// <param name="commandParameter">
-        /// The command parameter.
-        /// </param>
-        /// <returns>
-        /// True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" 
-        /// </returns>
+        /// <param name="sourceClient"> The source client instance that is the source of data for the copy operation. </param>
+        /// <param name="targetClient"> The source client instance that is the target for the data of the copy operation. </param>
+        /// <param name="baseliClient"> The baseline client is not utilized in this command. </param>
+        /// <param name="sourceStorePath"> The storage path for the source connector. </param>
+        /// <param name="targetStorePath"> The storage path for the target connector </param>
+        /// <param name="baselineStorePath"> The baseline client (and so the storage path) is not utilized in this command. </param>
+        /// <param name="commandParameter"> In this command there is no need for a parameter. </param>
+        /// <returns> Always true. </returns>
         public bool ExecuteCommand(
             IClientBase sourceClient, 
             IClientBase targetClient, 
@@ -59,23 +40,12 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
-            if (targetClient == null)
-            {
-                throw new InvalidOperationException("item.targetClient is null");
-            }
-
-            if (sourceClient == null)
-            {
-                throw new InvalidOperationException("item.sourceClient is null");
-            }
+            Bouncer.ForCheckData(() => sourceClient).Assert(Rules.ObjectNotNullRule<IClientBase>());
+            Bouncer.ForCheckData(() => targetClient).Assert(Rules.ObjectNotNullRule<IClientBase>());
 
             targetClient.AddRange(sourceClient.GetAll(sourceStorePath), targetStorePath);
 
             return true;
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -25,13 +25,15 @@ namespace Sem.Sync.Test.Contracts.Tests
         private static readonly AttributedSampleClass _MessageOneFailRegEx = new AttributedSampleClass
         {
             MustBeOfRegExPatter = "hello",
+            MustBeLengthMax = "this is a very long string",
+            MustBeLengthMin = "1",
         };
 
         [TestMethod]
         public void CheckRuleSet1()
         {
             var messages = Bouncer.ForMessages(() => _MessageOneFailRegEx).Assert();
-            Assert.AreEqual(5, messages.Results.Count);
+            Assert.AreEqual(3, messages.Results.Count);
         }
     }
 }

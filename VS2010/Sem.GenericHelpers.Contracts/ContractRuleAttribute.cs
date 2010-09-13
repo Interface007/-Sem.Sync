@@ -22,5 +22,6 @@ namespace Sem.GenericHelpers.Contracts
         public Type Type { get; set; }
         public object Parameter { get; set; }
         public string Namespace { get; set; }
+        public string Message { get; set; }
     }
 }

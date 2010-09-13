@@ -14,10 +14,5 @@ namespace Sem.GenericHelpers.Contracts
     public class RuleBase<TData, TParameter> : RuleBaseInformation
     {
         public Func<TData, TParameter, bool> CheckExpression { get; set; }
-
-        public RuleBase()
-        {
-            this.Message = "There is a problem with the parameter.";
-        }
     }
 }

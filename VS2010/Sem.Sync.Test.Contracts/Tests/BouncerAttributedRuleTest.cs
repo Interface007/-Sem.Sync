@@ -6,6 +6,7 @@
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.GenericHelpers.Contracts.SemRules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -65,7 +66,37 @@
         [TestMethod]
         public void AddRuleForTypeOk()
         {
-            Bouncer.ForCheckData(() => MessageOneOk).Assert();
+            var x = Bouncer.ForCheckData(() => MessageOneOk).Assert();
+            Assert.IsNotNull(x);
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustFailRegExCollect()
+        {
+            var message = Bouncer.ForMessages(() => _MessageOneFailRegEx).Assert().Results;
+            Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustFailRegExCollect2()
+        {
+            var message = Bouncer.ForMessages(_MessageOneFailRegEx, "_MessageOneFailRegEx").Assert().Results;
+            Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustFailRegExCollect3()
+        {
+            var message = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
+            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.RuleBase`2 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", message[0].Message);
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustSucceedRegExCollect4()
+        {
+            var configurationValidatorBaseRule = new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8));
+            var message = Bouncer.ForMessages("hello I have more than 8 chars", "theValue").Assert(configurationValidatorBaseRule).Results;
+            Assert.AreEqual(0, message.Count);
         }
 
         [TestMethod]

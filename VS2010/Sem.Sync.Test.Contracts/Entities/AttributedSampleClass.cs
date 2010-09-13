@@ -1,7 +1,5 @@
 ﻿namespace Sem.Sync.Test.Contracts
 {
-    using System.Collections.Generic;
-
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.SemRules;
 
@@ -24,7 +22,7 @@
             this.MustBeOfRegExPatter = content;
         }
 
-        [ContractRule(typeof(StringRegexMatchRule), Parameter = ".ell.!")]
+        [ContractRule(typeof(StringRegexMatchRule), Parameter = ".ell.!", Message = "{1} must be  of reg ex '.ell.!'")]
         public string MustBeOfRegExPatter { get; set; }
 
         [ContractRule(typeof(StringMinLengthRule), Parameter = 3)]
@@ -35,6 +33,7 @@
 
         [ContractRule(typeof(StringMinLengthRule), Parameter = 3)]
         [ContractRule(typeof(StringMaxLengthRule), Parameter = 6)]
+        [ContractRule(typeof(StringNotNullOrEmptyRule))]
         public string MustBeLengthMinMax { get; set; }
 
         [ContractRule(typeof(StringMinLengthRule), Parameter = 3, Namespace = "Sem.Sync.Test.ContractsAlternate")]
@@ -43,17 +42,6 @@
         public override string ToString()
         {
             return this.MustBeOfRegExPatter;
-        }
-    }
-
-    public class CustomRuleSet : ClassLevelRuleSet<AttributedSampleClass, object>
-    {
-        protected override List<RuleBase<AttributedSampleClass, object>> GetRuleList()
-        {
-            return new List<RuleBase<AttributedSampleClass, object>>
-                {
-                    Rules.IsNotNull<AttributedSampleClass>()
-                };
         }
     }
 }

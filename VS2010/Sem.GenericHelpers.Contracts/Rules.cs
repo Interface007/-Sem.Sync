@@ -17,7 +17,7 @@ namespace Sem.GenericHelpers.Contracts
 
     public static class Rules
     {
-        private static Dictionary<Type, object> BouncerRuleCache = new Dictionary<Type, object>();
+        private static readonly Dictionary<Type, object> BouncerRuleCache = new Dictionary<Type, object>();
 
         public static RuleBase<TData, object> IsNotNull<TData>() where TData : class
         {

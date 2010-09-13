@@ -9,6 +9,9 @@
 
 namespace Sem.Sync.SyncBase.Commands
 {
+    using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
@@ -23,30 +26,14 @@ namespace Sem.Sync.SyncBase.Commands
         /// <summary>
         /// This command that uses the <see cref="SyncComponent.UiProvider"/> to ask the user if the process should continue.
         /// </summary>
-        /// <param name="sourceClient">
-        /// The source client.
-        /// </param>
-        /// <param name="targetClient">
-        /// The target client.
-        /// </param>
-        /// <param name="baseliClient">
-        /// The baseline client.
-        /// </param>
-        /// <param name="sourceStorePath">
-        /// The source storage path.
-        /// </param>
-        /// <param name="targetStorePath">
-        /// The target storage path.
-        /// </param>
-        /// <param name="baselineStorePath">
-        /// The baseline storage path.
-        /// </param>
-        /// <param name="commandParameter">
-        /// The command parameter.
-        /// </param>
-        /// <returns>
-        /// True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" 
-        /// </returns>
+        /// <param name="sourceClient">The source client can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="targetClient">The target client can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="baseliClient">The baseline client can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="sourceStorePath">The source storage path can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="targetStorePath">The target storage path can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="baselineStorePath">The baseline storage path can be NULL - there is no interaction with clients in this command.</param>
+        /// <param name="commandParameter">The message to be displayed. Must be a non-zero-length string.</param>
+        /// <returns>True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue".</returns>
         public bool ExecuteCommand(
             IClientBase sourceClient, 
             IClientBase targetClient, 
@@ -56,6 +43,9 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
+            Bouncer.ForCheckData(() => this.UiProvider).Assert(Rules.ObjectNotNullRule<IUiInteraction>());
+            Bouncer.ForCheckData(() => commandParameter).Assert(new StringMinLengthRule(), 1);
+
             return this.UiProvider == null ||
                    this.UiProvider.AskForConfirm(
                        commandParameter, (targetClient == null) ? "Sem.Sync" : targetClient.FriendlyClientName);

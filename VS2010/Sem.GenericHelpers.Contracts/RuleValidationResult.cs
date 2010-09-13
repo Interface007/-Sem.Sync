@@ -13,18 +13,21 @@ namespace Sem.GenericHelpers.Contracts
 
     public class RuleValidationResult
     {
-        public RuleValidationResult(Type ruleType, string message, string valueName)
+        public RuleValidationResult(Type ruleType, string message, string valueName, bool result)
         {
+            this.Result = result;
             this.RuleType = ruleType;
             this.Message = message;
             this.ValueName = valueName;
         }
 
-        protected string Message { get; set; }
+        public bool Result { get; protected set; }
 
-        protected Type RuleType { get; set; }
+        public string Message { get; protected set; }
 
-        protected string ValueName { get; set; }
+        public Type RuleType { get; protected set; }
+
+        public string ValueName { get; protected set; }
 
         public override string ToString()
         {

@@ -48,21 +48,23 @@ namespace Sem.GenericHelpers.Contracts
         {
             var valueType = typeof(TData);
 
+            // build a list of "registered" rules
             var rulesForType = (from x in _TypeRegisteredRules
                                 where x.ValueType == valueType
                                 select x).ToList();
 
+            // get all class-level rule-attributes and enumerate to build list of rules
+            // to be excuted for this object instance.
             var attribs = valueType.GetCustomAttributes(typeof(ContractRuleAttribute), true);
             foreach (ContractRuleAttribute attrib in attribs)
             {
-                var ruleSet = attrib.Type.GetConstructor(new Type[] { }).Invoke(null) as ClassLevelRuleSet<TData, TParameter>;
-                if (ruleSet != null)
+                var ruleSet = attrib.Type.GetConstructor(new Type[] { }).Invoke(null) as RuleSet<TData, TParameter>;
+                if (ruleSet == null)
                 {
-                    foreach (RuleBase<TData, TParameter> rule in ruleSet)
-                    {
-                        rulesForType.Add(new TypeRule { Rule = rule, ValueType = valueType });
-                    }
+                    continue;
                 }
+
+                rulesForType.AddRange(ruleSet.Select(rule => new TypeRule { Rule = rule, ValueType = valueType }));
             }
 
             return rulesForType;

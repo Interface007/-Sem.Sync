@@ -1,12 +1,8 @@
 ﻿namespace Sem.Sync.Test.Contracts
 {
-    using System;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.Exceptions;
-    using Sem.Sync.Test.Contracts;
     using Sem.Sync.Test.Contracts.Tests;
 
     /// <summary>

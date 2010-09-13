@@ -12,5 +12,10 @@ namespace Sem.GenericHelpers.Contracts
     public class RuleBaseInformation
     {
         public string Message { get; set; }
+
+        public RuleBaseInformation()
+        {
+            this.Message = "There is a problem with the parameter.";
+        }
     }
 }
