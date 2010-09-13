@@ -149,12 +149,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
-      <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
-      <Name>Sem.GenericHelpers</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
