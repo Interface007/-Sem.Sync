@@ -22,6 +22,7 @@ namespace Sem.Sync.SyncBase.Helpers
     using System.Text;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.SyncBase.DetailData;
 
@@ -58,10 +59,9 @@ namespace Sem.Sync.SyncBase.Helpers
         /// </returns>
         public static byte[] StdContactToVCard(StdContact contact)
         {
-            if (contact == null || contact.Name == null)
-            {
-                throw new ArgumentNullException("contact");
-            }
+            Bouncer
+                .ForCheckData(() => contact)
+                .Assert(x => x.Name != null);
 
             var vCard = new StringBuilder();
             vCard.AppendLine("BEGIN:VCARD");

@@ -36,5 +36,12 @@
         {
             Assert.IsTrue(Rules.IsOneOf<string>().CheckExpression("1", new[] { "1", "2" }));
         }
+
+        [TestMethod]
+        public void CheckParameterIsOneOfMustPass3()
+        {
+            var y = new MessageTwo(8);
+            new CheckData<string>(() => y.SubMessage.Content).Assert(x => string.IsNullOrEmpty(x));
+        }
     }
 }

@@ -39,7 +39,21 @@ namespace Sem.GenericHelpers.Contracts
         {
             if (rule != null)
             {
-                this.HandleRuleResult(rule.CheckExpression(this.Value, ruleParameter), rule.GetType(), rule.Message, ruleParameter);
+                bool result;
+                try
+                {
+                    result = rule.CheckExpression(this.Value, ruleParameter);
+                }
+                catch (NullReferenceException)
+                {
+                    result = false;
+                }
+
+                this.HandleRuleResult(
+                    result, 
+                    rule.GetType(), 
+                    rule.Message, 
+                    ruleParameter);
             }
 
             return this;
