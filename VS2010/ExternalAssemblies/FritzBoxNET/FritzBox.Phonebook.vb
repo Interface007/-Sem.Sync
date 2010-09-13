@@ -100,7 +100,7 @@ Namespace Network
             ' Define network response byte return
             Dim responseBytesRead(clientSocketTCP.ReceiveBufferSize) As Byte
 
-            ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry count", entryCountRequest)
+            'ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry count", entryCountRequest)
 
             ' Write command and flush it
             remoteStream.Write(entryCountRequest, 0, entryCountRequest.Length)
@@ -108,7 +108,7 @@ Namespace Network
 
             ' Read response
             remoteStream.Read(responseBytesRead, 0, CInt(clientSocketTCP.ReceiveBufferSize))
-            ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry count", responseBytesRead)
+            'ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry count", responseBytesRead)
 
             Dim responseString As String = Encoding.ASCII.GetString(responseBytesRead)
 
@@ -145,13 +145,13 @@ Namespace Network
             Dim responseBytesRead(clientSocketTCP.ReceiveBufferSize) As Byte
 
             ' Write command and flush it
-            ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry", entryRequest)
+            'ExceptionHandler.WriteContextEntry("fritz.net send tcp stream - get entry", entryRequest)
             remoteStream.Write(entryRequest, 0, entryRequest.Length)
             remoteStream.Flush()
 
             ' Read response - first response is the record length
             Dim bytesReceivedLength As Int32 = remoteStream.Read(responseBytesRead, 0, CInt(clientSocketTCP.ReceiveBufferSize))
-            ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry", responseBytesRead)
+            'ExceptionHandler.WriteContextEntry("fritz.net receive tcp stream - get entry", responseBytesRead)
 
             Dim responseStringLength As String = Encoding.ASCII.GetString(responseBytesRead)
 

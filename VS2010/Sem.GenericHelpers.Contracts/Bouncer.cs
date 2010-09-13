@@ -14,13 +14,20 @@ namespace Sem.GenericHelpers.Contracts
 
     using Sem.GenericHelpers.Contracts.RuleExecuters;
 
+    /// <summary>
+    /// Bouncer http://en.wiktionary.org/wiki/bouncer : „A member of security personnel employed by bars, 
+    /// nightclubs, etc to maintain order and deal with patrons who cause trouble.“).
+    /// <para>A bouncer can be placed on top of a method to protect against "problematic" data.</para>
+    /// </summary>
     public static class Bouncer 
     {
         /// <summary>
         /// Creates a data structure for executing rules
         /// by specifying a lambra expression:
         /// <para>Bouncer.For(() => MessageOneOk).Assert();</para>
-        /// The expression will be executed only once.
+        /// The expression will be executed only once. Specifying lambda expression
+        /// provides the benefit of strong typing for the data name, because the lambda expression
+        /// can be inspected for the variable name.
         /// </summary>
         /// <typeparam name="TData">the type of data the expression returns</typeparam>
         /// <param name="data">the expression</param>
@@ -43,6 +50,15 @@ namespace Sem.GenericHelpers.Contracts
             return new CheckData<TData>(name, data);
         }
 
+        /// <summary>
+        /// Creates a rule execution class for a lambda expression that collects the result of the rules
+        /// as a collection of <see cref="RuleValidationResult"/>. Specifying lambda expression
+        /// provides the benefit of strong typing for the data name, because the lambda expression
+        /// can be inspected for the variable name.
+        /// </summary>
+        /// <typeparam name="TData">the type of data the expression returns</typeparam>
+        /// <param name="data">the expression</param>
+        /// <returns>a <see cref="MessageCollection{TData}"/> to execute the tests with</returns>
         public static MessageCollection<TData> ForMessages<TData>(Expression<Func<TData>> data)
         {
             return new MessageCollection<TData>(data);
