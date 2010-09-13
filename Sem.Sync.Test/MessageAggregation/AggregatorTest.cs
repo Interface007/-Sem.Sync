@@ -1,5 +1,7 @@
-﻿namespace Sem.Sync.Test.MessageAggregation
+﻿namespace Sem.Sync.Test.Contracts
 {
+    using System;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts.Exceptions;

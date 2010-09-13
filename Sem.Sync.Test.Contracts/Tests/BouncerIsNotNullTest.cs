@@ -5,9 +5,9 @@
     using Sem.GenericHelpers.Contracts;
 
     /// <summary>
-    ///This is a test class for BouncerTest and is intended
-    ///to contain all BouncerTest Unit Tests
-    ///</summary>
+    /// This is a test class for BouncerTest and is intended
+    /// to contain all BouncerTest Unit Tests
+    /// </summary>
     [TestClass]
     public class BouncerIsNotNullTest
     {

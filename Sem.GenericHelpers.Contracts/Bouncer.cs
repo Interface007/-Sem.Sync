@@ -12,6 +12,8 @@ namespace Sem.GenericHelpers.Contracts
     using System;
     using System.Linq.Expressions;
 
+    using Sem.GenericHelpers.Contracts.RuleExecuters;
+
     public static class Bouncer 
     {
         /// <summary>
@@ -49,6 +51,16 @@ namespace Sem.GenericHelpers.Contracts
         public static MessageCollection<TData> ForMessages<TData>(TData data, string name)
         {
             return new MessageCollection<TData>(name, data);
+        }
+
+        public static ConditionalExecution<TData> ForExecution<TData>(Expression<Func<TData>> data)
+        {
+            return new ConditionalExecution<TData>(data);
+        }
+
+        public static ConditionalExecution<TData> ForExecution<TData>(TData data, string name)
+        {
+            return new ConditionalExecution<TData>(name, data);
         }
     }
 }

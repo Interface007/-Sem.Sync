@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Test.MessageAggregation
+﻿namespace Sem.Sync.Test.Contracts
 {
     using Sem.GenericHelpers.MessageAggregation;
 

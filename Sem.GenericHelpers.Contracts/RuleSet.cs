@@ -12,7 +12,7 @@ namespace Sem.GenericHelpers.Contracts
     using System.Collections;
     using System.Collections.Generic;
     
-    public abstract class ClassLevelRuleSet<TData, TParameter> : IEnumerable<RuleBase<TData, TParameter>>
+    public abstract class RuleSet<TData, TParameter> : IEnumerable<RuleBase<TData, TParameter>>
     {
         public IEnumerator<RuleBase<TData, TParameter>> GetEnumerator()
         {

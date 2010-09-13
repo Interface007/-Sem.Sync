@@ -87,7 +87,7 @@ namespace Sem.GenericHelpers
         public string EnrichClassName(string className)
         {
             Bouncer.ForCheckData(() => className)
-                .Assert(new StringValidator(1));
+                .Assert(new StringNotNullOrEmptyRule());
 
             var returnValue = new StringBuilder();
             var isFirstFragement = true;

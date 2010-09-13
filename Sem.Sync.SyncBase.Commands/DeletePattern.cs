@@ -14,6 +14,8 @@ namespace Sem.Sync.SyncBase.Commands
     using System.IO;
 
     using Sem.GenericHelpers;
+    using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.SemRules;
     using Sem.Sync.SyncBase.Interfaces;
     using Sem.Sync.SyncBase.Properties;
 
@@ -22,46 +24,26 @@ namespace Sem.Sync.SyncBase.Commands
     /// </summary>
     public class DeletePattern : SyncComponent, ISyncCommand
     {
-        #region Implemented Interfaces
-
-        #region ISyncCommand
-
         /// <summary>
-        /// This command deletes files specified by one or more path pattern separated by a line break.
+        /// This command deletes (!)files(!) specified by one or more path pattern separated by a line break.
         ///   Deletes files from a folder using a search pattern. Use "*" as a place holder for any 
         ///   number of any chars; use "?" as a placeholder for a single char.
         /// </summary>
-        /// <param name="sourceClient">
-        /// The source client.
-        /// </param>
-        /// <param name="targetClient">
-        /// The target client.
-        /// </param>
-        /// <param name="baseliClient">
-        /// The baseline client.
-        /// </param>
-        /// <param name="sourceStorePath">
-        /// The source storage path.
-        /// </param>
-        /// <param name="targetStorePath">
-        /// The target storage path.
-        /// </param>
-        /// <param name="baselineStorePath">
-        /// The baseline storage path.
-        /// </param>
-        /// <param name="commandParameter">
-        /// The command parameter.
-        /// </param>
-        /// <returns>
-        /// True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue" 
-        /// </returns>
+        /// <param name="sourceClient"> The source client. </param>
+        /// <param name="targetClient"> The target client. </param>
+        /// <param name="baseliClient"> The baseline client. </param>
+        /// <param name="sourceStorePath"> The source storage path. </param>
+        /// <param name="targetStorePath"> The target storage path. </param>
+        /// <param name="baselineStorePath"> The baseline storage path. </param>
+        /// <param name="commandParameter"> The command parameter. </param>
+        /// <returns> True if the response from the <see cref="SyncComponent.UiProvider"/> is "continue"  </returns>
         public bool ExecuteCommand(
-            IClientBase sourceClient, 
-            IClientBase targetClient, 
-            IClientBase baseliClient, 
-            string sourceStorePath, 
-            string targetStorePath, 
-            string baselineStorePath, 
+            IClientBase sourceClient,
+            IClientBase targetClient,
+            IClientBase baseliClient,
+            string sourceStorePath,
+            string targetStorePath,
+            string baselineStorePath,
             string commandParameter)
         {
             if (string.IsNullOrEmpty(commandParameter))
@@ -69,10 +51,10 @@ namespace Sem.Sync.SyncBase.Commands
                 commandParameter = targetStorePath;
             }
 
-            if (string.IsNullOrEmpty(commandParameter))
-            {
-                throw new InvalidOperationException("commandParameter is null");
-            }
+            Bouncer.ForCheckData(() => commandParameter)
+                .Assert(new StringMinLengthRule(), 1);
+
+            Bouncer.ForCheckData(() => commandParameter).Assert(new StringMinLengthRule(), 1);
 
             var deletionCounter = 0;
             var paths = commandParameter.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -85,7 +67,7 @@ namespace Sem.Sync.SyncBase.Commands
                     foreach (
                         var file in
                             Directory.GetFiles(
-                                Path.GetDirectoryName(singlePathWithoutSpaces), 
+                                Path.GetDirectoryName(singlePathWithoutSpaces),
                                 Path.GetFileName(singlePathWithoutSpaces)))
                     {
                         File.Delete(file);
@@ -99,9 +81,5 @@ namespace Sem.Sync.SyncBase.Commands
                 Resources.uiFilesDeleted + ": " + deletionCounter.ToString(CultureInfo.CurrentCulture));
             return true;
         }
-
-        #endregion
-
-        #endregion
     }
 }

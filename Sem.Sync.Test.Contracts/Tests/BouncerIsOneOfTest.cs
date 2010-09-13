@@ -1,11 +1,9 @@
 ﻿namespace Sem.Sync.Test.Contracts
 {
-    using System;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.GenericHelpers.Contracts.RuleExecuters;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended

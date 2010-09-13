@@ -124,6 +124,10 @@
     <Compile Include="UpdateTestData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj">
+      <Project>{634063B0-5E2A-41EC-BF35-3414D9024882}</Project>
+      <Name>Sem.GenericHelpers.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
       <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
       <Name>Sem.GenericHelpers</Name>
