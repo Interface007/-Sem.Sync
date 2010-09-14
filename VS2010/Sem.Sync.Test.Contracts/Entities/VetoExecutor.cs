@@ -13,12 +13,12 @@
     public class VetoExecutor<TData> : RuleExecuter<TData, MessageCollection<TData>>
     {
         public VetoExecutor(string valueName, TData value)
-            : base(valueName, value)
+            : base(valueName, value, null)
         {
         }
 
         public VetoExecutor(Expression<Func<TData>> data)
-            : base(data)
+            : base(data, null)
         {
         }
 

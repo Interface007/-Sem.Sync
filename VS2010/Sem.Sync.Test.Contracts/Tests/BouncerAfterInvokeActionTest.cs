@@ -24,9 +24,11 @@ namespace Sem.Sync.Test.Contracts.Tests
         [TestMethod]
         public void AfterInvokeTest01()
         {
-            var ok = false;
-            CheckData<object>.AfterInvokeAction.Add(x => { ok = x.Result; });
+            var ok = true;
             var isNotNull = Rules.IsNotNull<object>();
+            
+            // we will have one failing test, so "&= false" should set this variable to "false"
+            CheckData<object>.AfterInvokeAction.Add(x => { ok &= x.Result; });
             try
             {
                 new CheckData<object>(() => null).Assert(isNotNull);
@@ -35,14 +37,16 @@ namespace Sem.Sync.Test.Contracts.Tests
             {
             }
             
-            Assert.IsTrue(ok);
+            Assert.IsFalse(ok);
         }
 
         [TestMethod]
         public void AfterInvokeTest02()
         {
             var ok = false;
-            CheckData<object>.AfterInvokeAction.Add(x => { ok = x.Result; });
+
+            // we should have one successfull test, so "|= x.Result" should set the variable to true
+            CheckData<object>.AfterInvokeAction.Add(x => { ok |= x.Result; });
             var isNotNull = Rules.IsNotNull<object>();
             try
             {
@@ -52,7 +56,7 @@ namespace Sem.Sync.Test.Contracts.Tests
             {
             }
             
-            Assert.IsFalse(ok);
+            Assert.IsTrue(ok);
         }
     }
 }
