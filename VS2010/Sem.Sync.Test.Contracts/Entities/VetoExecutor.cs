@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Test.Contracts.Tests
+﻿namespace Sem.Sync.Test.Contracts.Entities
 {
     using System;
     using System.Linq.Expressions;

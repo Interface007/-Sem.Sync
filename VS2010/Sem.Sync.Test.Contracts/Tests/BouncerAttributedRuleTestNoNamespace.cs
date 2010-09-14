@@ -2,6 +2,7 @@
 
 using Sem.GenericHelpers.Contracts;
 using Sem.Sync.Test.Contracts;
+using Sem.Sync.Test.Contracts.Entities;
 
 [TestClass]
 public class BouncerAttributedRuleTestNoNamespace

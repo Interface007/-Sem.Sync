@@ -1,7 +1,5 @@
-﻿namespace Sem.Sync.Test.Contracts
+﻿namespace Sem.Sync.Test.Contracts.Entities
 {
-    using System;
-
     public class MessageTwo
     {
         public MessageTwo(int content)

@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
+    using Sem.Sync.Test.Contracts.Entities;
     using Sem.Sync.Test.Contracts.Tests;
 
     /// <summary>
