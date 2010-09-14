@@ -22,13 +22,23 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public List<RuleValidationResult> Results { get; private set; }
 
         public MessageCollection(string valueName, TData value)
-            : base(valueName, value)
+            : this(valueName, value, null)
         {
-            this.Results = new List<RuleValidationResult>();
         }
 
         public MessageCollection(Expression<Func<TData>> data)
-            : base(data)
+            : this(data, null)
+        {
+        }
+
+        public MessageCollection(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
+            : base(valueName, value, methodAttribs)
+        {
+            this.Results = new List<RuleValidationResult>();
+        }
+        
+        public MessageCollection(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
+            : base(data, methodAttribs)
         {
             this.Results = new List<RuleValidationResult>();
         }
@@ -39,6 +49,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             {
                 this.Results.Add(invocationResult);
             }
+        }
+
+        public MessageCollection<TDataNew> ForMessages<TDataNew>(Expression<Func<TDataNew>> data)
+        {
+            MessageCollection<TDataNew> newExecuter = new MessageCollection<TDataNew>(data, this.MethodRuleAttributes);
+            this.previousExecuter = () => newExecuter.Assert();
+            return newExecuter;
         }
     }
 }

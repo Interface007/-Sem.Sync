@@ -14,20 +14,23 @@ namespace Sem.GenericHelpers.Contracts.SemRules
 
     public class ConfigurationValidatorBaseRule<TData>: RuleBase<TData, object>
     {
-        public ConfigurationValidatorBase ConfigurationValidator { get; set; }
+        private ConfigurationValidatorBase _ConfigurationValidator;
 
-        public ConfigurationValidatorBaseRule(ConfigurationValidatorBase validator)
+        public ConfigurationValidatorBase ConfigurationValidator
         {
-            this.ConfigurationValidator = validator;
-        }
+            get
+            {
+                return this._ConfigurationValidator;
+            }
+            set
+            {
+                this._ConfigurationValidator = value;
 
-        public ConfigurationValidatorBaseRule()
-        {
-            this.CheckExpression = CheckExpression = (data, parameter) =>
+                this.CheckExpression = CheckExpression = (data, parameter) =>
                 {
                     try
                     {
-                        this.ConfigurationValidator.Validate(data);
+                        this._ConfigurationValidator.Validate(data);
                         return true;
                     }
                     catch (Exception)
@@ -36,8 +39,18 @@ namespace Sem.GenericHelpers.Contracts.SemRules
                     }
                 };
 
-            var type = this.ConfigurationValidator.GetType();
-            this.Message = string.Format("The validator {0} did throw an exception.", type.Namespace + "." + type.Name);
+                var type = this.ConfigurationValidator.GetType();
+                this.Message = string.Format("The validator {0} did throw an exception.", type.Namespace + "." + type.Name); 
+            }
+        }
+
+        public ConfigurationValidatorBaseRule(ConfigurationValidatorBase validator)
+        {
+            this.ConfigurationValidator = validator;
+        }
+
+        public ConfigurationValidatorBaseRule()
+        {
         }
     }
 }

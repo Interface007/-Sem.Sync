@@ -16,27 +16,47 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Linq.Expressions;
     using System.Reflection;
 
-    public abstract class RuleExecuter<TData, TResultClass>
+    public interface IRuleExecuter
+    {
+        RuleValidationResult InvokeRuleExecution(object ruleExecuter, ContractRuleAttribute ruleAttribute, object ruleParameter, string propertyName);
+    }
+
+    public abstract class RuleExecuter<TData, TResultClass> : IRuleExecuter
         where TResultClass : RuleExecuter<TData, TResultClass>
     {
         #region data
+
+        public static readonly List<Action<RuleValidationResult>> AfterInvokeAction = new List<Action<RuleValidationResult>>();
 
         internal string ValueName { get; set; }
 
         internal TData Value { get; set; }
 
+        internal Action previousExecuter;
+
+        internal IEnumerable<MethodRuleAttribute> MethodRuleAttributes;
+
         protected internal bool LastValidationResult { get; set; }
 
         private readonly string myNamespace = typeof(TResultClass).Namespace;
 
-        protected RuleExecuter(string valueName, TData value)
+        private static Dictionary<PropertyInfo, object[]> AttributeCache = new Dictionary<PropertyInfo, object[]>();
+
+        private static Dictionary<MethodBase, List<MethodRuleAttribute>> RuleAttributeCache = new Dictionary<MethodBase, List<MethodRuleAttribute>>();
+
+        #endregion
+        
+        #region ctors
+        protected RuleExecuter(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodRuleAttributes)
         {
+            this.MethodRuleAttributes = methodRuleAttributes ?? GetMethodRuleAttributes(2);
             this.Value = value;
             this.ValueName = valueName;
         }
 
-        protected RuleExecuter(Expression<Func<TData>> data)
+        protected RuleExecuter(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodRuleAttributes)
         {
+            this.MethodRuleAttributes = methodRuleAttributes ?? GetMethodRuleAttributes(2);
             var member = data.Body as MemberExpression;
             this.ValueName = member != null
                                  ? member.Member.Name
@@ -55,11 +75,9 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                 this.Value = default(TData);
             }
         }
-
         #endregion
 
-        public static readonly List<Action<RuleValidationResult>> AfterInvokeAction = new List<Action<RuleValidationResult>>();
-
+        #region asserts
         public TResultClass Assert(Func<TData, bool> rule)
         {
             var ruleClass = new RuleBase<TData, object> { CheckExpression = (data, parameter) => rule.Invoke(data) };
@@ -101,17 +119,39 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
         public TResultClass Assert()
         {
-            var ruleSet = RuleSets.GetRulesForType<TData, object>();
-            foreach (var typeRule in ruleSet)
+            AssertForType();
+            AssertForProperties();
+            AssertForMethodAttributes();
+
+            return (TResultClass)this;
+        }
+
+        private void AssertForMethodAttributes()
+        {
+            if (this.MethodRuleAttributes == null)
             {
-                var ruleBase = (RuleBase<TData, object>)typeRule.Rule;
-                this.Assert(ruleBase, null);
+                return;
             }
 
-            // now we look up the properties for rules
+            var ruleAttributes = (from r in this.MethodRuleAttributes where r.MethodParameterName == this.ValueName select r);
+
+            foreach (var ruleAttribute in ruleAttributes)
+            {
+                var ruleExecuter = new CheckData<TData>(this.ValueName, this.Value);
+                ruleExecuter.InvokeRuleExecution(ruleExecuter, ruleAttribute, ruleAttribute.Parameter, this.ValueName);
+            }
+        }
+
+        private void AssertForProperties()
+        {
             foreach (var propertyInfo in typeof(TData).GetProperties())
             {
-                var ruleAttributes = propertyInfo.GetCustomAttributes(typeof(ContractRuleAttribute), true);
+                if (!AttributeCache.ContainsKey(propertyInfo))
+                {
+                    AttributeCache.Add(propertyInfo, propertyInfo.GetCustomAttributes(typeof(ContractRuleAttribute), true));
+                }
+
+                var ruleAttributes = AttributeCache[propertyInfo];
                 if (ruleAttributes.Count() == 0)
                 {
                     continue;
@@ -141,45 +181,61 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                         }
                     }
 
-                    var assertMethod = ruleExecuter.GetType().GetMethod("ExecuteRuleExpression");
-
-                    assertMethod =
-                        assertMethod.MakeGenericMethod(
-                            ruleParameter != null
-                            ? ruleParameter.GetType()
-                            : typeof(object));
-
-                    try
-                    {
-                        // create an instance of the rule and invoke the Assert statement
-                        var rule = ruleAttribute.Type.GetConstructor(Type.EmptyTypes).Invoke(null);
-                        var ruleType = rule.GetType();
-                        var messageAccessor = ruleType.GetProperty("Message");
-                        if (!string.IsNullOrEmpty(ruleAttribute.Message))
-                        {
-                            messageAccessor.SetValue(rule, ruleAttribute.Message, null);
-                        }
-
-                        var result = new RuleValidationResult(
-                            ruleType,
-                            string.Format(
-                                "The rule {0} did fail for value name >>{1}<<: {2}",
-                                ruleType.Namespace + "." + ruleType.Name,
-                                propertyName,
-                                string.Format((string)messageAccessor.GetValue(rule, null), ruleParameter, propertyName)),
-                            propertyName,
-                            (bool)assertMethod.Invoke(ruleExecuter, new[] { rule, ruleParameter, propertyName }));
-
-                        this.AfterInvoke(result);
-                    }
-                    catch (TargetInvocationException ex)
-                    {
-                        throw ex.InnerException;
-                    }
+                    var result = InvokeRuleExecution(ruleExecuter, ruleAttribute, ruleParameter, propertyName);
+                    this.AfterInvoke(result);
                 }
             }
+        }
 
-            return (TResultClass)this;
+        private void AssertForType()
+        {
+            var ruleSet = RuleSets.GetRulesForType<TData, object>();
+            foreach (var typeRule in ruleSet)
+            {
+                var ruleBase = (RuleBase<TData, object>)typeRule.Rule;
+                this.Assert(ruleBase, null);
+            }
+        }
+
+        #endregion
+
+        public RuleValidationResult InvokeRuleExecution(object ruleExecuter, ContractRuleAttribute ruleAttribute, object ruleParameter, string propertyName)
+        {
+            var assertMethod = ruleExecuter.GetType().GetMethod("ExecuteRuleExpression");
+
+            assertMethod =
+                assertMethod.MakeGenericMethod(
+                    ruleParameter != null
+                        ? ruleParameter.GetType()
+                        : typeof(object));
+
+            try
+            {
+                // create an instance of the rule and invoke the Assert statement
+                var rule = ruleAttribute.Type.GetConstructor(Type.EmptyTypes).Invoke(null);
+                var ruleType = rule.GetType();
+                var messageAccessor = ruleType.GetProperty("Message");
+                if (!string.IsNullOrEmpty(ruleAttribute.Message))
+                {
+                    messageAccessor.SetValue(rule, ruleAttribute.Message, null);
+                }
+
+                var result = new RuleValidationResult(
+                    ruleType,
+                    string.Format(
+                        "The rule {0} did fail for value name >>{1}<<: {2}",
+                        ruleType.Namespace + "." + ruleType.Name,
+                        propertyName,
+                        string.Format((string)messageAccessor.GetValue(rule, null), ruleParameter, propertyName)),
+                    propertyName,
+                    (bool)assertMethod.Invoke(ruleExecuter, new[] { rule, ruleParameter, propertyName }));
+
+                return result;
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
         }
 
         public bool ExecuteRuleExpression<TParameter>(RuleBase<TData, TParameter> rule, TParameter ruleParameter, string valueName)
@@ -231,8 +287,16 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             }
 
             this.AfterInvoke(result);
+            
+            if (previousExecuter != null)
+            {
+                previousExecuter.Invoke();
+            }
+
             return this.LastValidationResult;
         }
+
+        #region overridables
 
         protected abstract void AfterInvoke(RuleValidationResult invocationResult);
 
@@ -244,6 +308,36 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         protected virtual bool HandleInvokeException<TParameter>(Exception ex, RuleBase<TData, TParameter> rule, object ruleParameter, string valueName)
         {
             return false;
+        }
+
+        #endregion
+
+        public static List<MethodRuleAttribute> GetMethodRuleAttributes(int skipFrames)
+        {
+            StackTrace stack = new StackTrace(skipFrames, false);
+
+            var methodInfo = stack.GetFrame(0).GetMethod();
+
+            for (int i = 0; i < stack.FrameCount; i++)
+            {
+                methodInfo = stack.GetFrame(i).GetMethod();
+                var declaringType = methodInfo.DeclaringType;
+                if (declaringType.Namespace != null
+                    && !declaringType.Namespace.StartsWith(typeof(Bouncer).Namespace ?? string.Empty)
+                    && declaringType.GetInterface("IRuleExecuter", false) == null)
+                {
+                    break;
+                }
+            }
+
+            if (!RuleAttributeCache.ContainsKey(methodInfo))
+            {
+                var customAttributes = methodInfo.GetCustomAttributes(typeof(MethodRuleAttribute), true);
+                var methodRuleAttributes1 = (from x in customAttributes select (MethodRuleAttribute)x).ToList();
+                RuleAttributeCache.Add(methodInfo, methodRuleAttributes1);
+            }
+
+            return RuleAttributeCache[methodInfo];
         }
 
         /// <summary>
@@ -278,8 +372,8 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             return this.GetType()
                 .GetGenericTypeDefinition()
                 .MakeGenericType(valueType)
-                .GetConstructor(new[] { typeof(string), valueType })
-                .Invoke(new[] { name, value });
+                .GetConstructor(new[] { typeof(string), valueType, typeof(IEnumerable<MethodRuleAttribute>) })
+                .Invoke(new[] { name, value, this.MethodRuleAttributes });
         }
     }
 }
