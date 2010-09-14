@@ -24,4 +24,16 @@ namespace Sem.GenericHelpers.Contracts
         public string Namespace { get; set; }
         public string Message { get; set; }
     }
+    
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class MethodRuleAttribute : ContractRuleAttribute
+    {
+        public MethodRuleAttribute(Type type, String methodParameterName)
+            : base(type)
+        {
+            this.MethodParameterName = methodParameterName;
+        }
+
+        public string MethodParameterName { get; set; }
+    }
 }
