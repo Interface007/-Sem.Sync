@@ -13,12 +13,12 @@
     public class ExceptionHandlerExecutor<TData> : RuleExecuter<TData, MessageCollection<TData>>
     {
         public ExceptionHandlerExecutor(string valueName, TData value)
-            : base(valueName, value)
+            : base(valueName, value, null)
         {
         }
 
         public ExceptionHandlerExecutor(Expression<Func<TData>> data)
-            : base(data)
+            : base(data, null)
         {
         }
 

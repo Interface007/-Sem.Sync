@@ -87,16 +87,26 @@
         [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect3()
         {
-            var message = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
-            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.RuleBase`2 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", message[0].Message);
+            var messages = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
+            var actual = messages[0].Message;
+            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.SemRules.ConfigurationValidatorBaseRule`1 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", actual);
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustFailRegExCollect4()
+        {
+            var messages = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
+            var actual = messages[0].Message;
+            Assert.AreEqual(messages[0].ToString(), actual);
         }
 
         [TestMethod]
         public void AddRuleForTypeMustSucceedRegExCollect4()
         {
             var configurationValidatorBaseRule = new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8));
-            var message = Bouncer.ForMessages("hello I have more than 8 chars", "theValue").Assert(configurationValidatorBaseRule).Results;
-            Assert.AreEqual(0, message.Count);
+            var messages = Bouncer.ForMessages("hello I have more than 8 chars", "theValue").Assert(configurationValidatorBaseRule).Results;
+            var actual = messages.Count;
+            Assert.AreEqual(0, actual);
         }
 
         [TestMethod]
