@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers.Contracts.RuleExecuters
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     public class ConditionalExecution<TData> : RuleExecuter<TData, ConditionalExecution<TData>>
@@ -17,12 +18,22 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         private bool conditionTrue = true;
 
         public ConditionalExecution(string valueName, TData value)
-            : base(valueName, value)
+            : this(valueName, value, null)
         {
         }
 
         public ConditionalExecution(Expression<Func<TData>> data)
-            : base(data)
+            : this(data, null)
+        {
+        }
+
+        public ConditionalExecution(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
+            : base(valueName, value, methodAttribs)
+        {
+        }
+        
+        public ConditionalExecution(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
+            : base(data, methodAttribs)
         {
         }
 
@@ -39,6 +50,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         protected override void AfterInvoke(RuleValidationResult invocationResult)
         {
             this.conditionTrue &= invocationResult.Result;
+        }
+
+        public CheckData<TDataNew> ForExecution<TDataNew>(Expression<Func<TDataNew>> data)
+        {
+            CheckData<TDataNew> newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes);
+            this.previousExecuter = () => newExecuter.Assert();
+            return newExecuter;
         }
     }
 }
