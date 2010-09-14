@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Test.Contracts
+﻿namespace Sem.Sync.Test.Contracts.Entities
 {
     using Sem.Sync.Test.Contracts;
 

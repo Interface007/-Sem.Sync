@@ -8,6 +8,7 @@
     using Sem.GenericHelpers.Contracts.RuleExecuters;
     using Sem.GenericHelpers.Contracts.SemRules;
     using Sem.Sync.Test.Contracts;
+    using Sem.Sync.Test.Contracts.Entities;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended

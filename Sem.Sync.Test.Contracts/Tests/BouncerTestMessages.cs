@@ -14,6 +14,7 @@ namespace Sem.Sync.Test.Contracts.Tests
 
     using Sem.GenericHelpers.Contracts;
     using Sem.Sync.Test.Contracts;
+    using Sem.Sync.Test.Contracts.Entities;
 
     /// <summary>
     /// This is a test class for BouncerTest and is intended

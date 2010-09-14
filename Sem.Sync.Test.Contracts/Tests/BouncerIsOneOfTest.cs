@@ -4,6 +4,7 @@
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
+    using Sem.Sync.Test.Contracts.Entities;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
