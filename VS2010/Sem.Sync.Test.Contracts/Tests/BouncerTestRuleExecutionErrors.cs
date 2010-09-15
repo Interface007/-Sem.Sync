@@ -4,11 +4,10 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
-    using Sem.GenericHelpers.Contracts.SemRules;
-    using Sem.Sync.Test.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
+    using Sem.Sync.Test.Contracts.Executors;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended

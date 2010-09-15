@@ -53,8 +53,9 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
-    <Compile Include="Entities\CustomRuleSet.cs" />
-    <Compile Include="Entities\ExceptionHandlerExecutor.cs" />
+    <Compile Include="Rules\CustomRuleSet.cs" />
+    <Compile Include="Executors\ExceptionHandlerExecutor.cs" />
+    <Compile Include="Rules\SampleRuleSet.cs" />
     <Compile Include="Tests\BouncerAfterInvokeActionTest.cs" />
     <Compile Include="Tests\BouncerTestMessages.cs" />
     <Compile Include="Entities\AttributedSampleClass.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Tests\BouncerTestExecution.cs" />
     <Compile Include="Tests\BouncerObjectNotNullTest.cs" />
     <Compile Include="Tests\StringNotNullOrEmptyRuleTest.cs" />
-    <Compile Include="Entities\VetoExecutor.cs" />
+    <Compile Include="Executors\VetoExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj">

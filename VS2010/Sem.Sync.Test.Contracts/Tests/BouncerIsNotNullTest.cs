@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// This is a test class for BouncerTest and is intended
@@ -14,13 +15,13 @@
         [TestMethod]
         public void CheckParameterIsNotNullMustFail()
         {
-            Assert.IsFalse(Rules.IsNotNull<object>().CheckExpression(null, null));
+            Assert.IsFalse(new IsNotNullRule<object>().CheckExpression(null, null));
         }
 
         [TestMethod]
         public void CheckParameterIsNotNullMustPass1()
         {
-            Assert.IsTrue(Rules.IsNotNull<object>().CheckExpression(this, null));
+            Assert.IsTrue(new IsNotNullRule<object>().CheckExpression(this, null));
         }
     }
 }

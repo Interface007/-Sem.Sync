@@ -4,6 +4,7 @@
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
 
     /// <summary>
@@ -16,24 +17,24 @@
         [TestMethod]
         public void CheckParameterIsOneOfMustFail1()
         {
-            Assert.IsFalse(Rules.IsOneOf<string>().CheckExpression("1", new[] { "2", "3" }));
+            Assert.IsFalse(new IsOneOfRule<string>().CheckExpression("1", new[] { "2", "3" }));
         }
         [TestMethod]
         public void CheckParameterIsOneOfMustFail2()
         {
-            Assert.IsFalse(Rules.IsOneOf<string>().CheckExpression(null, new[] { "2", "3" }));
+            Assert.IsFalse(new IsOneOfRule<string>().CheckExpression(null, new[] { "2", "3" }));
         }
 
         [TestMethod]
         public void CheckParameterIsOneOfMustPass1()
         {
-            Assert.IsTrue(Rules.IsOneOf<string>().CheckExpression("1", new[] { "2", "1" }));
+            Assert.IsTrue(new IsOneOfRule<string>().CheckExpression("1", new[] { "2", "1" }));
         }
 
         [TestMethod]
         public void CheckParameterIsOneOfMustPass2()
         {
-            Assert.IsTrue(Rules.IsOneOf<string>().CheckExpression("1", new[] { "1", "2" }));
+            Assert.IsTrue(new IsOneOfRule<string>().CheckExpression("1", new[] { "1", "2" }));
         }
 
         [TestMethod]

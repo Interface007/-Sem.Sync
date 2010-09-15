@@ -1,10 +1,11 @@
-﻿namespace Sem.Sync.Test.Contracts.Entities
+﻿namespace Sem.Sync.Test.Contracts.Executors
 {
     using System;
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// Check class including the data to perform rule checking
@@ -28,7 +29,7 @@
             return this.ExceptionHandled;
         }
 
-        protected override void AfterInvoke(RuleValidationResult invocationResult)
+        protected override void AfterInvoke(RuleValidationResult validationResult)
         {
         }
 

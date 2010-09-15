@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Sem.Sample.Contracts
+﻿namespace Sem.Sample.Contracts.Entities
 {
+    using System;
+
     public class CustomerId
     {
         public Guid Id { get; set; }

@@ -1,13 +1,15 @@
 ﻿namespace Sem.Sync.Test.Contracts
 {
+    using System;
     using System.Collections;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Exceptions;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
+    using Sem.Sync.Test.Contracts.Rules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -90,7 +92,7 @@
         {
             var messages = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
             var actual = messages[0].Message;
-            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.SemRules.ConfigurationValidatorBaseRule`1 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", actual);
+            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.Rules.ConfigurationValidatorBaseRule`1 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", actual);
         }
 
         [TestMethod]
@@ -157,6 +159,31 @@
         public void AddRuleForTypeMustFailMinMaxNull()
         {
             Bouncer.ForCheckData(() => _MessageOneFailMinMax).Assert();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MethodAttributeInValid()
+        {
+            var test = new SubscriberOne();
+            test.Handle(new MessageOne("hello"));
+            Assert.AreEqual("hello0", test.Content);
+        }
+
+        //[TestMethod]
+        //public void MethodAttributeWithSuccess()
+        //{
+        //    var test = new SubscriberOne();
+        //    test.Handle2(null);
+        //    Assert.AreEqual("1", test.Content);
+        //}
+
+        [TestMethod]
+        public void MethodAttributeWithSuccess2()
+        {
+            var test = new SubscriberOne();
+            test.Handle3(null);
+            Assert.AreEqual("1", test.Content);
         }
 
         [TestMethod]

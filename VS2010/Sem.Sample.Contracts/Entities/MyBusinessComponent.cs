@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sample.Contracts
+namespace Sem.Sample.Contracts.Entities
 {
     using System;
-    
+
     /// <summary>
     /// This business component does not check for any valid data,
     /// so it will fail in some cases and throw exceptions.

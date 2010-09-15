@@ -2,7 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -14,24 +14,24 @@
         [TestMethod]
         public void CheckParameterIsNotOneOfMustFail1()
         {
-            Assert.IsFalse(Rules.IsNotOneOf<string>().CheckExpression("2", new[] { "2", "3" }));
+            Assert.IsFalse(new IsNotOneOfRule<string>().CheckExpression("2", new[] { "2", "3" }));
         }
         [TestMethod]
         public void CheckParameterIsNotOneOfMustPass0()
         {
-            Assert.IsTrue(Rules.IsNotOneOf<string>().CheckExpression(null, new[] { "2", "3" }));
+            Assert.IsTrue(new IsNotOneOfRule<string>().CheckExpression(null, new[] { "2", "3" }));
         }
 
         [TestMethod]
         public void CheckParameterIsNotOneOfMustPass1()
         {
-            Assert.IsTrue(Rules.IsNotOneOf<string>().CheckExpression("3", new[] { "2", "1" }));
+            Assert.IsTrue(new IsNotOneOfRule<string>().CheckExpression("3", new[] { "2", "1" }));
         }
 
         [TestMethod]
         public void CheckParameterIsNotOneOfMustPass2()
         {
-            Assert.IsTrue(Rules.IsNotOneOf<string>().CheckExpression("0", new[] { "1", "2" }));
+            Assert.IsTrue(new IsNotOneOfRule<string>().CheckExpression("0", new[] { "1", "2" }));
         }
     }
 }

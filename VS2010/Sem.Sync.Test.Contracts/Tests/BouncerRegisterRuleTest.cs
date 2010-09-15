@@ -1,12 +1,15 @@
 ﻿namespace Sem.Sync.Test.Contracts
 {
+    using System;
     using System.Collections.Generic;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
+    using Sem.Sync.Test.Contracts.Rules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -43,15 +46,15 @@
         [TestCleanup]
         public void CleanUp()
         {
-            ((List<TypeRule>)RuleSets.TypeRegisteredRules).Clear();
+            RuleSets.TypeRegisteredRules.Clear();
         }
 
         [TestInitialize]
         public void InitTest()
         {
-            RuleSets.RegisterRule(Rules.IsNotNull<string>());
+            RuleSets.RegisterRule(new IsNotNullRule<string>());
             RuleSets.RegisterRule(TestRule2());
-            RuleSets.RegisterRuleSet(RuleSets.SampleRuleSet<MessageOne>());
+            RuleSets.RegisterRuleSet(new SampleRuleSet<MessageOne>());
         }
         #endregion preparation
 

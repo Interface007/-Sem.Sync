@@ -13,13 +13,14 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Sem.GenericHelpers.Contracts.Attributes;
     using Sem.GenericHelpers.Contracts.Exceptions;
 
     /// <summary>
     /// Check class including the data to perform rule checking. A validation error will
     /// cause a <see cref="RuleValidationException"/>.
     /// </summary>
-    /// <typeparam name="TData">the data type to be checked</typeparam>
+    /// <typeparam name="TData">The data type to be checked.</typeparam>
     public class CheckData<TData> : RuleExecuter<TData, CheckData<TData>>
     {
         public CheckData(string valueName, TData value)
@@ -43,13 +44,15 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         }
 
         /// <summary>
-        /// Creates a new <see cref="CheckData{TData}"/> structure that has the current CheckData attached.
+        /// Creates a <see cref="CheckData{TDataNew}"/> for executing rules by specifying a lambda expression:
+        /// <para>Bouncer.ForCheckData(() => MessageOneOk).ForCheckData(() => MessageTwo).Assert();</para>
         /// This way you can build up validation chains that can be executed with a 
-        /// single <see cref="RuleExecuter{TData,TResultClass}.Assert()"/> method call.
+        /// single <see cref="RuleExecuter{TDataNew,TResultClass}.Assert()"/> method call.
+        /// The expression will be executed only once. 
         /// </summary>
-        /// <typeparam name="TDataNew">The type of the new data to ve validated.</typeparam>
-        /// <param name="data">The data to ve validated as a lambda expression.</param>
-        /// <returns>The new CheckData instance.</returns>
+        /// <typeparam name="TDataNew">The type of data the expression returns.</typeparam>
+        /// <param name="data">The expression to get the content of the variable.</param>
+        /// <returns>A <see cref="CheckData{TDataNew}"/> to execute the tests with.</returns>
         public CheckData<TDataNew> ForCheckData<TDataNew>(Expression<Func<TDataNew>> data)
         {
             var newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes);
@@ -61,16 +64,16 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// Performs the rule execution result check. If the rule execution results in "false",
         /// this method will throw the <see cref="RuleValidationException"/>.
         /// </summary>
-        /// <param name="invocationResult">The rule validation result structure with information about the rule validation process.</param>
+        /// <param name="validationResult">The rule validation result structure with information about the rule validation process.</param>
         /// <exception cref="RuleValidationException">If the validation result is "false".</exception>
-        protected override void AfterInvoke(RuleValidationResult invocationResult)
+        protected override void AfterInvoke(RuleValidationResult validationResult)
         {
-            if (invocationResult.Result)
+            if (validationResult.Result)
             {
                 return;
             }
 
-            throw new RuleValidationException(invocationResult.RuleType, invocationResult.Message, invocationResult.ValueName);
+            throw new RuleValidationException(validationResult.RuleType, validationResult.Message, validationResult.ValueName);
         }
     }
 }

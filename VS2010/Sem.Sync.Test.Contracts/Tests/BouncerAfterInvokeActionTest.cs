@@ -1,13 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Sem.Sync.Test.Contracts.Tests
+﻿namespace Sem.Sync.Test.Contracts.Tests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// Summary description for BouncerAfterInvokeActionTest
@@ -25,10 +23,10 @@ namespace Sem.Sync.Test.Contracts.Tests
         public void AfterInvokeTest01()
         {
             var ok = true;
-            var isNotNull = Rules.IsNotNull<object>();
+            var isNotNull = new IsNotNullRule<object>();
             
             // we will have one failing test, so "&= false" should set this variable to "false"
-            CheckData<object>.AfterInvokeAction.Add(x => { ok &= x.Result; });
+            Bouncer.AfterInvokeAction.Add(x => { ok &= x.Result; });
             try
             {
                 new CheckData<object>(() => null).Assert(isNotNull);
@@ -46,8 +44,8 @@ namespace Sem.Sync.Test.Contracts.Tests
             var ok = false;
 
             // we should have one successfull test, so "|= x.Result" should set the variable to true
-            CheckData<object>.AfterInvokeAction.Add(x => { ok |= x.Result; });
-            var isNotNull = Rules.IsNotNull<object>();
+            Bouncer.AfterInvokeAction.Add(x => { ok |= x.Result; });
+            var isNotNull = new IsNotNullRule<object>();
             try
             {
                 new CheckData<object>(() => this).Assert(isNotNull);

@@ -7,12 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sample.Contracts
+namespace Sem.Sample.Contracts.Entities
 {
     using System;
 
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     internal class MyBusinessComponentSave : MyBusinessComponent
     {
@@ -58,9 +59,12 @@ namespace Sem.Sample.Contracts
                     });
 
             Util.PrintEntries(results);
+            Console.WriteLine("---> ForMessages did return the validation results, but  <---");
+            Console.WriteLine("--->   did not cause any exception. So \"customer Sven\"   <---");
+            Console.WriteLine("--->   did enter the method  and did execute all code.   <---");
         }
         
-        [MethodRuleAttribute(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
+        [MethodRule(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
         [MethodRuleAttribute(typeof(StringNotNullOrEmptyRule), "customerId")]
         public void CallCustomerWithMethodAttributes(string customerId, int amount, MyCustomer theCustomer)
         {

@@ -1,21 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObjectNotNullRule.cs" company="Sven Erik Matzen">
+// <copyright file="StringRegexMatchRule.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the ObjectNotNullRule type.
+//   Defines the StringRegexMatchRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.GenericHelpers.Contracts.SemRules
+namespace Sem.GenericHelpers.Contracts.Rules
 {
-    public class ObjectNotNullRule<TData> : RuleBase<TData, object>
-        where TData : class
+    public class IntegerLowerThanRule : RuleBase<int, int>
     {
-        public ObjectNotNullRule()
+        public IntegerLowerThanRule()
         {
-            this.CheckExpression = (target, parameter) => target != null;
-            this.Message = "The object is NULL.";
+            this.CheckExpression = (target, parameter) => target < parameter;
+            this.Message = "The argument must be lower than >>{0}<<.";
         }
     }
 }

@@ -48,38 +48,43 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Attributes\MethodRuleAttribute.cs" />
     <Compile Include="Bouncer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RuleExecuters\CheckData.cs" />
     <Compile Include="RuleExecuters\ConditionalExecution.cs" />
-    <Compile Include="ContractRuleAttribute.cs" />
+    <Compile Include="Attributes\ContractRuleAttribute.cs" />
     <Compile Include="Exceptions\RuleValidationException.cs" />
+    <Compile Include="RuleExecuters\IRuleExecuter.cs" />
     <Compile Include="RuleExecuters\MessageCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleBase.cs" />
-    <Compile Include="RuleBaseInformation.cs">
+    <Compile Include="Rules\RuleBase.cs" />
+    <Compile Include="Rules\RuleBaseInformation.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RuleExecuters\RuleExecuter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rules.cs" />
-    <Compile Include="RuleSet.cs" />
-    <Compile Include="RuleSets.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
+    <Compile Include="Rules\RuleSets.cs" />
     <Compile Include="RuleValidationResult.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SemRules\ConfigurationValidatorBaseRule.cs" />
-    <Compile Include="SemRules\IntegerLowerThanRule.cs" />
-    <Compile Include="SemRules\ObjectNotNullRule.cs" />
-    <Compile Include="SemRules\StringMaxLengthRule.cs" />
-    <Compile Include="SemRules\StringMinLengthRule.cs" />
-    <Compile Include="SemRules\StringNotNullOrEmptyRule.cs" />
-    <Compile Include="SemRules\StringRegexMatchRule.cs" />
-    <Compile Include="TypeRule.cs" />
+    <Compile Include="Rules\ConfigurationValidatorBaseRule.cs" />
+    <Compile Include="Rules\ImplementsInterfaceRule.cs" />
+    <Compile Include="Rules\IntegerGreaterThanRule.cs" />
+    <Compile Include="Rules\IntegerLowerThanRule.cs" />
+    <Compile Include="Rules\IsNotNullRule.cs" />
+    <Compile Include="Rules\IsNotOneOfRule.cs" />
+    <Compile Include="Rules\IsOneOfRule.cs" />
+    <Compile Include="Rules\ObjectNotNullRule.cs" />
+    <Compile Include="Rules\StringMaxLengthRule.cs" />
+    <Compile Include="Rules\StringMinLengthRule.cs" />
+    <Compile Include="Rules\StringNotNullOrEmptyRule.cs" />
+    <Compile Include="Rules\StringRegexMatchRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
