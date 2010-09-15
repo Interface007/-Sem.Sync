@@ -396,12 +396,17 @@ namespace Sem.Sync.SyncBase
             return added;
         }
 
+        /// <summary>
+        /// Gets the connector descriptor attribute from the current instance of this object.
+        /// </summary>
         protected ConnectorDescriptionAttribute ConnectorDescription
         {
             get
             {
                 var myType = this.GetType();
-                return myType.GetCustomAttributes(typeof(ConnectorDescriptionAttribute), true).First() as ConnectorDescriptionAttribute;
+                return myType
+                    .GetCustomAttributes(typeof(ConnectorDescriptionAttribute), true)
+                    .First() as ConnectorDescriptionAttribute;
             }
         }
 
