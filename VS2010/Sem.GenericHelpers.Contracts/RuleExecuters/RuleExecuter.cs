@@ -68,12 +68,12 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <summary>
         /// A cache for the attributes of properties.
         /// </summary>
-        private static Dictionary<PropertyInfo, object[]> PropertyAttributeCache = new Dictionary<PropertyInfo, object[]>();
+        private static readonly Dictionary<PropertyInfo, object[]> PropertyAttributeCache = new Dictionary<PropertyInfo, object[]>();
 
         /// <summary>
         /// A cache for the attributes of methods.
         /// </summary>
-        private static Dictionary<MethodBase, List<MethodRuleAttribute>> RuleAttributeCache = new Dictionary<MethodBase, List<MethodRuleAttribute>>();
+        private static readonly Dictionary<MethodBase, List<MethodRuleAttribute>> RuleAttributeCache = new Dictionary<MethodBase, List<MethodRuleAttribute>>();
 
         #endregion
 
@@ -322,11 +322,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                 RuleBaseInformation rule;
                 if (constructorInfo.ContainsGenericParameters)
                 {
-                    var value = ruleExecuter.GetValue();
-                    rule = CreateRule(ruleAttribute.Type,
-                                        value != null
-                                        ? value.GetType()
-                                        : typeof(object));
+                    rule = CreateRule(ruleAttribute.Type, ruleExecuter.GetValueType());
                 }
                 else
                 {
@@ -363,6 +359,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public object GetValue()
         {
             return this.Value;
+        }
+
+        public Type GetValueType()
+        {
+            return typeof(TData);
         }
 
         /// <summary>
@@ -555,12 +556,12 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <param name="ruleType">The type of rule to be created.</param>
         /// <param name="valueType">The type of the value that should be checked with the rule.</param>
         /// <returns></returns>
-        private RuleBaseInformation CreateRule(Type ruleType, Type valueType)
+        private static RuleBaseInformation CreateRule(Type ruleType, Type valueType)
         {
             return ruleType
                 .GetGenericTypeDefinition()
                 .MakeGenericType(valueType)
-                .GetConstructor(null)
+                .GetConstructor(new Type[] { })
                 .Invoke(null) as RuleBaseInformation;
         }
     }

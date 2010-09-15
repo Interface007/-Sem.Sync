@@ -1,10 +1,12 @@
-﻿namespace Sem.Sync.Test.ContractsAlternate
+﻿// ReSharper disable CheckNamespace
+namespace Sem.Sync.Test.ContractsAlternate
+// ReSharper restore CheckNamespace
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Exceptions;
-    using Sem.Sync.Test.Contracts;
+    using Sem.Sync.Test.Contracts.Tests;
 
     [TestClass]
     public class BouncerAttributedRuleTestAlternateNamespace

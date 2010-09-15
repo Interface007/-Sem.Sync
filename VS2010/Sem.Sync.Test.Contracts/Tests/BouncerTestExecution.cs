@@ -27,6 +27,19 @@
         }
 
         [TestMethod]
+        public void CheckRuleExecutionFailure1()
+        {
+            var messageOne = new MessageOne("sometext");
+            var result = false;
+            Bouncer
+                .ForExecution(() => messageOne)
+                .Assert(x => x.Content == "sometext")
+                .ExecuteOnFailure(() => { result = true; });
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
         public void CheckRuleExecution1A()
         {
             var messageOne = new MessageOne("sometext");
@@ -50,6 +63,19 @@
                 .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void CheckRuleExecutionFailure2()
+        {
+            var messageOne = new MessageOne("sometext");
+            var result = false;
+            Bouncer
+                .ForExecution(() => messageOne)
+                .Assert(x => x.Content == "othertext")
+                .ExecuteOnFailure(() => { result = true; });
+
+            Assert.IsTrue(result);
         }
 
         [TestMethod]

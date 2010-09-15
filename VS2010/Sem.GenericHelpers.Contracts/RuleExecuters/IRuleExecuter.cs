@@ -1,5 +1,7 @@
 ﻿namespace Sem.GenericHelpers.Contracts.RuleExecuters
 {
+    using System;
+
     using Sem.GenericHelpers.Contracts.Attributes;
 
     public interface IRuleExecuter
@@ -16,5 +18,7 @@
         RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleAttribute ruleAttribute, string propertyName);
 
         object GetValue();
+
+        Type GetValueType();
     }
 }
