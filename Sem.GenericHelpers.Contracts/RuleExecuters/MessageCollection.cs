@@ -65,7 +65,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public MessageCollection<TDataNew> ForMessages<TDataNew>(Expression<Func<TDataNew>> data)
         {
             var newExecuter = new MessageCollection<TDataNew>(data, this.MethodRuleAttributes);
-            this.previousExecuter = () => newExecuter.Assert();
+            this.PreviousExecuter = () => newExecuter.Assert();
             return newExecuter;
         }
 

@@ -85,6 +85,7 @@
     <Compile Include="Rules\StringMinLengthRule.cs" />
     <Compile Include="Rules\StringNotNullOrEmptyRule.cs" />
     <Compile Include="Rules\StringRegexMatchRule.cs" />
+    <Compile Include="TypeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
