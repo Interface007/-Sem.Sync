@@ -16,6 +16,7 @@ namespace Sem.GenericHelpers.MessageAggregation
     using System.Linq;
 
     using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// The MessageAggregator class contains a singleton (<see cref="instance"/>) to subsribe to or publish messages.
@@ -78,9 +79,9 @@ namespace Sem.GenericHelpers.MessageAggregation
         public void Subscribe(object subscriber)
         {
             Bouncer.ForCheckData(subscriber, "subscriber")
-                .Assert(Rules.IsNotNull<object>())
+                .Assert(new IsNotNullRule<object>())
                 .Assert(x => x.ToString() != "hallo")
-                .Assert(Rules.ImplementsInterface<object>(), typeof(IHandleThis<>));
+                .Assert(new ImplementsInterfaceRule<object>(), typeof(IHandleThis<>));
             
             if (this.GetWeakReference(subscriber) != null)
             {

@@ -10,6 +10,7 @@
 namespace Sem.Sync.SyncBase.Commands
 {
     using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
@@ -39,7 +40,7 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
-            Bouncer.ForCheckData(() => targetClient).Assert(Rules.ObjectNotNullRule<IClientBase>());
+            Bouncer.ForCheckData(() => targetClient).Assert(new IsNotNullRule<IClientBase>());
 
             targetClient.DeleteElements(
                 sourceClient != null 

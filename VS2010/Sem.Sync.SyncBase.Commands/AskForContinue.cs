@@ -10,7 +10,7 @@
 namespace Sem.Sync.SyncBase.Commands
 {
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.GenericHelpers.Interfaces;
     using Sem.Sync.SyncBase.Interfaces;
 
@@ -43,7 +43,7 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
-            Bouncer.ForCheckData(() => this.UiProvider).Assert(Rules.ObjectNotNullRule<IUiInteraction>());
+            Bouncer.ForCheckData(() => this.UiProvider).Assert(new IsNotNullRule<IUiInteraction>());
             Bouncer.ForCheckData(() => commandParameter).Assert(new StringMinLengthRule(), 1);
 
             return this.UiProvider == null ||

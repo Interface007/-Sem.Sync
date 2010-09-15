@@ -12,6 +12,7 @@ namespace Sem.Sync.SyncBase.Commands
     using System;
 
     using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
@@ -40,8 +41,8 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
-            Bouncer.ForCheckData(() => sourceClient).Assert(Rules.ObjectNotNullRule<IClientBase>());
-            Bouncer.ForCheckData(() => targetClient).Assert(Rules.ObjectNotNullRule<IClientBase>());
+            Bouncer.ForCheckData(() => sourceClient).Assert(new IsNotNullRule<IClientBase>());
+            Bouncer.ForCheckData(() => targetClient).Assert(new IsNotNullRule<IClientBase>());
 
             targetClient.AddRange(sourceClient.GetAll(sourceStorePath), targetStorePath);
 

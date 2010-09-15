@@ -15,7 +15,7 @@ namespace Sem.Sync.SyncBase.Commands
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.SyncBase.Interfaces;
     using Sem.Sync.SyncBase.Properties;
 

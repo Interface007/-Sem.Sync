@@ -18,7 +18,7 @@ namespace Sem.GenericHelpers
     using System.Text.RegularExpressions;
 
     using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
@@ -232,11 +232,11 @@ namespace Sem.GenericHelpers
 
             Bouncer
                 .ForCheckData(() => classType)
-                .Assert(Rules.ObjectNotNullRule<Type>());
+                .Assert(new IsNotNullRule<Type>());
             
             Bouncer
                 .ForCheckData(() => genericClassType)
-                .Assert(Rules.ObjectNotNullRule<Type>());
+                .Assert(new IsNotNullRule<Type>());
             
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
@@ -261,7 +261,7 @@ namespace Sem.GenericHelpers
         {
             Bouncer
                 .ForCheckData(() => type)
-                .Assert(Rules.ObjectNotNullRule<Type>());
+                .Assert(new IsNotNullRule<Type>());
 
             return (GetMock(type.FullName) ?? Activator.CreateInstance(type));
         }
@@ -270,7 +270,7 @@ namespace Sem.GenericHelpers
         {
             Bouncer
                 .ForCheckData(() => type)
-                .Assert(Rules.ObjectNotNullRule<Type>());
+                .Assert(new IsNotNullRule<Type>());
 
             return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName))
                 ?? Activator.CreateInstance(type, param1);
