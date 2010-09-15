@@ -80,7 +80,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public ConditionalExecution<TDataNew> ForExecution<TDataNew>(Expression<Func<TDataNew>> data)
         {
             var newExecuter = new ConditionalExecution<TDataNew>(data, this.MethodRuleAttributes);
-            this.previousExecuter = () => newExecuter.Assert();
+            this.PreviousExecuter = () => newExecuter.Assert();
             return newExecuter;
         }
 

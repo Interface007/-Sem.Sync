@@ -1,7 +1,6 @@
 ﻿namespace Sem.GenericHelpers.Contracts.Rules
 {
     using System;
-    using System.Linq;
 
     public class ImplementsInterfaceRule<TData> : RuleBase<TData, Type>
         where TData : class
@@ -11,11 +10,8 @@
             Message = "Parameter does not implement TInterface or is null.";
             CheckExpression = 
                 (data, interfaceToImplement) 
-                    => data != null 
-                    && (from i in data.GetType().GetInterfaces()
-                        where (i.IsGenericType && i.GetGenericTypeDefinition() == interfaceToImplement) 
-                              || i == interfaceToImplement
-                        select i).Count() != 0;
+                    => data != null
+                    && data.GetType().Implements(interfaceToImplement);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// Only the Assert()-method can be invoked, because all other Assert methods do rely on the data type, 
         /// which may differ from the current.
         /// </summary>
-        internal Action previousExecuter;
+        internal Action PreviousExecuter;
 
         /// <summary>
         /// A list of <see cref="MethodRuleAttribute"/> for the current method (the one that did create the 
@@ -76,7 +76,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         private static Dictionary<MethodBase, List<MethodRuleAttribute>> RuleAttributeCache = new Dictionary<MethodBase, List<MethodRuleAttribute>>();
 
         #endregion
-        
+
         #region ctors
         protected RuleExecuter(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodRuleAttributes)
         {
@@ -197,7 +197,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
             return (TResultClass)this;
         }
-        
+
         /// <summary>
         /// Checks the rules of the current method that do match to the <see cref="ValueName"/>.
         /// </summary>
@@ -297,6 +297,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <returns>A new instance of <see cref="RuleValidationResult"/>.</returns>
         public RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleAttribute ruleAttribute, string propertyName)
         {
+            // the following line would be more specific - but seems to be hard to be implemented
+            ////if (!ruleAttribute.Type.Implements(typeof(RuleBase<,>)))
+            if (!ruleAttribute.Type.IsSubclassOf(typeof(RuleBaseInformation)))
+            {
+                throw new ArgumentException("The attribute does not contain a valid rule.");
+            }
+
             var assertMethod = ruleExecuter.GetType().GetMethod("ExecuteRuleExpression");
 
             var parameter = ruleAttribute.Parameter;
@@ -309,33 +316,31 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
             try
             {
+
                 // create an instance of the rule and invoke the Assert statement
                 var constructorInfo = ruleAttribute.Type.GetConstructor(Type.EmptyTypes);
-                ////if (constructorInfo.ContainsGenericParameters)
-                ////{
-                ////    constructorInfo = constructorInfo.MakeGenericMethod(
-                ////                        parameter != null
-                ////                            ? parameter.GetType()
-                ////                            : typeof(object));
-                ////}
+                RuleBaseInformation rule;
+                if (constructorInfo.ContainsGenericParameters)
+                {
+                    var value = ruleExecuter.GetValue();
+                    rule = CreateRule(ruleAttribute.Type,
+                                        value != null
+                                        ? value.GetType()
+                                        : typeof(object));
+                }
+                else
+                {
+                    rule = (RuleBaseInformation)constructorInfo.Invoke(null);
+                }
 
-                var rule = constructorInfo.Invoke(null);
-                ////if (rule.GetType().GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(RuleBase<>)))
-                ////{
-                ////    throw new ArgumentException("The attribute does not contain a valid rule.");
-                ////}
 
                 var ruleType = rule.GetType();
-                var messageAccessor = ruleType.GetProperty("Message");
-                if (messageAccessor == null)
-                {
-                    throw new ArgumentException("The attribute does not contain a valid rule.");
-                }
-
                 if (!string.IsNullOrEmpty(ruleAttribute.Message))
                 {
-                    messageAccessor.SetValue(rule, ruleAttribute.Message, null);
+                    rule.Message = ruleAttribute.Message;
                 }
+
+                var invokeResult = (bool)assertMethod.Invoke(ruleExecuter, new[] { rule, parameter, propertyName });
 
                 var result = new RuleValidationResult(
                     ruleType,
@@ -343,9 +348,9 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                         "The rule {0} did fail for value name >>{1}<<: {2}",
                         ruleType.Namespace + "." + ruleType.Name,
                         propertyName,
-                        string.Format((string)messageAccessor.GetValue(rule, null), parameter, propertyName)),
+                        string.Format(rule.Message, parameter, propertyName)),
                     propertyName,
-                    (bool)assertMethod.Invoke(ruleExecuter, new[] { rule, parameter, propertyName }));
+                    invokeResult);
 
                 return result;
             }
@@ -353,6 +358,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             {
                 throw ex.InnerException;
             }
+        }
+
+        public object GetValue()
+        {
+            return this.Value;
         }
 
         /// <summary>
@@ -411,10 +421,10 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             }
 
             this.AfterInvoke(result);
-            
-            if (previousExecuter != null)
+
+            if (this.PreviousExecuter != null)
             {
-                previousExecuter.Invoke();
+                this.PreviousExecuter.Invoke();
             }
 
             return validationResult;
@@ -542,10 +552,10 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <summary>
         /// Creates and initializes a rule using a generic parameter of <paramref name="valueType"/>.
         /// </summary>
-        /// <param name="valueType">The type of the value that should be checked.</param>
-        /// <param name="name">The name of the value that should be checked.</param>
+        /// <param name="ruleType">The type of rule to be created.</param>
+        /// <param name="valueType">The type of the value that should be checked with the rule.</param>
         /// <returns></returns>
-        private RuleBaseInformation CreateRule(Type ruleType, Type valueType, string name)
+        private RuleBaseInformation CreateRule(Type ruleType, Type valueType)
         {
             return ruleType
                 .GetGenericTypeDefinition()

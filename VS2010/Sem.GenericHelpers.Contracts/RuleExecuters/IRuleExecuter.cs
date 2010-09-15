@@ -14,5 +14,7 @@
         /// <param name="propertyName">The name of the data to be validated by the rule.</param>
         /// <returns>A new instance of <see cref="RuleValidationResult"/>.</returns>
         RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleAttribute ruleAttribute, string propertyName);
+
+        object GetValue();
     }
 }
