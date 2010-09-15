@@ -1,4 +1,4 @@
-﻿namespace Sem.Sync.Test.Contracts
+﻿namespace Sem.Sync.Test.Contracts.Tests
 {
     using System;
     using System.Collections;
@@ -24,37 +24,37 @@
                 MustBeLengthMin = "6chars",
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailRegEx = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailRegEx = new AttributedSampleClass
             {
                 MustBeOfRegExPatter = "hello",
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailMin = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailMin = new AttributedSampleClass
             {
                 MustBeLengthMin = "6",
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailMax = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailMax = new AttributedSampleClass
             {
                 MustBeLengthMax = "6charactersAndMore",
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailRegExNull = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailRegExNull = new AttributedSampleClass
             {
                 MustBeOfRegExPatter = null,
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailMinNull = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailMinNull = new AttributedSampleClass
             {
                 MustBeLengthMin = null,
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailMaxNull = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailMaxNull = new AttributedSampleClass
             {
                 MustBeLengthMax = null,
             };
 
-        private static readonly AttributedSampleClass _MessageOneFailMinMax = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailMinMax = new AttributedSampleClass
             {
                 MustBeLengthMinMax = "manycharactersarehere",
             };
@@ -76,14 +76,14 @@
         [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect()
         {
-            var message = Bouncer.ForMessages(() => _MessageOneFailRegEx).Assert().Results;
+            var message = Bouncer.ForMessages(() => MessageOneFailRegEx).Assert().Results;
             Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
         }
 
         [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect2()
         {
-            var message = Bouncer.ForMessages(_MessageOneFailRegEx, "_MessageOneFailRegEx").Assert().Results;
+            var message = Bouncer.ForMessages(MessageOneFailRegEx, "_MessageOneFailRegEx").Assert().Results;
             Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
         }
 
@@ -116,49 +116,49 @@
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailRegEx()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailRegEx).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailRegEx).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMin()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailMin).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailMin).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMax()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailMax).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailMax).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailRegExNull()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailRegExNull).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailRegExNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMinNull()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailMinNull).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailMinNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMaxNull()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailMaxNull).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailMaxNull).Assert();
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void AddRuleForTypeMustFailMinMaxNull()
         {
-            Bouncer.ForCheckData(() => _MessageOneFailMinMax).Assert();
+            Bouncer.ForCheckData(() => MessageOneFailMinMax).Assert();
         }
 
         [TestMethod]
@@ -170,13 +170,13 @@
             Assert.AreEqual("hello0", test.Content);
         }
 
-        //[TestMethod]
-        //public void MethodAttributeWithSuccess()
-        //{
-        //    var test = new SubscriberOne();
-        //    test.Handle2(null);
-        //    Assert.AreEqual("1", test.Content);
-        //}
+        [TestMethod]
+        public void MethodAttributeWithSuccess()
+        {
+            var test = new SubscriberOne();
+            test.Handle2(null);
+            Assert.AreEqual("1", test.Content);
+        }
 
         [TestMethod]
         public void MethodAttributeWithSuccess2()

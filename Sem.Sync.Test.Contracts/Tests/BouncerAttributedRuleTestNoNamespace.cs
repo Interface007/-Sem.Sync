@@ -1,24 +1,26 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Sem.GenericHelpers.Contracts;
-using Sem.Sync.Test.Contracts;
 using Sem.Sync.Test.Contracts.Entities;
+using Sem.Sync.Test.Contracts.Tests;
 
 [TestClass]
+// ReSharper disable CheckNamespace
 public class BouncerAttributedRuleTestNoNamespace
+// ReSharper restore CheckNamespace
 {
-    private readonly AttributedSampleClass _AttributedSampleClass = BouncerAttributedRuleTest.MessageOneOk;
+    private readonly AttributedSampleClass attributedSampleClass = BouncerAttributedRuleTest.MessageOneOk;
 
     [TestMethod]
     public void AddRuleForTypeMustSucceed()
     {
-        Bouncer.ForCheckData(() => this._AttributedSampleClass).Assert();
+        Bouncer.ForCheckData(() => this.attributedSampleClass).Assert();
     }
 
     [TestMethod]
     public void AddRuleForTypeOk()
     {
-        this._AttributedSampleClass.MustBeLengthAndNamespace = "hello!";
-        Bouncer.ForCheckData(() => this._AttributedSampleClass).Assert();
+        this.attributedSampleClass.MustBeLengthAndNamespace = "hello!";
+        Bouncer.ForCheckData(() => this.attributedSampleClass).Assert();
     }
 }
