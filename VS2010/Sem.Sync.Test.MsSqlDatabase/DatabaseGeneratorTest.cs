@@ -37,7 +37,7 @@ namespace Sem.Sync.Test.MsSqlDatabase
             var result = DatabaseScriptGenerator.CreateScriptFromEntityType(
                 typeof(StdContact), 
                 "Contacts");
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsFalse(string.IsNullOrEmpty(result));
         }
     }
 }

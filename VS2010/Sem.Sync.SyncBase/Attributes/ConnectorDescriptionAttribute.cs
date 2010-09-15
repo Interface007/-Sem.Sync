@@ -113,8 +113,14 @@ namespace Sem.Sync.SyncBase.Attributes
             }
         }
 
+        /// <summary>
+        /// Tags this connector as a source for private contacts. Contacts read from this connector will be tagged as private contacts.
+        /// </summary>
         public bool ContentIsPrivate { get; set; }
 
+        /// <summary>
+        /// Tags this connector as a source for business contacts. Contacts read from this connector will be tagged as business contacts.
+        /// </summary>
         public bool ContentIsBusiness { get; set; }
 
         #endregion

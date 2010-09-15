@@ -5,7 +5,6 @@ Imports System.Net.Sockets
 Imports System.Net
 Imports System.Xml
 Imports System.IO
-Imports Sem.GenericHelpers.Exceptions
 
 Namespace Internal
     Friend Class OutputHelper

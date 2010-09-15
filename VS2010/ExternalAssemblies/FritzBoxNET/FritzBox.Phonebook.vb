@@ -2,7 +2,6 @@ Imports System.Xml
 Imports System.Text
 Imports System.Net.Sockets
 Imports FritzBoxNET.Internal
-Imports Sem.GenericHelpers.Exceptions
 
 Namespace UPnP
     Public Class Phonebook
