@@ -1,21 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RuleBaseInformation.cs" company="Sven Erik Matzen">
+// <copyright file="ObjectNotNullRule.cs" company="Sven Erik Matzen">
 //   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
 // </copyright>
 // <summary>
-//   Defines the RuleBaseInformation type.
+//   Defines the ObjectNotNullRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.GenericHelpers.Contracts
+namespace Sem.GenericHelpers.Contracts.Rules
 {
-    public class RuleBaseInformation
+    public class ObjectNotNullRule : RuleBase<object, object>
     {
-        public string Message { get; set; }
-
-        public RuleBaseInformation()
+        public ObjectNotNullRule()
         {
-            this.Message = "There is a problem with the parameter.";
+            this.CheckExpression = (target, parameter) => target != null;
+            this.Message = "The object is NULL.";
         }
     }
 }

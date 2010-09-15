@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.GenericHelpers.Contracts.SemRules
+namespace Sem.GenericHelpers.Contracts.Rules
 {
     public class StringMaxLengthRule : RuleBase<string, int>
     {

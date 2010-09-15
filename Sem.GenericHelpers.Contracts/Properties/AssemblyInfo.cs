@@ -9,8 +9,10 @@
 
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Sem.GenericHelpers.Contracts")]
 [assembly: AssemblyDescription("")]
 [assembly: Guid("f54395c6-fb2d-4012-8c89-3e6b7cbedd50")]
+[assembly: InternalsVisibleTo("Sem.Sync.Test.Contracts")]

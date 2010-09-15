@@ -1,15 +1,15 @@
-﻿namespace Sem.Sample.Contracts
+﻿namespace Sem.Sample.Contracts.Entities
 {
-    using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
     /// This class inherits from MyCustomer in order to be able to 
     /// call the exact same code for "GetTheName" and "FormatTheId".
     /// </summary>
-    internal class MyCustomer //: MyCustomer
+    internal class MyCustomer 
     {
-        [ContractRule(typeof(ObjectNotNullRule<CustomerId>))]
+        [ContractRule(typeof(IsNotNullRule<CustomerId>))]
         public CustomerId InternalId { get; set; }
 
         // This property will be checked to not be null or empty. Additionally we

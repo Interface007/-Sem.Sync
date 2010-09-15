@@ -7,10 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.GenericHelpers.Contracts
+namespace Sem.GenericHelpers.Contracts.Attributes
 {
     using System;
 
+    /// <summary>
+    /// Attribute to attach rules to classes and properties of classes. To attach rules to method parameters, 
+    /// use the <see cref="MethodRuleAttribute"/>.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
     public class ContractRuleAttribute : Attribute
     {
@@ -23,17 +27,5 @@ namespace Sem.GenericHelpers.Contracts
         public object Parameter { get; set; }
         public string Namespace { get; set; }
         public string Message { get; set; }
-    }
-    
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class MethodRuleAttribute : ContractRuleAttribute
-    {
-        public MethodRuleAttribute(Type type, String methodParameterName)
-            : base(type)
-        {
-            this.MethodParameterName = methodParameterName;
-        }
-
-        public string MethodParameterName { get; set; }
     }
 }

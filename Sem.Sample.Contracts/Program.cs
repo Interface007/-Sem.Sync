@@ -10,6 +10,9 @@ namespace Sem.Sample.Contracts
 {
     using System;
 
+    using Sem.GenericHelpers.Contracts;
+    using Sem.Sample.Contracts.Entities;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -36,6 +39,8 @@ namespace Sem.Sample.Contracts
                 "a list of issues.",
                 () => new MyBusinessComponentSave().CallCustomer2(new MyCustomer()));
 
+            AddLogging();
+
             TryCall(
                 "Lets execute a completely new rule.\n\n" +
                 "Rule   : (x, y) => x.FullName != \"Sven\"\n" +
@@ -52,6 +57,34 @@ namespace Sem.Sample.Contracts
                 () => new MyBusinessComponentSave().CallCustomerWithMethodAttributes(string.Empty, 1000, new MyCustomer()));
         }
 
+        private static void AddLogging()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear();
+            Console.WriteLine("Rule executers do also support central inspection of rule evaluation results.");
+            Console.WriteLine("In our example we can activate logging to the screen by adding an System.Action");
+            Console.WriteLine("to the Bouncer.AfterInvokeAction list, that will simply log some information to");
+            Console.WriteLine("the console in ConsoleColor.Yellow.");
+            Console.WriteLine("Enter >>L<< to activate logging.");
+
+            var input = Console.ReadLine();
+            if (input == null)
+            {
+                return;
+            }
+
+            if (input.ToUpperInvariant() == "L")
+            {
+                Bouncer.AfterInvokeAction.Add(x =>
+                    {
+                        var c = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("LOG: " + x.RuleType.Name + " => " + x.Result + " for " + x.ValueName +"\n"+ x.Message);
+                        Console.ForegroundColor = c;
+                    });
+            }
+        }
+
         private static void TryCall(string description, Action y)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -59,13 +92,13 @@ namespace Sem.Sample.Contracts
             Console.WriteLine(description);
             Console.WriteLine();
 
-            Console.ForegroundColor = ConsoleColor.White;
             try
             {
                 y.Invoke();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Exception caught:");
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine(ex.Message);

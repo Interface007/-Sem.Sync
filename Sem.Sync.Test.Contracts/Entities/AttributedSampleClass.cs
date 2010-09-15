@@ -1,7 +1,8 @@
 ﻿namespace Sem.Sync.Test.Contracts.Entities
 {
-    using Sem.GenericHelpers.Contracts;
-    using Sem.GenericHelpers.Contracts.SemRules;
+    using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Rules;
+    using Sem.Sync.Test.Contracts.Rules;
 
     // this asstribute adds a custum ruleset (inherits from ClassLevelRuleSet<TTargetClass>) to the
     // default rules defindes for this class.

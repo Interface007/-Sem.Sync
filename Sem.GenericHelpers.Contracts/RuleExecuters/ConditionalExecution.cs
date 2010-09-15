@@ -13,8 +13,17 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Sem.GenericHelpers.Contracts.Attributes;
+
+    /// <summary>
+    /// Check class including the data to perform rule checking. After asserting, the methods <see cref="ExecuteOnFailure"/>
+    /// and <see cref="ExecuteOnSuccess"/> can be used to execute code is the assert did fail (at least one rule has been 
+    /// violated) or succeed (no rule has been violated).
+    /// </summary>
+    /// <typeparam name="TData">The data type to be checked.</typeparam>
     public class ConditionalExecution<TData> : RuleExecuter<TData, ConditionalExecution<TData>>
     {
+
         private bool conditionTrue = true;
 
         public ConditionalExecution(string valueName, TData value)
@@ -37,7 +46,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         {
         }
 
-        public ConditionalExecution<TData> Execute(Action action)
+        public ConditionalExecution<TData> ExecuteOnSuccess(Action action)
         {
             if (this.conditionTrue)
             {
@@ -47,16 +56,41 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             return this;
         }
 
-        protected override void AfterInvoke(RuleValidationResult invocationResult)
+        public ConditionalExecution<TData> ExecuteOnFailure(Action action)
         {
-            this.conditionTrue &= invocationResult.Result;
+            if (!this.conditionTrue)
+            {
+                action.Invoke();
+            }
+
+            return this;
         }
 
-        public CheckData<TDataNew> ForExecution<TDataNew>(Expression<Func<TDataNew>> data)
+        /// <summary>
+        /// Creates a <see cref="ConditionalExecution{TDataNew}"/> for executing code if the data violates no rules 
+        /// by specifying a lambda expression:
+        /// <para>Bouncer.ConditionalExecution(() => MessageOneOk).ConditionalExecution(() => MessageTwo).Assert().ExecuteOnSuccess(() => Console.WriteLine("Success"));</para>
+        /// This way you can build up validation chains that can be executed with a 
+        /// single <see cref="RuleExecuter{TDataNew,TResultClass}.Assert()"/> method call.
+        /// The expression will be executed only once. 
+        /// </summary>
+        /// <typeparam name="TDataNew">The type of data the expression returns.</typeparam>
+        /// <param name="data">The expression to get the content of the variable.</param>
+        /// <returns>A <see cref="ConditionalExecution{TDataNew}"/> to check the rules.</returns>
+        public ConditionalExecution<TDataNew> ForExecution<TDataNew>(Expression<Func<TDataNew>> data)
         {
-            CheckData<TDataNew> newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes);
+            var newExecuter = new ConditionalExecution<TDataNew>(data, this.MethodRuleAttributes);
             this.previousExecuter = () => newExecuter.Assert();
             return newExecuter;
+        }
+
+        /// <summary>
+        /// Performs the rule execution result check. 
+        /// </summary>
+        /// <param name="validationResult">The rule validation result structure with information about the rule validation process.</param>
+        protected override void AfterInvoke(RuleValidationResult validationResult)
+        {
+            this.conditionTrue &= validationResult.Result;
         }
     }
 }

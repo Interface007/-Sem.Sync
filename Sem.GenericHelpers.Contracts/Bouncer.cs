@@ -10,6 +10,7 @@
 namespace Sem.GenericHelpers.Contracts
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.RuleExecuters;
@@ -21,46 +22,49 @@ namespace Sem.GenericHelpers.Contracts
     /// </summary>
     public static class Bouncer
     {
+        public static readonly IList<Action<RuleValidationResult>> AfterInvokeAction = new List<Action<RuleValidationResult>>();
+
         /// <summary>
-        /// Creates a data structure for executing rules
-        /// by specifying a lambda expression:
+        /// Creates a <see cref="CheckData{TData}"/> for executing rules by specifying a lambda expression:
         /// <para>Bouncer.ForCheckData(() => MessageOneOk).Assert();</para>
-        /// The expression will be executed only once. Specifying lambda expression
-        /// provides the benefit of strong typing for the data name, because the lambda expression
-        /// can be inspected for the variable name.
+        /// The expression will be executed only once. Specifying lambda expression provides the benefit 
+        /// of strong typing for the data name, because the lambda expression can be inspected for the 
+        /// variable name.
         /// </summary>
-        /// <typeparam name="TData">the type of data the expression returns</typeparam>
-        /// <param name="data">the expression</param>
-        /// <returns>a <see cref="CheckData{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data the expression returns.</typeparam>
+        /// <param name="data">The expression to get the content of the variable.</param>
+        /// <returns>A <see cref="CheckData{TData}"/> to execute the tests with.</returns>
         public static CheckData<TData> ForCheckData<TData>(Expression<Func<TData>> data)
         {
             return new CheckData<TData>(data);
         }
 
         /// <summary>
-        /// Creates a data structure for executing rules:
+        /// Creates a <see cref="CheckData{TData}"/> for executing rules by specifying a name and the data:
         /// <para>Bouncer.ForCheckData(0, "myInt").Assert();</para>
-        /// With this overload you have to specify the name of the data structure manually.
-        /// You should (if possible) use the overload for a lambda expression.
+        /// With this overload you have to specify the name by a string (no compiler-checks!).
+        /// You should (if possible) use the overload for a lambda expression instead.
         /// </summary>
-        /// <typeparam name="TData">the type of data to be checked</typeparam>
-        /// <param name="data">the data to be checked</param>
-        /// <param name="name">the name of the parameter/variable to be checked (might be included into check-result messages)</param>
-        /// <returns>a <see cref="CheckData{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data to be checked.</typeparam>
+        /// <param name="data">The data to be checked.</param>
+        /// <param name="name">The name of the parameter/variable to be checked.</param>
+        /// <returns>A <see cref="CheckData{TData}"/> to execute the tests with.</returns>
         public static CheckData<TData> ForCheckData<TData>(TData data, string name)
         {
             return new CheckData<TData>(name, data);
         }
 
         /// <summary>
-        /// Creates a rule execution class for a lambda expression that collects the result of the rules
-        /// as a collection of <see cref="RuleValidationResult"/>. Specifying lambda expression
-        /// provides the benefit of strong typing for the data name, because the lambda expression
-        /// can be inspected for the variable name.
+        /// Creates a <see cref="MessageCollection{TData}"/> for collecting warnings about rule violations 
+        /// by specifying a lambda expression:
+        /// <para>var result = Bouncer.ForMessages(() => MessageOneOk).Assert().Results;</para>
+        /// The expression will be executed only once. Specifying lambda expression provides the benefit 
+        /// of strong typing for the data name, because the lambda expression can be inspected for the 
+        /// variable name.
         /// </summary>
-        /// <typeparam name="TData">the type of data the expression returns</typeparam>
-        /// <param name="data">the expression</param>
-        /// <returns>a <see cref="MessageCollection{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data the expression returns.</typeparam>
+        /// <param name="data">The expression to get the content of the variable.</param>
+        /// <returns>A <see cref="MessageCollection{TData}"/> to check the rules.</returns>
         public static MessageCollection<TData> ForMessages<TData>(Expression<Func<TData>> data)
         {
             return new MessageCollection<TData>(data);
@@ -73,24 +77,26 @@ namespace Sem.GenericHelpers.Contracts
         /// With this overload you have to specify the name of the data structure manually.
         /// You should (if possible) use the overload for a lambda expression.
         /// </summary>
-        /// <typeparam name="TData">the type of data to be checked</typeparam>
-        /// <param name="data">the data to be checked</param>
-        /// <param name="name">the name of the parameter/variable to be checked (might be included into check-result messages)</param>
-        /// <returns>a <see cref="MessageCollection{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data to be checked.</typeparam>
+        /// <param name="data">The data to be checked.</param>
+        /// <param name="name">The name of the parameter/variable to be checked.</param>
+        /// <returns>A <see cref="MessageCollection{TData}"/> to check the rules.</returns>
         public static MessageCollection<TData> ForMessages<TData>(TData data, string name)
         {
             return new MessageCollection<TData>(name, data);
         }
 
         /// <summary>
-        /// Creates a rule execution class for a lambda expression that executes some code
-        /// if all rules are validated successfully. Specifying lambda expression
-        /// provides the benefit of strong typing for the data name, because the lambda expression
-        /// can be inspected for the variable name.
+        /// Creates a <see cref="ConditionalExecution{TData}"/> for executing code if the data violates no rules 
+        /// by specifying a lambda expression:
+        /// <para>Bouncer.ConditionalExecution(() => MessageOneOk).Assert().ExecuteOnSuccess(() => Console.WriteLine("Success"));</para>
+        /// The expression will be executed only once. Specifying lambda expression provides the benefit 
+        /// of strong typing for the data name, because the lambda expression can be inspected for the 
+        /// variable name.
         /// </summary>
-        /// <typeparam name="TData">the type of data the expression returns</typeparam>
-        /// <param name="data">the expression</param>
-        /// <returns>a <see cref="ConditionalExecution{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data the expression returns.</typeparam>
+        /// <param name="data">The expression to get the content of the variable.</param>
+        /// <returns>A <see cref="ConditionalExecution{TData}"/> to check the rules.</returns>
         public static ConditionalExecution<TData> ForExecution<TData>(Expression<Func<TData>> data)
         {
             return new ConditionalExecution<TData>(data);
@@ -102,10 +108,10 @@ namespace Sem.GenericHelpers.Contracts
         /// With this overload you have to specify the name of the data structure manually.
         /// You should (if possible) use the overload for a lambda expression.
         /// </summary>
-        /// <typeparam name="TData">the type of data to be checked</typeparam>
-        /// <param name="data">the data to be checked</param>
-        /// <param name="name">the name of the parameter/variable to be checked (might be included into check-result messages)</param>
-        /// <returns>a <see cref="MessageCollection{TData}"/> to execute the tests with</returns>
+        /// <typeparam name="TData">The type of data to be checked.</typeparam>
+        /// <param name="data">The data to be checked.</param>
+        /// <param name="name">The name of the parameter/variable to be checked.</param>
+        /// <returns>A <see cref="ConditionalExecution{TData}"/> to check the rules.</returns>
         public static ConditionalExecution<TData> ForExecution<TData>(TData data, string name)
         {
             return new ConditionalExecution<TData>(name, data);

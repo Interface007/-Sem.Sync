@@ -17,11 +17,11 @@
         public void CheckRuleExecution1()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "sometext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsTrue(result);
         }
@@ -30,11 +30,11 @@
         public void CheckRuleExecution1A()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(messageOne, "messageOne")
                 .Assert(x => x.Content == "sometext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsTrue(result);
         }
@@ -43,11 +43,11 @@
         public void CheckRuleExecution2()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "othertext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsFalse(result);
         }
@@ -56,13 +56,13 @@
         public void CheckRuleExecution3()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "othertext")
                 .Assert(x => x.Content == "sometext")
                 .Assert(x => x.Content == "othertext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsFalse(result);
         }
@@ -71,13 +71,13 @@
         public void CheckRuleExecution4()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "sometext")
                 .Assert(x => x.Content == "othertext")
                 .Assert(x => x.Content == "sometext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsFalse(result);
         }
@@ -86,13 +86,13 @@
         public void CheckRuleExecution5()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "sometext")
                 .Assert(x => x.Content == "sometext")
                 .Assert(x => x.Content == "sometext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsTrue(result);
         }
@@ -101,13 +101,13 @@
         public void CheckRuleExecution6()
         {
             var messageOne = new MessageOne("sometext");
-            bool result = false;
+            var result = false;
             Bouncer
                 .ForExecution(() => messageOne)
                 .Assert(x => x.Content == "othertext")
                 .Assert(x => x.Content == "mytext")
                 .Assert(x => x.Content == "yourtext")
-                .Execute(() => { result = true; });
+                .ExecuteOnSuccess(() => { result = true; });
 
             Assert.IsFalse(result);
         }

@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
     using Sem.Sync.Test.Contracts.Tests;
 
@@ -22,43 +23,43 @@
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustFail12()
         {
-            Assert.IsFalse(Rules.ImplementsInterface<object>().CheckExpression(this, typeof(IHandleThis<BouncerTest>)));
+            Assert.IsFalse(new ImplementsInterfaceRule<object>().CheckExpression(this, typeof(IHandleThis<BouncerTest>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustFail1()
         {
-            Assert.IsFalse(Rules.ImplementsInterface<object>().CheckExpression(this, typeof(IHandleThis<BouncerTest>)));
+            Assert.IsFalse(new ImplementsInterfaceRule<object>().CheckExpression(this, typeof(IHandleThis<BouncerTest>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustFail2()
         {
-            Assert.IsFalse(Rules.ImplementsInterface<object>().CheckExpression(this, typeof(IHandleThis<>)));
+            Assert.IsFalse(new ImplementsInterfaceRule<object>().CheckExpression(this, typeof(IHandleThis<>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustFail3()
         {
-            Assert.IsFalse(Rules.ImplementsInterface<object>().CheckExpression(null, typeof(IHandleThis<BouncerTest>)));
+            Assert.IsFalse(new ImplementsInterfaceRule<object>().CheckExpression(null, typeof(IHandleThis<BouncerTest>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustFail4()
         {
-            Assert.IsFalse(Rules.ImplementsInterface<object>().CheckExpression(null, typeof(IHandleThis<>)));
+            Assert.IsFalse(new ImplementsInterfaceRule<object>().CheckExpression(null, typeof(IHandleThis<>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustPass1()
         {
-            Assert.IsTrue(Rules.ImplementsInterface<object>().CheckExpression(new SubscriberOne(), typeof(IHandleThis<>)));
+            Assert.IsTrue(new ImplementsInterfaceRule<object>().CheckExpression(new SubscriberOne(), typeof(IHandleThis<>)));
         }
 
         [TestMethod]
         public void CheckParameterImplementsInterfaceMustPass2()
         {
-            Assert.IsTrue(Rules.ImplementsInterface<object>().CheckExpression(new SubscriberOne(), typeof(IHandleThis<MessageOne>)));
+            Assert.IsTrue(new ImplementsInterfaceRule<object>().CheckExpression(new SubscriberOne(), typeof(IHandleThis<MessageOne>)));
         }
     }
 

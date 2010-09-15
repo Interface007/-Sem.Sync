@@ -7,15 +7,28 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.GenericHelpers.Contracts.SemRules
+namespace Sem.GenericHelpers.Contracts.Rules
 {
     using System;
     using System.Configuration;
 
+    using Sem.GenericHelpers.Contracts.RuleExecuters;
+
+    /// <summary>
+    /// Implements a rule for a given <see cref="ConfigurationValidatorBase"/>. Using this rule. you can reuse the 
+    /// validator implementations of the System.Configuration namespace. There is a performance-overhead in using this 
+    /// type of rule, because the method <see cref="ConfigurationValidatorBase.Validate"/> (which executes the check)
+    /// does raise an exception if the rule is violated. So using this rule for collecting <see cref="RuleValidationResult"/>
+    /// with the <see cref="MessageCollection{TData}"/> may throw hidden exceptions that might have a performance impact.
+    /// </summary>
+    /// <typeparam name="TData">The type of data to be validated.</typeparam>
     public class ConfigurationValidatorBaseRule<TData>: RuleBase<TData, object>
     {
         private ConfigurationValidatorBase _ConfigurationValidator;
 
+        /// <summary>
+        /// Sets the <see cref="ConfigurationValidatorBase"/> instance for this rule instance.
+        /// </summary>
         public ConfigurationValidatorBase ConfigurationValidator
         {
             get

@@ -6,7 +6,9 @@
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
+    using Sem.Sync.Test.Contracts.Rules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -19,14 +21,14 @@
         public void CheckRuleSet1()
         {
             var messageOne = new MessageOne("sometext");
-            Bouncer.ForCheckData(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => messageOne).Assert(new SampleRuleSet<MessageOne>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(RuleValidationException))]
         public void CheckRuleSet1Invalid()
         {
-            Bouncer.ForCheckData(() => new MessageOne("hello")).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => new MessageOne("hello")).Assert(new SampleRuleSet<MessageOne>());
         }
 
         [TestMethod]
@@ -34,9 +36,9 @@
         {
             const string SomeParameter = "";
             Bouncer.ForCheckData(SomeParameter, "someParameter")
-                                .Assert(Rules.IsNotNull<string>())
+                                .Assert(new IsNotNullRule<string>())
                                 .Assert(x => x.ToString() != "0000-00-00")
-                                .Assert(Rules.ImplementsInterface<string>(), typeof(IComparable<>));
+                                .Assert(new ImplementsInterfaceRule<string>(), typeof(IComparable<>));
         }
 
         [TestMethod]

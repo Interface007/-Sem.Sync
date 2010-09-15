@@ -5,6 +5,7 @@
     using Sem.GenericHelpers.Contracts;
     using Sem.Sync.Test.Contracts;
     using Sem.Sync.Test.Contracts.Entities;
+    using Sem.Sync.Test.Contracts.Rules;
 
     /// <summary>
     ///This is a test class for BouncerTest and is intended
@@ -17,7 +18,7 @@
         public void CheckRuleSet1()
         {
             var messageOne = new MessageOne("sometext");
-            Bouncer.ForCheckData(() => messageOne).Assert(RuleSets.SampleRuleSet<MessageOne>());
+            Bouncer.ForCheckData(() => messageOne).Assert(new SampleRuleSet<MessageOne>());
         }
     }
 }
