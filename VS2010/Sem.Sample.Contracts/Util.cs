@@ -21,5 +21,33 @@
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+        public static void TryCall(string description, Action y)
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear();
+            Console.WriteLine(description);
+            Console.WriteLine();
+
+            try
+            {
+                y.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Exception caught:");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("Stacktrace:");
+                Console.WriteLine(ex.StackTrace.Substring(0, 300));
+            }
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine();
+            Console.WriteLine("press enter to execute next sample...");
+            Console.ReadLine();
+        }
     }
 }

@@ -7,42 +7,26 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sem.Sample.Contracts.Entities
+namespace Sem.Sync.Test.Contracts.Entities
 {
-    using System;
+    using System.Collections.Generic;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Attributes;
     using Sem.GenericHelpers.Contracts.Rules;
-    using Sem.Sample.Contracts.Rules;
+    using Sem.Sync.Test.Contracts.Rules;
 
     [ContractContext("Read")]
-    internal class MyBusinessComponentSave : MyBusinessComponent
+    internal class MyBusinessComponentSave 
     {
-        /// <summary>
-        /// We need to use the type MySaveCustomer in order to correctly resolve type inference for  
-        /// Bouncer.ForCheckData(() => customer).Assert();
-        /// </summary>
-        /// <param name="customer">this customer type does have rule-attributes attached to its properties</param>
-        internal new void WriteCustomerProperties(MyCustomer customer)
-        {
-            Bouncer.ForCheckData(() => customer).Assert();
-
-            Console.WriteLine(
-                "calling customer {0} with Id {1}", 
-                GetTheName(customer), 
-                FormatTheId(customer));
-        }
-
         /// <summary>
         /// This time we will not prevent executing the method code, but 
         /// just collect the violated rules and print them to the console.
         /// </summary>
         /// <param name="customer"></param>
-        internal void CheckCustomerProperties(MyCustomer customer)
+        internal IEnumerable<RuleValidationResult> CheckCustomerProperties(MyCustomer customer)
         {
-            var results = Bouncer.ForMessages(() => customer).Assert();
-            Util.PrintEntries(results);
+            return Bouncer.ForMessages(() => customer).Assert().Results;
         }
 
         /// <summary>
@@ -54,7 +38,7 @@ namespace Sem.Sample.Contracts.Entities
         /// constructor.
         /// </summary>
         /// <param name="customer"></param>
-        internal void CheckCustomerWithCustomRule(MyCustomer customer)
+        internal IEnumerable<RuleValidationResult> CheckCustomerWithCustomRule(MyCustomer customer)
         {
             var results = Bouncer
                 .ForMessages(() => customer)
@@ -62,12 +46,9 @@ namespace Sem.Sample.Contracts.Entities
                     {
                         Message = "Sven cannot enter this method",
                         CheckExpression = (x, y) => x.FullName != "Sven"
-                    });
+                    }).Results;
 
-            Util.PrintEntries(results);
-            Console.WriteLine("---> ForMessages did return the validation results, but  <---");
-            Console.WriteLine("--->   did not cause any exception. So \"customer Sven\"   <---");
-            Console.WriteLine("--->   did enter the method  and did execute all code.   <---");
+            return results;
         }
         
         /// <summary>
@@ -77,23 +58,17 @@ namespace Sem.Sample.Contracts.Entities
         /// <param name="customerId"></param>
         /// <param name="amount"></param>
         /// <param name="theCustomer"></param>
-[MethodRule(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
-[MethodRule(typeof(StringNotNullOrEmptyRule), "customerId")]
-public void CheckCustomerWithWithMethodAttributes(string customerId, int amount, MyCustomer theCustomer)
-{
-    Bouncer
-        .ForCheckData(() => customerId)
-        .ForCheckData(() => amount)
-        .ForCheckData(() => theCustomer)
-        .Assert();
-    
+        [MethodRule(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
+        [MethodRule(typeof(StringNotNullOrEmptyRule), "customerId")]
+        public IEnumerable<RuleValidationResult> CheckCustomerWithWithMethodAttributes(string customerId, int amount, MyCustomer theCustomer)
+        {
             var results = Bouncer
                 .ForMessages(() => customerId)
                 .ForMessages(() => amount)
                 .ForMessages(() => theCustomer)
-                .Assert();
+                .Assert().Results;
 
-            Util.PrintEntries(results);
+            return results;
         }
 
         /// <summary>
@@ -106,12 +81,12 @@ public void CheckCustomerWithWithMethodAttributes(string customerId, int amount,
         /// </summary>
         /// <param name="customer">The customer to be created (does not have an internal id)</param>
         [ContractContext("Create")]
-        [ContractContext("Read", false)]
+        [ContractContext("Read", false)]    // this is important, because the class has an attribute "[ContractContext("Read")]"
         [MethodRule(typeof(StrictCustomerCheckRuleSet), "customer")]
-        internal void InsertCustomer(MyCustomer customer)
+        internal IEnumerable<RuleValidationResult> InsertCustomer(MyCustomer customer)
         {
-            var results = Bouncer.ForMessages(() => customer).Assert();
-            Util.PrintEntries(results);
+            var results = Bouncer.ForMessages(() => customer).Assert().Results;
+            return results;
         }
     }
 }

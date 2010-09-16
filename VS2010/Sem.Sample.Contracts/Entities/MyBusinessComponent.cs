@@ -22,7 +22,7 @@ namespace Sem.Sample.Contracts.Entities
         /// but it does not check for customer to have a name set.
         /// </summary>
         /// <param name="customer"></param>
-        internal void CallCustomer(MyCustomer customer)
+        internal void WriteCustomerProperties(MyCustomer customer)
         {
             Console.WriteLine(
                 "calling customer {0} with Id {1}", 

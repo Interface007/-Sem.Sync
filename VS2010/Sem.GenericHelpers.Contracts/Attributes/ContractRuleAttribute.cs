@@ -27,5 +27,6 @@ namespace Sem.GenericHelpers.Contracts.Attributes
         public object Parameter { get; set; }
         public string Namespace { get; set; }
         public string Message { get; set; }
+        public string IncludeInContext { get; set; }
     }
 }

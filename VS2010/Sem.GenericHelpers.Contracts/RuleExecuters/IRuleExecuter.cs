@@ -17,8 +17,8 @@
         /// <returns>A new instance of <see cref="RuleValidationResult"/>.</returns>
         RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleAttribute ruleAttribute, string propertyName);
 
-        object GetValue();
-
+        IRuleExecuter AssertAll();
+        
         Type GetValueType();
     }
 }

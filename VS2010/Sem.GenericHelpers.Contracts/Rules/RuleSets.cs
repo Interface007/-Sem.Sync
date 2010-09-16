@@ -47,12 +47,10 @@ namespace Sem.GenericHelpers.Contracts.Rules
             foreach (ContractRuleAttribute attrib in attribs)
             {
                 var ruleSet = attrib.Type.GetConstructor(new Type[] { }).Invoke(null) as RuleSet<TData, TParameter>;
-                if (ruleSet == null)
+                if (ruleSet != null)
                 {
-                    continue;
+                    rulesForType.AddRange(ruleSet);
                 }
-
-                rulesForType.AddRange(ruleSet);
             }
 
             return rulesForType;
