@@ -7,7 +7,7 @@
 
     public class CustomRuleSet : RuleSet<AttributedSampleClass, object>
     {
-        protected override List<RuleBase<AttributedSampleClass, object>> GetRuleList()
+        protected override IEnumerable<RuleBase<AttributedSampleClass, object>> GetRuleList()
         {
             return new List<RuleBase<AttributedSampleClass, object>>
                 {

@@ -10,6 +10,8 @@
 
 namespace Sem.Sync.Test.Contracts.Tests
 {
+    using System.Linq;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
@@ -23,7 +25,14 @@ namespace Sem.Sync.Test.Contracts.Tests
     [TestClass]
     public class BouncerTestMessages
     {
-        private static readonly AttributedSampleClass _MessageOneFailRegEx = new AttributedSampleClass
+        private static readonly AttributedSampleClass MessageOneFailRegEx = new AttributedSampleClass
+        {
+            MustBeOfRegExPatter = "hello",
+            MustBeLengthMax = "this is a very long string",
+            MustBeLengthMin = "1",
+        };
+
+        private static readonly AttributedSampleClass MessageOneFailRegEx2 = new AttributedSampleClass
         {
             MustBeOfRegExPatter = "hello",
             MustBeLengthMax = "this is a very long string",
@@ -33,8 +42,19 @@ namespace Sem.Sync.Test.Contracts.Tests
         [TestMethod]
         public void CheckRuleSet1()
         {
-            var messages = Bouncer.ForMessages(() => _MessageOneFailRegEx).Assert();
-            Assert.AreEqual(3, messages.Results.Count);
+            var messages = Bouncer.ForMessages(() => MessageOneFailRegEx).Assert();
+            Assert.AreEqual(3, messages.Results.ToList().Count);
+        }
+
+        [TestMethod]
+        public void CheckRuleSet2()
+        {
+            var messages = Bouncer
+                .ForMessages(() => MessageOneFailRegEx)
+                .ForMessages(() => MessageOneFailRegEx2)
+                .Assert();
+
+            Assert.AreEqual(6, messages.Results.ToList().Count);
         }
     }
 }

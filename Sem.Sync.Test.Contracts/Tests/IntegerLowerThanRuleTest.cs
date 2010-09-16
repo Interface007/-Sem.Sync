@@ -9,24 +9,29 @@
     ///to contain all BouncerTest Unit Tests
     ///</summary>
     [TestClass]
-    public class StringNotNullOrEmptyRuleTest
+    public class IntegerLowerThanRuleTest
     {
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustFail()
         {
-            Assert.IsFalse(new StringNotNullOrEmptyRule().CheckExpression(string.Empty, null));
+            Assert.IsFalse(new IntegerLowerThanRule().CheckExpression(1, 0));
         }
-
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustFail2()
         {
-            Assert.IsFalse(new StringNotNullOrEmptyRule().CheckExpression(null, null));
+            Assert.IsFalse(new IntegerLowerThanRule().CheckExpression(1, 1));
         }
 
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustPass1()
         {
-            Assert.IsTrue(new StringNotNullOrEmptyRule().CheckExpression("hello", null));
+            Assert.IsTrue(new IntegerLowerThanRule().CheckExpression(1, 2));
+        }
+
+        [TestMethod]
+        public void CheckStringNotNullOrEmptyRuleMustPass2()
+        {
+            Assert.IsTrue(new IntegerLowerThanRule().CheckExpression(-3, -2));
         }
     }
 }

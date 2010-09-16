@@ -11,9 +11,15 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.Attributes;
+
+    public interface IMessageCollection
+    {
+        IEnumerable<RuleValidationResult> Results { get; }
+    }
 
     /// <summary>
     /// Check class including the data to perform rule checking. Each rule violation
@@ -21,13 +27,29 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     /// of <see cref="RuleValidationResult"/>).
     /// </summary>
     /// <typeparam name="TData">The data type to be checked.</typeparam>
-    public class MessageCollection<TData> : RuleExecuter<TData, MessageCollection<TData>>
+    public class MessageCollection<TData> : RuleExecuter<TData, MessageCollection<TData>>, IMessageCollection
     {
         /// <summary>
         /// The result list of <see cref="RuleValidationResult"/>. Each violated rule while
         /// asserting adds a new entry to this list.
         /// </summary>
-        public List<RuleValidationResult> Results { get; private set; }
+        private readonly List<RuleValidationResult> myResults = new List<RuleValidationResult>();
+
+        public IEnumerable<RuleValidationResult> Results
+        {
+            get
+            {
+                var results = this.myResults;
+
+                var previousExecuter = this.PreviousExecuter as IMessageCollection;
+                if (previousExecuter != null)
+                {
+                    return results.Union(previousExecuter.Results);
+                }
+
+                return results;
+            }
+        }
 
         public MessageCollection(string valueName, TData value)
             : this(valueName, value, null)
@@ -42,13 +64,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public MessageCollection(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
             : base(valueName, value, methodAttribs)
         {
-            this.Results = new List<RuleValidationResult>();
         }
-        
+
         public MessageCollection(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
             : base(data, methodAttribs)
         {
-            this.Results = new List<RuleValidationResult>();
         }
 
         /// <summary>
@@ -64,8 +84,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <returns>A <see cref="MessageCollection{TDataNew}"/> to check the rules.</returns>
         public MessageCollection<TDataNew> ForMessages<TDataNew>(Expression<Func<TDataNew>> data)
         {
-            var newExecuter = new MessageCollection<TDataNew>(data, this.MethodRuleAttributes);
-            this.PreviousExecuter = () => newExecuter.Assert();
+            var newExecuter = new MessageCollection<TDataNew>(data, this.MethodRuleAttributes)
+                {
+                    PreviousExecuter = this,
+                };
+
             return newExecuter;
         }
 
@@ -77,7 +100,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         {
             if (!validationResult.Result)
             {
-                this.Results.Add(validationResult);
+                this.myResults.Add(validationResult);
             }
         }
     }

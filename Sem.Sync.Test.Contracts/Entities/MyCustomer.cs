@@ -1,4 +1,4 @@
-﻿namespace Sem.Sample.Contracts.Entities
+﻿namespace Sem.Sync.Test.Contracts.Entities
 {
     using Sem.GenericHelpers.Contracts.Attributes;
     using Sem.GenericHelpers.Contracts.Rules;

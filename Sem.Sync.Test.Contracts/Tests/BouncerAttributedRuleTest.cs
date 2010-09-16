@@ -1,7 +1,18 @@
-﻿namespace Sem.Sync.Test.Contracts.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BouncerAttributedRuleTest.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   This is a test class for BouncerTest and is intended
+//   to contain all BouncerTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.Sync.Test.Contracts.Tests
 {
     using System;
     using System.Collections;
+    using System.Linq;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -63,6 +74,16 @@
             {
                 MustBeLengthAndNamespace = "m",
             };
+
+        public static readonly AttributedSampleClass MessageContextReadFail = new AttributedSampleClass
+            {
+                MustBeLengthAndContextRead = "m",
+            };
+
+        public static readonly AttributedSampleClass MessageContextInsertFail = new AttributedSampleClass
+            {
+                MustBeLengthAndContextInsert = "m",
+            };
         
         #endregion 
 
@@ -74,24 +95,148 @@
         }
 
         [TestMethod]
+        public void ContractContextReadOk()
+        {
+            var z = new SubscriberOne();
+            z.ContractContextRead(MessageOneOk);
+            Assert.AreEqual("0", z.Content);
+        }
+
+        [TestMethod]
+        public void ContractContextInsertOk()
+        {
+            var z = new SubscriberOne();
+            z.ContractContextRead(MessageOneOk);
+            Assert.AreEqual("0", z.Content);
+        }
+
+        [TestMethod]
+        public void ContractContextReadFail()
+        {
+            var z = new SubscriberOne();
+            z.ContractContextRead(MessageContextReadFail);
+            Assert.AreEqual("1", z.Content);
+        }
+
+        [TestMethod]
+        public void ContractContextInsertFail()
+        {
+            var z = new SubscriberOne();
+            z.ContractContextRead(MessageContextInsertFail);
+            Assert.AreEqual("0", z.Content);
+
+            z.ContractContextInsert(MessageContextInsertFail);
+            Assert.AreEqual("1", z.Content);
+        }
+
+        [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect()
         {
             var message = Bouncer.ForMessages(() => MessageOneFailRegEx).Assert().Results;
-            Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
+            Assert.IsTrue(message.First().Message.Contains("MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
+        }
+
+        [TestMethod]
+        public void CheckRuleExecution11()
+        {
+            var result = false;
+            Bouncer
+                .ForExecution(() => MessageOneOk)
+                .ForExecution(() => MessageOneOk)
+                .Assert()
+                .ExecuteOnSuccess(() => { result = true; });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void CheckRuleForCheckMultipleSuccess()
+        {
+            var x = Bouncer
+                .ForCheckData(() => MessageOneOk)
+                .ForCheckData(() => MessageOneOk)
+                .Assert();
+
+            Assert.IsNotNull(x);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RuleValidationException))]
+        public void CheckRuleForCheckMultipleFail1()
+        {
+            var x = Bouncer
+                .ForCheckData(() => MessageOneOk)
+                .ForCheckData(() => MessageOneFailRegEx)
+                .Assert();
+
+            Assert.IsNotNull(x);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RuleValidationException))]
+        public void CheckRuleForCheckMultipleFail2()
+        {
+            var x = Bouncer
+                .ForCheckData(() => MessageOneFailRegEx)
+                .ForCheckData(() => MessageOneOk)
+                .Assert();
+
+            Assert.IsNotNull(x);
+        }
+
+        [TestMethod]
+        public void CheckRuleExecution11A()
+        {
+            var result = false;
+            Bouncer
+                .ForExecution(() => MessageOneOk)
+                .ForExecution(() => MessageOneFailRegEx)
+                .Assert()
+                .ExecuteOnSuccess(() => { result = true; });
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void CheckRuleExecution11B()
+        {
+            var result = false;
+            Bouncer
+                .ForExecution(() => MessageOneFailRegEx)
+                .ForExecution(() => MessageOneOk)
+                .Assert()
+                .ExecuteOnSuccess(() => { result = true; });
+
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect2()
         {
             var message = Bouncer.ForMessages(MessageOneFailRegEx, "_MessageOneFailRegEx").Assert().Results;
-            Assert.IsTrue(message[0].Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
+            Assert.IsTrue(message.First().Message.Contains("_MessageOneFailRegEx.MustBeOfRegExPatter must be  of reg ex '.ell.!'"));
         }
 
         [TestMethod]
         public void AddRuleForTypeMustFailRegExCollect3()
         {
             var messages = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
-            var actual = messages[0].Message;
+            var actual = messages.First().Message;
+            Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.Rules.ConfigurationValidatorBaseRule`1 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", actual);
+        }
+
+        [TestMethod]
+        public void AddRuleForTypeMustFailRegExCollect3A()
+        {
+            var messages = Bouncer
+                .ForMessages("hello", "theValue")
+                .Assert(
+                    new ConfigurationValidatorBaseRule<string>
+                        {
+                            ConfigurationValidator = new System.Configuration.StringValidator(8)
+                        }
+                ).Results;
+            var actual = messages.First().Message;
             Assert.AreEqual("The rule Sem.GenericHelpers.Contracts.Rules.ConfigurationValidatorBaseRule`1 did fail for value name >>theValue<<: The validator System.Configuration.StringValidator did throw an exception.", actual);
         }
 
@@ -99,8 +244,8 @@
         public void AddRuleForTypeMustFailRegExCollect4()
         {
             var messages = Bouncer.ForMessages("hello", "theValue").Assert(new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8))).Results;
-            var actual = messages[0].Message;
-            Assert.AreEqual(messages[0].ToString(), actual);
+            var actual = messages.First().Message;
+            Assert.AreEqual(messages.First().ToString(), actual);
         }
 
         [TestMethod]
@@ -108,7 +253,7 @@
         {
             var configurationValidatorBaseRule = new ConfigurationValidatorBaseRule<string>(new System.Configuration.StringValidator(8));
             var messages = Bouncer.ForMessages("hello I have more than 8 chars", "theValue").Assert(configurationValidatorBaseRule).Results;
-            var actual = messages.Count;
+            var actual = messages.ToList().Count;
             Assert.AreEqual(0, actual);
         }
 

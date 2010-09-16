@@ -24,6 +24,6 @@ namespace Sem.GenericHelpers.Contracts.Rules
             return this.GetEnumerator();
         }
      
-        protected abstract List<RuleBase<TData, TParameter>> GetRuleList();
+        protected abstract IEnumerable<RuleBase<TData, TParameter>> GetRuleList();
     }
 }

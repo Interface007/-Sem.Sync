@@ -1,7 +1,11 @@
 ﻿namespace Sem.GenericHelpers.Contracts
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+
+    using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Rules;
 
     internal static class TypeUtils
     {

@@ -56,7 +56,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         public CheckData<TDataNew> ForCheckData<TDataNew>(Expression<Func<TDataNew>> data)
         {
             var newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes);
-            this.PreviousExecuter = () => newExecuter.Assert();
+            newExecuter.PreviousExecuter = this;
             return newExecuter;
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace Sem.Sync.Test.Contracts.Tests
 {
     using System;
+    using System.Linq;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,7 +22,7 @@
         {
             var executor = new MessageCollection<string>(() => (string)null);
             var results = executor.Assert(x => x.Length > 2).Results;
-            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(1, results.ToList().Count);
         }
 
         [TestMethod]

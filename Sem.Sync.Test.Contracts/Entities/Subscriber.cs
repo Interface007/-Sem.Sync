@@ -1,6 +1,6 @@
 ﻿namespace Sem.Sync.Test.Contracts.Entities
 {
-    using System;
+    using System.Linq;
 
     using Sem.GenericHelpers.Contracts;
     using Sem.GenericHelpers.Contracts.Attributes;
@@ -21,7 +21,7 @@
         {
             var result = Bouncer.ForMessages(() => message).Assert().Results;
 
-            this.Content = message.Content + result.Count;
+            this.Content = message.Content + result.ToList().Count;
             this.CountOfEvents++;
         }
 
@@ -30,7 +30,7 @@
         {
             var result = Bouncer.ForMessages(() => message).Assert().Results;
 
-            this.Content = result.Count.ToString();
+            this.Content = result.ToList().Count.ToString();
             this.CountOfEvents++;
         }
 
@@ -39,7 +39,25 @@
         {
             var result = Bouncer.ForMessages(() => message).Assert().Results;
 
-            this.Content = result.Count.ToString();
+            this.Content = result.ToList().Count.ToString();
+            this.CountOfEvents++;
+        }
+
+        [ContractContext("Read")]
+        public void ContractContextRead(AttributedSampleClass sample)
+        {
+            var result = Bouncer.ForMessages(() => sample).Assert().Results;
+
+            this.Content = result.ToList().Count.ToString();
+            this.CountOfEvents++;
+        }
+
+        [ContractContext("Insert")]
+        public void ContractContextInsert(AttributedSampleClass sample)
+        {
+            var result = Bouncer.ForMessages(() => sample).Assert().Results;
+
+            this.Content = result.ToList().Count.ToString();
             this.CountOfEvents++;
         }
     }

@@ -9,24 +9,29 @@
     ///to contain all BouncerTest Unit Tests
     ///</summary>
     [TestClass]
-    public class StringNotNullOrEmptyRuleTest
+    public class ObjectNotNullRuleTest
     {
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustFail()
         {
-            Assert.IsFalse(new StringNotNullOrEmptyRule().CheckExpression(string.Empty, null));
+            Assert.IsFalse(new ObjectNotNullRule().CheckExpression(null, 0));
         }
-
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustFail2()
         {
-            Assert.IsFalse(new StringNotNullOrEmptyRule().CheckExpression(null, null));
+            Assert.IsFalse(new ObjectNotNullRule().CheckExpression(null, null));
         }
 
         [TestMethod]
         public void CheckStringNotNullOrEmptyRuleMustPass1()
         {
-            Assert.IsTrue(new StringNotNullOrEmptyRule().CheckExpression("hello", null));
+            Assert.IsTrue(new ObjectNotNullRule().CheckExpression(this, null));
+        }
+
+        [TestMethod]
+        public void CheckStringNotNullOrEmptyRuleMustPass2()
+        {
+            Assert.IsTrue(new ObjectNotNullRule().CheckExpression(this, this));
         }
     }
 }

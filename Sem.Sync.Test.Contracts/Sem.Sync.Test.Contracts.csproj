@@ -53,8 +53,13 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Entities\CustomerId.cs" />
+    <Compile Include="Entities\MyBusinessComponentSave.cs" />
+    <Compile Include="Entities\MyCustomer.cs" />
+    <Compile Include="Rules\CanNotEnterRule.cs" />
     <Compile Include="Rules\CustomRuleSet.cs" />
     <Compile Include="Executors\ExceptionHandlerExecutor.cs" />
+    <Compile Include="Rules\MaxAmountRule.cs" />
     <Compile Include="Rules\SampleRuleSet.cs" />
     <Compile Include="Tests\BouncerAfterInvokeActionTest.cs" />
     <Compile Include="Tests\BouncerTestMessages.cs" />
@@ -64,7 +69,7 @@
     <Compile Include="Tests\BouncerAttributedRuleTestAlternateNamespace.cs" />
     <Compile Include="Tests\BouncerBackEndNumberBoundariesTest.cs" />
     <Compile Include="Tests\BouncerImplementsInterfaceTest.cs" />
-    <Compile Include="Tests\BouncerIsNotNullTest.cs" />
+    <Compile Include="Tests\IsNotNullRuleTest.cs" />
     <Compile Include="Tests\BouncerIsNotOneOfTest.cs" />
     <Compile Include="Tests\BouncerIsOneOfTest.cs" />
     <Compile Include="Tests\BouncerRegisterRuleTest.cs" />
@@ -77,6 +82,11 @@
     <Compile Include="Tests\BouncerTestRuleExecutionErrors.cs" />
     <Compile Include="Tests\BouncerTestExecution.cs" />
     <Compile Include="Tests\BouncerObjectNotNullTest.cs" />
+    <Compile Include="Tests\IsNullRuleTest.cs" />
+    <Compile Include="Tests\MethodAttributeTest.cs" />
+    <Compile Include="Tests\ObjectNotNullRuleTest.cs" />
+    <Compile Include="Tests\IntegerLowerThanRuleTest.cs" />
+    <Compile Include="Tests\IntegerGreaterThanRuleTest.cs" />
     <Compile Include="Tests\StringNotNullOrEmptyRuleTest.cs" />
     <Compile Include="Executors\VetoExecutor.cs" />
   </ItemGroup>

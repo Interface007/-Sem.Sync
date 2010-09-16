@@ -7,7 +7,7 @@
     public class SampleRuleSet<TData> : RuleSet<TData, object>
         where TData : class
     {
-        protected override List<RuleBase<TData, object>> GetRuleList()
+        protected override IEnumerable<RuleBase<TData, object>> GetRuleList()
         {
             var ruleset = new List<RuleBase<TData, object>>
                 {

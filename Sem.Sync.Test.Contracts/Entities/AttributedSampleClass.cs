@@ -16,6 +16,8 @@
             this.MustBeLengthMin = "12345";
             this.MustBeLengthMinMax = "12345";
             this.MustBeLengthAndNamespace = "hello";
+            this.MustBeLengthAndContextRead = "hello";
+            this.MustBeLengthAndContextInsert = "hello";
         }
 
         public AttributedSampleClass(string content)
@@ -39,6 +41,12 @@
 
         [ContractRule(typeof(StringMinLengthRule), Parameter = 3, Namespace = "Sem.Sync.Test.ContractsAlternate")]
         public string MustBeLengthAndNamespace { get; set; }
+
+        [ContractRule(typeof(StringMinLengthRule), Parameter = 3, IncludeInContext = "Read")]
+        public string MustBeLengthAndContextRead { get; set; }
+
+        [ContractRule(typeof(StringMinLengthRule), Parameter = 3, IncludeInContext = "Insert")]
+        public string MustBeLengthAndContextInsert { get; set; }
 
         public override string ToString()
         {
