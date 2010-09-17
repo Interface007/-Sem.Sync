@@ -1,12 +1,23 @@
-﻿namespace Sem.GenericHelpers.Contracts.Rules
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IsNullRule.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Defines the IsNullRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.GenericHelpers.Contracts.Rules
 {
-    public class IsNullRule<TData>: RuleBase<TData, object>
-    where TData: class
+    using Sem.GenericHelpers.Contracts.Properties;
+
+    public class IsNullRule<TData> : RuleBase<TData, object>
+        where TData : class
     {
         public IsNullRule()
         {
             this.CheckExpression = (target, parameter) => target == null;
-            this.Message = "The object is NOT NULL.";
+            this.Message = Resources.IsNullRuleStandardMessage;
         }
     }
 }

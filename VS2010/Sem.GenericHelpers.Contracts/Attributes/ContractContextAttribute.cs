@@ -1,4 +1,14 @@
-﻿namespace Sem.GenericHelpers.Contracts.Attributes
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContractContextAttribute.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Attribute to attach rules to methods. To attach rules to classes and properties,
+//   use the <see cref="ContractRuleAttribute" />.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.GenericHelpers.Contracts.Attributes
 {
     using System;
 
@@ -7,20 +17,27 @@
     /// use the <see cref="ContractRuleAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
-    public class ContractContextAttribute : Attribute
+    public sealed class ContractContextAttribute : Attribute
     {
-        public ContractContextAttribute(String contextName)
-            :this(contextName, true)
+        public ContractContextAttribute(string context)
+            : this(context, true)
         {
         }
 
-        public ContractContextAttribute(String contextName, bool active)
+        public ContractContextAttribute(string context, bool active)
         {
-            this.Context = contextName;
+            this.Context = context;
             this.Active = active;
         }
 
-        public string Context { get; set; }
-        public bool Active { get; set; }
+        /// <summary>
+        /// Gets the context value to be set or reset.
+        /// </summary>
+        public string Context { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this context value should be switched on (=true) or off (=false).
+        /// </summary>
+        public bool Active { get; private set; }
     }
 }

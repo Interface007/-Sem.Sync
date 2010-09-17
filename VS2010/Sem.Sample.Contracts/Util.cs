@@ -7,7 +7,7 @@
 
     internal static class Util
     {
-        internal static void PrintEntries(MessageCollection<MyCustomer> results)
+        internal static void PrintEntries(MessageCollector<MyCustomer> results)
         {
             Console.ForegroundColor = ConsoleColor.White;
             

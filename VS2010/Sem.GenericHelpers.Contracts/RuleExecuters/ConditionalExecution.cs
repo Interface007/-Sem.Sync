@@ -14,6 +14,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Properties;
 
     public interface IConditionalExecution
     {
@@ -29,6 +30,8 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     public class ConditionalExecution<TData> : RuleExecuter<TData, ConditionalExecution<TData>>, IConditionalExecution
     {
         private bool conditionIsTrue = true;
+        
+        private bool assertExecuted;
 
         public ConditionalExecution(string valueName, TData value)
             : this(valueName, value, null)
@@ -40,16 +43,20 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         {
         }
 
-        public ConditionalExecution(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(valueName, value, methodAttribs)
+        public ConditionalExecution(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(valueName, value, methodAttributes)
         {
         }
         
-        public ConditionalExecution(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(data, methodAttribs)
+        public ConditionalExecution(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(data, methodAttributes)
         {
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the evaluation of the rule(s) have returned "true". 
+        /// This also includes the "parent executor", that might check other data.
+        /// </summary>
         public bool ConditionIsTrue
         {
             get
@@ -64,9 +71,20 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             }
         }
 
+        /// <summary>
+        /// Executes code ifthe last result of an <see cref="ConditionalExecution{TData}.Assert()"/> was "true".
+        /// If no assert has been classed on this class, this method will execute <see cref="ConditionalExecution{TData}.AssertAll()"/> implicitly.
+        /// </summary>
+        /// <param name="action">The code to be executed.</param>
+        /// <returns>this instance</returns>
         public ConditionalExecution<TData> ExecuteOnSuccess(Action action)
         {
-            if (this.ConditionIsTrue)
+            if (!this.assertExecuted)
+            {
+                this.AssertAll();
+            }
+
+            if (this.ConditionIsTrue && action != null)
             {
                 action.Invoke();
             }
@@ -74,9 +92,20 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             return this;
         }
 
+        /// <summary>
+        /// Executes code ifthe last result of an <see cref="ConditionalExecution{TData}.Assert()"/> was "false".
+        /// If no assert has been classed on this class, this method will execute <see cref="ConditionalExecution{TData}.AssertAll()"/> implicitly.
+        /// </summary>
+        /// <param name="action">The code to be executed.</param>
+        /// <returns>this instance</returns>
         public ConditionalExecution<TData> ExecuteOnFailure(Action action)
         {
-            if (!this.ConditionIsTrue)
+            if (!this.assertExecuted)
+            {
+                this.AssertAll();
+            }
+
+            if (!this.ConditionIsTrue && action != null)
             {
                 action.Invoke();
             }
@@ -97,8 +126,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <returns>A <see cref="ConditionalExecution{TDataNew}"/> to check the rules.</returns>
         public ConditionalExecution<TDataNew> ForExecution<TDataNew>(Expression<Func<TDataNew>> data)
         {
-            var newExecuter = new ConditionalExecution<TDataNew>(data, this.MethodRuleAttributes);
-            newExecuter.PreviousExecuter = this;
+            var newExecuter = new ConditionalExecution<TDataNew>(data, this.MethodRuleAttributes)
+                {
+                    PreviousExecuter = this
+                };
+
             return newExecuter;
         }
 
@@ -108,6 +140,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <param name="validationResult">The rule validation result structure with information about the rule validation process.</param>
         protected override void AfterInvoke(RuleValidationResult validationResult)
         {
+            this.assertExecuted = true;
+
+            if (validationResult == null)
+            {
+                throw new ArgumentNullException("validationResult", Resources.ErrorMessageForRuleResultIsNull);
+            } 
+            
             this.conditionIsTrue &= validationResult.Result;
         }
     }

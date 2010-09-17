@@ -11,7 +11,7 @@
     /// Check class including the data to perform rule checking
     /// </summary>
     /// <typeparam name="TData">the data type to be checked</typeparam>
-    public class VetoExecutor<TData> : RuleExecuter<TData, MessageCollection<TData>>
+    public class VetoExecutor<TData> : RuleExecuter<TData, MessageCollector<TData>>
     {
         private bool cummulatedValidationResult = true;
 

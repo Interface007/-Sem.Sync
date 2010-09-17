@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,9 +50,16 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="Attributes\ContractContextAttribute.cs" />
+    <Compile Include="Attributes\ContractRuleBaseAttribute.cs" />
     <Compile Include="Attributes\MethodRuleAttribute.cs" />
     <Compile Include="Bouncer.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RuleExecuters\CheckData.cs" />
     <Compile Include="RuleExecuters\ConditionalExecution.cs" />
@@ -70,8 +78,8 @@
     <Compile Include="RuleExecuters\RuleExecuter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rules\RuleSet.cs" />
-    <Compile Include="Rules\RuleSets.cs" />
+    <Compile Include="Rules\RuleCollection.cs" />
+    <Compile Include="Rules\RegisteredRules.cs" />
     <Compile Include="RuleValidationResult.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +101,12 @@
     <CodeAnalysisDictionary Include="..\Shared\CustomDictionary.xml">
       <Link>Properties\CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

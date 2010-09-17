@@ -13,11 +13,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
 
     using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Properties;
     using Sem.GenericHelpers.Contracts.Rules;
 
     /// <summary>
@@ -34,12 +36,12 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         #region data
 
         /// <summary>
-        /// The "name" of the value - normally this is the name of a method parameter.
+        /// Gets or sets the "name" of the value - normally this is the name of a method parameter.
         /// </summary>
         internal string ValueName { get; set; }
 
         /// <summary>
-        /// The data to be tested.
+        /// Gets or sets the data to be tested.
         /// </summary>
         internal TData Value { get; set; }
 
@@ -76,11 +78,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// A cache for the attributes of properties.
         /// </summary>
         private static readonly Dictionary<PropertyInfo, object[]> PropertyAttributeCache = new Dictionary<PropertyInfo, object[]>();
+        private static readonly object PropertyAttributeCacheSync = new object();
 
         /// <summary>
         /// A cache for the attributes of methods.
         /// </summary>
         private static readonly Dictionary<MethodBase, List<MethodRuleAttribute>> RuleAttributeCache = new Dictionary<MethodBase, List<MethodRuleAttribute>>();
+        private static readonly object RuleAttributeCacheSync = new object();
 
         #endregion
 
@@ -95,67 +99,10 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             this.ValueName = valueName;
         }
 
-        private static IEnumerable<string> GetContext(MethodBase currentMethodInfo)
-        {
-            var attributes = new List<string>();
-
-            AddContextInfo(currentMethodInfo.DeclaringType.GetCustomAttributes(typeof(ContractContextAttribute), true), attributes);
-            AddContextInfo(currentMethodInfo.GetCustomAttributes(typeof(ContractContextAttribute), true), attributes);
-
-            return attributes;
-
-        }
-
-        private static void AddContextInfo(object[] typeAttribs, List<string> attributes)
-        {
-            foreach (ContractContextAttribute typeAttrib in typeAttribs)
-            {
-                var context = typeAttrib.Context;
-
-                if (typeAttrib.Active)
-                {
-                    attributes.Add(context);
-                    continue;
-                }
-
-                if (attributes.Contains(context))
-                {
-                    attributes.RemoveAll(x => x == context);
-                }
-            }
-        }
-
         protected RuleExecuter(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodRuleAttributes)
             : this(GetMemberName(data), GetMemberValue(data), methodRuleAttributes)
         {
         }
-
-        private static string GetMemberName(Expression<Func<TData>> data)
-        {
-            var member = data.Body as MemberExpression;
-            return member != null
-                       ? member.Member.Name
-                       : "anonymous value";
-        }
-
-        private static TData GetMemberValue(Expression<Func<TData>> data)
-        {
-            TData memberValue;
-            try
-            {
-                memberValue = data.Compile().Invoke();
-            }
-            catch (NullReferenceException)
-            {
-                // suppress null reference exceptions while invoking the
-                // expression - in this case one member of the property 
-                // paths is null and we simply assume the result to be
-                // null, too.
-                memberValue = default(TData);
-            }
-            return memberValue;
-        }
-
         #endregion
 
         #region asserts
@@ -177,18 +124,17 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <returns>The class instance this method belongs to. This way you can invoke multiple methods of this class in one line of code.</returns>
         public TResultClass Assert(RuleBase<TData, object> rule)
         {
-            this.Assert(rule, null);
-            return (TResultClass)this;
+            return this.Assert(rule, null);
         }
 
         /// <summary>
         /// Checks (depending on the inheriting rule executer) a list of rules.
         /// </summary>
-        /// <param name="ruleSet">The set of rules to be checked.</param>
+        /// <param name="ruleCollection">The set of rules to be checked.</param>
         /// <returns>The class instance this method belongs to. This way you can invoke multiple methods of this class in one line of code.</returns>
-        public TResultClass Assert(IEnumerable<RuleBase<TData, object>> ruleSet)
+        public TResultClass Assert(IEnumerable<RuleBase<TData, object>> ruleCollection)
         {
-            return this.Assert(ruleSet, null);
+            return this.Assert(ruleCollection, null);
         }
 
         /// <summary>
@@ -221,15 +167,18 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// Checks (depending on the inheriting rule executer) a list of rules.
         /// </summary>
         /// <typeparam name="TParameter">The type of the parameter object.</typeparam>
-        /// <param name="ruleSet">The set of rules to be checked.</param>
+        /// <param name="ruleCollection">The set of rules to be checked.</param>
         /// <param name="ruleParameter">The rule parameter object - some rules do need parameters for the check. 
         ///                             E.g. <see cref="IntegerLowerThanRule"/> needs an interger to compare with.</param>
         /// <returns>The class instance this method belongs to. This way you can invoke multiple methods of this class in one line of code.</returns>
-        public TResultClass Assert<TParameter>(IEnumerable<RuleBase<TData, TParameter>> ruleSet, TParameter ruleParameter)
+        public TResultClass Assert<TParameter>(IEnumerable<RuleBase<TData, TParameter>> ruleCollection, TParameter ruleParameter)
         {
-            foreach (var rule in ruleSet)
+            if (ruleCollection != null)
             {
-                this.ExecuteRuleExpression(rule, ruleParameter, this.ValueName);
+                foreach (var rule in ruleCollection)
+                {
+                    this.ExecuteRuleExpression(rule, ruleParameter, this.ValueName);
+                }
             }
 
             return (TResultClass)this;
@@ -252,106 +201,6 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         {
             return this.Assert();
         }
-
-        /// <summary>
-        /// Checks the rules of the current method that do match to the <see cref="ValueName"/>.
-        /// </summary>
-        private void AssertForMethodAttributes()
-        {
-            var ruleAttributes =
-                from methodAttribute in this.MethodRuleAttributes
-                where methodAttribute.MethodParameterName == this.ValueName
-                select methodAttribute;
-
-            foreach (var ruleAttribute in ruleAttributes)
-            {
-                var ruleExecuter = this.CreateRuleExecuter(
-                    typeof(TData),
-                    this.ValueName,
-                    this.Value);
-
-                var result = this.InvokeRuleExecutionForAttribute(ruleExecuter, ruleAttribute, this.ValueName);
-                if (result != null)
-                {
-                    this.AfterInvoke(result);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the rules attached to the properties of the <see cref="TData"/>.
-        /// </summary>
-        private void AssertForProperties()
-        {
-            foreach (var propertyInfo in typeof(TData).GetProperties())
-            {
-                if (!PropertyAttributeCache.ContainsKey(propertyInfo))
-                {
-                    PropertyAttributeCache.Add(propertyInfo, propertyInfo.GetCustomAttributes(typeof(ContractRuleAttribute), true));
-                }
-
-                var ruleAttributes = PropertyAttributeCache[propertyInfo];
-                if (ruleAttributes.Count() == 0)
-                {
-                    continue;
-                }
-
-                // first we need to construct a new rule executer type, unfortunately this is a generic type, 
-                // so we need to do it via reflection (we don't have the type of the property at design time)
-                var propertyName = this.ValueName + "." + propertyInfo.Name;
-                var ruleExecuter = this.CreateRuleExecuter(
-                    propertyInfo.PropertyType,
-                    propertyName,
-                    propertyInfo.GetValue(this.Value, null));
-
-                // now enumerate the attributes of the property (there might be more than one)
-                foreach (ContractRuleAttribute ruleAttribute in ruleAttributes)
-                {
-                    // here we filter by namespace
-                    var namespaceFilter = ruleAttribute.Namespace;
-                    if (!string.IsNullOrEmpty(namespaceFilter))
-                    {
-                        var callingNamespace = this.GetCallingNamespace();
-                        if (!(callingNamespace == namespaceFilter || callingNamespace.StartsWith(namespaceFilter)))
-                        {
-                            continue;
-                        }
-                    }
-
-                    // here we filter by context
-                    var contextFilter = ruleAttribute.IncludeInContext;
-                    if (!string.IsNullOrEmpty(contextFilter))
-                    {
-                        if ((from x in this.Context where x == contextFilter select x).Count() == 0)
-                        {
-                            continue;
-                        }
-                    }
-
-                    var result = this.InvokeRuleExecutionForAttribute(ruleExecuter, ruleAttribute, propertyName);
-
-                    // we need to explicitly call "AfterInvoke" here, because "ruleExecuter" is not euqal to this,
-                    // so the call of "AfterInvoke" while rule execution does update a different instance of RuleExecuter.
-                    if (result != null)
-                    {
-                        this.AfterInvoke(result);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the rules attached to the type of <see cref="TData"/>.
-        /// </summary>
-        private void AssertForType()
-        {
-            var rules = RuleSets.GetRulesForType<TData, object>();
-            foreach (var typeRule in rules)
-            {
-                this.Assert(typeRule, null);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -363,9 +212,14 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <param name="ruleAttribute">The attribute that defines the rule.</param>
         /// <param name="propertyName">The name of the data to be validated by the rule.</param>
         /// <returns>A new instance of <see cref="RuleValidationResult"/>.</returns>
-        public RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleAttribute ruleAttribute, string propertyName)
+        public RuleValidationResult InvokeRuleExecutionForAttribute(IRuleExecuter ruleExecuter, ContractRuleBaseAttribute ruleAttribute, string propertyName)
         {
-            var typeAttributeType = ruleAttribute.Type;
+            if (ruleAttribute == null || ruleExecuter == null)
+            {
+                return null;
+            }
+
+            var typeAttributeType = ruleAttribute.RuleType;
             if (typeAttributeType.Implements(typeof(IEnumerable)))
             {
                 return null;
@@ -390,7 +244,6 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
             try
             {
-
                 // create an instance of the rule and invoke the Assert statement
                 var constructorInfo = typeAttributeType.GetConstructor(Type.EmptyTypes);
                 RuleBaseInformation rule;
@@ -403,7 +256,6 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                     rule = (RuleBaseInformation)constructorInfo.Invoke(null);
                 }
 
-
                 var ruleType = rule.GetType();
                 if (!string.IsNullOrEmpty(ruleAttribute.Message))
                 {
@@ -415,10 +267,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                 var result = new RuleValidationResult(
                     ruleType,
                     string.Format(
-                        "The rule {0} did fail for value name >>{1}<<: {2}",
+                        CultureInfo.CurrentCulture, 
+                        Resources.RuleValidationResultStandardMessage,
                         ruleType.Namespace + "." + ruleType.Name,
                         propertyName,
-                        string.Format(rule.Message, parameter, propertyName)),
+                        string.Format(CultureInfo.CurrentCulture, rule.Message, parameter, propertyName)),
                     propertyName,
                     invokeResult);
 
@@ -478,14 +331,15 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             var result = new RuleValidationResult(
                 ruleType,
                 string.Format(
-                    "The rule {0} did fail for value name >>{1}<<: {2}",
+                    CultureInfo.CurrentCulture, 
+                    Resources.RuleValidationResultStandardMessage,
                     ruleType.Namespace + "." + ruleType.Name,
                     valueName,
-                    string.Format(rule.Message, ruleParameter, valueName)),
+                    string.Format(CultureInfo.CurrentCulture, rule.Message, ruleParameter, valueName)),
                 valueName,
                 validationResult);
 
-            foreach (var action in Bouncer.AfterInvokeAction)
+            foreach (var action in Bouncer.GetAfterInvokeActions())
             {
                 action.Invoke(result);
             }
@@ -526,7 +380,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
         /// <summary>
         /// This method will be called in case of an exception while evaluating the rule. Such exceptions will be caught to be
-        /// able to build a full list of result entries for a validation (<see cref="MessageCollection{TData}"/>).
+        /// able to build a full list of result entries for a validation (<see cref="MessageCollector{TData}"/>).
         /// </summary>
         /// <typeparam name="TParameter">The type of the rule parameter.</typeparam>
         /// <param name="ex">The exception that has been thrown while executing the validation.</param>
@@ -546,41 +400,83 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// current method is the first method inside the stack trace from a class, that is not inside the 
         /// namespace of <see cref="Bouncer"/> and not inside a class implementing an interface called "IRuleExecuter".
         /// </summary>
-        /// <param name="methodInfo"></param>
+        /// <param name="methodInfo">The reflected information about the calling method.</param>
         /// <returns>A list of <see cref="MethodRuleAttribute"/> with all attributes of the current method.</returns>
-        public static IEnumerable<MethodRuleAttribute> GetRuleAttributesFromCurrentMethod(MethodBase methodInfo)
+        private static IEnumerable<MethodRuleAttribute> GetRuleAttributesFromCurrentMethod(MethodBase methodInfo)
         {
-            if (!RuleAttributeCache.ContainsKey(methodInfo))
+            lock (RuleAttributeCacheSync)
             {
-                var customAttributes = methodInfo.GetCustomAttributes(typeof(MethodRuleAttribute), true);
-                var methodRuleAttributes1 = (from x in customAttributes select (MethodRuleAttribute)x).ToList();
-
-                var newRules = new List<MethodRuleAttribute>();
-                foreach (var methodRuleAttribute in methodRuleAttributes1)
+                if (!RuleAttributeCache.ContainsKey(methodInfo))
                 {
-                    if (!methodRuleAttribute.Type.Implements(typeof(IEnumerable)))
+                    var customAttributes = methodInfo.GetCustomAttributes(typeof(MethodRuleAttribute), true);
+                    var methodRuleAttributes1 = (from x in customAttributes select (MethodRuleAttribute)x).ToList();
+
+                    var newRules = new List<MethodRuleAttribute>();
+                    foreach (var methodRuleAttribute in methodRuleAttributes1)
                     {
-                        continue;
+                        if (!methodRuleAttribute.RuleType.Implements(typeof(IEnumerable)))
+                        {
+                            continue;
+                        }
+
+                        var ruleCollection = (IEnumerable)methodRuleAttribute.RuleType.GetConstructor(new Type[] { }).Invoke(null);
+                        foreach (var rule in ruleCollection)
+                        {
+                            newRules.Add(new MethodRuleAttribute(rule.GetType(), methodRuleAttribute.MethodArgumentName)
+                                {
+                                    Namespace = methodRuleAttribute.Namespace,
+                                    IncludeInContext = methodRuleAttribute.IncludeInContext,
+                                    Message = methodRuleAttribute.Message,
+                                    Parameter = methodRuleAttribute.Parameter
+                                });
+                        }
                     }
 
-                    var ruleset = (IEnumerable)methodRuleAttribute.Type.GetConstructor(new Type[] { }).Invoke(null);
-                    foreach (var rule in ruleset)
-                    {
-                        newRules.Add(new MethodRuleAttribute(rule.GetType(), methodRuleAttribute.MethodParameterName)
-                            {
-                                Namespace = methodRuleAttribute.Namespace,
-                                IncludeInContext = methodRuleAttribute.IncludeInContext,
-                                Message = methodRuleAttribute.Message,
-                                Parameter = methodRuleAttribute.Parameter
-                            });
-                    }
+                    methodRuleAttributes1.AddRange(newRules);
+                    RuleAttributeCache.Add(methodInfo, methodRuleAttributes1);
                 }
 
-                methodRuleAttributes1.AddRange(newRules);
-                RuleAttributeCache.Add(methodInfo, methodRuleAttributes1);
+                return RuleAttributeCache[methodInfo];
             }
+        }
 
-            return RuleAttributeCache[methodInfo];
+        /// <summary>
+        /// Creates and initializes a rule using a generic parameter of <paramref name="valueType"/>.
+        /// </summary>
+        /// <param name="ruleType">The type of rule to be created.</param>
+        /// <param name="valueType">The type of the value that should be checked with the rule.</param>
+        /// <returns>A new rule instance of the specified type.</returns>
+        private static RuleBaseInformation CreateRule(Type ruleType, Type valueType)
+        {
+            return ruleType
+                .GetGenericTypeDefinition()
+                .MakeGenericType(valueType)
+                .GetConstructor(new Type[] { })
+                .Invoke(null) as RuleBaseInformation;
+        }
+
+        private static string GetMemberName(Expression<Func<TData>> data)
+        {
+            var member = data.Body as MemberExpression;
+            return member != null
+                       ? member.Member.Name
+                       : "anonymous value";
+        }
+
+        private static TData GetMemberValue(Expression<Func<TData>> data)
+        {
+            try
+            {
+                return data.Compile().Invoke();
+            }
+            catch (NullReferenceException)
+            {
+                // suppress null reference exceptions while invoking the
+                // expression - in this case one member of the property 
+                // paths is null and we simply assume the result to be
+                // null, too.
+                return default(TData);
+            }
         }
 
         private static MethodBase GetCurrentMethodInfo(int skipFrames)
@@ -594,13 +490,43 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                 methodInfo = stack.GetFrame(i).GetMethod();
                 var declaringType = methodInfo.DeclaringType;
                 if (declaringType.Namespace != null
-                    && !declaringType.Namespace.StartsWith(BouncerNameSpace)
+                    && !declaringType.Namespace.StartsWith(BouncerNameSpace, StringComparison.Ordinal)
                     && declaringType.GetInterface("IRuleExecuter", false) == null)
                 {
                     break;
                 }
             }
+
             return methodInfo;
+        }
+
+        private static IEnumerable<string> GetContext(MethodBase currentMethodInfo)
+        {
+            var attributes = new List<string>();
+
+            AddContextInfo(currentMethodInfo.DeclaringType.GetCustomAttributes(typeof(ContractContextAttribute), true), attributes);
+            AddContextInfo(currentMethodInfo.GetCustomAttributes(typeof(ContractContextAttribute), true), attributes);
+
+            return attributes;
+        }
+
+        private static void AddContextInfo(object[] typeAttribs, List<string> attributes)
+        {
+            foreach (ContractContextAttribute typeAttrib in typeAttribs)
+            {
+                var context = typeAttrib.Context;
+
+                if (typeAttrib.Active)
+                {
+                    attributes.Add(context);
+                    continue;
+                }
+
+                if (attributes.Contains(context))
+                {
+                    attributes.RemoveAll(x => x == context);
+                }
+            }
         }
 
         /// <summary>
@@ -619,7 +545,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
                 {
                     var callingNamespace = stackFrame.GetMethod().DeclaringType.Namespace;
 
-                    if (callingNamespace != null && !callingNamespace.StartsWith(this.myNamespace))
+                    if (callingNamespace != null && !callingNamespace.StartsWith(this.myNamespace, StringComparison.Ordinal))
                     {
                         name = callingNamespace;
                         break;
@@ -636,7 +562,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <param name="valueType">The type of the value that should be checked.</param>
         /// <param name="name">The name of the value that should be checked.</param>
         /// <param name="value">The value that should be checked.</param>
-        /// <returns></returns>
+        /// <returns>A new instance of the rule executer.</returns>
         private IRuleExecuter CreateRuleExecuter(Type valueType, string name, object value)
         {
             return this.GetType()
@@ -647,18 +573,107 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         }
 
         /// <summary>
-        /// Creates and initializes a rule using a generic parameter of <paramref name="valueType"/>.
+        /// Checks the rules attached to the type of <see cref="TData"/>.
         /// </summary>
-        /// <param name="ruleType">The type of rule to be created.</param>
-        /// <param name="valueType">The type of the value that should be checked with the rule.</param>
-        /// <returns></returns>
-        private static RuleBaseInformation CreateRule(Type ruleType, Type valueType)
+        private void AssertForType()
         {
-            return ruleType
-                .GetGenericTypeDefinition()
-                .MakeGenericType(valueType)
-                .GetConstructor(new Type[] { })
-                .Invoke(null) as RuleBaseInformation;
+            var rules = RegisteredRules.GetRulesForType<TData, object>();
+            foreach (var typeRule in rules)
+            {
+                this.Assert(typeRule, null);
+            }
+        }
+
+        /// <summary>
+        /// Checks the rules of the current method that do match to the <see cref="ValueName"/>.
+        /// </summary>
+        private void AssertForMethodAttributes()
+        {
+            var ruleAttributes =
+                from methodAttribute in this.MethodRuleAttributes
+                where methodAttribute.MethodArgumentName == this.ValueName
+                select methodAttribute;
+
+            foreach (var ruleAttribute in ruleAttributes)
+            {
+                var ruleExecuter = this.CreateRuleExecuter(
+                    typeof(TData),
+                    this.ValueName,
+                    this.Value);
+
+                var result = this.InvokeRuleExecutionForAttribute(ruleExecuter, ruleAttribute, this.ValueName);
+                if (result != null)
+                {
+                    this.AfterInvoke(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks the rules attached to the properties of the <see cref="TData"/>.
+        /// </summary>
+        private void AssertForProperties()
+        {
+            foreach (var propertyInfo in typeof(TData).GetProperties())
+            {
+                object[] ruleAttributes;
+
+                lock (PropertyAttributeCacheSync)
+                {
+                    if (!PropertyAttributeCache.ContainsKey(propertyInfo))
+                    {
+                        PropertyAttributeCache.Add(propertyInfo, propertyInfo.GetCustomAttributes(typeof(ContractRuleAttribute), true));
+                    }
+
+                    ruleAttributes = PropertyAttributeCache[propertyInfo];
+                    if (ruleAttributes.Count() == 0)
+                    {
+                        continue;
+                    }
+                }
+
+                // first we need to construct a new rule executer type, unfortunately this is a generic type, 
+                // so we need to do it via reflection (we don't have the type of the property at design time)
+                var propertyName = this.ValueName + "." + propertyInfo.Name;
+                var ruleExecuter = this.CreateRuleExecuter(
+                    propertyInfo.PropertyType,
+                    propertyName,
+                    propertyInfo.GetValue(this.Value, null));
+
+                // now enumerate the attributes of the property (there might be more than one)
+                foreach (ContractRuleAttribute ruleAttribute in ruleAttributes)
+                {
+                    // here we filter by namespace
+                    var namespaceFilter = ruleAttribute.Namespace;
+                    if (!string.IsNullOrEmpty(namespaceFilter))
+                    {
+                        var callingNamespace = this.GetCallingNamespace();
+                        if (!(callingNamespace == namespaceFilter || callingNamespace.StartsWith(namespaceFilter, StringComparison.Ordinal)))
+                        {
+                            continue;
+                        }
+                    }
+
+                    // here we filter by context
+                    var contextFilter = ruleAttribute.IncludeInContext;
+                    if (!string.IsNullOrEmpty(contextFilter))
+                    {
+                        if ((from x in this.Context where x == contextFilter select x).Count() == 0)
+                        {
+                            continue;
+                        }
+                    }
+
+                    var result = this.InvokeRuleExecutionForAttribute(ruleExecuter, ruleAttribute, propertyName);
+
+                    // we need to explicitly call "AfterInvoke" here, because "ruleExecuter" is not euqal to this,
+                    // so the call of "AfterInvoke" while rule execution does update a different instance of RuleExecuter.
+                    if (result != null)
+                    {
+                        this.AfterInvoke(result);
+                    }
+                }
+            }
         }
     }
 }

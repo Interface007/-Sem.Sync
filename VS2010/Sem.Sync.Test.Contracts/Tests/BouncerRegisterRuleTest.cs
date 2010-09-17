@@ -46,15 +46,15 @@
         [TestCleanup]
         public void CleanUp()
         {
-            RuleSets.TypeRegisteredRules.Clear();
+            RegisteredRules.Clear();
         }
 
         [TestInitialize]
         public void InitTest()
         {
-            RuleSets.RegisterRule(new IsNotNullRule<string>());
-            RuleSets.RegisterRule(TestRule2());
-            RuleSets.RegisterRuleSet(new SampleRuleSet<MessageOne>());
+            RegisteredRules.Register(new IsNotNullRule<string>());
+            RegisteredRules.Register(TestRule2());
+            RegisteredRules.RegisterCollection(new SampleRuleSet<MessageOne>());
         }
         #endregion preparation
 

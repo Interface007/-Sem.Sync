@@ -44,10 +44,31 @@
         [TestMethod]
         public void TestMethod1()
         {
+            // The method InsertCustomer has a RuleCollection "StrictCustomerCheckRuleSet" attached and runs in the context of "Create"
+            // StrictCustomerCheckRuleSet does contain rule CanNotEnterRule                         => violation!
+            // StrictCustomerCheckRuleSet does contain rule IsNotNullRule                           => ok
+            // MyCustomer does contain rule IsNotNullRule for property InternalId in context "Read" => ok, violation suppressed by context
+            // MyCustomer does contain rule IsNullRule for property InternalId in context "Create"  => ok
+            // MyCustomer does contain rule StringRegexMatchRule for property EMailAddress          => violation!
             var results = new MyBusinessComponentSave().InsertCustomer(new MyCustomer { FullName = "Sven", EMailAddress = "don't@spam.me" }).ToList();
             Assert.AreEqual(2, results.Count);
             Assert.AreEqual(typeof(StringRegexMatchRule), results[0].RuleType);
             Assert.AreEqual(typeof(Rules.CanNotEnterRule), results[1].RuleType);
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            // The method InsertCustomer has a RuleCollection "StrictCustomerCheckRuleSet" attached and runs in the context of "Create"
+            // StrictCustomerCheckRuleSet does contain rule CanNotEnterRule                         => ok
+            // StrictCustomerCheckRuleSet does contain rule IsNotNullRule                           => ok
+            // MyCustomer does contain rule IsNotNullRule for property InternalId in context "Read" => ok, but suppressed by context
+            // MyCustomer does contain rule IsNullRule for property InternalId in context "Create"  => violation!
+            // MyCustomer does contain rule StringRegexMatchRule for property EMailAddress          => ok
+            var results = new MyBusinessComponentSave().InsertCustomer(new MyCustomer { FullName = "Mary", EMailAddress = "dont@spam.me", InternalId = new CustomerId() }).ToList();
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(typeof(IsNullRule<CustomerId>), results[0].RuleType);
+            Assert.AreEqual("customer.InternalId", results[0].ValueName);
         }
     }
 }

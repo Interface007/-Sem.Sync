@@ -43,6 +43,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -87,6 +88,7 @@
     <Compile Include="Tests\ObjectNotNullRuleTest.cs" />
     <Compile Include="Tests\IntegerLowerThanRuleTest.cs" />
     <Compile Include="Tests\IntegerGreaterThanRuleTest.cs" />
+    <Compile Include="Tests\RuleValidationExceptionTest.cs" />
     <Compile Include="Tests\StringNotNullOrEmptyRuleTest.cs" />
     <Compile Include="Executors\VetoExecutor.cs" />
   </ItemGroup>

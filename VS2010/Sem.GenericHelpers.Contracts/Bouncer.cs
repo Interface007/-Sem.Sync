@@ -11,6 +11,7 @@ namespace Sem.GenericHelpers.Contracts
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.RuleExecuters;
@@ -22,7 +23,31 @@ namespace Sem.GenericHelpers.Contracts
     /// </summary>
     public static class Bouncer
     {
-        public static readonly IList<Action<RuleValidationResult>> AfterInvokeAction = new List<Action<RuleValidationResult>>();
+        private static readonly IList<Action<RuleValidationResult>> AfterInvokeAction = new List<Action<RuleValidationResult>>();
+        private static readonly object AfterInvokeActionSync = new object();
+
+        public static void AddAfterInvokeAction(Action<RuleValidationResult> action)
+        {
+            lock (AfterInvokeActionSync)
+            {
+                AfterInvokeAction.Add(action);
+            }
+        }
+
+        /// <summary>
+        /// Creates an list of currently registered <see cref="Action{RuleValidationResult}"/> to be 
+        /// invoked after a rule has veen validated.
+        /// </summary>
+        /// <returns>A copy of the current list of elements.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "This does not return a reference to the internal list of actions, but makes a copy of the current representation of that list. This is definitely not what a property is appropiate for.")]
+        public static IEnumerable<Action<RuleValidationResult>> GetAfterInvokeActions()
+        {
+            lock (AfterInvokeActionSync)
+            {
+                // this does make a copy of the list
+                return AfterInvokeAction.ToList();
+            }
+        }
 
         /// <summary>
         /// Creates a <see cref="CheckData{TData}"/> for executing rules by specifying a lambda expression:
@@ -55,7 +80,7 @@ namespace Sem.GenericHelpers.Contracts
         }
 
         /// <summary>
-        /// Creates a <see cref="MessageCollection{TData}"/> for collecting warnings about rule violations 
+        /// Creates a <see cref="MessageCollector{TData}"/> for collecting warnings about rule violations 
         /// by specifying a lambda expression:
         /// <para>var result = Bouncer.ForMessages(() => MessageOneOk).Assert().Results;</para>
         /// The expression will be executed only once. Specifying lambda expression provides the benefit 
@@ -64,10 +89,10 @@ namespace Sem.GenericHelpers.Contracts
         /// </summary>
         /// <typeparam name="TData">The type of data the expression returns.</typeparam>
         /// <param name="data">The expression to get the content of the variable.</param>
-        /// <returns>A <see cref="MessageCollection{TData}"/> to check the rules.</returns>
-        public static MessageCollection<TData> ForMessages<TData>(Expression<Func<TData>> data)
+        /// <returns>A <see cref="MessageCollector{TData}"/> to check the rules.</returns>
+        public static MessageCollector<TData> ForMessages<TData>(Expression<Func<TData>> data)
         {
-            return new MessageCollection<TData>(data);
+            return new MessageCollector<TData>(data);
         }
 
         /// <summary>
@@ -80,10 +105,10 @@ namespace Sem.GenericHelpers.Contracts
         /// <typeparam name="TData">The type of data to be checked.</typeparam>
         /// <param name="data">The data to be checked.</param>
         /// <param name="name">The name of the parameter/variable to be checked.</param>
-        /// <returns>A <see cref="MessageCollection{TData}"/> to check the rules.</returns>
-        public static MessageCollection<TData> ForMessages<TData>(TData data, string name)
+        /// <returns>A <see cref="MessageCollector{TData}"/> to check the rules.</returns>
+        public static MessageCollector<TData> ForMessages<TData>(TData data, string name)
         {
-            return new MessageCollection<TData>(name, data);
+            return new MessageCollector<TData>(name, data);
         }
 
         /// <summary>

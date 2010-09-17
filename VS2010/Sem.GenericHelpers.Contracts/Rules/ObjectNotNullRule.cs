@@ -9,12 +9,14 @@
 
 namespace Sem.GenericHelpers.Contracts.Rules
 {
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public class ObjectNotNullRule : RuleBase<object, object>
     {
         public ObjectNotNullRule()
         {
             this.CheckExpression = (target, parameter) => target != null;
-            this.Message = "The object is NULL.";
+            this.Message = Resources.ObjectNotNullRuleStandardMessage;
         }
     }
 }

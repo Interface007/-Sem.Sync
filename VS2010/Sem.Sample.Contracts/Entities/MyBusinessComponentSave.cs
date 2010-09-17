@@ -29,8 +29,8 @@ namespace Sem.Sample.Contracts.Entities
             Bouncer.ForCheckData(() => customer).Assert();
 
             Console.WriteLine(
-                "calling customer {0} with Id {1}", 
-                GetTheName(customer), 
+                "calling customer {0} with Id {1}",
+                GetTheName(customer),
                 FormatTheId(customer));
         }
 
@@ -69,7 +69,7 @@ namespace Sem.Sample.Contracts.Entities
             Console.WriteLine("--->   did not cause any exception. So \"customer Sven\"   <---");
             Console.WriteLine("--->   did enter the method  and did execute all code.   <---");
         }
-        
+
         /// <summary>
         /// This method performs some rule checking by specifying the rules inside 
         /// method parameters. 
@@ -77,16 +77,16 @@ namespace Sem.Sample.Contracts.Entities
         /// <param name="customerId"></param>
         /// <param name="amount"></param>
         /// <param name="theCustomer"></param>
-[MethodRule(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
-[MethodRule(typeof(StringNotNullOrEmptyRule), "customerId")]
-public void CheckCustomerWithWithMethodAttributes(string customerId, int amount, MyCustomer theCustomer)
-{
-    Bouncer
-        .ForCheckData(() => customerId)
-        .ForCheckData(() => amount)
-        .ForCheckData(() => theCustomer)
-        .Assert();
-    
+        [MethodRule(typeof(IntegerLowerThanRule), "amount", Parameter = 100)]
+        [MethodRule(typeof(StringNotNullOrEmptyRule), "customerId")]
+        public void CheckCustomerWithWithMethodAttributes(string customerId, int amount, MyCustomer theCustomer)
+        {
+            Bouncer
+                .ForCheckData(() => customerId)
+                .ForCheckData(() => amount)
+                .ForCheckData(() => theCustomer)
+                .Assert();
+
             var results = Bouncer
                 .ForMessages(() => customerId)
                 .ForMessages(() => amount)
