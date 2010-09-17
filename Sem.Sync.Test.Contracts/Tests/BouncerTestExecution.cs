@@ -3,7 +3,6 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Sem.GenericHelpers.Contracts;
-    using Sem.Sync.Test.Contracts;
     using Sem.Sync.Test.Contracts.Entities;
 
     /// <summary>
@@ -13,6 +12,30 @@
     [TestClass]
     public class BouncerTestExecution
     {
+        [TestMethod]
+        public void CheckRuleExecutionDirectly1()
+        {
+            var messageOne = new AttributedSampleClass { MustBeLengthMin = "123456" };
+            var result = false;
+            Bouncer
+                .ForExecution(() => messageOne)
+                .ExecuteOnSuccess(() => { result = true; });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void CheckRuleExecutionDirectly2()
+        {
+            var messageOne = new AttributedSampleClass { MustBeLengthMin = "1" };
+            var result = false;
+            Bouncer
+                .ForExecution(() => messageOne)
+                .ExecuteOnFailure(() => { result = true; });
+
+            Assert.IsTrue(result);
+        }
+
         [TestMethod]
         public void CheckRuleExecution1()
         {

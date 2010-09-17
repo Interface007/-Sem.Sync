@@ -20,7 +20,7 @@
         [TestMethod]
         public void CheckRuleWithExpressionCausingNullRefException()
         {
-            var executor = new MessageCollection<string>(() => (string)null);
+            var executor = new MessageCollector<string>(() => (string)null);
             var results = executor.Assert(x => x.Length > 2).Results;
             Assert.AreEqual(1, results.ToList().Count);
         }
@@ -28,7 +28,7 @@
         [TestMethod]
         public void CheckRuleWithNullRule()
         {
-            var executor = new MessageCollection<string>(() => (string)null);
+            var executor = new MessageCollector<string>(() => (string)null);
             var result = executor.ExecuteRuleExpression(null, "hello", "you");
             Assert.IsTrue(result);
         }
@@ -55,7 +55,7 @@
         [ExpectedException(typeof(FormatException))]
         public void CheckRuleWithExpressionCausingFormatException()
         {
-            var executor = new MessageCollection<string>(() => "Hello");
+            var executor = new MessageCollector<string>(() => "Hello");
             var result = executor.Assert(x => bool.Parse(x.Length.ToString())).Results;
         }
 

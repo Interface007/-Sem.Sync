@@ -1,4 +1,14 @@
-﻿namespace Sem.GenericHelpers.Contracts.Attributes
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MethodRuleAttribute.cs" company="Sven Erik Matzen">
+//   Copyright (c) Sven Erik Matzen. GNU Library General Public License (LGPL) Version 2.1.
+// </copyright>
+// <summary>
+//   Attribute to attach rules to methods. To attach rules to classes and properties,
+//   use the <see cref="ContractRuleAttribute" />.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Sem.GenericHelpers.Contracts.Attributes
 {
     using System;
 
@@ -7,14 +17,17 @@
     /// use the <see cref="ContractRuleAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class MethodRuleAttribute : ContractRuleAttribute
+    public sealed class MethodRuleAttribute : ContractRuleBaseAttribute
     {
-        public MethodRuleAttribute(Type type, String methodParameterName)
-            : base(type)
+        public MethodRuleAttribute(Type ruleType, string methodArgumentName)
+            : base(ruleType)
         {
-            this.MethodParameterName = methodParameterName;
+            this.MethodArgumentName = methodArgumentName;
         }
 
-        public string MethodParameterName { get; set; }
+        /// <summary>
+        /// Gets the name of the method argument that should be checked with this rule.
+        /// </summary>
+        public string MethodArgumentName { get; private set; }
     }
 }

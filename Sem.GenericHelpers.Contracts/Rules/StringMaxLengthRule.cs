@@ -9,12 +9,14 @@
 
 namespace Sem.GenericHelpers.Contracts.Rules
 {
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public class StringMaxLengthRule : RuleBase<string, int>
     {
         public StringMaxLengthRule()
         {
             this.CheckExpression = (target, parameter) => target != null && target.Length <= parameter;
-            this.Message = "The string does not have the maximum length of >>{0}<<.";
+            this.Message = Resources.StringMaxLengthRuleStandardMessage;
         }
     }
 }

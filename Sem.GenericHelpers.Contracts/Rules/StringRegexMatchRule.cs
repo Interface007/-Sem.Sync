@@ -11,12 +11,14 @@ namespace Sem.GenericHelpers.Contracts.Rules
 {
     using System.Text.RegularExpressions;
 
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public class StringRegexMatchRule : RuleBase<string, string>
     {
         public StringRegexMatchRule()
         {
             this.CheckExpression = (target, parameter) => target != null && new Regex(parameter).IsMatch(target);
-            this.Message = "The string does not match the regular expression >>{0}<<.";
+            this.Message = Resources.StringRegexMatchRuleStandardMessage;
         }
     }
 }

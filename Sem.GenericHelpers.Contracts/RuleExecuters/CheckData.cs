@@ -15,6 +15,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
 
     using Sem.GenericHelpers.Contracts.Attributes;
     using Sem.GenericHelpers.Contracts.Exceptions;
+    using Sem.GenericHelpers.Contracts.Properties;
 
     /// <summary>
     /// Check class including the data to perform rule checking. A validation error will
@@ -33,13 +34,13 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         {
         }
 
-        public CheckData(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(valueName, value, methodAttribs)
+        public CheckData(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(valueName, value, methodAttributes)
         {
         }
 
-        public CheckData(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(data, methodAttribs)
+        public CheckData(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(data, methodAttributes)
         {
         }
 
@@ -55,8 +56,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <returns>A <see cref="CheckData{TDataNew}"/> to execute the tests with.</returns>
         public CheckData<TDataNew> ForCheckData<TDataNew>(Expression<Func<TDataNew>> data)
         {
-            var newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes);
-            newExecuter.PreviousExecuter = this;
+            var newExecuter = new CheckData<TDataNew>(data, this.MethodRuleAttributes)
+                {
+                    PreviousExecuter = this
+                };
+
             return newExecuter;
         }
 
@@ -68,6 +72,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <exception cref="RuleValidationException">If the validation result is "false".</exception>
         protected override void AfterInvoke(RuleValidationResult validationResult)
         {
+            if (validationResult == null)
+            {
+                throw new ArgumentNullException("validationResult", Resources.ErrorMessageForRuleResultIsNull);
+            }
+
             if (validationResult.Result)
             {
                 return;

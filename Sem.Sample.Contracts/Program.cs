@@ -58,8 +58,8 @@ namespace Sem.Sample.Contracts
 
             Util.TryCall(
                 "We'll call a method containing a MethodRuleAttribute that defines a\n" +
-                "rule for its parameter. This way we nearly completely are declarative\n" +
-                "unfortunately we cannot enforce the parameter name to match to the method\n" +
+                "rule for its parameter. This way we nearly completely are declarative.\n" +
+                "Unfortunately we cannot enforce the parameter name to match to the method\n" +
                 "signature at compile time.",
                 () => new MyBusinessComponentSave().CheckCustomerWithWithMethodAttributes(string.Empty, 1000, new MyCustomer { EMailAddress = "sven@svenerikmatzen.info" }));
 
@@ -72,7 +72,7 @@ namespace Sem.Sample.Contracts
                 "for InternalId => 'IsNullRule' instead of 'IsNotNullRule'.\n" +
                 "The rules for specifying the full name and a valid email address (the string\n" +
                 "\"don't@spam.me\" does contain a '-char) are still active.",
-                () => new MyBusinessComponentSave().InsertCustomer(new MyCustomer { FullName = "Sven", EMailAddress = "don't@spam.me"}));
+                () => new MyBusinessComponentSave().InsertCustomer(new MyCustomer { FullName = "Sven", EMailAddress = "don't@spam.me" }));
         }
 
         private static void AddLogging(string message)
@@ -89,11 +89,15 @@ namespace Sem.Sample.Contracts
 
             if (input.ToUpperInvariant() == "L")
             {
-                Bouncer.AfterInvokeAction.Add(x =>
+                Bouncer.AddAfterInvokeAction(x =>
                     {
                         var c = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("LOG: " + x.RuleType.Name + " => " + x.Result + " for " + x.ValueName + "\n" + x.Message);
+                        Console.WriteLine(
+                            @"LOG: " + x.RuleType.Name + 
+                            @"  => " + x.Result + 
+                            @" for " + x.ValueName + 
+                            @" ... " + x.Message);
                         Console.ForegroundColor = c;
                     });
             }

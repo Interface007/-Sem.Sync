@@ -15,8 +15,9 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     using System.Linq.Expressions;
 
     using Sem.GenericHelpers.Contracts.Attributes;
+    using Sem.GenericHelpers.Contracts.Properties;
 
-    public interface IMessageCollection
+    public interface IMessageCollector
     {
         IEnumerable<RuleValidationResult> Results { get; }
     }
@@ -27,7 +28,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
     /// of <see cref="RuleValidationResult"/>).
     /// </summary>
     /// <typeparam name="TData">The data type to be checked.</typeparam>
-    public class MessageCollection<TData> : RuleExecuter<TData, MessageCollection<TData>>, IMessageCollection
+    public class MessageCollector<TData> : RuleExecuter<TData, MessageCollector<TData>>, IMessageCollector
     {
         /// <summary>
         /// The result list of <see cref="RuleValidationResult"/>. Each violated rule while
@@ -41,7 +42,7 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             {
                 var results = this.myResults;
 
-                var previousExecuter = this.PreviousExecuter as IMessageCollection;
+                var previousExecuter = this.PreviousExecuter as IMessageCollector;
                 if (previousExecuter != null)
                 {
                     return results.Union(previousExecuter.Results);
@@ -51,28 +52,28 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
             }
         }
 
-        public MessageCollection(string valueName, TData value)
+        public MessageCollector(string valueName, TData value)
             : this(valueName, value, null)
         {
         }
 
-        public MessageCollection(Expression<Func<TData>> data)
+        public MessageCollector(Expression<Func<TData>> data)
             : this(data, null)
         {
         }
 
-        public MessageCollection(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(valueName, value, methodAttribs)
+        public MessageCollector(string valueName, TData value, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(valueName, value, methodAttributes)
         {
         }
 
-        public MessageCollection(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttribs)
-            : base(data, methodAttribs)
+        public MessageCollector(Expression<Func<TData>> data, IEnumerable<MethodRuleAttribute> methodAttributes)
+            : base(data, methodAttributes)
         {
         }
 
         /// <summary>
-        /// Creates a <see cref="MessageCollection{TData}"/> for collecting warnings about rule violations 
+        /// Creates a <see cref="MessageCollector{TData}"/> for collecting warnings about rule violations 
         /// by specifying a lambda expression:
         /// <para>var result = Bouncer.ForMessages(() => MessageOneOk).ForMessages(() => MessageOneOk).Assert().Results;</para>
         /// This way you can build up validation chains that can be executed with a 
@@ -81,10 +82,10 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// </summary>
         /// <typeparam name="TDataNew">The type of data the expression returns.</typeparam>
         /// <param name="data">The expression to get the content of the variable.</param>
-        /// <returns>A <see cref="MessageCollection{TDataNew}"/> to check the rules.</returns>
-        public MessageCollection<TDataNew> ForMessages<TDataNew>(Expression<Func<TDataNew>> data)
+        /// <returns>A <see cref="MessageCollector{TDataNew}"/> to check the rules.</returns>
+        public MessageCollector<TDataNew> ForMessages<TDataNew>(Expression<Func<TDataNew>> data)
         {
-            var newExecuter = new MessageCollection<TDataNew>(data, this.MethodRuleAttributes)
+            var newExecuter = new MessageCollector<TDataNew>(data, this.MethodRuleAttributes)
                 {
                     PreviousExecuter = this,
                 };
@@ -98,6 +99,11 @@ namespace Sem.GenericHelpers.Contracts.RuleExecuters
         /// <param name="validationResult">The rule validation result structure with information about the rule validation process.</param>
         protected override void AfterInvoke(RuleValidationResult validationResult)
         {
+            if (validationResult == null)
+            {
+                throw new ArgumentNullException("validationResult", Resources.ErrorMessageForRuleResultIsNull);
+            }
+
             if (!validationResult.Result)
             {
                 this.myResults.Add(validationResult);

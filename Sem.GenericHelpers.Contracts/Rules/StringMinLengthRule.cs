@@ -9,12 +9,14 @@
 
 namespace Sem.GenericHelpers.Contracts.Rules
 {
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public class StringMinLengthRule : RuleBase<string, int>
     {
         public StringMinLengthRule()
         {
             this.CheckExpression = (target, parameter) => target != null && target.Length >= parameter;
-            this.Message = "The string does not have the minimum length of >>{0}<<.";
+            this.Message = Resources.StringMinLengthRuleStandardMessage;
         }
     }
 }

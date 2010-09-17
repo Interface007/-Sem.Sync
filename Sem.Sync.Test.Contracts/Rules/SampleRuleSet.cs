@@ -4,7 +4,7 @@
 
     using Sem.GenericHelpers.Contracts.Rules;
 
-    public class SampleRuleSet<TData> : RuleSet<TData, object>
+    public class SampleRuleSet<TData> : RuleCollection<TData, object>
         where TData : class
     {
         protected override IEnumerable<RuleBase<TData, object>> GetRuleList()

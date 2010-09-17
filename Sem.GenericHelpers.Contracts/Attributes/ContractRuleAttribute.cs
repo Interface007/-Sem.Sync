@@ -16,17 +16,11 @@ namespace Sem.GenericHelpers.Contracts.Attributes
     /// use the <see cref="MethodRuleAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
-    public class ContractRuleAttribute : Attribute
+    public sealed class ContractRuleAttribute : ContractRuleBaseAttribute
     {
-        public ContractRuleAttribute(Type type)
+        public ContractRuleAttribute(Type ruleType)
+            : base(ruleType)
         {
-            this.Type = type;
         }
-
-        public Type Type { get; set; }
-        public object Parameter { get; set; }
-        public string Namespace { get; set; }
-        public string Message { get; set; }
-        public string IncludeInContext { get; set; }
     }
 }

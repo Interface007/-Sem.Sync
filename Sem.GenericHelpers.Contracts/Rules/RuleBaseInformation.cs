@@ -9,13 +9,15 @@
 
 namespace Sem.GenericHelpers.Contracts.Rules
 {
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public abstract class RuleBaseInformation
     {
         public string Message { get; set; }
 
         protected RuleBaseInformation()
         {
-            this.Message = "There is a problem with the parameter.";
+            this.Message = Resources.RuleBaseInformationStandardMessage;
         }
     }
 }

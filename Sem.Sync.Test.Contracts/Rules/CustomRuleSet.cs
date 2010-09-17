@@ -5,7 +5,7 @@
     using Sem.GenericHelpers.Contracts.Rules;
     using Sem.Sync.Test.Contracts.Entities;
 
-    public class CustomRuleSet : RuleSet<AttributedSampleClass, object>
+    public class CustomRuleSet : RuleCollection<AttributedSampleClass, object>
     {
         protected override IEnumerable<RuleBase<AttributedSampleClass, object>> GetRuleList()
         {

@@ -26,7 +26,7 @@
             var isNotNull = new IsNotNullRule<object>();
             
             // we will have one failing test, so "&= false" should set this variable to "false"
-            Bouncer.AfterInvokeAction.Add(x => { ok &= x.Result; });
+            Bouncer.AddAfterInvokeAction(x => { ok &= x.Result; });
             try
             {
                 new CheckData<object>(() => null).Assert(isNotNull);
@@ -44,7 +44,7 @@
             var ok = false;
 
             // we should have one successfull test, so "|= x.Result" should set the variable to true
-            Bouncer.AfterInvokeAction.Add(x => { ok |= x.Result; });
+            Bouncer.AddAfterInvokeAction(x => { ok |= x.Result; });
             var isNotNull = new IsNotNullRule<object>();
             try
             {

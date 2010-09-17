@@ -11,7 +11,9 @@ namespace Sem.GenericHelpers.Contracts.Rules
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
 
+    using Sem.GenericHelpers.Contracts.Properties;
     using Sem.GenericHelpers.Contracts.RuleExecuters;
 
     /// <summary>
@@ -19,41 +21,42 @@ namespace Sem.GenericHelpers.Contracts.Rules
     /// validator implementations of the System.Configuration namespace. There is a performance-overhead in using this 
     /// type of rule, because the method <see cref="ConfigurationValidatorBase.Validate"/> (which executes the check)
     /// does raise an exception if the rule is violated. So using this rule for collecting <see cref="RuleValidationResult"/>
-    /// with the <see cref="MessageCollection{TData}"/> may throw hidden exceptions that might have a performance impact.
+    /// with the <see cref="MessageCollector{TData}"/> may throw hidden exceptions that might have a performance impact.
     /// </summary>
     /// <typeparam name="TData">The type of data to be validated.</typeparam>
-    public class ConfigurationValidatorBaseRule<TData>: RuleBase<TData, object>
+    public class ConfigurationValidatorBaseRule<TData> : RuleBase<TData, object>
     {
-        private ConfigurationValidatorBase _ConfigurationValidator;
+        private ConfigurationValidatorBase configurationValidator;
 
         /// <summary>
-        /// Sets the <see cref="ConfigurationValidatorBase"/> instance for this rule instance.
+        /// Gets or sets the <see cref="ConfigurationValidatorBase"/> instance for this rule instance.
         /// </summary>
         public ConfigurationValidatorBase ConfigurationValidator
         {
             get
             {
-                return this._ConfigurationValidator;
+                return this.configurationValidator;
             }
+
             set
             {
-                this._ConfigurationValidator = value;
+                this.configurationValidator = value;
 
                 this.CheckExpression = CheckExpression = (data, parameter) =>
                 {
                     try
                     {
-                        this._ConfigurationValidator.Validate(data);
+                        this.configurationValidator.Validate(data);
                         return true;
                     }
-                    catch (Exception)
+                    catch (ArgumentException)
                     {
                         return false;
                     }
                 };
 
                 var type = this.ConfigurationValidator.GetType();
-                this.Message = string.Format("The validator {0} did throw an exception.", type.Namespace + "." + type.Name); 
+                this.Message = string.Format(CultureInfo.CurrentCulture, Resources.ConfigurationValidatorBaseRuleStandardMessage, type.Namespace + "." + type.Name); 
             }
         }
 

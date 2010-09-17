@@ -11,7 +11,7 @@
     /// Check class including the data to perform rule checking
     /// </summary>
     /// <typeparam name="TData">the data type to be checked</typeparam>
-    public class ExceptionHandlerExecutor<TData> : RuleExecuter<TData, MessageCollection<TData>>
+    public class ExceptionHandlerExecutor<TData> : RuleExecuter<TData, MessageCollector<TData>>
     {
         public ExceptionHandlerExecutor(string valueName, TData value)
             : base(valueName, value, null)

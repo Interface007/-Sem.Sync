@@ -9,12 +9,14 @@
 
 namespace Sem.GenericHelpers.Contracts.Rules
 {
+    using Sem.GenericHelpers.Contracts.Properties;
+
     public class StringNotNullOrEmptyRule : RuleBase<string, object>
     {
         public StringNotNullOrEmptyRule()
         {
             this.CheckExpression = (target, parameter) => !string.IsNullOrEmpty(target);
-            this.Message = "The string is null or empty.";
+            this.Message = Resources.StringNotNullOrEmptyRuleStandardMessage;
         }
     }
 }
