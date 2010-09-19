@@ -118,6 +118,10 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3911.37540, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -215,10 +219,6 @@
     <ProjectReference Include="..\ExternalAssemblies\ExpressionSerialization\ExpressionSerialization.csproj">
       <Project>{01ABE4DB-4ABE-4B0E-878B-B42A8C9B6560}</Project>
       <Name>ExpressionSerialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.GenericHelpers.Contracts\Sem.GenericHelpers.Contracts.csproj">
-      <Project>{634063B0-5E2A-41EC-BF35-3414D9024882}</Project>
-      <Name>Sem.GenericHelpers.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
