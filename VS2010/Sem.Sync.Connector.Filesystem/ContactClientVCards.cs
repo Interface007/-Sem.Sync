@@ -134,14 +134,12 @@ namespace Sem.Sync.Connector.Filesystem
 
                 foreach (var filePathName in files)
                 {
-                    var newContact = this.vCardConverter.VCardToStdContact(
-                        File.ReadAllBytes(filePathName), ProfileIdentifierType.Default);
+                    var newContact = this.vCardConverter.VCardToStdContact(File.ReadAllBytes(filePathName), ProfileIdentifierType.Default);
                     result.Add(newContact);
 
                     if (this.savePictureExternal)
                     {
-                        var picPath = Path.Combine(
-                            clientFolderName, Path.GetFileNameWithoutExtension(filePathName) + ".jpg");
+                        var picPath = Path.Combine(clientFolderName, Path.GetFileNameWithoutExtension(filePathName) + ".jpg");
                         if (File.Exists(picPath))
                         {
                             newContact.PictureData = File.ReadAllBytes(picPath);
