@@ -13,10 +13,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>%24/SemSync/VS2010/Sem.Sync.Test</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccAuxPath>https://tfs.codeplex.com/tfs/tfs01</SccAuxPath>
-    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -121,7 +121,9 @@
     <Reference Include="Moq">
       <HintPath>..\ExternalAssemblies\Moq\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3912.39469, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3916.23526, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>C:\CodePlex01\SemSync\VS2010\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="Sem.GenericHelpers.Moles, Version=2010.328.3903.38420, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -207,7 +209,6 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Sem.GenericHelpers.moles">
       <Generator>MolesGenerator</Generator>
       <LastGenOutput>Sem.GenericHelpers.Designer.cs</LastGenOutput>

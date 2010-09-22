@@ -203,6 +203,10 @@ namespace Sem.Sync.SyncBase.Helpers
                 if (propertyDescription.Contains(";"))
                 {
                     propertyName = propertyDescription.Substring(0, propertyDescription.IndexOf(';'));
+                    if (type.Count == 0 || (type.Count == 1 && type[0] == string.Empty))
+                    {
+                        type.AddRange(propertyDescription.Split(';'));
+                    }
                 }
 
                 var binaryData = new byte[] { };
@@ -276,7 +280,8 @@ namespace Sem.Sync.SyncBase.Helpers
                             break;
                         }
 
-                        Tools.DebugWriteLine("!!Unhandled email address !!");
+                        contact.PersonalEmailPrimary = value;
+                        Tools.DebugWriteLine("!!Unhandled email address - added as personal!!");
                         break;
 
                     case "URL":
