@@ -172,7 +172,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Entities\CaptchaResolveRequest.cs" />
     <Compile Include="Entities\CaptchaResolveResult.cs" />
-    <Compile Include="Guard.cs" />
     <Compile Include="Interfaces\IExceptionWriter.cs" />
     <Compile Include="LogonCredentialRequest.cs" />
     <Compile Include="Mapper.cs" />
@@ -277,9 +276,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

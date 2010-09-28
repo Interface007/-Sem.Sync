@@ -13,6 +13,8 @@ namespace Sem.GenericHelpers
     using System.Collections.Generic;
     using System.Linq;
 
+    using Sem.GenericHelpers.Contracts;
+
     /// <summary>
     /// This class contains generic extension methods
     /// </summary>
@@ -50,8 +52,10 @@ namespace Sem.GenericHelpers
         /// <typeparam name="T"> the type parameter of the IEnumerable member  </typeparam>
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            Guard.NotNull(enumerable, "enumerable");
-            Guard.NotNull(action, "action");
+            Bouncer
+                .ForCheckData(() => enumerable)
+                .ForCheckData(() => action)
+                .Assert(x => x != null);
 
             foreach (var element in enumerable)
             {
@@ -69,8 +73,10 @@ namespace Sem.GenericHelpers
         /// <typeparam name="T2"> the type parameter of the parameter <paramref name="parameter1"/> member   </typeparam>
         public static void ForEach<T1, T2>(this IEnumerable<T1> enumerable, Action<T1, T2> action, T2 parameter1)
         {
-            Guard.NotNull(enumerable, "enumerable");
-            Guard.NotNull(action, "action");
+            Bouncer
+                .ForCheckData(() => enumerable)
+                .ForCheckData(() => action)
+                .Assert(x => x != null);
 
             foreach (var element in enumerable)
             {
