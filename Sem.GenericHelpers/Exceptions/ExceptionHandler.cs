@@ -28,7 +28,9 @@ namespace Sem.GenericHelpers.Exceptions
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
+    using System.IO.Compression;
     using System.Net;
+    using System.Runtime.InteropServices;
     using System.ServiceModel;
     using System.Xml;
     using System.Xml.Linq;
@@ -80,7 +82,7 @@ namespace Sem.GenericHelpers.Exceptions
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             DefaultHandler = new ExceptionHandler
                 {
-                   Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions") 
+                    Destination = Path.Combine(appDataPath, "Sem.GenericHelpers\\Exceptions")
                 };
 
             ExceptionWriter = new List<IExceptionWriter> { DefaultHandler };
@@ -133,38 +135,48 @@ namespace Sem.GenericHelpers.Exceptions
                 return string.Empty;
             }
 
-            var mainModule = Process.GetCurrentProcess().MainModule;
-            var mainModuleName = mainModule.FileName;
-
-            var logEntry = new XElement(
-                "Exception", 
-                new XElement(
-                    "GenericInfo", 
-                    new XElement("Timestamp", DateTime.Now), 
-                    new XElement("ExecutingMainModule", mainModuleName),
-                    new XElement("ContextCache", ContextCache)), 
-                ScanException(ex));
-
-            var exceptionText = logEntry.ToString(SaveOptions.None);
-
-            foreach (var exceptionWriter in ExceptionWriter)
+            ProcessModule mainModule;
+            using (var currentProcess = Process.GetCurrentProcess())
             {
-                try
+                // we might want to write a dump file (wich is huge!)
+                if (ConfigurationManager.AppSettings["WriteDumpFile"] == "true")
                 {
-                    exceptionWriter.Write(logEntry);
+                    DumpWriter.CreateMiniDump(currentProcess, Path.Combine(DefaultHandler.Destination, string.Format("{0:yyyy-MM-dd--HH:mm:ss}.dmp", DateTime.Now)));
                 }
-                catch (Exception writerException)
-                {
-                    ExceptionWriter.Remove(exceptionWriter);
-                    HandleException(
-                        new TechnicalException(
-                            "Exception while writing exception. The responsible writer will be removed.", 
-                            writerException, 
-                            new KeyValuePair<string, object>("responsible writer", exceptionWriter)));
-                }
-            }
 
-            return exceptionText;
+                mainModule = currentProcess.MainModule;
+                var mainModuleName = mainModule.FileName;
+
+                var logEntry = new XElement(
+                    "Exception",
+                    new XElement(
+                        "GenericInfo",
+                        new XElement("Timestamp", DateTime.Now),
+                        new XElement("ExecutingMainModule", mainModuleName),
+                        new XElement("ContextCache", ContextCache)),
+                    ScanException(ex));
+
+                var exceptionText = logEntry.ToString(SaveOptions.None);
+
+                foreach (var exceptionWriter in ExceptionWriter)
+                {
+                    try
+                    {
+                        exceptionWriter.Write(logEntry);
+                    }
+                    catch (Exception writerException)
+                    {
+                        ExceptionWriter.Remove(exceptionWriter);
+                        HandleException(
+                            new TechnicalException(
+                                "Exception while writing exception. The responsible writer will be removed.",
+                                writerException,
+                                new KeyValuePair<string, object>("responsible writer", exceptionWriter)));
+                    }
+                }
+                
+                return exceptionText;
+            }
         }
 
         /// <summary>
@@ -185,7 +197,7 @@ namespace Sem.GenericHelpers.Exceptions
 
             if (files.Length > 0 &&
                 UserInterface.AskForConfirm(
-                    Properties.Resources.ThereAreSomeInformationFiles, 
+                    Properties.Resources.ThereAreSomeInformationFiles,
                     Properties.Resources.ThereAreSomeInformationFilesTitle))
             {
                 files.ForEach(SendFile);
@@ -334,16 +346,20 @@ namespace Sem.GenericHelpers.Exceptions
             try
             {
                 var mainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-                var mainModuleName = mainModule == null ? "(undefined)" : mainModule.FileName;
+                var mainModuleName = mainModule.FileName;
                 var logName = string.Format(
-                    CultureInfo.CurrentCulture, 
-                    "{1}...{0:yyyy-MM-dd-hh-mm-ss}...{2}.xml", 
-                    DateTime.Now, 
-                    mainModuleName, 
+                    CultureInfo.CurrentCulture,
+                    "{1}...{0:yyyy-MM-dd-hh-mm-ss}...{2}.xml",
+                    DateTime.Now,
+                    mainModuleName,
                     Guid.NewGuid());
-                var pathToPersist = Path.Combine(this.Destination, Path.GetFileName(logName));
-                Tools.EnsurePathExist(this.Destination);
-                File.WriteAllText(pathToPersist, information.ToString());
+                var fileName = Path.GetFileName(logName);
+                if (fileName != null)
+                {
+                    var pathToPersist = Path.Combine(this.Destination, fileName);
+                    Tools.EnsurePathExist(this.Destination);
+                    File.WriteAllText(pathToPersist, information.ToString());
+                }
 #if DEBUG
                 Console.WriteLine(information);
 #endif
@@ -413,9 +429,9 @@ namespace Sem.GenericHelpers.Exceptions
             }
 
             return new XElement(
-                "Exception", 
-                new XElement("SpecificInformation", ex), 
-                ExtractEntities(ex as TechnicalException), 
+                "Exception",
+                new XElement("SpecificInformation", ex),
+                ExtractEntities(ex as TechnicalException),
                 ScanException(ex.InnerException));
         }
 
@@ -469,11 +485,11 @@ namespace Sem.GenericHelpers.Exceptions
                     var wp = System.Net.WebRequest.DefaultWebProxy;
 
                     var logonCredentialRequest = new LogonCredentialRequest(
-                        proxyCredentials, 
+                        proxyCredentials,
                         string.Format(
-                            CultureInfo.CurrentCulture, 
-                            "The proxy server needs your credentials to receive content from {0}.", 
-                            sender.InnerChannel.RemoteAddress.Uri), 
+                            CultureInfo.CurrentCulture,
+                            "The proxy server needs your credentials to receive content from {0}.",
+                            sender.InnerChannel.RemoteAddress.Uri),
                         sender.InnerChannel.RemoteAddress.Uri.ToString());
 
                     if (UserInterface.AskForLogOnCredentials(logonCredentialRequest))
@@ -486,8 +502,8 @@ namespace Sem.GenericHelpers.Exceptions
                         else
                         {
                             wp.Credentials = new NetworkCredential(
-                                proxyCredentials.LogOnUserId, 
-                                proxyCredentials.LogOnPassword, 
+                                proxyCredentials.LogOnUserId,
+                                proxyCredentials.LogOnPassword,
                                 proxyCredentials.LogOnDomain);
                         }
 
@@ -537,5 +553,41 @@ namespace Sem.GenericHelpers.Exceptions
         }
 
         #endregion
+    }
+
+    [Flags]
+    enum MiniDumpType : int
+    {
+        MiniDumpNormal = 0x00000000,
+        MiniDumpWithDataSegs = 0x00000001,
+        MiniDumpWithFullMemory = 0x00000002,
+        MiniDumpWithHandleData = 0x00000004,
+        MiniDumpFilterMemory = 0x00000008,
+        MiniDumpScanMemory = 0x00000010,
+        MiniDumpWithUnloadedModules = 0x00000020,
+        MiniDumpWithIndirectlyReferencedMemory = 0x00000040,
+        MiniDumpFilterModulePaths = 0x00000080,
+        MiniDumpWithProcessThreadData = 0x00000100,
+        MiniDumpWithPrivateReadWriteMemory = 0x00000200,
+        MiniDumpWithoutOptionalData = 0x00000400,
+        MiniDumpWithFullMemoryInfo = 0x00000800,
+        MiniDumpWithThreadInfo = 0x00001000,
+        MiniDumpWithCodeSegs = 0x00002000,
+        MiniDumpWithoutManagedState = 0x00004000,
+        MiniDumpAll = 0x00000006
+    }
+
+    public class DumpWriter
+    {
+        [DllImport("DbgHelp.dll", SetLastError = true)]
+        private static extern bool MiniDumpWriteDump(IntPtr hProcess, int processId, IntPtr fileHandle, int dumpType, IntPtr excepInfo, IntPtr userInfo, IntPtr extInfo);
+
+        public static void CreateMiniDump(Process process, string outputFileName)
+        {
+            using (var stream = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+            {
+                MiniDumpWriteDump(process.Handle, process.Id, stream.Handle, 0x00000006, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            }
+        }
     }
 }

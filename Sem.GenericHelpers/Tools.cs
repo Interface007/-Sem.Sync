@@ -18,6 +18,7 @@ namespace Sem.GenericHelpers
     using System.IO.Compression;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Security.Cryptography;
     using System.Text;
@@ -598,9 +599,9 @@ namespace Sem.GenericHelpers
                     return SaveToString(type, value);
             }
 
-            return 
-                type == typeof(List<string>) 
-                ? string.Join("|", (List<string>)value) 
+            return
+                type == typeof(List<string>)
+                ? string.Join("|", (List<string>)value)
                 : value.ToString();
         }
 
@@ -785,7 +786,7 @@ namespace Sem.GenericHelpers
 
                     propInfo.SetValue(objectToWriteTo, valueString, null);
                     break;
-                        
+
                 case "SerializableDictionary`2":
                     var sdic = LoadFromString(propType, valueString);
                     propInfo.SetValue(objectToWriteTo, sdic, null);
@@ -844,7 +845,7 @@ namespace Sem.GenericHelpers
             {
                 return null;
             }
-            
+
             if (serialized.StartsWith("#GZIP#"))
             {
                 var formatter = new BinaryFormatter();
@@ -871,7 +872,7 @@ namespace Sem.GenericHelpers
             {
                 DebugWriteLine(ex.Message);
             }
-            
+
             return null;
         }
 
