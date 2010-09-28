@@ -153,13 +153,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.CloudStorage\Sem.Sync.Connector.CloudStorage.csproj">
-      <Name>Sem.Sync.Connector.CloudStorage</Name>
-      <Project>{11f37589-ca3b-4b92-b87c-9b48073e4546}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
       <Name>Sem.Sync.Connector.Console</Name>
       <Project>{ebca4744-b9c2-4d2c-9978-fbf9c8dc4f94}</Project>
@@ -209,20 +202,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.LinkedIn\Sem.Sync.Connector.LinkedIn.csproj">
-      <Name>Sem.Sync.Connector.LinkedIn</Name>
-      <Project>{292139b0-e1a3-4c02-a72d-d8edd3abe320}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
-      <Name>Sem.Sync.Connector.LotusNotes</Name>
-      <Project>{ba85e4f7-b3b4-4537-b4b5-f642d3e0a191}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
       <Name>Sem.Sync.Connector.MeinVZ</Name>
       <Project>{9a99edd4-4489-4e23-a409-36ba82f63d66}</Project>
@@ -247,27 +226,6 @@
     <ProjectReference Include="..\Sem.Sync.Connector.MsExcelOpenXml\Sem.Sync.Connector.MsExcelOpenXml.csproj">
       <Name>Sem.Sync.Connector.MsExcelOpenXml</Name>
       <Project>{c88e3c85-79a2-4045-85bb-696097ed23d7}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj">
-      <Name>Sem.Sync.Connector.MsExcelXml</Name>
-      <Project>{a4b8f29e-a81f-4363-8a83-9e565facd0eb}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
-      <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
-      <Project>{a454ea6d-1b59-44af-8ef2-72f66924279a}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
-      <Name>Sem.Sync.Connector.OnlineStorage</Name>
-      <Project>{da88047a-8ba7-492b-bb71-eb87472817a5}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
@@ -328,13 +286,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Documentation\Sem.Sync.Documentation.csproj">
-      <Name>Sem.Sync.Documentation</Name>
-      <Project>{c59830a8-5f30-4ac1-a862-473d9911b08a}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj">
       <Name>Sem.Sync.LocalSyncManager</Name>
       <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
@@ -359,13 +310,6 @@
     <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
       <Name>Sem.Sync.SharedUI.WinForms</Name>
       <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Starter\Sem.Sync.Starter.csproj">
-      <Name>Sem.Sync.Starter</Name>
-      <Project>{d9563118-8480-45b0-a20c-737aba994069}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>

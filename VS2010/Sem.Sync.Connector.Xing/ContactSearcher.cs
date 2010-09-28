@@ -16,11 +16,18 @@ namespace Sem.Sync.Connector.Xing
     using Sem.GenericHelpers;
     using Sem.Sync.Connector.Memory;
     using Sem.Sync.SyncBase;
+    using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>
     /// performs lookups for contacts in Xing based on a list of contacts stored inside the memory connector
     /// </summary>
+    [ClientStoragePathDescription(Irrelevant = true)]
+    [ConnectorDescription(
+        DisplayName = "Xing ContactSearcher",
+        CanReadContacts = true, CanWriteContacts = false,
+        NeedsCredentials = true, NeedsCredentialsDomain = false,
+        MatchingIdentifier = ProfileIdentifierType.XingNameProfileId)]
     public class ContactSearcher : StdClient
     {
         #region Constants and Fields
