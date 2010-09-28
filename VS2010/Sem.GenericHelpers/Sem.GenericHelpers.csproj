@@ -162,7 +162,9 @@
     <Compile Include="EventArgs\ProcessingEventArgs.cs" />
     <Compile Include="EventArgs\ProgressEventArgs.cs" />
     <Compile Include="EventArgs\QueryForLogOnCredentialsEventArgs.cs" />
+    <Compile Include="Exceptions\DumpWriter.cs" />
     <Compile Include="Exceptions\ExceptionHandler.cs" />
+    <Compile Include="Exceptions\MiniDumpType.cs" />
     <Compile Include="Exceptions\ProcessCanceledException.cs" />
     <Compile Include="Exceptions\TechnicalException.cs" />
     <Compile Include="ExpressionVisitor.cs" />
