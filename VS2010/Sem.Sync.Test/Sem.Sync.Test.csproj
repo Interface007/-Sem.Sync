@@ -121,8 +121,9 @@
     <Reference Include="Moq">
       <HintPath>..\ExternalAssemblies\Moq\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3916.23526, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>C:\CodePlex01\SemSync\VS2010\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
+    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3923.37688, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Sem.GenericHelpers.Moles, Version=2010.328.3903.38420, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />

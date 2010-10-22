@@ -32,7 +32,7 @@ namespace Sem.GenericHelpers
         /// <summary>
         ///   location of the version file relative to the base url
         /// </summary>
-        private const string VersionXmlUrl = "/Content/Portals/0/sem.sync.version.xml";
+        private const string VersionXmlUrl = "/update/sem.sync.version.xml";
 
         /// <summary>
         ///   name of the calling assembly (the one that did create this object)
