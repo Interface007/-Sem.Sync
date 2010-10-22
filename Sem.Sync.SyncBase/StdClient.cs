@@ -213,7 +213,7 @@ namespace Sem.Sync.SyncBase
         /// <returns>The list with the newly added elements</returns>
         public virtual List<StdElement> GetAll(string clientFolderName)
         {
-            var result = Factory.CreateTypeInstance<List<StdElement>>();
+            var result = new List<StdElement>();
 
             this.LogProcessingEvent(Resources.uiReadingElements);
             this.BeforeStorageAccess(clientFolderName);

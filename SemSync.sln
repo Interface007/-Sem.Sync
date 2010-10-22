@@ -211,9 +211,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SilverContacts", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SilverContacts.Web", "Sem.Sync.SilverContacts.Web\Sem.Sync.SilverContacts.Web.csproj", "{0FFE4AFC-11F3-47D1-9623-4C196213E2CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Connector.MsDynamicsCrm", "Sem.Sync.Connector.MsDynamicsCrm\Sem.Sync.Connector.MsDynamicsCrm.csproj", "{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 64
+		SccNumberOfProjects = 65
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs01
 		SccLocalPath0 = .
@@ -469,6 +471,10 @@ Global
 		SccProjectTopLevelParentUniqueName63 = SemSync.sln
 		SccProjectName63 = Sem.Sync.Test.MsSqlDatabase
 		SccLocalPath63 = Sem.Sync.Test.MsSqlDatabase
+		SccProjectUniqueName64 = Sem.Sync.Connector.MsDynamicsCrm\\Sem.Sync.Connector.MsDynamicsCrm.csproj
+		SccProjectTopLevelParentUniqueName64 = SemSync.sln
+		SccProjectName64 = Sem.Sync.Connector.MsDynamicsCrm
+		SccLocalPath64 = Sem.Sync.Connector.MsDynamicsCrm
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SemSync1.vsmdi
@@ -2674,6 +2680,41 @@ Global
 		{0FFE4AFC-11F3-47D1-9623-4C196213E2CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0FFE4AFC-11F3-47D1-9623-4C196213E2CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0FFE4AFC-11F3-47D1-9623-4C196213E2CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (CodeAnalysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (CodeAnalysis)|Any CPU.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (CodeAnalysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (CodeAnalysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug (CodeAnalysis)|x86.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Integration Test|Any CPU.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Integration Test|Any CPU.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Integration Test|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Integration Test|Mixed Platforms.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Integration Test|x86.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2710,6 +2751,7 @@ Global
 		{6A812710-0F12-44D2-924F-4967574802E6} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{3587E1E9-6AB5-41A1-9B97-EF458D79D86A} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
+		{1FD935DE-16C6-4C1F-B98C-BBDE4C240521} = {36822C45-2766-42EF-A4A7-543D24FAAD37}
 		{C59830A8-5F30-4AC1-A862-473D9911B08A} = {1820AB38-479F-49F7-9CF6-1920BFA94C41}
 		{1D9CD8DC-D4EC-4802-B9F3-A749B29BF39E} = {1820AB38-479F-49F7-9CF6-1920BFA94C41}
 		{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3} = {6B789A6A-7566-4229-87C8-66C01D988C31}
