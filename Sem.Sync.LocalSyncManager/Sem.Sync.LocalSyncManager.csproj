@@ -228,6 +228,7 @@
     <Content Include="dictionary.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="sem.sync.version.xml" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="Resources\1.png" />

@@ -24,4 +24,4 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: AssemblyVersion("2010.0928.*")]
+[assembly: AssemblyVersion("2010.1018.*")]
