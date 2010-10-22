@@ -43,7 +43,7 @@ namespace Sem.Sync.SyncBase.Commands
             string baselineStorePath, 
             string commandParameter)
         {
-            Bouncer.ForCheckData(() => this.UiProvider).Assert(new IsNotNullRule<IUiInteraction>());
+            ////Bouncer.ForCheckData(() => this.UiProvider).Assert(new IsNotNullRule<IUiInteraction>());
             Bouncer.ForCheckData(() => commandParameter).Assert(new StringMinLengthRule(), 1);
 
             return this.UiProvider == null ||
