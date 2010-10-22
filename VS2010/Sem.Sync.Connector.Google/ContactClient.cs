@@ -120,9 +120,7 @@ namespace Sem.Sync.Connector.Google
         /// <summary>
         /// logs the exception to the console and the <see cref="SyncComponent.LogProcessingEvent(object,Sem.GenericHelpers.EventArgs.ProcessingEventArgs)"/>.
         /// </summary>
-        /// <param name="exception">
-        /// The exception. 
-        /// </param>
+        /// <param name="exception">The exception.</param>
         internal void LogError(Exception exception)
         {
             var message = exception.Message;
@@ -140,22 +138,11 @@ namespace Sem.Sync.Connector.Google
         /// Overrides the method to read the full list of data. This will read ALL data from the Google Contacts
         ///   account, even if it has already been downloaded in the past.
         /// </summary>
-        /// <param name="clientFolderName">
-        /// the parameter clientFolderName is ignored by this connector implementation
-        /// </param>
-        /// <param name="result">
-        /// A list of StdElements that will get the new imported entries.
-        /// </param>
-        /// <returns>
-        /// The list with the added contacts
-        /// </returns>
+        /// <param name="clientFolderName">The parameter clientFolderName is ignored by this connector implementation.</param>
+        /// <param name="result">A list of StdElements that will get the new imported entries.</param>
+        /// <returns>The list with the added contacts</returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             try
             {
                 this.LogProcessingEvent("downloading contacts ...");
@@ -166,25 +153,28 @@ namespace Sem.Sync.Connector.Google
                 {
                     try
                     {
+                        // get the SemSync Contact ID from the google entity (if there is one)
                         var semSyncIdString =
-                            (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x.Value).
-                                FirstOrDefault();
+                            (from x in googleContact.ExtendedProperties where x.Name == "SemSyncId" select x.Value)
+                            .FirstOrDefault();
+
+                        // if we didn't set one, create a new Guid, otherwise reconstruct the Guid from the string stored in th Google contact
                         var semSyncId = string.IsNullOrEmpty(semSyncIdString)
                                             ? Guid.NewGuid()
                                             : new Guid(semSyncIdString);
 
+                        // create a new contact entity
                         var stdEntry = new StdContact
                             {
                                 Id = semSyncId, 
                                 Name = new PersonName(googleContact.Title), 
-                                ExternalIdentifier =
-                                    new ProfileIdentifierDictionary(ProfileIdentifierType.Google, googleContact.Id)
+                                ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.Google, googleContact.Id)
                             };
 
                         this.LogProcessingEvent("mapping contact {0} ...", stdEntry.Name.ToString());
                         googleContact.SetSyncIdentifier(semSyncId);
 
-                        // the Invoke is an extension method that calls the lambda for each element of an IEnumerable
+                        // the ForEach is an extension method that calls the lambda for each element of an IEnumerable
                         googleContact.PostalAddresses.ForEach(stdEntry.SetAddress);
                         googleContact.Organizations.ForEach(stdEntry.SetBusiness);
                         googleContact.Phonenumbers.ForEach(stdEntry.SetPhone);
@@ -225,7 +215,7 @@ namespace Sem.Sync.Connector.Google
         /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            GoogleContactMappingExtensions.GenericUIResponder = this.UiDispatcher;
+            GoogleContactMappingExtensions.GenericUiResponder = this.UiDispatcher;
             this.EnsureInitialization();
 
             foreach (var stdContact in elements.ToStdContacts())
@@ -274,8 +264,8 @@ namespace Sem.Sync.Connector.Google
                     googleContact.AddPhoneNumber(stdContact.PersonalPhoneMobile, GoogleSchemaQualifierMobile);
                     googleContact.AddPhoneNumber(stdContact.BusinessPhoneMobile, GoogleSchemaQualifierMobile);
 
-                    googleContact.AddIMAddress(stdContact.PersonalInstantMessengerAddresses, GoogleSchemaQualifierHome);
-                    googleContact.AddIMAddress(stdContact.BusinessInstantMessengerAddresses, GoogleSchemaQualifierWork);
+                    googleContact.AddImAddress(stdContact.PersonalInstantMessengerAddresses, GoogleSchemaQualifierHome);
+                    googleContact.AddImAddress(stdContact.BusinessInstantMessengerAddresses, GoogleSchemaQualifierWork);
 
                     if (string.IsNullOrEmpty(googleId))
                     {

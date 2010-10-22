@@ -96,6 +96,11 @@ namespace Sem.Sync.SyncBase.DetailData
         /// <summary>
         ///   the Global Id of Microsoft Outlook
         /// </summary>
-        MicrosoftOutlookId
+        MicrosoftOutlookId, 
+
+        /// <summary>
+        ///   The contact ID inside a Dynamics CRM system
+        /// </summary>
+        MicrosoftDynamicsCrm
     }
 }

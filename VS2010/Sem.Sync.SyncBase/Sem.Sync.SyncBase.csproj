@@ -161,6 +161,7 @@
     <Compile Include="..\Shared\AssemblyInfoShared.cs">
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
+    <Compile Include="Attributes\ClientPathType.cs" />
     <Compile Include="Attributes\ClientStoragePathDescriptionAttribute.cs" />
     <Compile Include="Attributes\ConnectorDescriptionAttribute.cs" />
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />

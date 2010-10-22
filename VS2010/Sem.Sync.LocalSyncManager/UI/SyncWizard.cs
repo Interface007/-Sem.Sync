@@ -57,12 +57,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// UI-Action to get a file path
         /// </summary>
-        /// <param name="currentFileName">
-        /// The current File Name to be displayed. 
-        /// </param>
-        /// <returns>
-        /// the user entered path to a file 
-        /// </returns>
+        /// <param name="currentFileName">The current File Name to be displayed. </param>
+        /// <returns>the user entered path to a file </returns>
         private string AskForDestinationFile(string currentFileName)
         {
             this.saveFileDialog1.DefaultExt = SyncWizardContext.SyncListDataFileExtension;
@@ -138,12 +134,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// In this method all properties are read from the context and pumped into the GUI 
         ///   elements attributes.
         /// </summary>
-        /// <param name="sender">
-        /// The sender of this event. 
-        /// </param>
-        /// <param name="e">
-        /// The change event parameter. 
-        /// </param>
+        /// <param name="sender">The sender of this event.</param>
+        /// <param name="e">The change event parameter.</param>
         private void ReadFromContext(object sender, PropertyChangedEventArgs e)
         {
             // todo: this needs to be changed to be included into databinding setup
@@ -245,18 +237,10 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Sets up a databinding of a combo box to an object data source.
         /// </summary>
-        /// <param name="bindingSource">
-        /// The binding source. 
-        /// </param>
-        /// <param name="dataMember">
-        /// The data member. 
-        /// </param>
-        /// <param name="control">
-        /// the control to bind
-        /// </param>
-        /// <param name="targetPath">
-        /// The target path. 
-        /// </param>
+        /// <param name="bindingSource">The binding source.</param>
+        /// <param name="dataMember">The data member.</param>
+        /// <param name="control">the control to bind</param>
+        /// <param name="targetPath">The target path.</param>
         private void SetupBind(BindingSource bindingSource, string dataMember, ListControl control, string targetPath)
         {
             // todo: currently the binding source is still needed - this has to be removed 
@@ -330,12 +314,8 @@ namespace Sem.Sync.LocalSyncManager.UI
         /// <summary>
         /// Setup of the event handler routing and "databinding"
         /// </summary>
-        /// <param name="sender">
-        /// the sender of the event - in this case the form instance 
-        /// </param>
-        /// <param name="e">
-        /// empty event arguments 
-        /// </param>
+        /// <param name="sender">the sender of the event - in this case the form instance </param>
+        /// <param name="e">empty event arguments </param>
         private void SyncWizardLoad(object sender, EventArgs e)
         {
             this.versionLabel.Text = Resources.LabelVersion + new VersionCheck().ToString(false);
