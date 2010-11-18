@@ -73,7 +73,12 @@ namespace Sem.Sync.SyncBase
         protected WebScrapingBaseClient(HttpHelper preconfiguredHttpHelper)
         {
             this.httpRequester = preconfiguredHttpHelper;
-            this.scrapingParameterSource = this.GetConfigValue("WebScrapingParameterSource", "http://www.svenerikmatzen.info/WebScrapingParameters/");
+            this.scrapingParameterSource = ScrapingParameterSource();
+        }
+
+        private string ScrapingParameterSource()
+        {
+            return this.GetConfigValue("WebScrapingParameterSource", "http://www.svenerikmatzen.info/WebScrapingParameters/");
         }
 
         /// <summary>
@@ -87,12 +92,13 @@ namespace Sem.Sync.SyncBase
         /// </param>
         protected WebScrapingBaseClient(string httpUrlBaseAddress)
         {
-            this.httpRequester = new HttpHelper(httpUrlBaseAddress, true)
-                {
-                    UseCache = this.GetConfigValueBoolean("UseCache"), 
-                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"), 
-                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"), 
-                };
+            this.httpRequester = (new HttpHelper(httpUrlBaseAddress, true)
+            {
+                UseCache = this.GetConfigValueBoolean("UseCache"),
+                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
+            });
+            this.scrapingParameterSource = ScrapingParameterSource();
         }
 
         #endregion
