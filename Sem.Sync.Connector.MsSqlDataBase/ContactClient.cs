@@ -16,7 +16,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
 
     using Sem.GenericHelpers;
     using Sem.GenericHelpers.Entities;
-    using Sem.GenericHelpers.Exceptions;
+
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
@@ -32,8 +32,6 @@ namespace Sem.Sync.Connector.MsSqlDatabase
     [ConnectorDescription(DisplayName = "MS SQL-Server Database")]
     public class ContactClient : StdClient
     {
-        #region Properties
-
         /// <summary>
         ///   Gets the user readable name of the client implementation. This name should
         ///   be specific enough to let the user know what element store will be accessed.
@@ -46,10 +44,6 @@ namespace Sem.Sync.Connector.MsSqlDatabase
             }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
@@ -61,12 +55,14 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         /// The list of elements that should get the elements. The elements should be added to
         ///   the list instead of replacing it.
         /// </param>
-        /// <returns>
-        /// The list with the newly added elements
-        /// </returns>
+        /// <returns> The list with the newly added elements </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
-            return result;
+            var connectionString = "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=Addresses;Data Source=WKMATZENSV02;";
+            var columns = this.GetColumnDefinition(clientFolderName, typeof(StdContact));
+
+            var context = new DatabaseContext(connectionString);
+            return context.OpenTable<StdContact>(string.Empty).ToStdElements();
         }
 
         /// <summary>
@@ -85,8 +81,7 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
             var columns = this.GetColumnDefinition(clientFolderName, typeof(StdContact));
-            var connectionString =
-                "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=Addresses;Data Source=WKMATZENSV02;";
+            var connectionString = "Provider=SQLNCLI10.1;Integrated Security=SSPI;Initial Catalog=Addresses;Data Source=WKMATZENSV02;";
 
             using (var con = new SqlConnection(connectionString))
             {
@@ -172,7 +167,5 @@ namespace Sem.Sync.Connector.MsSqlDatabase
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }
