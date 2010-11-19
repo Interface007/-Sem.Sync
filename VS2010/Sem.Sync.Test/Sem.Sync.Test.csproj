@@ -151,6 +151,7 @@
     <Compile Include="AddressClassTest.cs" />
     <Compile Include="CommandMatchByProfileTest.cs" />
     <Compile Include="ConnectorDescriptionAttributeTest.cs" />
+    <Compile Include="DataGeneratorTests.cs" />
     <Compile Include="FactoryTest.cs" />
     <Compile Include="GenericToolsTest.cs" />
     <Compile Include="ExtensionTests.cs" />

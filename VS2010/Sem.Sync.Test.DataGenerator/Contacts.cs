@@ -168,8 +168,6 @@ namespace Sem.Sync.Test.DataGenerator
 
         #endregion
 
-        #region Public Methods
-
         /// <summary>
         /// Adds a contact to a StringBuilder that does not contain a picture.
         /// </summary>
@@ -458,10 +456,6 @@ namespace Sem.Sync.Test.DataGenerator
             return reader.ReadToEnd();
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Abstract read method for full list of elements - this is part of the minimum that needs to be overridden
         /// </summary>
@@ -566,9 +560,9 @@ namespace Sem.Sync.Test.DataGenerator
         {
             var result = new StdContact
                 {
-                    Name = new PersonName(profileId), 
-                    Id = new Guid(id), 
-                    ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId), 
+                    Name = new PersonName(profileId),
+                    Id = new Guid(id),
+                    ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId),
                 };
             return result;
         }
@@ -699,6 +693,30 @@ namespace Sem.Sync.Test.DataGenerator
             return result;
         }
 
-        #endregion
+        private static Dictionary<string, List<string>> sourceCache = new Dictionary<string, List<string>>(100);
+
+        public static string GetRandom(string sourceName)
+        {
+            if (!sourceCache.ContainsKey(sourceName))
+            {
+                var fileName = sourceName + ".xml";
+                var exists = File.Exists(fileName);
+
+                var result = exists 
+                    ? Tools.LoadFromFile<List<string>>(fileName) 
+                    : new List<string> { "Item1", "Item2" };
+
+                sourceCache.Add(sourceName, result);
+
+                if (!exists)
+                {
+                    Tools.SaveToFile(result, fileName);
+                }
+            }
+
+            var sourceList = sourceCache[sourceName];
+            var randomIndex = (int)(new Random().NextDouble() * (sourceList.Count - 1));
+            return sourceList[randomIndex];
+        }
     }
 }
