@@ -715,6 +715,7 @@ namespace Sem.Sync.Test.DataGenerator
             }
 
             var sourceList = sourceCache[sourceName];
+
             var randomIndex = (int)(new Random().NextDouble() * (sourceList.Count - 1));
             return sourceList[randomIndex];
         }

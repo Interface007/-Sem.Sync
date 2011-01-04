@@ -21,17 +21,20 @@ namespace Sem.Sync.SharedUI.WinForms.UI
     /// </summary>
     public partial class MergeEntities : Form
     {
-        private MergeEntitiesViewModel DataContext;
+        /// <summary>
+        /// Data model for this form
+        /// </summary>
+        private MergeEntitiesViewModel dataContext;
 
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref = "MergeEntities" /> class.
+        ///  Initializes a new instance of the <see cref = "MergeEntities" /> class.
         /// </summary>
-        /// <param name="dataContext"></param>
+        /// <param name="dataContext">Data model to use with this instance</param>
         public MergeEntities(MergeEntitiesViewModel dataContext)
         {
-            this.DataContext = dataContext;
+            this.dataContext = dataContext;
             this.InitializeComponent();
         }
 
@@ -85,7 +88,7 @@ namespace Sem.Sync.SharedUI.WinForms.UI
         private void MergeEntitiesLoad(object sender, EventArgs e)
         {
             this.conflictGrid.AutoGenerateColumns = true;
-            this.conflictGrid.DataSource = this.DataContext.MergeList;
+            this.conflictGrid.DataSource = this.dataContext.MergeList;
             this.conflictGrid.CellEnter += this.ConflictGridCellContentClick;
             this.conflictGrid.ColumnHeaderMouseClick += (s, ev) => this.SelectCompleteColumn(ev.ColumnIndex);
 

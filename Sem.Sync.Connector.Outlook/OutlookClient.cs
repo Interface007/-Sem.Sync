@@ -266,7 +266,7 @@ namespace Sem.Sync.Connector.Outlook
                 }
 
                 contactsList.Add(new AppointmentItemContainer { Item = contactItem });
-                GCRelevantCall();
+                GcRelevantCall();
             }
 
             return contactsList;
@@ -301,7 +301,7 @@ namespace Sem.Sync.Connector.Outlook
                 }
 
                 contactsList.Add(new ContactsItemContainer { Item = contactItem });
-                GCRelevantCall();
+                GcRelevantCall();
             }
 
             return contactsList;
@@ -426,7 +426,7 @@ namespace Sem.Sync.Connector.Outlook
                 outlookAppointment.Save();
             }
 
-            GCRelevantCall();
+            GcRelevantCall();
             return actionDone;
         }
 
@@ -481,11 +481,11 @@ namespace Sem.Sync.Connector.Outlook
             if (ConvertToNativeContact(element, outlookContact))
             {
                 outlookContact.Save();
-                GCRelevantCall();
+                GcRelevantCall();
                 return true;
             }
 
-            GCRelevantCall();
+            GcRelevantCall();
             return false;
         }
 
@@ -792,7 +792,7 @@ namespace Sem.Sync.Connector.Outlook
         /// Counts GC relevant calls and executes the garbage collection each 100 calls. This is in 
         ///   hope of preventing exceptions caused by known outlook memory leaks.
         /// </summary>
-        private static void GCRelevantCall()
+        private static void GcRelevantCall()
         {
             garbageCollectionRelevantCalls++;
             if (garbageCollectionRelevantCalls <= 100)
@@ -1057,7 +1057,7 @@ namespace Sem.Sync.Connector.Outlook
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
 
-                            GCRelevantCall();
+                            GcRelevantCall();
                         }
                         catch (COMException)
                         {

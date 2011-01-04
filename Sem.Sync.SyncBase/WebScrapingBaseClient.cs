@@ -73,12 +73,7 @@ namespace Sem.Sync.SyncBase
         protected WebScrapingBaseClient(HttpHelper preconfiguredHttpHelper)
         {
             this.httpRequester = preconfiguredHttpHelper;
-            this.scrapingParameterSource = ScrapingParameterSource();
-        }
-
-        private string ScrapingParameterSource()
-        {
-            return this.GetConfigValue("WebScrapingParameterSource", "http://www.svenerikmatzen.info/WebScrapingParameters/");
+            this.scrapingParameterSource = this.ScrapingParameterSource();
         }
 
         /// <summary>
@@ -87,18 +82,17 @@ namespace Sem.Sync.SyncBase
         ///   the config file. Use the parametrized constructor to provide a "ready-to-use"
         ///   http-requester.
         /// </summary>
-        /// <param name="httpUrlBaseAddress">
-        /// The http Base Address of this connector. 
-        /// </param>
+        /// <param name="httpUrlBaseAddress"> The http Base Address of this connector. </param>
         protected WebScrapingBaseClient(string httpUrlBaseAddress)
         {
-            this.httpRequester = (new HttpHelper(httpUrlBaseAddress, true)
-            {
-                UseCache = this.GetConfigValueBoolean("UseCache"),
-                SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
-            });
-            this.scrapingParameterSource = ScrapingParameterSource();
+            this.httpRequester = new HttpHelper(httpUrlBaseAddress, true)
+                {
+                    UseCache = this.GetConfigValueBoolean("UseCache"),
+                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
+                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies"),
+                };
+
+            this.scrapingParameterSource = this.ScrapingParameterSource();
         }
 
         #endregion
@@ -138,6 +132,19 @@ namespace Sem.Sync.SyncBase
                 }
 
                 return this.parameters;
+            }
+        }
+
+        /// <summary>
+        /// Gets the connector descriptor attribute from the current instance of this object.
+        /// </summary>
+        protected ConnectorDescriptionAttribute ConnectorDescription
+        {
+            get
+            {
+                return this.GetType()
+                    .GetCustomAttributes(typeof(ConnectorDescriptionAttribute), true)
+                    .First() as ConnectorDescriptionAttribute;
             }
         }
 
@@ -403,20 +410,6 @@ namespace Sem.Sync.SyncBase
         }
 
         /// <summary>
-        /// Gets the connector descriptor attribute from the current instance of this object.
-        /// </summary>
-        protected ConnectorDescriptionAttribute ConnectorDescription
-        {
-            get
-            {
-                var myType = this.GetType();
-                return myType
-                    .GetCustomAttributes(typeof(ConnectorDescriptionAttribute), true)
-                    .First() as ConnectorDescriptionAttribute;
-            }
-        }
-
-        /// <summary>
         /// Extracts link targets from a friends-list html page.
         /// </summary>
         /// <param name="currentContactsId">the profile id current of the current contact (the link SOURCE)</param>
@@ -445,6 +438,16 @@ namespace Sem.Sync.SyncBase
 
             return profileIds;
         }
+
+        /// <summary>
+        /// Gets the source url of the web scraping parameters
+        /// </summary>
+        /// <returns>the source url of the web scraping parameters</returns>
+        private string ScrapingParameterSource()
+        {
+            return this.GetConfigValue("WebScrapingParameterSource", "http://www.svenerikmatzen.info/WebScrapingParameters/");
+        }
+
         #endregion
     }
 }
