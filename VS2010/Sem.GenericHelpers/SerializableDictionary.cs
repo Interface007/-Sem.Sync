@@ -25,27 +25,44 @@ namespace Sem.GenericHelpers
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> tape
+        /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> class. 
         /// </summary>
         public SerializableDictionary()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> class. 
+        /// </summary>
+        /// <param name="init">The data this dictionary should get.</param>
         public SerializableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> init)
         {
             init.ForEach(x => this.Add(x.Key, x.Value));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> class.
+        /// </summary>
+        /// <param name="info"> The information to write the data. </param>
+        /// <param name="context"> The streaming context for serialization. </param>
         protected SerializableDictionary(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
+        /// <summary>
+        /// The schema of the serialized dictionary - returns NULL
+        /// </summary>
+        /// <returns> returns alway NULL </returns>
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
         }
 
+        /// <summary>
+        /// Deserialization of the dicrionary,
+        /// </summary>
+        /// <param name="reader"> The reader that has access to the xml. </param>
         public void ReadXml(System.Xml.XmlReader reader)
         {
             var keySerializer = new XmlSerializer(typeof(TKey));
@@ -91,17 +108,10 @@ namespace Sem.GenericHelpers
             reader.ReadEndElement();
         }
 
-        protected virtual string TranslateKey(string keyName)
-        {
-            return keyName;
-        }
-
-        protected virtual TValue CreateNewValueItem(string value)
-        {
-            var valueSerializer = new XmlSerializer(typeof(TValue));
-            return (TValue)valueSerializer.Deserialize(XDocument.Parse(value).CreateReader());
-        }
-
+        /// <summary>
+        /// Serialization implementation of the dictionary.
+        /// </summary>
+        /// <param name="writer"> The serialization writer. </param>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
             var keySerializer = new XmlSerializer(typeof(TKey));
@@ -124,9 +134,35 @@ namespace Sem.GenericHelpers
             }
         }
 
+        /// <summary>
+        /// Implementation of the dictionary functionality.
+        /// </summary>
+        /// <param name="key"> The key of the value to return. </param>
+        /// <returns>The value if the key exists, otherwise the default value of the value's Type <typeparamref name="TValue"/> </returns>
         public TValue GetValue(TKey key)
         {
             return this.ContainsKey(key) ? this[key] : default(TValue);
+        }
+
+        /// <summary>
+        /// Translation hook vor inherited dictionaries to support legacy structures.
+        /// </summary>
+        /// <param name="keyName"> The key name. </param>
+        /// <returns> The translated key name. </returns>
+        protected virtual string TranslateKey(string keyName)
+        {
+            return keyName;
+        }
+
+        /// <summary>
+        /// Deserializes a value of the dictionary.
+        /// </summary>
+        /// <param name="value"> The value to be deserialized as an xml-string. </param>
+        /// <returns>The deserialized value.</returns>
+        protected virtual TValue CreateNewValueItem(string value)
+        {
+            var valueSerializer = new XmlSerializer(typeof(TValue));
+            return (TValue)valueSerializer.Deserialize(XDocument.Parse(value).CreateReader());
         }
     }
 }

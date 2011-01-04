@@ -23,9 +23,9 @@ namespace Sem.Sync.Connector.Facebook
     /// </summary>
     [ClientStoragePathDescription(Irrelevant = true, ReferenceType = ClientPathType.Undefined)]
     [ConnectorDescription(
-        DisplayName = "Facebook (WS)", 
-        Internal = false, 
-        CanReadContacts = true, CanWriteContacts = false, 
+        DisplayName = "Facebook (WS)",
+        Internal = false,
+        CanReadContacts = true, CanWriteContacts = false,
         NeedsCredentials = true, NeedsCredentialsDomain = false,
         MatchingIdentifier = ProfileIdentifierType.FacebookProfileId)]
     public class WebScrapingClient : WebScrapingBaseClient
@@ -60,6 +60,11 @@ namespace Sem.Sync.Connector.Facebook
                 values = Regex.Matches(content, @"\<h1 id=""profile_name""[^>]*>(?<value>.*?)</h1>", RegexOptions.Singleline);
             }
 
+            if (values.Count == 0 || values[0].Groups.Count <= 1)
+            {
+                values = Regex.Matches(content, @"<title>(?<value>[^<]*)</title>", RegexOptions.Singleline);
+            }
+
             if (values.Count > 0 && values[0].Groups.Count > 1)
             {
                 result.Name = new PersonName(GetValue(values[0]));
@@ -72,7 +77,7 @@ namespace Sem.Sync.Connector.Facebook
 
             values = Regex.Matches(
                 content,
-                @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
+                @"class=\\""label\\"">(?<key>[^<""""]*)<.*?>(?<value>.+?)<\\/td>",
                 RegexOptions.Singleline);
 
             if (values.Count == 0)
@@ -80,6 +85,14 @@ namespace Sem.Sync.Connector.Facebook
                 values = Regex.Matches(
                     content,
                     @"<div class=\\""(?<key>[^""]*)\\""( style=\\""[^""]*\\"")?><dt>.*?<\\/dt><dd>(?<value>.*?)<\\/dd><\\/div>",
+                    RegexOptions.Singleline);
+            }
+
+            if (values.Count == 0)
+            {
+                values = Regex.Matches(
+                    content,
+                    @"<div class=""(?<key>[^""]*)"" style=""[^""]*""><dt>.*?</dt><dd>(?<value>.*?)</dd></div>",
                     RegexOptions.Singleline);
             }
 
@@ -106,6 +119,7 @@ namespace Sem.Sync.Connector.Facebook
                         break;
 
                     case "hometown":
+                    case "Anschrift":
                         result.PersonalAddressPrimary = result.PersonalAddressPrimary ?? new AddressDetail();
                         while (value.Contains("  "))
                         {
@@ -215,6 +229,18 @@ namespace Sem.Sync.Connector.Facebook
             return status;
         }
 
+        protected override WebSideParameters WebSideParameters
+        {
+            get
+            {
+                var webSideParameters = base.WebSideParameters;
+                webSideParameters.HttpUrlFriendList = @"ajax/typeahead/first_degree.php?__a=1&viewer=1489841382&token=1292614242-5&filter[0]=user&options[0]=friends_only";
+                webSideParameters.ExtractorFriendUrls = @".profile.php.id=(?<id>\d+)";
+                webSideParameters.HttpUrlContactDownload = @"profile.php?id={0}&sk=info";
+                return webSideParameters;
+            }
+        }
+
         /// <summary>
         /// Extracts the value from a match.
         /// </summary>
@@ -222,20 +248,29 @@ namespace Sem.Sync.Connector.Facebook
         /// <returns> the extracted value </returns>
         private static string GetValue(Match match)
         {
-            var value = match.Groups["value"].ToString();
-            if (value.Contains(">"))
-            {
-                value = value.Substring(value.IndexOf('>') + 1);
-            }
+            var value = 
+                match.Groups["value"].Captures.Count > 0 
+                ? match.Groups["value"].Captures[0].ToString() 
+                : match.Groups["value"].ToString();
 
-            if (value.Contains("<"))
+            value = value.Replace("li><li", "li>\n<li");
+
+            while (value.Contains("<"))
             {
-                value = value.Substring(0, value.IndexOf('<'));
+                var start = value.IndexOf('<');
+                var end = value.IndexOf('>', start);
+
+                if (end <= 0)
+                {
+                    break;
+                }
+
+                value = value.Replace(value.Substring(start, end + 1 - start), string.Empty);
             }
 
             value = value.Replace("\\/", "/");
 
-            while(value.Contains("\\u"))
+            while (value.Contains("\\u"))
             {
                 var code = value.Substring(value.IndexOf("\\u", StringComparison.OrdinalIgnoreCase) + 2, 4);
                 var charValue = int.Parse(code, NumberStyles.HexNumber, CultureInfo.CurrentCulture);

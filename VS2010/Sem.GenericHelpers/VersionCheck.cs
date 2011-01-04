@@ -142,7 +142,7 @@ namespace Sem.GenericHelpers
         /// <returns>
         /// true if the version of this assembly is higher or euqal
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "version check is pure optional - in case of a problem we simply skip this")]
         public bool Check(IUiInteraction uiProvider)
         {
@@ -161,9 +161,8 @@ namespace Sem.GenericHelpers
                 var myVersion = new VersionCheck();
 
                 var formatter = new XmlSerializer(typeof(VersionCheck));
-                var versionContentFromServer =
-                    (new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider }).GetContent(
-                        VersionXmlUrl, "[NOCACHE]");
+                var httpHelper = new HttpHelper(VersionBaseUrl, false) { UiDispatcher = uiProvider };
+                var versionContentFromServer = httpHelper.GetContent(VersionXmlUrl, "[NOCACHE]");
 
                 if (!string.IsNullOrEmpty(versionContentFromServer))
                 {

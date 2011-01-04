@@ -147,9 +147,4 @@ namespace Sem.GenericHelpers
             return mapResult;
         }
     }
-
-    public class Mapper<TSource, TTarget>
-    {
-
-    }
 }

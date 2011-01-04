@@ -230,13 +230,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
-      <Name>Sem.Sync.Connector.Outlook2003</Name>
-      <Project>{15dd2e27-2606-4211-bdca-863bb9e26142}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\Sem.Sync.Connector.Outlook2010\Sem.Sync.Connector.Outlook2010.csproj">
       <Name>Sem.Sync.Connector.Outlook2010</Name>
       <Project>{0e785e12-16ff-4409-927a-1e7554841d72}</Project>

@@ -95,14 +95,17 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Client.dll</HintPath>
+    <Reference Include="Google.GData.Client, Version=1.6.1.26396, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\GoogleDataAPI\Google.GData.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Contacts, Version=1.4.0.2, Culture=neutral, PublicKeyToken=7e065189dd4b982f, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Contacts.dll</HintPath>
+    <Reference Include="Google.GData.Contacts, Version=1.6.1.26025, Culture=neutral, PublicKeyToken=7e065189dd4b982f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\GoogleDataAPI\Google.GData.Contacts.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Extensions, Version=1.4.0.2, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Program Files (x86)\Google\Google Data API SDK\Redist\Google.GData.Extensions.dll</HintPath>
+    <Reference Include="Google.GData.Extensions, Version=1.6.1.26401, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalAssemblies\GoogleDataAPI\Google.GData.Extensions.DLL</HintPath>
     </Reference>
     <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3923.37688, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

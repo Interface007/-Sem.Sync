@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sem.Sync.SharedUI.WinForms.ViewModel
+﻿namespace Sem.Sync.SharedUI.WinForms.ViewModel
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Sem.Sync.SyncBase.DetailData;
     using Sem.Sync.SyncBase.Merging;
 
+    /// <summary>
+    /// ViewModel of the "Merge Entities" view.
+    /// </summary>
     public class MergeEntitiesViewModel
     {
-        public MergeEntitiesViewModel(IEnumerable<MergeConflict> toMerge)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MergeEntitiesViewModel"/> class.
+        /// </summary>
+        /// <param name="dataToMerge"> The data to be merge. </param>
+        public MergeEntitiesViewModel(IEnumerable<MergeConflict> dataToMerge)
         {
-            this.MergeList = (from x in toMerge
+            this.MergeList = (from x in dataToMerge
                               select
                                   new MergeView
                                       {
@@ -25,13 +30,18 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         }
 
         /// <summary>
-        /// The get entity name.
+        /// Gets or sets the view list for the merging diaqlog
         /// </summary>
-        /// <param name="x"> The x. </param>
+        public List<MergeView> MergeList { get; set; }
+
+        /// <summary>
+        /// Gets the name of the entity that did cause the specified merge conflict.
+        /// </summary>
+        /// <param name="mergeConflict"> The merge conflict. </param>
         /// <returns> The get entity name. </returns>
-        private static string GetEntityName(MergeConflict x)
+        private static string GetEntityName(MergeConflict mergeConflict)
         {
-            var element = x.SourceElement ?? x.TargetElement ?? x.BaselineElement;
+            var element = mergeConflict.SourceElement ?? mergeConflict.TargetElement ?? mergeConflict.BaselineElement;
             var type = element.GetType().Name;
             switch (type)
             {
@@ -42,7 +52,5 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
                     return element.ToSortSimple();
             }
         }
-
-        public List<MergeView> MergeList { get; set; }
     }
 }

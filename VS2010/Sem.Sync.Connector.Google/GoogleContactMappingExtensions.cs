@@ -67,7 +67,12 @@ namespace Sem.Sync.Connector.Google
             var addressText = stdAddress.ToString(AddressFormatting.StreetAndCity);
             if (!string.IsNullOrEmpty(addressText))
             {
-                var postalAddress = new PostalAddress(addressText) { Rel = GoogleSchemaPrefix2005 + addressType, };
+                var postalAddress = new StructuredPostalAddress
+                                        {
+                                            Street = stdAddress.StreetName,
+                                            City = stdAddress.CityName,
+                                            Rel = GoogleSchemaPrefix2005 + addressType,
+                                        };
 
                 if (!IsAddressExisting(googleContact.PostalAddresses, stdAddress))
                 {
@@ -162,10 +167,10 @@ namespace Sem.Sync.Connector.Google
         /// </summary>
         /// <param name="stdEntry">The std entry to be updated.</param>
         /// <param name="address">The address to set.</param>
-        public static void SetAddress(this StdContact stdEntry, PostalAddress address)
+        public static void SetAddress(this StdContact stdEntry, StructuredPostalAddress address)
         {
-            var stdAddress = new AddressDetail(address.Value);
-            if (address.Home)
+            var stdAddress = new AddressDetail(address.FormattedAddress);
+            if (address.Usage == "home")
             {
                 if (stdEntry.PersonalAddressPrimary == null)
                 {
@@ -177,7 +182,7 @@ namespace Sem.Sync.Connector.Google
                 }
             }
 
-            if (address.Work)
+            if (address.Usage == "Work")
             {
                 if (stdEntry.BusinessAddressPrimary == null)
                 {
@@ -412,13 +417,13 @@ namespace Sem.Sync.Connector.Google
         /// <param name="googleAddresses">The google address collection.</param>
         /// <param name="stdAddress">The <see cref="AddressDetail"/> data from the <see cref="StdContact"/>.</param>
         /// <returns>true if the address is already part of the collection</returns>
-        private static bool IsAddressExisting(IEnumerable<PostalAddress> googleAddresses, AddressDetail stdAddress)
+        private static bool IsAddressExisting(IEnumerable<StructuredPostalAddress> googleAddresses, AddressDetail stdAddress)
         {
             if (stdAddress != null)
             {
                 foreach (var address in googleAddresses)
                 {
-                    if (address.Value == stdAddress.ToString(AddressFormatting.StreetAndCity))
+                    if (address.City == stdAddress.CityName && address.Street == stdAddress.StateName)
                     {
                         return true;
                     }

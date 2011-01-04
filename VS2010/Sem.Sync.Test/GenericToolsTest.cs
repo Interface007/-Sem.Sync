@@ -171,17 +171,11 @@ namespace Sem.Sync.Test
     [TestClass]
     public class GenericToolsTest
     {
-        #region Properties
-
         /// <summary>
         ///   Gets or sets the test context which provides
         ///   information about and functionality for the current test run.
         /// </summary>
         public TestContext TestContext { get; set; }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// The check cache path generation.
@@ -487,7 +481,5 @@ namespace Sem.Sync.Test
             Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello\.txt"));
             Assert.AreEqual(@"hello_.txt", SyncTools.NormalizeFileName(@"hello/.txt"));
         }
-
-        #endregion
     }
 }

@@ -12,7 +12,6 @@ namespace Sem.GenericHelpers
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Globalization;
     using System.Linq.Expressions;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -23,7 +22,7 @@ namespace Sem.GenericHelpers
     /// <summary>
     /// This class implements a simple class-factory that does support generic types.
     /// </summary>
-    /// <remarks>
+    /// <remarks>cks for the 
     /// The factory does support simple as well as generic types. Another feature is simply specifying
     ///   the type name including the namespace if the namespace name matches the assembly name. In case of 
     ///   generic types you may omit the "`1" specification as this will be added automatically when using 
@@ -41,6 +40,9 @@ namespace Sem.GenericHelpers
     {
         #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes static members of the <see cref="Factory"/> class.
+        /// </summary>
         static Factory()
         {
             Mocks = new SerializableDictionary<string, object>();
@@ -68,6 +70,9 @@ namespace Sem.GenericHelpers
 
         #region Properties
 
+        /// <summary>
+        /// Gets the mocks dictionary for registered type surrogates.
+        /// </summary>
         public static SerializableDictionary<string, object> Mocks { get; private set; }
 
         /// <summary>
@@ -233,17 +238,22 @@ namespace Sem.GenericHelpers
             Bouncer
                 .ForCheckData(() => classType)
                 .Assert(new IsNotNullRule<Type>());
-            
+
             Bouncer
                 .ForCheckData(() => genericClassType)
                 .Assert(new IsNotNullRule<Type>());
-            
+
             var typeParams = new[] { classType };
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
             return CreateTypeInstance(constructedType);
         }
 
+        /// <summary>
+        /// Determines the mock for a specific type name.
+        /// </summary>
+        /// <param name="name"> The name of the original type. </param>
+        /// <returns>The mock object.</returns>
         private static object GetMock(string name)
         {
             if (!string.IsNullOrEmpty(name))
@@ -257,15 +267,27 @@ namespace Sem.GenericHelpers
             return null;
         }
 
+        /// <summary>
+        /// Creates an instance for a specific type
+        /// </summary>
+        /// <param name="type">The type the instance should be created for</param>
+        /// <returns>the instance</returns>
         public static object CreateTypeInstance(Type type)
         {
             Bouncer
                 .ForCheckData(() => type)
                 .Assert(new IsNotNullRule<Type>());
 
-            return (GetMock(type.FullName) ?? Activator.CreateInstance(type));
+            return GetMock(type.FullName) ?? Activator.CreateInstance(type);
         }
 
+        /// <summary>
+        /// Creates an instance for a specific type
+        /// </summary>
+        /// <param name="type">The type the instance should be created for</param>
+        /// <param name="param1">The type of the 1st ctor parameter for instanciating the class</param>
+        /// <typeparam name="TCtorParam1">The parameter value for instanciating the class</typeparam>
+        /// <returns>the instance</returns>
         public static object CreateTypeInstance<TCtorParam1>(Type type, TCtorParam1 param1)
         {
             Bouncer
@@ -276,17 +298,34 @@ namespace Sem.GenericHelpers
                 ?? Activator.CreateInstance(type, param1);
         }
 
+        /// <summary>
+        /// Creates an instance for a specific type
+        /// </summary>
+        /// <param name="type">The type the instance should be created for</param>
+        /// <param name="param1">The type of the 1st ctor parameter for instanciating the class</param>
+        /// <param name="param2">The type of the 2nd ctor parameter for instanciating the class</param>
+        /// <typeparam name="TCtorParam1">The 1st parameter value for instanciating the class</typeparam>
+        /// <typeparam name="TCtorParam2">The 2nd parameter value for instanciating the class</typeparam>
+        /// <returns>the instance </returns>
         public static object CreateTypeInstance<TCtorParam1, TCtorParam2>(Type type, TCtorParam1 param1, TCtorParam2 param2)
         {
             return GetMock(string.Join(":", type.FullName, typeof(TCtorParam1).FullName, typeof(TCtorParam2).FullName))
                 ?? Activator.CreateInstance(type, param1, param2);
         }
 
+        /// <summary>
+        /// Creates an instance for a specific type
+        /// </summary>
+        /// <typeparam name="T">The type of the class that should be created.</typeparam>
+        /// <returns>The instance </returns>
         public static T CreateTypeInstance<T>() where T : class
         {
             return CreateTypeInstance(typeof(T)) as T;
         }
 
+        /// <summary>
+        /// Mapping of expressions that should be replaced
+        /// </summary>
         static readonly Dictionary<string, Func<object>> ExpressionMap = new Dictionary<string, Func<object>>();
 
         private static readonly Regex AnonymousClassReplacer = new Regex(@"\<>c__DisplayClass[0-9]+", RegexOptions.Compiled);

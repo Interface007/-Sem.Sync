@@ -1,0 +1,7 @@
+﻿<OutOfBrowserSettings ShortName="Sem.Sync.Web.SilverContacts Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>Sem.Sync.Web.SilverContacts Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+  <OutOfBrowserSettings.WindowSettings>
+    <WindowSettings Title="Sem.Sync.Web.SilverContacts Application" />
+  </OutOfBrowserSettings.WindowSettings>
+  <OutOfBrowserSettings.Icons />
+</OutOfBrowserSettings>

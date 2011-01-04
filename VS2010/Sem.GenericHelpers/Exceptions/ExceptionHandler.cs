@@ -62,6 +62,10 @@ namespace Sem.GenericHelpers.Exceptions
         /// </summary>
         private static readonly ExceptionHandler DefaultHandler;
 
+        /// <summary>
+        /// Cache for context related values. This cache will only be used in debug builds. In release builds the 
+        /// methods for accessing it will be removed via the [Conditional("DEBUG")] attribute.
+        /// </summary>
         private static readonly List<KeyValuePair<string, object>> ContextCache = new List<KeyValuePair<string, object>>();
 
         #endregion
@@ -291,12 +295,22 @@ namespace Sem.GenericHelpers.Exceptions
             }
         }
 
+        /// <summary>
+        /// Stores context specific information for the next coming exception.
+        /// This method will be excluded in release builds.
+        /// </summary>
+        /// <param name="contextValueName">The name of the value to store</param>
+        /// <param name="contextValue">The text to store.</param>
         [Conditional("DEBUG")]
         public static void WriteContextEntry(string contextValueName, object contextValue)
         {
             ContextCache.Add(new KeyValuePair<string, object>(contextValueName, contextValue));
         }
 
+        /// <summary>
+        /// Clears the context value cache.
+        /// This method will be excluded in release builds.
+        /// </summary>
         [Conditional("DEBUG")]
         public static void ClearContextCache()
         {

@@ -28,8 +28,6 @@ namespace Sem.Sync.SharedUI.Common
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.Binding;
     using Sem.Sync.SyncBase.DetailData;
-    using Sem.Sync.SyncBase.Helpers;
-    using Sem.Sync.SyncBase.Interfaces;
 
     /// <summary>
     /// The context does contain information needed to access the source and the 
@@ -52,14 +50,14 @@ namespace Sem.Sync.SharedUI.Common
         public static readonly string WorkingFolderData = Path.Combine(Config.WorkingFolder, "SyncLists");
 
         /// <summary>
-        ///   The file extension for template files.
-        /// </summary>
-        private const string SyncListTemplateFileExtension = ".TSyncList";
-
-        /// <summary>
         ///   The working folder for template files.
         /// </summary>
         public static readonly string WorkingFolderTemplates = Path.Combine(Directory.GetCurrentDirectory(), "SyncLists");
+
+        /// <summary>
+        ///   The file extension for template files.
+        /// </summary>
+        private const string SyncListTemplateFileExtension = ".TSyncList";
 
         /// <summary>
         ///   The current synchronization workflow data - this is created and saved by the user in the dialog..
@@ -73,12 +71,12 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="SyncWizardContext"/> class.
         /// </summary>
-        /// <param name="uiInteraction">
+        /// <param name="userInterfaceInteraction">
         /// The ui-interaction class to be used. 
         /// </param>
-        public SyncWizardContext(IUiInteraction uiInteraction)
+        public SyncWizardContext(IUiInteraction userInterfaceInteraction)
         {
-            this.UiProvider = uiInteraction;
+            this.UiProvider = userInterfaceInteraction;
             this.ClientsSource = new Dictionary<string, string>();
             this.ClientsTarget = new Dictionary<string, string>();
             this.Source = new ConnectorInformation();
@@ -94,7 +92,7 @@ namespace Sem.Sync.SharedUI.Common
             this.SyncWorkflowsTemplates = new Dictionary<string, string>();
             Tools.EnsurePathExist(WorkingFolderTemplates);
             Directory.GetFiles(WorkingFolderTemplates, "*" + SyncListTemplateFileExtension).ForEach(
-                file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file)));
+                file => this.SyncWorkflowsTemplates.Add(file, Path.GetFileNameWithoutExtension(file) ?? file));
 
             this.ReloadWorkflowDataList();
         }
@@ -271,7 +269,7 @@ namespace Sem.Sync.SharedUI.Common
 
             if (!this.SyncWorkflowsTemplates.ContainsValue(workFlow.Template))
             {
-                var candidates = Directory.GetFiles(WorkingFolderTemplates, Path.GetFileName(workFlow.Template));
+                var candidates = Directory.GetFiles(WorkingFolderTemplates, Path.GetFileName(workFlow.Template) ?? workFlow.Template);
                 if (candidates.Count() == 1)
                 {
                     workFlow.Template = candidates[0];
@@ -305,7 +303,7 @@ namespace Sem.Sync.SharedUI.Common
             if (!File.Exists(templateScriptPath))
             {
                 this.ProcessingEvent(
-                    this, 
+                    this,
                     new ProcessingEventArgs(
                         string.Format(
                             CultureInfo.CurrentCulture, Properties.Resources.InstalledFileNotFound, templateScriptPath)));
@@ -381,18 +379,18 @@ namespace Sem.Sync.SharedUI.Common
                 fileNameWithout =
                     Tools.ReplaceInvalidFileCharacters(
                         string.Format(
-                            CultureInfo.CurrentCulture, 
-                            "from {0} to {1} ({2})", 
-                            this.Source.Name, 
-                            this.Target.Name, 
+                            CultureInfo.CurrentCulture,
+                            "from {0} to {1} ({2})",
+                            this.Source.Name,
+                            this.Target.Name,
                             DateTime.Now));
             }
 
             var workFlow = new SyncWorkFlow
                 {
-                    Name = Path.GetFileNameWithoutExtension(fileNameWithout), 
-                    Source = this.Source, 
-                    Target = this.Target, 
+                    Name = Path.GetFileNameWithoutExtension(fileNameWithout),
+                    Source = this.Source,
+                    Target = this.Target,
                     Template = this.CurrentSyncWorkflowTemplate
                 };
 
@@ -427,14 +425,9 @@ namespace Sem.Sync.SharedUI.Common
         /// <summary>
         /// The connector list to key value piars.
         /// </summary>
-        /// <param name="fileInfo">
-        /// The file info.
-        /// </param>
-        /// <param name="capable">
-        /// The capable.
-        /// </param>
-        /// <returns>
-        /// </returns>
+        /// <param name="fileInfo"> The file info. </param>
+        /// <param name="capable"> The capable. </param>
+        /// <returns>An enumerator to the connector list </returns>
         private static IEnumerable<KeyValuePair<string, string>> ConnectorListToKeyValuePiars(
             IEnumerable<ConnectorTypeDescription> fileInfo, int capable)
         {
@@ -513,7 +506,7 @@ namespace Sem.Sync.SharedUI.Common
             files.AddRange(Directory.GetFiles(SyncWizardContext.WorkingFolderTemplates, "*" + SyncListDataFileExtension));
             foreach (var file in files)
             {
-                this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file));
+                this.SyncWorkflowData.Add(file, Path.GetFileNameWithoutExtension(file) ?? file);
             }
 
             this.RaisePropertyChanged("SyncWorkflowData");
@@ -537,14 +530,14 @@ namespace Sem.Sync.SharedUI.Common
             if (this.Source.ConnectorDescription != null)
             {
                 returnvalue = returnvalue.Replace(
-                    "{sourcepersonalidentifier}", 
+                    "{sourcepersonalidentifier}",
                     Enum.GetName(typeof(ProfileIdentifierType), this.Source.ConnectorDescription.MatchingIdentifier));
             }
 
             if (this.Target.ConnectorDescription != null)
             {
                 returnvalue = returnvalue.Replace(
-                    "{targetpersonalidentifier}", 
+                    "{targetpersonalidentifier}",
                     Enum.GetName(typeof(ProfileIdentifierType), this.Target.ConnectorDescription.MatchingIdentifier));
             }
 
@@ -561,7 +554,8 @@ namespace Sem.Sync.SharedUI.Common
         {
             foreach (var file in Directory.GetFiles(path, "*.dll"))
             {
-                if (Path.GetFileName(file).ToUpperInvariant().IsOneOf("CONTACTVIEWER.DLL"))
+                var fileName = Path.GetFileName(file);
+                if (fileName == null || fileName.ToUpperInvariant().IsOneOf("CONTACTVIEWER.DLL"))
                 {
                     continue;
                 }
@@ -571,11 +565,15 @@ namespace Sem.Sync.SharedUI.Common
                 try
                 {
                     // todo: check if the dll is a loadable assembly
-                    if (!Path.GetFileName(file).IsOneOf("Sem.Sync.Test.Ui.dll"))
+                    if (!fileName.IsOneOf("Sem.Sync.Test.Ui.dll"))
                     {
                         var assembly = Assembly.LoadFile(file);
                         types = assembly.GetExportedTypes();
                     }
+                }
+                catch (FileLoadException ex)
+                {
+                    this.HandleProcessingEvent(this, new ProcessingEventArgs(ex.Message));
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -588,8 +586,9 @@ namespace Sem.Sync.SharedUI.Common
 
                 foreach (var exportedType in types)
                 {
+                    var exportedTypeName = exportedType.FullName ?? "unknown type";
                     if (exportedType.GetInterface("IClientBase") == null ||
-                        exportedType.FullName == "Sem.Sync.SyncBase.StdClient")
+                        exportedTypeName == "Sem.Sync.SyncBase.StdClient")
                     {
                         continue;
                     }
@@ -602,8 +601,8 @@ namespace Sem.Sync.SharedUI.Common
                     foreach (var type in new[] { typeof(StdContact), typeof(StdCalendarItem) })
                     {
                         var fullName = exportedType.IsGenericType
-                                           ? exportedType.FullName.Replace("`1", " of " + type.Name)
-                                           : exportedType.FullName;
+                                           ? exportedTypeName.Replace("`1", " of " + type.Name)
+                                           : exportedTypeName;
 
                         var nameToUse = attribute.DisplayName ?? fullName.Replace("`1", string.Empty);
 
@@ -612,9 +611,9 @@ namespace Sem.Sync.SharedUI.Common
                             yield return
                                 new ConnectorTypeDescription
                                     {
-                                        ClassName = fullName, 
-                                        DisplayName = nameToUse, 
-                                        ReadWrite = attribute.CanRead(type) ? (attribute.CanWrite(type) ? 3 : 1) : 2, 
+                                        ClassName = fullName,
+                                        DisplayName = nameToUse,
+                                        ReadWrite = attribute.CanRead(type) ? (attribute.CanWrite(type) ? 3 : 1) : 2,
                                         TypeName = type.Name
                                     };
                         }
