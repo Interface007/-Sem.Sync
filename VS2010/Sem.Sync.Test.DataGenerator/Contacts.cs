@@ -361,8 +361,7 @@ namespace Sem.Sync.Test.DataGenerator
                     new MatchingEntry
                         {
                             Id = new Guid("{03652E94-05F4-4410-95C6-BAF38925A368}"), 
-                            ProfileId =
-                                new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "Matched")
+                            ProfileId = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, "Matched")
                         }
                 };
         }
@@ -379,7 +378,9 @@ namespace Sem.Sync.Test.DataGenerator
         {
             return new List<StdContact>
                 {
-                   CreateIdOnlyContact("Unmatched"), CreateIdOnlyContact("Matched"), CreateIdOnlyContact("New"), 
+                   CreateIdOnlyContact("Unmatched"), 
+                   CreateIdOnlyContact("Matched"), 
+                   CreateIdOnlyContact("SourceOrphan@Source"), 
                 };
         }
 
@@ -395,9 +396,9 @@ namespace Sem.Sync.Test.DataGenerator
         {
             return new List<StdContact>
                 {
-                    CreateIdOnlyContact("Unmatched", "{1048893D-6550-494f-A696-41849103174B}"), 
-                    CreateIdOnlyContact("Matched", "{03652E94-05F4-4410-95C6-BAF38925A368}"), 
-                    CreateIdOnlyContact("TargetOrphan", "{CA3585EC-A110-4eaf-932B-BB155B2430D1}"), 
+                    CreateIdOnlyContact(ProfileIdentifierType.XingNameProfileId, "Unmatched", "{1048893D-6550-494f-A696-41849103174B}"), 
+                    CreateIdOnlyContact(ProfileIdentifierType.XingNameProfileId, "Matched", "{03652E94-05F4-4410-95C6-BAF38925A368}"), 
+                    CreateIdOnlyContact(ProfileIdentifierType.XingNameProfileId, "TargetOrphan@Target", "{CA3585EC-A110-4eaf-932B-BB155B2430D1}"), 
                 };
         }
 
@@ -545,24 +546,25 @@ namespace Sem.Sync.Test.DataGenerator
         /// </returns>
         private static StdContact CreateIdOnlyContact(string profileId)
         {
-            return CreateIdOnlyContact(profileId, Guid.NewGuid().ToString());
+            return CreateIdOnlyContact(ProfileIdentifierType.XingNameProfileId, profileId, Guid.NewGuid().ToString());
         }
 
         /// <summary>
         /// Creates a <see cref="StdContact"/> entity with only the Xing profile ID specified for matching simulation.
         /// </summary>
+        /// <param name="profileTypeId"></param>
         /// <param name="profileId">
-        /// The profile id.  
+        ///   The profile id.  
         /// </param>
         /// <param name="id"> The <see cref="StdElement.Id"/>. </param>
         /// <returns> The entity created with a Xing profile id. </returns>
-        private static StdContact CreateIdOnlyContact(string profileId, string id)
+        private static StdContact CreateIdOnlyContact(ProfileIdentifierType profileTypeId, string profileId, string id)
         {
             var result = new StdContact
                 {
-                    Name = new PersonName(profileId),
-                    Id = new Guid(id),
-                    ExternalIdentifier = new ProfileIdentifierDictionary(ProfileIdentifierType.XingNameProfileId, profileId),
+                    Name = new PersonName(profileId), 
+                    Id = new Guid(id), 
+                    ExternalIdentifier = new ProfileIdentifierDictionary(profileTypeId, profileId), 
                 };
             return result;
         }

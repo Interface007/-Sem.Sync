@@ -565,7 +565,7 @@ namespace Sem.Sync.SharedUI.Common
                 try
                 {
                     // todo: check if the dll is a loadable assembly
-                    if (!fileName.IsOneOf("Sem.Sync.Test.Ui.dll"))
+                    if (!Path.GetFileName(file).IsOneOf("System.Moles.dll", "Sem.Sync.Test.Ui.dll"))
                     {
                         var assembly = Assembly.LoadFile(file);
                         types = assembly.GetExportedTypes();

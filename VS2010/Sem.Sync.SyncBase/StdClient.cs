@@ -178,8 +178,7 @@ namespace Sem.Sync.SyncBase
         /// </param>
         public virtual void AddRange(List<StdElement> elements, string clientFolderName)
         {
-            this.LogProcessingEvent(
-                string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
+            this.LogProcessingEvent(string.Format(CultureInfo.CurrentCulture, Resources.uiAddingXElements, elements.Count));
             var data = this.GetAll(clientFolderName);
             WriteElementRange(data, elements);
             this.WriteRange(data, clientFolderName);
@@ -221,6 +220,7 @@ namespace Sem.Sync.SyncBase
 
             this.LogProcessingEvent(Resources.uiSorting);
             result.Sort();
+            this.Normalize(result);
             this.LogProcessingEvent(Resources.uiSorted);
 
             return result;

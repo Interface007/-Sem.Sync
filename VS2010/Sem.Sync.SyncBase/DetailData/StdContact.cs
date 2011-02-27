@@ -348,6 +348,11 @@ namespace Sem.Sync.SyncBase.DetailData
                 this.DateOfBirth = new DateTime(1900, 1, 1);
             }
 
+            if (this.Name != null)
+            {
+                this.Name.NormalizeContent();
+            }
+            
             SyncTools.ClearNulls(this, typeof(StdContact));
         }
 
