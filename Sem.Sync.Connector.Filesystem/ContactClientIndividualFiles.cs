@@ -85,6 +85,9 @@ namespace Sem.Sync.Connector.Filesystem
         /// </returns>
         protected override List<StdElement> ReadFullList(string clientFolderName, List<StdElement> result)
         {
+            var useGuid = clientFolderName.Contains("{id}");
+            clientFolderName = clientFolderName.Replace("{id}", string.Empty);
+
             if (Directory.Exists(clientFolderName))
             {
                 foreach (var filePathName in Directory.GetFiles(clientFolderName, "*.xmlcontact"))
@@ -126,9 +129,9 @@ namespace Sem.Sync.Connector.Filesystem
             Tools.EnsurePathExist(clientFolderName);
             foreach (var element in elements)
             {
-                var fileName = useGuid
+                var fileName = (useGuid
                                    ? element.Id.ToString("D")
-                                   : SyncTools.NormalizeFileName(element.ToStringSimple()) + ".xmlcontact";
+                                   : SyncTools.NormalizeFileName(element.ToStringSimple())) + ".xmlcontact";
 
                 using (var file = new FileStream(Path.Combine(clientFolderName, fileName), FileMode.Create))
                 {

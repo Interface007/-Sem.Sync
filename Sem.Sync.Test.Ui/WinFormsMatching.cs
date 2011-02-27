@@ -53,11 +53,11 @@ namespace Sem.Sync.Test.Ui
 
             Assert.IsFalse(business.SourceAsList().Exist("Matched"));
             Assert.IsTrue(business.SourceAsList().Exist("Unmatched"));
-            Assert.IsTrue(business.SourceAsList().Exist("New"));
+            Assert.IsTrue(business.SourceAsList().Exist("SourceOrphan@Source"));
 
             Assert.IsFalse(business.TargetAsList().Exist("Matched"));
             Assert.IsTrue(business.TargetAsList().Exist("Unmatched"));
-            Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan"));
+            Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan@Target"));
 
             business.CurrentSourceElement = business.SourceAsList().GetByXingId("Unmatched").Element;
             business.CurrentTargetElement = business.TargetAsList().GetByXingId("Unmatched").Element;
@@ -65,13 +65,27 @@ namespace Sem.Sync.Test.Ui
 
             Assert.IsFalse(business.SourceAsList().Exist("Matched"));
             Assert.IsFalse(business.SourceAsList().Exist("Unmatched"));
-            Assert.IsTrue(business.SourceAsList().Exist("New"));
+            Assert.IsTrue(business.SourceAsList().Exist("SourceOrphan@Source"));
 
             Assert.IsFalse(business.TargetAsList().Exist("Matched"));
             Assert.IsFalse(business.TargetAsList().Exist("Unmatched"));
-            Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan"));
+            Assert.IsTrue(business.TargetAsList().Exist("TargetOrphan@Target"));
 
             Assert.IsTrue(business.BaselineAsList().Exist(business.Target.ToStdContacts().GetByXingId("Unmatched").Id));
+        }
+
+        [TestMethod]
+        public void CheckSimple1EntityAddition()
+        {
+            var business = new Matching
+            {
+                Source = Contacts.GetMatchingSource().ToStdElements(),
+                Target = Contacts.GetMatchingTarget().ToStdElements(),
+                BaseLine = Contacts.GetMatchingBaseline(),
+                FilterMatchedEntriesSource = true,
+                FilterMatchedEntriesTarget = true,
+                Profile = ProfileIdentifierType.XingNameProfileId,
+            };
         }
 
         #endregion

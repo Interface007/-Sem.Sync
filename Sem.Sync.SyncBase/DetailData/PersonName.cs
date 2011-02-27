@@ -202,6 +202,32 @@ namespace Sem.Sync.SyncBase.DetailData
         #region Public Methods
 
         /// <summary>
+        /// Removes spaces from start and end.
+        /// </summary>
+        public void NormalizeContent()
+        {
+            if (this.firstName != null && this.firstName.StartsWith(" ") | this.firstName.EndsWith(" "))
+            {
+                this.firstName = this.firstName.Trim();
+            }
+
+            if (this.middleName != null && this.middleName.StartsWith(" ") | this.middleName.EndsWith(" "))
+            {
+                this.middleName = this.middleName.Trim();
+            }
+
+            if (this.lastName != null && this.lastName.StartsWith(" ") | this.lastName.EndsWith(" "))
+            {
+                this.lastName = this.lastName.Trim();
+            }
+
+            if (this.FormerName != null && this.FormerName.StartsWith(" ") | this.FormerName.EndsWith(" "))
+            {
+                this.FormerName = this.FormerName.Trim();
+            }
+        }
+
+        /// <summary>
         /// Overrides the inherited ToString method from object to represent a meaningful name
         /// </summary>
         /// <returns>

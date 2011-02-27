@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Sem.GenericHelpers.Moles;
-
 namespace Sem.Sync.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,45 +29,45 @@ namespace Sem.Sync.Test
 
         #endregion
 
-        /// <summary>
-        /// The check current version.
-        /// </summary>
-        [TestMethod]
-        [HostType("Moles")]
-        public void CheckCurrentVersion()
-        {
-            var version1 = new VersionCheck();
+        /////// <summary>
+        /////// The check current version.
+        /////// </summary>
+        ////[TestMethod]
+        ////[HostType("Moles")]
+        ////public void CheckCurrentVersion()
+        ////{
+        ////    var version1 = new VersionCheck();
 
-            MHttpHelper.AllInstances.GetContentStringString = (x, y, z) => "";
-            Assert.IsTrue(version1.Check());
+        ////    MHttpHelper.AllInstances.GetContentStringString = (x, y, z) => "";
+        ////    Assert.IsTrue(version1.Check());
 
-            MHttpHelper.AllInstances.GetContentStringString =
-                (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
-                                "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
-                                "  <Build>3876</Build>" +
-                                "  <Major>2010</Major>" +
-                                "  <MajorRevision>0</MajorRevision>" +
-                                "  <Minor>328</Minor>" +
-                                "  <MinorRevision>30370</MinorRevision>" +
-                                "  <Revision>30370</Revision>" +
-                                "</VersionCheck>";
-            Assert.IsTrue(version1.Check());
+        ////    MHttpHelper.AllInstances.GetContentStringString =
+        ////        (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+        ////                        "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
+        ////                        "  <Build>3876</Build>" +
+        ////                        "  <Major>2010</Major>" +
+        ////                        "  <MajorRevision>0</MajorRevision>" +
+        ////                        "  <Minor>328</Minor>" +
+        ////                        "  <MinorRevision>30370</MinorRevision>" +
+        ////                        "  <Revision>30370</Revision>" +
+        ////                        "</VersionCheck>";
+        ////    Assert.IsTrue(version1.Check());
 
-            MHttpHelper.AllInstances.GetContentStringString =
-                (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
-                                "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
-                                "  <Build>3877</Build>" +
-                                "  <Major>2020</Major>" +
-                                "  <MajorRevision>0</MajorRevision>" +
-                                "  <Minor>328</Minor>" +
-                                "  <MinorRevision>30370</MinorRevision>" +
-                                "  <Revision>30370</Revision>" +
-                                "</VersionCheck>";
+        ////    MHttpHelper.AllInstances.GetContentStringString =
+        ////        (x, y, z) => "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+        ////                        "<VersionCheck xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
+        ////                        "  <Build>3877</Build>" +
+        ////                        "  <Major>2020</Major>" +
+        ////                        "  <MajorRevision>0</MajorRevision>" +
+        ////                        "  <Minor>328</Minor>" +
+        ////                        "  <MinorRevision>30370</MinorRevision>" +
+        ////                        "  <Revision>30370</Revision>" +
+        ////                        "</VersionCheck>";
             
-            Assert.IsFalse(version1.Check());
+        ////    Assert.IsFalse(version1.Check());
 
-            Microsoft.Moles.Framework.Moles.MoleRuntime.Clear();
-        }
+        ////    Microsoft.Moles.Framework.Moles.MoleRuntime.Clear();
+        ////}
 
         /// <summary>
         /// The check version comparison.
