@@ -23,6 +23,17 @@ namespace Sem.GenericHelpers
         #region Public Methods
 
         /// <summary>
+        /// Determines if a string starts with one of the parameter strings.
+        /// </summary>
+        /// <param name="value"> the string to test </param>
+        /// <param name="candidates"> the candidate string this string is compared to </param>
+        /// <returns> true if the string does start with one of the candidates </returns>
+        public static bool StartsWithOneOf(this string value, params string[] candidates)
+        {
+            return candidates.Where(x => value.StartsWith(x, StringComparison.OrdinalIgnoreCase)).Any();
+        }
+
+        /// <summary>
         /// Determines if a string is equal to one of the parameter strings.
         /// </summary>
         /// <param name="value"> the string to test </param>

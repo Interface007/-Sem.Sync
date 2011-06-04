@@ -178,7 +178,7 @@ namespace Sem.Sync.SyncBase
         /// <param name="contactToFill"> The contact to be filled. </param>
         /// <param name="baseline"> The baseline that does contain possible link targets. </param>
         /// <returns> the manipulated contact </returns>
-        public StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        public virtual StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
         {
             var contact = contactToFill as StdContact;
             var webSideParameters = this.WebSideParameters;
@@ -315,7 +315,8 @@ namespace Sem.Sync.SyncBase
                 if (pictureUrl.Groups.Count > 1)
                 {
                     var pictureUrlString = pictureUrl.Groups[1].ToString();
-                    if (!pictureUrlString.EndsWith(this.WebSideParameters.ImagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
+                    var imagePlaceholderUrl = this.WebSideParameters.ImagePlaceholderUrl;
+                    if (imagePlaceholderUrl == null || !pictureUrlString.EndsWith(imagePlaceholderUrl, StringComparison.OrdinalIgnoreCase))
                     {
                         result.PictureData = this.httpRequester.GetContentBinary(pictureUrlString, contactUrl, string.Empty);
                     }

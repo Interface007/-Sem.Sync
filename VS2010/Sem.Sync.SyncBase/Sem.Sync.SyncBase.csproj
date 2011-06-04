@@ -166,6 +166,7 @@
     <Compile Include="Attributes\ConnectorDescriptionAttribute.cs" />
     <Compile Include="Attributes\CommandDescriptionAttribute.cs" />
     <Compile Include="Binding\SyncCollection.cs" />
+    <Compile Include="ConnectorConfiguration.cs" />
     <Compile Include="DetailData\BusyStatus.cs" />
     <Compile Include="DetailData\BusinessCertificate.cs" />
     <Compile Include="DetailData\BusinessHistoryEntry.cs" />

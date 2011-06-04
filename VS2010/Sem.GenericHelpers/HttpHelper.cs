@@ -690,11 +690,11 @@ namespace Sem.GenericHelpers
         /// <returns> the path if successfull, empty string if no cache should be used  </returns>
         private string CachePathName(string name, Uri url, string postData)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                Tools.DebugWriteLine("name not specified for http-request (=> non-cachable): " + url.AbsoluteUri);
-                return string.Empty;
-            }
+            ////if (string.IsNullOrEmpty(name))
+            ////{
+            ////    Tools.DebugWriteLine("name not specified for http-request (=> non-cachable): " + url.AbsoluteUri);
+            ////    return string.Empty;
+            ////}
 
             if (!this.UseCache || name.Contains(CacheHintNoCache))
             {
@@ -702,10 +702,10 @@ namespace Sem.GenericHelpers
             }
 
             var sessionData = postData + url;
-            foreach (Cookie cookie in this.sessionCookies.GetCookies(url))
-            {
-                sessionData += cookie.Name + "=" + cookie.Value;
-            }
+            sessionData = this.sessionCookies.GetCookies(url).Cast<Cookie>()
+                                .Aggregate(
+                                    sessionData, 
+                                    (current, cookie) => current + (cookie.Name + "=" + cookie.Value));
 
             var hash = Tools.GetSha1Hash(sessionData);
 

@@ -115,11 +115,13 @@ namespace Sem.Sync.Connector.Xing
         /// </summary>
         public ContactClient()
         {
+            var config = ConfigReader.GetConfig<XingConfiguration>();
+
             this.xingRequester = Factory.Invoke<IHttpHelper>(() => new HttpHelper(HttpUrlBaseAddress, true)
                 {
-                    UseCache = this.GetConfigValueBoolean("UseCache"),
-                    SkipNotCached = this.GetConfigValueBoolean("SkipNotCached"),
-                    UseIeCookies = this.GetConfigValueBoolean("UseIeCookies")
+                    UseCache = config.HttpConnection.ReadCache,
+                    SkipNotCached = config.HttpConnection.SkipNotCached,
+                    UseIeCookies = config.HttpConnection.UseIeCookies
                 });
 
             this.vCardConverter = new VCardConverter { HttpRequester = this.xingRequester };
