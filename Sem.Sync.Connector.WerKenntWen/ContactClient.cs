@@ -37,10 +37,15 @@ namespace Sem.Sync.Connector.WerKenntWen
     [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true,
         NeedsCredentialsDomain = false, DisplayName = "Wer-Kennt-Wen.de",
         MatchingIdentifier = ProfileIdentifierType.WerKenntWenUrl)]
-    public class ContactClient : WebScrapingBaseClient // StdClient, IExtendedReader
+    public class ContactClient : WebScrapingBaseClient
     {
         #region Constants and Fields
-        
+
+        /// <summary>
+        /// Detection string for catcha requesting page.
+        /// WkW does block the user if the requests came too "predictable" (bot detection). After such blocking the user 
+        /// has to resolve a catcha - this string is on the page, if this happens.
+        /// </summary>
         private const string WkwCaptcha = "wkw/captcha/";
 
         #endregion
@@ -75,6 +80,117 @@ namespace Sem.Sync.Connector.WerKenntWen
 
         #region Methods
 
+        /// <summary>
+        /// Implements the method to fill the contact with additional links to other contacts.
+        /// </summary>
+        /// <param name="contactToFill"> The contact to be filled. </param>
+        /// <param name="baseline"> The baseline that does contain possible link targets. </param>
+        /// <returns> the manipulated contact </returns>
+        public override StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
+        {
+            var contact = contactToFill as StdContact;
+            const ProfileIdentifierType ProfileIdentifierType = ProfileIdentifierType.WerKenntWenUrl;
+            const string ProfilePhpId = "/person/";
+
+            if (contact == null || !contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType))
+            {
+                return contactToFill;
+            }
+
+            var profileIdInformation = contact.ExternalIdentifier[ProfileIdentifierType];
+            if (profileIdInformation == null || string.IsNullOrWhiteSpace(profileIdInformation.Id))
+            {
+                return contactToFill;
+            }
+
+            var offset = 0;
+            var added = 0;
+            while (true)
+            {
+                this.LogProcessingEvent("reading contacts ({0})", offset);
+                this.HttpRequester.ContentCredentials = this;
+
+                // get the contact list
+                var url = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "http://www.wer-kennt-wen.de/people/friends/{0}/sort/friends/0/0/{1}",
+                    profileIdInformation.Id.Replace(ProfilePhpId, string.Empty),
+                    offset);
+
+                string profileContent;
+                while (true)
+                {
+                    profileContent = this.HttpRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "Wkw-{0}", offset));
+                    if (profileContent.Contains(@"id=""loginform"""))
+                    {
+                        if (!this.GetLogon())
+                        {
+                            return contactToFill;
+                        }
+
+                        continue;
+                    }
+
+                    if (profileContent.Contains(WkwCaptcha))
+                    {
+                        this.ResolveCaptcha();
+                        continue;
+                    }
+
+                    break;
+                }
+
+                var extracts = Regex.Matches(profileContent, @"\<a href=""/person/(?<profileId>[0-9a-zA-Z]*)""\>", RegexOptions.Singleline);
+
+                // if there is no contact in list, we did reach the end
+                if (extracts.Count < 3)
+                {
+                    break;
+                }
+
+                // create a new instance of a list of references if there is none
+                contact.Contacts = contact.Contacts ?? new List<ContactReference>(extracts.Count);
+
+                foreach (Match extract in extracts)
+                {
+                    var profileId = ProfilePhpId + extract.Groups["profileId"];
+                    var stdId =
+                        (from x in baseline
+                         where x.ProfileId.GetProfileId(ProfileIdentifierType) == profileId
+                         select x.Id).FirstOrDefault();
+
+                    // we ignore contacts we donn't know
+                    if (stdId == default(Guid))
+                    {
+                        continue;
+                    }
+
+                    // lookup an existing entry in this contacts contact-list
+                    var contactInList = (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
+
+                    if (contactInList == null)
+                    {
+                        // add a new one if no existing entry has been found
+                        contactInList = new ContactReference { Target = stdId };
+                        contact.Contacts.Add(contactInList);
+                        added++;
+                    }
+
+                    // update the flag that this entry is a private contact
+                    // todo: private/business contact
+                    contactInList.IsPrivateContact = true;
+                }
+
+                Thread.Sleep(new Random().Next(230, 8789));
+
+                offset += 64; // extracts.Count;
+            }
+
+            this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
+
+            return contactToFill;
+        }
+        
         protected override StdContact ConvertToStdContact(string contactUrl, string content)
         {
             var dataExtractor = new Regex("/users/([a-zA-Z0-9 %\\+]*)/([a-zA-Z0-9 %\\+-]*)", RegexOptions.Singleline);
@@ -266,116 +382,5 @@ namespace Sem.Sync.Connector.WerKenntWen
         }
 
         #endregion
-
-        /// <summary>
-        /// Implements the method to fill the contact with additional links to other contacts.
-        /// </summary>
-        /// <param name="contactToFill"> The contact to be filled. </param>
-        /// <param name="baseline"> The baseline that does contain possible link targets. </param>
-        /// <returns> the manipulated contact </returns>
-        public new StdElement FillContacts(StdElement contactToFill, ICollection<MatchingEntry> baseline)
-        {
-            var contact = contactToFill as StdContact;
-            const ProfileIdentifierType ProfileIdentifierType = ProfileIdentifierType.WerKenntWenUrl;
-            const string ProfilePhpId = "/person/";
-
-            if (contact == null || !contact.ExternalIdentifier.ContainsKey(ProfileIdentifierType))
-            {
-                return contactToFill;
-            }
-
-            var profileIdInformation = contact.ExternalIdentifier[ProfileIdentifierType];
-            if (profileIdInformation == null || string.IsNullOrWhiteSpace(profileIdInformation.Id))
-            {
-                return contactToFill;
-            }
-
-            var offset = 0;
-            var added = 0;
-            while (true)
-            {
-                this.LogProcessingEvent("reading contacts ({0})", offset);
-                this.HttpRequester.ContentCredentials = this;
-
-                // get the contact list
-                var url = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "http://www.wer-kennt-wen.de/people/friends/{0}/sort/friends/0/0/{1}",
-                    profileIdInformation.Id.Replace(ProfilePhpId, string.Empty),
-                    offset);
-
-                string profileContent;
-                while (true)
-                {
-                    profileContent = this.HttpRequester.GetContent(url, string.Format(CultureInfo.InvariantCulture, "Wkw-{0}", offset));
-                    if (profileContent.Contains(@"id=""loginform"""))
-                    {
-                        if (!this.GetLogon())
-                        {
-                            return contactToFill;
-                        }
-
-                        continue;
-                    }
-
-                    if (profileContent.Contains(WkwCaptcha))
-                    {
-                        this.ResolveCaptcha();
-                        continue;
-                    }
-
-                    break;
-                }
-
-                var extracts = Regex.Matches(profileContent, @"\<a href=""/person/(?<profileId>[0-9a-zA-Z]*)""\>", RegexOptions.Singleline);
-
-                // if there is no contact in list, we did reach the end
-                if (extracts.Count < 3)
-                {
-                    break;
-                }
-
-                // create a new instance of a list of references if there is none
-                contact.Contacts = contact.Contacts ?? new List<ContactReference>(extracts.Count);
-
-                foreach (Match extract in extracts)
-                {
-                    var profileId = ProfilePhpId + extract.Groups["profileId"];
-                    var stdId =
-                        (from x in baseline
-                         where x.ProfileId.GetProfileId(ProfileIdentifierType) == profileId
-                         select x.Id).FirstOrDefault();
-
-                    // we ignore contacts we donn't know
-                    if (stdId == default(Guid))
-                    {
-                        continue;
-                    }
-
-                    // lookup an existing entry in this contacts contact-list
-                    var contactInList = (from x in contact.Contacts where x.Target == stdId select x).FirstOrDefault();
-
-                    if (contactInList == null)
-                    {
-                        // add a new one if no existing entry has been found
-                        contactInList = new ContactReference { Target = stdId };
-                        contact.Contacts.Add(contactInList);
-                        added++;
-                    }
-
-                    // update the flag that this entry is a private contact
-                    // todo: private/business contact
-                    contactInList.IsPrivateContact = true;
-                }
-
-                Thread.Sleep(new Random().Next(230, 8789));
-
-                offset += 64; // extracts.Count;
-            }
-
-            this.LogProcessingEvent(contact, "{0} contacts found, {1} new added", offset, added);
-
-            return contactToFill;
-        }
     }
 }

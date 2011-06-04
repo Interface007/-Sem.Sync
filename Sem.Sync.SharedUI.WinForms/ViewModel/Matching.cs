@@ -126,12 +126,30 @@ namespace Sem.Sync.SharedUI.WinForms.ViewModel
         {
             // filtering out entries without matching information is not needed, but helpful for debugging ;-)
             var profileIdentifierType = this.Profile;
+            var result = new List<MatchView>();
 
-            var result = (from b in this.BaseLine
-                          join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals
-                              s.ExternalIdentifier.GetProfileId(profileIdentifierType)
-                          join t in this.Target on b.Id equals t.Id
-                          select new MatchView(s, t)).ToList();
+            foreach (var baselineEntry in this.BaseLine)
+            {
+                if (!baselineEntry.ProfileId.ContainsKey(profileIdentifierType))
+                {
+                    continue;
+                }
+
+                var id = baselineEntry.ProfileId[profileIdentifierType];
+                var source = (from x in this.Source where x.ExternalIdentifier[profileIdentifierType] == id select x).FirstOrDefault();
+                var target = this.Target.GetElementById<StdElement>(baselineEntry.Id);
+
+                if (source != null && target != null)
+                {
+                    result.Add(new MatchView(source, target));
+                }
+            }
+
+            ////var result = (from b in this.BaseLine
+            ////              join s in this.Source on b.ProfileId.GetProfileId(profileIdentifierType) equals
+            ////                  s.ExternalIdentifier.GetProfileId(profileIdentifierType)
+            ////              join t in this.Target on b.Id equals t.Id
+            ////              select new MatchView(s, t)).ToList();
             result.Sort();
             return result;
         }
