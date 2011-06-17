@@ -266,7 +266,7 @@ namespace Sem.Sync.Connector.Outlook2010
                 }
 
                 contactsList.Add(new AppointmentItemContainer { Item = contactItem });
-                GCRelevantCall();
+                GcRelevantCall();
             }
 
             return contactsList;
@@ -301,7 +301,7 @@ namespace Sem.Sync.Connector.Outlook2010
                 }
 
                 contactsList.Add(new ContactsItemContainer { Item = contactItem });
-                GCRelevantCall();
+                GcRelevantCall();
             }
 
             return contactsList;
@@ -426,7 +426,7 @@ namespace Sem.Sync.Connector.Outlook2010
                 outlookAppointment.Save();
             }
 
-            GCRelevantCall();
+            GcRelevantCall();
             return actionDone;
         }
 
@@ -481,11 +481,11 @@ namespace Sem.Sync.Connector.Outlook2010
             if (ConvertToNativeContact(element, outlookContact))
             {
                 outlookContact.Save();
-                GCRelevantCall();
+                GcRelevantCall();
                 return true;
             }
 
-            GCRelevantCall();
+            GcRelevantCall();
             return false;
         }
 
@@ -818,7 +818,7 @@ namespace Sem.Sync.Connector.Outlook2010
         /// Counts GC relevant calls and executes the garbage collection each 100 calls. This is in 
         ///   hope of preventing exceptions caused by known outlook memory leaks.
         /// </summary>
-        private static void GCRelevantCall()
+        private static void GcRelevantCall()
         {
             garbageCollectionRelevantCalls++;
             if (garbageCollectionRelevantCalls <= 100)
@@ -1089,7 +1089,7 @@ namespace Sem.Sync.Connector.Outlook2010
                             // read all bytes from the temp file
                             bytes = File.ReadAllBytes(fullName);
 
-                            GCRelevantCall();
+                            GcRelevantCall();
                         }
                         catch (COMException)
                         {
@@ -1127,26 +1127,5 @@ namespace Sem.Sync.Connector.Outlook2010
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// The save action.
-    /// </summary>
-    internal enum SaveAction
-    {
-        /// <summary>
-        /// The none.
-        /// </summary>
-        None, 
-
-        /// <summary>
-        /// The update.
-        /// </summary>
-        Update, 
-
-        /// <summary>
-        /// The create.
-        /// </summary>
-        Create
     }
 }

@@ -3,6 +3,7 @@
 <ReplacementLists xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <BusinessCompanyName>
     <KeyValuePair Key="Avanade Deutschland GmbH (Teil des Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (ein Joint Venture von Accenture und Microsoft)" Value="Avanade Deutschland GmbH" />
     <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp;amp; Microsoft)" Value="Avanade Deutschland GmbH" />
     <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)," Value="Avanade Deutschland GmbH" />
     <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH" />
