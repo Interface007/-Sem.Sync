@@ -93,7 +93,7 @@ namespace Sem.Sync.Connector.Google
         {
             if (!string.IsNullOrEmpty(email))
             {
-                if (googleContact.Emails.Where(x => x.Rel == GoogleSchemaPrefix2005 + addressType).Count() == 0)
+                if (googleContact.Emails.All(x => x.Rel != GoogleSchemaPrefix2005 + addressType))
                 {
                     googleContact.Emails.Add(new EMail(email, GoogleSchemaPrefix2005 + addressType));
                 }
@@ -110,7 +110,7 @@ namespace Sem.Sync.Connector.Google
         {
             if (instantMessengerAddresses != null && !string.IsNullOrEmpty(instantMessengerAddresses.MsnMessenger))
             {
-                if (googleContact.IMs.Where(x => x.Address == instantMessengerAddresses.MsnMessenger).Count() == 0)
+                if (googleContact.IMs.All(x => x.Address != instantMessengerAddresses.MsnMessenger))
                 {
                     googleContact.IMs.Add(new IMAddress(instantMessengerAddresses.MsnMessenger));
                 }
@@ -419,18 +419,9 @@ namespace Sem.Sync.Connector.Google
         /// <returns>true if the address is already part of the collection</returns>
         private static bool IsAddressExisting(IEnumerable<StructuredPostalAddress> googleAddresses, AddressDetail stdAddress)
         {
-            if (stdAddress != null)
-            {
-                foreach (var address in googleAddresses)
-                {
-                    if (address.City == stdAddress.CityName && address.Street == stdAddress.StateName)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return stdAddress != null 
+                && googleAddresses.Any(address => address.City == stdAddress.CityName 
+                                               && address.Street == stdAddress.StateName);
         }
 
         /// <summary>
