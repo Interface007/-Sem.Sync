@@ -11,6 +11,7 @@
 namespace Sem.Sync.Connector.ActiveDirectory
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.DirectoryServices;
     using System.DirectoryServices.ActiveDirectory;
@@ -29,8 +30,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
     ///   to specify an LDAP query that contains the users to be read (writing is notg implemented).
     /// </summary>
     [ClientStoragePathDescription(ReferenceType = ClientPathType.Undefined, Mandatory = true)]
-    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = false, NeedsCredentials = true, 
-        DisplayName = "Active Directory", MatchingIdentifier = ProfileIdentifierType.ActiveDirectoryId)]
+    [ConnectorDescription(CanReadContacts = true, CanWriteContacts = true, NeedsCredentials = true, DisplayName = "Active Directory", MatchingIdentifier = ProfileIdentifierType.ActiveDirectoryId)]
     public class ContactClient : StdClient
     {
         #region Constants and Fields
@@ -123,15 +123,14 @@ namespace Sem.Sync.Connector.ActiveDirectory
                     this.LogProcessingEvent("detecting domain controller");
                     if (!string.IsNullOrEmpty(domainController) && !domainController.Contains("."))
                     {
-                        domainController = GetDCs(domainController)[0];
+                        domainController = this.GetDCs(domainController)[0];
                     }
 
                     // open the directory using explicit or implicit credentials
                     this.LogProcessingEvent("opening ldap connection");
                     var entry = string.IsNullOrEmpty(this.LogOnPassword)
                                     ? new DirectoryEntry("LDAP://" + domainController)
-                                    : new DirectoryEntry(
-                                          "LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
+                                    : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
 
                     this.AddContactsFromAdFilter(clientFolderName, result, entry);
 
@@ -158,59 +157,131 @@ namespace Sem.Sync.Connector.ActiveDirectory
             return result;
         }
 
+        protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
+        {
+            var domainController = this.LogOnDomain;
+            var directoryEntry = string.IsNullOrEmpty(this.LogOnPassword)
+                               ? new DirectoryEntry("LDAP://" + domainController)
+                               : new DirectoryEntry("LDAP://" + domainController, this.LogOnUserId, this.LogOnPassword);
+
+            var search = new DirectorySearcher(directoryEntry) { Filter = clientFolderName, SearchScope = SearchScope.Subtree, };
+
+            this.LogProcessingEvent("receiving data ...");
+            var resultList = search.FindAll();
+
+            foreach (SearchResult searchItem in resultList)
+            {
+                if (searchItem == null)
+                {
+                    continue;
+                }
+
+                var currentItem = searchItem;
+                var activeDirectoryId = GetPropString(currentItem.Properties, "CN");
+                var listItem = elements.FirstOrDefault(x => x.ExternalIdentifier.GetProfileId(ProfileIdentifierType.ActiveDirectoryId) == activeDirectoryId) as StdContact;
+
+                if (listItem == null)
+                {
+                    continue;
+                }
+
+                using (var user = new DirectoryEntry(searchItem.Path, this.LogOnUserId, this.LogOnPassword))
+                {
+                    var commit = UpdateUser(listItem, user);
+
+                    if (commit)
+                    {
+                        user.CommitChanges();
+                    }
+                }
+
+                Console.WriteLine(searchItem.Path);
+            }
+        }
+
+        private static bool SetPropertyValue(DirectoryEntry user, string propertyName, string newValue)
+        {
+            var properties = (IDictionary)user.Properties;
+            if (properties.Contains(propertyName))
+            {
+                var property = properties[propertyName];
+                var propertyCollection = properties[propertyName] as PropertyValueCollection;
+                if (propertyCollection != null && (string)propertyCollection[0] == newValue)
+                {
+                    return false;
+                }
+
+                if (propertyCollection == null || propertyCollection.Count != 1)
+                {
+                    throw new NotImplementedException("handling of " + property.GetType());
+                }
+
+                propertyCollection.Clear();
+                propertyCollection.Add(newValue);
+                return true;
+            }
+            
+            properties.Add(propertyName, newValue);
+            return true;
+        }
+
+        private static bool UpdateUser(StdContact listItem, DirectoryEntry user)
+        {
+            var commit = SetPropertyValue(user, "givenname", listItem.Name.FirstName);
+            commit |= SetPropertyValue(user, "sn", listItem.Name.LastName);
+            commit |= SetPropertyValue(user, "mobile", listItem.BusinessPhoneMobile.ToString());
+            
+            return commit;
+        }
+
         /// <summary>
         /// Extract contact information from an Active Directory entry
         /// </summary>
-        /// <param name="searchItem">
-        /// the Active Directory entry to process
-        /// </param>
-        /// <returns>
-        /// a standard contact entity
-        /// </returns>
+        /// <param name="searchItem"> the Active Directory entry to process </param>
+        /// <returns> a standard contact entity </returns>
         private static StdContact ConvertToContact(SearchResult searchItem)
         {
             var result = new StdContact
                 {
-                    Id = Guid.NewGuid(), 
+                    Id = Guid.NewGuid(),
                     InternalSyncData =
                         new SyncData
                             {
-                                DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"), 
-                                DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"), 
-                            }, 
+                                DateOfCreation = GetPropDate(searchItem.Properties, "whencreated"),
+                                DateOfLastChange = GetPropDate(searchItem.Properties, "whenchanged"),
+                            },
                     BusinessAddressPrimary =
                         new AddressDetail
                             {
-                                CountryName = GetPropString(searchItem.Properties, "co"), 
-                                StateName = GetPropString(searchItem.Properties, "st"), 
-                                PostalCode = GetPropString(searchItem.Properties, "postalcode"), 
-                                CityName = GetPropString(searchItem.Properties, "l"), 
-                                StreetName = GetPropString(searchItem.Properties, "streetaddress"), 
-                                Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")), 
-                                Room = GetPropString(searchItem.Properties, "physicaldeliveryofficename", "roomnumber"), 
-                            }, 
-                    BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")), 
-                    BusinessPosition = GetPropString(searchItem.Properties, "title"), 
-                    BusinessCompanyName = GetPropString(searchItem.Properties, "company"), 
-                    BusinessDepartment = GetPropString(searchItem.Properties, "department"), 
-                    BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"), 
+                                CountryName = GetPropString(searchItem.Properties, "co"),
+                                StateName = GetPropString(searchItem.Properties, "st"),
+                                PostalCode = GetPropString(searchItem.Properties, "postalcode"),
+                                CityName = GetPropString(searchItem.Properties, "l"),
+                                StreetName = GetPropString(searchItem.Properties, "streetaddress"),
+                                Phone = new PhoneNumber(GetPropString(searchItem.Properties, "telephonenumber")),
+                                Room = GetPropString(searchItem.Properties, "physicaldeliveryofficename", "roomnumber"),
+                            },
+                    BusinessPhoneMobile = new PhoneNumber(GetPropString(searchItem.Properties, "mobile")),
+                    BusinessPosition = GetPropString(searchItem.Properties, "title"),
+                    BusinessCompanyName = GetPropString(searchItem.Properties, "company"),
+                    BusinessDepartment = GetPropString(searchItem.Properties, "department"),
+                    BusinessEmailPrimary = GetPropString(searchItem.Properties, "mail"),
                     PersonalAddressPrimary =
                         new AddressDetail
                             {
-                               Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")), 
-                            }, 
+                                Phone = new PhoneNumber(GetPropString(searchItem.Properties, "homephone")),
+                            },
                     Name =
                         new PersonName
                             {
-                                FirstName = GetPropString(searchItem.Properties, "givenname"), 
-                                LastName = GetPropString(searchItem.Properties, "sn"), 
-                            }, 
-                    PersonGender = SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")), 
-                    AdditionalTextData = GetPropString(searchItem.Properties, "info"), 
+                                FirstName = GetPropString(searchItem.Properties, "givenname"),
+                                LastName = GetPropString(searchItem.Properties, "sn"),
+                            },
+                    PersonGender = SyncTools.GenderByText(GetPropString(searchItem.Properties, "personaltitle")),
+                    AdditionalTextData = GetPropString(searchItem.Properties, "info"),
                 };
 
-            result.ExternalIdentifier.SetProfileId(
-                ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
+            result.ExternalIdentifier.SetProfileId(ProfileIdentifierType.ActiveDirectoryId, GetPropString(searchItem.Properties, "CN"));
 
             return result;
         }
@@ -230,36 +301,22 @@ namespace Sem.Sync.Connector.ActiveDirectory
 
             Tools.EnsurePathExist(Path.GetDirectoryName(path));
 
-            foreach (var name in searchItem.Properties.PropertyNames)
+            if (searchItem.Properties.PropertyNames != null)
             {
-                foreach (var propItem in searchItem.Properties[name.ToString()])
+                foreach (var name in searchItem.Properties.PropertyNames)
                 {
-                    content.AppendLine(name + " ... " + propItem);
-                    if (name.ToString() == "pwdlastset")
+                    foreach (var propItem in searchItem.Properties[name.ToString()])
                     {
-                        content.AppendLine("Last PWDChange time: " + DateTime.FromFileTime((long)propItem));
+                        content.AppendLine(name + " ... " + propItem);
+                        if (name.ToString() == "pwdlastset")
+                        {
+                            content.AppendLine("Last PWDChange time: " + DateTime.FromFileTime((long)propItem));
+                        }
                     }
                 }
             }
 
             File.WriteAllText(path, content.ToString());
-        }
-
-        /// <summary>
-        /// lookup the list of domain controllers for the specified domain
-        /// </summary>
-        /// <param name="domainName">
-        /// The domain Name to get the DC for. 
-        /// </param>
-        /// <returns>
-        /// The list of DCs in this domain. 
-        /// </returns>
-        private static List<string> GetDCs(string domainName)
-        {
-            var context = new DirectoryContext(DirectoryContextType.Domain, domainName);
-            var domain = Domain.GetDomain(context);
-
-            return (from DomainController server in domain.DomainControllers select server.Name).ToList();
         }
 
         /// <summary>
@@ -288,19 +345,14 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <summary>
         /// extracts the first element of a property collection as string
         /// </summary>
-        /// <param name="thePropertyCollection">
-        /// the result property collection to search
-        /// </param>
-        /// <param name="propName">
-        /// the name of the property to extract
-        /// </param>
-        /// <returns>
-        /// the string that has been extracted
-        /// </returns>
+        /// <param name="thePropertyCollection"> the result property collection to search </param>
+        /// <param name="propName"> the name of the property to extract </param>
+        /// <returns> the string that has been extracted </returns>
         private static string GetPropString(ResultPropertyCollection thePropertyCollection, string propName)
         {
-            if (thePropertyCollection != null && thePropertyCollection.Count > 0 &&
-                thePropertyCollection[propName].Count > 0)
+            if (thePropertyCollection != null
+             && thePropertyCollection.Count > 0
+             && thePropertyCollection[propName].Count > 0)
             {
                 return thePropertyCollection[propName][0].ToString();
             }
@@ -320,8 +372,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
         /// <returns>
         /// the string that has been extracted
         /// </returns>
-        private static string GetPropString(
-            ResultPropertyCollection thePropertyCollection, params string[] propNamesByPriotity)
+        private static string GetPropString(ResultPropertyCollection thePropertyCollection, params string[] propNamesByPriotity)
         {
             if (thePropertyCollection != null && thePropertyCollection.Count > 0)
             {
@@ -331,6 +382,26 @@ namespace Sem.Sync.Connector.ActiveDirectory
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// lookup the list of domain controllers for the specified domain
+        /// </summary>
+        /// <param name="domainName">
+        /// The domain Name to get the DC for. 
+        /// </param>
+        /// <returns>
+        /// The list of DCs in this domain. 
+        /// </returns>
+        private List<string> GetDCs(string domainName)
+        {
+            var context =
+                !string.IsNullOrEmpty(this.LogOnPassword)
+                ? new DirectoryContext(DirectoryContextType.Domain, domainName, this.LogOnUserId, this.LogOnPassword)
+                : new DirectoryContext(DirectoryContextType.Domain, domainName);
+            var domain = Domain.GetDomain(context);
+
+            return (from DomainController server in domain.DomainControllers select server.Name).ToList();
         }
 
         /// <summary>
@@ -365,7 +436,7 @@ namespace Sem.Sync.Connector.ActiveDirectory
             if (!string.IsNullOrEmpty(this.DumpPath))
             {
                 DumpUserInformation(
-                    searchItem, 
+                    searchItem,
                     Path.Combine(this.DumpPath, SyncTools.NormalizeFileName(newContact.ToStringSimple()) + ".txt"));
             }
 

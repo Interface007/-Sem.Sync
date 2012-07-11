@@ -12,6 +12,7 @@ namespace Sem.GenericHelpers
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Linq.Expressions;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -244,6 +245,7 @@ namespace Sem.GenericHelpers
                 .Assert(new IsNotNullRule<Type>());
 
             var typeParams = new[] { classType };
+            Debug.Assert(genericClassType != null, "genericClassType != null");
             var constructedType = genericClassType.MakeGenericType(typeParams);
 
             return CreateTypeInstance(constructedType);

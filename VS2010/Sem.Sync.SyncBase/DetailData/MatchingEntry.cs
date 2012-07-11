@@ -43,6 +43,7 @@ namespace Sem.Sync.SyncBase.DetailData
         /// </summary>
         public override void NormalizeContent()
         {
+            return;
             throw new NotImplementedException();
         }
 
