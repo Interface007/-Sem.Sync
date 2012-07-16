@@ -18,8 +18,6 @@ namespace Sem.GenericHelpers
     /// </summary>
     public class NullLiftModifier : ExpressionVisitor
     {
-        #region Public Methods
-
         /// <summary>
         /// The modify.
         /// </summary>
@@ -32,10 +30,6 @@ namespace Sem.GenericHelpers
         {
             return this.Visit(expression);
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Change how '.' performs member access.
@@ -88,7 +82,5 @@ namespace Sem.GenericHelpers
             return Expression.Condition(
                 nullTest, Expression.Constant(null, invocationExpression.Method.ReturnType), invocationExpression);
         }
-
-        #endregion
     }
 }

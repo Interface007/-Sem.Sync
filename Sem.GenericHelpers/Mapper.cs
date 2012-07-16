@@ -123,10 +123,7 @@ namespace Sem.GenericHelpers
         /// <returns>A value indicating if a mapping has been executed.</returns>
         public bool Map<TSource, TTarget>(TSource source, TTarget target)
         {
-            var mapResult =
-                this != DefaultInstance
-                ? DefaultInstance.Map(source, target)
-                : false;
+            var mapResult = this != DefaultInstance && DefaultInstance.Map(source, target);
 
             var typeTupel = new Tuple<Type, Type>(typeof(TSource), typeof(TTarget));
             if (!this.mappings.ContainsKey(typeTupel))

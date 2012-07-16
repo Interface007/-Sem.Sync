@@ -570,34 +570,14 @@ namespace Sem.Sync.Connector.Outlook2010
             stdOldAppointment.NormalizeContent();
 
             var dirty = false;
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.BusyStatus.ToOutlook(), 
-                x => appointment.BusyStatus = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.ReminderBeforeStart.Minutes, 
-                x => appointment.ReminderMinutesBeforeStart = x);
-            MappingHelper.MapIfDiffers(
-                ref dirty, 
-                stdNewAppointment, 
-                stdOldAppointment, 
-                x => x.ResponseRequested, 
-                x => appointment.ResponseRequested = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Title, x => appointment.Subject = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Description, x => appointment.Body = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Start, x => appointment.StartUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.End, x => appointment.EndUTC = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.BusyStatus.ToOutlook(), x => appointment.BusyStatus = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.Location, x => appointment.Location = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ReminderBeforeStart.Minutes, x => appointment.ReminderMinutesBeforeStart = x);
+            MappingHelper.MapIfDiffers(ref dirty, stdNewAppointment, stdOldAppointment, x => x.ResponseRequested, x => appointment.ResponseRequested = x);
 
             // todo: how can se set the RecurrenceState property?
             // todo: how to set the ResponseStatus property
