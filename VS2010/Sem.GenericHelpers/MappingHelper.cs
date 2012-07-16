@@ -18,8 +18,6 @@ namespace Sem.GenericHelpers
     /// </summary>
     public static class MappingHelper
     {
-        #region Constants and Fields
-
         /// <summary>
         ///   Dictionary for the modified and compiled expression trees
         /// </summary>
@@ -30,31 +28,28 @@ namespace Sem.GenericHelpers
         /// </summary>
         private static readonly NullLiftModifier Modifier = new NullLiftModifier();
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// compares old to new and sets the destination if both are different.
         /// </summary>
         /// <param name="dirty"> The dirty-flag (set to true if a modification in the destination object has been done).  </param>
-        /// <param name="newStd"> The new std element.  </param>
-        /// <param name="oldStd"> The old std element.  </param>
+        /// <param name="newSource"> The new std element.  </param>
+        /// <param name="oldSource"> The old std element.  </param>
         /// <param name="valueExtractionExpression"> The expression to extract the value from the source type.  </param>
         /// <param name="setter"> The setter method for the destination object.  </param>
         /// <typeparam name="TDestination"> The type of the destination property.  </typeparam>
         /// <typeparam name="TSource"> The type of the source object.  </typeparam>
         public static void MapIfDiffers<TDestination, TSource>(
-            ref bool dirty, 
-            TSource newStd, 
-            TSource oldStd, 
-            Expression<Func<TSource, TDestination>> valueExtractionExpression, 
+            ref bool dirty,
+            TSource newSource,
+            TSource oldSource,
+            Expression<Func<TSource, TDestination>> valueExtractionExpression,
             Action<TDestination> setter)
         {
             var modifier = new NullLiftModifier();
-            var function = ((Expression<Func<TSource, TDestination>>)modifier.Modify(valueExtractionExpression)).Compile();
-            var newValue = function(newStd);
-            if (Equals(function(oldStd), newValue))
+            var function =
+                ((Expression<Func<TSource, TDestination>>)modifier.Modify(valueExtractionExpression)).Compile();
+            var newValue = function(newSource);
+            if (Equals(function(oldSource), newValue))
             {
                 return;
             }
@@ -91,10 +86,10 @@ namespace Sem.GenericHelpers
         /// <typeparam name="TResult3"> The result type of the 3rd evaluation.  </typeparam>
         /// <typeparam name="TObject"> The type of the root object  </typeparam>
         public static void MapIfExist<TResult1, TResult2, TResult3, TObject>(
-            this TObject obj, 
-            Func<TObject, TResult1> evaluationFunction1, 
-            Func<TResult1, TResult2> evaluationFunction2, 
-            Func<TResult2, TResult3> evaluationFunction3, 
+            this TObject obj,
+            Func<TObject, TResult1> evaluationFunction1,
+            Func<TResult1, TResult2> evaluationFunction2,
+            Func<TResult2, TResult3> evaluationFunction3,
             ref TResult3 target) where TResult1 : class where TResult2 : class
         {
             var result1 = !Equals(obj, default(TObject)) ? evaluationFunction1(obj) : null;
@@ -132,9 +127,9 @@ namespace Sem.GenericHelpers
         /// <typeparam name="TResult2"> The result type of the 2nd evaluation.  </typeparam>
         /// <typeparam name="TObject"> The type of the root object  </typeparam>
         public static void MapIfExist<TResult1, TResult2, TObject>(
-            this TObject obj, 
-            Func<TObject, TResult1> evaluationFunction1, 
-            Func<TResult1, TResult2> evaluationFunction2, 
+            this TObject obj,
+            Func<TObject, TResult1> evaluationFunction1,
+            Func<TResult1, TResult2> evaluationFunction2,
             ref TResult2 target) where TResult1 : class
         {
             var result1 = !Equals(obj, default(TObject)) ? evaluationFunction1(obj) : null;
@@ -169,7 +164,8 @@ namespace Sem.GenericHelpers
         /// <param name="target"> The target of the mapping.  </param>
         /// <typeparam name="TResult1"> The result type of the 1st evaluation.  </typeparam>
         /// <typeparam name="TObject"> The type of the root object  </typeparam>
-        public static void MapIfExist<TResult1, TObject>(this TObject obj, Func<TObject, TResult1> evaluationFunction1, ref TResult1 target)
+        public static void MapIfExist<TResult1, TObject>(
+            this TObject obj, Func<TObject, TResult1> evaluationFunction1, ref TResult1 target)
         {
             if (Equals(obj, default(TObject)))
             {
@@ -187,7 +183,8 @@ namespace Sem.GenericHelpers
         /// <param name="target"> The target property to write the result of the expression.  </param>
         /// <typeparam name="TResult1">The type of the expressions result  </typeparam>
         /// <typeparam name="TObject"> The type of the root object  </typeparam>
-        public static void MapIfExist2<TResult1, TObject>(this TObject obj, Expression<Func<TObject, TResult1>> evaluationFunction1, ref TResult1 target)
+        public static void MapIfExist2<TResult1, TObject>(
+            this TObject obj, Expression<Func<TObject, TResult1>> evaluationFunction1, ref TResult1 target)
         {
             var method = GetMethod(evaluationFunction1);
             var result = method(obj);
@@ -199,10 +196,6 @@ namespace Sem.GenericHelpers
 
             target = result;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Creates and caches a function that is euqivalent to the expression <paramref name="expressionToGetTheFunctionFor"/>.
@@ -224,7 +217,5 @@ namespace Sem.GenericHelpers
 
             return (Func<TObject, TResult1>)Expressions[key];
         }
-
-        #endregion
     }
 }
