@@ -12,19 +12,20 @@ namespace Sem.Sync.Connector.LotusNotes
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
+    using System.Globalization;
     using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.Attributes;
     using Sem.Sync.SyncBase.DetailData;
+    using Sem.Sync.Connector.LotusNotes.Properties;
     using Domino;
-using Sem.Sync.Connector.LotusNotes.Properties;
-using System.Globalization;
   
     /// <summary>
     /// This class is the client class for handling contacts persisted to the file system
     /// </summary>
-    [ClientStoragePathDescription( ReferenceType = ClientPathType.Undefined, Mandatory = true)]
+    [ClientStoragePathDescription(Irrelevant = true)]
     [ConnectorDescription(DisplayName = "Lotus Notes",
-        CanWriteContacts = false, CanReadContacts = true, NeedsCredentials = true, CanReadCalendarEntries = false,
+        CanWriteContacts = true, CanReadContacts = true, NeedsCredentials = true,  NeedsCredentialsDomain = false,
+        CanReadCalendarEntries = false,
         MatchingIdentifier = ProfileIdentifierType.LotusNotesId)]
     public class ContactClient : StdClient
     {
@@ -101,9 +102,8 @@ using System.Globalization;
                         elem.BusinessAddressPrimary =businessAddress;
                         AddressDetail address = new AddressDetail();
                         elem.PersonalAddressPrimary = address;
-
-                        ProfileIdInformation information = new ProfileIdInformation(document.NoteID);
-                        elem.ExternalIdentifier.SetProfileId(ProfileIdentifierType.LotusNotesId, information);
+                
+                        elem.ExternalIdentifier.SetProfileId(ProfileIdentifierType.LotusNotesId, document.NoteID);
 
                         for (int itemCount = 0; itemCount < itemArray.Length; itemCount++)
                         {
@@ -207,6 +207,9 @@ using System.Globalization;
                         this.LogProcessingEvent("mapping contact {0} ...", elem.Name.ToString());
                         result.Add(elem);
                     }
+                    
+                    this.ThinkTime(1000);
+                    result.Sort();
                 }
             }
             catch (Exception ex)
@@ -237,13 +240,88 @@ using System.Globalization;
         /// </param>
         protected override void WriteFullList(List<StdElement> elements, string clientFolderName, bool skipIfExisting)
         {
-            // TODO: implement writing to the Lotus Notes server
-            // HINT: To follow best practice, you should try to read each item by using 
-            // the property path PersonalProfileIdentifiers.LotusNotesId as a filter
-            // to query the Notes server, then update the fields and write back the
-            // entry. You should NEVER delete entries to perform an update, because
-            // you would loose properties not covered by StdContact.
-            throw new NotImplementedException();
+           string currentElementName = string.Empty;
+           try
+           {
+               this.LogProcessingEvent(Resources.uiLogginIn);
+               //Lotus Notes Object Creation
+               _lotesNotesSession = new Domino.NotesSessionClass();
+               //Initializing Lotus Notes Session
+               _lotesNotesSession.Initialize(this.LogOnPassword); //Passwort
+               _localDatabase = _lotesNotesSession.GetDatabase("", "names.nsf", false);  //Database for Contacts default names.nsf
+
+               this.LogProcessingEvent(Resources.uiPreparingList);
+
+               string viewname = "$People";
+               _contactsView = _localDatabase.GetView(viewname);
+               // TODO: implement reading from the Lotus Notes server and map the entities to StdContact instances
+               if (_contactsView == null)
+               {
+                   this.LogProcessingEvent(Resources.uiNoViewFound, viewname);
+               }
+               else
+               {
+                   foreach (StdContact item in elements)
+                   {
+                       NotesViewEntryCollection notesViewCollection = _contactsView.AllEntries;
+                       //ArrayList notesUIDSList = new ArrayList(); 
+                       bool gefunden = false;
+                       for (int rowCount = 1; rowCount <= notesViewCollection.Count; rowCount++)
+                       {
+                           //Get the nth entry of the selected view according to the iteration.
+                           NotesViewEntry viewEntry = notesViewCollection.GetNthEntry(rowCount);
+
+                           //Get the first document of particular entry.
+                           NotesDocument document = viewEntry.Document;
+                           string noteId = document.NoteID;;
+                           //
+                           string id = string.Empty;
+                           if (item.ExternalIdentifier != null)
+                           {
+                               ProfileIdInformation info = item.ExternalIdentifier.GetProfileId(ProfileIdentifierType.LotusNotesId);
+                               if (info != null)
+                               {
+                                   id = document.NoteID;
+                               }
+                           }
+                           if (id == noteId)
+                           {
+                               gefunden = true;
+                               //
+                               object documentItems = document.Items;
+                               Array itemArray = (System.Array)documentItems;
+                               //Daten übernehmen
+                               for (int itemCount = 0; itemCount < itemArray.Length; itemCount++)
+                               {
+                                   NotesItem notesItem = (Domino.NotesItem)itemArray.GetValue(itemCount);
+                                   //string itemname = notesItem.Name;
+                                   string text = notesItem.Text;
+                                   switch (notesItem.Name)
+                                   {
+                                       //Name
+                                       case "FirstName":
+                                           //  notesItem.Text = item.Name.FirstName;
+                                           break;
+
+
+                                   }
+                                   break;
+                               }
+                           }
+                       }
+                   }
+               }
+           }
+           catch (Exception ex)
+           {
+               this.LogProcessingEvent(
+                   string.Format(CultureInfo.CurrentCulture, Resources.uiErrorAtName, currentElementName, ex.Message));
+           }
+           finally
+           {
+               //outlookNamespace.Logoff();
+               _lotesNotesSession = null;
+           }
         }
 
         #endregion
