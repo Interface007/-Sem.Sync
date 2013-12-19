@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C59830A8-5F30-4AC1-A862-473D9911B08A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Sem.Sync.Documentation</RootNamespace>
+    <AssemblyName>Sem.Sync.Documentation</AssemblyName>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>TRUE</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>FALSE</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>FALSE</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>TRUE</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development MeinVZ|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Development MeinVZ\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28Code Analysis%29|AnyCPU' ">
+    <DebugSymbols>TRUE</DebugSymbols>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>TRUE</RunCodeAnalysis>
+    <Optimize>TRUE</Optimize>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Exclude Non-Standard-Projects|AnyCPU' ">
+    <DebugSymbols>TRUE</DebugSymbols>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>TRUE</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28CodeAnalysis%29|AnyCPU' ">
+    <OutputPath>..\bin</OutputPath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Integration Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Integration Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\bin\Sem.Sync.Documentation.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(DocProjectPath)\bin\DaveSexton.DocProject.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets and DaveSexton.DocProject.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="..\Shared\AssemblyInfoShared.cs">
+      <Link>Properties\AssemblyInfoShared.cs</Link>
+    </Compile>
+    <Compile Include="BuildProcess.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DaveSexton.DocProject, Version=1.11.0.0, Culture=neutral, PublicKeyToken=af1a4bab65cc4ece, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Sandcastle_ShowEntireBuildComponentStack="False" ProcessComponentTypeName="Sem.Sync.Documentation.BuildProcess" IsDocProject="true" DocProjectVersion="1.11.0.0" BuildEngineProviderName="Sandcastle" Sandcastle_Version="2.4.10520.1" Sandcastle_PresentationName="Visual Studio 2005" Sandcastle_ProduceHelp1x="True" ExternalSources="" DoNotAskIncludeOutputInProject="True" DefaultApplyToAll="True" DocumentationScope="PublicOnly" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Content Include="Help\Art\SemSync-2a.png" />
+    <Content Include="Help\Comments\project.xml" />
+    <Content Include="Help\Icons\adm.gif" />
+    <Content Include="Help\Icons\adm_arch.gif" />
+    <Content Include="Help\Icons\adm_dev.gif" />
+    <Content Include="Help\Icons\adm_dev_arch.gif" />
+    <Content Include="Help\Icons\alert_caution.gif" />
+    <Content Include="Help\Icons\alert_note.gif" />
+    <Content Include="Help\Icons\alert_security.gif" />
+    <Content Include="Help\Icons\arch.gif" />
+    <Content Include="Help\Icons\big_adm.gif" />
+    <Content Include="Help\Icons\big_arch.gif" />
+    <Content Include="Help\Icons\big_dev.gif" />
+    <Content Include="Help\Icons\big_kw.gif" />
+    <Content Include="Help\Icons\box.gif" />
+    <Content Include="Help\Icons\Caution.gif" />
+    <Content Include="Help\Icons\CFW.gif" />
+    <Content Include="Help\Icons\collall.gif" />
+    <Content Include="Help\Icons\collapse.gif" />
+    <Content Include="Help\Icons\collapse_all.gif" />
+    <Content Include="Help\Icons\copycode.gif" />
+    <Content Include="Help\Icons\copycodeHighlight.gif" />
+    <Content Include="Help\Icons\dev.gif" />
+    <Content Include="Help\Icons\dev_arch.gif" />
+    <Content Include="Help\Icons\dropdown.gif" />
+    <Content Include="Help\Icons\dropdownHover.gif" />
+    <Content Include="Help\Icons\drpdown.gif" />
+    <Content Include="Help\Icons\drpdown_orange.gif" />
+    <Content Include="Help\Icons\drpdown_orange_up.gif" />
+    <Content Include="Help\Icons\drpup.gif" />
+    <Content Include="Help\Icons\exp.gif" />
+    <Content Include="Help\Icons\expall.gif" />
+    <Content Include="Help\Icons\expand_all.gif" />
+    <Content Include="Help\Icons\filter1a.gif" />
+    <Content Include="Help\Icons\filter1c.gif" />
+    <Content Include="Help\Icons\footer.gif" />
+    <Content Include="Help\Icons\gradient.gif" />
+    <Content Include="Help\Icons\greencheck.gif" />
+    <Content Include="Help\Icons\greychck.gif" />
+    <Content Include="Help\Icons\header_prev_next.jpg" />
+    <Content Include="Help\Icons\header_sql_tutorial_blank.jpg" />
+    <Content Include="Help\Icons\header_sql_tutorial_logo.GIF" />
+    <Content Include="Help\Icons\kw.gif" />
+    <Content Include="Help\Icons\kw_adm.gif" />
+    <Content Include="Help\Icons\kw_adm_arch.gif" />
+    <Content Include="Help\Icons\kw_adm_dev.gif" />
+    <Content Include="Help\Icons\kw_adm_dev_arch.gif" />
+    <Content Include="Help\Icons\kw_arch.gif" />
+    <Content Include="Help\Icons\kw_dev.gif" />
+    <Content Include="Help\Icons\kw_dev_arch.gif" />
+    <Content Include="Help\Icons\LastChild.gif" />
+    <Content Include="Help\Icons\load.gif" />
+    <Content Include="Help\Icons\load_hover.gif" />
+    <Content Include="Help\Icons\note.gif" />
+    <Content Include="Help\Icons\pencil.GIF" />
+    <Content Include="Help\Icons\privclass.gif" />
+    <Content Include="Help\Icons\privdelegate.gif" />
+    <Content Include="Help\Icons\privenum.gif" />
+    <Content Include="Help\Icons\privenumeration.gif" />
+    <Content Include="Help\Icons\privevent.gif" />
+    <Content Include="Help\Icons\privextension.gif" />
+    <Content Include="Help\Icons\privfield.gif" />
+    <Content Include="Help\Icons\privinterface.gif" />
+    <Content Include="Help\Icons\privmethod.gif" />
+    <Content Include="Help\Icons\privproperty.gif" />
+    <Content Include="Help\Icons\privstructure.gif" />
+    <Content Include="Help\Icons\protclass.gif" />
+    <Content Include="Help\Icons\protdelegate.gif" />
+    <Content Include="Help\Icons\protenum.gif" />
+    <Content Include="Help\Icons\protenumeration.gif" />
+    <Content Include="Help\Icons\protevent.gif" />
+    <Content Include="Help\Icons\protextension.gif" />
+    <Content Include="Help\Icons\protfield.gif" />
+    <Content Include="Help\Icons\protinterface.gif" />
+    <Content Include="Help\Icons\protmethod.gif" />
+    <Content Include="Help\Icons\protoperator.gif" />
+    <Content Include="Help\Icons\protproperty.gif" />
+    <Content Include="Help\Icons\protstructure.gif" />
+    <Content Include="Help\Icons\pubclass.gif" />
+    <Content Include="Help\Icons\pubdelegate.gif" />
+    <Content Include="Help\Icons\pubenum.gif" />
+    <Content Include="Help\Icons\pubenumeration.gif" />
+    <Content Include="Help\Icons\pubevent.gif" />
+    <Content Include="Help\Icons\pubextension.gif" />
+    <Content Include="Help\Icons\pubfield.gif" />
+    <Content Include="Help\Icons\pubinterface.gif" />
+    <Content Include="Help\Icons\pubmethod.gif" />
+    <Content Include="Help\Icons\puboperator.gif" />
+    <Content Include="Help\Icons\pubproperty.gif" />
+    <Content Include="Help\Icons\pubstructure.gif" />
+    <Content Include="Help\Icons\requirements1a.gif" />
+    <Content Include="Help\Icons\requirements1c.gif" />
+    <Content Include="Help\Icons\save.gif" />
+    <Content Include="Help\Icons\save_hover.gif" />
+    <Content Include="Help\Icons\security.gif" />
+    <Content Include="Help\Icons\seealso1a.gif" />
+    <Content Include="Help\Icons\seealso1c.gif" />
+    <Content Include="Help\Icons\static.gif" />
+    <Content Include="Help\Icons\xna.gif" />
+    <Content Include="Help\Presentation\Shared\content\syntax_content.xml" />
+    <Content Include="Help\Presentation\Shared\scripts\copycode.js" />
+    <Content Include="Help\Presentation\Shared\scripts\samples.js" />
+    <Content Include="Help\Presentation\Shared\transforms\utilities_dduexml.xsl" />
+    <Content Include="Help\Presentation\Shared\transforms\utilities_metadata.xsl" />
+    <Content Include="Help\Presentation\Shared\transforms\utilities_reference.xsl" />
+    <Content Include="Help\Presentation\Style\Content\conceptual_content.xml" />
+    <Content Include="Help\Presentation\Style\Content\feedBack_content.xml" />
+    <Content Include="Help\Presentation\Style\Content\reference_content.xml" />
+    <Content Include="Help\Presentation\Style\Content\shared_content.xml" />
+    <Content Include="Help\Presentation\Style\Content\token_content.xml" />
+    <Content Include="Help\Presentation\Style\Content\web_content.xml" />
+    <Content Include="Help\Presentation\Style\Transforms\globalTemplates.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\htmlBody.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\main_conceptual.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\main_reference.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\main_sandcastle.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\seeAlsoSection.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\skeleton.xml" />
+    <Content Include="Help\Presentation\Style\Transforms\skeleton_conceptual.xml" />
+    <Content Include="Help\Presentation\Style\Transforms\utilities_dduexml.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\utilities_metadata.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\utilities_reference.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\web_reference.xsl" />
+    <Content Include="Help\Presentation\Style\Transforms\xamlSyntax.xsl" />
+    <Content Include="Help\Scripts\CheckboxMenu.js" />
+    <Content Include="Help\Scripts\CommonUtilities.js" />
+    <Content Include="Help\Scripts\Dropdown.js" />
+    <Content Include="Help\Scripts\EventUtilities.js" />
+    <Content Include="Help\Scripts\script_feedBack.js" />
+    <Content Include="Help\Scripts\script_manifold.js" />
+    <Content Include="Help\Scripts\SplitScreen.js" />
+    <Content Include="Help\Settings\bibliography.xml" />
+    <Content Include="Help\Settings\conceptual_art.xml" />
+    <Content Include="Help\Settings\conceptual_project.xml" />
+    <Content Include="Help\Settings\conceptual_snippets.xml" />
+    <Content Include="Help\Settings\conceptual_version.xml" />
+    <Content Include="Help\Settings\links.xml" />
+    <Content Include="Help\Settings\metadata.xml" />
+    <Content Include="Help\Settings\Projects\help2x.xslt" />
+    <Content Include="Help\Settings\tokens.xml" />
+    <Content Include="Help\Settings\topics.xml" />
+    <Content Include="Help\Styles\Presentation.css" />
+    <Content Include="Help\Styles\TopicDesigner.css" />
+    <Content Include="Help\Styles\Whidbey\presentation.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Help\Presentation\Shared\configuration\xamlSyntax.config" />
+    <None Include="Help\Presentation\Shared\copyHavana.bat" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template.HxF" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_A.HxK" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_B.HxK" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_F.HxK" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_K.HxK" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_N.HxK" />
+    <None Include="Help\Presentation\Shared\HxsTemplate\template_S.HxK" />
+    <None Include="Help\Presentation\Shared\SharedDocModel.ps1" />
+    <None Include="Help\Presentation\Style\Configuration\conceptual.help1x.config" />
+    <None Include="Help\Presentation\Style\Configuration\conceptual.help2x.config" />
+    <None Include="Help\Presentation\Style\Configuration\MRefBuilder.config" />
+    <None Include="Help\Presentation\Style\Configuration\sandcastle.help1x.config" />
+    <None Include="Help\Presentation\Style\Configuration\sandcastle.help2x.config" />
+    <None Include="Help\Schemas\base.xsd" />
+    <None Include="Help\Schemas\baseConditional.xsd" />
+    <None Include="Help\Schemas\block.xsd" />
+    <None Include="Help\Schemas\blockCommon.xsd" />
+    <None Include="Help\Schemas\blockSoftware.xsd" />
+    <None Include="Help\Schemas\conditionSet.xsd" />
+    <None Include="Help\Schemas\developer.xsd" />
+    <None Include="Help\Schemas\developerReference.xsd" />
+    <None Include="Help\Schemas\developerStructure.xsd" />
+    <None Include="Help\Schemas\glossary.xsd" />
+    <None Include="Help\Schemas\hierarchy.xsd" />
+    <None Include="Help\Schemas\inline.xsd" />
+    <None Include="Help\Schemas\inlineCommon.xsd" />
+    <None Include="Help\Schemas\inlineLinking.xsd" />
+    <None Include="Help\Schemas\inlineSoftware.xsd" />
+    <None Include="Help\Schemas\inlineUi.xsd" />
+    <None Include="Help\Schemas\space.xsd" />
+    <None Include="Help\Schemas\standardCodes.xsd" />
+    <None Include="Help\Schemas\structure.xsd" />
+    <None Include="Help\Schemas\structureList.xsd" />
+    <None Include="Help\Schemas\structureMedia.xsd" />
+    <None Include="Help\Schemas\structureProcedure.xsd" />
+    <None Include="Help\Schemas\structureTable.xsd" />
+    <None Include="Help\Schemas\xlink.xsd" />
+    <None Include="Help\Schemas\__internal.xsd" />
+    <None Include="Help\Sem_Sync_Documentation.hhc" />
+    <None Include="Help\Sem_Sync_Documentation.hhk" />
+    <None Include="Help\Sem_Sync_Documentation.hhp" />
+    <None Include="Help\Settings\Projects\help1x.config" />
+    <None Include="Help\Topics\How to write a connector to a new source or target.aml" />
+    <None Include="Help\Topics\How to write a connector to a new source or target.cmp">
+      <DependentUpon>How to write a connector to a new source or target.aml</DependentUpon>
+    </None>
+    <None Include="Help\Topics\Introduction.aml" />
+    <None Include="Help\Topics\Introduction.cmp">
+      <DependentUpon>Introduction.aml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
+      <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
+      <Name>Sem.GenericHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj">
+      <Project>{AA22CCE8-86E8-4F8B-A7FF-1D941E090251}</Project>
+      <Name>Sem.Sync.ChangeTracker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
+      <Project>{ABF6A30F-5063-460C-9277-AF0F59C89290}</Project>
+      <Name>Sem.Sync.Connector.ActiveDirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
+      <Project>{EBCA4744-B9C2-4D2C-9978-FBF9C8DC4F94}</Project>
+      <Name>Sem.Sync.Connector.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.ExchangeWebServiceManagedApi\Sem.Sync.Connector.ExchangeWebServiceManagedApi.csproj">
+      <Project>{A3F64060-5F1F-4470-B1AE-71836CFD6DA0}</Project>
+      <Name>Sem.Sync.Connector.ExchangeWebServiceManagedApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj">
+      <Project>{C1B81350-1893-49FF-9582-470C46C2729A}</Project>
+      <Name>Sem.Sync.Connector.Facebook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj">
+      <Project>{F0A26B2B-02CA-4095-AD20-013D0110ABB3}</Project>
+      <Name>Sem.Sync.Connector.Filesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
+      <Project>{5F0F1A7F-795B-40B6-ABBD-EEB2C7E17CA1}</Project>
+      <Name>Sem.Sync.Connector.Google</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
+      <Project>{9A99EDD4-4489-4E23-A409-36BA82F63D66}</Project>
+      <Name>Sem.Sync.Connector.MeinVZ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Memory\Sem.Sync.Connector.Memory.csproj">
+      <Project>{1F1C8AFD-703C-48BD-9398-02AA97CD6432}</Project>
+      <Name>Sem.Sync.Connector.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsAccess\Sem.Sync.Connector.MsAccess.csproj">
+      <Project>{D6AC1146-22A3-48D5-B12F-3B2FA4F87955}</Project>
+      <Name>Sem.Sync.Connector.MsAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2003\Sem.Sync.Connector.Outlook2003.csproj">
+      <Project>{15DD2E27-2606-4211-BDCA-863BB9E26142}</Project>
+      <Name>Sem.Sync.Connector.Outlook2003</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2010\Sem.Sync.Connector.Outlook2010.csproj">
+      <Project>{0E785E12-16FF-4409-927A-1E7554841D72}</Project>
+      <Name>Sem.Sync.Connector.Outlook2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj">
+      <Project>{32AA1C0C-CC80-44DC-8F6D-2C603072AB09}</Project>
+      <Name>Sem.Sync.Connector.StayFriends</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.WerKenntWen\Sem.Sync.Connector.WerKenntWen.csproj">
+      <Project>{2A78B30C-36FA-4B2D-B6AD-DA2EC52164A0}</Project>
+      <Name>Sem.Sync.Connector.WerKenntWen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ConsoleClient\Sem.Sync.ConsoleClient.csproj">
+      <Project>{9165EBDB-D528-4D2A-BD36-A0D986E609FA}</Project>
+      <Name>Sem.Sync.ConsoleClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ContactSyncer\Sem.Sync.ContactSyncer.csproj">
+      <Project>{12CDAB31-6327-448F-BFA2-F26EC8F8392F}</Project>
+      <Name>Sem.Sync.ContactSyncer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj">
+      <Project>{F4E8E368-F3DE-4B63-AF9E-96B29FF0E5C3}</Project>
+      <Name>Sem.Sync.LocalSyncManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
+      <Project>{AB6D712C-8E4B-46F9-8AC8-BF65F3DA1B79}</Project>
+      <Name>Sem.Sync.OutlookWithXing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.Common\Sem.Sync.SharedUI.Common.csproj">
+      <Project>{B0AD009D-21C5-4BB6-A795-4DDEBC47F4D2}</Project>
+      <Name>Sem.Sync.SharedUI.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
+      <Project>{CB0D9362-8813-4A6E-825F-9BF48DC527AB}</Project>
+      <Name>Sem.Sync.SharedUI.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
+      <Project>{1068FBA6-60F2-4A39-9941-CCD6447313E8}</Project>
+      <Name>Sem.Sync.Connector.Statistic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Starter\Sem.Sync.Starter.csproj">
+      <Project>{D9563118-8480-45B0-A20C-737ABA994069}</Project>
+      <Name>Sem.Sync.Starter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj">
+      <Project>{2B1EC971-9055-4156-9FFF-0F2B3C7697F4}</Project>
+      <Name>Sem.Sync.Connector.Xing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Test.DataGenerator\Sem.Sync.Test.DataGenerator.csproj">
+      <Project>{42794DFF-7448-47AA-BBFE-E56D83B756DB}</Project>
+      <Name>Sem.Sync.Test.DataGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="993daa20-003e-4eff-b797-b4949d37779e" revisionNumber="0">
+  <developerHowToDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <summary>
+      <para>The topic describes how to write a simple connector. Here I will show and describe the anatomy of the very simple write only connector <codeEntityReference>T:Sem.Sync.Connector.Console.ContactClient</codeEntityReference>.</para>
+    </summary>
+
+    <introduction>
+      <para>Writing a new connector is very simple: just inherit from <codeEntityReference>T:Sem.Sync.SyncBase.StdClient</codeEntityReference> and override the two abstract methods. The complexity might come with implementing these two methods, because you will need to provide a conversion from your “native” data to the StdContact class. Depending on the type of data you read/write this might be easy or complex.</para>
+      <para>If your “native” system does support access using vCards, this would ease the development substantially, because there is already a vCard connector using the file system. This connector does use the class VCardConverter from the namespace Sem.Sync.SyncBase.Helpers. You should have a look if that converter already matches your needs.</para>
+      <para>For communication with an XML based system, you might use XSLT to simply transform the XML data from your system to the serialization format of the class StdContact. That way you can easily fill a list of StdContact and return it from the connector to the engine.</para>
+      <para>The connectors are instantiated by a class factory. In the scripts just use the full qualified class name (include the assembly name if that is different to the namespace) and the engine will do the rest. You can even use generic classes as connectors (see <codeEntityReference>T:Sem.Sync.Connector.Filesystem.GenericClientCsv`1</codeEntityReference>) – this might be helpful when synchronizing different types of entities (like calendar items).</para>
+    </introduction>
+
+    <procedure>
+      <title>Creating an output connector to the console</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>The namespace of the connector class should match Sem.Sync.Connector.myConnectorName with the assembly name 
+            matching the namespace name in order to ease the configuration. Addressing the connector class inside the configuration 
+            is made using the full qualified class name, but you can omit the namespace and the assembly name if they do match 
+            this convention.</para>
+            <code language="c#">namespace Sem.Sync.Connector.Console</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>We should add an attribute that describes the way a UI should help the user to deal with the client storage 
+                  path parameter while reading/writing data. 
+                  In our very simple sample this attribute contain the information that this path is irrelevant, so the UI can 
+                  hide the input elements to not confuse the user.</para>
+            <code language="c#">[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>The <codeEntityReference>T:Sem.Sync.SyncBase.Attributes.ClientStoragePathDescriptionAttribute</codeEntityReference> attribute 
+            describes capabilities of the connector. The defaults of the settings are:</para>
+            <code language="c#">CanReadContacts = true,
+CanWriteContacts = true,
+NeedsCredentials = false,
+IsGeneric = false,
+MatchingIdentifier = ProfileIdentifierType.Default</code>
+            <para>As shown in the defaults, the connector might be a generic class and does have a fixed matching 
+            identifier. By default all connectors tell the UI that they are capable for reading and writing, but 
+            our example connector (the console connector) does only support writing to the console, not reading.</para>
+            <code language="c#">[ClientStoragePathDescriptionAttribute(Irrelevant = true)]</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Most connector classes are named “ContactClient” – I will change the term “client” to the term “connector” 
+              some day, but that’s not a priority 1 task at the moment. As you can see the class does inherit from 
+              StdClient – this class does provide things like password handling with the sync engine virtual methods 
+              to add provider specific things for read/write, event handling etc.
+            </para>
+            <code language="c#">public class ContactClient : StdClient</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              The console connector does print the contact serialized as xml to the console, so we need an instance of the 
+              XmlSerializer to build the xml.
+            </para>
+            <code language="c#">private static readonly XmlSerializer ContactListFormatter = new XmlSerializer(typeof(StdContact));</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Overriding this virtual property is optional, because the base class property does return the name configured 
+              inside the ConnectorDescription class attribute.
+            </para>
+            <code language="c#">public override string FriendlyClientName
+{ 
+  get 
+    { 
+      return "Console output Connector for individual contacts"; 
+    }
+}</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Overriding this method suppresses the read operation from the base class while adding new elements which 
+              is not implemented in our case and would lead to an exception.
+            </para>
+            <code language="c#">public override void AddRange(List&lt;StdElement&gt; elements, string clientFolderName)
+{ 
+  this.WriteFullList(elements, clientFolderName, true); 
+}</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              This is the working horse method – this is the part where things may become complex (in this case they don’t).
+            </para>
+            <code language="c#">protected override void WriteFullList(
+    List&lt;StdElement&gt; elements, 
+    string clientFolderName, 
+    bool skipIfExisting)
+{
+  foreach (var element in elements)
+  {
+    ContactListFormatter.Serialize(Console.Out, element);
+  }
+}</code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              That’s all. For a simple writing connector that’s all sync-specific stuff to be implemented. 
+              All other code has to do with dealing with provider specific protocols, data formats, etc.
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+
+    <buildInstructions>
+      <content>
+        <para>The solution does use a single bin folder for the build artifacts, so you should adjust the 
+        project build settings to compile into this folder in order to havbe the dll file where the executable 
+        expects it.</para>
+      </content>
+    </buildInstructions>
+
+    <robustProgramming>
+      <content>
+        <para>In this implementation catching exceptions and loggin them is omitted. This connector will stop working with the first exception being thrown, so you should add exception handling and logging in order to inform the user about the exception and continue the loop if the exception was an acceptable one.</para>
+      </content>
+    </robustProgramming>
+
+    <security>
+      <content>
+        <para>This connector does not access any protected storage system. In case of storage systems that are protected by account information you should take care for proper protection of the credentials.</para>
+      </content>
+    </security>
+
+    <relatedTopics>
+      <!-- Supported Link Types
+    
+         All of the following linking mechanisms may be used in the topic's content 
+         as well as in the related topics section.
+    
+    Linking to API reference documentation: 
+    
+		    <codeEntityReference>API reference ID</codeEntityReference>
+
+    Linking to external resources and custom HTML topics: 
+
+        <externalLink>
+          <linkText>  Required hyperlink text  </linkText>
+          <linkAlternateText>  Optional link title  </linkAlternateText>
+          <linkUri>  Required URI  </linkUri>
+        </externalLink>
+    
+    Linking to other conceptual topics: 
+    
+        <link xlink:href="GUID topic name (without file extension)" />
+                
+    Linking to named references:
+    
+        (Refer to the project's Help\Settings\links.xml file for more information)
+    
+        <link xref="id"> Optional link text </link>
+        <link vref="id or URI"> Optional link text </link>
+        
+    -->
+
+      <!-- Example Usage 
+
+      <codeEntityReference>T:MyNamespace.MyClass</codeEntityReference>
+      <codeEntityReference>P:MyNamespace.MyClass.MyProp</codeEntityReference>
+      <codeEntityReference>M:System.IO.File.OpenText(System.String)</codeEntityReference>
+
+      <externalLink>
+        <linkText>Sandcastle Styles</linkText>
+        <linkAlternateText>Sandcastle Styles on CodePlex</linkAlternateText>
+        <linkUri>http://www.codeplex.com/SandcastleStyles</linkUri>
+      </externalLink>
+
+      <externalLink>
+        <linkText>Change Log</linkText>
+        <linkUri>ChangeLog.html</linkUri>
+      </externalLink>
+
+      <link xlink:href="2BFD9215-1216-403d-8C46-8420A4D01B83"/>
+      
+      <link xref="home">Our Home Page</link>
+      <link vref="/controls/design.aspx">Control Architecture</link>
+      -->
+    </relatedTopics>
+    
+  </developerHowToDocument>
+</topic>

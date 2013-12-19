@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1d9cd8dc-d4ec-4802-b9f3-a749b29bf39e}</ProjectGuid>
+    <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
+    <Name>Sem.Sync.Modeling</Name>
+    <RootNamespace>Sem.Sync.Modeling</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Integration Test' ">
+    <OutputPath>bin\Integration Test\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
+    <Folder Include="ModelDefinition\" />
+    <Content Include="Dependencies\2010-05-29-Complete.dgml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Dependencies\2010-05-29-Refactored.dgml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Sem.Sync.Modeling.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Validate Include="ProjectLayers.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="ProjectLayers.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ProjectLayers.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="ProjectLayers.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>ProjectLayers.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Sem.Sync.LocalSyncManager.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="Sem.Sync.LocalSyncManager.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>Sem.Sync.LocalSyncManager.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers.Decrypter\Sem.GenericHelpers.Decrypter.csproj">
+      <Name>Sem.GenericHelpers.Decrypter</Name>
+      <Project>{e039cb82-bbc8-4f63-a9f9-53dcaee88725}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.GenericHelpers.ExceptionService\Sem.GenericHelpers.ExceptionService.csproj">
+      <Name>Sem.GenericHelpers.ExceptionService</Name>
+      <Project>{c57e4b3b-ad5b-48ea-b843-5ce0c2477297}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
+      <Name>Sem.GenericHelpers</Name>
+      <Project>{930ebd41-0114-4b39-a89a-ebcd7c81931f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ChangeTracker\Sem.Sync.ChangeTracker.csproj">
+      <Name>Sem.Sync.ChangeTracker</Name>
+      <Project>{aa22cce8-86e8-4f8b-a7ff-1d941e090251}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.ActiveDirectory\Sem.Sync.Connector.ActiveDirectory.csproj">
+      <Name>Sem.Sync.Connector.ActiveDirectory</Name>
+      <Project>{abf6a30f-5063-460c-9277-af0f59c89290}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Console\Sem.Sync.Connector.Console.csproj">
+      <Name>Sem.Sync.Connector.Console</Name>
+      <Project>{ebca4744-b9c2-4d2c-9978-fbf9c8dc4f94}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.ExchangeWebServiceManagedApi\Sem.Sync.Connector.ExchangeWebServiceManagedApi.csproj">
+      <Name>Sem.Sync.Connector.ExchangeWebServiceManagedApi</Name>
+      <Project>{a3f64060-5f1f-4470-b1ae-71836cfd6da0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Facebook\Sem.Sync.Connector.Facebook.csproj">
+      <Name>Sem.Sync.Connector.Facebook</Name>
+      <Project>{c1b81350-1893-49ff-9582-470c46c2729a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Filesystem\Sem.Sync.Connector.Filesystem.csproj">
+      <Name>Sem.Sync.Connector.Filesystem</Name>
+      <Project>{f0a26b2b-02ca-4095-ad20-013d0110abb3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Ftp\Sem.Sync.Connector.Ftp.csproj">
+      <Name>Sem.Sync.Connector.Ftp</Name>
+      <Project>{2a0380de-1379-4c25-9b88-8cf1279a5d37}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Google\Sem.Sync.Connector.Google.csproj">
+      <Name>Sem.Sync.Connector.Google</Name>
+      <Project>{5f0f1a7f-795b-40b6-abbd-eeb2c7e17ca1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.LinkedIn\Sem.Sync.Connector.LinkedIn.csproj">
+      <Name>Sem.Sync.Connector.LinkedIn</Name>
+      <Project>{292139b0-e1a3-4c02-a72d-d8edd3abe320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.LotusNotes\Sem.Sync.Connector.LotusNotes.csproj">
+      <Name>Sem.Sync.Connector.LotusNotes</Name>
+      <Project>{ba85e4f7-b3b4-4537-b4b5-f642d3e0a191}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MeinVZ\Sem.Sync.Connector.MeinVZ.csproj">
+      <Name>Sem.Sync.Connector.MeinVZ</Name>
+      <Project>{9a99edd4-4489-4e23-a409-36ba82f63d66}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Memory\Sem.Sync.Connector.Memory.csproj">
+      <Name>Sem.Sync.Connector.Memory</Name>
+      <Project>{1f1c8afd-703c-48bd-9398-02aa97cd6432}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsAccess\Sem.Sync.Connector.MsAccess.csproj">
+      <Name>Sem.Sync.Connector.MsAccess</Name>
+      <Project>{d6ac1146-22a3-48d5-b12f-3b2fa4f87955}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsExcelOpenXml\Sem.Sync.Connector.MsExcelOpenXml.csproj">
+      <Name>Sem.Sync.Connector.MsExcelOpenXml</Name>
+      <Project>{c88e3c85-79a2-4045-85bb-696097ed23d7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsExcelXml\Sem.Sync.Connector.MsExcelXml.csproj">
+      <Name>Sem.Sync.Connector.MsExcelXml</Name>
+      <Project>{a4b8f29e-a81f-4363-8a83-9e565facd0eb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.MsSqlDataBase\Sem.Sync.Connector.MsSqlDatabase.csproj">
+      <Name>Sem.Sync.Connector.MsSqlDatabase</Name>
+      <Project>{a454ea6d-1b59-44af-8ef2-72f66924279a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.OnlineStorage\Sem.Sync.Connector.OnlineStorage.csproj">
+      <Name>Sem.Sync.Connector.OnlineStorage</Name>
+      <Project>{da88047a-8ba7-492b-bb71-eb87472817a5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook2010\Sem.Sync.Connector.Outlook2010.csproj">
+      <Name>Sem.Sync.Connector.Outlook2010</Name>
+      <Project>{0e785e12-16ff-4409-927a-1e7554841d72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Outlook\Sem.Sync.Connector.Outlook.csproj">
+      <Name>Sem.Sync.Connector.Outlook</Name>
+      <Project>{809277c4-f27e-47b6-ac9f-e5ee54ae1399}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Statistic\Sem.Sync.Connector.Statistic.csproj">
+      <Name>Sem.Sync.Connector.Statistic</Name>
+      <Project>{1068fba6-60f2-4a39-9941-ccd6447313e8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.StayFriends\Sem.Sync.Connector.StayFriends.csproj">
+      <Name>Sem.Sync.Connector.StayFriends</Name>
+      <Project>{32aa1c0c-cc80-44dc-8f6d-2c603072ab09}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.WerKenntWen\Sem.Sync.Connector.WerKenntWen.csproj">
+      <Name>Sem.Sync.Connector.WerKenntWen</Name>
+      <Project>{2a78b30c-36fa-4b2d-b6ad-da2ec52164a0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.Connector.Xing\Sem.Sync.Connector.Xing.csproj">
+      <Name>Sem.Sync.Connector.Xing</Name>
+      <Project>{2b1ec971-9055-4156-9fff-0f2b3c7697f4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.ConsoleClient\Sem.Sync.ConsoleClient.csproj">
+      <Name>Sem.Sync.ConsoleClient</Name>
+      <Project>{9165ebdb-d528-4d2a-bd36-a0d986e609fa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.LocalSyncManager\Sem.Sync.LocalSyncManager.csproj">
+      <Name>Sem.Sync.LocalSyncManager</Name>
+      <Project>{f4e8e368-f3de-4b63-af9e-96b29ff0e5c3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.OutlookWithXing\Sem.Sync.OutlookWithXing.csproj">
+      <Name>Sem.Sync.OutlookWithXing</Name>
+      <Project>{ab6d712c-8e4b-46f9-8ac8-bf65f3da1b79}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.Common\Sem.Sync.SharedUI.Common.csproj">
+      <Name>Sem.Sync.SharedUI.Common</Name>
+      <Project>{b0ad009d-21c5-4bb6-a795-4ddebc47f4d2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SharedUI.WinForms\Sem.Sync.SharedUI.WinForms.csproj">
+      <Name>Sem.Sync.SharedUI.WinForms</Name>
+      <Project>{cb0d9362-8813-4a6e-825f-9bf48dc527ab}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase.Commands\Sem.Sync.SyncBase.Commands.csproj">
+      <Name>Sem.Sync.SyncBase.Commands</Name>
+      <Project>{a86d2cb9-2907-4abe-8f8c-31e76994ce85}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Name>Sem.Sync.SyncBase</Name>
+      <Project>{4725c93e-55a0-42a5-9c61-61dc498a4308}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

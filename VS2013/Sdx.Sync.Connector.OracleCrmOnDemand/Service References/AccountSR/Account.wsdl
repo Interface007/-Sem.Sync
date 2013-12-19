@@ -1,0 +1,1580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsdLocal2="urn:/crmondemand/xml/Account/Query" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsdLocal1="urn:/crmondemand/xml/Account/Data" xmlns:tns="urn:crmondemand/ws/ecbs/account/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:crmondemand/ws/ecbs/account/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:/crmondemand/xml/Account/Query">
+      <xsd:annotation>
+        <xsd:documentation>Copyright (C) 2001, 2008, Oracle and/or its affiliates. All rights reserved. Siebel XSD Generation</xsd:documentation>
+      </xsd:annotation>
+      <xsd:element name="ListOfAccount" type="xsdLocal2:ListOfAccountQuery" />
+      <xsd:complexType name="ListOfAccountTopElmtQuery">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ListOfAccount" type="xsdLocal2:ListOfAccountQuery" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ListOfAccountQuery">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Account" type="xsdLocal2:AccountQuery" />
+        </xsd:sequence>
+        <xsd:attribute name="pagesize" type="xsd:integer" />
+        <xsd:attribute name="startrownum" type="xsd:integer" />
+        <xsd:attribute name="recordcountneeded" type="xsd:boolean" />
+      </xsd:complexType>
+      <xsd:complexType name="AccountQuery">
+        <xsd:all>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedDate" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedDate" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedById" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedById" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Industry" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Status" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AnnualRevenues" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCounty" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CallFrequency" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedDateExt" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="WebSite" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="HIN" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastCallDate" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Location" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MainFax" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MainPhone" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketPotential" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketShare" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedDateExt" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="NumberEmployees" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="NumberOfPhysicians" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="InfluenceType" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Owner" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountIntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountLocation" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccount" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PartnerFlag" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToAddressId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactFullName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryIndustryId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketSegment" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToAddressId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Priority" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PublicCompany" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ReferenceSince" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Reference" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Region" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Route" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCounty" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountType" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate35" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate36" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate37" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate38" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate39" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate40" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate41" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate42" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate43" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate44" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate45" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate46" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate47" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate48" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate49" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate50" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate51" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate52" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate53" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate54" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate55" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate56" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate57" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate58" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate59" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber35" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber36" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber37" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber38" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber39" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList35" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList36" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList37" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList38" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList39" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList40" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList41" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList42" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList43" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList44" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList45" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList46" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList47" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList48" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList49" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList50" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList51" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList52" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList53" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList54" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList55" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList56" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList57" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList58" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList59" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList60" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList61" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList62" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList63" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList64" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList65" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList66" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList67" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList68" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList69" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList70" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList71" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList72" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList73" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList74" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList75" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList76" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList77" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList78" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList79" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList80" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList81" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList82" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList83" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList84" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList85" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList86" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList87" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList88" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList89" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList90" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList91" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList92" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList93" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList94" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList95" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList96" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList97" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList98" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList99" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText10" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText11" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText12" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText13" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText14" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText15" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText16" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText17" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText18" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText19" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText35" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText36" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText37" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText38" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText39" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText40" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText41" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText42" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText43" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText44" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText45" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText46" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText47" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText48" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText49" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText50" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText51" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText52" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText53" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText54" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText55" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText56" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText57" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText58" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText59" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText60" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText61" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText62" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText63" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText64" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText65" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText66" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText67" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText68" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText69" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText70" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText71" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText72" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText73" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText74" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ClosedRevenue" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryGroup" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToAddressExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToAddressExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByExt" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList6" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList7" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList8" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList9" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber40" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber41" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber42" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber43" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber44" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber45" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber46" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber47" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber48" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber49" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber50" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber51" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber52" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber53" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber54" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber55" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber56" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber57" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber58" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber59" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber60" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber61" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber62" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency20" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency21" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency22" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency23" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency24" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FuriganaName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerEmailAddress" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TerritoryId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ReassignOwnerFlag" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Territory" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountContactRole" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedBoolean0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedCurrency0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedDate0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedNumber0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick2" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick3" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick4" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick5" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedLongText0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedShortText0" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedShortText1" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CI_AccountName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CI_Location" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AssignmentStatus" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastAssignmentCompletionDate" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastAssignmentSubmissionDate" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedByExt" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TerritoryExternalId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignExternalId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCity" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCountry" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToPostalCode" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToProvince" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToState" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCity" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCountry" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToPostalCode" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToProvince" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToState" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Ranking" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Stage" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency25" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency26" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency27" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency28" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency29" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency30" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency31" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency32" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency33" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency34" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency35" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency36" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency37" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency38" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency39" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency40" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency41" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency42" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency43" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency44" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency45" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency46" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency47" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency48" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency49" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency50" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency51" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency52" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency53" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency54" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency55" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency56" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency57" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency58" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency59" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency60" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency61" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency62" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency63" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency64" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency65" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency66" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency67" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency68" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency69" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency70" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency71" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency72" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency73" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency74" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency75" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency76" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency77" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency78" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency79" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PartnerStatus" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15Id" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByAlias" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByEMailAddr" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByFirstName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByFullName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByIntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByLastName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByUserSignInId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByAlias" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByEMailAddr" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByFirstName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByFullName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByIntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByLastName" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByUserSignInId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15Name" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15ExternalSystemId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15IntegrationId" type="xsdLocal2:queryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Description" type="xsdLocal2:queryType" />
+        </xsd:all>
+        <xsd:attribute name="searchspec" type="xsd:string" />
+      </xsd:complexType>
+      <xsd:complexType name="queryType">
+        <xsd:simpleContent>
+          <xsd:extension base="xsd:string">
+            <xsd:attribute name="sortorder" type="xsd:string" />
+            <xsd:attribute name="sortsequence" type="xsd:string" />
+          </xsd:extension>
+        </xsd:simpleContent>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:crmondemand/ws/ecbs/account/">
+      <xsd:import namespace="urn:/crmondemand/xml/Account/Query" />
+      <xsd:import namespace="urn:/crmondemand/xml/Account/Data" />
+      <xsd:element name="AccountExecute_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+            <xsd:element minOccurs="0" name="LOVLanguageMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ViewMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Echo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountExecute_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountUpdate_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+            <xsd:element minOccurs="0" name="LOVLanguageMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ViewMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Echo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountUpdate_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountQueryPage_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="BookName" type="xsd:string" />
+            <xsd:element ref="xsdLocal2:ListOfAccount" />
+            <xsd:element minOccurs="0" name="BookId" type="xsd:string" />
+            <xsd:element minOccurs="0" name="LOVLanguageMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="IncludeSubBooks" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ViewMode" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountQueryPage_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountInsert_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+            <xsd:element minOccurs="0" name="LOVLanguageMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ViewMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Echo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountInsert_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountDelete_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+            <xsd:element minOccurs="0" name="LOVLanguageMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ViewMode" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Echo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="AccountDelete_Output">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="xsdLocal1:ListOfAccount" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:/crmondemand/xml/Account/Data">
+      <xsd:annotation>
+        <xsd:documentation>Copyright (C) 2001, 2008, Oracle and/or its affiliates. All rights reserved. Siebel XSD Generation</xsd:documentation>
+      </xsd:annotation>
+      <xsd:element name="ListOfAccount" type="xsdLocal1:ListOfAccountData" />
+      <xsd:complexType name="ListOfAccountTopElmtData">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ListOfAccount" type="xsdLocal1:ListOfAccountData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ListOfAccountData">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Account" type="xsdLocal1:AccountData" />
+        </xsd:sequence>
+        <xsd:attribute name="lastpage" type="xsd:boolean" />
+        <xsd:attribute name="recordcount" type="xsd:integer" />
+      </xsd:complexType>
+      <xsd:complexType name="AccountData">
+        <xsd:all>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedById" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedById" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModId" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Industry" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Status" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AnnualRevenues" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCounty" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToStreetAddress3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CallFrequency" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedDateExt" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="WebSite" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="HIN" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastCallDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MainFax" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MainPhone" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketPotential" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketShare" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedDateExt" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="NumberEmployees" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="NumberOfPhysicians" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="InfluenceType" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Owner" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountIntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountLocation" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccount" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PartnerFlag" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToAddressId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactFullName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryIndustryId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="MarketSegment" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToAddressId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Priority" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PublicCompany" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ReferenceSince" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Reference" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Region" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Route" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCounty" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToStreetAddress3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountType" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean0" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean1" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean10" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean11" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean12" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean13" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean14" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean15" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean16" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean17" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean18" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean19" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean2" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean20" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean21" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean22" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean23" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean24" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean25" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean26" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean27" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean28" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean29" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean3" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean4" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean5" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean6" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean7" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean8" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean9" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency0" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency1" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency10" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency11" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency12" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency13" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency14" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency15" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency16" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency17" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency18" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency19" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency2" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency3" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency4" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency5" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency6" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency7" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency8" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency9" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate0" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate1" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate10" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate11" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate12" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate13" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate14" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate15" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate16" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate17" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate18" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate19" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate2" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate20" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate21" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate22" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate23" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate24" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate25" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate26" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate27" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate28" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate29" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate3" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate30" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate31" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate32" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate33" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate34" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate35" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate36" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate37" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate38" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate39" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate4" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate40" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate41" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate42" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate43" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate44" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate45" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate46" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate47" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate48" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate49" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate5" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate50" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate51" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate52" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate53" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate54" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate55" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate56" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate57" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate58" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate59" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate6" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate7" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate8" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomDate9" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger0" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger1" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger10" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger11" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger12" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger13" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger14" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger15" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger16" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger17" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger18" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger19" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger2" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger3" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger4" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger5" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger6" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger7" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger8" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger9" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber0" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber1" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber10" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber11" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber12" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber13" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber14" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber15" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber16" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber17" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber18" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber19" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber2" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber20" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber21" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber22" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber23" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber24" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber25" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber26" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber27" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber28" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber29" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber3" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber30" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber31" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber32" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber33" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber34" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber35" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber36" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber37" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber38" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber39" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber4" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber5" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber6" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber7" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber8" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber9" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone10" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone11" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone12" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone13" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone14" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone15" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone16" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone17" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone18" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone19" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone4" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone5" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone6" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone7" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone8" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPhone9" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList10" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList11" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList12" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList13" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList14" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList15" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList16" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList17" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList18" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList19" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList20" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList21" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList22" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList23" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList24" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList25" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList26" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList27" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList28" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList29" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList30" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList31" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList32" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList33" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList34" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList35" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList36" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList37" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList38" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList39" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList4" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList40" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList41" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList42" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList43" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList44" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList45" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList46" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList47" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList48" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList49" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList5" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList50" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList51" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList52" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList53" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList54" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList55" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList56" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList57" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList58" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList59" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList6" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList60" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList61" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList62" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList63" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList64" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList65" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList66" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList67" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList68" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList69" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList7" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList70" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList71" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList72" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList73" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList74" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList75" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList76" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList77" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList78" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList79" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList8" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList80" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList81" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList82" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList83" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList84" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList85" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList86" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList87" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList88" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList89" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList9" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList90" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList91" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList92" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList93" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList94" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList95" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList96" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList97" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList98" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomPickList99" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText10" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText11" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText12" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText13" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText14" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText15" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText16" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText17" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText18" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText19" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText20" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText21" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText22" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText23" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText24" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText25" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText26" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText27" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText28" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText29" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText30" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText31" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText32" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText33" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText34" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText35" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText36" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText37" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText38" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText39" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText4" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText40" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText41" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText42" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText43" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText44" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText45" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText46" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText47" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText48" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText49" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText5" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText50" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText51" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText52" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText53" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText54" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText55" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText56" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText57" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText58" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText59" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText6" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText60" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText61" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText62" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText63" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText64" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText65" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText66" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText67" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText68" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText69" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText7" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText70" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText71" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText72" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText73" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText74" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText8" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomText9" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ClosedRevenue" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryGroup" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToAddressExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToAddressExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByExt" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList4" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList5" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList6" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList7" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList8" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomMultiSelectPickList9" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean30" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean31" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean32" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean33" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomBoolean34" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger20" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger21" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger22" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger23" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger24" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger25" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger26" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger27" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger28" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger29" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger30" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger31" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger32" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger33" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomInteger34" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber40" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber41" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber42" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber43" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber44" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber45" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber46" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber47" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber48" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber49" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber50" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber51" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber52" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber53" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber54" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber55" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber56" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber57" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber58" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber59" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber60" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber61" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomNumber62" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency20" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency21" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency22" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency23" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency24" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FuriganaName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerEmailAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TerritoryId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ReassignOwnerFlag" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Territory" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AccountContactRole" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryContactExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ParentAccountExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedBoolean0" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedCurrency0" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedDate0" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedNumber0" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick3" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick4" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedPick5" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedLongText0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedShortText0" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndexedShortText1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CI_AccountName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CI_Location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="AssignmentStatus" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastAssignmentCompletionDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="LastAssignmentSubmissionDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ModifiedByExt" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TerritoryExternalId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SourceCampaignExternalId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCity" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToCountry" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToPostalCode" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToProvince" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryBillToState" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCity" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToCountry" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToPostalCode" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToProvince" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PrimaryShipToState" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Ranking" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Stage" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency25" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency26" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency27" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency28" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency29" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency30" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency31" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency32" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency33" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency34" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency35" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency36" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency37" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency38" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency39" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency40" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency41" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency42" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency43" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency44" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency45" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency46" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency47" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency48" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency49" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency50" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency51" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency52" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency53" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency54" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency55" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency56" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency57" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency58" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency59" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency60" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency61" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency62" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency63" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency64" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency65" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency66" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency67" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency68" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency69" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency70" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency71" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency72" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency73" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency74" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency75" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency76" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency77" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency78" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomCurrency79" type="xsd:decimal" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="PartnerStatus" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15Id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByAlias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByEMailAddr" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByFirstName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByFullName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByIntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByLastName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="UpdatedByUserSignInId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByAlias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByEMailAddr" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByFirstName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByFullName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByIntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByLastName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CreatedByUserSignInId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject1IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject2IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject3IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject4IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject5IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject6IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject7IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject8IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject9IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject10IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject11IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject12IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject13IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject14IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15ExternalSystemId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="CustomObject15IntegrationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Description" type="xsd:string" />
+        </xsd:all>
+        <xsd:attribute name="operation" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="AccountExecute_Input">
+    <part name="AccountExecute_Input" element="tns:AccountExecute_Input" />
+  </message>
+  <message name="AccountExecute_Output">
+    <part name="AccountExecute_Output" element="tns:AccountExecute_Output" />
+  </message>
+  <message name="AccountUpdate_Input">
+    <part name="AccountUpdate_Input" element="tns:AccountUpdate_Input" />
+  </message>
+  <message name="AccountUpdate_Output">
+    <part name="AccountUpdate_Output" element="tns:AccountUpdate_Output" />
+  </message>
+  <message name="AccountQueryPage_Input">
+    <part name="AccountQueryPage_Input" element="tns:AccountQueryPage_Input" />
+  </message>
+  <message name="AccountQueryPage_Output">
+    <part name="AccountQueryPage_Output" element="tns:AccountQueryPage_Output" />
+  </message>
+  <message name="AccountInsert_Input">
+    <part name="AccountInsert_Input" element="tns:AccountInsert_Input" />
+  </message>
+  <message name="AccountInsert_Output">
+    <part name="AccountInsert_Output" element="tns:AccountInsert_Output" />
+  </message>
+  <message name="AccountDelete_Input">
+    <part name="AccountDelete_Input" element="tns:AccountDelete_Input" />
+  </message>
+  <message name="AccountDelete_Output">
+    <part name="AccountDelete_Output" element="tns:AccountDelete_Output" />
+  </message>
+  <portType name="Account">
+    <operation name="AccountExecute">
+      <input message="tns:AccountExecute_Input" />
+      <output message="tns:AccountExecute_Output" />
+    </operation>
+    <operation name="AccountUpdate">
+      <input message="tns:AccountUpdate_Input" />
+      <output message="tns:AccountUpdate_Output" />
+    </operation>
+    <operation name="AccountQueryPage">
+      <input message="tns:AccountQueryPage_Input" />
+      <output message="tns:AccountQueryPage_Output" />
+    </operation>
+    <operation name="AccountInsert">
+      <input message="tns:AccountInsert_Input" />
+      <output message="tns:AccountInsert_Output" />
+    </operation>
+    <operation name="AccountDelete">
+      <input message="tns:AccountDelete_Input" />
+      <output message="tns:AccountDelete_Output" />
+    </operation>
+  </portType>
+  <binding name="Account" type="tns:Account">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="AccountExecute">
+      <soap:operation soapAction="document/urn:crmondemand/ws/ecbs/account/:AccountExecute" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AccountUpdate">
+      <soap:operation soapAction="document/urn:crmondemand/ws/ecbs/account/:AccountUpdate" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AccountQueryPage">
+      <soap:operation soapAction="document/urn:crmondemand/ws/ecbs/account/:AccountQueryPage" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AccountInsert">
+      <soap:operation soapAction="document/urn:crmondemand/ws/ecbs/account/:AccountInsert" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AccountDelete">
+      <soap:operation soapAction="document/urn:crmondemand/ws/ecbs/account/:AccountDelete" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="Account">
+    <port name="Account" binding="tns:Account">
+      <soap:address location="https://secure-ausomxeea.crmondemand.com/Services/Integration" />
+    </port>
+  </service>
+</definitions>

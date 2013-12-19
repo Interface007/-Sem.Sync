@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions targetNamespace="urn:crmondemand/ws/odesabs/picklist/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:crmondemand/ws/odesabs/picklist/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:apData="urn:/crmondemand/xml/picklist/data" xmlns:apQuery="urn:/crmondemand/xml/picklist/query">
+    <types>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:crmondemand/ws/odesabs/picklist/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="urn:/crmondemand/xml/picklist/query"></xsd:import>
+            <xsd:import namespace="urn:/crmondemand/xml/picklist/data"></xsd:import>
+            <xsd:element name="PicklistReadAll_Input">
+                <xsd:complexType></xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PicklistReadAll_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:ListOfPicklistSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PicklistRead_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apQuery:PicklistSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PicklistRead_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:ListOfPicklistSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PicklistUpsert_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="apData:PicklistSet"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PicklistUpsert_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Status" type="xsd:string"></xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:/crmondemand/xml/picklist/data" xmlns:apData="urn:/crmondemand/xml/picklist/data" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="ListOfPicklistSet" type="apData:ListOfPicklistSetData"></xsd:element>
+            <xsd:complexType name="ListOfPicklistSetData">
+                <xsd:sequence>
+                    <xsd:element ref="apData:PicklistSet" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="PicklistSet" type="apData:PicklistSetData"></xsd:element>
+            <xsd:complexType name="PicklistSetData">
+                <xsd:all>
+                    <xsd:element name="ObjectName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="ListOfPicklists" type="apData:ListOfPicklistsData" maxOccurs="1" minOccurs="1"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfPicklistsData">
+                <xsd:sequence>
+                    <xsd:element name="Picklist" type="apData:PicklistData" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PicklistData">
+                <xsd:all>
+                    <xsd:element name="Name" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="ListOfPicklistValues" type="apData:ListOfPicklistValuesData" maxOccurs="1" minOccurs="1"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfPicklistValuesData">
+                <xsd:sequence>
+                    <xsd:element name="PicklistValue" type="apData:PicklistValueData" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PicklistValueData">
+                <xsd:all>
+                    <xsd:element name="ValueId" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="Disabled" type="xsd:boolean" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="ListOfValueTranslations" type="apData:ListOfValueTranslationsData" maxOccurs="1" minOccurs="1"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfValueTranslationsData">
+                <xsd:sequence>
+                    <xsd:element name="ValueTranslation" type="apData:ValueTranslationData" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ValueTranslationData">
+                <xsd:all>
+                    <xsd:element name="LanguageCode" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="Value" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="Order" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:/crmondemand/xml/picklist/query" xmlns:apQuery="urn:/crmondemand/xml/picklist/query" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="PicklistSet" type="apQuery:PicklistSetQuery"></xsd:element>
+            <xsd:complexType name="PicklistSetQuery">
+                <xsd:all>
+                    <xsd:element name="ObjectName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="ListOfPicklists" type="apQuery:ListOfPicklistsQuery" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfPicklistsQuery">
+                <xsd:sequence>
+                    <xsd:element name="Picklist" type="apQuery:PicklistQuery" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PicklistQuery">
+                <xsd:all>
+                    <xsd:element name="Name" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+                    <xsd:element name="ListOfPicklistValues" type="apQuery:ListOfPicklistValuesQuery" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfPicklistValuesQuery">
+                <xsd:sequence>
+                    <xsd:element name="PicklistValue" type="apQuery:PicklistValueQuery" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PicklistValueQuery">
+                <xsd:all>
+                    <xsd:element name="ValueId" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="Disabled" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="ListOfValueTranslations" type="apQuery:ListOfValueTranslationsQuery" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfValueTranslationsQuery">
+                <xsd:sequence>
+                    <xsd:element name="ValueTranslation" type="apQuery:ValueTranslationQuery" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ValueTranslationQuery">
+                <xsd:all>
+                    <xsd:element name="LanguageCode" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="Value" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element name="Order" type="apQuery:Empty" maxOccurs="1" minOccurs="0"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Empty"></xsd:complexType>
+        </xsd:schema>
+    </types>
+    <message name="PicklistReadAll_Input">
+        <part name="PicklistReadAll_Input" element="tns:PicklistReadAll_Input"></part>
+    </message>
+    <message name="PicklistReadAll_Output">
+        <part name="PicklistReadAll_Output" element="tns:PicklistReadAll_Output"></part>
+    </message>
+    <message name="PicklistRead_Input">
+        <part name="PicklistRead_Input" element="tns:PicklistRead_Input"></part>
+    </message>
+    <message name="PicklistRead_Output">
+        <part name="PicklistRead_Output" element="tns:PicklistRead_Output"></part>
+    </message>
+    <message name="PicklistUpsert_Input">
+        <part name="PicklistUpsert_Input" element="tns:PicklistUpsert_Input"></part>
+    </message>
+    <message name="PicklistUpsert_Output">
+        <part name="PicklistUpsert_Output" element="tns:PicklistUpsert_Output"></part>
+    </message>
+    <portType name="PicklistService">
+        <operation name="PicklistReadAll">
+            <input message="tns:PicklistReadAll_Input"></input>
+            <output message="tns:PicklistReadAll_Output"></output>
+        </operation>
+        <operation name="PicklistRead">
+            <input message="tns:PicklistRead_Input"></input>
+            <output message="tns:PicklistRead_Output"></output>
+        </operation>
+        <operation name="PicklistUpsert">
+            <input message="tns:PicklistUpsert_Input"></input>
+            <output message="tns:PicklistUpsert_Output"></output>
+        </operation>
+    </portType>
+    <binding name="PicklistService" type="tns:PicklistService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+        <operation name="PicklistReadAll">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/Picklist/:PicklistReadAll"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+        <operation name="PicklistRead">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/Picklist/:PicklistRead"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+        <operation name="PicklistUpsert">
+            <soap:operation soapAction="document/urn:crmondemand/ws/odesabs/Picklist/:PicklistUpsert"></soap:operation>
+            <input>
+                <soap:body use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:body use="literal"></soap:body>
+            </output>
+        </operation>
+    </binding>
+    <service name="PicklistService">
+        <port name="PicklistService" binding="tns:PicklistService">
+            <soap:address location="https://secure-ausomxeea.crmondemand.com/Services/cte/PicklistService"></soap:address>
+        </port>
+    </service>
+</definitions>

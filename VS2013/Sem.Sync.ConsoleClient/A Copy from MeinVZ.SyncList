@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Delete previous export/work files">
+    <Command>DeletePattern</Command>
+    <TargetStorePath>{FS:WorkingFolder}\MeinVZ.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export from MeinVZ to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.MeinVZ.ContactClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\MeinVZ.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="open export xml file">
+    <Command>OpenDocument</Command>
+    <CommandParameter>{FS:WorkingFolder}\MeinVZ.xmlcontact</CommandParameter>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

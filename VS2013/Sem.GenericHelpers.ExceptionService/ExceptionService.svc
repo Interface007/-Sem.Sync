@@ -1,0 +1,4 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" 
+    CodeBehind="ExceptionService.svc.cs" 
+    Service="Sem.GenericHelpers.ExceptionService.ExceptionService, Sem.GenericHelpers.ExceptionService" 
+    Factory="Sem.GenericHelpers.ExceptionService.HostFactory, Sem.GenericHelpers.ExceptionService" %>
