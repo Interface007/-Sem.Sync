@@ -50,7 +50,6 @@
                 <File Id='Connector.Exchange.resources'     Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources.dll' />
                 <File Id='Connector.Filesystem.resources'   Name='Sem.Sync.Connector.Filesystem.resources.dll' />
                 <File Id='Connector.Outlook.resources'      Name='Sem.Sync.Connector.Outlook.resources.dll' />
-                <File Id='Connector.Outlook2003.resources'  Name='Sem.Sync.Connector.Outlook2003.resources.dll' />
                 <File Id='Connector.Outlook2010.resources'  Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
                 <File Id='Connector.Xing.resources'         Name='Sem.Sync.Connector.Xing.resources.dll' />
 
@@ -135,7 +134,6 @@
             <Component Id="ConnectorOffice"         Guid="{BCE03F05-C34C-40B1-9914-4EE4EC5DC334}">
               <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll'     KeyPath='yes'/>
               <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
-              <File Id='Sem.Sync.Connector.Outlook2003'     Name='Sem.Sync.Connector.Outlook2003.dll' />
             </Component>
 
             <Component Id="Documentation"           Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}">
