@@ -132,9 +132,8 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Sem.GenericHelpers.Contracts, Version=2010.911.3923.37688, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>C:\CodePlex01\SemSync\VS2010\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sem.GenericHelpers.Contracts">
+      <HintPath>..\ExternalAssemblies\Bouncer\Sem.GenericHelpers.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
