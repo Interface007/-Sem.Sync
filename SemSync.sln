@@ -195,9 +195,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Web.SilverContacts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.Web.SilverContacts.Web", "Sem.Sync.Web.SilverContacts.Web\Sem.Sync.Web.SilverContacts.Web.csproj", "{8AA04AA0-08FA-4E2A-944E-6168AA0659A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sem.Sync.SyncManager", "Sem.Sync.SyncManager\Sem.Sync.SyncManager.csproj", "{052865ED-8194-494C-91AE-73313179BC32}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 61
+		SccNumberOfProjects = 62
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs01
 		SccLocalPath0 = .
@@ -441,6 +443,10 @@ Global
 		SccProjectTopLevelParentUniqueName60 = SemSync.sln
 		SccProjectName60 = Sem.Sync.Web.SilverContacts
 		SccLocalPath60 = Sem.Sync.Web.SilverContacts
+		SccProjectUniqueName61 = Sem.Sync.SyncManager\\Sem.Sync.SyncManager.csproj
+		SccProjectTopLevelParentUniqueName61 = SemSync.sln
+		SccProjectName61 = Sem.Sync.SyncManager
+		SccLocalPath61 = Sem.Sync.SyncManager
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (Code Analysis)|Any CPU = Debug (Code Analysis)|Any CPU
@@ -2416,6 +2422,41 @@ Global
 		{8AA04AA0-08FA-4E2A-944E-6168AA0659A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8AA04AA0-08FA-4E2A-944E-6168AA0659A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8AA04AA0-08FA-4E2A-944E-6168AA0659A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (Code Analysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (Code Analysis)|Any CPU.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (Code Analysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (Code Analysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (Code Analysis)|x86.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (CodeAnalysis)|Any CPU.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (CodeAnalysis)|Any CPU.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (CodeAnalysis)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (CodeAnalysis)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug (CodeAnalysis)|x86.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Development MeinVZ|Any CPU.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Development MeinVZ|Any CPU.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Development MeinVZ|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Development MeinVZ|Mixed Platforms.Build.0 = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Development MeinVZ|x86.ActiveCfg = Debug|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Exclude Non-Standard-Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Exclude Non-Standard-Projects|Any CPU.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Exclude Non-Standard-Projects|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Exclude Non-Standard-Projects|Mixed Platforms.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Exclude Non-Standard-Projects|x86.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Integration Test|Any CPU.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Integration Test|Any CPU.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Integration Test|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Integration Test|Mixed Platforms.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Integration Test|x86.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{052865ED-8194-494C-91AE-73313179BC32}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2478,6 +2519,7 @@ Global
 		{5E6D43B1-CD8D-46BF-B425-22B1D6378F82} = {F3AF3F0D-D657-4074-85F6-0AF8669D3B66}
 		{12CDAB31-6327-448F-BFA2-F26EC8F8392F} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
 		{D9563118-8480-45B0-A20C-737ABA994069} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
+		{052865ED-8194-494C-91AE-73313179BC32} = {4A76460C-2024-4B3D-81FE-8C4A3F1570AD}
 		{A86D2CB9-2907-4ABE-8F8C-31E76994CE85} = {F208BEB1-10C7-4CB6-9EE2-606CEAAE339E}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
