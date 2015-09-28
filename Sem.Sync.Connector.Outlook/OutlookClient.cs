@@ -918,7 +918,7 @@ namespace Sem.Sync.Connector.Outlook
             }
 
             var guid = newId;
-            if (appointmentList != null && appointmentList.Where(x => x.Id == guid).Count() > 0)
+            if (appointmentList != null && appointmentList.Any(x => x.Id == guid))
             {
                 newId = Guid.NewGuid();
             }

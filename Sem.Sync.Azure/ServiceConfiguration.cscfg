@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<ServiceConfiguration serviceName="Sem.Sync.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Sem.Sync.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" schemaVersion="2013-10.2.2">
   <Role name="Sem.Sync.Azure.Service">
     <Instances count="1" />
     <ConfigurationSettings>

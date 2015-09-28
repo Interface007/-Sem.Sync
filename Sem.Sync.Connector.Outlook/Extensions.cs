@@ -14,7 +14,6 @@ namespace Sem.Sync.Connector.Outlook
     using Microsoft.Office.Interop.Outlook;
 
     using Sem.Sync.Connector.Outlook.Properties;
-    using Sem.Sync.SyncBase;
     using Sem.Sync.SyncBase.DetailData;
 
     /// <summary>

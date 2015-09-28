@@ -83,12 +83,6 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sem.Sync.Azure.Ui\Sem.Sync.Azure.Ui.csproj">
-      <Project>{30739798-6B82-4039-8840-F1AD783DE1AD}</Project>
-      <Name>Sem.Sync.Azure.Ui</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
