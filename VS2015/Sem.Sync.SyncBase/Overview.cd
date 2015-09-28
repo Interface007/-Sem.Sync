@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Sem.Sync.SyncBase.DetailData.AddressDetail" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAIAgAAACEoBAAAAICAAAAAIAAAAAAIAEEAiQ=</HashCode>
+      <FileName>DetailData\AddressDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ConnectorInformation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAACAAAgAAIAABACAAQAgAAEAAAAAAAACACAAAA=</HashCode>
+      <FileName>DetailData\ConnectorInformation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.InstantMessengerAddresses" Collapsed="true">
+    <Position X="20" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAQAABAAgAAAAAAAAQAA=</HashCode>
+      <FileName>DetailData\InstantMessengerAddresses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.MatchingEntry" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAAAgAA=</HashCode>
+      <FileName>DetailData\MatchingEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.PersonName" Collapsed="true">
+    <Position X="23.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEBAAABAAAAEAAAQAIACEAAAAgAAACAACAAIABg=</HashCode>
+      <FileName>DetailData\PersonName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.PhoneNumber" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQAAgAAAAAAEgEAAAAAEAAAAAIABAAAAAAAAAiA=</HashCode>
+      <FileName>DetailData\PhoneNumber.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ReplacementLists" Collapsed="true">
+    <Position X="21.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAIAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\ReplacementLists.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.SyncData" Collapsed="true">
+    <Position X="16.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEQAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\SyncData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.SyncWorkFlow" Collapsed="true">
+    <Position X="18.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAkAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\SyncWorkFlow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.BusinessCertificate" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\BusinessCertificate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.BusinessHistoryEntry" Collapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAgAAAAAEAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\BusinessHistoryEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ContactReference" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAACAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\ContactReference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.EducationEntry" Collapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAAAAAAAAAAAAAAIAAAABAIAAAAAAAAQ=</HashCode>
+      <FileName>DetailData\EducationEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ImageEntry" Collapsed="true">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\ImageEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.LanguageKnowledge" Collapsed="true">
+    <Position X="21.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\LanguageKnowledge.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ProfileIdentifierDictionary" Collapsed="true">
+    <Position X="18.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAMAAAAAEhAgAAAAAAAAAAIAAAAAAgAAAAAA=</HashCode>
+      <FileName>DetailData\ProfileIdentifiers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.ProfileIdInformation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAQEgBCAAgAAAAAABIAAAAAAAAAAAiA=</HashCode>
+      <FileName>DetailData\ProfileIdInformation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.SourceSpecificAttribute" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>DetailData\SourceSpecificAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.StdCalendarItem" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAgAAAICAkAEgEAAIIAEQAAAAIIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\StdCalendarItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.StdContact" Collapsed="true">
+    <Position X="14" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JQBhAAhwAYAkUBAUAGAgAASBARAQMAApIACAAAAgEAg=</HashCode>
+      <FileName>DetailData\StdContact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.SyncBase.DetailData.StdElement" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAIAAAAQAAAAAAAAAAAAAJAAAAAACAAAAAgA=</HashCode>
+      <FileName>DetailData\StdElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.AddressFormatting" Collapsed="true">
+    <Position X="16.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\AddressDetail.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.CountryCode" Collapsed="true">
+    <Position X="20" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>i3NxbLfTpzt2m/mA3ZW/1sd6thg+f/jcE3f2v9Xg3b4=</HashCode>
+      <FileName>DetailData\CountryCode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.Gender" Collapsed="true">
+    <Position X="23.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>DetailData\Genders.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.ProfileIdentifierType" Collapsed="true">
+    <Position X="18.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAgACIAAAAAEAAIAEAJIAgAACQAAQAAAAAQAAAAAAI=</HashCode>
+      <FileName>DetailData\ProfileIdentifierType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.BusyStatus" Collapsed="true">
+    <Position X="18.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAACI=</HashCode>
+      <FileName>DetailData\BusyStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.EducationalCertificateType" Collapsed="true">
+    <Position X="21.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgAAhAAIAAAAAICAAAAAAAAAAAAAAIAAEAAAAAAAAAA=</HashCode>
+      <FileName>DetailData\EducationalCertificateType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.KnowledgeLevel" Collapsed="true">
+    <Position X="16.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAABQ=</HashCode>
+      <FileName>DetailData\KnowledgeLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.RecurrenceState" Collapsed="true">
+    <Position X="20" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAACAAAAACAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>DetailData\RecurrenceState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.RelationshipStatus" Collapsed="true">
+    <Position X="21.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAIAAAAAAAACAAAKAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>DetailData\RelationshipStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sem.Sync.SyncBase.DetailData.ResponseStatus" Collapsed="true">
+    <Position X="23.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAIAAAAAAAAAAAIAIAAAEAAAAAAAAACA=</HashCode>
+      <FileName>DetailData\ResponseStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

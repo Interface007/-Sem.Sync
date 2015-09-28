@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="copy file system to vCard">
+    <Command>CopyAll</Command>
+    <CommandParameter></CommandParameter>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\Outlook.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.ContactClientVCards</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\vCards</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="copy vCard to file system">
+    <Command>CopyAll</Command>
+    <CommandParameter></CommandParameter>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.ContactClientVCards</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\vCards</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdElement</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\vCards.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

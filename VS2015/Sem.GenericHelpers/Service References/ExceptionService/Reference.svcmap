@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f3457dd8-dc1b-4093-9f04-5849fea1ce0f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://www.svenerikmatzen.info/content/ExceptionService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ExceptionService2.xsd" MetadataType="Schema" ID="f9f433b9-e088-4148-a43d-bc7de05b0e9c" SourceId="1" SourceUrl="http://www.svenerikmatzen.info/Content/ExceptionService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ExceptionService2.wsdl" MetadataType="Wsdl" ID="2d7012f4-b022-4624-86a2-e87bcf72a917" SourceId="1" SourceUrl="http://www.svenerikmatzen.info/Content/ExceptionService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="ExceptionService21.wsdl" MetadataType="Wsdl" ID="2c85be1e-ba9d-4786-8c71-bd8638d32f1b" SourceId="1" SourceUrl="http://www.svenerikmatzen.info/Content/ExceptionService.svc?wsdl" />
+    <MetadataFile FileName="ExceptionService21.xsd" MetadataType="Schema" ID="85b9ae69-2274-44ca-8b5f-9db548d33fda" SourceId="1" SourceUrl="http://www.svenerikmatzen.info/Content/ExceptionService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ExceptionService1.disco" MetadataType="Disco" ID="bafecc1b-aa8b-4c6b-bc3d-2ab11a242837" SourceId="1" SourceUrl="http://www.svenerikmatzen.info/Content/ExceptionService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

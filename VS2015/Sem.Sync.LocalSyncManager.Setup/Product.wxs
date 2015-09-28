@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+>
+  <!--
+  This setup project is not very complex, but it's containing a GUI, writes registry 
+  entries and files, creates folders and shortcuts. As you can see, it's not complex 
+  to write sophisticating setup programs with this toolkit.
+  If we get more files we will split the file into sub files for the features for the
+  setup.
+  There's a lot of whitespace inside this file - this helps comparing the different 
+  setup files and copy features from one file to another, so dont't remove it.
+  -->
+  <Product Name="Sem.Sync Local Sync Manager" Manufacturer="Sven Erik Matzen" Id="*" UpgradeCode="{7DBC91F2-890F-40C6-9B27-D0CE94DD467A}" Language="1033" Version="1.10.1.18">
+
+    <Package InstallerVersion="200" Compressed="yes" 
+             Description="Synchronization client for synchronizing Contacts with Xing, Outlook, Filesystem (Xml, CSV, vCards), Wer-Kennt-Wen.de, ..." 
+             Comments="This client does provide a generic UI to use various Sem.Sync-connectors to synchronize contacts." 
+             Manufacturer="Sven Erik Matzen" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    <PropertyRef Id="NETFRAMEWORK40CLIENT"/>
+
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
+    </Condition>
+
+    <!-- We will install all assemblies into the programs folder, because we don't have a 
+     strong name for the assemblies to sign and install them into the gac. This also 
+     will enable easier versioning, because we will not have to deal with incompatible
+     versions inside the gac. -->
+
+    <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="SemFolder" Name="Sven Erik Matzen">
+          <!-- !!! The source is the RELEASE folder, so we need a successfull release compile !!! -->
+          <Directory Id="INSTALLLOCATION" Name="Sem.Sync.LocalSyncManager" FileSource="..\bin">
+            <Directory Id="SyncLists" Name="SyncLists" FileSource="..\Sem.Sync.LocalSyncManager\SyncLists">
+              <Component Id="SyncLists"             Guid="{C9C9BA56-9E25-4ADB-9B74-FC1D5B18CAA2}">
+                <File Id='SyncLists.SimpleCopy'             Name='Template SimpleCopy.TSyncList'          KeyPath='yes' />
+                <File Id='SyncLists.Syncronize'             Name='Template Syncronize.TSyncList' />
+                <File Id='SyncLists.GetRelations'           Name='Template Get Contact Relations.TSyncList' />
+                <File Id='SyncLists.RemoveCalDuplicates'    Name='RemoveDuplicatesFromOutlook.SyncList' />
+              </Component>
+            </Directory>
+
+            <Directory Id="ResourcesDE" Name="de" FileSource="..\bin\de">
+              <Component Id="ResourcesDE"           Guid="{F54F58EF-A2CB-4695-8B04-39F11CB31046}">
+                <File Id='Connector.Exchange.resources'     Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.resources.dll' />
+                <File Id='Connector.Filesystem.resources'   Name='Sem.Sync.Connector.Filesystem.resources.dll' />
+                <File Id='Connector.Outlook.resources'      Name='Sem.Sync.Connector.Outlook.resources.dll' />
+                <File Id='Connector.Outlook2010.resources'  Name='Sem.Sync.Connector.Outlook2010.resources.dll' />
+                <File Id='Connector.Xing.resources'         Name='Sem.Sync.Connector.Xing.resources.dll' />
+
+                <File Id='LocalSyncManager.resources'       Name='Sem.Sync.LocalSyncManager.resources.dll' KeyPath='yes' />
+                <File Id='OutlookWithXing.resources'        Name='Sem.Sync.OutlookWithXing.resources.dll' />
+
+                <File Id='SharedUI.Common.resources'        Name='Sem.Sync.SharedUI.Common.resources.dll' />
+                <File Id='SharedUI.WinForms.resources'      Name='Sem.Sync.SharedUI.WinForms.resources.dll' />
+                <File Id='SyncBase.resources'               Name='Sem.Sync.SyncBase.resources.dll' />
+              </Component>
+            </Directory>
+
+            <Component Id="ManagerExecutable"       Guid="{7F3569D2-598D-462A-A537-9D6531FCD7E0}">
+              <!-- the main executable -->
+              <File Id='Sem.Sync.LocalSyncManager'          Name='Sem.Sync.LocalSyncManager.exe'          KeyPath='yes'>
+                <Shortcut Id="MainExecutableIcon"           Name="Sem.Sync Local Sync Manager" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.LocalSyncManager.exe" IconIndex="0" />
+              </File>
+
+              <!-- some configuration files -->
+              <File Id='Sem.Sync.LocalSyncManager.exe.config' Name='Sem.Sync.LocalSyncManager.exe.config' />
+            </Component>
+
+            <Component Id="XingExecutable"          Guid="{399EDAB6-0BDE-4936-BAEA-2D090213F31F}">
+              <!-- the main executable -->
+              <File Id='SemSyncOutlookWithXing'             Name='Sem.Sync.OutlookWithXing.exe'           KeyPath='yes'>
+                <Shortcut Id="SemSyncOutlookWithXingIcon"   Name="Sem.Sync Xing to Outlook" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" Icon="Sem.Sync.OutlookWithXing.exe" IconIndex="0" />
+              </File>
+
+              <!-- some configuration files -->
+              <File Id='commands.xml' Name='commands.xml' />
+              <File Id='Sem.Sync.OutlookWithXing.exe.config' Name='Sem.Sync.OutlookWithXing.exe.config' />
+            </Component>
+
+            <Component Id="BaseLibrary"             Guid="{C003C46C-DC5F-49F1-AA1A-5AAEC0F5F7C8}">
+              <RemoveFolder Id='ProgramMenuDir'             On='uninstall' />
+
+              <File Id='Sem.GenericHelpers'                 Name='Sem.GenericHelpers.dll'                 KeyPath='yes' />
+              <File Id='Sem.GenericHelpers.Contracts'       Name='Sem.GenericHelpers.Contracts.dll' />
+              <File Id='Sem.Sync.SyncBase'                  Name='Sem.Sync.SyncBase.dll' />
+              <File Id='Sem.Sync.SharedUI.WinForms'         Name='Sem.Sync.SharedUI.WinForms.dll' />
+              <File Id='Sem.Sync.SharedUI.Common'           Name='Sem.Sync.SharedUI.Common.dll' />
+              <File Id='Sem.Sync.SyncBase.Commands'         Name='Sem.Sync.SyncBase.Commands.dll' />
+              <File Id='ExpressionSerialization'            Name='ExpressionSerialization.dll' />
+            </Component>
+
+            <Component Id="OptionalConnectors"      Guid="{A3C20695-BBBA-4EC7-ADC2-C11EDE3DEF92}">
+              
+              <File Id='Sem.Sync.Connector.ExcelOpenXml'    Name='Sem.Sync.Connector.MsExcelOpenXml.dll'  KeyPath='yes'/>
+              <File Id='DocumentFormat.OpenXml'             Name='DocumentFormat.OpenXml.dll' />
+
+              <File Id='Sem.Sync.Connector.Google'          Name='Sem.Sync.Connector.Google.dll' />
+              <File Id='Google.GData.Client'                Name='Google.GData.Client.dll' />
+              <File Id='Google.GData.Contacts'              Name='Google.GData.Contacts.dll' />
+              <File Id='Google.GData.Extensions'            Name='Google.GData.Extensions.dll' />
+
+              <File Id='Sem.Sync.Connector.ActiveDirectory' Name='Sem.Sync.Connector.ActiveDirectory.dll' />
+              <File Id='Sem.Sync.Connector.Console'         Name='Sem.Sync.Connector.Console.dll' />
+              <File Id='Sem.Sync.Connector.ExchangeWSMA'    Name='Sem.Sync.Connector.ExchangeWebServiceManagedApi.dll' />
+              <File Id='Sem.Sync.Connector.Facebook'        Name='Sem.Sync.Connector.Facebook.dll' />
+              <File Id='Sem.Sync.Connector.Filesystem'      Name='Sem.Sync.Connector.Filesystem.dll' />
+              <File Id='Sem.Sync.Connector.Ftp'             Name='Sem.Sync.Connector.Ftp.dll' />
+              <File Id='Sem.Sync.Connector.MeinVZ'          Name='Sem.Sync.Connector.MeinVZ.dll' />
+              <File Id='Sem.Sync.Connector.Memory'          Name='Sem.Sync.Connector.Memory.dll' />
+              <File Id='Sem.Sync.Connector.MsAccess'        Name='Sem.Sync.Connector.MsAccess.dll' />
+              <File Id='Sem.Sync.Connector.Statistic'       Name='Sem.Sync.Connector.Statistic.dll' />
+              <File Id='Sem.Sync.Connector.StayFriends'     Name='Sem.Sync.Connector.StayFriends.dll' />
+              <File Id='Sem.Sync.Connector.WerKenntWen'     Name='Sem.Sync.Connector.WerKenntWen.dll' />
+            
+              <File Id='Sem.Sync.Connector.FritzBox'        Name='Sem.Sync.Connector.FritzBox.dll' />
+              <File Id='Fritz.Net'                          Name='FritzBoxNET.dll' />
+
+            </Component>
+
+            <Component Id="ConnectorXing"           Guid="{7783005E-6435-41A3-9351-D6AF01AD4C19}">
+              <File Id='Sem.Sync.Connector.Xing'            Name='Sem.Sync.Connector.Xing.dll'            KeyPath='yes'/>
+            </Component>
+
+            <Component Id="ConnectorSdx"            Guid="{D0569A09-3D8C-4A0F-ADD4-CDF4A61AA628}">
+              <File Id='Sdx.Sync.Connector.OCOD'            Name='Sdx.Sync.Connector.OracleCrmOnDemand.dll' KeyPath='yes'/>
+            </Component>
+
+            <Component Id="ConnectorOffice"         Guid="{BCE03F05-C34C-40B1-9914-4EE4EC5DC334}">
+              <File Id='Sem.Sync.Connector.Outlook2010'     Name='Sem.Sync.Connector.Outlook2010.dll'     KeyPath='yes'/>
+              <File Id='Sem.Sync.Connector.Outlook'         Name='Sem.Sync.Connector.Outlook.dll' />
+            </Component>
+
+            <Component Id="Documentation"           Guid="{DB366FAD-95F9-4587-B2AD-B4965C88F645}">
+              <File Id='Sem.Sync.HelpFile'                  Name='Sem_Sync_Documentation.chm' Source='..\Sem_Sync_Documentation.chm' KeyPath='yes' />
+            </Component>
+
+            <Component Id="Description"             Guid="{D449F541-25EE-4DC5-88A3-AD7B61BD10BF}">
+              <File Id='Sem.Sync.DescriptionPdf'            Name='SemSync.pdf'                Source='..\SemSync.pdf' KeyPath='yes'>
+                <Shortcut Id="DescriptionIcon"              Name="Sem.Sync Description" Directory="ProgramMenuDir" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+              </File>
+            </Component>
+
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="PMenu">
+        <Directory Id="ProgramMenuDir" Name="Sven Erik Matzen" />
+      </Directory>
+
+    </Directory>
+
+    <Feature Id="XingFeature" Title="Simple Xing to Outlook Client"   Level="1" 
+             Description="This will only install the libraries needed to sync from Xing to Outlook with a very easy to use user interface.">
+      <ComponentRef Id="XingExecutable"     />
+      <ComponentRef Id="BaseLibrary"        />
+      <ComponentRef Id="ConnectorXing"      />
+      <ComponentRef Id="ConnectorOffice"    />
+    </Feature>
+    
+    <Feature Id="ManagerFeature" Title="Synchronization Manager"      Level="1" 
+             Description="This is the application that enables to communicate with all connectors - the user iterface is slightly more complex that the Xing to Outlook application.">
+      <ComponentRef Id="ManagerExecutable"  />
+      <ComponentRef Id="BaseLibrary"        />
+      <ComponentRef Id="SyncLists"          />
+      <ComponentRef Id="ConnectorXing"      />
+      <ComponentRef Id="ConnectorOffice"    />
+      <ComponentRef Id="OptionalConnectors" />
+    </Feature>
+
+    <Feature Id="SdxConnectors" Title="Oracle CRM on Demand Connector" Level="1"
+             
+             Description="BETA-Connector for Oracle CRM on Demand. This connector is not permanently tested and might alter your data!">
+      <ComponentRef Id="ConnectorSdx"        />
+    </Feature>
+
+    <Feature Id="Documentation" Title="Developers Documentation"      Level="1"
+             Description="This installs the complete documentation - help file and PDF that describes the background of this project.">
+      <ComponentRef Id="Documentation"      />
+      <ComponentRef Id="Description"        />
+
+    </Feature>
+
+    <Feature Id="Localized" Title="Localized Resources (DE)"          Level="1"
+             Description="German resource files to get the localized UI and messages.">
+      <ComponentRef Id="ResourcesDE"        />
+    </Feature>
+
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="UI-Elements\License.rtf" />
+
+    <Icon Id="Sem.Sync.OutlookWithXing.exe"   SourceFile="..\bin\Sem.Sync.OutlookWithXing.exe" />
+    <Icon Id="Sem.Sync.LocalSyncManager.exe"  SourceFile="..\bin\Sem.Sync.LocalSyncManager.exe" />
+
+  </Product>
+</Wix>

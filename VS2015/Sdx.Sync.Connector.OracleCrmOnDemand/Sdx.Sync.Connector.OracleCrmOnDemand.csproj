@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F68CEEB2-C8E7-4A7D-ABD1-F5F02B4C84DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sdx.Sync.Connector.OracleCrmOnDemand</RootNamespace>
+    <AssemblyName>Sdx.Sync.Connector.OracleCrmOnDemand</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="ContactClient.cs" />
+    <Compile Include="ContactAccess.cs" />
+    <Compile Include="ContactClientConfiguration.cs">
+      <DependentUpon>ContactClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContactClientConfigurationData.cs">
+      <DependentUpon>ContactClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContactClientConfigurationEditor.cs">
+      <SubType>Form</SubType>
+      <DependentUpon>ContactClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContactClientConfigurationEditor.Designer.cs">
+      <DependentUpon>ContactClientConfigurationEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converter.cs" />
+    <Compile Include="FieldsAdmin.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\AccountSR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ActivitySR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ContactSR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\FieldManagementSR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Documentation\Synchronisierung Oracle CRM on Demand mit Outlook.docx" />
+    <None Include="Service References\ActivitySR\Activity.wsdl" />
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_DeleteChild_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_Delete_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_InsertChild_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_InsertOrUpdate_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_Insert_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_QueryPage_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_UpdateChild_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ActivitySR\Sdx.Sync.Connector.OracleCrmOnDemand.ActivitySR.ActivityNWS_Activity_Update_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ContactSR\Contact.wsdl" />
+    <None Include="Service References\FieldManagementSR\FieldManagementService.wsdl" />
+    <None Include="Service References\FieldManagementSR\Sdx.Sync.Connector.OracleCrmOnDemand.FieldManagementSR.FieldManagementCreate_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FieldManagementSR\Sdx.Sync.Connector.OracleCrmOnDemand.FieldManagementSR.FieldManagementReadAll_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FieldManagementSR\Sdx.Sync.Connector.OracleCrmOnDemand.FieldManagementSR.FieldManagementRead_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FieldManagementSR\Sdx.Sync.Connector.OracleCrmOnDemand.FieldManagementSR.FieldManagementUpsert_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Settings.StyleCop" />
+    <None Include="WSDL\CustomRecordTypeService.wsdl" />
+    <None Include="WSDL\CustomWebTabService.wsdl" />
+    <None Include="WSDL\FieldManagementService.wsdl" />
+    <None Include="WSDL\PicklistService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AccountSR\" />
+    <WCFMetadataStorage Include="Service References\ActivitySR\" />
+    <WCFMetadataStorage Include="Service References\ContactSR\" />
+    <WCFMetadataStorage Include="Service References\FieldManagementSR\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactSR\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ContactSR\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WSDL\Account.wsdl" />
+    <None Include="WSDL\Activity.wsdl" />
+    <None Include="WSDL\Activity.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSDL\Contact.wsdl" />
+    <None Include="Documentation\OnDemWebSvcs.pdf" />
+    <None Include="Service References\AccountSR\Account.wsdl" />
+    <None Include="Service References\ContactSR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ContactSR\Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR.ContactDelete_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ContactSR\Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR.ContactExecute_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ContactSR\Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR.ContactInsert_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ContactSR\Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR.ContactQueryPage_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ContactSR\Sdx.Sync.Connector.OracleCrmOnDemand.ContactSR.ContactUpdate_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Documentation\Synchronisierung Oracle CRM on Demand mit Outlook.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\FieldManagementSR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\FieldManagementSR\configuration.svcinfo" />
+    <None Include="Service References\FieldManagementSR\configuration91.svcinfo" />
+    <None Include="Service References\ActivitySR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ActivitySR\configuration.svcinfo" />
+    <None Include="Service References\ActivitySR\configuration91.svcinfo" />
+    <None Include="Service References\AccountSR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AccountSR\configuration.svcinfo" />
+    <None Include="Service References\AccountSR\configuration91.svcinfo" />
+    <None Include="Service References\AccountSR\Sdx.Sync.Connector.OracleCrmOnDemand.AccountSR.AccountDelete_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountSR\Sdx.Sync.Connector.OracleCrmOnDemand.AccountSR.AccountExecute_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountSR\Sdx.Sync.Connector.OracleCrmOnDemand.AccountSR.AccountInsert_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountSR\Sdx.Sync.Connector.OracleCrmOnDemand.AccountSR.AccountQueryPage_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountSR\Sdx.Sync.Connector.OracleCrmOnDemand.AccountSR.AccountUpdate_Output.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ContactClientConfigurationEditor.resx">
+      <DependentUpon>ContactClientConfigurationEditor.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sem.GenericHelpers\Sem.GenericHelpers.csproj">
+      <Project>{930EBD41-0114-4B39-A89A-EBCD7C81931F}</Project>
+      <Name>Sem.GenericHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sem.Sync.SyncBase\Sem.Sync.SyncBase.csproj">
+      <Project>{4725C93E-55A0-42A5-9C61-61DC498A4308}</Project>
+      <Name>Sem.Sync.SyncBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

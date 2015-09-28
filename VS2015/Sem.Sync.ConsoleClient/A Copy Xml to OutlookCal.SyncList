@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  Workflow:
+  - detect and tag deleted entries in this-account-store-xml
+  - copy missing entries from other-account-store-xml into local-instance
+  - delete entries that have been tagged for deletion in other-account-store-xml 
+  - copy missing entries from local-instance into this-account-store-xml 
+  Assumption:
+  - we trust the other-account-store to not delete entries that may still be of interest for us
+  - we have one store-xml for each account, so we can track deletions
+  -->
+
+  <SyncDescription Name="Export from FS to memory">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\OutlookCalendar-SDX.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Memory.GenericClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <SyncDescription Name="Export from Outlook to memory">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.Memory.GenericClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <!--  -->
+
+  <SyncDescription Name="Add missing from source to target">
+    <Command>MergeMissing</Command>
+    <SourceConnector>Sem.Sync.Connector.Memory.GenericClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Memory.GenericClient</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <!--  -->
+  
+  <SyncDescription Name="Export from memory to outlook">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Memory.GenericClient</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\target.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Outlook.CalendarClient</TargetConnector>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

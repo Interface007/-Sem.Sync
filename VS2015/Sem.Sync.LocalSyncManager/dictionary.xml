@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<ReplacementLists xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BusinessCompanyName>
+    <KeyValuePair Key="Avanade Deutschland GmbH (Teil des Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (ein Joint Venture von Accenture und Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp;amp; Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)," Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture von Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (Joint Venture Accenture &amp; Microsoft)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade Deutschland GmbH (Accenture / Microsoft Joint Venture)" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade GmbH" Value="Avanade Deutschland GmbH" />
+    <KeyValuePair Key="Avanade" Value="Avanade Deutschland GmbH" />
+
+    <KeyValuePair Key="Accenture" Value="Accenture GmbH" />
+    <KeyValuePair Key="Accenture Technology Solutions" Value="Accenture GmbH" />
+
+    <KeyValuePair Key="CSC" Value="CSC Deutschland Solutions GmbH" />
+    <KeyValuePair Key="CSC Deutschland Solutions GmbH," Value="CSC Deutschland Solutions GmbH" />
+
+    <KeyValuePair Key="Commerz Systems GmbH (ehemals pdv.com Beratungs GmbH)" Value="Commerz Systems GmbH" />
+    <KeyValuePair Key="Commerz Systems GmbH (früher pdv.com Beratungs-GmbH)" Value="Commerz Systems GmbH" />
+    
+    <KeyValuePair Key="Commerzbank AG Zentrale Frankfurt a.M." Value="Commerzbank AG" />
+  </BusinessCompanyName>
+  
+  <BusinessHomepage>
+    <KeyValuePair Key="http://www.avanade.com/de/" Value="http://www.avanade.de" />
+    <KeyValuePair Key="http://www.avanade.com" Value="http://www.avanade.de" />
+    <KeyValuePair Key="https://www.commerzbank.de/" Value="http://www.commerzbank.de" />
+  </BusinessHomepage>
+  
+  <City>
+    <KeyValuePair Key="Frankfurt, Germany" Value="Frankfurt am Main" />
+    <KeyValuePair Key="Frankfurt (Main)" Value="Frankfurt am Main" />
+    <KeyValuePair Key="Frankfurt/Main" Value="Frankfurt am Main" />
+    <KeyValuePair Key="Frankfurt" Value="Frankfurt am Main" />
+    
+    <KeyValuePair Key="Kronberg" Value="Kronberg im Taunus" />
+    <KeyValuePair Key="Kronberg i. T." Value="Kronberg im Taunus" />
+    <KeyValuePair Key="Wetzlar, Hessen" Value="Wetzlar" />
+  </City>
+</ReplacementLists>

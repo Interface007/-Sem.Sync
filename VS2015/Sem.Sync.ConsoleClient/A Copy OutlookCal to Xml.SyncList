@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Export from Outlook to memory">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <SourceStorePath>:Filter(Now())</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\source.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <!--  -->
+
+  <SyncDescription Name="Export from Outlook to memory">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Outlook.CalendarClient</SourceConnector>
+    <SourceStorePath>Calendar\CoBa:Filter(Now())</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <!--  -->
+
+  <SyncDescription Name="Match using external tool">
+    <Command>MergeExternal</Command>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\source.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</TargetConnector>
+    <TargetStorePath>{FS:WorkingFolder}\target.xmlcontact</TargetStorePath>
+  </SyncDescription>
+
+  <!--  -->
+
+  <SyncDescription Name="Export from file system into excel sheet">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Connector.Filesystem.GenericClient of StdCalendarItem</SourceConnector>
+    <SourceStorePath>{FS:WorkingFolder}\target.xmlcontact</SourceStorePath>
+    <TargetConnector>Sem.Sync.Connector.Outlook.CalendarClient</TargetConnector>
+    <TargetStorePath>Calendar\CoBa:Filter(Now())</TargetStorePath>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

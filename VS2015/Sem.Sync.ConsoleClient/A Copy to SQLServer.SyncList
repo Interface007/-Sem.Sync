@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ArrayOfSyncDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <SyncDescription Name="Export from Outlook to file system">
+    <Command>CopyAll</Command>
+    <SourceConnector>Sem.Sync.Test.DataGenerator.Contacts</SourceConnector>
+    <TargetConnector>Sem.Sync.Connector.MsSqlDatabase.ContactClient</TargetConnector>
+    <TargetStorePath>Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Address;Data Source=localhost\sqlexpress</TargetStorePath>
+  </SyncDescription>
+
+</ArrayOfSyncDescription>

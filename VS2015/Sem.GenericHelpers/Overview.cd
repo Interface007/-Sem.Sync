@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Sem.GenericHelpers.Attributes.AddAsPropertyAttribute" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\AddAsPropertyAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Attributes.ComparisonModifierAttribute" Collapsed="true">
+    <Position X="8" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\ComparisonModifierAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.CaptchaResolveRequest" Collapsed="true">
+    <Position X="6" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\CaptchaResolveRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.ColumnDefinition" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAgAAAIAAAAEAEAAQAAAAAABAIIaAAAAAAAAAACAA=</HashCode>
+      <FileName>Entities\ColumnDefinition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.Credentials" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAABAAAAAIABA=</HashCode>
+      <FileName>Entities\Credentials.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.KeyValuePair" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Entities\KeyValuePair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.ResponseCacheItem" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Entities\ResponseCacheItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Entities.Triple&lt;T1, T2, T3&gt;" Collapsed="true">
+    <Position X="6" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Entities\Triple.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Interfaces.CaptchaResolveResult" Collapsed="true">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\CaptchaResolveResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.EventArgs.ProcessingEventArgs" Collapsed="true">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>EventArgs\ProcessingEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.EventArgs.ProgressEventArgs" Collapsed="true">
+    <Position X="8" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventArgs\ProgressEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.EventArgs.QueryForLogOnCredentialsEventArgs" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAEAAAAAIAAAAAAAA=</HashCode>
+      <FileName>EventArgs\QueryForLogOnCredentialsEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Exceptions.ProcessAbortException" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ProcessCanceledException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.Sync.LocalSyncManager.Business.TechnicalException" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\TechnicalException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Extensions" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAACAAAAAAAAAAAAAAAAAABAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.Factory" Collapsed="true">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Factory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.HttpHelper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAQAhEBEAIAAFAgQAAAAAEUBAEAACAxHCEDAAEAAAA=</HashCode>
+      <FileName>HttpHelper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Sem.GenericHelpers.Tools" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIwABgAAACAAkQAACAAAAAAAAEBAAgAAAIEEAA=</HashCode>
+      <FileName>Tools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sem.GenericHelpers.VersionCheck" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgQAAAAAAAEAAIAAAAAAEAAgAAABAAgAgAAADA=</HashCode>
+      <FileName>VersionCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Sem.GenericHelpers.Interfaces.ICredentialAware" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAABAAAAAIAAA=</HashCode>
+      <FileName>Interfaces\ICredentialAware.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Sem.GenericHelpers.Interfaces.IHttpHelper" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQAAAAAAAAAEAAAAAAAAAAAAAAACAxCCACAAAAAAA=</HashCode>
+      <FileName>Interfaces\IHttpHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Sem.GenericHelpers.Interfaces.IUiInteraction" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAEAAAAACAAAAA=</HashCode>
+      <FileName>Interfaces\IUiInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
