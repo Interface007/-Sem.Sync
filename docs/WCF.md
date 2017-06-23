@@ -1,0 +1,2 @@
+WCF - Windows Communication Foundation
+This solution includes a [Silverlight](Silverlight)(Silverlight) client and a WCF service hosted in a web project. If you don't plan to use the [Silverlight](Silverlight)(Silverlight) client and you don't want to investigate the WCF implementation, you can exclude these projects from the solution to speed up compiling.

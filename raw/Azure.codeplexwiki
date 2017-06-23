@@ -1,0 +1,4 @@
+! Microsoft Azure
+Homepage: [url:http://www.microsoft.com/azure/default.mspx]
+Arure is an cloud implementation inside the Microsoft data centers. This project uses the Azure SDK to locally host a process that is able to be deployed into the Microsoft Cloud (Azure). This way you can see how little is needed to implement a cloud service (this one is a WCF service with a connection to the Azure Blob Storage) and communicate with it from a client (implemented as a SemSync-connector project).
+If you don't plan to use the cloud project, you can simple exclude the project from the solution.

@@ -1,0 +1,2 @@
+Homepage: [http://silverlight.net/](http://silverlight.net/)
+This project provides a simple Silverlight 3 client. If you don't plan to use the Silverlight client, you might exclude it from the solution and skip installing the silverlight SDK. In this case you might also exclude the WCF service that is provided to support the Silverlight client.
